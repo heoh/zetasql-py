@@ -35,12 +35,16 @@ classifiers = [
 
 dependencies = [
     "wasmtime>=24.0.0",
+    "grpcio>=1.60.0",
+    "protobuf>=4.25.0",
+    "tzdata>=2020.1",
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
+    "grpcio-tools>=1.60.0",
 ]
 
 [project.urls]
@@ -55,7 +59,10 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [tool.setuptools.package-data]
-zetasql = ["py.typed"]
+zetasql = [
+    "py.typed",
+    "wasi/*.wasm",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
