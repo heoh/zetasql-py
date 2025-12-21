@@ -1,0 +1,1162 @@
+from google.protobuf import descriptor_pb2 as _descriptor_pb2
+from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
+from google.protobuf.internal import python_message as _python_message
+from google.protobuf import descriptor as _descriptor
+from google.protobuf import message as _message
+from collections.abc import Mapping as _Mapping
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
+
+DESCRIPTOR: _descriptor.FileDescriptor
+
+class LanguageVersion(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    VERSION_CURRENT: _ClassVar[LanguageVersion]
+    LANGUAGE_VERSION_UNSPECIFIED: _ClassVar[LanguageVersion]
+    VERSION_1_0: _ClassVar[LanguageVersion]
+    VERSION_1_1: _ClassVar[LanguageVersion]
+    VERSION_1_2: _ClassVar[LanguageVersion]
+    VERSION_1_3: _ClassVar[LanguageVersion]
+    VERSION_1_4: _ClassVar[LanguageVersion]
+    __LanguageVersion__switch_must_have_a_default__: _ClassVar[LanguageVersion]
+
+class LanguageFeature(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    FEATURE_ANALYTIC_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_TABLESAMPLE: _ClassVar[LanguageFeature]
+    FEATURE_DISALLOW_GROUP_BY_FLOAT: _ClassVar[LanguageFeature]
+    FEATURE_TIMESTAMP_NANOS: _ClassVar[LanguageFeature]
+    FEATURE_TIMESTAMP_PICOS: _ClassVar[LanguageFeature]
+    FEATURE_PARSE_TIMESTAMP_WITH_PRECISION_AND_TIMEZONE: _ClassVar[LanguageFeature]
+    FEATURE_DML_UPDATE_WITH_JOIN: _ClassVar[LanguageFeature]
+    FEATURE_TABLE_VALUED_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_AGGREGATE_FUNCTION: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_TABLE_FUNCTION: _ClassVar[LanguageFeature]
+    FEATURE_GROUP_BY_ROLLUP: _ClassVar[LanguageFeature]
+    FEATURE_TEMPLATE_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_TABLE_PARTITION_BY: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_TABLE_CLUSTER_BY: _ClassVar[LanguageFeature]
+    FEATURE_NUMERIC_TYPE: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_TABLE_NOT_NULL: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_TABLE_FIELD_ANNOTATIONS: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_TABLE_AS_SELECT_COLUMN_LIST: _ClassVar[LanguageFeature]
+    FEATURE_DISALLOW_NULL_PRIMARY_KEYS: _ClassVar[LanguageFeature]
+    FEATURE_DISALLOW_PRIMARY_KEY_UPDATES: _ClassVar[LanguageFeature]
+    FEATURE_TABLESAMPLE_FROM_TABLE_VALUED_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_ENCRYPTION: _ClassVar[LanguageFeature]
+    FEATURE_ANONYMIZATION: _ClassVar[LanguageFeature]
+    FEATURE_ANONYMIZATION_THRESHOLDING: _ClassVar[LanguageFeature]
+    FEATURE_ANONYMIZATION_CASE_INSENSITIVE_OPTIONS: _ClassVar[LanguageFeature]
+    FEATURE_DIFFERENTIAL_PRIVACY: _ClassVar[LanguageFeature]
+    FEATURE_DIFFERENTIAL_PRIVACY_REPORT_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_DIFFERENTIAL_PRIVACY_THRESHOLDING: _ClassVar[LanguageFeature]
+    FEATURE_DIFFERENTIAL_PRIVACY_MAX_ROWS_CONTRIBUTED: _ClassVar[LanguageFeature]
+    FEATURE_DIFFERENTIAL_PRIVACY_PUBLIC_GROUPS: _ClassVar[LanguageFeature]
+    FEATURE_DIFFERENTIAL_PRIVACY_MIN_PRIVACY_UNITS_PER_GROUP: _ClassVar[LanguageFeature]
+    FEATURE_VECTOR_SEARCH_TVF: _ClassVar[LanguageFeature]
+    FEATURE_DIFFERENTIAL_PRIVACY_PER_AGGREGATION_BUDGET: _ClassVar[LanguageFeature]
+    FEATURE_DIFFERENTIAL_PRIVACY_NESTED: _ClassVar[LanguageFeature]
+    FEATURE_TUMBLE_HOP_TVFS: _ClassVar[LanguageFeature]
+    FEATURE_TUMBLE_HOP_TVFS_NO_TIMESTAMP_COL: _ClassVar[LanguageFeature]
+    FEATURE_LEGACY_BINARY_CONCAT: _ClassVar[LanguageFeature]
+    FEATURE_AGGREGATION_THRESHOLD: _ClassVar[LanguageFeature]
+    FEATURE_GEOGRAPHY: _ClassVar[LanguageFeature]
+    FEATURE_STRATIFIED_RESERVOIR_TABLESAMPLE: _ClassVar[LanguageFeature]
+    FEATURE_FOREIGN_KEYS: _ClassVar[LanguageFeature]
+    FEATURE_BETWEEN_UINT64_INT64: _ClassVar[LanguageFeature]
+    FEATURE_CHECK_CONSTRAINT: _ClassVar[LanguageFeature]
+    FEATURE_PARAMETERS_IN_GRANTEE_LIST: _ClassVar[LanguageFeature]
+    FEATURE_NAMED_ARGUMENTS: _ClassVar[LanguageFeature]
+    FEATURE_ALLOW_LEGACY_ROW_ACCESS_POLICY_SYNTAX: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_MATERIALIZED_VIEW_PARTITION_BY: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_MATERIALIZED_VIEW_CLUSTER_BY: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_EXTERNAL_TABLE_WITH_TABLE_ELEMENT_LIST: _ClassVar[LanguageFeature]
+    FEATURE_UNENFORCED_PRIMARY_KEYS: _ClassVar[LanguageFeature]
+    FEATURE_BIGNUMERIC_TYPE: _ClassVar[LanguageFeature]
+    FEATURE_EXTENDED_TYPES: _ClassVar[LanguageFeature]
+    FEATURE_JSON_TYPE: _ClassVar[LanguageFeature]
+    FEATURE_JSON_STRICT_NUMBER_PARSING: _ClassVar[LanguageFeature]
+    FEATURE_ENABLE_CONSTANT_EXPRESSION_IN_JSON_PATH: _ClassVar[LanguageFeature]
+    FEATURE_JSON_ARRAY_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_JSON_VALUE_EXTRACTION_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_JSON_LAX_VALUE_EXTRACTION_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_JSON_CONSTRUCTOR_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_JSON_MUTATOR_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_JSON_QUERY_LAX: _ClassVar[LanguageFeature]
+    FEATURE_JSON_CONTAINS_FUNCTION: _ClassVar[LanguageFeature]
+    FEATURE_JSON_KEYS_FUNCTION: _ClassVar[LanguageFeature]
+    FEATURE_JSON_FLATTEN_FUNCTION: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_EXTERNAL_TABLE_WITH_PARTITION_COLUMNS: _ClassVar[LanguageFeature]
+    FEATURE_INTERVAL_TYPE: _ClassVar[LanguageFeature]
+    FEATURE_EXTRACT_ONEOF_CASE: _ClassVar[LanguageFeature]
+    FEATURE_TOKENIZED_SEARCH: _ClassVar[LanguageFeature]
+    FEATURE_PARAMETERIZED_TYPES: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_TABLE_LIKE: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_VIEW_WITH_COLUMN_LIST: _ClassVar[LanguageFeature]
+    FEATURE_ALTER_VIEWS_ALTER_COLUMN_SET_OPTIONS: _ClassVar[LanguageFeature]
+    FEATURE_ALTER_MATERIALIZED_VIEW_ALTER_COLUMN_SET_OPTIONS: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_TABLE_CLONE: _ClassVar[LanguageFeature]
+    FEATURE_CLONE_DATA: _ClassVar[LanguageFeature]
+    FEATURE_ALTER_COLUMN_SET_DATA_TYPE: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_SNAPSHOT_TABLE: _ClassVar[LanguageFeature]
+    FEATURE_FUNCTION_ARGUMENTS_WITH_DEFAULTS: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_EXTERNAL_TABLE_WITH_CONNECTION: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_TABLE_COPY: _ClassVar[LanguageFeature]
+    FEATURE_ALTER_TABLE_RENAME_COLUMN: _ClassVar[LanguageFeature]
+    FEATURE_DISALLOW_LEGACY_UNICODE_COLLATION: _ClassVar[LanguageFeature]
+    FEATURE_ALLOW_MISSING_PATH_EXPRESSION_IN_ALTER_DDL: _ClassVar[LanguageFeature]
+    FEATURE_TIME_BUCKET_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_INVERSE_TRIG_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_RANGE_TYPE: _ClassVar[LanguageFeature]
+    FEATURE_NON_SQL_PROCEDURE: _ClassVar[LanguageFeature]
+    FEATURE_ROUND_WITH_ROUNDING_MODE: _ClassVar[LanguageFeature]
+    FEATURE_CBRT_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_RADIANS_DEGREES_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_SPANNER_LEGACY_DDL: _ClassVar[LanguageFeature]
+    FEATURE_DISABLE_ARRAY_MIN_AND_MAX: _ClassVar[LanguageFeature]
+    FEATURE_STRICT_FUNCTION_DEFAULT_ARG_TYPE_COERCION: _ClassVar[LanguageFeature]
+    FEATURE_PROTO_BASE: _ClassVar[LanguageFeature]
+    FEATURE_DISABLE_ARRAY_SUM_AND_AVG: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_VIEWS_WITH_COLUMN_OPTIONS: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_TABLE_WITH_CONNECTION: _ClassVar[LanguageFeature]
+    FEATURE_DISABLE_OUTER_JOIN_ARRAY: _ClassVar[LanguageFeature]
+    FEATURE_EXTERNAL_SECURITY_PROCEDURE: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_MATERIALIZED_VIEW_AS_REPLICA_OF: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_LOCALITY_GROUP: _ClassVar[LanguageFeature]
+    FEATURE_ENABLE_ALTER_ARRAY_OPTIONS: _ClassVar[LanguageFeature]
+    FEATURE_PIPES: _ClassVar[LanguageFeature]
+    FEATURE_PIPE_STATIC_DESCRIBE: _ClassVar[LanguageFeature]
+    FEATURE_PIPE_ASSERT: _ClassVar[LanguageFeature]
+    FEATURE_PIPE_LOG: _ClassVar[LanguageFeature]
+    FEATURE_PIPE_IF: _ClassVar[LanguageFeature]
+    FEATURE_PIPE_FORK: _ClassVar[LanguageFeature]
+    FEATURE_PIPE_TEE: _ClassVar[LanguageFeature]
+    FEATURE_PIPE_WITH: _ClassVar[LanguageFeature]
+    FEATURE_PIPE_EXPORT_DATA: _ClassVar[LanguageFeature]
+    FEATURE_PIPE_CREATE_TABLE: _ClassVar[LanguageFeature]
+    FEATURE_PIPE_INSERT: _ClassVar[LanguageFeature]
+    FEATURE_PIPE_AGGREGATE_WITH_DIFFERENTIAL_PRIVACY: _ClassVar[LanguageFeature]
+    FEATURE_GENERATED_BY_DEFAULT: _ClassVar[LanguageFeature]
+    FEATURE_ENFORCE_MICROS_MODE_IN_INTERVAL_TYPE: _ClassVar[LanguageFeature]
+    FEATURE_ALTER_COLUMN_DROP_GENERATED: _ClassVar[LanguageFeature]
+    FEATURE_ALTER_COLUMN_SET_GENERATED_AS_IDENTITY: _ClassVar[LanguageFeature]
+    FEATURE_DISABLE_TEXTMAPPER_PARSER: _ClassVar[LanguageFeature]
+    FEATURE_IDENTITY_COLUMNS: _ClassVar[LanguageFeature]
+    FEATURE_EXTERNAL_SCHEMA_DDL: _ClassVar[LanguageFeature]
+    FEATURE_TEMPLATED_SQL_FUNCTION_RESOLVE_WITH_TYPED_ARGS: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_INDEX_PARTITION_BY: _ClassVar[LanguageFeature]
+    FEATURE_TO_JSON_UNSUPPORTED_FIELDS: _ClassVar[LanguageFeature]
+    FEATURE_PROPERTY_GRAPH_ENFORCE_EXPLICIT_PROPERTIES: _ClassVar[LanguageFeature]
+    FEATURE_JSON_SUBFIELDS_WITH_SET: _ClassVar[LanguageFeature]
+    FEATURE_JSON_TYPE_COMPARISON: _ClassVar[LanguageFeature]
+    FEATURE_TIMESTAMP_FROM_UNIX_FUNCTIONS_WITH_UINT64: _ClassVar[LanguageFeature]
+    FEATURE_TABLE_SYNTAX_RESOLVE_ARGUMENT_LAST: _ClassVar[LanguageFeature]
+    FEATURE_DISABLE_VALIDATE_REWRITERS_REFER_TO_BUILTINS: _ClassVar[LanguageFeature]
+    FEATURE_PROCEDURES_IN_MODULES: _ClassVar[LanguageFeature]
+    FEATURE_STATEMENT_WITH_PIPE_OPERATORS: _ClassVar[LanguageFeature]
+    FEATURE_TOP_LEVEL_TABLE_STATEMENTS: _ClassVar[LanguageFeature]
+    FEATURE_ORDER_BY_COLLATE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_1_ORDER_BY_COLLATE: _ClassVar[LanguageFeature]
+    FEATURE_WITH_ON_SUBQUERY: _ClassVar[LanguageFeature]
+    FEATURE_V_1_1_WITH_ON_SUBQUERY: _ClassVar[LanguageFeature]
+    FEATURE_SELECT_STAR_EXCEPT_REPLACE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_1_SELECT_STAR_EXCEPT_REPLACE: _ClassVar[LanguageFeature]
+    FEATURE_ORDER_BY_IN_AGGREGATE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_1_ORDER_BY_IN_AGGREGATE: _ClassVar[LanguageFeature]
+    FEATURE_CAST_DIFFERENT_ARRAY_TYPES: _ClassVar[LanguageFeature]
+    FEATURE_V_1_1_CAST_DIFFERENT_ARRAY_TYPES: _ClassVar[LanguageFeature]
+    FEATURE_ARRAY_EQUALITY: _ClassVar[LanguageFeature]
+    FEATURE_V_1_1_ARRAY_EQUALITY: _ClassVar[LanguageFeature]
+    FEATURE_LIMIT_IN_AGGREGATE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_1_LIMIT_IN_AGGREGATE: _ClassVar[LanguageFeature]
+    FEATURE_HAVING_IN_AGGREGATE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_1_HAVING_IN_AGGREGATE: _ClassVar[LanguageFeature]
+    FEATURE_NULL_HANDLING_MODIFIER_IN_ANALYTIC: _ClassVar[LanguageFeature]
+    FEATURE_V_1_1_NULL_HANDLING_MODIFIER_IN_ANALYTIC: _ClassVar[LanguageFeature]
+    FEATURE_NULL_HANDLING_MODIFIER_IN_AGGREGATE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_1_NULL_HANDLING_MODIFIER_IN_AGGREGATE: _ClassVar[LanguageFeature]
+    FEATURE_FOR_SYSTEM_TIME_AS_OF: _ClassVar[LanguageFeature]
+    FEATURE_V_1_1_FOR_SYSTEM_TIME_AS_OF: _ClassVar[LanguageFeature]
+    FEATURE_CIVIL_TIME: _ClassVar[LanguageFeature]
+    FEATURE_V_1_2_CIVIL_TIME: _ClassVar[LanguageFeature]
+    FEATURE_SAFE_FUNCTION_CALL: _ClassVar[LanguageFeature]
+    FEATURE_V_1_2_SAFE_FUNCTION_CALL: _ClassVar[LanguageFeature]
+    FEATURE_GROUP_BY_STRUCT: _ClassVar[LanguageFeature]
+    FEATURE_V_1_2_GROUP_BY_STRUCT: _ClassVar[LanguageFeature]
+    FEATURE_PROTO_EXTENSIONS_WITH_NEW: _ClassVar[LanguageFeature]
+    FEATURE_V_1_2_PROTO_EXTENSIONS_WITH_NEW: _ClassVar[LanguageFeature]
+    FEATURE_GROUP_BY_ARRAY: _ClassVar[LanguageFeature]
+    FEATURE_V_1_2_GROUP_BY_ARRAY: _ClassVar[LanguageFeature]
+    FEATURE_PROTO_EXTENSIONS_WITH_SET: _ClassVar[LanguageFeature]
+    FEATURE_V_1_2_PROTO_EXTENSIONS_WITH_SET: _ClassVar[LanguageFeature]
+    FEATURE_CORRELATED_REFS_IN_NESTED_DML: _ClassVar[LanguageFeature]
+    FEATURE_V_1_2_CORRELATED_REFS_IN_NESTED_DML: _ClassVar[LanguageFeature]
+    FEATURE_WEEK_WITH_WEEKDAY: _ClassVar[LanguageFeature]
+    FEATURE_V_1_2_WEEK_WITH_WEEKDAY: _ClassVar[LanguageFeature]
+    FEATURE_ARRAY_ELEMENTS_WITH_SET: _ClassVar[LanguageFeature]
+    FEATURE_V_1_2_ARRAY_ELEMENTS_WITH_SET: _ClassVar[LanguageFeature]
+    FEATURE_NESTED_UPDATE_DELETE_WITH_OFFSET: _ClassVar[LanguageFeature]
+    FEATURE_V_1_2_NESTED_UPDATE_DELETE_WITH_OFFSET: _ClassVar[LanguageFeature]
+    FEATURE_GENERATED_COLUMNS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_2_GENERATED_COLUMNS: _ClassVar[LanguageFeature]
+    FEATURE_PROTO_DEFAULT_IF_NULL: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_PROTO_DEFAULT_IF_NULL: _ClassVar[LanguageFeature]
+    FEATURE_EXTRACT_FROM_PROTO: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_EXTRACT_FROM_PROTO: _ClassVar[LanguageFeature]
+    FEATURE_DEPRECATED_DISALLOW_PROTO3_HAS_SCALAR_FIELD: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_DEPRECATED_DISALLOW_PROTO3_HAS_SCALAR_FIELD: _ClassVar[LanguageFeature]
+    FEATURE_ARRAY_ORDERING: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_ARRAY_ORDERING: _ClassVar[LanguageFeature]
+    FEATURE_OMIT_INSERT_COLUMN_LIST: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_OMIT_INSERT_COLUMN_LIST: _ClassVar[LanguageFeature]
+    FEATURE_IGNORE_PROTO3_USE_DEFAULTS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_IGNORE_PROTO3_USE_DEFAULTS: _ClassVar[LanguageFeature]
+    FEATURE_REPLACE_FIELDS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_REPLACE_FIELDS: _ClassVar[LanguageFeature]
+    FEATURE_NULLS_FIRST_LAST_IN_ORDER_BY: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_NULLS_FIRST_LAST_IN_ORDER_BY: _ClassVar[LanguageFeature]
+    FEATURE_ALLOW_DASHES_IN_TABLE_NAME: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_ALLOW_DASHES_IN_TABLE_NAME: _ClassVar[LanguageFeature]
+    FEATURE_CONCAT_MIXED_TYPES: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_CONCAT_MIXED_TYPES: _ClassVar[LanguageFeature]
+    FEATURE_WITH_RECURSIVE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_WITH_RECURSIVE: _ClassVar[LanguageFeature]
+    FEATURE_PROTO_MAPS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_PROTO_MAPS: _ClassVar[LanguageFeature]
+    FEATURE_ENUM_VALUE_DESCRIPTOR_PROTO: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_ENUM_VALUE_DESCRIPTOR_PROTO: _ClassVar[LanguageFeature]
+    FEATURE_DECIMAL_ALIAS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_DECIMAL_ALIAS: _ClassVar[LanguageFeature]
+    FEATURE_UNNEST_AND_FLATTEN_ARRAYS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_UNNEST_AND_FLATTEN_ARRAYS: _ClassVar[LanguageFeature]
+    FEATURE_ALLOW_CONSECUTIVE_ON: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_ALLOW_CONSECUTIVE_ON: _ClassVar[LanguageFeature]
+    FEATURE_ALLOW_REGEXP_EXTRACT_OPTIONALS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_ALLOW_REGEXP_EXTRACT_OPTIONALS: _ClassVar[LanguageFeature]
+    FEATURE_DATE_TIME_CONSTRUCTORS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_DATE_TIME_CONSTRUCTORS: _ClassVar[LanguageFeature]
+    FEATURE_DATE_ARITHMETICS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_DATE_ARITHMETICS: _ClassVar[LanguageFeature]
+    FEATURE_ADDITIONAL_STRING_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_ADDITIONAL_STRING_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_WITH_GROUP_ROWS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_WITH_GROUP_ROWS: _ClassVar[LanguageFeature]
+    FEATURE_EXTENDED_DATE_TIME_SIGNATURES: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_EXTENDED_DATE_TIME_SIGNATURES: _ClassVar[LanguageFeature]
+    FEATURE_EXTENDED_GEOGRAPHY_PARSERS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_EXTENDED_GEOGRAPHY_PARSERS: _ClassVar[LanguageFeature]
+    FEATURE_INLINE_LAMBDA_ARGUMENT: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_INLINE_LAMBDA_ARGUMENT: _ClassVar[LanguageFeature]
+    FEATURE_PIVOT: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_PIVOT: _ClassVar[LanguageFeature]
+    FEATURE_ANNOTATION_FRAMEWORK: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_ANNOTATION_FRAMEWORK: _ClassVar[LanguageFeature]
+    FEATURE_COLLATION_SUPPORT: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_COLLATION_SUPPORT: _ClassVar[LanguageFeature]
+    FEATURE_IS_DISTINCT: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_IS_DISTINCT: _ClassVar[LanguageFeature]
+    FEATURE_FORMAT_IN_CAST: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_FORMAT_IN_CAST: _ClassVar[LanguageFeature]
+    FEATURE_UNPIVOT: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_UNPIVOT: _ClassVar[LanguageFeature]
+    FEATURE_DML_RETURNING: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_DML_RETURNING: _ClassVar[LanguageFeature]
+    FEATURE_FILTER_FIELDS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_FILTER_FIELDS: _ClassVar[LanguageFeature]
+    FEATURE_QUALIFY: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_QUALIFY: _ClassVar[LanguageFeature]
+    FEATURE_REPEAT: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_REPEAT: _ClassVar[LanguageFeature]
+    FEATURE_COLUMN_DEFAULT_VALUE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_COLUMN_DEFAULT_VALUE: _ClassVar[LanguageFeature]
+    FEATURE_FOR_IN: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_FOR_IN: _ClassVar[LanguageFeature]
+    FEATURE_KLL_WEIGHTS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_KLL_WEIGHTS: _ClassVar[LanguageFeature]
+    FEATURE_LIKE_ANY_SOME_ALL: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_LIKE_ANY_SOME_ALL: _ClassVar[LanguageFeature]
+    FEATURE_CASE_STMT: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_CASE_STMT: _ClassVar[LanguageFeature]
+    FEATURE_ALLOW_SLASH_PATHS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_ALLOW_SLASH_PATHS: _ClassVar[LanguageFeature]
+    FEATURE_TYPEOF_FUNCTION: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_TYPEOF_FUNCTION: _ClassVar[LanguageFeature]
+    FEATURE_SCRIPT_LABEL: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_SCRIPT_LABEL: _ClassVar[LanguageFeature]
+    FEATURE_REMOTE_FUNCTION: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_REMOTE_FUNCTION: _ClassVar[LanguageFeature]
+    FEATURE_ARRAY_GREATEST_LEAST: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_ARRAY_GREATEST_LEAST: _ClassVar[LanguageFeature]
+    FEATURE_BRACED_PROTO_CONSTRUCTORS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_3_BRACED_PROTO_CONSTRUCTORS: _ClassVar[LanguageFeature]
+    FEATURE_WITH_EXPRESSION: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_WITH_EXPRESSION: _ClassVar[LanguageFeature]
+    FEATURE_ORDERED_PRIMARY_KEYS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_ORDERED_PRIMARY_KEYS: _ClassVar[LanguageFeature]
+    FEATURE_TTL: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_TTL: _ClassVar[LanguageFeature]
+    FEATURE_BARE_ARRAY_ACCESS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_BARE_ARRAY_ACCESS: _ClassVar[LanguageFeature]
+    FEATURE_ARRAY_AGGREGATION_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_ARRAY_AGGREGATION_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_ARRAY_FIND_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_ARRAY_FIND_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_SAFE_FUNCTION_CALL_WITH_LAMBDA_ARGS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SAFE_FUNCTION_CALL_WITH_LAMBDA_ARGS: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SQL_GRAPH: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH_ADVANCED_QUERY: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SQL_GRAPH_ADVANCED_QUERY: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH_EXPOSE_GRAPH_ELEMENT: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SQL_GRAPH_EXPOSE_GRAPH_ELEMENT: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH_BOUNDED_PATH_QUANTIFICATION: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SQL_GRAPH_BOUNDED_PATH_QUANTIFICATION: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH_UNBOUNDED_PATH_QUANTIFICATION: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH_RETURN_EXTENSIONS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SQL_GRAPH_RETURN_EXTENSIONS: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH_PATH_TYPE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SQL_GRAPH_PATH_TYPE: _ClassVar[LanguageFeature]
+    FEATURE_GROUP_BY_GRAPH_PATH: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_GROUP_BY_GRAPH_PATH: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH_PATH_SEARCH_PREFIX_PATH_COUNT: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SQL_GRAPH_PATH_SEARCH_PREFIX_PATH_COUNT: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH_PATH_MODE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SQL_GRAPH_PATH_MODE: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH_DYNAMIC_ELEMENT_TYPE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SQL_GRAPH_DYNAMIC_ELEMENT_TYPE: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH_DYNAMIC_LABEL_PROPERTIES_IN_DDL: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SQL_GRAPH_DYNAMIC_LABEL_PROPERTIES_IN_DDL: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH_DYNAMIC_LABEL_EXTENSION_IN_DDL: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SQL_GRAPH_DYNAMIC_LABEL_EXTENSION_IN_DDL: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH_DYNAMIC_MULTI_LABEL_NODES: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SQL_GRAPH_DYNAMIC_MULTI_LABEL_NODES: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH_ELEMENT_DEFINITION_NAME_IN_JSON_RESULT: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SQL_GRAPH_ELEMENT_DEFINITION_NAME_IN_JSON_RESULT: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH_CHEAPEST_PATH: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SQL_GRAPH_CHEAPEST_PATH: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH_CALL: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SQL_GRAPH_CALL: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH_SET_OPERATION_PROPAGATION_MODE: _ClassVar[LanguageFeature]
+    FEATURE_SQL_GRAPH_DEFAULT_LABEL_AND_PROPERTY_DEFINITION_OPTIONS: _ClassVar[LanguageFeature]
+    FEATURE_REMOTE_MODEL: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_REMOTE_MODEL: _ClassVar[LanguageFeature]
+    FEATURE_STRUCT_POSITIONAL_ACCESSOR: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_STRUCT_POSITIONAL_ACCESSOR: _ClassVar[LanguageFeature]
+    FEATURE_SINGLE_TABLE_NAME_ARRAY_PATH: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SINGLE_TABLE_NAME_ARRAY_PATH: _ClassVar[LanguageFeature]
+    FEATURE_COLLATION_IN_WITH_RECURSIVE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_COLLATION_IN_WITH_RECURSIVE: _ClassVar[LanguageFeature]
+    FEATURE_COLLATION_IN_EXPLICIT_CAST: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_COLLATION_IN_EXPLICIT_CAST: _ClassVar[LanguageFeature]
+    FEATURE_LOAD_DATA_PARTITIONS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_LOAD_DATA_PARTITIONS: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_MODEL_WITH_ALIASED_QUERY_LIST: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_CREATE_MODEL_WITH_ALIASED_QUERY_LIST: _ClassVar[LanguageFeature]
+    FEATURE_LOAD_DATA_TEMP_TABLE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_LOAD_DATA_TEMP_TABLE: _ClassVar[LanguageFeature]
+    FEATURE_CORRESPONDING: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_CORRESPONDING: _ClassVar[LanguageFeature]
+    FEATURE_SEQUENCE_ARG: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SEQUENCE_ARG: _ClassVar[LanguageFeature]
+    FEATURE_GROUPING_BUILTIN: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_GROUPING_BUILTIN: _ClassVar[LanguageFeature]
+    FEATURE_GROUPING_SETS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_GROUPING_SETS: _ClassVar[LanguageFeature]
+    FEATURE_PRESERVE_ANNOTATION_IN_IMPLICIT_CAST_IN_SCAN: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_PRESERVE_ANNOTATION_IN_IMPLICIT_CAST_IN_SCAN: _ClassVar[LanguageFeature]
+    FEATURE_CORRESPONDING_FULL: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_CORRESPONDING_FULL: _ClassVar[LanguageFeature]
+    FEATURE_BY_NAME: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_BY_NAME: _ClassVar[LanguageFeature]
+    FEATURE_LIKE_ANY_SOME_ALL_ARRAY: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_LIKE_ANY_SOME_ALL_ARRAY: _ClassVar[LanguageFeature]
+    FEATURE_LIKE_ANY_SOME_ALL_SUBQUERY: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_LIKE_ANY_SOME_ALL_SUBQUERY: _ClassVar[LanguageFeature]
+    FEATURE_FIRST_AND_LAST_N: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_FIRST_AND_LAST_N: _ClassVar[LanguageFeature]
+    FEATURE_NULLIFZERO_ZEROIFNULL: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_NULLIFZERO_ZEROIFNULL: _ClassVar[LanguageFeature]
+    FEATURE_PI_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_PI_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_CREATE_FUNCTION_LANGUAGE_WITH_CONNECTION: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_CREATE_FUNCTION_LANGUAGE_WITH_CONNECTION: _ClassVar[LanguageFeature]
+    FEATURE_SINGLETON_UNNEST_INFERS_ALIAS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SINGLETON_UNNEST_INFERS_ALIAS: _ClassVar[LanguageFeature]
+    FEATURE_ARRAY_ZIP: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_ARRAY_ZIP: _ClassVar[LanguageFeature]
+    FEATURE_MULTIWAY_UNNEST: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_MULTIWAY_UNNEST: _ClassVar[LanguageFeature]
+    FEATURE_USE_OPERATION_COLLATION_FOR_NULLIF: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_USE_OPERATION_COLLATION_FOR_NULLIF: _ClassVar[LanguageFeature]
+    FEATURE_ENABLE_EDIT_DISTANCE_BYTES: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_ENABLE_EDIT_DISTANCE_BYTES: _ClassVar[LanguageFeature]
+    FEATURE_ENABLE_FLOAT_DISTANCE_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_ENABLE_FLOAT_DISTANCE_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_ENABLE_MEASURES: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_ENABLE_MEASURES: _ClassVar[LanguageFeature]
+    FEATURE_GROUP_BY_ALL: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_GROUP_BY_ALL: _ClassVar[LanguageFeature]
+    FEATURE_LIMIT_OFFSET_EXPRESSIONS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_LIMIT_OFFSET_EXPRESSIONS: _ClassVar[LanguageFeature]
+    FEATURE_MAP_TYPE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_MAP_TYPE: _ClassVar[LanguageFeature]
+    FEATURE_DISABLE_FLOAT32: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_DISABLE_FLOAT32: _ClassVar[LanguageFeature]
+    FEATURE_LITERAL_CONCATENATION: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_LITERAL_CONCATENATION: _ClassVar[LanguageFeature]
+    FEATURE_DOT_PRODUCT: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_DOT_PRODUCT: _ClassVar[LanguageFeature]
+    FEATURE_OPT_IN_NEW_BEHAVIOR_NOT_LIKE_ANY_SOME_ALL: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_OPT_IN_NEW_BEHAVIOR_NOT_LIKE_ANY_SOME_ALL: _ClassVar[LanguageFeature]
+    FEATURE_MANHATTAN_DISTANCE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_MANHATTAN_DISTANCE: _ClassVar[LanguageFeature]
+    FEATURE_L1_NORM: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_L1_NORM: _ClassVar[LanguageFeature]
+    FEATURE_L2_NORM: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_L2_NORM: _ClassVar[LanguageFeature]
+    FEATURE_STRUCT_BRACED_CONSTRUCTORS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_STRUCT_BRACED_CONSTRUCTORS: _ClassVar[LanguageFeature]
+    FEATURE_WITH_RECURSIVE_DEPTH_MODIFIER: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_WITH_RECURSIVE_DEPTH_MODIFIER: _ClassVar[LanguageFeature]
+    FEATURE_JSON_ARRAY_VALUE_EXTRACTION_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_JSON_ARRAY_VALUE_EXTRACTION_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_ENFORCE_CONDITIONAL_EVALUATION: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_ENFORCE_CONDITIONAL_EVALUATION: _ClassVar[LanguageFeature]
+    FEATURE_JSON_MORE_VALUE_EXTRACTION_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_JSON_MORE_VALUE_EXTRACTION_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_IMPLICIT_COERCION_STRING_LITERAL_TO_BYTES: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_IMPLICIT_COERCION_STRING_LITERAL_TO_BYTES: _ClassVar[LanguageFeature]
+    FEATURE_UUID_TYPE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_UUID_TYPE: _ClassVar[LanguageFeature]
+    FEATURE_MULTILEVEL_AGGREGATION: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_MULTILEVEL_AGGREGATION: _ClassVar[LanguageFeature]
+    FEATURE_AGGREGATE_FILTERING: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_AGGREGATE_FILTERING: _ClassVar[LanguageFeature]
+    FEATURE_REPLACE_FIELDS_ALLOW_MULTI_ONEOF: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_REPLACE_FIELDS_ALLOW_MULTI_ONEOF: _ClassVar[LanguageFeature]
+    FEATURE_FOR_UPDATE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_FOR_UPDATE: _ClassVar[LanguageFeature]
+    FEATURE_KLL_FLOAT64_PRIMARY_WITH_DOUBLE_ALIAS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_KLL_FLOAT64_PRIMARY_WITH_DOUBLE_ALIAS: _ClassVar[LanguageFeature]
+    FEATURE_DISALLOW_PIVOT_AND_UNPIVOT_ON_ARRAY_SCANS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_DISALLOW_PIVOT_AND_UNPIVOT_ON_ARRAY_SCANS: _ClassVar[LanguageFeature]
+    FEATURE_MATCH_RECOGNIZE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_MATCH_RECOGNIZE: _ClassVar[LanguageFeature]
+    FEATURE_INSERT_ON_CONFLICT_CLAUSE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_INSERT_ON_CONFLICT_CLAUSE: _ClassVar[LanguageFeature]
+    FEATURE_BITWISE_AGGREGATE_BYTES_SIGNATURES: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_BITWISE_AGGREGATE_BYTES_SIGNATURES: _ClassVar[LanguageFeature]
+    FEATURE_PIPE_RECURSIVE_UNION: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_PIPE_RECURSIVE_UNION: _ClassVar[LanguageFeature]
+    FEATURE_UPDATE_CONSTRUCTOR: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_UPDATE_CONSTRUCTOR: _ClassVar[LanguageFeature]
+    FEATURE_ALIASES_FOR_STRING_AND_DATE_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_ALIASES_FOR_STRING_AND_DATE_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_VIEWS_IN_MODULES: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_VIEWS_IN_MODULES: _ClassVar[LanguageFeature]
+    FEATURE_MULTILEVEL_AGGREGATION_ON_UDAS: _ClassVar[LanguageFeature]
+    FEATURE_FROM_AND_TO_PROTO_INTERVAL: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_FROM_AND_TO_PROTO_INTERVAL: _ClassVar[LanguageFeature]
+    FEATURE_SIMPLIFY_PIVOT_REWRITE: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_SIMPLIFY_PIVOT_REWRITE: _ClassVar[LanguageFeature]
+    FEATURE_PIPE_NAMED_WINDOWS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_PIPE_NAMED_WINDOWS: _ClassVar[LanguageFeature]
+    FEATURE_TVF_PSEUDO_COLUMNS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_TVF_PSEUDO_COLUMNS: _ClassVar[LanguageFeature]
+    FEATURE_LATERAL_JOIN: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_LATERAL_JOIN: _ClassVar[LanguageFeature]
+    FEATURE_CHAINED_FUNCTION_CALLS: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_CHAINED_FUNCTION_CALLS: _ClassVar[LanguageFeature]
+    FEATURE_TIMESTAMP_PRECISION: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_TIMESTAMP_PRECISION: _ClassVar[LanguageFeature]
+    FEATURE_TIMESTAMP_PRECISION_ANNOTATION: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_TIMESTAMP_PRECISION_ANNOTATION: _ClassVar[LanguageFeature]
+    FEATURE_ANALYSIS_CONSTANT_STRUCT_POSITIONAL_ACCESSOR: _ClassVar[LanguageFeature]
+    FEATURE_V_1_4_ANALYSIS_CONSTANT_STRUCT_POSITIONAL_ACCESSOR: _ClassVar[LanguageFeature]
+    FEATURE_ANALYSIS_CONSTANT_FUNCTION_ARGUMENT: _ClassVar[LanguageFeature]
+    FEATURE_ANALYSIS_CONSTANT_PIVOT_COLUMN: _ClassVar[LanguageFeature]
+    FEATURE_ANALYSIS_CONSTANT_INTERVAL_CONSTRUCTOR: _ClassVar[LanguageFeature]
+    FEATURE_REPORT_FORMAT_CONSTANT_ARGUMENT: _ClassVar[LanguageFeature]
+    FEATURE_PIPE_DESCRIBE: _ClassVar[LanguageFeature]
+    FEATURE_MULTI_GROUPING_SETS: _ClassVar[LanguageFeature]
+    FEATURE_PIPE_CALL_INPUT_TABLE: _ClassVar[LanguageFeature]
+    FEATURE_RELAXED_WITH_RECURSIVE: _ClassVar[LanguageFeature]
+    FEATURE_RUN_STATEMENT: _ClassVar[LanguageFeature]
+    FEATURE_LIMIT_ALL: _ClassVar[LanguageFeature]
+    FEATURE_ADDITIONAL_DATE_TIME_FUNCTIONS: _ClassVar[LanguageFeature]
+    FEATURE_KLL_QUANTILES_EXTRACT_RELATIVE_RANK: _ClassVar[LanguageFeature]
+    FEATURE_MATCH_MAKE_STRUCT_IN_GROUP_BY: _ClassVar[LanguageFeature]
+    FEATURE_ARRAY_CONSTRUCTOR_EXPLICIT_TYPE_ENFORCE_TARGET_ANNOTATIONS: _ClassVar[LanguageFeature]
+    FEATURE_LATERAL_COLUMN_REFERENCES: _ClassVar[LanguageFeature]
+    FEATURE_ROW_TYPE: _ClassVar[LanguageFeature]
+    FEATURE_MEASURES_TVF: _ClassVar[LanguageFeature]
+    FEATURE_EXPERIMENTAL_MODULES: _ClassVar[LanguageFeature]
+    FEATURE_TEST_IDEALLY_ENABLED_BUT_IN_DEVELOPMENT: _ClassVar[LanguageFeature]
+    FEATURE_TEST_IDEALLY_DISABLED: _ClassVar[LanguageFeature]
+    FEATURE_TEST_IDEALLY_DISABLED_AND_IN_DEVELOPMENT: _ClassVar[LanguageFeature]
+    __LanguageFeature__switch_must_have_a_default__: _ClassVar[LanguageFeature]
+
+class ResolvedASTRewrite(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    REWRITE_INVALID_DO_NOT_USE: _ClassVar[ResolvedASTRewrite]
+    REWRITE_FLATTEN: _ClassVar[ResolvedASTRewrite]
+    REWRITE_ANONYMIZATION: _ClassVar[ResolvedASTRewrite]
+    REWRITE_PROTO_MAP_FNS: _ClassVar[ResolvedASTRewrite]
+    REWRITE_ARRAY_FILTER_TRANSFORM: _ClassVar[ResolvedASTRewrite]
+    REWRITE_UNPIVOT: _ClassVar[ResolvedASTRewrite]
+    REWRITE_PIVOT: _ClassVar[ResolvedASTRewrite]
+    REWRITE_ARRAY_INCLUDES: _ClassVar[ResolvedASTRewrite]
+    REWRITE_TYPEOF_FUNCTION: _ClassVar[ResolvedASTRewrite]
+    REWRITE_WITH_EXPR: _ClassVar[ResolvedASTRewrite]
+    REWRITE_INLINE_SQL_FUNCTIONS: _ClassVar[ResolvedASTRewrite]
+    REWRITE_INLINE_SQL_TVFS: _ClassVar[ResolvedASTRewrite]
+    REWRITE_NULLIFERROR_FUNCTION: _ClassVar[ResolvedASTRewrite]
+    REWRITE_LIKE_ANY_ALL: _ClassVar[ResolvedASTRewrite]
+    REWRITE_BUILTIN_FUNCTION_INLINER: _ClassVar[ResolvedASTRewrite]
+    REWRITE_INLINE_SQL_VIEWS: _ClassVar[ResolvedASTRewrite]
+    REWRITE_INLINE_SQL_UDAS: _ClassVar[ResolvedASTRewrite]
+    REWRITE_GROUPING_SET: _ClassVar[ResolvedASTRewrite]
+    REWRITE_INSERT_DML_VALUES: _ClassVar[ResolvedASTRewrite]
+    REWRITE_MULTIWAY_UNNEST: _ClassVar[ResolvedASTRewrite]
+    REWRITE_AGGREGATION_THRESHOLD: _ClassVar[ResolvedASTRewrite]
+    REWRITE_PIPE_ASSERT: _ClassVar[ResolvedASTRewrite]
+    REWRITE_ORDER_BY_AND_LIMIT_IN_AGGREGATE: _ClassVar[ResolvedASTRewrite]
+    REWRITE_PIPE_IF: _ClassVar[ResolvedASTRewrite]
+    REWRITE_GENERALIZED_QUERY_STMT: _ClassVar[ResolvedASTRewrite]
+    REWRITE_IS_FIRST_IS_LAST_FUNCTION: _ClassVar[ResolvedASTRewrite]
+    REWRITE_MATCH_RECOGNIZE_FUNCTION: _ClassVar[ResolvedASTRewrite]
+    REWRITE_MEASURE_TYPE: _ClassVar[ResolvedASTRewrite]
+    REWRITE_APPLY_ENABLED_REWRITES_TO_TEMPLATED_FUNCTION_CALLS: _ClassVar[ResolvedASTRewrite]
+    REWRITE_UPDATE_CONSTRUCTOR: _ClassVar[ResolvedASTRewrite]
+    REWRITE_PIPE_DESCRIBE: _ClassVar[ResolvedASTRewrite]
+    REWRITE_SUBPIPELINE_STMT: _ClassVar[ResolvedASTRewrite]
+    REWRITE_ROW_TYPE: _ClassVar[ResolvedASTRewrite]
+    REWRITE_VARIADIC_FUNCTION_SIGNATURE_EXPANDER: _ClassVar[ResolvedASTRewrite]
+    REWRITE_TEST_DEFAULT_DISABLED: _ClassVar[ResolvedASTRewrite]
+    REWRITE_TEST_DEFAULT_ENABLED: _ClassVar[ResolvedASTRewrite]
+    REWRITE_TEST_DEFAULT_DISABLED_AND_IN_DEVELOPMENT: _ClassVar[ResolvedASTRewrite]
+    REWRITE_TEST_DEFAULT_ENABLED_AND_IN_DEVELOPMENT: _ClassVar[ResolvedASTRewrite]
+
+class NameResolutionMode(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    NAME_RESOLUTION_DEFAULT: _ClassVar[NameResolutionMode]
+    NAME_RESOLUTION_STRICT: _ClassVar[NameResolutionMode]
+
+class ProductMode(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    PRODUCT_INTERNAL: _ClassVar[ProductMode]
+    PRODUCT_EXTERNAL: _ClassVar[ProductMode]
+
+class StatementContext(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    CONTEXT_DEFAULT: _ClassVar[StatementContext]
+    CONTEXT_MODULE: _ClassVar[StatementContext]
+
+class ErrorMessageMode(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    ERROR_MESSAGE_WITH_PAYLOAD: _ClassVar[ErrorMessageMode]
+    ERROR_MESSAGE_ONE_LINE: _ClassVar[ErrorMessageMode]
+    ERROR_MESSAGE_MULTI_LINE_WITH_CARET: _ClassVar[ErrorMessageMode]
+
+class ErrorMessageStability(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    ERROR_MESSAGE_STABILITY_UNSPECIFIED: _ClassVar[ErrorMessageStability]
+    ERROR_MESSAGE_STABILITY_PRODUCTION: _ClassVar[ErrorMessageStability]
+    ERROR_MESSAGE_STABILITY_TEST_REDACTED: _ClassVar[ErrorMessageStability]
+    ERROR_MESSAGE_STABILITY_TEST_REDACTED_WITH_PAYLOADS: _ClassVar[ErrorMessageStability]
+    ERROR_MESSAGE_STABILITY_TEST_MINIMIZED: _ClassVar[ErrorMessageStability]
+    ERROR_MESSAGE_STABILITY_TEST_MINIMIZED_WITH_PAYLOADS: _ClassVar[ErrorMessageStability]
+
+class ParameterMode(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    PARAMETER_NAMED: _ClassVar[ParameterMode]
+    PARAMETER_POSITIONAL: _ClassVar[ParameterMode]
+    PARAMETER_NONE: _ClassVar[ParameterMode]
+
+class ParseLocationRecordType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    PARSE_LOCATION_RECORD_NONE: _ClassVar[ParseLocationRecordType]
+    PARSE_LOCATION_RECORD_FULL_NODE_SCOPE: _ClassVar[ParseLocationRecordType]
+    PARSE_LOCATION_RECORD_CODE_SEARCH: _ClassVar[ParseLocationRecordType]
+VERSION_CURRENT: LanguageVersion
+LANGUAGE_VERSION_UNSPECIFIED: LanguageVersion
+VERSION_1_0: LanguageVersion
+VERSION_1_1: LanguageVersion
+VERSION_1_2: LanguageVersion
+VERSION_1_3: LanguageVersion
+VERSION_1_4: LanguageVersion
+__LanguageVersion__switch_must_have_a_default__: LanguageVersion
+FEATURE_ANALYTIC_FUNCTIONS: LanguageFeature
+FEATURE_TABLESAMPLE: LanguageFeature
+FEATURE_DISALLOW_GROUP_BY_FLOAT: LanguageFeature
+FEATURE_TIMESTAMP_NANOS: LanguageFeature
+FEATURE_TIMESTAMP_PICOS: LanguageFeature
+FEATURE_PARSE_TIMESTAMP_WITH_PRECISION_AND_TIMEZONE: LanguageFeature
+FEATURE_DML_UPDATE_WITH_JOIN: LanguageFeature
+FEATURE_TABLE_VALUED_FUNCTIONS: LanguageFeature
+FEATURE_CREATE_AGGREGATE_FUNCTION: LanguageFeature
+FEATURE_CREATE_TABLE_FUNCTION: LanguageFeature
+FEATURE_GROUP_BY_ROLLUP: LanguageFeature
+FEATURE_TEMPLATE_FUNCTIONS: LanguageFeature
+FEATURE_CREATE_TABLE_PARTITION_BY: LanguageFeature
+FEATURE_CREATE_TABLE_CLUSTER_BY: LanguageFeature
+FEATURE_NUMERIC_TYPE: LanguageFeature
+FEATURE_CREATE_TABLE_NOT_NULL: LanguageFeature
+FEATURE_CREATE_TABLE_FIELD_ANNOTATIONS: LanguageFeature
+FEATURE_CREATE_TABLE_AS_SELECT_COLUMN_LIST: LanguageFeature
+FEATURE_DISALLOW_NULL_PRIMARY_KEYS: LanguageFeature
+FEATURE_DISALLOW_PRIMARY_KEY_UPDATES: LanguageFeature
+FEATURE_TABLESAMPLE_FROM_TABLE_VALUED_FUNCTIONS: LanguageFeature
+FEATURE_ENCRYPTION: LanguageFeature
+FEATURE_ANONYMIZATION: LanguageFeature
+FEATURE_ANONYMIZATION_THRESHOLDING: LanguageFeature
+FEATURE_ANONYMIZATION_CASE_INSENSITIVE_OPTIONS: LanguageFeature
+FEATURE_DIFFERENTIAL_PRIVACY: LanguageFeature
+FEATURE_DIFFERENTIAL_PRIVACY_REPORT_FUNCTIONS: LanguageFeature
+FEATURE_DIFFERENTIAL_PRIVACY_THRESHOLDING: LanguageFeature
+FEATURE_DIFFERENTIAL_PRIVACY_MAX_ROWS_CONTRIBUTED: LanguageFeature
+FEATURE_DIFFERENTIAL_PRIVACY_PUBLIC_GROUPS: LanguageFeature
+FEATURE_DIFFERENTIAL_PRIVACY_MIN_PRIVACY_UNITS_PER_GROUP: LanguageFeature
+FEATURE_VECTOR_SEARCH_TVF: LanguageFeature
+FEATURE_DIFFERENTIAL_PRIVACY_PER_AGGREGATION_BUDGET: LanguageFeature
+FEATURE_DIFFERENTIAL_PRIVACY_NESTED: LanguageFeature
+FEATURE_TUMBLE_HOP_TVFS: LanguageFeature
+FEATURE_TUMBLE_HOP_TVFS_NO_TIMESTAMP_COL: LanguageFeature
+FEATURE_LEGACY_BINARY_CONCAT: LanguageFeature
+FEATURE_AGGREGATION_THRESHOLD: LanguageFeature
+FEATURE_GEOGRAPHY: LanguageFeature
+FEATURE_STRATIFIED_RESERVOIR_TABLESAMPLE: LanguageFeature
+FEATURE_FOREIGN_KEYS: LanguageFeature
+FEATURE_BETWEEN_UINT64_INT64: LanguageFeature
+FEATURE_CHECK_CONSTRAINT: LanguageFeature
+FEATURE_PARAMETERS_IN_GRANTEE_LIST: LanguageFeature
+FEATURE_NAMED_ARGUMENTS: LanguageFeature
+FEATURE_ALLOW_LEGACY_ROW_ACCESS_POLICY_SYNTAX: LanguageFeature
+FEATURE_CREATE_MATERIALIZED_VIEW_PARTITION_BY: LanguageFeature
+FEATURE_CREATE_MATERIALIZED_VIEW_CLUSTER_BY: LanguageFeature
+FEATURE_CREATE_EXTERNAL_TABLE_WITH_TABLE_ELEMENT_LIST: LanguageFeature
+FEATURE_UNENFORCED_PRIMARY_KEYS: LanguageFeature
+FEATURE_BIGNUMERIC_TYPE: LanguageFeature
+FEATURE_EXTENDED_TYPES: LanguageFeature
+FEATURE_JSON_TYPE: LanguageFeature
+FEATURE_JSON_STRICT_NUMBER_PARSING: LanguageFeature
+FEATURE_ENABLE_CONSTANT_EXPRESSION_IN_JSON_PATH: LanguageFeature
+FEATURE_JSON_ARRAY_FUNCTIONS: LanguageFeature
+FEATURE_JSON_VALUE_EXTRACTION_FUNCTIONS: LanguageFeature
+FEATURE_JSON_LAX_VALUE_EXTRACTION_FUNCTIONS: LanguageFeature
+FEATURE_JSON_CONSTRUCTOR_FUNCTIONS: LanguageFeature
+FEATURE_JSON_MUTATOR_FUNCTIONS: LanguageFeature
+FEATURE_JSON_QUERY_LAX: LanguageFeature
+FEATURE_JSON_CONTAINS_FUNCTION: LanguageFeature
+FEATURE_JSON_KEYS_FUNCTION: LanguageFeature
+FEATURE_JSON_FLATTEN_FUNCTION: LanguageFeature
+FEATURE_CREATE_EXTERNAL_TABLE_WITH_PARTITION_COLUMNS: LanguageFeature
+FEATURE_INTERVAL_TYPE: LanguageFeature
+FEATURE_EXTRACT_ONEOF_CASE: LanguageFeature
+FEATURE_TOKENIZED_SEARCH: LanguageFeature
+FEATURE_PARAMETERIZED_TYPES: LanguageFeature
+FEATURE_CREATE_TABLE_LIKE: LanguageFeature
+FEATURE_CREATE_VIEW_WITH_COLUMN_LIST: LanguageFeature
+FEATURE_ALTER_VIEWS_ALTER_COLUMN_SET_OPTIONS: LanguageFeature
+FEATURE_ALTER_MATERIALIZED_VIEW_ALTER_COLUMN_SET_OPTIONS: LanguageFeature
+FEATURE_CREATE_TABLE_CLONE: LanguageFeature
+FEATURE_CLONE_DATA: LanguageFeature
+FEATURE_ALTER_COLUMN_SET_DATA_TYPE: LanguageFeature
+FEATURE_CREATE_SNAPSHOT_TABLE: LanguageFeature
+FEATURE_FUNCTION_ARGUMENTS_WITH_DEFAULTS: LanguageFeature
+FEATURE_CREATE_EXTERNAL_TABLE_WITH_CONNECTION: LanguageFeature
+FEATURE_CREATE_TABLE_COPY: LanguageFeature
+FEATURE_ALTER_TABLE_RENAME_COLUMN: LanguageFeature
+FEATURE_DISALLOW_LEGACY_UNICODE_COLLATION: LanguageFeature
+FEATURE_ALLOW_MISSING_PATH_EXPRESSION_IN_ALTER_DDL: LanguageFeature
+FEATURE_TIME_BUCKET_FUNCTIONS: LanguageFeature
+FEATURE_INVERSE_TRIG_FUNCTIONS: LanguageFeature
+FEATURE_RANGE_TYPE: LanguageFeature
+FEATURE_NON_SQL_PROCEDURE: LanguageFeature
+FEATURE_ROUND_WITH_ROUNDING_MODE: LanguageFeature
+FEATURE_CBRT_FUNCTIONS: LanguageFeature
+FEATURE_RADIANS_DEGREES_FUNCTIONS: LanguageFeature
+FEATURE_SPANNER_LEGACY_DDL: LanguageFeature
+FEATURE_DISABLE_ARRAY_MIN_AND_MAX: LanguageFeature
+FEATURE_STRICT_FUNCTION_DEFAULT_ARG_TYPE_COERCION: LanguageFeature
+FEATURE_PROTO_BASE: LanguageFeature
+FEATURE_DISABLE_ARRAY_SUM_AND_AVG: LanguageFeature
+FEATURE_CREATE_VIEWS_WITH_COLUMN_OPTIONS: LanguageFeature
+FEATURE_CREATE_TABLE_WITH_CONNECTION: LanguageFeature
+FEATURE_DISABLE_OUTER_JOIN_ARRAY: LanguageFeature
+FEATURE_EXTERNAL_SECURITY_PROCEDURE: LanguageFeature
+FEATURE_CREATE_MATERIALIZED_VIEW_AS_REPLICA_OF: LanguageFeature
+FEATURE_CREATE_LOCALITY_GROUP: LanguageFeature
+FEATURE_ENABLE_ALTER_ARRAY_OPTIONS: LanguageFeature
+FEATURE_PIPES: LanguageFeature
+FEATURE_PIPE_STATIC_DESCRIBE: LanguageFeature
+FEATURE_PIPE_ASSERT: LanguageFeature
+FEATURE_PIPE_LOG: LanguageFeature
+FEATURE_PIPE_IF: LanguageFeature
+FEATURE_PIPE_FORK: LanguageFeature
+FEATURE_PIPE_TEE: LanguageFeature
+FEATURE_PIPE_WITH: LanguageFeature
+FEATURE_PIPE_EXPORT_DATA: LanguageFeature
+FEATURE_PIPE_CREATE_TABLE: LanguageFeature
+FEATURE_PIPE_INSERT: LanguageFeature
+FEATURE_PIPE_AGGREGATE_WITH_DIFFERENTIAL_PRIVACY: LanguageFeature
+FEATURE_GENERATED_BY_DEFAULT: LanguageFeature
+FEATURE_ENFORCE_MICROS_MODE_IN_INTERVAL_TYPE: LanguageFeature
+FEATURE_ALTER_COLUMN_DROP_GENERATED: LanguageFeature
+FEATURE_ALTER_COLUMN_SET_GENERATED_AS_IDENTITY: LanguageFeature
+FEATURE_DISABLE_TEXTMAPPER_PARSER: LanguageFeature
+FEATURE_IDENTITY_COLUMNS: LanguageFeature
+FEATURE_EXTERNAL_SCHEMA_DDL: LanguageFeature
+FEATURE_TEMPLATED_SQL_FUNCTION_RESOLVE_WITH_TYPED_ARGS: LanguageFeature
+FEATURE_CREATE_INDEX_PARTITION_BY: LanguageFeature
+FEATURE_TO_JSON_UNSUPPORTED_FIELDS: LanguageFeature
+FEATURE_PROPERTY_GRAPH_ENFORCE_EXPLICIT_PROPERTIES: LanguageFeature
+FEATURE_JSON_SUBFIELDS_WITH_SET: LanguageFeature
+FEATURE_JSON_TYPE_COMPARISON: LanguageFeature
+FEATURE_TIMESTAMP_FROM_UNIX_FUNCTIONS_WITH_UINT64: LanguageFeature
+FEATURE_TABLE_SYNTAX_RESOLVE_ARGUMENT_LAST: LanguageFeature
+FEATURE_DISABLE_VALIDATE_REWRITERS_REFER_TO_BUILTINS: LanguageFeature
+FEATURE_PROCEDURES_IN_MODULES: LanguageFeature
+FEATURE_STATEMENT_WITH_PIPE_OPERATORS: LanguageFeature
+FEATURE_TOP_LEVEL_TABLE_STATEMENTS: LanguageFeature
+FEATURE_ORDER_BY_COLLATE: LanguageFeature
+FEATURE_V_1_1_ORDER_BY_COLLATE: LanguageFeature
+FEATURE_WITH_ON_SUBQUERY: LanguageFeature
+FEATURE_V_1_1_WITH_ON_SUBQUERY: LanguageFeature
+FEATURE_SELECT_STAR_EXCEPT_REPLACE: LanguageFeature
+FEATURE_V_1_1_SELECT_STAR_EXCEPT_REPLACE: LanguageFeature
+FEATURE_ORDER_BY_IN_AGGREGATE: LanguageFeature
+FEATURE_V_1_1_ORDER_BY_IN_AGGREGATE: LanguageFeature
+FEATURE_CAST_DIFFERENT_ARRAY_TYPES: LanguageFeature
+FEATURE_V_1_1_CAST_DIFFERENT_ARRAY_TYPES: LanguageFeature
+FEATURE_ARRAY_EQUALITY: LanguageFeature
+FEATURE_V_1_1_ARRAY_EQUALITY: LanguageFeature
+FEATURE_LIMIT_IN_AGGREGATE: LanguageFeature
+FEATURE_V_1_1_LIMIT_IN_AGGREGATE: LanguageFeature
+FEATURE_HAVING_IN_AGGREGATE: LanguageFeature
+FEATURE_V_1_1_HAVING_IN_AGGREGATE: LanguageFeature
+FEATURE_NULL_HANDLING_MODIFIER_IN_ANALYTIC: LanguageFeature
+FEATURE_V_1_1_NULL_HANDLING_MODIFIER_IN_ANALYTIC: LanguageFeature
+FEATURE_NULL_HANDLING_MODIFIER_IN_AGGREGATE: LanguageFeature
+FEATURE_V_1_1_NULL_HANDLING_MODIFIER_IN_AGGREGATE: LanguageFeature
+FEATURE_FOR_SYSTEM_TIME_AS_OF: LanguageFeature
+FEATURE_V_1_1_FOR_SYSTEM_TIME_AS_OF: LanguageFeature
+FEATURE_CIVIL_TIME: LanguageFeature
+FEATURE_V_1_2_CIVIL_TIME: LanguageFeature
+FEATURE_SAFE_FUNCTION_CALL: LanguageFeature
+FEATURE_V_1_2_SAFE_FUNCTION_CALL: LanguageFeature
+FEATURE_GROUP_BY_STRUCT: LanguageFeature
+FEATURE_V_1_2_GROUP_BY_STRUCT: LanguageFeature
+FEATURE_PROTO_EXTENSIONS_WITH_NEW: LanguageFeature
+FEATURE_V_1_2_PROTO_EXTENSIONS_WITH_NEW: LanguageFeature
+FEATURE_GROUP_BY_ARRAY: LanguageFeature
+FEATURE_V_1_2_GROUP_BY_ARRAY: LanguageFeature
+FEATURE_PROTO_EXTENSIONS_WITH_SET: LanguageFeature
+FEATURE_V_1_2_PROTO_EXTENSIONS_WITH_SET: LanguageFeature
+FEATURE_CORRELATED_REFS_IN_NESTED_DML: LanguageFeature
+FEATURE_V_1_2_CORRELATED_REFS_IN_NESTED_DML: LanguageFeature
+FEATURE_WEEK_WITH_WEEKDAY: LanguageFeature
+FEATURE_V_1_2_WEEK_WITH_WEEKDAY: LanguageFeature
+FEATURE_ARRAY_ELEMENTS_WITH_SET: LanguageFeature
+FEATURE_V_1_2_ARRAY_ELEMENTS_WITH_SET: LanguageFeature
+FEATURE_NESTED_UPDATE_DELETE_WITH_OFFSET: LanguageFeature
+FEATURE_V_1_2_NESTED_UPDATE_DELETE_WITH_OFFSET: LanguageFeature
+FEATURE_GENERATED_COLUMNS: LanguageFeature
+FEATURE_V_1_2_GENERATED_COLUMNS: LanguageFeature
+FEATURE_PROTO_DEFAULT_IF_NULL: LanguageFeature
+FEATURE_V_1_3_PROTO_DEFAULT_IF_NULL: LanguageFeature
+FEATURE_EXTRACT_FROM_PROTO: LanguageFeature
+FEATURE_V_1_3_EXTRACT_FROM_PROTO: LanguageFeature
+FEATURE_DEPRECATED_DISALLOW_PROTO3_HAS_SCALAR_FIELD: LanguageFeature
+FEATURE_V_1_3_DEPRECATED_DISALLOW_PROTO3_HAS_SCALAR_FIELD: LanguageFeature
+FEATURE_ARRAY_ORDERING: LanguageFeature
+FEATURE_V_1_3_ARRAY_ORDERING: LanguageFeature
+FEATURE_OMIT_INSERT_COLUMN_LIST: LanguageFeature
+FEATURE_V_1_3_OMIT_INSERT_COLUMN_LIST: LanguageFeature
+FEATURE_IGNORE_PROTO3_USE_DEFAULTS: LanguageFeature
+FEATURE_V_1_3_IGNORE_PROTO3_USE_DEFAULTS: LanguageFeature
+FEATURE_REPLACE_FIELDS: LanguageFeature
+FEATURE_V_1_3_REPLACE_FIELDS: LanguageFeature
+FEATURE_NULLS_FIRST_LAST_IN_ORDER_BY: LanguageFeature
+FEATURE_V_1_3_NULLS_FIRST_LAST_IN_ORDER_BY: LanguageFeature
+FEATURE_ALLOW_DASHES_IN_TABLE_NAME: LanguageFeature
+FEATURE_V_1_3_ALLOW_DASHES_IN_TABLE_NAME: LanguageFeature
+FEATURE_CONCAT_MIXED_TYPES: LanguageFeature
+FEATURE_V_1_3_CONCAT_MIXED_TYPES: LanguageFeature
+FEATURE_WITH_RECURSIVE: LanguageFeature
+FEATURE_V_1_3_WITH_RECURSIVE: LanguageFeature
+FEATURE_PROTO_MAPS: LanguageFeature
+FEATURE_V_1_3_PROTO_MAPS: LanguageFeature
+FEATURE_ENUM_VALUE_DESCRIPTOR_PROTO: LanguageFeature
+FEATURE_V_1_3_ENUM_VALUE_DESCRIPTOR_PROTO: LanguageFeature
+FEATURE_DECIMAL_ALIAS: LanguageFeature
+FEATURE_V_1_3_DECIMAL_ALIAS: LanguageFeature
+FEATURE_UNNEST_AND_FLATTEN_ARRAYS: LanguageFeature
+FEATURE_V_1_3_UNNEST_AND_FLATTEN_ARRAYS: LanguageFeature
+FEATURE_ALLOW_CONSECUTIVE_ON: LanguageFeature
+FEATURE_V_1_3_ALLOW_CONSECUTIVE_ON: LanguageFeature
+FEATURE_ALLOW_REGEXP_EXTRACT_OPTIONALS: LanguageFeature
+FEATURE_V_1_3_ALLOW_REGEXP_EXTRACT_OPTIONALS: LanguageFeature
+FEATURE_DATE_TIME_CONSTRUCTORS: LanguageFeature
+FEATURE_V_1_3_DATE_TIME_CONSTRUCTORS: LanguageFeature
+FEATURE_DATE_ARITHMETICS: LanguageFeature
+FEATURE_V_1_3_DATE_ARITHMETICS: LanguageFeature
+FEATURE_ADDITIONAL_STRING_FUNCTIONS: LanguageFeature
+FEATURE_V_1_3_ADDITIONAL_STRING_FUNCTIONS: LanguageFeature
+FEATURE_WITH_GROUP_ROWS: LanguageFeature
+FEATURE_V_1_3_WITH_GROUP_ROWS: LanguageFeature
+FEATURE_EXTENDED_DATE_TIME_SIGNATURES: LanguageFeature
+FEATURE_V_1_3_EXTENDED_DATE_TIME_SIGNATURES: LanguageFeature
+FEATURE_EXTENDED_GEOGRAPHY_PARSERS: LanguageFeature
+FEATURE_V_1_3_EXTENDED_GEOGRAPHY_PARSERS: LanguageFeature
+FEATURE_INLINE_LAMBDA_ARGUMENT: LanguageFeature
+FEATURE_V_1_3_INLINE_LAMBDA_ARGUMENT: LanguageFeature
+FEATURE_PIVOT: LanguageFeature
+FEATURE_V_1_3_PIVOT: LanguageFeature
+FEATURE_ANNOTATION_FRAMEWORK: LanguageFeature
+FEATURE_V_1_3_ANNOTATION_FRAMEWORK: LanguageFeature
+FEATURE_COLLATION_SUPPORT: LanguageFeature
+FEATURE_V_1_3_COLLATION_SUPPORT: LanguageFeature
+FEATURE_IS_DISTINCT: LanguageFeature
+FEATURE_V_1_3_IS_DISTINCT: LanguageFeature
+FEATURE_FORMAT_IN_CAST: LanguageFeature
+FEATURE_V_1_3_FORMAT_IN_CAST: LanguageFeature
+FEATURE_UNPIVOT: LanguageFeature
+FEATURE_V_1_3_UNPIVOT: LanguageFeature
+FEATURE_DML_RETURNING: LanguageFeature
+FEATURE_V_1_3_DML_RETURNING: LanguageFeature
+FEATURE_FILTER_FIELDS: LanguageFeature
+FEATURE_V_1_3_FILTER_FIELDS: LanguageFeature
+FEATURE_QUALIFY: LanguageFeature
+FEATURE_V_1_3_QUALIFY: LanguageFeature
+FEATURE_REPEAT: LanguageFeature
+FEATURE_V_1_3_REPEAT: LanguageFeature
+FEATURE_COLUMN_DEFAULT_VALUE: LanguageFeature
+FEATURE_V_1_3_COLUMN_DEFAULT_VALUE: LanguageFeature
+FEATURE_FOR_IN: LanguageFeature
+FEATURE_V_1_3_FOR_IN: LanguageFeature
+FEATURE_KLL_WEIGHTS: LanguageFeature
+FEATURE_V_1_3_KLL_WEIGHTS: LanguageFeature
+FEATURE_LIKE_ANY_SOME_ALL: LanguageFeature
+FEATURE_V_1_3_LIKE_ANY_SOME_ALL: LanguageFeature
+FEATURE_CASE_STMT: LanguageFeature
+FEATURE_V_1_3_CASE_STMT: LanguageFeature
+FEATURE_ALLOW_SLASH_PATHS: LanguageFeature
+FEATURE_V_1_3_ALLOW_SLASH_PATHS: LanguageFeature
+FEATURE_TYPEOF_FUNCTION: LanguageFeature
+FEATURE_V_1_3_TYPEOF_FUNCTION: LanguageFeature
+FEATURE_SCRIPT_LABEL: LanguageFeature
+FEATURE_V_1_3_SCRIPT_LABEL: LanguageFeature
+FEATURE_REMOTE_FUNCTION: LanguageFeature
+FEATURE_V_1_3_REMOTE_FUNCTION: LanguageFeature
+FEATURE_ARRAY_GREATEST_LEAST: LanguageFeature
+FEATURE_V_1_3_ARRAY_GREATEST_LEAST: LanguageFeature
+FEATURE_BRACED_PROTO_CONSTRUCTORS: LanguageFeature
+FEATURE_V_1_3_BRACED_PROTO_CONSTRUCTORS: LanguageFeature
+FEATURE_WITH_EXPRESSION: LanguageFeature
+FEATURE_V_1_4_WITH_EXPRESSION: LanguageFeature
+FEATURE_ORDERED_PRIMARY_KEYS: LanguageFeature
+FEATURE_V_1_4_ORDERED_PRIMARY_KEYS: LanguageFeature
+FEATURE_TTL: LanguageFeature
+FEATURE_V_1_4_TTL: LanguageFeature
+FEATURE_BARE_ARRAY_ACCESS: LanguageFeature
+FEATURE_V_1_4_BARE_ARRAY_ACCESS: LanguageFeature
+FEATURE_ARRAY_AGGREGATION_FUNCTIONS: LanguageFeature
+FEATURE_V_1_4_ARRAY_AGGREGATION_FUNCTIONS: LanguageFeature
+FEATURE_ARRAY_FIND_FUNCTIONS: LanguageFeature
+FEATURE_V_1_4_ARRAY_FIND_FUNCTIONS: LanguageFeature
+FEATURE_SAFE_FUNCTION_CALL_WITH_LAMBDA_ARGS: LanguageFeature
+FEATURE_V_1_4_SAFE_FUNCTION_CALL_WITH_LAMBDA_ARGS: LanguageFeature
+FEATURE_SQL_GRAPH: LanguageFeature
+FEATURE_V_1_4_SQL_GRAPH: LanguageFeature
+FEATURE_SQL_GRAPH_ADVANCED_QUERY: LanguageFeature
+FEATURE_V_1_4_SQL_GRAPH_ADVANCED_QUERY: LanguageFeature
+FEATURE_SQL_GRAPH_EXPOSE_GRAPH_ELEMENT: LanguageFeature
+FEATURE_V_1_4_SQL_GRAPH_EXPOSE_GRAPH_ELEMENT: LanguageFeature
+FEATURE_SQL_GRAPH_BOUNDED_PATH_QUANTIFICATION: LanguageFeature
+FEATURE_V_1_4_SQL_GRAPH_BOUNDED_PATH_QUANTIFICATION: LanguageFeature
+FEATURE_SQL_GRAPH_UNBOUNDED_PATH_QUANTIFICATION: LanguageFeature
+FEATURE_SQL_GRAPH_RETURN_EXTENSIONS: LanguageFeature
+FEATURE_V_1_4_SQL_GRAPH_RETURN_EXTENSIONS: LanguageFeature
+FEATURE_SQL_GRAPH_PATH_TYPE: LanguageFeature
+FEATURE_V_1_4_SQL_GRAPH_PATH_TYPE: LanguageFeature
+FEATURE_GROUP_BY_GRAPH_PATH: LanguageFeature
+FEATURE_V_1_4_GROUP_BY_GRAPH_PATH: LanguageFeature
+FEATURE_SQL_GRAPH_PATH_SEARCH_PREFIX_PATH_COUNT: LanguageFeature
+FEATURE_V_1_4_SQL_GRAPH_PATH_SEARCH_PREFIX_PATH_COUNT: LanguageFeature
+FEATURE_SQL_GRAPH_PATH_MODE: LanguageFeature
+FEATURE_V_1_4_SQL_GRAPH_PATH_MODE: LanguageFeature
+FEATURE_SQL_GRAPH_DYNAMIC_ELEMENT_TYPE: LanguageFeature
+FEATURE_V_1_4_SQL_GRAPH_DYNAMIC_ELEMENT_TYPE: LanguageFeature
+FEATURE_SQL_GRAPH_DYNAMIC_LABEL_PROPERTIES_IN_DDL: LanguageFeature
+FEATURE_V_1_4_SQL_GRAPH_DYNAMIC_LABEL_PROPERTIES_IN_DDL: LanguageFeature
+FEATURE_SQL_GRAPH_DYNAMIC_LABEL_EXTENSION_IN_DDL: LanguageFeature
+FEATURE_V_1_4_SQL_GRAPH_DYNAMIC_LABEL_EXTENSION_IN_DDL: LanguageFeature
+FEATURE_SQL_GRAPH_DYNAMIC_MULTI_LABEL_NODES: LanguageFeature
+FEATURE_V_1_4_SQL_GRAPH_DYNAMIC_MULTI_LABEL_NODES: LanguageFeature
+FEATURE_SQL_GRAPH_ELEMENT_DEFINITION_NAME_IN_JSON_RESULT: LanguageFeature
+FEATURE_V_1_4_SQL_GRAPH_ELEMENT_DEFINITION_NAME_IN_JSON_RESULT: LanguageFeature
+FEATURE_SQL_GRAPH_CHEAPEST_PATH: LanguageFeature
+FEATURE_V_1_4_SQL_GRAPH_CHEAPEST_PATH: LanguageFeature
+FEATURE_SQL_GRAPH_CALL: LanguageFeature
+FEATURE_V_1_4_SQL_GRAPH_CALL: LanguageFeature
+FEATURE_SQL_GRAPH_SET_OPERATION_PROPAGATION_MODE: LanguageFeature
+FEATURE_SQL_GRAPH_DEFAULT_LABEL_AND_PROPERTY_DEFINITION_OPTIONS: LanguageFeature
+FEATURE_REMOTE_MODEL: LanguageFeature
+FEATURE_V_1_4_REMOTE_MODEL: LanguageFeature
+FEATURE_STRUCT_POSITIONAL_ACCESSOR: LanguageFeature
+FEATURE_V_1_4_STRUCT_POSITIONAL_ACCESSOR: LanguageFeature
+FEATURE_SINGLE_TABLE_NAME_ARRAY_PATH: LanguageFeature
+FEATURE_V_1_4_SINGLE_TABLE_NAME_ARRAY_PATH: LanguageFeature
+FEATURE_COLLATION_IN_WITH_RECURSIVE: LanguageFeature
+FEATURE_V_1_4_COLLATION_IN_WITH_RECURSIVE: LanguageFeature
+FEATURE_COLLATION_IN_EXPLICIT_CAST: LanguageFeature
+FEATURE_V_1_4_COLLATION_IN_EXPLICIT_CAST: LanguageFeature
+FEATURE_LOAD_DATA_PARTITIONS: LanguageFeature
+FEATURE_V_1_4_LOAD_DATA_PARTITIONS: LanguageFeature
+FEATURE_CREATE_MODEL_WITH_ALIASED_QUERY_LIST: LanguageFeature
+FEATURE_V_1_4_CREATE_MODEL_WITH_ALIASED_QUERY_LIST: LanguageFeature
+FEATURE_LOAD_DATA_TEMP_TABLE: LanguageFeature
+FEATURE_V_1_4_LOAD_DATA_TEMP_TABLE: LanguageFeature
+FEATURE_CORRESPONDING: LanguageFeature
+FEATURE_V_1_4_CORRESPONDING: LanguageFeature
+FEATURE_SEQUENCE_ARG: LanguageFeature
+FEATURE_V_1_4_SEQUENCE_ARG: LanguageFeature
+FEATURE_GROUPING_BUILTIN: LanguageFeature
+FEATURE_V_1_4_GROUPING_BUILTIN: LanguageFeature
+FEATURE_GROUPING_SETS: LanguageFeature
+FEATURE_V_1_4_GROUPING_SETS: LanguageFeature
+FEATURE_PRESERVE_ANNOTATION_IN_IMPLICIT_CAST_IN_SCAN: LanguageFeature
+FEATURE_V_1_4_PRESERVE_ANNOTATION_IN_IMPLICIT_CAST_IN_SCAN: LanguageFeature
+FEATURE_CORRESPONDING_FULL: LanguageFeature
+FEATURE_V_1_4_CORRESPONDING_FULL: LanguageFeature
+FEATURE_BY_NAME: LanguageFeature
+FEATURE_V_1_4_BY_NAME: LanguageFeature
+FEATURE_LIKE_ANY_SOME_ALL_ARRAY: LanguageFeature
+FEATURE_V_1_4_LIKE_ANY_SOME_ALL_ARRAY: LanguageFeature
+FEATURE_LIKE_ANY_SOME_ALL_SUBQUERY: LanguageFeature
+FEATURE_V_1_4_LIKE_ANY_SOME_ALL_SUBQUERY: LanguageFeature
+FEATURE_FIRST_AND_LAST_N: LanguageFeature
+FEATURE_V_1_4_FIRST_AND_LAST_N: LanguageFeature
+FEATURE_NULLIFZERO_ZEROIFNULL: LanguageFeature
+FEATURE_V_1_4_NULLIFZERO_ZEROIFNULL: LanguageFeature
+FEATURE_PI_FUNCTIONS: LanguageFeature
+FEATURE_V_1_4_PI_FUNCTIONS: LanguageFeature
+FEATURE_CREATE_FUNCTION_LANGUAGE_WITH_CONNECTION: LanguageFeature
+FEATURE_V_1_4_CREATE_FUNCTION_LANGUAGE_WITH_CONNECTION: LanguageFeature
+FEATURE_SINGLETON_UNNEST_INFERS_ALIAS: LanguageFeature
+FEATURE_V_1_4_SINGLETON_UNNEST_INFERS_ALIAS: LanguageFeature
+FEATURE_ARRAY_ZIP: LanguageFeature
+FEATURE_V_1_4_ARRAY_ZIP: LanguageFeature
+FEATURE_MULTIWAY_UNNEST: LanguageFeature
+FEATURE_V_1_4_MULTIWAY_UNNEST: LanguageFeature
+FEATURE_USE_OPERATION_COLLATION_FOR_NULLIF: LanguageFeature
+FEATURE_V_1_4_USE_OPERATION_COLLATION_FOR_NULLIF: LanguageFeature
+FEATURE_ENABLE_EDIT_DISTANCE_BYTES: LanguageFeature
+FEATURE_V_1_4_ENABLE_EDIT_DISTANCE_BYTES: LanguageFeature
+FEATURE_ENABLE_FLOAT_DISTANCE_FUNCTIONS: LanguageFeature
+FEATURE_V_1_4_ENABLE_FLOAT_DISTANCE_FUNCTIONS: LanguageFeature
+FEATURE_ENABLE_MEASURES: LanguageFeature
+FEATURE_V_1_4_ENABLE_MEASURES: LanguageFeature
+FEATURE_GROUP_BY_ALL: LanguageFeature
+FEATURE_V_1_4_GROUP_BY_ALL: LanguageFeature
+FEATURE_LIMIT_OFFSET_EXPRESSIONS: LanguageFeature
+FEATURE_V_1_4_LIMIT_OFFSET_EXPRESSIONS: LanguageFeature
+FEATURE_MAP_TYPE: LanguageFeature
+FEATURE_V_1_4_MAP_TYPE: LanguageFeature
+FEATURE_DISABLE_FLOAT32: LanguageFeature
+FEATURE_V_1_4_DISABLE_FLOAT32: LanguageFeature
+FEATURE_LITERAL_CONCATENATION: LanguageFeature
+FEATURE_V_1_4_LITERAL_CONCATENATION: LanguageFeature
+FEATURE_DOT_PRODUCT: LanguageFeature
+FEATURE_V_1_4_DOT_PRODUCT: LanguageFeature
+FEATURE_OPT_IN_NEW_BEHAVIOR_NOT_LIKE_ANY_SOME_ALL: LanguageFeature
+FEATURE_V_1_4_OPT_IN_NEW_BEHAVIOR_NOT_LIKE_ANY_SOME_ALL: LanguageFeature
+FEATURE_MANHATTAN_DISTANCE: LanguageFeature
+FEATURE_V_1_4_MANHATTAN_DISTANCE: LanguageFeature
+FEATURE_L1_NORM: LanguageFeature
+FEATURE_V_1_4_L1_NORM: LanguageFeature
+FEATURE_L2_NORM: LanguageFeature
+FEATURE_V_1_4_L2_NORM: LanguageFeature
+FEATURE_STRUCT_BRACED_CONSTRUCTORS: LanguageFeature
+FEATURE_V_1_4_STRUCT_BRACED_CONSTRUCTORS: LanguageFeature
+FEATURE_WITH_RECURSIVE_DEPTH_MODIFIER: LanguageFeature
+FEATURE_V_1_4_WITH_RECURSIVE_DEPTH_MODIFIER: LanguageFeature
+FEATURE_JSON_ARRAY_VALUE_EXTRACTION_FUNCTIONS: LanguageFeature
+FEATURE_V_1_4_JSON_ARRAY_VALUE_EXTRACTION_FUNCTIONS: LanguageFeature
+FEATURE_ENFORCE_CONDITIONAL_EVALUATION: LanguageFeature
+FEATURE_V_1_4_ENFORCE_CONDITIONAL_EVALUATION: LanguageFeature
+FEATURE_JSON_MORE_VALUE_EXTRACTION_FUNCTIONS: LanguageFeature
+FEATURE_V_1_4_JSON_MORE_VALUE_EXTRACTION_FUNCTIONS: LanguageFeature
+FEATURE_IMPLICIT_COERCION_STRING_LITERAL_TO_BYTES: LanguageFeature
+FEATURE_V_1_4_IMPLICIT_COERCION_STRING_LITERAL_TO_BYTES: LanguageFeature
+FEATURE_UUID_TYPE: LanguageFeature
+FEATURE_V_1_4_UUID_TYPE: LanguageFeature
+FEATURE_MULTILEVEL_AGGREGATION: LanguageFeature
+FEATURE_V_1_4_MULTILEVEL_AGGREGATION: LanguageFeature
+FEATURE_AGGREGATE_FILTERING: LanguageFeature
+FEATURE_V_1_4_AGGREGATE_FILTERING: LanguageFeature
+FEATURE_REPLACE_FIELDS_ALLOW_MULTI_ONEOF: LanguageFeature
+FEATURE_V_1_4_REPLACE_FIELDS_ALLOW_MULTI_ONEOF: LanguageFeature
+FEATURE_FOR_UPDATE: LanguageFeature
+FEATURE_V_1_4_FOR_UPDATE: LanguageFeature
+FEATURE_KLL_FLOAT64_PRIMARY_WITH_DOUBLE_ALIAS: LanguageFeature
+FEATURE_V_1_4_KLL_FLOAT64_PRIMARY_WITH_DOUBLE_ALIAS: LanguageFeature
+FEATURE_DISALLOW_PIVOT_AND_UNPIVOT_ON_ARRAY_SCANS: LanguageFeature
+FEATURE_V_1_4_DISALLOW_PIVOT_AND_UNPIVOT_ON_ARRAY_SCANS: LanguageFeature
+FEATURE_MATCH_RECOGNIZE: LanguageFeature
+FEATURE_V_1_4_MATCH_RECOGNIZE: LanguageFeature
+FEATURE_INSERT_ON_CONFLICT_CLAUSE: LanguageFeature
+FEATURE_V_1_4_INSERT_ON_CONFLICT_CLAUSE: LanguageFeature
+FEATURE_BITWISE_AGGREGATE_BYTES_SIGNATURES: LanguageFeature
+FEATURE_V_1_4_BITWISE_AGGREGATE_BYTES_SIGNATURES: LanguageFeature
+FEATURE_PIPE_RECURSIVE_UNION: LanguageFeature
+FEATURE_V_1_4_PIPE_RECURSIVE_UNION: LanguageFeature
+FEATURE_UPDATE_CONSTRUCTOR: LanguageFeature
+FEATURE_V_1_4_UPDATE_CONSTRUCTOR: LanguageFeature
+FEATURE_ALIASES_FOR_STRING_AND_DATE_FUNCTIONS: LanguageFeature
+FEATURE_V_1_4_ALIASES_FOR_STRING_AND_DATE_FUNCTIONS: LanguageFeature
+FEATURE_VIEWS_IN_MODULES: LanguageFeature
+FEATURE_V_1_4_VIEWS_IN_MODULES: LanguageFeature
+FEATURE_MULTILEVEL_AGGREGATION_ON_UDAS: LanguageFeature
+FEATURE_FROM_AND_TO_PROTO_INTERVAL: LanguageFeature
+FEATURE_V_1_4_FROM_AND_TO_PROTO_INTERVAL: LanguageFeature
+FEATURE_SIMPLIFY_PIVOT_REWRITE: LanguageFeature
+FEATURE_V_1_4_SIMPLIFY_PIVOT_REWRITE: LanguageFeature
+FEATURE_PIPE_NAMED_WINDOWS: LanguageFeature
+FEATURE_V_1_4_PIPE_NAMED_WINDOWS: LanguageFeature
+FEATURE_TVF_PSEUDO_COLUMNS: LanguageFeature
+FEATURE_V_1_4_TVF_PSEUDO_COLUMNS: LanguageFeature
+FEATURE_LATERAL_JOIN: LanguageFeature
+FEATURE_V_1_4_LATERAL_JOIN: LanguageFeature
+FEATURE_CHAINED_FUNCTION_CALLS: LanguageFeature
+FEATURE_V_1_4_CHAINED_FUNCTION_CALLS: LanguageFeature
+FEATURE_TIMESTAMP_PRECISION: LanguageFeature
+FEATURE_V_1_4_TIMESTAMP_PRECISION: LanguageFeature
+FEATURE_TIMESTAMP_PRECISION_ANNOTATION: LanguageFeature
+FEATURE_V_1_4_TIMESTAMP_PRECISION_ANNOTATION: LanguageFeature
+FEATURE_ANALYSIS_CONSTANT_STRUCT_POSITIONAL_ACCESSOR: LanguageFeature
+FEATURE_V_1_4_ANALYSIS_CONSTANT_STRUCT_POSITIONAL_ACCESSOR: LanguageFeature
+FEATURE_ANALYSIS_CONSTANT_FUNCTION_ARGUMENT: LanguageFeature
+FEATURE_ANALYSIS_CONSTANT_PIVOT_COLUMN: LanguageFeature
+FEATURE_ANALYSIS_CONSTANT_INTERVAL_CONSTRUCTOR: LanguageFeature
+FEATURE_REPORT_FORMAT_CONSTANT_ARGUMENT: LanguageFeature
+FEATURE_PIPE_DESCRIBE: LanguageFeature
+FEATURE_MULTI_GROUPING_SETS: LanguageFeature
+FEATURE_PIPE_CALL_INPUT_TABLE: LanguageFeature
+FEATURE_RELAXED_WITH_RECURSIVE: LanguageFeature
+FEATURE_RUN_STATEMENT: LanguageFeature
+FEATURE_LIMIT_ALL: LanguageFeature
+FEATURE_ADDITIONAL_DATE_TIME_FUNCTIONS: LanguageFeature
+FEATURE_KLL_QUANTILES_EXTRACT_RELATIVE_RANK: LanguageFeature
+FEATURE_MATCH_MAKE_STRUCT_IN_GROUP_BY: LanguageFeature
+FEATURE_ARRAY_CONSTRUCTOR_EXPLICIT_TYPE_ENFORCE_TARGET_ANNOTATIONS: LanguageFeature
+FEATURE_LATERAL_COLUMN_REFERENCES: LanguageFeature
+FEATURE_ROW_TYPE: LanguageFeature
+FEATURE_MEASURES_TVF: LanguageFeature
+FEATURE_EXPERIMENTAL_MODULES: LanguageFeature
+FEATURE_TEST_IDEALLY_ENABLED_BUT_IN_DEVELOPMENT: LanguageFeature
+FEATURE_TEST_IDEALLY_DISABLED: LanguageFeature
+FEATURE_TEST_IDEALLY_DISABLED_AND_IN_DEVELOPMENT: LanguageFeature
+__LanguageFeature__switch_must_have_a_default__: LanguageFeature
+REWRITE_INVALID_DO_NOT_USE: ResolvedASTRewrite
+REWRITE_FLATTEN: ResolvedASTRewrite
+REWRITE_ANONYMIZATION: ResolvedASTRewrite
+REWRITE_PROTO_MAP_FNS: ResolvedASTRewrite
+REWRITE_ARRAY_FILTER_TRANSFORM: ResolvedASTRewrite
+REWRITE_UNPIVOT: ResolvedASTRewrite
+REWRITE_PIVOT: ResolvedASTRewrite
+REWRITE_ARRAY_INCLUDES: ResolvedASTRewrite
+REWRITE_TYPEOF_FUNCTION: ResolvedASTRewrite
+REWRITE_WITH_EXPR: ResolvedASTRewrite
+REWRITE_INLINE_SQL_FUNCTIONS: ResolvedASTRewrite
+REWRITE_INLINE_SQL_TVFS: ResolvedASTRewrite
+REWRITE_NULLIFERROR_FUNCTION: ResolvedASTRewrite
+REWRITE_LIKE_ANY_ALL: ResolvedASTRewrite
+REWRITE_BUILTIN_FUNCTION_INLINER: ResolvedASTRewrite
+REWRITE_INLINE_SQL_VIEWS: ResolvedASTRewrite
+REWRITE_INLINE_SQL_UDAS: ResolvedASTRewrite
+REWRITE_GROUPING_SET: ResolvedASTRewrite
+REWRITE_INSERT_DML_VALUES: ResolvedASTRewrite
+REWRITE_MULTIWAY_UNNEST: ResolvedASTRewrite
+REWRITE_AGGREGATION_THRESHOLD: ResolvedASTRewrite
+REWRITE_PIPE_ASSERT: ResolvedASTRewrite
+REWRITE_ORDER_BY_AND_LIMIT_IN_AGGREGATE: ResolvedASTRewrite
+REWRITE_PIPE_IF: ResolvedASTRewrite
+REWRITE_GENERALIZED_QUERY_STMT: ResolvedASTRewrite
+REWRITE_IS_FIRST_IS_LAST_FUNCTION: ResolvedASTRewrite
+REWRITE_MATCH_RECOGNIZE_FUNCTION: ResolvedASTRewrite
+REWRITE_MEASURE_TYPE: ResolvedASTRewrite
+REWRITE_APPLY_ENABLED_REWRITES_TO_TEMPLATED_FUNCTION_CALLS: ResolvedASTRewrite
+REWRITE_UPDATE_CONSTRUCTOR: ResolvedASTRewrite
+REWRITE_PIPE_DESCRIBE: ResolvedASTRewrite
+REWRITE_SUBPIPELINE_STMT: ResolvedASTRewrite
+REWRITE_ROW_TYPE: ResolvedASTRewrite
+REWRITE_VARIADIC_FUNCTION_SIGNATURE_EXPANDER: ResolvedASTRewrite
+REWRITE_TEST_DEFAULT_DISABLED: ResolvedASTRewrite
+REWRITE_TEST_DEFAULT_ENABLED: ResolvedASTRewrite
+REWRITE_TEST_DEFAULT_DISABLED_AND_IN_DEVELOPMENT: ResolvedASTRewrite
+REWRITE_TEST_DEFAULT_ENABLED_AND_IN_DEVELOPMENT: ResolvedASTRewrite
+NAME_RESOLUTION_DEFAULT: NameResolutionMode
+NAME_RESOLUTION_STRICT: NameResolutionMode
+PRODUCT_INTERNAL: ProductMode
+PRODUCT_EXTERNAL: ProductMode
+CONTEXT_DEFAULT: StatementContext
+CONTEXT_MODULE: StatementContext
+ERROR_MESSAGE_WITH_PAYLOAD: ErrorMessageMode
+ERROR_MESSAGE_ONE_LINE: ErrorMessageMode
+ERROR_MESSAGE_MULTI_LINE_WITH_CARET: ErrorMessageMode
+ERROR_MESSAGE_STABILITY_UNSPECIFIED: ErrorMessageStability
+ERROR_MESSAGE_STABILITY_PRODUCTION: ErrorMessageStability
+ERROR_MESSAGE_STABILITY_TEST_REDACTED: ErrorMessageStability
+ERROR_MESSAGE_STABILITY_TEST_REDACTED_WITH_PAYLOADS: ErrorMessageStability
+ERROR_MESSAGE_STABILITY_TEST_MINIMIZED: ErrorMessageStability
+ERROR_MESSAGE_STABILITY_TEST_MINIMIZED_WITH_PAYLOADS: ErrorMessageStability
+PARAMETER_NAMED: ParameterMode
+PARAMETER_POSITIONAL: ParameterMode
+PARAMETER_NONE: ParameterMode
+PARSE_LOCATION_RECORD_NONE: ParseLocationRecordType
+PARSE_LOCATION_RECORD_FULL_NODE_SCOPE: ParseLocationRecordType
+PARSE_LOCATION_RECORD_CODE_SEARCH: ParseLocationRecordType
+LANGUAGE_FEATURE_OPTIONS_FIELD_NUMBER: _ClassVar[int]
+language_feature_options: _descriptor.FieldDescriptor
+REWRITE_OPTIONS_FIELD_NUMBER: _ClassVar[int]
+rewrite_options: _descriptor.FieldDescriptor
+
+class LanguageFeatureOptions(_message.Message):
+    __slots__ = ("ideally_enabled", "in_development", "language_version")
+    IDEALLY_ENABLED_FIELD_NUMBER: _ClassVar[int]
+    IN_DEVELOPMENT_FIELD_NUMBER: _ClassVar[int]
+    LANGUAGE_VERSION_FIELD_NUMBER: _ClassVar[int]
+    ideally_enabled: bool
+    in_development: bool
+    language_version: LanguageVersion
+    def __init__(self, ideally_enabled: bool = ..., in_development: bool = ..., language_version: _Optional[_Union[LanguageVersion, str]] = ...) -> None: ...
+
+class ResolvedASTRewriteOptions(_message.Message):
+    __slots__ = ("default_enabled", "in_development")
+    DEFAULT_ENABLED_FIELD_NUMBER: _ClassVar[int]
+    IN_DEVELOPMENT_FIELD_NUMBER: _ClassVar[int]
+    default_enabled: bool
+    in_development: bool
+    def __init__(self, default_enabled: bool = ..., in_development: bool = ...) -> None: ...
+
+class RewriteOptions(_message.Message):
+    __slots__ = ("grouping_set_rewrite_options",)
+    Extensions: _python_message._ExtensionDict
+    GROUPING_SET_REWRITE_OPTIONS_FIELD_NUMBER: _ClassVar[int]
+    grouping_set_rewrite_options: GroupingSetRewriteOptions
+    def __init__(self, grouping_set_rewrite_options: _Optional[_Union[GroupingSetRewriteOptions, _Mapping]] = ...) -> None: ...
+
+class GroupingSetRewriteOptions(_message.Message):
+    __slots__ = ("max_grouping_sets", "max_columns_in_grouping_set")
+    MAX_GROUPING_SETS_FIELD_NUMBER: _ClassVar[int]
+    MAX_COLUMNS_IN_GROUPING_SET_FIELD_NUMBER: _ClassVar[int]
+    max_grouping_sets: int
+    max_columns_in_grouping_set: int
+    def __init__(self, max_grouping_sets: _Optional[int] = ..., max_columns_in_grouping_set: _Optional[int] = ...) -> None: ...
+
+class ErrorMessageModeForPayload(_message.Message):
+    __slots__ = ("mode",)
+    MODE_FIELD_NUMBER: _ClassVar[int]
+    mode: ErrorMessageMode
+    def __init__(self, mode: _Optional[_Union[ErrorMessageMode, str]] = ...) -> None: ...

@@ -1,0 +1,2354 @@
+from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
+from google.protobuf import descriptor as _descriptor
+from typing import ClassVar as _ClassVar
+
+DESCRIPTOR: _descriptor.FileDescriptor
+
+class FunctionSignatureId(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    __FunctionSignatureId__switch_must_have_a_default__: _ClassVar[FunctionSignatureId]
+    FN_INVALID_FUNCTION_ID: _ClassVar[FunctionSignatureId]
+    FN_ADD_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ADD_INT64: _ClassVar[FunctionSignatureId]
+    FN_ADD_UINT64: _ClassVar[FunctionSignatureId]
+    FN_ADD_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ADD_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ADD_DATE_INT64: _ClassVar[FunctionSignatureId]
+    FN_ADD_INT64_DATE: _ClassVar[FunctionSignatureId]
+    FN_ADD_TIMESTAMP_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_ADD_INTERVAL_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_ADD_DATE_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_ADD_INTERVAL_DATE: _ClassVar[FunctionSignatureId]
+    FN_ADD_DATETIME_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_ADD_INTERVAL_DATETIME: _ClassVar[FunctionSignatureId]
+    FN_ADD_INTERVAL_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_AND: _ClassVar[FunctionSignatureId]
+    FN_CASE_NO_VALUE: _ClassVar[FunctionSignatureId]
+    FN_CASE_WITH_VALUE: _ClassVar[FunctionSignatureId]
+    FN_DIVIDE_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_DIVIDE_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_DIVIDE_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_DIVIDE_INTERVAL_INT64: _ClassVar[FunctionSignatureId]
+    FN_GREATER: _ClassVar[FunctionSignatureId]
+    FN_GREATER_INT64_UINT64: _ClassVar[FunctionSignatureId]
+    FN_GREATER_UINT64_INT64: _ClassVar[FunctionSignatureId]
+    FN_GREATER_OR_EQUAL: _ClassVar[FunctionSignatureId]
+    FN_GREATER_OR_EQUAL_INT64_UINT64: _ClassVar[FunctionSignatureId]
+    FN_GREATER_OR_EQUAL_UINT64_INT64: _ClassVar[FunctionSignatureId]
+    FN_LESS: _ClassVar[FunctionSignatureId]
+    FN_LESS_INT64_UINT64: _ClassVar[FunctionSignatureId]
+    FN_LESS_UINT64_INT64: _ClassVar[FunctionSignatureId]
+    FN_LESS_OR_EQUAL: _ClassVar[FunctionSignatureId]
+    FN_LESS_OR_EQUAL_INT64_UINT64: _ClassVar[FunctionSignatureId]
+    FN_LESS_OR_EQUAL_UINT64_INT64: _ClassVar[FunctionSignatureId]
+    FN_EQUAL: _ClassVar[FunctionSignatureId]
+    FN_EQUAL_INT64_UINT64: _ClassVar[FunctionSignatureId]
+    FN_EQUAL_UINT64_INT64: _ClassVar[FunctionSignatureId]
+    FN_STRING_ARRAY_LIKE_ANY: _ClassVar[FunctionSignatureId]
+    FN_STRING_ARRAY_LIKE_ALL: _ClassVar[FunctionSignatureId]
+    FN_STRING_LIKE: _ClassVar[FunctionSignatureId]
+    FN_STRING_LIKE_ANY: _ClassVar[FunctionSignatureId]
+    FN_STRING_LIKE_ALL: _ClassVar[FunctionSignatureId]
+    FN_BYTE_ARRAY_LIKE_ANY: _ClassVar[FunctionSignatureId]
+    FN_BYTE_ARRAY_LIKE_ALL: _ClassVar[FunctionSignatureId]
+    FN_BYTE_LIKE: _ClassVar[FunctionSignatureId]
+    FN_BYTE_LIKE_ANY: _ClassVar[FunctionSignatureId]
+    FN_BYTE_LIKE_ALL: _ClassVar[FunctionSignatureId]
+    FN_STRING_NOT_LIKE_ANY: _ClassVar[FunctionSignatureId]
+    FN_BYTE_NOT_LIKE_ANY: _ClassVar[FunctionSignatureId]
+    FN_STRING_ARRAY_NOT_LIKE_ANY: _ClassVar[FunctionSignatureId]
+    FN_BYTE_ARRAY_NOT_LIKE_ANY: _ClassVar[FunctionSignatureId]
+    FN_STRING_NOT_LIKE_ALL: _ClassVar[FunctionSignatureId]
+    FN_BYTE_NOT_LIKE_ALL: _ClassVar[FunctionSignatureId]
+    FN_STRING_ARRAY_NOT_LIKE_ALL: _ClassVar[FunctionSignatureId]
+    FN_BYTE_ARRAY_NOT_LIKE_ALL: _ClassVar[FunctionSignatureId]
+    FN_IN: _ClassVar[FunctionSignatureId]
+    FN_IN_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_BETWEEN: _ClassVar[FunctionSignatureId]
+    FN_BETWEEN_INT64_UINT64_UINT64: _ClassVar[FunctionSignatureId]
+    FN_BETWEEN_INT64_UINT64_INT64: _ClassVar[FunctionSignatureId]
+    FN_BETWEEN_INT64_INT64_UINT64: _ClassVar[FunctionSignatureId]
+    FN_BETWEEN_UINT64_INT64_INT64: _ClassVar[FunctionSignatureId]
+    FN_BETWEEN_UINT64_UINT64_INT64: _ClassVar[FunctionSignatureId]
+    FN_BETWEEN_UINT64_INT64_UINT64: _ClassVar[FunctionSignatureId]
+    FN_IS_NULL: _ClassVar[FunctionSignatureId]
+    FN_IS_TRUE: _ClassVar[FunctionSignatureId]
+    FN_IS_FALSE: _ClassVar[FunctionSignatureId]
+    FN_MULTIPLY_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_MULTIPLY_INT64: _ClassVar[FunctionSignatureId]
+    FN_MULTIPLY_UINT64: _ClassVar[FunctionSignatureId]
+    FN_MULTIPLY_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_MULTIPLY_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_MULTIPLY_INTERVAL_INT64: _ClassVar[FunctionSignatureId]
+    FN_MULTIPLY_INT64_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_NOT: _ClassVar[FunctionSignatureId]
+    FN_NOT_EQUAL: _ClassVar[FunctionSignatureId]
+    FN_NOT_EQUAL_INT64_UINT64: _ClassVar[FunctionSignatureId]
+    FN_NOT_EQUAL_UINT64_INT64: _ClassVar[FunctionSignatureId]
+    FN_OR: _ClassVar[FunctionSignatureId]
+    FN_SUBTRACT_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_SUBTRACT_INT64: _ClassVar[FunctionSignatureId]
+    FN_SUBTRACT_UINT64: _ClassVar[FunctionSignatureId]
+    FN_SUBTRACT_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_SUBTRACT_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_SUBTRACT_DATE_INT64: _ClassVar[FunctionSignatureId]
+    FN_SUBTRACT_DATE: _ClassVar[FunctionSignatureId]
+    FN_SUBTRACT_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_SUBTRACT_DATETIME: _ClassVar[FunctionSignatureId]
+    FN_SUBTRACT_TIME: _ClassVar[FunctionSignatureId]
+    FN_SUBTRACT_TIMESTAMP_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_SUBTRACT_DATE_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_SUBTRACT_DATETIME_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_SUBTRACT_INTERVAL_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_UNARY_MINUS_INT32: _ClassVar[FunctionSignatureId]
+    FN_UNARY_MINUS_INT64: _ClassVar[FunctionSignatureId]
+    FN_UNARY_MINUS_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_UNARY_MINUS_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_UNARY_MINUS_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_UNARY_MINUS_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_UNARY_MINUS_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_DISTINCT: _ClassVar[FunctionSignatureId]
+    FN_DISTINCT_INT64_UINT64: _ClassVar[FunctionSignatureId]
+    FN_DISTINCT_UINT64_INT64: _ClassVar[FunctionSignatureId]
+    FN_NOT_DISTINCT: _ClassVar[FunctionSignatureId]
+    FN_NOT_DISTINCT_INT64_UINT64: _ClassVar[FunctionSignatureId]
+    FN_NOT_DISTINCT_UINT64_INT64: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_NOT_INT32: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_NOT_INT64: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_NOT_UINT32: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_NOT_UINT64: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_NOT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_OR_INT32: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_OR_INT64: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_OR_UINT32: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_OR_UINT64: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_OR_BYTES: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_XOR_INT32: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_XOR_INT64: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_XOR_UINT32: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_XOR_UINT64: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_XOR_BYTES: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_AND_INT32: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_AND_INT64: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_AND_UINT32: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_AND_UINT64: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_AND_BYTES: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_LEFT_SHIFT_INT32: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_LEFT_SHIFT_INT64: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_LEFT_SHIFT_UINT32: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_LEFT_SHIFT_UINT64: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_LEFT_SHIFT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_RIGHT_SHIFT_INT32: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_RIGHT_SHIFT_INT64: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_RIGHT_SHIFT_UINT32: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_RIGHT_SHIFT_UINT64: _ClassVar[FunctionSignatureId]
+    FN_BITWISE_RIGHT_SHIFT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_BIT_COUNT_INT32: _ClassVar[FunctionSignatureId]
+    FN_BIT_COUNT_INT64: _ClassVar[FunctionSignatureId]
+    FN_BIT_COUNT_UINT64: _ClassVar[FunctionSignatureId]
+    FN_BIT_COUNT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_TYPEOF: _ClassVar[FunctionSignatureId]
+    FN_ERROR: _ClassVar[FunctionSignatureId]
+    FN_COUNT_STAR: _ClassVar[FunctionSignatureId]
+    FN_CONCAT_STRING: _ClassVar[FunctionSignatureId]
+    FN_CONCAT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_CONCAT_OP_STRING: _ClassVar[FunctionSignatureId]
+    FN_CONCAT_OP_BYTES: _ClassVar[FunctionSignatureId]
+    FN_STRPOS_STRING: _ClassVar[FunctionSignatureId]
+    FN_STRPOS_BYTES: _ClassVar[FunctionSignatureId]
+    FN_INSTR_STRING: _ClassVar[FunctionSignatureId]
+    FN_INSTR_BYTES: _ClassVar[FunctionSignatureId]
+    FN_LOWER_STRING: _ClassVar[FunctionSignatureId]
+    FN_LOWER_BYTES: _ClassVar[FunctionSignatureId]
+    FN_UPPER_STRING: _ClassVar[FunctionSignatureId]
+    FN_UPPER_BYTES: _ClassVar[FunctionSignatureId]
+    FN_LENGTH_STRING: _ClassVar[FunctionSignatureId]
+    FN_LENGTH_BYTES: _ClassVar[FunctionSignatureId]
+    FN_STARTS_WITH_STRING: _ClassVar[FunctionSignatureId]
+    FN_STARTS_WITH_BYTES: _ClassVar[FunctionSignatureId]
+    FN_ENDS_WITH_STRING: _ClassVar[FunctionSignatureId]
+    FN_ENDS_WITH_BYTES: _ClassVar[FunctionSignatureId]
+    FN_SUBSTR_STRING: _ClassVar[FunctionSignatureId]
+    FN_SUBSTR_BYTES: _ClassVar[FunctionSignatureId]
+    FN_TRIM_STRING: _ClassVar[FunctionSignatureId]
+    FN_TRIM_BYTES: _ClassVar[FunctionSignatureId]
+    FN_LTRIM_STRING: _ClassVar[FunctionSignatureId]
+    FN_LTRIM_BYTES: _ClassVar[FunctionSignatureId]
+    FN_RTRIM_STRING: _ClassVar[FunctionSignatureId]
+    FN_RTRIM_BYTES: _ClassVar[FunctionSignatureId]
+    FN_REPLACE_STRING: _ClassVar[FunctionSignatureId]
+    FN_REPLACE_BYTES: _ClassVar[FunctionSignatureId]
+    FN_REGEXP_MATCH_STRING: _ClassVar[FunctionSignatureId]
+    FN_REGEXP_MATCH_BYTES: _ClassVar[FunctionSignatureId]
+    FN_REGEXP_EXTRACT_STRING: _ClassVar[FunctionSignatureId]
+    FN_REGEXP_EXTRACT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_REGEXP_REPLACE_STRING: _ClassVar[FunctionSignatureId]
+    FN_REGEXP_REPLACE_BYTES: _ClassVar[FunctionSignatureId]
+    FN_REGEXP_EXTRACT_ALL_STRING: _ClassVar[FunctionSignatureId]
+    FN_REGEXP_EXTRACT_ALL_BYTES: _ClassVar[FunctionSignatureId]
+    FN_BYTE_LENGTH_STRING: _ClassVar[FunctionSignatureId]
+    FN_BYTE_LENGTH_BYTES: _ClassVar[FunctionSignatureId]
+    FN_CHAR_LENGTH_STRING: _ClassVar[FunctionSignatureId]
+    FN_FORMAT_STRING: _ClassVar[FunctionSignatureId]
+    FN_SPLIT_STRING: _ClassVar[FunctionSignatureId]
+    FN_SPLIT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_REGEXP_CONTAINS_STRING: _ClassVar[FunctionSignatureId]
+    FN_REGEXP_CONTAINS_BYTES: _ClassVar[FunctionSignatureId]
+    FN_SAFE_CONVERT_BYTES_TO_STRING: _ClassVar[FunctionSignatureId]
+    FN_NORMALIZE_STRING: _ClassVar[FunctionSignatureId]
+    FN_NORMALIZE_AND_CASEFOLD_STRING: _ClassVar[FunctionSignatureId]
+    FN_TO_BASE64: _ClassVar[FunctionSignatureId]
+    FN_FROM_BASE64: _ClassVar[FunctionSignatureId]
+    FN_TO_HEX: _ClassVar[FunctionSignatureId]
+    FN_FROM_HEX: _ClassVar[FunctionSignatureId]
+    FN_TO_BASE32: _ClassVar[FunctionSignatureId]
+    FN_FROM_BASE32: _ClassVar[FunctionSignatureId]
+    FN_TO_CODE_POINTS_STRING: _ClassVar[FunctionSignatureId]
+    FN_TO_CODE_POINTS_BYTES: _ClassVar[FunctionSignatureId]
+    FN_CODE_POINTS_TO_STRING: _ClassVar[FunctionSignatureId]
+    FN_CODE_POINTS_TO_BYTES: _ClassVar[FunctionSignatureId]
+    FN_LPAD_BYTES: _ClassVar[FunctionSignatureId]
+    FN_LPAD_STRING: _ClassVar[FunctionSignatureId]
+    FN_RPAD_BYTES: _ClassVar[FunctionSignatureId]
+    FN_RPAD_STRING: _ClassVar[FunctionSignatureId]
+    FN_LEFT_STRING: _ClassVar[FunctionSignatureId]
+    FN_LEFT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_RIGHT_STRING: _ClassVar[FunctionSignatureId]
+    FN_RIGHT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_REPEAT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_REPEAT_STRING: _ClassVar[FunctionSignatureId]
+    FN_REVERSE_STRING: _ClassVar[FunctionSignatureId]
+    FN_REVERSE_BYTES: _ClassVar[FunctionSignatureId]
+    FN_SOUNDEX_STRING: _ClassVar[FunctionSignatureId]
+    FN_ASCII_STRING: _ClassVar[FunctionSignatureId]
+    FN_ASCII_BYTES: _ClassVar[FunctionSignatureId]
+    FN_TRANSLATE_STRING: _ClassVar[FunctionSignatureId]
+    FN_TRANSLATE_BYTES: _ClassVar[FunctionSignatureId]
+    FN_INITCAP_STRING: _ClassVar[FunctionSignatureId]
+    FN_UNICODE_STRING: _ClassVar[FunctionSignatureId]
+    FN_CHR_STRING: _ClassVar[FunctionSignatureId]
+    FN_COLLATE: _ClassVar[FunctionSignatureId]
+    FN_REGEXP_INSTR_STRING: _ClassVar[FunctionSignatureId]
+    FN_REGEXP_INSTR_BYTES: _ClassVar[FunctionSignatureId]
+    FN_SPLIT_SUBSTR: _ClassVar[FunctionSignatureId]
+    FN_REGEXP_EXTRACT_GROUPS_STRING: _ClassVar[FunctionSignatureId]
+    FN_REGEXP_EXTRACT_GROUPS_BYTES: _ClassVar[FunctionSignatureId]
+    FN_IF: _ClassVar[FunctionSignatureId]
+    FN_COALESCE: _ClassVar[FunctionSignatureId]
+    FN_IFNULL: _ClassVar[FunctionSignatureId]
+    FN_NULLIF: _ClassVar[FunctionSignatureId]
+    FN_IFERROR: _ClassVar[FunctionSignatureId]
+    FN_NULLIFERROR: _ClassVar[FunctionSignatureId]
+    FN_ISERROR: _ClassVar[FunctionSignatureId]
+    FN_WITH_SIDE_EFFECTS: _ClassVar[FunctionSignatureId]
+    FN_CURRENT_DATE: _ClassVar[FunctionSignatureId]
+    FN_CURRENT_DATETIME: _ClassVar[FunctionSignatureId]
+    FN_CURRENT_TIME: _ClassVar[FunctionSignatureId]
+    FN_CURRENT_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_DATE_ADD_DATE: _ClassVar[FunctionSignatureId]
+    FN_DATETIME_ADD: _ClassVar[FunctionSignatureId]
+    FN_TIME_ADD: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_ADD: _ClassVar[FunctionSignatureId]
+    FN_DATE_DIFF_DATE: _ClassVar[FunctionSignatureId]
+    FN_DATETIME_DIFF: _ClassVar[FunctionSignatureId]
+    FN_TIME_DIFF: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_DIFF: _ClassVar[FunctionSignatureId]
+    FN_DATE_SUB_DATE: _ClassVar[FunctionSignatureId]
+    FN_DATETIME_SUB: _ClassVar[FunctionSignatureId]
+    FN_TIME_SUB: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_SUB: _ClassVar[FunctionSignatureId]
+    FN_DATE_TRUNC_DATE: _ClassVar[FunctionSignatureId]
+    FN_DATETIME_TRUNC: _ClassVar[FunctionSignatureId]
+    FN_TIME_TRUNC: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_TRUNC: _ClassVar[FunctionSignatureId]
+    FN_ADD_MONTHS_DATE: _ClassVar[FunctionSignatureId]
+    FN_ADD_MONTHS_DATETIME: _ClassVar[FunctionSignatureId]
+    FN_NEXT_DAY_DATE: _ClassVar[FunctionSignatureId]
+    FN_NEXT_DAY_DATETIME: _ClassVar[FunctionSignatureId]
+    FN_DATE_FROM_UNIX_DATE: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_FROM_INT64_SECONDS: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_FROM_INT64_MILLIS: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_FROM_INT64_MICROS: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_FROM_UNIX_SECONDS_INT64: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_FROM_UNIX_SECONDS_UINT64: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_FROM_UNIX_SECONDS_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_FROM_UNIX_MILLIS_INT64: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_FROM_UNIX_MILLIS_UINT64: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_FROM_UNIX_MILLIS_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_FROM_UNIX_MICROS_INT64: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_FROM_UNIX_MICROS_UINT64: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_FROM_UNIX_MICROS_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_UNIX_DATE: _ClassVar[FunctionSignatureId]
+    FN_UNIX_SECONDS_FROM_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_UNIX_MILLIS_FROM_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_UNIX_MICROS_FROM_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_DATE_FROM_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_DATE_FROM_DATETIME: _ClassVar[FunctionSignatureId]
+    FN_DATE_FROM_DATE: _ClassVar[FunctionSignatureId]
+    FN_DATE_FROM_STRING: _ClassVar[FunctionSignatureId]
+    FN_DATE_FROM_YEAR_MONTH_DAY: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_FROM_STRING: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_FROM_DATE: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_FROM_DATETIME: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_FROM_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_TIME_FROM_HOUR_MINUTE_SECOND: _ClassVar[FunctionSignatureId]
+    FN_TIME_FROM_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_TIME_FROM_DATETIME: _ClassVar[FunctionSignatureId]
+    FN_TIME_FROM_TIME: _ClassVar[FunctionSignatureId]
+    FN_TIME_FROM_STRING: _ClassVar[FunctionSignatureId]
+    FN_DATETIME_FROM_DATE_AND_TIME: _ClassVar[FunctionSignatureId]
+    FN_DATETIME_FROM_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND: _ClassVar[FunctionSignatureId]
+    FN_DATETIME_FROM_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_DATETIME_FROM_DATE: _ClassVar[FunctionSignatureId]
+    FN_DATETIME_FROM_DATETIME: _ClassVar[FunctionSignatureId]
+    FN_DATETIME_FROM_STRING: _ClassVar[FunctionSignatureId]
+    FN_STRING_FROM_DATE: _ClassVar[FunctionSignatureId]
+    FN_STRING_FROM_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_STRING_FROM_DATETIME: _ClassVar[FunctionSignatureId]
+    FN_STRING_FROM_TIME: _ClassVar[FunctionSignatureId]
+    FN_EXTRACT_FROM_DATE: _ClassVar[FunctionSignatureId]
+    FN_EXTRACT_FROM_DATETIME: _ClassVar[FunctionSignatureId]
+    FN_EXTRACT_FROM_TIME: _ClassVar[FunctionSignatureId]
+    FN_EXTRACT_FROM_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_EXTRACT_FROM_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_EXTRACT_DATE_FROM_DATETIME: _ClassVar[FunctionSignatureId]
+    FN_EXTRACT_DATE_FROM_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_EXTRACT_TIME_FROM_DATETIME: _ClassVar[FunctionSignatureId]
+    FN_EXTRACT_TIME_FROM_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_EXTRACT_DATETIME_FROM_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_FORMAT_DATE: _ClassVar[FunctionSignatureId]
+    FN_FORMAT_DATETIME: _ClassVar[FunctionSignatureId]
+    FN_FORMAT_TIME: _ClassVar[FunctionSignatureId]
+    FN_FORMAT_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_PARSE_DATE: _ClassVar[FunctionSignatureId]
+    FN_PARSE_DATETIME: _ClassVar[FunctionSignatureId]
+    FN_PARSE_TIME: _ClassVar[FunctionSignatureId]
+    FN_PARSE_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_PARSE_TIMESTAMP_WITH_PRECISION: _ClassVar[FunctionSignatureId]
+    FN_PARSE_TIMESTAMP_WITH_PRECISION_AND_TIMEZONE: _ClassVar[FunctionSignatureId]
+    FN_LAST_DAY_DATE: _ClassVar[FunctionSignatureId]
+    FN_LAST_DAY_DATETIME: _ClassVar[FunctionSignatureId]
+    FN_INTERVAL_CONSTRUCTOR: _ClassVar[FunctionSignatureId]
+    FN_MAKE_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_JUSTIFY_HOURS: _ClassVar[FunctionSignatureId]
+    FN_JUSTIFY_DAYS: _ClassVar[FunctionSignatureId]
+    FN_JUSTIFY_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_TO_SECONDS_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_TIMESTAMP_BUCKET: _ClassVar[FunctionSignatureId]
+    FN_DATETIME_BUCKET: _ClassVar[FunctionSignatureId]
+    FN_DATE_BUCKET: _ClassVar[FunctionSignatureId]
+    FN_ABS_INT32: _ClassVar[FunctionSignatureId]
+    FN_ABS_INT64: _ClassVar[FunctionSignatureId]
+    FN_ABS_UINT32: _ClassVar[FunctionSignatureId]
+    FN_ABS_UINT64: _ClassVar[FunctionSignatureId]
+    FN_ABS_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_ABS_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ABS_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ABS_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_SIGN_INT32: _ClassVar[FunctionSignatureId]
+    FN_SIGN_INT64: _ClassVar[FunctionSignatureId]
+    FN_SIGN_UINT32: _ClassVar[FunctionSignatureId]
+    FN_SIGN_UINT64: _ClassVar[FunctionSignatureId]
+    FN_SIGN_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_SIGN_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_SIGN_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_SIGN_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ROUND_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ROUND_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_ROUND_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ROUND_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ROUND_WITH_DIGITS_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ROUND_WITH_DIGITS_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_ROUND_WITH_DIGITS_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ROUND_WITH_DIGITS_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ROUND_WITH_ROUNDING_MODE_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ROUND_WITH_ROUNDING_MODE_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_TRUNC_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_TRUNC_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_TRUNC_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_TRUNC_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_TRUNC_WITH_DIGITS_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_TRUNC_WITH_DIGITS_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_TRUNC_WITH_DIGITS_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_TRUNC_WITH_DIGITS_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_CEIL_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_CEIL_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_CEIL_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_CEIL_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_FLOOR_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_FLOOR_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_FLOOR_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_FLOOR_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_MOD_INT64: _ClassVar[FunctionSignatureId]
+    FN_MOD_UINT64: _ClassVar[FunctionSignatureId]
+    FN_MOD_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_MOD_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_DIV_INT64: _ClassVar[FunctionSignatureId]
+    FN_DIV_UINT64: _ClassVar[FunctionSignatureId]
+    FN_DIV_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_DIV_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_IS_INF: _ClassVar[FunctionSignatureId]
+    FN_IS_NAN: _ClassVar[FunctionSignatureId]
+    FN_IEEE_DIVIDE_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_IEEE_DIVIDE_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_SAFE_DIVIDE_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_SAFE_DIVIDE_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_SAFE_DIVIDE_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_SAFE_ADD_INT64: _ClassVar[FunctionSignatureId]
+    FN_SAFE_ADD_UINT64: _ClassVar[FunctionSignatureId]
+    FN_SAFE_ADD_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_SAFE_ADD_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_SAFE_ADD_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_SAFE_SUBTRACT_INT64: _ClassVar[FunctionSignatureId]
+    FN_SAFE_SUBTRACT_UINT64: _ClassVar[FunctionSignatureId]
+    FN_SAFE_SUBTRACT_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_SAFE_SUBTRACT_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_SAFE_SUBTRACT_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_SAFE_MULTIPLY_INT64: _ClassVar[FunctionSignatureId]
+    FN_SAFE_MULTIPLY_UINT64: _ClassVar[FunctionSignatureId]
+    FN_SAFE_MULTIPLY_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_SAFE_MULTIPLY_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_SAFE_MULTIPLY_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_SAFE_UNARY_MINUS_INT32: _ClassVar[FunctionSignatureId]
+    FN_SAFE_UNARY_MINUS_INT64: _ClassVar[FunctionSignatureId]
+    FN_SAFE_UNARY_MINUS_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_SAFE_UNARY_MINUS_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_SAFE_UNARY_MINUS_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_SAFE_UNARY_MINUS_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_GREATEST: _ClassVar[FunctionSignatureId]
+    FN_LEAST: _ClassVar[FunctionSignatureId]
+    FN_SQRT_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_SQRT_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_SQRT_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_CBRT_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_CBRT_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_CBRT_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_POW_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_POW_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_POW_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_EXP_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_EXP_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_EXP_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_NATURAL_LOGARITHM_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_NATURAL_LOGARITHM_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_NATURAL_LOGARITHM_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_DECIMAL_LOGARITHM_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_DECIMAL_LOGARITHM_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_DECIMAL_LOGARITHM_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_LOGARITHM_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_LOGARITHM_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_LOGARITHM_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_PARSE_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_PARSE_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_PI_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_PI_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_PI_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_NULLIFZERO_INT32: _ClassVar[FunctionSignatureId]
+    FN_NULLIFZERO_UINT32: _ClassVar[FunctionSignatureId]
+    FN_NULLIFZERO_INT64: _ClassVar[FunctionSignatureId]
+    FN_NULLIFZERO_UINT64: _ClassVar[FunctionSignatureId]
+    FN_NULLIFZERO_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_NULLIFZERO_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_NULLIFZERO_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_NULLIFZERO_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ZEROIFNULL_INT32: _ClassVar[FunctionSignatureId]
+    FN_ZEROIFNULL_UINT32: _ClassVar[FunctionSignatureId]
+    FN_ZEROIFNULL_INT64: _ClassVar[FunctionSignatureId]
+    FN_ZEROIFNULL_UINT64: _ClassVar[FunctionSignatureId]
+    FN_ZEROIFNULL_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_ZEROIFNULL_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ZEROIFNULL_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ZEROIFNULL_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_COS_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_COSH_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ACOS_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ACOSH_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_SIN_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_SINH_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ASIN_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ASINH_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_TAN_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_TANH_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ATAN_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ATANH_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ATAN2_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_CSC_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_SEC_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_COT_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_CSCH_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_SECH_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_COTH_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_RADIANS_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_RADIANS_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_RADIANS_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_DEGREES_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_DEGREES_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_DEGREES_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ANY_VALUE: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_AGG: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_CONCAT_AGG: _ClassVar[FunctionSignatureId]
+    FN_AVG_INT64: _ClassVar[FunctionSignatureId]
+    FN_AVG_UINT64: _ClassVar[FunctionSignatureId]
+    FN_AVG_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_AVG_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_AVG_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_AVG_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_COUNT: _ClassVar[FunctionSignatureId]
+    FN_GROUPING: _ClassVar[FunctionSignatureId]
+    FN_MAX: _ClassVar[FunctionSignatureId]
+    FN_MIN: _ClassVar[FunctionSignatureId]
+    FN_STRING_AGG_STRING: _ClassVar[FunctionSignatureId]
+    FN_STRING_AGG_DELIM_STRING: _ClassVar[FunctionSignatureId]
+    FN_STRING_AGG_BYTES: _ClassVar[FunctionSignatureId]
+    FN_STRING_AGG_DELIM_BYTES: _ClassVar[FunctionSignatureId]
+    FN_SUM_INT64: _ClassVar[FunctionSignatureId]
+    FN_SUM_UINT64: _ClassVar[FunctionSignatureId]
+    FN_SUM_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_SUM_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_SUM_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_SUM_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_BIT_AND_INT32: _ClassVar[FunctionSignatureId]
+    FN_BIT_AND_INT64: _ClassVar[FunctionSignatureId]
+    FN_BIT_AND_UINT32: _ClassVar[FunctionSignatureId]
+    FN_BIT_AND_UINT64: _ClassVar[FunctionSignatureId]
+    FN_BIT_AND_BYTES: _ClassVar[FunctionSignatureId]
+    FN_BIT_OR_INT32: _ClassVar[FunctionSignatureId]
+    FN_BIT_OR_INT64: _ClassVar[FunctionSignatureId]
+    FN_BIT_OR_UINT32: _ClassVar[FunctionSignatureId]
+    FN_BIT_OR_UINT64: _ClassVar[FunctionSignatureId]
+    FN_BIT_OR_BYTES: _ClassVar[FunctionSignatureId]
+    FN_BIT_XOR_INT32: _ClassVar[FunctionSignatureId]
+    FN_BIT_XOR_INT64: _ClassVar[FunctionSignatureId]
+    FN_BIT_XOR_UINT32: _ClassVar[FunctionSignatureId]
+    FN_BIT_XOR_UINT64: _ClassVar[FunctionSignatureId]
+    FN_BIT_XOR_BYTES: _ClassVar[FunctionSignatureId]
+    FN_LOGICAL_AND: _ClassVar[FunctionSignatureId]
+    FN_LOGICAL_OR: _ClassVar[FunctionSignatureId]
+    FN_APPROX_COUNT_DISTINCT: _ClassVar[FunctionSignatureId]
+    FN_APPROX_QUANTILES: _ClassVar[FunctionSignatureId]
+    FN_APPROX_TOP_COUNT: _ClassVar[FunctionSignatureId]
+    FN_APPROX_TOP_SUM_INT64: _ClassVar[FunctionSignatureId]
+    FN_APPROX_TOP_SUM_UINT64: _ClassVar[FunctionSignatureId]
+    FN_APPROX_TOP_SUM_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_APPROX_TOP_SUM_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_APPROX_TOP_SUM_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_HLL_COUNT_MERGE: _ClassVar[FunctionSignatureId]
+    FN_HLL_COUNT_EXTRACT: _ClassVar[FunctionSignatureId]
+    FN_HLL_COUNT_INIT_INT64: _ClassVar[FunctionSignatureId]
+    FN_HLL_COUNT_INIT_UINT64: _ClassVar[FunctionSignatureId]
+    FN_HLL_COUNT_INIT_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_HLL_COUNT_INIT_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_HLL_COUNT_INIT_STRING: _ClassVar[FunctionSignatureId]
+    FN_HLL_COUNT_INIT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_HLL_COUNT_MERGE_PARTIAL: _ClassVar[FunctionSignatureId]
+    FN_D3A_COUNT_MERGE: _ClassVar[FunctionSignatureId]
+    FN_D3A_COUNT_EXTRACT: _ClassVar[FunctionSignatureId]
+    FN_D3A_COUNT_INIT_INT64: _ClassVar[FunctionSignatureId]
+    FN_D3A_COUNT_INIT_UINT64: _ClassVar[FunctionSignatureId]
+    FN_D3A_COUNT_INIT_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_D3A_COUNT_INIT_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_D3A_COUNT_INIT_STRING: _ClassVar[FunctionSignatureId]
+    FN_D3A_COUNT_INIT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_D3A_COUNT_MERGE_PARTIAL: _ClassVar[FunctionSignatureId]
+    FN_D3A_COUNT_TO_HLL: _ClassVar[FunctionSignatureId]
+    FN_CORR: _ClassVar[FunctionSignatureId]
+    FN_CORR_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_CORR_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_COVAR_POP: _ClassVar[FunctionSignatureId]
+    FN_COVAR_POP_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_COVAR_POP_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_COVAR_SAMP: _ClassVar[FunctionSignatureId]
+    FN_COVAR_SAMP_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_COVAR_SAMP_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_STDDEV_POP: _ClassVar[FunctionSignatureId]
+    FN_STDDEV_POP_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_STDDEV_POP_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_STDDEV_SAMP: _ClassVar[FunctionSignatureId]
+    FN_STDDEV_SAMP_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_STDDEV_SAMP_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_VAR_POP: _ClassVar[FunctionSignatureId]
+    FN_VAR_POP_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_VAR_POP_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_VAR_SAMP: _ClassVar[FunctionSignatureId]
+    FN_VAR_SAMP_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_VAR_SAMP_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_SUM_INT32: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_SUM_INT64: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_SUM_UINT32: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_SUM_UINT64: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_SUM_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_SUM_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_SUM_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_SUM_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_SUM_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_AVG_INT32: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_AVG_INT64: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_AVG_UINT32: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_AVG_UINT64: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_AVG_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_AVG_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_AVG_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_AVG_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ELEMENTWISE_AVG_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_COUNTIF: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_INIT_INT64: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_INIT_UINT64: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_INIT_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_MERGE_PARTIAL: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_MERGE_INT64: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_MERGE_UINT64: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_MERGE_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_EXTRACT_INT64: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_EXTRACT_UINT64: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_EXTRACT_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_MERGE_POINT_INT64: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_MERGE_POINT_UINT64: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_MERGE_POINT_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_EXTRACT_POINT_INT64: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_EXTRACT_POINT_UINT64: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_EXTRACT_POINT_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_MERGE_RELATIVE_RANK_INT64: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_MERGE_RELATIVE_RANK_UINT64: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_MERGE_RELATIVE_RANK_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_EXTRACT_RELATIVE_RANK_INT64: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_EXTRACT_RELATIVE_RANK_UINT64: _ClassVar[FunctionSignatureId]
+    FN_KLL_QUANTILES_EXTRACT_RELATIVE_RANK_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_DENSE_RANK: _ClassVar[FunctionSignatureId]
+    FN_RANK: _ClassVar[FunctionSignatureId]
+    FN_ROW_NUMBER: _ClassVar[FunctionSignatureId]
+    FN_PERCENT_RANK: _ClassVar[FunctionSignatureId]
+    FN_CUME_DIST: _ClassVar[FunctionSignatureId]
+    FN_NTILE: _ClassVar[FunctionSignatureId]
+    FN_LEAD: _ClassVar[FunctionSignatureId]
+    FN_LAG: _ClassVar[FunctionSignatureId]
+    FN_FIRST_VALUE: _ClassVar[FunctionSignatureId]
+    FN_LAST_VALUE: _ClassVar[FunctionSignatureId]
+    FN_NTH_VALUE: _ClassVar[FunctionSignatureId]
+    FN_PERCENTILE_CONT: _ClassVar[FunctionSignatureId]
+    FN_PERCENTILE_CONT_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_PERCENTILE_CONT_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_PERCENTILE_DISC: _ClassVar[FunctionSignatureId]
+    FN_PERCENTILE_DISC_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_PERCENTILE_DISC_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_IS_FIRST: _ClassVar[FunctionSignatureId]
+    FN_IS_LAST: _ClassVar[FunctionSignatureId]
+    FN_BIT_CAST_INT32_TO_INT32: _ClassVar[FunctionSignatureId]
+    FN_BIT_CAST_UINT32_TO_INT32: _ClassVar[FunctionSignatureId]
+    FN_BIT_CAST_INT64_TO_INT64: _ClassVar[FunctionSignatureId]
+    FN_BIT_CAST_UINT64_TO_INT64: _ClassVar[FunctionSignatureId]
+    FN_BIT_CAST_UINT32_TO_UINT32: _ClassVar[FunctionSignatureId]
+    FN_BIT_CAST_INT32_TO_UINT32: _ClassVar[FunctionSignatureId]
+    FN_BIT_CAST_UINT64_TO_UINT64: _ClassVar[FunctionSignatureId]
+    FN_BIT_CAST_INT64_TO_UINT64: _ClassVar[FunctionSignatureId]
+    FN_SESSION_USER: _ClassVar[FunctionSignatureId]
+    FN_GENERATE_ARRAY_INT64: _ClassVar[FunctionSignatureId]
+    FN_GENERATE_ARRAY_UINT64: _ClassVar[FunctionSignatureId]
+    FN_GENERATE_ARRAY_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_GENERATE_ARRAY_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_GENERATE_ARRAY_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_GENERATE_DATE_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_GENERATE_TIMESTAMP_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_REVERSE: _ClassVar[FunctionSignatureId]
+    FN_RANGE_BUCKET: _ClassVar[FunctionSignatureId]
+    FN_RAND: _ClassVar[FunctionSignatureId]
+    FN_GENERATE_UUID: _ClassVar[FunctionSignatureId]
+    FN_NEW_UUID: _ClassVar[FunctionSignatureId]
+    FN_JSON_EXTRACT: _ClassVar[FunctionSignatureId]
+    FN_JSON_EXTRACT_JSON: _ClassVar[FunctionSignatureId]
+    FN_JSON_EXTRACT_SCALAR: _ClassVar[FunctionSignatureId]
+    FN_JSON_EXTRACT_SCALAR_JSON: _ClassVar[FunctionSignatureId]
+    FN_JSON_EXTRACT_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_EXTRACT_ARRAY_JSON: _ClassVar[FunctionSignatureId]
+    FN_JSON_EXTRACT_STRING_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_EXTRACT_STRING_ARRAY_JSON: _ClassVar[FunctionSignatureId]
+    FN_JSON_QUERY_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_QUERY_ARRAY_JSON: _ClassVar[FunctionSignatureId]
+    FN_JSON_VALUE_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_VALUE_ARRAY_JSON: _ClassVar[FunctionSignatureId]
+    FN_JSON_SUBSCRIPT_INT64: _ClassVar[FunctionSignatureId]
+    FN_JSON_SUBSCRIPT_STRING: _ClassVar[FunctionSignatureId]
+    FN_TO_JSON_STRING: _ClassVar[FunctionSignatureId]
+    FN_TO_JSON: _ClassVar[FunctionSignatureId]
+    FN_TO_JSON_UNSUPPORTED_FIELDS: _ClassVar[FunctionSignatureId]
+    FN_TO_JSON_PATH_AS_OBJECT: _ClassVar[FunctionSignatureId]
+    FN_TO_JSON_UNSUPPORTED_FIELDS_PATH_AS_OBJECT: _ClassVar[FunctionSignatureId]
+    FN_SAFE_TO_JSON: _ClassVar[FunctionSignatureId]
+    FN_JSON_QUERY: _ClassVar[FunctionSignatureId]
+    FN_JSON_QUERY_JSON: _ClassVar[FunctionSignatureId]
+    FN_JSON_VALUE: _ClassVar[FunctionSignatureId]
+    FN_JSON_VALUE_JSON: _ClassVar[FunctionSignatureId]
+    FN_PARSE_JSON: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_DATE: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_TIME_OF_DAY: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_INT64: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_UINT64: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_INT32: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_UINT32: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_BOOL: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_BYTES: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_STRING: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_DURATION: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_IDEMPOTENT_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_IDEMPOTENT_DATE: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_IDEMPOTENT_TIME: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_IDEMPOTENT_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_IDEMPOTENT_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_IDEMPOTENT_INT64: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_IDEMPOTENT_UINT64: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_IDEMPOTENT_INT32: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_IDEMPOTENT_UINT32: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_IDEMPOTENT_BOOL: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_IDEMPOTENT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_IDEMPOTENT_STRING: _ClassVar[FunctionSignatureId]
+    FN_FROM_PROTO_IDEMPOTENT_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_DATE: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_TIME: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_INT64: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_UINT64: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_INT32: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_UINT32: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_BOOL: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_BYTES: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_STRING: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_IDEMPOTENT_TIMESTAMP: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_IDEMPOTENT_DATE: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_IDEMPOTENT_TIME_OF_DAY: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_IDEMPOTENT_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_IDEMPOTENT_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_IDEMPOTENT_INT64: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_IDEMPOTENT_UINT64: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_IDEMPOTENT_INT32: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_IDEMPOTENT_UINT32: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_IDEMPOTENT_BOOL: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_IDEMPOTENT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_IDEMPOTENT_STRING: _ClassVar[FunctionSignatureId]
+    FN_TO_PROTO_IDEMPOTENT_DURATION: _ClassVar[FunctionSignatureId]
+    FN_PROTO_DEFAULT_IF_NULL: _ClassVar[FunctionSignatureId]
+    FN_ENUM_VALUE_DESCRIPTOR_PROTO: _ClassVar[FunctionSignatureId]
+    FN_NET_FORMAT_IP: _ClassVar[FunctionSignatureId]
+    FN_NET_PARSE_IP: _ClassVar[FunctionSignatureId]
+    FN_NET_FORMAT_PACKED_IP: _ClassVar[FunctionSignatureId]
+    FN_NET_PARSE_PACKED_IP: _ClassVar[FunctionSignatureId]
+    FN_NET_IP_IN_NET: _ClassVar[FunctionSignatureId]
+    FN_NET_MAKE_NET: _ClassVar[FunctionSignatureId]
+    FN_NET_HOST: _ClassVar[FunctionSignatureId]
+    FN_NET_REG_DOMAIN: _ClassVar[FunctionSignatureId]
+    FN_NET_PUBLIC_SUFFIX: _ClassVar[FunctionSignatureId]
+    FN_NET_IP_FROM_STRING: _ClassVar[FunctionSignatureId]
+    FN_NET_SAFE_IP_FROM_STRING: _ClassVar[FunctionSignatureId]
+    FN_NET_IP_TO_STRING: _ClassVar[FunctionSignatureId]
+    FN_NET_IP_NET_MASK: _ClassVar[FunctionSignatureId]
+    FN_NET_IP_TRUNC: _ClassVar[FunctionSignatureId]
+    FN_NET_IPV4_FROM_INT64: _ClassVar[FunctionSignatureId]
+    FN_NET_IPV4_TO_INT64: _ClassVar[FunctionSignatureId]
+    FN_MD5_BYTES: _ClassVar[FunctionSignatureId]
+    FN_MD5_STRING: _ClassVar[FunctionSignatureId]
+    FN_SHA1_BYTES: _ClassVar[FunctionSignatureId]
+    FN_SHA1_STRING: _ClassVar[FunctionSignatureId]
+    FN_SHA256_BYTES: _ClassVar[FunctionSignatureId]
+    FN_SHA256_STRING: _ClassVar[FunctionSignatureId]
+    FN_SHA512_BYTES: _ClassVar[FunctionSignatureId]
+    FN_SHA512_STRING: _ClassVar[FunctionSignatureId]
+    FN_FARM_FINGERPRINT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_FARM_FINGERPRINT_STRING: _ClassVar[FunctionSignatureId]
+    FN_KEYS_NEW_KEYSET: _ClassVar[FunctionSignatureId]
+    FN_KEYS_ADD_KEY_FROM_RAW_BYTES: _ClassVar[FunctionSignatureId]
+    FN_KEYS_ROTATE_KEYSET: _ClassVar[FunctionSignatureId]
+    FN_KEYS_KEYSET_LENGTH: _ClassVar[FunctionSignatureId]
+    FN_KEYS_KEYSET_TO_JSON: _ClassVar[FunctionSignatureId]
+    FN_KEYS_KEYSET_FROM_JSON: _ClassVar[FunctionSignatureId]
+    FN_KEYS_KEYSET_CHAIN_STRING_BYTES_BYTES: _ClassVar[FunctionSignatureId]
+    FN_KEYS_KEYSET_CHAIN_STRING_BYTES: _ClassVar[FunctionSignatureId]
+    FN_KEYS_NEW_WRAPPED_KEYSET: _ClassVar[FunctionSignatureId]
+    FN_KEYS_ROTATE_WRAPPED_KEYSET: _ClassVar[FunctionSignatureId]
+    FN_KEYS_REWRAP_KEYSET: _ClassVar[FunctionSignatureId]
+    FN_AEAD_ENVELOPE_ENCRYPT_STRING: _ClassVar[FunctionSignatureId]
+    FN_AEAD_ENVELOPE_ENCRYPT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_AEAD_ENVELOPE_DECRYPT_STRING: _ClassVar[FunctionSignatureId]
+    FN_AEAD_ENVELOPE_DECRYPT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_AEAD_ENCRYPT_STRING: _ClassVar[FunctionSignatureId]
+    FN_AEAD_ENCRYPT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_AEAD_ENCRYPT_STRUCT_STRING: _ClassVar[FunctionSignatureId]
+    FN_AEAD_ENCRYPT_STRUCT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_AEAD_DECRYPT_STRING: _ClassVar[FunctionSignatureId]
+    FN_AEAD_DECRYPT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_AEAD_DECRYPT_STRUCT_STRING: _ClassVar[FunctionSignatureId]
+    FN_AEAD_DECRYPT_STRUCT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_DETERMINISTIC_ENCRYPT_STRING: _ClassVar[FunctionSignatureId]
+    FN_DETERMINISTIC_ENCRYPT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_DETERMINISTIC_DECRYPT_STRING: _ClassVar[FunctionSignatureId]
+    FN_DETERMINISTIC_DECRYPT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_DETERMINISTIC_ENCRYPT_STRUCT_STRING: _ClassVar[FunctionSignatureId]
+    FN_DETERMINISTIC_ENCRYPT_STRUCT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_DETERMINISTIC_DECRYPT_STRUCT_STRING: _ClassVar[FunctionSignatureId]
+    FN_DETERMINISTIC_DECRYPT_STRUCT_BYTES: _ClassVar[FunctionSignatureId]
+    FN_ST_GEOG_POINT: _ClassVar[FunctionSignatureId]
+    FN_ST_MAKE_LINE: _ClassVar[FunctionSignatureId]
+    FN_ST_MAKE_LINE_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_ST_MAKE_POLYGON: _ClassVar[FunctionSignatureId]
+    FN_ST_MAKE_POLYGON_ORIENTED: _ClassVar[FunctionSignatureId]
+    FN_ST_INTERSECTION: _ClassVar[FunctionSignatureId]
+    FN_ST_UNION: _ClassVar[FunctionSignatureId]
+    FN_ST_UNION_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_ST_DIFFERENCE: _ClassVar[FunctionSignatureId]
+    FN_ST_UNARY_UNION: _ClassVar[FunctionSignatureId]
+    FN_ST_CENTROID: _ClassVar[FunctionSignatureId]
+    FN_ST_BUFFER: _ClassVar[FunctionSignatureId]
+    FN_ST_BUFFER_WITH_TOLERANCE: _ClassVar[FunctionSignatureId]
+    FN_ST_SIMPLIFY: _ClassVar[FunctionSignatureId]
+    FN_ST_SNAP_TO_GRID: _ClassVar[FunctionSignatureId]
+    FN_ST_CLOSEST_POINT: _ClassVar[FunctionSignatureId]
+    FN_ST_BOUNDARY: _ClassVar[FunctionSignatureId]
+    FN_ST_CONVEXHULL: _ClassVar[FunctionSignatureId]
+    FN_ST_EXTERIORRING: _ClassVar[FunctionSignatureId]
+    FN_ST_INTERIORRINGS: _ClassVar[FunctionSignatureId]
+    FN_ST_LINE_SUBSTRING: _ClassVar[FunctionSignatureId]
+    FN_ST_LINE_INTERPOLATE_POINT: _ClassVar[FunctionSignatureId]
+    FN_ST_EQUALS: _ClassVar[FunctionSignatureId]
+    FN_ST_INTERSECTS: _ClassVar[FunctionSignatureId]
+    FN_ST_CONTAINS: _ClassVar[FunctionSignatureId]
+    FN_ST_COVERS: _ClassVar[FunctionSignatureId]
+    FN_ST_DISJOINT: _ClassVar[FunctionSignatureId]
+    FN_ST_INTERSECTS_BOX: _ClassVar[FunctionSignatureId]
+    FN_ST_DWITHIN: _ClassVar[FunctionSignatureId]
+    FN_ST_WITHIN: _ClassVar[FunctionSignatureId]
+    FN_ST_COVEREDBY: _ClassVar[FunctionSignatureId]
+    FN_ST_TOUCHES: _ClassVar[FunctionSignatureId]
+    FN_ST_HAUSDORFF_DWITHIN: _ClassVar[FunctionSignatureId]
+    FN_ST_IS_EMPTY: _ClassVar[FunctionSignatureId]
+    FN_ST_IS_COLLECTION: _ClassVar[FunctionSignatureId]
+    FN_ST_DIMENSION: _ClassVar[FunctionSignatureId]
+    FN_ST_NUM_POINTS: _ClassVar[FunctionSignatureId]
+    FN_ST_NUM_GEOMETRIES: _ClassVar[FunctionSignatureId]
+    FN_ST_GEOMETRY_TYPE: _ClassVar[FunctionSignatureId]
+    FN_ST_DUMP: _ClassVar[FunctionSignatureId]
+    FN_ST_POINT_N: _ClassVar[FunctionSignatureId]
+    FN_ST_START_POINT: _ClassVar[FunctionSignatureId]
+    FN_ST_END_POINT: _ClassVar[FunctionSignatureId]
+    FN_ST_IS_CLOSED: _ClassVar[FunctionSignatureId]
+    FN_ST_IS_RING: _ClassVar[FunctionSignatureId]
+    FN_ST_DUMP_POINTS: _ClassVar[FunctionSignatureId]
+    FN_ST_LENGTH: _ClassVar[FunctionSignatureId]
+    FN_ST_PERIMETER: _ClassVar[FunctionSignatureId]
+    FN_ST_AREA: _ClassVar[FunctionSignatureId]
+    FN_ST_DISTANCE: _ClassVar[FunctionSignatureId]
+    FN_ST_MAX_DISTANCE: _ClassVar[FunctionSignatureId]
+    FN_ST_AZIMUTH: _ClassVar[FunctionSignatureId]
+    FN_ST_ANGLE: _ClassVar[FunctionSignatureId]
+    FN_ST_LINE_LOCATE_POINT: _ClassVar[FunctionSignatureId]
+    FN_ST_HAUSDORFF_DISTANCE: _ClassVar[FunctionSignatureId]
+    FN_ST_GEOG_FROM_TEXT: _ClassVar[FunctionSignatureId]
+    FN_ST_GEOG_FROM_TEXT_EXT: _ClassVar[FunctionSignatureId]
+    FN_ST_GEOG_FROM_KML: _ClassVar[FunctionSignatureId]
+    FN_ST_GEOG_FROM_GEO_JSON: _ClassVar[FunctionSignatureId]
+    FN_ST_GEOG_FROM_GEO_JSON_EXT: _ClassVar[FunctionSignatureId]
+    FN_ST_GEOG_FROM_WKB: _ClassVar[FunctionSignatureId]
+    FN_ST_GEOG_FROM_WKB_HEX: _ClassVar[FunctionSignatureId]
+    FN_ST_GEOG_FROM_WKB_EXT: _ClassVar[FunctionSignatureId]
+    FN_ST_GEOG_FROM_WKB_HEX_EXT: _ClassVar[FunctionSignatureId]
+    FN_ST_GEOG_FROM_STRING: _ClassVar[FunctionSignatureId]
+    FN_ST_GEOG_FROM_BYTES: _ClassVar[FunctionSignatureId]
+    FN_ST_AS_TEXT: _ClassVar[FunctionSignatureId]
+    FN_ST_AS_KML: _ClassVar[FunctionSignatureId]
+    FN_ST_AS_GEO_JSON: _ClassVar[FunctionSignatureId]
+    FN_ST_AS_BINARY: _ClassVar[FunctionSignatureId]
+    FN_ST_GEOHASH: _ClassVar[FunctionSignatureId]
+    FN_ST_GEOG_POINT_FROM_GEOHASH: _ClassVar[FunctionSignatureId]
+    FN_ST_UNION_AGG: _ClassVar[FunctionSignatureId]
+    FN_ST_ACCUM: _ClassVar[FunctionSignatureId]
+    FN_ST_CENTROID_AGG: _ClassVar[FunctionSignatureId]
+    FN_ST_NEAREST_NEIGHBORS: _ClassVar[FunctionSignatureId]
+    FN_ST_EXTENT: _ClassVar[FunctionSignatureId]
+    FN_S2_COVERINGCELLIDS: _ClassVar[FunctionSignatureId]
+    FN_S2_CELLIDFROMPOINT: _ClassVar[FunctionSignatureId]
+    FN_ST_X: _ClassVar[FunctionSignatureId]
+    FN_ST_Y: _ClassVar[FunctionSignatureId]
+    FN_ST_CLUSTERDBSCAN: _ClassVar[FunctionSignatureId]
+    FN_ST_BOUNDING_BOX: _ClassVar[FunctionSignatureId]
+    FN_ANON_COUNT: _ClassVar[FunctionSignatureId]
+    FN_ANON_COUNT_STAR: _ClassVar[FunctionSignatureId]
+    FN_ANON_SUM_INT64: _ClassVar[FunctionSignatureId]
+    FN_ANON_SUM_UINT64: _ClassVar[FunctionSignatureId]
+    FN_ANON_SUM_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ANON_SUM_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ANON_AVG_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ANON_AVG_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ANON_VAR_POP_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ANON_VAR_POP_DOUBLE_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_ANON_STDDEV_POP_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ANON_STDDEV_POP_DOUBLE_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_ANON_PERCENTILE_CONT_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ANON_PERCENTILE_CONT_DOUBLE_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_ANON_SUM_WITH_REPORT_JSON_INT64: _ClassVar[FunctionSignatureId]
+    FN_ANON_SUM_WITH_REPORT_JSON_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ANON_SUM_WITH_REPORT_JSON_UINT64: _ClassVar[FunctionSignatureId]
+    FN_ANON_SUM_WITH_REPORT_PROTO_INT64: _ClassVar[FunctionSignatureId]
+    FN_ANON_SUM_WITH_REPORT_PROTO_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ANON_SUM_WITH_REPORT_PROTO_UINT64: _ClassVar[FunctionSignatureId]
+    FN_ANON_QUANTILES_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ANON_QUANTILES_DOUBLE_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_ANON_COUNT_WITH_REPORT_JSON: _ClassVar[FunctionSignatureId]
+    FN_ANON_COUNT_WITH_REPORT_PROTO: _ClassVar[FunctionSignatureId]
+    FN_ANON_COUNT_STAR_WITH_REPORT_JSON: _ClassVar[FunctionSignatureId]
+    FN_ANON_COUNT_STAR_WITH_REPORT_PROTO: _ClassVar[FunctionSignatureId]
+    FN_ANON_QUANTILES_DOUBLE_WITH_REPORT_JSON: _ClassVar[FunctionSignatureId]
+    FN_ANON_QUANTILES_DOUBLE_WITH_REPORT_PROTO: _ClassVar[FunctionSignatureId]
+    FN_ANON_QUANTILES_DOUBLE_ARRAY_WITH_REPORT_JSON: _ClassVar[FunctionSignatureId]
+    FN_ANON_QUANTILES_DOUBLE_ARRAY_WITH_REPORT_PROTO: _ClassVar[FunctionSignatureId]
+    FN_ANON_AVG_DOUBLE_WITH_REPORT_JSON: _ClassVar[FunctionSignatureId]
+    FN_ANON_AVG_DOUBLE_WITH_REPORT_PROTO: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_COUNT: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_COUNT_STAR: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_SUM_INT64: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_SUM_UINT64: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_SUM_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_SUM_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_AVG_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_AVG_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_VAR_POP_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_VAR_POP_DOUBLE_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_STDDEV_POP_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_STDDEV_POP_DOUBLE_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_PERCENTILE_CONT_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_PERCENTILE_CONT_DOUBLE_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_JSON_INT64: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_JSON_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_JSON_UINT64: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_PROTO_INT64: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_PROTO_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_PROTO_UINT64: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_COUNT_REPORT_JSON: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_COUNT_REPORT_PROTO: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_COUNT_STAR_REPORT_JSON: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_COUNT_STAR_REPORT_PROTO: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_REPORT_JSON: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_REPORT_PROTO: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_ARRAY_REPORT_JSON: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_ARRAY_REPORT_PROTO: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_AVG_DOUBLE_REPORT_JSON: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_AVG_DOUBLE_REPORT_PROTO: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_APPROX_COUNT_DISTINCT: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_APPROX_COUNT_DISTINCT_REPORT_JSON: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_APPROX_COUNT_DISTINCT_REPORT_PROTO: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_INIT_FOR_DP_APPROX_COUNT_DISTINCT: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_MERGE_PARTIAL_FOR_DP_APPROX_COUNT_DISTINCT: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_EXTRACT_FOR_DP_APPROX_COUNT_DISTINCT: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_EXTRACT_FOR_DP_APPROX_COUNT_DISTINCT_REPORT_JSON: _ClassVar[FunctionSignatureId]
+    FN_DIFFERENTIAL_PRIVACY_EXTRACT_FOR_DP_APPROX_COUNT_DISTINCT_REPORT_PROTO: _ClassVar[FunctionSignatureId]
+    FN_FLATTEN: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_AT_OFFSET: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_AT_ORDINAL: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_CONCAT: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_CONCAT_OP: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_LENGTH: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_TO_BYTES: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_TO_STRING: _ClassVar[FunctionSignatureId]
+    FN_MAKE_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_SAFE_ARRAY_AT_OFFSET: _ClassVar[FunctionSignatureId]
+    FN_SAFE_ARRAY_AT_ORDINAL: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_IS_DISTINCT: _ClassVar[FunctionSignatureId]
+    FN_PROTO_MAP_AT_KEY: _ClassVar[FunctionSignatureId]
+    FN_SAFE_PROTO_MAP_AT_KEY: _ClassVar[FunctionSignatureId]
+    FN_PROTO_MODIFY_MAP: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_FILTER: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_FILTER_WITH_INDEX: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_TRANSFORM: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_TRANSFORM_WITH_INDEX: _ClassVar[FunctionSignatureId]
+    FN_PROTO_MAP_CONTAINS_KEY: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_INCLUDES: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_INCLUDES_LAMBDA: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_INCLUDES_ANY: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_INCLUDES_ALL: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_FIRST: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_LAST: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_SLICE: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_SUM_INT32: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_SUM_INT64: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_SUM_UINT32: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_SUM_UINT64: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_SUM_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_SUM_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_SUM_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_SUM_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_SUM_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_AVG_INT32: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_AVG_INT64: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_AVG_UINT32: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_AVG_UINT64: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_AVG_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_AVG_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_AVG_NUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_AVG_BIGNUMERIC: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_AVG_INTERVAL: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_OFFSET: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_OFFSETS: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_FIND: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_FIND_ALL: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_OFFSET_LAMBDA: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_OFFSETS_LAMBDA: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_FIND_LAMBDA: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_FIND_ALL_LAMBDA: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_MIN: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_MAX: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_MAX_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_MAX_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_FIRST_N: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_LAST_N: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_REMOVE_FIRST_N: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_REMOVE_LAST_N: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_ZIP_TWO_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_ZIP_TWO_ARRAY_LAMBDA: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_ZIP_THREE_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_ZIP_THREE_ARRAY_LAMBDA: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_ZIP_FOUR_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_ARRAY_ZIP_FOUR_ARRAY_LAMBDA: _ClassVar[FunctionSignatureId]
+    FN_JSON_TO_INT64: _ClassVar[FunctionSignatureId]
+    FN_JSON_TO_BOOL: _ClassVar[FunctionSignatureId]
+    FN_JSON_TO_STRING: _ClassVar[FunctionSignatureId]
+    FN_JSON_TYPE: _ClassVar[FunctionSignatureId]
+    FN_JSON_TO_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_JSON_LAX_TO_INT64: _ClassVar[FunctionSignatureId]
+    FN_JSON_LAX_TO_BOOL: _ClassVar[FunctionSignatureId]
+    FN_JSON_LAX_TO_STRING: _ClassVar[FunctionSignatureId]
+    FN_JSON_LAX_TO_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_JSON_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_OBJECT: _ClassVar[FunctionSignatureId]
+    FN_JSON_OBJECT_ARRAYS: _ClassVar[FunctionSignatureId]
+    FN_JSON_REMOVE: _ClassVar[FunctionSignatureId]
+    FN_JSON_SET: _ClassVar[FunctionSignatureId]
+    FN_JSON_STRIP_NULLS: _ClassVar[FunctionSignatureId]
+    FN_JSON_ARRAY_INSERT: _ClassVar[FunctionSignatureId]
+    FN_JSON_ARRAY_APPEND: _ClassVar[FunctionSignatureId]
+    FN_APPLY: _ClassVar[FunctionSignatureId]
+    FN_RANGE: _ClassVar[FunctionSignatureId]
+    FN_RANGE_IS_START_UNBOUNDED: _ClassVar[FunctionSignatureId]
+    FN_RANGE_IS_END_UNBOUNDED: _ClassVar[FunctionSignatureId]
+    FN_RANGE_START: _ClassVar[FunctionSignatureId]
+    FN_RANGE_END: _ClassVar[FunctionSignatureId]
+    FN_RANGE_OVERLAPS: _ClassVar[FunctionSignatureId]
+    FN_RANGE_INTERSECT: _ClassVar[FunctionSignatureId]
+    FN_GENERATE_DATE_RANGE_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_GENERATE_DATETIME_RANGE_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_GENERATE_TIMESTAMP_RANGE_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_RANGE_CONTAINS_RANGE: _ClassVar[FunctionSignatureId]
+    FN_RANGE_CONTAINS_ELEMENT: _ClassVar[FunctionSignatureId]
+    FN_COSINE_DISTANCE_DENSE_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_COSINE_DISTANCE_DENSE_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_COSINE_DISTANCE_SPARSE_INT64: _ClassVar[FunctionSignatureId]
+    FN_COSINE_DISTANCE_SPARSE_STRING: _ClassVar[FunctionSignatureId]
+    FN_APPROX_COSINE_DISTANCE_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_APPROX_COSINE_DISTANCE_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_APPROX_COSINE_DISTANCE_DOUBLE_WITH_JSON_OPTIONS: _ClassVar[FunctionSignatureId]
+    FN_APPROX_COSINE_DISTANCE_FLOAT_WITH_JSON_OPTIONS: _ClassVar[FunctionSignatureId]
+    FN_APPROX_COSINE_DISTANCE_DOUBLE_WITH_PROTO_OPTIONS: _ClassVar[FunctionSignatureId]
+    FN_APPROX_COSINE_DISTANCE_FLOAT_WITH_PROTO_OPTIONS: _ClassVar[FunctionSignatureId]
+    FN_EUCLIDEAN_DISTANCE_DENSE_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_EUCLIDEAN_DISTANCE_DENSE_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_EUCLIDEAN_DISTANCE_SPARSE_INT64: _ClassVar[FunctionSignatureId]
+    FN_EUCLIDEAN_DISTANCE_SPARSE_STRING: _ClassVar[FunctionSignatureId]
+    FN_APPROX_EUCLIDEAN_DISTANCE_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_APPROX_EUCLIDEAN_DISTANCE_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_APPROX_EUCLIDEAN_DISTANCE_DOUBLE_WITH_JSON_OPTIONS: _ClassVar[FunctionSignatureId]
+    FN_APPROX_EUCLIDEAN_DISTANCE_FLOAT_WITH_JSON_OPTIONS: _ClassVar[FunctionSignatureId]
+    FN_APPROX_EUCLIDEAN_DISTANCE_DOUBLE_WITH_PROTO_OPTIONS: _ClassVar[FunctionSignatureId]
+    FN_APPROX_EUCLIDEAN_DISTANCE_FLOAT_WITH_PROTO_OPTIONS: _ClassVar[FunctionSignatureId]
+    FN_EDIT_DISTANCE: _ClassVar[FunctionSignatureId]
+    FN_EDIT_DISTANCE_BYTES: _ClassVar[FunctionSignatureId]
+    FN_DOT_PRODUCT_INT64: _ClassVar[FunctionSignatureId]
+    FN_DOT_PRODUCT_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_DOT_PRODUCT_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_APPROX_DOT_PRODUCT_INT64: _ClassVar[FunctionSignatureId]
+    FN_APPROX_DOT_PRODUCT_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_APPROX_DOT_PRODUCT_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_APPROX_DOT_PRODUCT_INT64_WITH_JSON_OPTIONS: _ClassVar[FunctionSignatureId]
+    FN_APPROX_DOT_PRODUCT_FLOAT_WITH_JSON_OPTIONS: _ClassVar[FunctionSignatureId]
+    FN_APPROX_DOT_PRODUCT_DOUBLE_WITH_JSON_OPTIONS: _ClassVar[FunctionSignatureId]
+    FN_APPROX_DOT_PRODUCT_INT64_WITH_PROTO_OPTIONS: _ClassVar[FunctionSignatureId]
+    FN_APPROX_DOT_PRODUCT_FLOAT_WITH_PROTO_OPTIONS: _ClassVar[FunctionSignatureId]
+    FN_APPROX_DOT_PRODUCT_DOUBLE_WITH_PROTO_OPTIONS: _ClassVar[FunctionSignatureId]
+    FN_MANHATTAN_DISTANCE_INT64: _ClassVar[FunctionSignatureId]
+    FN_MANHATTAN_DISTANCE_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_MANHATTAN_DISTANCE_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_L1_NORM_INT64: _ClassVar[FunctionSignatureId]
+    FN_L1_NORM_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_L1_NORM_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_L2_NORM_INT64: _ClassVar[FunctionSignatureId]
+    FN_L2_NORM_FLOAT: _ClassVar[FunctionSignatureId]
+    FN_L2_NORM_DOUBLE: _ClassVar[FunctionSignatureId]
+    FN_IS_SOURCE_NODE: _ClassVar[FunctionSignatureId]
+    FN_IS_DEST_NODE: _ClassVar[FunctionSignatureId]
+    FN_SAME_GRAPH_ELEMENT: _ClassVar[FunctionSignatureId]
+    FN_ALL_DIFFERENT_GRAPH_ELEMENT: _ClassVar[FunctionSignatureId]
+    FN_PROPERTY_EXISTS: _ClassVar[FunctionSignatureId]
+    FN_EQUAL_GRAPH_NODE: _ClassVar[FunctionSignatureId]
+    FN_EQUAL_GRAPH_EDGE: _ClassVar[FunctionSignatureId]
+    FN_NOT_EQUAL_GRAPH_NODE: _ClassVar[FunctionSignatureId]
+    FN_NOT_EQUAL_GRAPH_EDGE: _ClassVar[FunctionSignatureId]
+    FN_LABELS_GRAPH_ELEMENT: _ClassVar[FunctionSignatureId]
+    FN_PROPERTY_NAMES_GRAPH_ELEMENT: _ClassVar[FunctionSignatureId]
+    FN_TYPEOF_GRAPH_ELEMENT: _ClassVar[FunctionSignatureId]
+    FN_ELEMENT_ID_GRAPH_ELEMENT: _ClassVar[FunctionSignatureId]
+    FN_SOURCE_NODE_ID: _ClassVar[FunctionSignatureId]
+    FN_DESTINATION_NODE_ID: _ClassVar[FunctionSignatureId]
+    FN_ELEMENT_DEFINITION_NAME: _ClassVar[FunctionSignatureId]
+    FN_PATH_LENGTH: _ClassVar[FunctionSignatureId]
+    FN_PATH_NODES: _ClassVar[FunctionSignatureId]
+    FN_PATH_EDGES: _ClassVar[FunctionSignatureId]
+    FN_PATH_FIRST: _ClassVar[FunctionSignatureId]
+    FN_PATH_LAST: _ClassVar[FunctionSignatureId]
+    FN_CONCAT_PATH: _ClassVar[FunctionSignatureId]
+    FN_CONCAT_OP_PATH: _ClassVar[FunctionSignatureId]
+    FN_PATH_CREATE: _ClassVar[FunctionSignatureId]
+    FN_IS_ACYCLIC: _ClassVar[FunctionSignatureId]
+    FN_IS_TRAIL: _ClassVar[FunctionSignatureId]
+    FN_IS_SIMPLE: _ClassVar[FunctionSignatureId]
+    FN_UNCHECKED_CONCAT_PATH: _ClassVar[FunctionSignatureId]
+    FN_UNCHECKED_PATH_CREATE: _ClassVar[FunctionSignatureId]
+    FN_DYNAMIC_PROPERTY_EQUALS: _ClassVar[FunctionSignatureId]
+    FN_JSON_TO_BOOL_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_LAX_TO_BOOL_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_TO_FLOAT64_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_LAX_TO_FLOAT64_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_TO_INT64_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_LAX_TO_INT64_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_TO_STRING_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_LAX_TO_STRING_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_TO_FLOAT32: _ClassVar[FunctionSignatureId]
+    FN_JSON_LAX_TO_FLOAT32: _ClassVar[FunctionSignatureId]
+    FN_JSON_TO_FLOAT32_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_LAX_TO_FLOAT32_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_TO_INT32: _ClassVar[FunctionSignatureId]
+    FN_JSON_LAX_TO_INT32: _ClassVar[FunctionSignatureId]
+    FN_JSON_TO_INT32_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_LAX_TO_INT32_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_TO_UINT32: _ClassVar[FunctionSignatureId]
+    FN_JSON_LAX_TO_UINT32: _ClassVar[FunctionSignatureId]
+    FN_JSON_TO_UINT32_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_LAX_TO_UINT32_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_TO_UINT64: _ClassVar[FunctionSignatureId]
+    FN_JSON_LAX_TO_UINT64: _ClassVar[FunctionSignatureId]
+    FN_JSON_TO_UINT64_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_LAX_TO_UINT64_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_JSON_CONTAINS: _ClassVar[FunctionSignatureId]
+    FN_JSON_KEYS: _ClassVar[FunctionSignatureId]
+    FN_JSON_FLATTEN: _ClassVar[FunctionSignatureId]
+    FN_MAP_FROM_ARRAY: _ClassVar[FunctionSignatureId]
+    FN_MAP_ENTRIES_SORTED: _ClassVar[FunctionSignatureId]
+    FN_MAP_ENTRIES_UNSORTED: _ClassVar[FunctionSignatureId]
+    FN_MAP_GET: _ClassVar[FunctionSignatureId]
+    FN_MAP_SUBSCRIPT: _ClassVar[FunctionSignatureId]
+    FN_MAP_SUBSCRIPT_WITH_KEY: _ClassVar[FunctionSignatureId]
+    FN_MAP_CONTAINS_KEY: _ClassVar[FunctionSignatureId]
+    FN_MAP_KEYS_SORTED: _ClassVar[FunctionSignatureId]
+    FN_MAP_KEYS_UNSORTED: _ClassVar[FunctionSignatureId]
+    FN_MAP_VALUES_SORTED: _ClassVar[FunctionSignatureId]
+    FN_MAP_VALUES_UNSORTED: _ClassVar[FunctionSignatureId]
+    FN_MAP_VALUES_SORTED_BY_KEY: _ClassVar[FunctionSignatureId]
+    FN_MAP_EMPTY: _ClassVar[FunctionSignatureId]
+    FN_MAP_INSERT: _ClassVar[FunctionSignatureId]
+    FN_MAP_INSERT_OR_REPLACE: _ClassVar[FunctionSignatureId]
+    FN_MAP_REPLACE_KV_PAIRS: _ClassVar[FunctionSignatureId]
+    FN_MAP_REPLACE_K_REPEATED_V_LAMBDA: _ClassVar[FunctionSignatureId]
+    FN_MAP_CARDINALITY: _ClassVar[FunctionSignatureId]
+    FN_MAP_DELETE: _ClassVar[FunctionSignatureId]
+    FN_MAP_FILTER: _ClassVar[FunctionSignatureId]
+    FN_MAP_SAFE_SUBSCRIPT_WITH_KEY: _ClassVar[FunctionSignatureId]
+    FN_AGG: _ClassVar[FunctionSignatureId]
+    FN_FIRST_AGG: _ClassVar[FunctionSignatureId]
+    FN_LAST_AGG: _ClassVar[FunctionSignatureId]
+    FN_MATCH_NUMBER: _ClassVar[FunctionSignatureId]
+    FN_MATCH_ROW_NUMBER: _ClassVar[FunctionSignatureId]
+    FN_CLASSIFIER: _ClassVar[FunctionSignatureId]
+    FN_NEXT: _ClassVar[FunctionSignatureId]
+    FN_PREV: _ClassVar[FunctionSignatureId]
+    FN_ZSTD_COMPRESS_FROM_BYTES: _ClassVar[FunctionSignatureId]
+    FN_ZSTD_COMPRESS_FROM_STRING: _ClassVar[FunctionSignatureId]
+    FN_ZSTD_DECOMPRESS_TO_BYTES: _ClassVar[FunctionSignatureId]
+    FN_ZSTD_DECOMPRESS_TO_STRING: _ClassVar[FunctionSignatureId]
+    FN_VECTOR_SEARCH_TVF: _ClassVar[FunctionSignatureId]
+    FN_TUMBLE: _ClassVar[FunctionSignatureId]
+    FN_HOP: _ClassVar[FunctionSignatureId]
+    FN_TUMBLE_NO_TIMESTAMP_COL: _ClassVar[FunctionSignatureId]
+    FN_HOP_NO_TIMESTAMP_COL: _ClassVar[FunctionSignatureId]
+__FunctionSignatureId__switch_must_have_a_default__: FunctionSignatureId
+FN_INVALID_FUNCTION_ID: FunctionSignatureId
+FN_ADD_DOUBLE: FunctionSignatureId
+FN_ADD_INT64: FunctionSignatureId
+FN_ADD_UINT64: FunctionSignatureId
+FN_ADD_NUMERIC: FunctionSignatureId
+FN_ADD_BIGNUMERIC: FunctionSignatureId
+FN_ADD_DATE_INT64: FunctionSignatureId
+FN_ADD_INT64_DATE: FunctionSignatureId
+FN_ADD_TIMESTAMP_INTERVAL: FunctionSignatureId
+FN_ADD_INTERVAL_TIMESTAMP: FunctionSignatureId
+FN_ADD_DATE_INTERVAL: FunctionSignatureId
+FN_ADD_INTERVAL_DATE: FunctionSignatureId
+FN_ADD_DATETIME_INTERVAL: FunctionSignatureId
+FN_ADD_INTERVAL_DATETIME: FunctionSignatureId
+FN_ADD_INTERVAL_INTERVAL: FunctionSignatureId
+FN_AND: FunctionSignatureId
+FN_CASE_NO_VALUE: FunctionSignatureId
+FN_CASE_WITH_VALUE: FunctionSignatureId
+FN_DIVIDE_DOUBLE: FunctionSignatureId
+FN_DIVIDE_NUMERIC: FunctionSignatureId
+FN_DIVIDE_BIGNUMERIC: FunctionSignatureId
+FN_DIVIDE_INTERVAL_INT64: FunctionSignatureId
+FN_GREATER: FunctionSignatureId
+FN_GREATER_INT64_UINT64: FunctionSignatureId
+FN_GREATER_UINT64_INT64: FunctionSignatureId
+FN_GREATER_OR_EQUAL: FunctionSignatureId
+FN_GREATER_OR_EQUAL_INT64_UINT64: FunctionSignatureId
+FN_GREATER_OR_EQUAL_UINT64_INT64: FunctionSignatureId
+FN_LESS: FunctionSignatureId
+FN_LESS_INT64_UINT64: FunctionSignatureId
+FN_LESS_UINT64_INT64: FunctionSignatureId
+FN_LESS_OR_EQUAL: FunctionSignatureId
+FN_LESS_OR_EQUAL_INT64_UINT64: FunctionSignatureId
+FN_LESS_OR_EQUAL_UINT64_INT64: FunctionSignatureId
+FN_EQUAL: FunctionSignatureId
+FN_EQUAL_INT64_UINT64: FunctionSignatureId
+FN_EQUAL_UINT64_INT64: FunctionSignatureId
+FN_STRING_ARRAY_LIKE_ANY: FunctionSignatureId
+FN_STRING_ARRAY_LIKE_ALL: FunctionSignatureId
+FN_STRING_LIKE: FunctionSignatureId
+FN_STRING_LIKE_ANY: FunctionSignatureId
+FN_STRING_LIKE_ALL: FunctionSignatureId
+FN_BYTE_ARRAY_LIKE_ANY: FunctionSignatureId
+FN_BYTE_ARRAY_LIKE_ALL: FunctionSignatureId
+FN_BYTE_LIKE: FunctionSignatureId
+FN_BYTE_LIKE_ANY: FunctionSignatureId
+FN_BYTE_LIKE_ALL: FunctionSignatureId
+FN_STRING_NOT_LIKE_ANY: FunctionSignatureId
+FN_BYTE_NOT_LIKE_ANY: FunctionSignatureId
+FN_STRING_ARRAY_NOT_LIKE_ANY: FunctionSignatureId
+FN_BYTE_ARRAY_NOT_LIKE_ANY: FunctionSignatureId
+FN_STRING_NOT_LIKE_ALL: FunctionSignatureId
+FN_BYTE_NOT_LIKE_ALL: FunctionSignatureId
+FN_STRING_ARRAY_NOT_LIKE_ALL: FunctionSignatureId
+FN_BYTE_ARRAY_NOT_LIKE_ALL: FunctionSignatureId
+FN_IN: FunctionSignatureId
+FN_IN_ARRAY: FunctionSignatureId
+FN_BETWEEN: FunctionSignatureId
+FN_BETWEEN_INT64_UINT64_UINT64: FunctionSignatureId
+FN_BETWEEN_INT64_UINT64_INT64: FunctionSignatureId
+FN_BETWEEN_INT64_INT64_UINT64: FunctionSignatureId
+FN_BETWEEN_UINT64_INT64_INT64: FunctionSignatureId
+FN_BETWEEN_UINT64_UINT64_INT64: FunctionSignatureId
+FN_BETWEEN_UINT64_INT64_UINT64: FunctionSignatureId
+FN_IS_NULL: FunctionSignatureId
+FN_IS_TRUE: FunctionSignatureId
+FN_IS_FALSE: FunctionSignatureId
+FN_MULTIPLY_DOUBLE: FunctionSignatureId
+FN_MULTIPLY_INT64: FunctionSignatureId
+FN_MULTIPLY_UINT64: FunctionSignatureId
+FN_MULTIPLY_NUMERIC: FunctionSignatureId
+FN_MULTIPLY_BIGNUMERIC: FunctionSignatureId
+FN_MULTIPLY_INTERVAL_INT64: FunctionSignatureId
+FN_MULTIPLY_INT64_INTERVAL: FunctionSignatureId
+FN_NOT: FunctionSignatureId
+FN_NOT_EQUAL: FunctionSignatureId
+FN_NOT_EQUAL_INT64_UINT64: FunctionSignatureId
+FN_NOT_EQUAL_UINT64_INT64: FunctionSignatureId
+FN_OR: FunctionSignatureId
+FN_SUBTRACT_DOUBLE: FunctionSignatureId
+FN_SUBTRACT_INT64: FunctionSignatureId
+FN_SUBTRACT_UINT64: FunctionSignatureId
+FN_SUBTRACT_NUMERIC: FunctionSignatureId
+FN_SUBTRACT_BIGNUMERIC: FunctionSignatureId
+FN_SUBTRACT_DATE_INT64: FunctionSignatureId
+FN_SUBTRACT_DATE: FunctionSignatureId
+FN_SUBTRACT_TIMESTAMP: FunctionSignatureId
+FN_SUBTRACT_DATETIME: FunctionSignatureId
+FN_SUBTRACT_TIME: FunctionSignatureId
+FN_SUBTRACT_TIMESTAMP_INTERVAL: FunctionSignatureId
+FN_SUBTRACT_DATE_INTERVAL: FunctionSignatureId
+FN_SUBTRACT_DATETIME_INTERVAL: FunctionSignatureId
+FN_SUBTRACT_INTERVAL_INTERVAL: FunctionSignatureId
+FN_UNARY_MINUS_INT32: FunctionSignatureId
+FN_UNARY_MINUS_INT64: FunctionSignatureId
+FN_UNARY_MINUS_FLOAT: FunctionSignatureId
+FN_UNARY_MINUS_DOUBLE: FunctionSignatureId
+FN_UNARY_MINUS_NUMERIC: FunctionSignatureId
+FN_UNARY_MINUS_BIGNUMERIC: FunctionSignatureId
+FN_UNARY_MINUS_INTERVAL: FunctionSignatureId
+FN_DISTINCT: FunctionSignatureId
+FN_DISTINCT_INT64_UINT64: FunctionSignatureId
+FN_DISTINCT_UINT64_INT64: FunctionSignatureId
+FN_NOT_DISTINCT: FunctionSignatureId
+FN_NOT_DISTINCT_INT64_UINT64: FunctionSignatureId
+FN_NOT_DISTINCT_UINT64_INT64: FunctionSignatureId
+FN_BITWISE_NOT_INT32: FunctionSignatureId
+FN_BITWISE_NOT_INT64: FunctionSignatureId
+FN_BITWISE_NOT_UINT32: FunctionSignatureId
+FN_BITWISE_NOT_UINT64: FunctionSignatureId
+FN_BITWISE_NOT_BYTES: FunctionSignatureId
+FN_BITWISE_OR_INT32: FunctionSignatureId
+FN_BITWISE_OR_INT64: FunctionSignatureId
+FN_BITWISE_OR_UINT32: FunctionSignatureId
+FN_BITWISE_OR_UINT64: FunctionSignatureId
+FN_BITWISE_OR_BYTES: FunctionSignatureId
+FN_BITWISE_XOR_INT32: FunctionSignatureId
+FN_BITWISE_XOR_INT64: FunctionSignatureId
+FN_BITWISE_XOR_UINT32: FunctionSignatureId
+FN_BITWISE_XOR_UINT64: FunctionSignatureId
+FN_BITWISE_XOR_BYTES: FunctionSignatureId
+FN_BITWISE_AND_INT32: FunctionSignatureId
+FN_BITWISE_AND_INT64: FunctionSignatureId
+FN_BITWISE_AND_UINT32: FunctionSignatureId
+FN_BITWISE_AND_UINT64: FunctionSignatureId
+FN_BITWISE_AND_BYTES: FunctionSignatureId
+FN_BITWISE_LEFT_SHIFT_INT32: FunctionSignatureId
+FN_BITWISE_LEFT_SHIFT_INT64: FunctionSignatureId
+FN_BITWISE_LEFT_SHIFT_UINT32: FunctionSignatureId
+FN_BITWISE_LEFT_SHIFT_UINT64: FunctionSignatureId
+FN_BITWISE_LEFT_SHIFT_BYTES: FunctionSignatureId
+FN_BITWISE_RIGHT_SHIFT_INT32: FunctionSignatureId
+FN_BITWISE_RIGHT_SHIFT_INT64: FunctionSignatureId
+FN_BITWISE_RIGHT_SHIFT_UINT32: FunctionSignatureId
+FN_BITWISE_RIGHT_SHIFT_UINT64: FunctionSignatureId
+FN_BITWISE_RIGHT_SHIFT_BYTES: FunctionSignatureId
+FN_BIT_COUNT_INT32: FunctionSignatureId
+FN_BIT_COUNT_INT64: FunctionSignatureId
+FN_BIT_COUNT_UINT64: FunctionSignatureId
+FN_BIT_COUNT_BYTES: FunctionSignatureId
+FN_TYPEOF: FunctionSignatureId
+FN_ERROR: FunctionSignatureId
+FN_COUNT_STAR: FunctionSignatureId
+FN_CONCAT_STRING: FunctionSignatureId
+FN_CONCAT_BYTES: FunctionSignatureId
+FN_CONCAT_OP_STRING: FunctionSignatureId
+FN_CONCAT_OP_BYTES: FunctionSignatureId
+FN_STRPOS_STRING: FunctionSignatureId
+FN_STRPOS_BYTES: FunctionSignatureId
+FN_INSTR_STRING: FunctionSignatureId
+FN_INSTR_BYTES: FunctionSignatureId
+FN_LOWER_STRING: FunctionSignatureId
+FN_LOWER_BYTES: FunctionSignatureId
+FN_UPPER_STRING: FunctionSignatureId
+FN_UPPER_BYTES: FunctionSignatureId
+FN_LENGTH_STRING: FunctionSignatureId
+FN_LENGTH_BYTES: FunctionSignatureId
+FN_STARTS_WITH_STRING: FunctionSignatureId
+FN_STARTS_WITH_BYTES: FunctionSignatureId
+FN_ENDS_WITH_STRING: FunctionSignatureId
+FN_ENDS_WITH_BYTES: FunctionSignatureId
+FN_SUBSTR_STRING: FunctionSignatureId
+FN_SUBSTR_BYTES: FunctionSignatureId
+FN_TRIM_STRING: FunctionSignatureId
+FN_TRIM_BYTES: FunctionSignatureId
+FN_LTRIM_STRING: FunctionSignatureId
+FN_LTRIM_BYTES: FunctionSignatureId
+FN_RTRIM_STRING: FunctionSignatureId
+FN_RTRIM_BYTES: FunctionSignatureId
+FN_REPLACE_STRING: FunctionSignatureId
+FN_REPLACE_BYTES: FunctionSignatureId
+FN_REGEXP_MATCH_STRING: FunctionSignatureId
+FN_REGEXP_MATCH_BYTES: FunctionSignatureId
+FN_REGEXP_EXTRACT_STRING: FunctionSignatureId
+FN_REGEXP_EXTRACT_BYTES: FunctionSignatureId
+FN_REGEXP_REPLACE_STRING: FunctionSignatureId
+FN_REGEXP_REPLACE_BYTES: FunctionSignatureId
+FN_REGEXP_EXTRACT_ALL_STRING: FunctionSignatureId
+FN_REGEXP_EXTRACT_ALL_BYTES: FunctionSignatureId
+FN_BYTE_LENGTH_STRING: FunctionSignatureId
+FN_BYTE_LENGTH_BYTES: FunctionSignatureId
+FN_CHAR_LENGTH_STRING: FunctionSignatureId
+FN_FORMAT_STRING: FunctionSignatureId
+FN_SPLIT_STRING: FunctionSignatureId
+FN_SPLIT_BYTES: FunctionSignatureId
+FN_REGEXP_CONTAINS_STRING: FunctionSignatureId
+FN_REGEXP_CONTAINS_BYTES: FunctionSignatureId
+FN_SAFE_CONVERT_BYTES_TO_STRING: FunctionSignatureId
+FN_NORMALIZE_STRING: FunctionSignatureId
+FN_NORMALIZE_AND_CASEFOLD_STRING: FunctionSignatureId
+FN_TO_BASE64: FunctionSignatureId
+FN_FROM_BASE64: FunctionSignatureId
+FN_TO_HEX: FunctionSignatureId
+FN_FROM_HEX: FunctionSignatureId
+FN_TO_BASE32: FunctionSignatureId
+FN_FROM_BASE32: FunctionSignatureId
+FN_TO_CODE_POINTS_STRING: FunctionSignatureId
+FN_TO_CODE_POINTS_BYTES: FunctionSignatureId
+FN_CODE_POINTS_TO_STRING: FunctionSignatureId
+FN_CODE_POINTS_TO_BYTES: FunctionSignatureId
+FN_LPAD_BYTES: FunctionSignatureId
+FN_LPAD_STRING: FunctionSignatureId
+FN_RPAD_BYTES: FunctionSignatureId
+FN_RPAD_STRING: FunctionSignatureId
+FN_LEFT_STRING: FunctionSignatureId
+FN_LEFT_BYTES: FunctionSignatureId
+FN_RIGHT_STRING: FunctionSignatureId
+FN_RIGHT_BYTES: FunctionSignatureId
+FN_REPEAT_BYTES: FunctionSignatureId
+FN_REPEAT_STRING: FunctionSignatureId
+FN_REVERSE_STRING: FunctionSignatureId
+FN_REVERSE_BYTES: FunctionSignatureId
+FN_SOUNDEX_STRING: FunctionSignatureId
+FN_ASCII_STRING: FunctionSignatureId
+FN_ASCII_BYTES: FunctionSignatureId
+FN_TRANSLATE_STRING: FunctionSignatureId
+FN_TRANSLATE_BYTES: FunctionSignatureId
+FN_INITCAP_STRING: FunctionSignatureId
+FN_UNICODE_STRING: FunctionSignatureId
+FN_CHR_STRING: FunctionSignatureId
+FN_COLLATE: FunctionSignatureId
+FN_REGEXP_INSTR_STRING: FunctionSignatureId
+FN_REGEXP_INSTR_BYTES: FunctionSignatureId
+FN_SPLIT_SUBSTR: FunctionSignatureId
+FN_REGEXP_EXTRACT_GROUPS_STRING: FunctionSignatureId
+FN_REGEXP_EXTRACT_GROUPS_BYTES: FunctionSignatureId
+FN_IF: FunctionSignatureId
+FN_COALESCE: FunctionSignatureId
+FN_IFNULL: FunctionSignatureId
+FN_NULLIF: FunctionSignatureId
+FN_IFERROR: FunctionSignatureId
+FN_NULLIFERROR: FunctionSignatureId
+FN_ISERROR: FunctionSignatureId
+FN_WITH_SIDE_EFFECTS: FunctionSignatureId
+FN_CURRENT_DATE: FunctionSignatureId
+FN_CURRENT_DATETIME: FunctionSignatureId
+FN_CURRENT_TIME: FunctionSignatureId
+FN_CURRENT_TIMESTAMP: FunctionSignatureId
+FN_DATE_ADD_DATE: FunctionSignatureId
+FN_DATETIME_ADD: FunctionSignatureId
+FN_TIME_ADD: FunctionSignatureId
+FN_TIMESTAMP_ADD: FunctionSignatureId
+FN_DATE_DIFF_DATE: FunctionSignatureId
+FN_DATETIME_DIFF: FunctionSignatureId
+FN_TIME_DIFF: FunctionSignatureId
+FN_TIMESTAMP_DIFF: FunctionSignatureId
+FN_DATE_SUB_DATE: FunctionSignatureId
+FN_DATETIME_SUB: FunctionSignatureId
+FN_TIME_SUB: FunctionSignatureId
+FN_TIMESTAMP_SUB: FunctionSignatureId
+FN_DATE_TRUNC_DATE: FunctionSignatureId
+FN_DATETIME_TRUNC: FunctionSignatureId
+FN_TIME_TRUNC: FunctionSignatureId
+FN_TIMESTAMP_TRUNC: FunctionSignatureId
+FN_ADD_MONTHS_DATE: FunctionSignatureId
+FN_ADD_MONTHS_DATETIME: FunctionSignatureId
+FN_NEXT_DAY_DATE: FunctionSignatureId
+FN_NEXT_DAY_DATETIME: FunctionSignatureId
+FN_DATE_FROM_UNIX_DATE: FunctionSignatureId
+FN_TIMESTAMP_FROM_INT64_SECONDS: FunctionSignatureId
+FN_TIMESTAMP_FROM_INT64_MILLIS: FunctionSignatureId
+FN_TIMESTAMP_FROM_INT64_MICROS: FunctionSignatureId
+FN_TIMESTAMP_FROM_UNIX_SECONDS_INT64: FunctionSignatureId
+FN_TIMESTAMP_FROM_UNIX_SECONDS_UINT64: FunctionSignatureId
+FN_TIMESTAMP_FROM_UNIX_SECONDS_TIMESTAMP: FunctionSignatureId
+FN_TIMESTAMP_FROM_UNIX_MILLIS_INT64: FunctionSignatureId
+FN_TIMESTAMP_FROM_UNIX_MILLIS_UINT64: FunctionSignatureId
+FN_TIMESTAMP_FROM_UNIX_MILLIS_TIMESTAMP: FunctionSignatureId
+FN_TIMESTAMP_FROM_UNIX_MICROS_INT64: FunctionSignatureId
+FN_TIMESTAMP_FROM_UNIX_MICROS_UINT64: FunctionSignatureId
+FN_TIMESTAMP_FROM_UNIX_MICROS_TIMESTAMP: FunctionSignatureId
+FN_UNIX_DATE: FunctionSignatureId
+FN_UNIX_SECONDS_FROM_TIMESTAMP: FunctionSignatureId
+FN_UNIX_MILLIS_FROM_TIMESTAMP: FunctionSignatureId
+FN_UNIX_MICROS_FROM_TIMESTAMP: FunctionSignatureId
+FN_DATE_FROM_TIMESTAMP: FunctionSignatureId
+FN_DATE_FROM_DATETIME: FunctionSignatureId
+FN_DATE_FROM_DATE: FunctionSignatureId
+FN_DATE_FROM_STRING: FunctionSignatureId
+FN_DATE_FROM_YEAR_MONTH_DAY: FunctionSignatureId
+FN_TIMESTAMP_FROM_STRING: FunctionSignatureId
+FN_TIMESTAMP_FROM_DATE: FunctionSignatureId
+FN_TIMESTAMP_FROM_DATETIME: FunctionSignatureId
+FN_TIMESTAMP_FROM_TIMESTAMP: FunctionSignatureId
+FN_TIME_FROM_HOUR_MINUTE_SECOND: FunctionSignatureId
+FN_TIME_FROM_TIMESTAMP: FunctionSignatureId
+FN_TIME_FROM_DATETIME: FunctionSignatureId
+FN_TIME_FROM_TIME: FunctionSignatureId
+FN_TIME_FROM_STRING: FunctionSignatureId
+FN_DATETIME_FROM_DATE_AND_TIME: FunctionSignatureId
+FN_DATETIME_FROM_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND: FunctionSignatureId
+FN_DATETIME_FROM_TIMESTAMP: FunctionSignatureId
+FN_DATETIME_FROM_DATE: FunctionSignatureId
+FN_DATETIME_FROM_DATETIME: FunctionSignatureId
+FN_DATETIME_FROM_STRING: FunctionSignatureId
+FN_STRING_FROM_DATE: FunctionSignatureId
+FN_STRING_FROM_TIMESTAMP: FunctionSignatureId
+FN_STRING_FROM_DATETIME: FunctionSignatureId
+FN_STRING_FROM_TIME: FunctionSignatureId
+FN_EXTRACT_FROM_DATE: FunctionSignatureId
+FN_EXTRACT_FROM_DATETIME: FunctionSignatureId
+FN_EXTRACT_FROM_TIME: FunctionSignatureId
+FN_EXTRACT_FROM_TIMESTAMP: FunctionSignatureId
+FN_EXTRACT_FROM_INTERVAL: FunctionSignatureId
+FN_EXTRACT_DATE_FROM_DATETIME: FunctionSignatureId
+FN_EXTRACT_DATE_FROM_TIMESTAMP: FunctionSignatureId
+FN_EXTRACT_TIME_FROM_DATETIME: FunctionSignatureId
+FN_EXTRACT_TIME_FROM_TIMESTAMP: FunctionSignatureId
+FN_EXTRACT_DATETIME_FROM_TIMESTAMP: FunctionSignatureId
+FN_FORMAT_DATE: FunctionSignatureId
+FN_FORMAT_DATETIME: FunctionSignatureId
+FN_FORMAT_TIME: FunctionSignatureId
+FN_FORMAT_TIMESTAMP: FunctionSignatureId
+FN_PARSE_DATE: FunctionSignatureId
+FN_PARSE_DATETIME: FunctionSignatureId
+FN_PARSE_TIME: FunctionSignatureId
+FN_PARSE_TIMESTAMP: FunctionSignatureId
+FN_PARSE_TIMESTAMP_WITH_PRECISION: FunctionSignatureId
+FN_PARSE_TIMESTAMP_WITH_PRECISION_AND_TIMEZONE: FunctionSignatureId
+FN_LAST_DAY_DATE: FunctionSignatureId
+FN_LAST_DAY_DATETIME: FunctionSignatureId
+FN_INTERVAL_CONSTRUCTOR: FunctionSignatureId
+FN_MAKE_INTERVAL: FunctionSignatureId
+FN_JUSTIFY_HOURS: FunctionSignatureId
+FN_JUSTIFY_DAYS: FunctionSignatureId
+FN_JUSTIFY_INTERVAL: FunctionSignatureId
+FN_TO_SECONDS_INTERVAL: FunctionSignatureId
+FN_TIMESTAMP_BUCKET: FunctionSignatureId
+FN_DATETIME_BUCKET: FunctionSignatureId
+FN_DATE_BUCKET: FunctionSignatureId
+FN_ABS_INT32: FunctionSignatureId
+FN_ABS_INT64: FunctionSignatureId
+FN_ABS_UINT32: FunctionSignatureId
+FN_ABS_UINT64: FunctionSignatureId
+FN_ABS_FLOAT: FunctionSignatureId
+FN_ABS_DOUBLE: FunctionSignatureId
+FN_ABS_NUMERIC: FunctionSignatureId
+FN_ABS_BIGNUMERIC: FunctionSignatureId
+FN_SIGN_INT32: FunctionSignatureId
+FN_SIGN_INT64: FunctionSignatureId
+FN_SIGN_UINT32: FunctionSignatureId
+FN_SIGN_UINT64: FunctionSignatureId
+FN_SIGN_FLOAT: FunctionSignatureId
+FN_SIGN_DOUBLE: FunctionSignatureId
+FN_SIGN_NUMERIC: FunctionSignatureId
+FN_SIGN_BIGNUMERIC: FunctionSignatureId
+FN_ROUND_DOUBLE: FunctionSignatureId
+FN_ROUND_FLOAT: FunctionSignatureId
+FN_ROUND_NUMERIC: FunctionSignatureId
+FN_ROUND_BIGNUMERIC: FunctionSignatureId
+FN_ROUND_WITH_DIGITS_DOUBLE: FunctionSignatureId
+FN_ROUND_WITH_DIGITS_FLOAT: FunctionSignatureId
+FN_ROUND_WITH_DIGITS_NUMERIC: FunctionSignatureId
+FN_ROUND_WITH_DIGITS_BIGNUMERIC: FunctionSignatureId
+FN_ROUND_WITH_ROUNDING_MODE_NUMERIC: FunctionSignatureId
+FN_ROUND_WITH_ROUNDING_MODE_BIGNUMERIC: FunctionSignatureId
+FN_TRUNC_DOUBLE: FunctionSignatureId
+FN_TRUNC_FLOAT: FunctionSignatureId
+FN_TRUNC_NUMERIC: FunctionSignatureId
+FN_TRUNC_BIGNUMERIC: FunctionSignatureId
+FN_TRUNC_WITH_DIGITS_DOUBLE: FunctionSignatureId
+FN_TRUNC_WITH_DIGITS_FLOAT: FunctionSignatureId
+FN_TRUNC_WITH_DIGITS_NUMERIC: FunctionSignatureId
+FN_TRUNC_WITH_DIGITS_BIGNUMERIC: FunctionSignatureId
+FN_CEIL_DOUBLE: FunctionSignatureId
+FN_CEIL_FLOAT: FunctionSignatureId
+FN_CEIL_NUMERIC: FunctionSignatureId
+FN_CEIL_BIGNUMERIC: FunctionSignatureId
+FN_FLOOR_DOUBLE: FunctionSignatureId
+FN_FLOOR_FLOAT: FunctionSignatureId
+FN_FLOOR_NUMERIC: FunctionSignatureId
+FN_FLOOR_BIGNUMERIC: FunctionSignatureId
+FN_MOD_INT64: FunctionSignatureId
+FN_MOD_UINT64: FunctionSignatureId
+FN_MOD_NUMERIC: FunctionSignatureId
+FN_MOD_BIGNUMERIC: FunctionSignatureId
+FN_DIV_INT64: FunctionSignatureId
+FN_DIV_UINT64: FunctionSignatureId
+FN_DIV_NUMERIC: FunctionSignatureId
+FN_DIV_BIGNUMERIC: FunctionSignatureId
+FN_IS_INF: FunctionSignatureId
+FN_IS_NAN: FunctionSignatureId
+FN_IEEE_DIVIDE_DOUBLE: FunctionSignatureId
+FN_IEEE_DIVIDE_FLOAT: FunctionSignatureId
+FN_SAFE_DIVIDE_DOUBLE: FunctionSignatureId
+FN_SAFE_DIVIDE_NUMERIC: FunctionSignatureId
+FN_SAFE_DIVIDE_BIGNUMERIC: FunctionSignatureId
+FN_SAFE_ADD_INT64: FunctionSignatureId
+FN_SAFE_ADD_UINT64: FunctionSignatureId
+FN_SAFE_ADD_DOUBLE: FunctionSignatureId
+FN_SAFE_ADD_NUMERIC: FunctionSignatureId
+FN_SAFE_ADD_BIGNUMERIC: FunctionSignatureId
+FN_SAFE_SUBTRACT_INT64: FunctionSignatureId
+FN_SAFE_SUBTRACT_UINT64: FunctionSignatureId
+FN_SAFE_SUBTRACT_DOUBLE: FunctionSignatureId
+FN_SAFE_SUBTRACT_NUMERIC: FunctionSignatureId
+FN_SAFE_SUBTRACT_BIGNUMERIC: FunctionSignatureId
+FN_SAFE_MULTIPLY_INT64: FunctionSignatureId
+FN_SAFE_MULTIPLY_UINT64: FunctionSignatureId
+FN_SAFE_MULTIPLY_DOUBLE: FunctionSignatureId
+FN_SAFE_MULTIPLY_NUMERIC: FunctionSignatureId
+FN_SAFE_MULTIPLY_BIGNUMERIC: FunctionSignatureId
+FN_SAFE_UNARY_MINUS_INT32: FunctionSignatureId
+FN_SAFE_UNARY_MINUS_INT64: FunctionSignatureId
+FN_SAFE_UNARY_MINUS_FLOAT: FunctionSignatureId
+FN_SAFE_UNARY_MINUS_DOUBLE: FunctionSignatureId
+FN_SAFE_UNARY_MINUS_NUMERIC: FunctionSignatureId
+FN_SAFE_UNARY_MINUS_BIGNUMERIC: FunctionSignatureId
+FN_GREATEST: FunctionSignatureId
+FN_LEAST: FunctionSignatureId
+FN_SQRT_DOUBLE: FunctionSignatureId
+FN_SQRT_NUMERIC: FunctionSignatureId
+FN_SQRT_BIGNUMERIC: FunctionSignatureId
+FN_CBRT_DOUBLE: FunctionSignatureId
+FN_CBRT_NUMERIC: FunctionSignatureId
+FN_CBRT_BIGNUMERIC: FunctionSignatureId
+FN_POW_DOUBLE: FunctionSignatureId
+FN_POW_NUMERIC: FunctionSignatureId
+FN_POW_BIGNUMERIC: FunctionSignatureId
+FN_EXP_DOUBLE: FunctionSignatureId
+FN_EXP_NUMERIC: FunctionSignatureId
+FN_EXP_BIGNUMERIC: FunctionSignatureId
+FN_NATURAL_LOGARITHM_DOUBLE: FunctionSignatureId
+FN_NATURAL_LOGARITHM_NUMERIC: FunctionSignatureId
+FN_NATURAL_LOGARITHM_BIGNUMERIC: FunctionSignatureId
+FN_DECIMAL_LOGARITHM_DOUBLE: FunctionSignatureId
+FN_DECIMAL_LOGARITHM_NUMERIC: FunctionSignatureId
+FN_DECIMAL_LOGARITHM_BIGNUMERIC: FunctionSignatureId
+FN_LOGARITHM_DOUBLE: FunctionSignatureId
+FN_LOGARITHM_NUMERIC: FunctionSignatureId
+FN_LOGARITHM_BIGNUMERIC: FunctionSignatureId
+FN_PARSE_NUMERIC: FunctionSignatureId
+FN_PARSE_BIGNUMERIC: FunctionSignatureId
+FN_PI_DOUBLE: FunctionSignatureId
+FN_PI_NUMERIC: FunctionSignatureId
+FN_PI_BIGNUMERIC: FunctionSignatureId
+FN_NULLIFZERO_INT32: FunctionSignatureId
+FN_NULLIFZERO_UINT32: FunctionSignatureId
+FN_NULLIFZERO_INT64: FunctionSignatureId
+FN_NULLIFZERO_UINT64: FunctionSignatureId
+FN_NULLIFZERO_FLOAT: FunctionSignatureId
+FN_NULLIFZERO_DOUBLE: FunctionSignatureId
+FN_NULLIFZERO_NUMERIC: FunctionSignatureId
+FN_NULLIFZERO_BIGNUMERIC: FunctionSignatureId
+FN_ZEROIFNULL_INT32: FunctionSignatureId
+FN_ZEROIFNULL_UINT32: FunctionSignatureId
+FN_ZEROIFNULL_INT64: FunctionSignatureId
+FN_ZEROIFNULL_UINT64: FunctionSignatureId
+FN_ZEROIFNULL_FLOAT: FunctionSignatureId
+FN_ZEROIFNULL_DOUBLE: FunctionSignatureId
+FN_ZEROIFNULL_NUMERIC: FunctionSignatureId
+FN_ZEROIFNULL_BIGNUMERIC: FunctionSignatureId
+FN_COS_DOUBLE: FunctionSignatureId
+FN_COSH_DOUBLE: FunctionSignatureId
+FN_ACOS_DOUBLE: FunctionSignatureId
+FN_ACOSH_DOUBLE: FunctionSignatureId
+FN_SIN_DOUBLE: FunctionSignatureId
+FN_SINH_DOUBLE: FunctionSignatureId
+FN_ASIN_DOUBLE: FunctionSignatureId
+FN_ASINH_DOUBLE: FunctionSignatureId
+FN_TAN_DOUBLE: FunctionSignatureId
+FN_TANH_DOUBLE: FunctionSignatureId
+FN_ATAN_DOUBLE: FunctionSignatureId
+FN_ATANH_DOUBLE: FunctionSignatureId
+FN_ATAN2_DOUBLE: FunctionSignatureId
+FN_CSC_DOUBLE: FunctionSignatureId
+FN_SEC_DOUBLE: FunctionSignatureId
+FN_COT_DOUBLE: FunctionSignatureId
+FN_CSCH_DOUBLE: FunctionSignatureId
+FN_SECH_DOUBLE: FunctionSignatureId
+FN_COTH_DOUBLE: FunctionSignatureId
+FN_RADIANS_DOUBLE: FunctionSignatureId
+FN_RADIANS_NUMERIC: FunctionSignatureId
+FN_RADIANS_BIGNUMERIC: FunctionSignatureId
+FN_DEGREES_DOUBLE: FunctionSignatureId
+FN_DEGREES_NUMERIC: FunctionSignatureId
+FN_DEGREES_BIGNUMERIC: FunctionSignatureId
+FN_ANY_VALUE: FunctionSignatureId
+FN_ARRAY_AGG: FunctionSignatureId
+FN_ARRAY_CONCAT_AGG: FunctionSignatureId
+FN_AVG_INT64: FunctionSignatureId
+FN_AVG_UINT64: FunctionSignatureId
+FN_AVG_DOUBLE: FunctionSignatureId
+FN_AVG_NUMERIC: FunctionSignatureId
+FN_AVG_BIGNUMERIC: FunctionSignatureId
+FN_AVG_INTERVAL: FunctionSignatureId
+FN_COUNT: FunctionSignatureId
+FN_GROUPING: FunctionSignatureId
+FN_MAX: FunctionSignatureId
+FN_MIN: FunctionSignatureId
+FN_STRING_AGG_STRING: FunctionSignatureId
+FN_STRING_AGG_DELIM_STRING: FunctionSignatureId
+FN_STRING_AGG_BYTES: FunctionSignatureId
+FN_STRING_AGG_DELIM_BYTES: FunctionSignatureId
+FN_SUM_INT64: FunctionSignatureId
+FN_SUM_UINT64: FunctionSignatureId
+FN_SUM_DOUBLE: FunctionSignatureId
+FN_SUM_NUMERIC: FunctionSignatureId
+FN_SUM_BIGNUMERIC: FunctionSignatureId
+FN_SUM_INTERVAL: FunctionSignatureId
+FN_BIT_AND_INT32: FunctionSignatureId
+FN_BIT_AND_INT64: FunctionSignatureId
+FN_BIT_AND_UINT32: FunctionSignatureId
+FN_BIT_AND_UINT64: FunctionSignatureId
+FN_BIT_AND_BYTES: FunctionSignatureId
+FN_BIT_OR_INT32: FunctionSignatureId
+FN_BIT_OR_INT64: FunctionSignatureId
+FN_BIT_OR_UINT32: FunctionSignatureId
+FN_BIT_OR_UINT64: FunctionSignatureId
+FN_BIT_OR_BYTES: FunctionSignatureId
+FN_BIT_XOR_INT32: FunctionSignatureId
+FN_BIT_XOR_INT64: FunctionSignatureId
+FN_BIT_XOR_UINT32: FunctionSignatureId
+FN_BIT_XOR_UINT64: FunctionSignatureId
+FN_BIT_XOR_BYTES: FunctionSignatureId
+FN_LOGICAL_AND: FunctionSignatureId
+FN_LOGICAL_OR: FunctionSignatureId
+FN_APPROX_COUNT_DISTINCT: FunctionSignatureId
+FN_APPROX_QUANTILES: FunctionSignatureId
+FN_APPROX_TOP_COUNT: FunctionSignatureId
+FN_APPROX_TOP_SUM_INT64: FunctionSignatureId
+FN_APPROX_TOP_SUM_UINT64: FunctionSignatureId
+FN_APPROX_TOP_SUM_DOUBLE: FunctionSignatureId
+FN_APPROX_TOP_SUM_NUMERIC: FunctionSignatureId
+FN_APPROX_TOP_SUM_BIGNUMERIC: FunctionSignatureId
+FN_HLL_COUNT_MERGE: FunctionSignatureId
+FN_HLL_COUNT_EXTRACT: FunctionSignatureId
+FN_HLL_COUNT_INIT_INT64: FunctionSignatureId
+FN_HLL_COUNT_INIT_UINT64: FunctionSignatureId
+FN_HLL_COUNT_INIT_NUMERIC: FunctionSignatureId
+FN_HLL_COUNT_INIT_BIGNUMERIC: FunctionSignatureId
+FN_HLL_COUNT_INIT_STRING: FunctionSignatureId
+FN_HLL_COUNT_INIT_BYTES: FunctionSignatureId
+FN_HLL_COUNT_MERGE_PARTIAL: FunctionSignatureId
+FN_D3A_COUNT_MERGE: FunctionSignatureId
+FN_D3A_COUNT_EXTRACT: FunctionSignatureId
+FN_D3A_COUNT_INIT_INT64: FunctionSignatureId
+FN_D3A_COUNT_INIT_UINT64: FunctionSignatureId
+FN_D3A_COUNT_INIT_NUMERIC: FunctionSignatureId
+FN_D3A_COUNT_INIT_BIGNUMERIC: FunctionSignatureId
+FN_D3A_COUNT_INIT_STRING: FunctionSignatureId
+FN_D3A_COUNT_INIT_BYTES: FunctionSignatureId
+FN_D3A_COUNT_MERGE_PARTIAL: FunctionSignatureId
+FN_D3A_COUNT_TO_HLL: FunctionSignatureId
+FN_CORR: FunctionSignatureId
+FN_CORR_NUMERIC: FunctionSignatureId
+FN_CORR_BIGNUMERIC: FunctionSignatureId
+FN_COVAR_POP: FunctionSignatureId
+FN_COVAR_POP_NUMERIC: FunctionSignatureId
+FN_COVAR_POP_BIGNUMERIC: FunctionSignatureId
+FN_COVAR_SAMP: FunctionSignatureId
+FN_COVAR_SAMP_NUMERIC: FunctionSignatureId
+FN_COVAR_SAMP_BIGNUMERIC: FunctionSignatureId
+FN_STDDEV_POP: FunctionSignatureId
+FN_STDDEV_POP_NUMERIC: FunctionSignatureId
+FN_STDDEV_POP_BIGNUMERIC: FunctionSignatureId
+FN_STDDEV_SAMP: FunctionSignatureId
+FN_STDDEV_SAMP_NUMERIC: FunctionSignatureId
+FN_STDDEV_SAMP_BIGNUMERIC: FunctionSignatureId
+FN_VAR_POP: FunctionSignatureId
+FN_VAR_POP_NUMERIC: FunctionSignatureId
+FN_VAR_POP_BIGNUMERIC: FunctionSignatureId
+FN_VAR_SAMP: FunctionSignatureId
+FN_VAR_SAMP_NUMERIC: FunctionSignatureId
+FN_VAR_SAMP_BIGNUMERIC: FunctionSignatureId
+FN_ELEMENTWISE_SUM_INT32: FunctionSignatureId
+FN_ELEMENTWISE_SUM_INT64: FunctionSignatureId
+FN_ELEMENTWISE_SUM_UINT32: FunctionSignatureId
+FN_ELEMENTWISE_SUM_UINT64: FunctionSignatureId
+FN_ELEMENTWISE_SUM_FLOAT: FunctionSignatureId
+FN_ELEMENTWISE_SUM_DOUBLE: FunctionSignatureId
+FN_ELEMENTWISE_SUM_NUMERIC: FunctionSignatureId
+FN_ELEMENTWISE_SUM_BIGNUMERIC: FunctionSignatureId
+FN_ELEMENTWISE_SUM_INTERVAL: FunctionSignatureId
+FN_ELEMENTWISE_AVG_INT32: FunctionSignatureId
+FN_ELEMENTWISE_AVG_INT64: FunctionSignatureId
+FN_ELEMENTWISE_AVG_UINT32: FunctionSignatureId
+FN_ELEMENTWISE_AVG_UINT64: FunctionSignatureId
+FN_ELEMENTWISE_AVG_FLOAT: FunctionSignatureId
+FN_ELEMENTWISE_AVG_DOUBLE: FunctionSignatureId
+FN_ELEMENTWISE_AVG_NUMERIC: FunctionSignatureId
+FN_ELEMENTWISE_AVG_BIGNUMERIC: FunctionSignatureId
+FN_ELEMENTWISE_AVG_INTERVAL: FunctionSignatureId
+FN_COUNTIF: FunctionSignatureId
+FN_KLL_QUANTILES_INIT_INT64: FunctionSignatureId
+FN_KLL_QUANTILES_INIT_UINT64: FunctionSignatureId
+FN_KLL_QUANTILES_INIT_DOUBLE: FunctionSignatureId
+FN_KLL_QUANTILES_MERGE_PARTIAL: FunctionSignatureId
+FN_KLL_QUANTILES_MERGE_INT64: FunctionSignatureId
+FN_KLL_QUANTILES_MERGE_UINT64: FunctionSignatureId
+FN_KLL_QUANTILES_MERGE_DOUBLE: FunctionSignatureId
+FN_KLL_QUANTILES_EXTRACT_INT64: FunctionSignatureId
+FN_KLL_QUANTILES_EXTRACT_UINT64: FunctionSignatureId
+FN_KLL_QUANTILES_EXTRACT_DOUBLE: FunctionSignatureId
+FN_KLL_QUANTILES_MERGE_POINT_INT64: FunctionSignatureId
+FN_KLL_QUANTILES_MERGE_POINT_UINT64: FunctionSignatureId
+FN_KLL_QUANTILES_MERGE_POINT_DOUBLE: FunctionSignatureId
+FN_KLL_QUANTILES_EXTRACT_POINT_INT64: FunctionSignatureId
+FN_KLL_QUANTILES_EXTRACT_POINT_UINT64: FunctionSignatureId
+FN_KLL_QUANTILES_EXTRACT_POINT_DOUBLE: FunctionSignatureId
+FN_KLL_QUANTILES_MERGE_RELATIVE_RANK_INT64: FunctionSignatureId
+FN_KLL_QUANTILES_MERGE_RELATIVE_RANK_UINT64: FunctionSignatureId
+FN_KLL_QUANTILES_MERGE_RELATIVE_RANK_DOUBLE: FunctionSignatureId
+FN_KLL_QUANTILES_EXTRACT_RELATIVE_RANK_INT64: FunctionSignatureId
+FN_KLL_QUANTILES_EXTRACT_RELATIVE_RANK_UINT64: FunctionSignatureId
+FN_KLL_QUANTILES_EXTRACT_RELATIVE_RANK_DOUBLE: FunctionSignatureId
+FN_DENSE_RANK: FunctionSignatureId
+FN_RANK: FunctionSignatureId
+FN_ROW_NUMBER: FunctionSignatureId
+FN_PERCENT_RANK: FunctionSignatureId
+FN_CUME_DIST: FunctionSignatureId
+FN_NTILE: FunctionSignatureId
+FN_LEAD: FunctionSignatureId
+FN_LAG: FunctionSignatureId
+FN_FIRST_VALUE: FunctionSignatureId
+FN_LAST_VALUE: FunctionSignatureId
+FN_NTH_VALUE: FunctionSignatureId
+FN_PERCENTILE_CONT: FunctionSignatureId
+FN_PERCENTILE_CONT_NUMERIC: FunctionSignatureId
+FN_PERCENTILE_CONT_BIGNUMERIC: FunctionSignatureId
+FN_PERCENTILE_DISC: FunctionSignatureId
+FN_PERCENTILE_DISC_NUMERIC: FunctionSignatureId
+FN_PERCENTILE_DISC_BIGNUMERIC: FunctionSignatureId
+FN_IS_FIRST: FunctionSignatureId
+FN_IS_LAST: FunctionSignatureId
+FN_BIT_CAST_INT32_TO_INT32: FunctionSignatureId
+FN_BIT_CAST_UINT32_TO_INT32: FunctionSignatureId
+FN_BIT_CAST_INT64_TO_INT64: FunctionSignatureId
+FN_BIT_CAST_UINT64_TO_INT64: FunctionSignatureId
+FN_BIT_CAST_UINT32_TO_UINT32: FunctionSignatureId
+FN_BIT_CAST_INT32_TO_UINT32: FunctionSignatureId
+FN_BIT_CAST_UINT64_TO_UINT64: FunctionSignatureId
+FN_BIT_CAST_INT64_TO_UINT64: FunctionSignatureId
+FN_SESSION_USER: FunctionSignatureId
+FN_GENERATE_ARRAY_INT64: FunctionSignatureId
+FN_GENERATE_ARRAY_UINT64: FunctionSignatureId
+FN_GENERATE_ARRAY_NUMERIC: FunctionSignatureId
+FN_GENERATE_ARRAY_BIGNUMERIC: FunctionSignatureId
+FN_GENERATE_ARRAY_DOUBLE: FunctionSignatureId
+FN_GENERATE_DATE_ARRAY: FunctionSignatureId
+FN_GENERATE_TIMESTAMP_ARRAY: FunctionSignatureId
+FN_ARRAY_REVERSE: FunctionSignatureId
+FN_RANGE_BUCKET: FunctionSignatureId
+FN_RAND: FunctionSignatureId
+FN_GENERATE_UUID: FunctionSignatureId
+FN_NEW_UUID: FunctionSignatureId
+FN_JSON_EXTRACT: FunctionSignatureId
+FN_JSON_EXTRACT_JSON: FunctionSignatureId
+FN_JSON_EXTRACT_SCALAR: FunctionSignatureId
+FN_JSON_EXTRACT_SCALAR_JSON: FunctionSignatureId
+FN_JSON_EXTRACT_ARRAY: FunctionSignatureId
+FN_JSON_EXTRACT_ARRAY_JSON: FunctionSignatureId
+FN_JSON_EXTRACT_STRING_ARRAY: FunctionSignatureId
+FN_JSON_EXTRACT_STRING_ARRAY_JSON: FunctionSignatureId
+FN_JSON_QUERY_ARRAY: FunctionSignatureId
+FN_JSON_QUERY_ARRAY_JSON: FunctionSignatureId
+FN_JSON_VALUE_ARRAY: FunctionSignatureId
+FN_JSON_VALUE_ARRAY_JSON: FunctionSignatureId
+FN_JSON_SUBSCRIPT_INT64: FunctionSignatureId
+FN_JSON_SUBSCRIPT_STRING: FunctionSignatureId
+FN_TO_JSON_STRING: FunctionSignatureId
+FN_TO_JSON: FunctionSignatureId
+FN_TO_JSON_UNSUPPORTED_FIELDS: FunctionSignatureId
+FN_TO_JSON_PATH_AS_OBJECT: FunctionSignatureId
+FN_TO_JSON_UNSUPPORTED_FIELDS_PATH_AS_OBJECT: FunctionSignatureId
+FN_SAFE_TO_JSON: FunctionSignatureId
+FN_JSON_QUERY: FunctionSignatureId
+FN_JSON_QUERY_JSON: FunctionSignatureId
+FN_JSON_VALUE: FunctionSignatureId
+FN_JSON_VALUE_JSON: FunctionSignatureId
+FN_PARSE_JSON: FunctionSignatureId
+FN_FROM_PROTO_TIMESTAMP: FunctionSignatureId
+FN_FROM_PROTO_DATE: FunctionSignatureId
+FN_FROM_PROTO_TIME_OF_DAY: FunctionSignatureId
+FN_FROM_PROTO_DOUBLE: FunctionSignatureId
+FN_FROM_PROTO_FLOAT: FunctionSignatureId
+FN_FROM_PROTO_INT64: FunctionSignatureId
+FN_FROM_PROTO_UINT64: FunctionSignatureId
+FN_FROM_PROTO_INT32: FunctionSignatureId
+FN_FROM_PROTO_UINT32: FunctionSignatureId
+FN_FROM_PROTO_BOOL: FunctionSignatureId
+FN_FROM_PROTO_BYTES: FunctionSignatureId
+FN_FROM_PROTO_STRING: FunctionSignatureId
+FN_FROM_PROTO_DURATION: FunctionSignatureId
+FN_FROM_PROTO_IDEMPOTENT_TIMESTAMP: FunctionSignatureId
+FN_FROM_PROTO_IDEMPOTENT_DATE: FunctionSignatureId
+FN_FROM_PROTO_IDEMPOTENT_TIME: FunctionSignatureId
+FN_FROM_PROTO_IDEMPOTENT_DOUBLE: FunctionSignatureId
+FN_FROM_PROTO_IDEMPOTENT_FLOAT: FunctionSignatureId
+FN_FROM_PROTO_IDEMPOTENT_INT64: FunctionSignatureId
+FN_FROM_PROTO_IDEMPOTENT_UINT64: FunctionSignatureId
+FN_FROM_PROTO_IDEMPOTENT_INT32: FunctionSignatureId
+FN_FROM_PROTO_IDEMPOTENT_UINT32: FunctionSignatureId
+FN_FROM_PROTO_IDEMPOTENT_BOOL: FunctionSignatureId
+FN_FROM_PROTO_IDEMPOTENT_BYTES: FunctionSignatureId
+FN_FROM_PROTO_IDEMPOTENT_STRING: FunctionSignatureId
+FN_FROM_PROTO_IDEMPOTENT_INTERVAL: FunctionSignatureId
+FN_TO_PROTO_TIMESTAMP: FunctionSignatureId
+FN_TO_PROTO_DATE: FunctionSignatureId
+FN_TO_PROTO_TIME: FunctionSignatureId
+FN_TO_PROTO_DOUBLE: FunctionSignatureId
+FN_TO_PROTO_FLOAT: FunctionSignatureId
+FN_TO_PROTO_INT64: FunctionSignatureId
+FN_TO_PROTO_UINT64: FunctionSignatureId
+FN_TO_PROTO_INT32: FunctionSignatureId
+FN_TO_PROTO_UINT32: FunctionSignatureId
+FN_TO_PROTO_BOOL: FunctionSignatureId
+FN_TO_PROTO_BYTES: FunctionSignatureId
+FN_TO_PROTO_STRING: FunctionSignatureId
+FN_TO_PROTO_INTERVAL: FunctionSignatureId
+FN_TO_PROTO_IDEMPOTENT_TIMESTAMP: FunctionSignatureId
+FN_TO_PROTO_IDEMPOTENT_DATE: FunctionSignatureId
+FN_TO_PROTO_IDEMPOTENT_TIME_OF_DAY: FunctionSignatureId
+FN_TO_PROTO_IDEMPOTENT_DOUBLE: FunctionSignatureId
+FN_TO_PROTO_IDEMPOTENT_FLOAT: FunctionSignatureId
+FN_TO_PROTO_IDEMPOTENT_INT64: FunctionSignatureId
+FN_TO_PROTO_IDEMPOTENT_UINT64: FunctionSignatureId
+FN_TO_PROTO_IDEMPOTENT_INT32: FunctionSignatureId
+FN_TO_PROTO_IDEMPOTENT_UINT32: FunctionSignatureId
+FN_TO_PROTO_IDEMPOTENT_BOOL: FunctionSignatureId
+FN_TO_PROTO_IDEMPOTENT_BYTES: FunctionSignatureId
+FN_TO_PROTO_IDEMPOTENT_STRING: FunctionSignatureId
+FN_TO_PROTO_IDEMPOTENT_DURATION: FunctionSignatureId
+FN_PROTO_DEFAULT_IF_NULL: FunctionSignatureId
+FN_ENUM_VALUE_DESCRIPTOR_PROTO: FunctionSignatureId
+FN_NET_FORMAT_IP: FunctionSignatureId
+FN_NET_PARSE_IP: FunctionSignatureId
+FN_NET_FORMAT_PACKED_IP: FunctionSignatureId
+FN_NET_PARSE_PACKED_IP: FunctionSignatureId
+FN_NET_IP_IN_NET: FunctionSignatureId
+FN_NET_MAKE_NET: FunctionSignatureId
+FN_NET_HOST: FunctionSignatureId
+FN_NET_REG_DOMAIN: FunctionSignatureId
+FN_NET_PUBLIC_SUFFIX: FunctionSignatureId
+FN_NET_IP_FROM_STRING: FunctionSignatureId
+FN_NET_SAFE_IP_FROM_STRING: FunctionSignatureId
+FN_NET_IP_TO_STRING: FunctionSignatureId
+FN_NET_IP_NET_MASK: FunctionSignatureId
+FN_NET_IP_TRUNC: FunctionSignatureId
+FN_NET_IPV4_FROM_INT64: FunctionSignatureId
+FN_NET_IPV4_TO_INT64: FunctionSignatureId
+FN_MD5_BYTES: FunctionSignatureId
+FN_MD5_STRING: FunctionSignatureId
+FN_SHA1_BYTES: FunctionSignatureId
+FN_SHA1_STRING: FunctionSignatureId
+FN_SHA256_BYTES: FunctionSignatureId
+FN_SHA256_STRING: FunctionSignatureId
+FN_SHA512_BYTES: FunctionSignatureId
+FN_SHA512_STRING: FunctionSignatureId
+FN_FARM_FINGERPRINT_BYTES: FunctionSignatureId
+FN_FARM_FINGERPRINT_STRING: FunctionSignatureId
+FN_KEYS_NEW_KEYSET: FunctionSignatureId
+FN_KEYS_ADD_KEY_FROM_RAW_BYTES: FunctionSignatureId
+FN_KEYS_ROTATE_KEYSET: FunctionSignatureId
+FN_KEYS_KEYSET_LENGTH: FunctionSignatureId
+FN_KEYS_KEYSET_TO_JSON: FunctionSignatureId
+FN_KEYS_KEYSET_FROM_JSON: FunctionSignatureId
+FN_KEYS_KEYSET_CHAIN_STRING_BYTES_BYTES: FunctionSignatureId
+FN_KEYS_KEYSET_CHAIN_STRING_BYTES: FunctionSignatureId
+FN_KEYS_NEW_WRAPPED_KEYSET: FunctionSignatureId
+FN_KEYS_ROTATE_WRAPPED_KEYSET: FunctionSignatureId
+FN_KEYS_REWRAP_KEYSET: FunctionSignatureId
+FN_AEAD_ENVELOPE_ENCRYPT_STRING: FunctionSignatureId
+FN_AEAD_ENVELOPE_ENCRYPT_BYTES: FunctionSignatureId
+FN_AEAD_ENVELOPE_DECRYPT_STRING: FunctionSignatureId
+FN_AEAD_ENVELOPE_DECRYPT_BYTES: FunctionSignatureId
+FN_AEAD_ENCRYPT_STRING: FunctionSignatureId
+FN_AEAD_ENCRYPT_BYTES: FunctionSignatureId
+FN_AEAD_ENCRYPT_STRUCT_STRING: FunctionSignatureId
+FN_AEAD_ENCRYPT_STRUCT_BYTES: FunctionSignatureId
+FN_AEAD_DECRYPT_STRING: FunctionSignatureId
+FN_AEAD_DECRYPT_BYTES: FunctionSignatureId
+FN_AEAD_DECRYPT_STRUCT_STRING: FunctionSignatureId
+FN_AEAD_DECRYPT_STRUCT_BYTES: FunctionSignatureId
+FN_DETERMINISTIC_ENCRYPT_STRING: FunctionSignatureId
+FN_DETERMINISTIC_ENCRYPT_BYTES: FunctionSignatureId
+FN_DETERMINISTIC_DECRYPT_STRING: FunctionSignatureId
+FN_DETERMINISTIC_DECRYPT_BYTES: FunctionSignatureId
+FN_DETERMINISTIC_ENCRYPT_STRUCT_STRING: FunctionSignatureId
+FN_DETERMINISTIC_ENCRYPT_STRUCT_BYTES: FunctionSignatureId
+FN_DETERMINISTIC_DECRYPT_STRUCT_STRING: FunctionSignatureId
+FN_DETERMINISTIC_DECRYPT_STRUCT_BYTES: FunctionSignatureId
+FN_ST_GEOG_POINT: FunctionSignatureId
+FN_ST_MAKE_LINE: FunctionSignatureId
+FN_ST_MAKE_LINE_ARRAY: FunctionSignatureId
+FN_ST_MAKE_POLYGON: FunctionSignatureId
+FN_ST_MAKE_POLYGON_ORIENTED: FunctionSignatureId
+FN_ST_INTERSECTION: FunctionSignatureId
+FN_ST_UNION: FunctionSignatureId
+FN_ST_UNION_ARRAY: FunctionSignatureId
+FN_ST_DIFFERENCE: FunctionSignatureId
+FN_ST_UNARY_UNION: FunctionSignatureId
+FN_ST_CENTROID: FunctionSignatureId
+FN_ST_BUFFER: FunctionSignatureId
+FN_ST_BUFFER_WITH_TOLERANCE: FunctionSignatureId
+FN_ST_SIMPLIFY: FunctionSignatureId
+FN_ST_SNAP_TO_GRID: FunctionSignatureId
+FN_ST_CLOSEST_POINT: FunctionSignatureId
+FN_ST_BOUNDARY: FunctionSignatureId
+FN_ST_CONVEXHULL: FunctionSignatureId
+FN_ST_EXTERIORRING: FunctionSignatureId
+FN_ST_INTERIORRINGS: FunctionSignatureId
+FN_ST_LINE_SUBSTRING: FunctionSignatureId
+FN_ST_LINE_INTERPOLATE_POINT: FunctionSignatureId
+FN_ST_EQUALS: FunctionSignatureId
+FN_ST_INTERSECTS: FunctionSignatureId
+FN_ST_CONTAINS: FunctionSignatureId
+FN_ST_COVERS: FunctionSignatureId
+FN_ST_DISJOINT: FunctionSignatureId
+FN_ST_INTERSECTS_BOX: FunctionSignatureId
+FN_ST_DWITHIN: FunctionSignatureId
+FN_ST_WITHIN: FunctionSignatureId
+FN_ST_COVEREDBY: FunctionSignatureId
+FN_ST_TOUCHES: FunctionSignatureId
+FN_ST_HAUSDORFF_DWITHIN: FunctionSignatureId
+FN_ST_IS_EMPTY: FunctionSignatureId
+FN_ST_IS_COLLECTION: FunctionSignatureId
+FN_ST_DIMENSION: FunctionSignatureId
+FN_ST_NUM_POINTS: FunctionSignatureId
+FN_ST_NUM_GEOMETRIES: FunctionSignatureId
+FN_ST_GEOMETRY_TYPE: FunctionSignatureId
+FN_ST_DUMP: FunctionSignatureId
+FN_ST_POINT_N: FunctionSignatureId
+FN_ST_START_POINT: FunctionSignatureId
+FN_ST_END_POINT: FunctionSignatureId
+FN_ST_IS_CLOSED: FunctionSignatureId
+FN_ST_IS_RING: FunctionSignatureId
+FN_ST_DUMP_POINTS: FunctionSignatureId
+FN_ST_LENGTH: FunctionSignatureId
+FN_ST_PERIMETER: FunctionSignatureId
+FN_ST_AREA: FunctionSignatureId
+FN_ST_DISTANCE: FunctionSignatureId
+FN_ST_MAX_DISTANCE: FunctionSignatureId
+FN_ST_AZIMUTH: FunctionSignatureId
+FN_ST_ANGLE: FunctionSignatureId
+FN_ST_LINE_LOCATE_POINT: FunctionSignatureId
+FN_ST_HAUSDORFF_DISTANCE: FunctionSignatureId
+FN_ST_GEOG_FROM_TEXT: FunctionSignatureId
+FN_ST_GEOG_FROM_TEXT_EXT: FunctionSignatureId
+FN_ST_GEOG_FROM_KML: FunctionSignatureId
+FN_ST_GEOG_FROM_GEO_JSON: FunctionSignatureId
+FN_ST_GEOG_FROM_GEO_JSON_EXT: FunctionSignatureId
+FN_ST_GEOG_FROM_WKB: FunctionSignatureId
+FN_ST_GEOG_FROM_WKB_HEX: FunctionSignatureId
+FN_ST_GEOG_FROM_WKB_EXT: FunctionSignatureId
+FN_ST_GEOG_FROM_WKB_HEX_EXT: FunctionSignatureId
+FN_ST_GEOG_FROM_STRING: FunctionSignatureId
+FN_ST_GEOG_FROM_BYTES: FunctionSignatureId
+FN_ST_AS_TEXT: FunctionSignatureId
+FN_ST_AS_KML: FunctionSignatureId
+FN_ST_AS_GEO_JSON: FunctionSignatureId
+FN_ST_AS_BINARY: FunctionSignatureId
+FN_ST_GEOHASH: FunctionSignatureId
+FN_ST_GEOG_POINT_FROM_GEOHASH: FunctionSignatureId
+FN_ST_UNION_AGG: FunctionSignatureId
+FN_ST_ACCUM: FunctionSignatureId
+FN_ST_CENTROID_AGG: FunctionSignatureId
+FN_ST_NEAREST_NEIGHBORS: FunctionSignatureId
+FN_ST_EXTENT: FunctionSignatureId
+FN_S2_COVERINGCELLIDS: FunctionSignatureId
+FN_S2_CELLIDFROMPOINT: FunctionSignatureId
+FN_ST_X: FunctionSignatureId
+FN_ST_Y: FunctionSignatureId
+FN_ST_CLUSTERDBSCAN: FunctionSignatureId
+FN_ST_BOUNDING_BOX: FunctionSignatureId
+FN_ANON_COUNT: FunctionSignatureId
+FN_ANON_COUNT_STAR: FunctionSignatureId
+FN_ANON_SUM_INT64: FunctionSignatureId
+FN_ANON_SUM_UINT64: FunctionSignatureId
+FN_ANON_SUM_DOUBLE: FunctionSignatureId
+FN_ANON_SUM_NUMERIC: FunctionSignatureId
+FN_ANON_AVG_DOUBLE: FunctionSignatureId
+FN_ANON_AVG_NUMERIC: FunctionSignatureId
+FN_ANON_VAR_POP_DOUBLE: FunctionSignatureId
+FN_ANON_VAR_POP_DOUBLE_ARRAY: FunctionSignatureId
+FN_ANON_STDDEV_POP_DOUBLE: FunctionSignatureId
+FN_ANON_STDDEV_POP_DOUBLE_ARRAY: FunctionSignatureId
+FN_ANON_PERCENTILE_CONT_DOUBLE: FunctionSignatureId
+FN_ANON_PERCENTILE_CONT_DOUBLE_ARRAY: FunctionSignatureId
+FN_ANON_SUM_WITH_REPORT_JSON_INT64: FunctionSignatureId
+FN_ANON_SUM_WITH_REPORT_JSON_DOUBLE: FunctionSignatureId
+FN_ANON_SUM_WITH_REPORT_JSON_UINT64: FunctionSignatureId
+FN_ANON_SUM_WITH_REPORT_PROTO_INT64: FunctionSignatureId
+FN_ANON_SUM_WITH_REPORT_PROTO_DOUBLE: FunctionSignatureId
+FN_ANON_SUM_WITH_REPORT_PROTO_UINT64: FunctionSignatureId
+FN_ANON_QUANTILES_DOUBLE: FunctionSignatureId
+FN_ANON_QUANTILES_DOUBLE_ARRAY: FunctionSignatureId
+FN_ANON_COUNT_WITH_REPORT_JSON: FunctionSignatureId
+FN_ANON_COUNT_WITH_REPORT_PROTO: FunctionSignatureId
+FN_ANON_COUNT_STAR_WITH_REPORT_JSON: FunctionSignatureId
+FN_ANON_COUNT_STAR_WITH_REPORT_PROTO: FunctionSignatureId
+FN_ANON_QUANTILES_DOUBLE_WITH_REPORT_JSON: FunctionSignatureId
+FN_ANON_QUANTILES_DOUBLE_WITH_REPORT_PROTO: FunctionSignatureId
+FN_ANON_QUANTILES_DOUBLE_ARRAY_WITH_REPORT_JSON: FunctionSignatureId
+FN_ANON_QUANTILES_DOUBLE_ARRAY_WITH_REPORT_PROTO: FunctionSignatureId
+FN_ANON_AVG_DOUBLE_WITH_REPORT_JSON: FunctionSignatureId
+FN_ANON_AVG_DOUBLE_WITH_REPORT_PROTO: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_COUNT: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_COUNT_STAR: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_SUM_INT64: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_SUM_UINT64: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_SUM_DOUBLE: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_SUM_NUMERIC: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_AVG_DOUBLE: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_AVG_NUMERIC: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_VAR_POP_DOUBLE: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_VAR_POP_DOUBLE_ARRAY: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_STDDEV_POP_DOUBLE: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_STDDEV_POP_DOUBLE_ARRAY: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_PERCENTILE_CONT_DOUBLE: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_PERCENTILE_CONT_DOUBLE_ARRAY: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_JSON_INT64: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_JSON_DOUBLE: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_JSON_UINT64: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_PROTO_INT64: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_PROTO_DOUBLE: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_PROTO_UINT64: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_ARRAY: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_COUNT_REPORT_JSON: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_COUNT_REPORT_PROTO: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_COUNT_STAR_REPORT_JSON: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_COUNT_STAR_REPORT_PROTO: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_REPORT_JSON: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_REPORT_PROTO: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_ARRAY_REPORT_JSON: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_ARRAY_REPORT_PROTO: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_AVG_DOUBLE_REPORT_JSON: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_AVG_DOUBLE_REPORT_PROTO: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_APPROX_COUNT_DISTINCT: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_APPROX_COUNT_DISTINCT_REPORT_JSON: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_APPROX_COUNT_DISTINCT_REPORT_PROTO: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_INIT_FOR_DP_APPROX_COUNT_DISTINCT: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_MERGE_PARTIAL_FOR_DP_APPROX_COUNT_DISTINCT: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_EXTRACT_FOR_DP_APPROX_COUNT_DISTINCT: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_EXTRACT_FOR_DP_APPROX_COUNT_DISTINCT_REPORT_JSON: FunctionSignatureId
+FN_DIFFERENTIAL_PRIVACY_EXTRACT_FOR_DP_APPROX_COUNT_DISTINCT_REPORT_PROTO: FunctionSignatureId
+FN_FLATTEN: FunctionSignatureId
+FN_ARRAY_AT_OFFSET: FunctionSignatureId
+FN_ARRAY_AT_ORDINAL: FunctionSignatureId
+FN_ARRAY_CONCAT: FunctionSignatureId
+FN_ARRAY_CONCAT_OP: FunctionSignatureId
+FN_ARRAY_LENGTH: FunctionSignatureId
+FN_ARRAY_TO_BYTES: FunctionSignatureId
+FN_ARRAY_TO_STRING: FunctionSignatureId
+FN_MAKE_ARRAY: FunctionSignatureId
+FN_SAFE_ARRAY_AT_OFFSET: FunctionSignatureId
+FN_SAFE_ARRAY_AT_ORDINAL: FunctionSignatureId
+FN_ARRAY_IS_DISTINCT: FunctionSignatureId
+FN_PROTO_MAP_AT_KEY: FunctionSignatureId
+FN_SAFE_PROTO_MAP_AT_KEY: FunctionSignatureId
+FN_PROTO_MODIFY_MAP: FunctionSignatureId
+FN_ARRAY_FILTER: FunctionSignatureId
+FN_ARRAY_FILTER_WITH_INDEX: FunctionSignatureId
+FN_ARRAY_TRANSFORM: FunctionSignatureId
+FN_ARRAY_TRANSFORM_WITH_INDEX: FunctionSignatureId
+FN_PROTO_MAP_CONTAINS_KEY: FunctionSignatureId
+FN_ARRAY_INCLUDES: FunctionSignatureId
+FN_ARRAY_INCLUDES_LAMBDA: FunctionSignatureId
+FN_ARRAY_INCLUDES_ANY: FunctionSignatureId
+FN_ARRAY_INCLUDES_ALL: FunctionSignatureId
+FN_ARRAY_FIRST: FunctionSignatureId
+FN_ARRAY_LAST: FunctionSignatureId
+FN_ARRAY_SLICE: FunctionSignatureId
+FN_ARRAY_SUM_INT32: FunctionSignatureId
+FN_ARRAY_SUM_INT64: FunctionSignatureId
+FN_ARRAY_SUM_UINT32: FunctionSignatureId
+FN_ARRAY_SUM_UINT64: FunctionSignatureId
+FN_ARRAY_SUM_FLOAT: FunctionSignatureId
+FN_ARRAY_SUM_DOUBLE: FunctionSignatureId
+FN_ARRAY_SUM_NUMERIC: FunctionSignatureId
+FN_ARRAY_SUM_BIGNUMERIC: FunctionSignatureId
+FN_ARRAY_SUM_INTERVAL: FunctionSignatureId
+FN_ARRAY_AVG_INT32: FunctionSignatureId
+FN_ARRAY_AVG_INT64: FunctionSignatureId
+FN_ARRAY_AVG_UINT32: FunctionSignatureId
+FN_ARRAY_AVG_UINT64: FunctionSignatureId
+FN_ARRAY_AVG_FLOAT: FunctionSignatureId
+FN_ARRAY_AVG_DOUBLE: FunctionSignatureId
+FN_ARRAY_AVG_NUMERIC: FunctionSignatureId
+FN_ARRAY_AVG_BIGNUMERIC: FunctionSignatureId
+FN_ARRAY_AVG_INTERVAL: FunctionSignatureId
+FN_ARRAY_OFFSET: FunctionSignatureId
+FN_ARRAY_OFFSETS: FunctionSignatureId
+FN_ARRAY_FIND: FunctionSignatureId
+FN_ARRAY_FIND_ALL: FunctionSignatureId
+FN_ARRAY_OFFSET_LAMBDA: FunctionSignatureId
+FN_ARRAY_OFFSETS_LAMBDA: FunctionSignatureId
+FN_ARRAY_FIND_LAMBDA: FunctionSignatureId
+FN_ARRAY_FIND_ALL_LAMBDA: FunctionSignatureId
+FN_ARRAY_MIN: FunctionSignatureId
+FN_ARRAY_MAX: FunctionSignatureId
+FN_ARRAY_MAX_FLOAT: FunctionSignatureId
+FN_ARRAY_MAX_DOUBLE: FunctionSignatureId
+FN_ARRAY_FIRST_N: FunctionSignatureId
+FN_ARRAY_LAST_N: FunctionSignatureId
+FN_ARRAY_REMOVE_FIRST_N: FunctionSignatureId
+FN_ARRAY_REMOVE_LAST_N: FunctionSignatureId
+FN_ARRAY_ZIP_TWO_ARRAY: FunctionSignatureId
+FN_ARRAY_ZIP_TWO_ARRAY_LAMBDA: FunctionSignatureId
+FN_ARRAY_ZIP_THREE_ARRAY: FunctionSignatureId
+FN_ARRAY_ZIP_THREE_ARRAY_LAMBDA: FunctionSignatureId
+FN_ARRAY_ZIP_FOUR_ARRAY: FunctionSignatureId
+FN_ARRAY_ZIP_FOUR_ARRAY_LAMBDA: FunctionSignatureId
+FN_JSON_TO_INT64: FunctionSignatureId
+FN_JSON_TO_BOOL: FunctionSignatureId
+FN_JSON_TO_STRING: FunctionSignatureId
+FN_JSON_TYPE: FunctionSignatureId
+FN_JSON_TO_DOUBLE: FunctionSignatureId
+FN_JSON_LAX_TO_INT64: FunctionSignatureId
+FN_JSON_LAX_TO_BOOL: FunctionSignatureId
+FN_JSON_LAX_TO_STRING: FunctionSignatureId
+FN_JSON_LAX_TO_DOUBLE: FunctionSignatureId
+FN_JSON_ARRAY: FunctionSignatureId
+FN_JSON_OBJECT: FunctionSignatureId
+FN_JSON_OBJECT_ARRAYS: FunctionSignatureId
+FN_JSON_REMOVE: FunctionSignatureId
+FN_JSON_SET: FunctionSignatureId
+FN_JSON_STRIP_NULLS: FunctionSignatureId
+FN_JSON_ARRAY_INSERT: FunctionSignatureId
+FN_JSON_ARRAY_APPEND: FunctionSignatureId
+FN_APPLY: FunctionSignatureId
+FN_RANGE: FunctionSignatureId
+FN_RANGE_IS_START_UNBOUNDED: FunctionSignatureId
+FN_RANGE_IS_END_UNBOUNDED: FunctionSignatureId
+FN_RANGE_START: FunctionSignatureId
+FN_RANGE_END: FunctionSignatureId
+FN_RANGE_OVERLAPS: FunctionSignatureId
+FN_RANGE_INTERSECT: FunctionSignatureId
+FN_GENERATE_DATE_RANGE_ARRAY: FunctionSignatureId
+FN_GENERATE_DATETIME_RANGE_ARRAY: FunctionSignatureId
+FN_GENERATE_TIMESTAMP_RANGE_ARRAY: FunctionSignatureId
+FN_RANGE_CONTAINS_RANGE: FunctionSignatureId
+FN_RANGE_CONTAINS_ELEMENT: FunctionSignatureId
+FN_COSINE_DISTANCE_DENSE_DOUBLE: FunctionSignatureId
+FN_COSINE_DISTANCE_DENSE_FLOAT: FunctionSignatureId
+FN_COSINE_DISTANCE_SPARSE_INT64: FunctionSignatureId
+FN_COSINE_DISTANCE_SPARSE_STRING: FunctionSignatureId
+FN_APPROX_COSINE_DISTANCE_DOUBLE: FunctionSignatureId
+FN_APPROX_COSINE_DISTANCE_FLOAT: FunctionSignatureId
+FN_APPROX_COSINE_DISTANCE_DOUBLE_WITH_JSON_OPTIONS: FunctionSignatureId
+FN_APPROX_COSINE_DISTANCE_FLOAT_WITH_JSON_OPTIONS: FunctionSignatureId
+FN_APPROX_COSINE_DISTANCE_DOUBLE_WITH_PROTO_OPTIONS: FunctionSignatureId
+FN_APPROX_COSINE_DISTANCE_FLOAT_WITH_PROTO_OPTIONS: FunctionSignatureId
+FN_EUCLIDEAN_DISTANCE_DENSE_DOUBLE: FunctionSignatureId
+FN_EUCLIDEAN_DISTANCE_DENSE_FLOAT: FunctionSignatureId
+FN_EUCLIDEAN_DISTANCE_SPARSE_INT64: FunctionSignatureId
+FN_EUCLIDEAN_DISTANCE_SPARSE_STRING: FunctionSignatureId
+FN_APPROX_EUCLIDEAN_DISTANCE_DOUBLE: FunctionSignatureId
+FN_APPROX_EUCLIDEAN_DISTANCE_FLOAT: FunctionSignatureId
+FN_APPROX_EUCLIDEAN_DISTANCE_DOUBLE_WITH_JSON_OPTIONS: FunctionSignatureId
+FN_APPROX_EUCLIDEAN_DISTANCE_FLOAT_WITH_JSON_OPTIONS: FunctionSignatureId
+FN_APPROX_EUCLIDEAN_DISTANCE_DOUBLE_WITH_PROTO_OPTIONS: FunctionSignatureId
+FN_APPROX_EUCLIDEAN_DISTANCE_FLOAT_WITH_PROTO_OPTIONS: FunctionSignatureId
+FN_EDIT_DISTANCE: FunctionSignatureId
+FN_EDIT_DISTANCE_BYTES: FunctionSignatureId
+FN_DOT_PRODUCT_INT64: FunctionSignatureId
+FN_DOT_PRODUCT_FLOAT: FunctionSignatureId
+FN_DOT_PRODUCT_DOUBLE: FunctionSignatureId
+FN_APPROX_DOT_PRODUCT_INT64: FunctionSignatureId
+FN_APPROX_DOT_PRODUCT_FLOAT: FunctionSignatureId
+FN_APPROX_DOT_PRODUCT_DOUBLE: FunctionSignatureId
+FN_APPROX_DOT_PRODUCT_INT64_WITH_JSON_OPTIONS: FunctionSignatureId
+FN_APPROX_DOT_PRODUCT_FLOAT_WITH_JSON_OPTIONS: FunctionSignatureId
+FN_APPROX_DOT_PRODUCT_DOUBLE_WITH_JSON_OPTIONS: FunctionSignatureId
+FN_APPROX_DOT_PRODUCT_INT64_WITH_PROTO_OPTIONS: FunctionSignatureId
+FN_APPROX_DOT_PRODUCT_FLOAT_WITH_PROTO_OPTIONS: FunctionSignatureId
+FN_APPROX_DOT_PRODUCT_DOUBLE_WITH_PROTO_OPTIONS: FunctionSignatureId
+FN_MANHATTAN_DISTANCE_INT64: FunctionSignatureId
+FN_MANHATTAN_DISTANCE_FLOAT: FunctionSignatureId
+FN_MANHATTAN_DISTANCE_DOUBLE: FunctionSignatureId
+FN_L1_NORM_INT64: FunctionSignatureId
+FN_L1_NORM_FLOAT: FunctionSignatureId
+FN_L1_NORM_DOUBLE: FunctionSignatureId
+FN_L2_NORM_INT64: FunctionSignatureId
+FN_L2_NORM_FLOAT: FunctionSignatureId
+FN_L2_NORM_DOUBLE: FunctionSignatureId
+FN_IS_SOURCE_NODE: FunctionSignatureId
+FN_IS_DEST_NODE: FunctionSignatureId
+FN_SAME_GRAPH_ELEMENT: FunctionSignatureId
+FN_ALL_DIFFERENT_GRAPH_ELEMENT: FunctionSignatureId
+FN_PROPERTY_EXISTS: FunctionSignatureId
+FN_EQUAL_GRAPH_NODE: FunctionSignatureId
+FN_EQUAL_GRAPH_EDGE: FunctionSignatureId
+FN_NOT_EQUAL_GRAPH_NODE: FunctionSignatureId
+FN_NOT_EQUAL_GRAPH_EDGE: FunctionSignatureId
+FN_LABELS_GRAPH_ELEMENT: FunctionSignatureId
+FN_PROPERTY_NAMES_GRAPH_ELEMENT: FunctionSignatureId
+FN_TYPEOF_GRAPH_ELEMENT: FunctionSignatureId
+FN_ELEMENT_ID_GRAPH_ELEMENT: FunctionSignatureId
+FN_SOURCE_NODE_ID: FunctionSignatureId
+FN_DESTINATION_NODE_ID: FunctionSignatureId
+FN_ELEMENT_DEFINITION_NAME: FunctionSignatureId
+FN_PATH_LENGTH: FunctionSignatureId
+FN_PATH_NODES: FunctionSignatureId
+FN_PATH_EDGES: FunctionSignatureId
+FN_PATH_FIRST: FunctionSignatureId
+FN_PATH_LAST: FunctionSignatureId
+FN_CONCAT_PATH: FunctionSignatureId
+FN_CONCAT_OP_PATH: FunctionSignatureId
+FN_PATH_CREATE: FunctionSignatureId
+FN_IS_ACYCLIC: FunctionSignatureId
+FN_IS_TRAIL: FunctionSignatureId
+FN_IS_SIMPLE: FunctionSignatureId
+FN_UNCHECKED_CONCAT_PATH: FunctionSignatureId
+FN_UNCHECKED_PATH_CREATE: FunctionSignatureId
+FN_DYNAMIC_PROPERTY_EQUALS: FunctionSignatureId
+FN_JSON_TO_BOOL_ARRAY: FunctionSignatureId
+FN_JSON_LAX_TO_BOOL_ARRAY: FunctionSignatureId
+FN_JSON_TO_FLOAT64_ARRAY: FunctionSignatureId
+FN_JSON_LAX_TO_FLOAT64_ARRAY: FunctionSignatureId
+FN_JSON_TO_INT64_ARRAY: FunctionSignatureId
+FN_JSON_LAX_TO_INT64_ARRAY: FunctionSignatureId
+FN_JSON_TO_STRING_ARRAY: FunctionSignatureId
+FN_JSON_LAX_TO_STRING_ARRAY: FunctionSignatureId
+FN_JSON_TO_FLOAT32: FunctionSignatureId
+FN_JSON_LAX_TO_FLOAT32: FunctionSignatureId
+FN_JSON_TO_FLOAT32_ARRAY: FunctionSignatureId
+FN_JSON_LAX_TO_FLOAT32_ARRAY: FunctionSignatureId
+FN_JSON_TO_INT32: FunctionSignatureId
+FN_JSON_LAX_TO_INT32: FunctionSignatureId
+FN_JSON_TO_INT32_ARRAY: FunctionSignatureId
+FN_JSON_LAX_TO_INT32_ARRAY: FunctionSignatureId
+FN_JSON_TO_UINT32: FunctionSignatureId
+FN_JSON_LAX_TO_UINT32: FunctionSignatureId
+FN_JSON_TO_UINT32_ARRAY: FunctionSignatureId
+FN_JSON_LAX_TO_UINT32_ARRAY: FunctionSignatureId
+FN_JSON_TO_UINT64: FunctionSignatureId
+FN_JSON_LAX_TO_UINT64: FunctionSignatureId
+FN_JSON_TO_UINT64_ARRAY: FunctionSignatureId
+FN_JSON_LAX_TO_UINT64_ARRAY: FunctionSignatureId
+FN_JSON_CONTAINS: FunctionSignatureId
+FN_JSON_KEYS: FunctionSignatureId
+FN_JSON_FLATTEN: FunctionSignatureId
+FN_MAP_FROM_ARRAY: FunctionSignatureId
+FN_MAP_ENTRIES_SORTED: FunctionSignatureId
+FN_MAP_ENTRIES_UNSORTED: FunctionSignatureId
+FN_MAP_GET: FunctionSignatureId
+FN_MAP_SUBSCRIPT: FunctionSignatureId
+FN_MAP_SUBSCRIPT_WITH_KEY: FunctionSignatureId
+FN_MAP_CONTAINS_KEY: FunctionSignatureId
+FN_MAP_KEYS_SORTED: FunctionSignatureId
+FN_MAP_KEYS_UNSORTED: FunctionSignatureId
+FN_MAP_VALUES_SORTED: FunctionSignatureId
+FN_MAP_VALUES_UNSORTED: FunctionSignatureId
+FN_MAP_VALUES_SORTED_BY_KEY: FunctionSignatureId
+FN_MAP_EMPTY: FunctionSignatureId
+FN_MAP_INSERT: FunctionSignatureId
+FN_MAP_INSERT_OR_REPLACE: FunctionSignatureId
+FN_MAP_REPLACE_KV_PAIRS: FunctionSignatureId
+FN_MAP_REPLACE_K_REPEATED_V_LAMBDA: FunctionSignatureId
+FN_MAP_CARDINALITY: FunctionSignatureId
+FN_MAP_DELETE: FunctionSignatureId
+FN_MAP_FILTER: FunctionSignatureId
+FN_MAP_SAFE_SUBSCRIPT_WITH_KEY: FunctionSignatureId
+FN_AGG: FunctionSignatureId
+FN_FIRST_AGG: FunctionSignatureId
+FN_LAST_AGG: FunctionSignatureId
+FN_MATCH_NUMBER: FunctionSignatureId
+FN_MATCH_ROW_NUMBER: FunctionSignatureId
+FN_CLASSIFIER: FunctionSignatureId
+FN_NEXT: FunctionSignatureId
+FN_PREV: FunctionSignatureId
+FN_ZSTD_COMPRESS_FROM_BYTES: FunctionSignatureId
+FN_ZSTD_COMPRESS_FROM_STRING: FunctionSignatureId
+FN_ZSTD_DECOMPRESS_TO_BYTES: FunctionSignatureId
+FN_ZSTD_DECOMPRESS_TO_STRING: FunctionSignatureId
+FN_VECTOR_SEARCH_TVF: FunctionSignatureId
+FN_TUMBLE: FunctionSignatureId
+FN_HOP: FunctionSignatureId
+FN_TUMBLE_NO_TIMESTAMP_COL: FunctionSignatureId
+FN_HOP_NO_TIMESTAMP_COL: FunctionSignatureId
