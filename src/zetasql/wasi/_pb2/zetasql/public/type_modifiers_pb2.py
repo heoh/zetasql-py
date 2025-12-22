@@ -22,8 +22,8 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.public import collation_pb2 as zetasql_dot_public_dot_collation__pb2
-from zetasql.public import type_parameters_pb2 as zetasql_dot_public_dot_type__parameters__pb2
+from zetasql.wasi._pb2.zetasql.public import collation_pb2 as zetasql_dot_public_dot_collation__pb2
+from zetasql.wasi._pb2.zetasql.public import type_parameters_pb2 as zetasql_dot_public_dot_type__parameters__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n#zetasql/public/type_modifiers.proto\x12\x07zetasql\x1a\x1ezetasql/public/collation.proto\x1a$zetasql/public/type_parameters.proto\"w\n\x12TypeModifiersProto\x12\x35\n\x0ftype_parameters\x18\x01 \x01(\x0b\x32\x1c.zetasql.TypeParametersProto\x12*\n\tcollation\x18\x02 \x01(\x0b\x32\x17.zetasql.CollationProtoB*\n\x12\x63om.google.zetasqlB\x14ZetaSQLTypeModifiers')

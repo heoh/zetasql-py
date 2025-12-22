@@ -1,4 +1,4 @@
-from zetasql.resolved_ast import resolved_ast_enums_pb2 as _resolved_ast_enums_pb2
+from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_enums_pb2 as _resolved_ast_enums_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message

@@ -22,15 +22,15 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.proto import function_pb2 as zetasql_dot_proto_dot_function__pb2
-from zetasql.proto import options_pb2 as zetasql_dot_proto_dot_options__pb2
-from zetasql.proto import simple_property_graph_pb2 as zetasql_dot_proto_dot_simple__property__graph__pb2
-from zetasql.public import simple_connection_pb2 as zetasql_dot_public_dot_simple__connection__pb2
-from zetasql.public import simple_constant_pb2 as zetasql_dot_public_dot_simple__constant__pb2
-from zetasql.public import simple_model_pb2 as zetasql_dot_public_dot_simple__model__pb2
-from zetasql.public import simple_sequence_pb2 as zetasql_dot_public_dot_simple__sequence__pb2
-from zetasql.public import simple_table_pb2 as zetasql_dot_public_dot_simple__table__pb2
-from zetasql.public import type_pb2 as zetasql_dot_public_dot_type__pb2
+from zetasql.wasi._pb2.zetasql.proto import function_pb2 as zetasql_dot_proto_dot_function__pb2
+from zetasql.wasi._pb2.zetasql.proto import options_pb2 as zetasql_dot_proto_dot_options__pb2
+from zetasql.wasi._pb2.zetasql.proto import simple_property_graph_pb2 as zetasql_dot_proto_dot_simple__property__graph__pb2
+from zetasql.wasi._pb2.zetasql.public import simple_connection_pb2 as zetasql_dot_public_dot_simple__connection__pb2
+from zetasql.wasi._pb2.zetasql.public import simple_constant_pb2 as zetasql_dot_public_dot_simple__constant__pb2
+from zetasql.wasi._pb2.zetasql.public import simple_model_pb2 as zetasql_dot_public_dot_simple__model__pb2
+from zetasql.wasi._pb2.zetasql.public import simple_sequence_pb2 as zetasql_dot_public_dot_simple__sequence__pb2
+from zetasql.wasi._pb2.zetasql.public import simple_table_pb2 as zetasql_dot_public_dot_simple__table__pb2
+from zetasql.wasi._pb2.zetasql.public import type_pb2 as zetasql_dot_public_dot_type__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\"zetasql/proto/simple_catalog.proto\x12\x07zetasql\x1a\x1czetasql/proto/function.proto\x1a\x1bzetasql/proto/options.proto\x1a)zetasql/proto/simple_property_graph.proto\x1a&zetasql/public/simple_connection.proto\x1a$zetasql/public/simple_constant.proto\x1a!zetasql/public/simple_model.proto\x1a$zetasql/public/simple_sequence.proto\x1a!zetasql/public/simple_table.proto\x1a\x19zetasql/public/type.proto\"\xff\x05\n\x12SimpleCatalogProto\x12\x0c\n\x04name\x18\x01 \x01(\t\x12(\n\x05table\x18\x02 \x03(\x0b\x32\x19.zetasql.SimpleTableProto\x12>\n\nnamed_type\x18\x03 \x03(\x0b\x32*.zetasql.SimpleCatalogProto.NamedTypeProto\x12,\n\x07\x63\x61talog\x18\x04 \x03(\x0b\x32\x1b.zetasql.SimpleCatalogProto\x12M\n\x18\x62uiltin_function_options\x18\x05 \x01(\x0b\x32+.zetasql.ZetaSQLBuiltinFunctionOptionsProto\x12/\n\x0f\x63ustom_function\x18\x06 \x03(\x0b\x32\x16.zetasql.FunctionProto\x12\x35\n\ncustom_tvf\x18\t \x03(\x0b\x32!.zetasql.TableValuedFunctionProto\x12%\n\x19\x66ile_descriptor_set_index\x18\x07 \x01(\x05:\x02-1\x12*\n\tprocedure\x18\x08 \x03(\x0b\x32\x17.zetasql.ProcedureProto\x12.\n\x08\x63onstant\x18\n \x03(\x0b\x32\x1c.zetasql.SimpleConstantProto\x12\x39\n\x0eproperty_graph\x18\x0b \x03(\x0b\x32!.zetasql.SimplePropertyGraphProto\x12\x32\n\nconnection\x18\x0c \x03(\x0b\x32\x1e.zetasql.SimpleConnectionProto\x12(\n\x05model\x18\r \x03(\x0b\x32\x19.zetasql.SimpleModelProto\x12.\n\x08sequence\x18\x0e \x03(\x0b\x32\x1c.zetasql.SimpleSequenceProto\x1a@\n\x0eNamedTypeProto\x12\x0c\n\x04name\x18\x01 \x01(\t\x12 \n\x04type\x18\x02 \x01(\x0b\x32\x12.zetasql.TypeProtoB)\n\x12\x63om.google.zetasqlB\x13SimpleCatalogProtos')

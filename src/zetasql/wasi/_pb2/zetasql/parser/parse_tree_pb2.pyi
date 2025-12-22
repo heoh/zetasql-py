@@ -1,6 +1,6 @@
-from zetasql.parser import ast_enums_pb2 as _ast_enums_pb2
-from zetasql.public import parse_location_range_pb2 as _parse_location_range_pb2
-from zetasql.public import type_pb2 as _type_pb2
+from zetasql.wasi._pb2.zetasql.parser import ast_enums_pb2 as _ast_enums_pb2
+from zetasql.wasi._pb2.zetasql.public import parse_location_range_pb2 as _parse_location_range_pb2
+from zetasql.wasi._pb2.zetasql.public import type_pb2 as _type_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message

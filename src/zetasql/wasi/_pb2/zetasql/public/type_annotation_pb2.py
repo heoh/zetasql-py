@@ -22,7 +22,7 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.public.proto import type_annotation_pb2 as zetasql_dot_public_dot_proto_dot_type__annotation__pb2
+from zetasql.wasi._pb2.zetasql.public.proto import type_annotation_pb2 as zetasql_dot_public_dot_proto_dot_type__annotation__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n$zetasql/public/type_annotation.proto\x12\x0fzetasql.storage\x1a*zetasql/public/proto/type_annotation.protoB\x1e\n\x12\x63om.google.zetasql\xa2\x02\x07ZETASQL')

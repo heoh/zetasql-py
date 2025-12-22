@@ -22,7 +22,7 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.compliance import known_error_pb2 as zetasql_dot_compliance_dot_known__error__pb2
+from zetasql.wasi._pb2.zetasql.compliance import known_error_pb2 as zetasql_dot_compliance_dot_known__error__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n)zetasql/compliance/compliance_label.proto\x12\x07zetasql\x1a$zetasql/compliance/known_error.proto\"N\n\x15\x43omplianceTestsLabels\x12\x35\n\ntest_cases\x18\x01 \x03(\x0b\x32!.zetasql.ComplianceTestCaseLabels\"\xff\x02\n\x18\x43omplianceTestCaseLabels\x12\x11\n\ttest_name\x18\x01 \x01(\t\x12\x12\n\ntest_query\x18\x02 \x01(\t\x12\x36\n\x05param\x18\x07 \x03(\x0b\x32\'.zetasql.ComplianceTestCaseLabels.Param\x12\x30\n\x0ftest_error_mode\x18\x03 \x01(\x0e\x32\x17.zetasql.KnownErrorMode\x12\x19\n\x11\x63ompliance_labels\x18\x04 \x03(\t\x12\x12\n\ntest_shard\x18\x08 \x01(\x03\x12\x41\n\rtest_location\x18\t \x01(\x0b\x32*.zetasql.ComplianceTestCaseLabels.Location\x1a\x38\n\x05Param\x12\x12\n\nparam_name\x18\x01 \x01(\t\x12\x1b\n\x13param_value_literal\x18\x02 \x01(\t\x1a&\n\x08Location\x12\x0c\n\x04\x66ile\x18\x01 \x01(\t\x12\x0c\n\x04line\x18\x02 \x01(\x05')

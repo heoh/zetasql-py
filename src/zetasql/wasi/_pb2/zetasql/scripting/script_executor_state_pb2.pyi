@@ -1,8 +1,8 @@
 from google.protobuf import any_pb2 as _any_pb2
-from zetasql.proto import function_pb2 as _function_pb2
-from zetasql.proto import script_exception_pb2 as _script_exception_pb2
-from zetasql.scripting import procedure_extension_pb2 as _procedure_extension_pb2
-from zetasql.scripting import variable_pb2 as _variable_pb2
+from zetasql.wasi._pb2.zetasql.proto import function_pb2 as _function_pb2
+from zetasql.wasi._pb2.zetasql.proto import script_exception_pb2 as _script_exception_pb2
+from zetasql.wasi._pb2.zetasql.scripting import procedure_extension_pb2 as _procedure_extension_pb2
+from zetasql.wasi._pb2.zetasql.scripting import variable_pb2 as _variable_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor

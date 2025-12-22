@@ -1,4 +1,4 @@
-from zetasql.public import simple_value_pb2 as _simple_value_pb2
+from zetasql.wasi._pb2.zetasql.public import simple_value_pb2 as _simple_value_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf.internal import python_message as _python_message
 from google.protobuf import descriptor as _descriptor

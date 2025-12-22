@@ -22,7 +22,7 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.public import type_pb2 as zetasql_dot_public_dot_type__pb2
+from zetasql.wasi._pb2.zetasql.public import type_pb2 as zetasql_dot_public_dot_type__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n-zetasql/public/functions/array_zip_mode.proto\x12\x11zetasql.functions\x1a\x19zetasql/public/type.proto\"\x80\x01\n\rArrayZipEnums\"o\n\x0c\x41rrayZipMode\x12$\n\x16\x41RRAY_ZIP_MODE_INVALID\x10\x00\x1a\x08\xb2\xf2\xb0\x92\x0e\x02\x08\x01\x12\x07\n\x03PAD\x10\x01\x12\x0c\n\x08TRUNCATE\x10\x02\x12\n\n\x06STRICT\x10\x03\x1a\x16\xb2\xd0\xaf\xfa\r\x10\n\x0e\x41RRAY_ZIP_MODEB3\n\x1c\x63om.google.zetasql.functionsB\x13ZetaSQLArrayZipMode')

@@ -22,7 +22,7 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.public import error_location_pb2 as zetasql_dot_public_dot_error__location__pb2
+from zetasql.wasi._pb2.zetasql.public import error_location_pb2 as zetasql_dot_public_dot_error__location__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n(zetasql/public/deprecation_warning.proto\x12\x07zetasql\x1a#zetasql/public/error_location.proto\"\xe2\x03\n\x12\x44\x65precationWarning\x12.\n\x04kind\x18\x01 \x01(\x0e\x32 .zetasql.DeprecationWarning.Kind\"\x9b\x03\n\x04Kind\x12\x31\n$__Kind__switch_must_have_a_default__\x10\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x0b\n\x07UNKNOWN\x10\x00\x12\x17\n\x13\x44\x45PRECATED_FUNCTION\x10\x01\x12!\n\x1d\x44\x45PRECATED_FUNCTION_SIGNATURE\x10\x02\x12\x19\n\x15PROTO3_FIELD_PRESENCE\x10\x03\x12\x15\n\x11QUERY_TOO_COMPLEX\x10\x04\x12)\n%DEPRECATED_ANONYMIZATION_OPTION_KAPPA\x10\x05\x12\"\n\x1ePIVOT_OR_UNPIVOT_ON_ARRAY_SCAN\x10\x06\x12*\n&TABLE_SYNTAX_ARGUMENT_RESOLUTION_ORDER\x10\x07\x12\x0f\n\x0bPIPE_WINDOW\x10\x08\x12\x14\n\x10RESERVED_KEYWORD\x10\t\x12%\n!LEGACY_FUNCTION_OPTIONS_PLACEMENT\x10\n\x12\x1c\n\x18LATERAL_COLUMN_REFERENCE\x10\x0c\"\xb1\x01\n\x1e\x46reestandingDeprecationWarning\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x14\n\x0c\x63\x61ret_string\x18\x02 \x01(\t\x12.\n\x0e\x65rror_location\x18\x03 \x01(\x0b\x32\x16.zetasql.ErrorLocation\x12\x38\n\x13\x64\x65precation_warning\x18\x04 \x01(\x0b\x32\x1b.zetasql.DeprecationWarningB.\n\x12\x63om.google.zetasqlB\x18\x44\x65precationWarningProtos')

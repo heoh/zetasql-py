@@ -22,7 +22,7 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.resolved_ast import resolved_ast_enums_pb2 as zetasql_dot_resolved__ast_dot_resolved__ast__enums__pb2
+from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_enums_pb2 as zetasql_dot_resolved__ast_dot_resolved__ast__enums__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n?zetasql/public/functions/match_recognize/compiled_pattern.proto\x12!zetasql.functions.match_recognize\x1a-zetasql/resolved_ast/resolved_ast_enums.proto\"\xfa\x04\n\x11StateMachineProto\x12R\n\x03nfa\x18\x01 \x01(\x0b\x32\x45.zetasql.functions.match_recognize.StateMachineProto.CompiledNFAProto\x12Z\n\x15\x61\x66ter_match_skip_mode\x18\x02 \x01(\x0e\x32;.zetasql.ResolvedMatchRecognizeScanEnums.AfterMatchSkipMode\x12\x1a\n\x12longest_match_mode\x18\x03 \x01(\x08\x1a\x98\x03\n\x10\x43ompiledNFAProto\x12`\n\x06states\x18\x01 \x03(\x0b\x32P.zetasql.functions.match_recognize.StateMachineProto.CompiledNFAProto.StateProto\x12\x13\n\x0bstart_state\x18\x02 \x01(\x05\x12\x13\n\x0b\x66inal_state\x18\x03 \x01(\x05\x12\x1d\n\x15num_pattern_variables\x18\x04 \x01(\x05\x1ak\n\tEdgeProto\x12\x10\n\x08to_state\x18\x03 \x01(\x05\x12\x18\n\x10pattern_variable\x18\x04 \x01(\x05\x12\x18\n\x10is_head_anchored\x18\x05 \x01(\x08\x12\x18\n\x10is_tail_anchored\x18\x06 \x01(\x08\x1al\n\nStateProto\x12^\n\x05\x65\x64ges\x18\x01 \x03(\x0b\x32O.zetasql.functions.match_recognize.StateMachineProto.CompiledNFAProto.EdgeProto\"p\n\x14\x43ompiledPatternProto\x12M\n\rstate_machine\x18\x01 \x01(\x0b\x32\x34.zetasql.functions.match_recognize.StateMachineProtoH\x00\x42\t\n\x07variant')

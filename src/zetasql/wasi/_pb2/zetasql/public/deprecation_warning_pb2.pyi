@@ -1,4 +1,4 @@
-from zetasql.public import error_location_pb2 as _error_location_pb2
+from zetasql.wasi._pb2.zetasql.public import error_location_pb2 as _error_location_pb2
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message

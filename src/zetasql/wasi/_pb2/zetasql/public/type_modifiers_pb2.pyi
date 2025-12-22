@@ -1,5 +1,5 @@
-from zetasql.public import collation_pb2 as _collation_pb2
-from zetasql.public import type_parameters_pb2 as _type_parameters_pb2
+from zetasql.wasi._pb2.zetasql.public import collation_pb2 as _collation_pb2
+from zetasql.wasi._pb2.zetasql.public import type_parameters_pb2 as _type_parameters_pb2
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from collections.abc import Mapping as _Mapping

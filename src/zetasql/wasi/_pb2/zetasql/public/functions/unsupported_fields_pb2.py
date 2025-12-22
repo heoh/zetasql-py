@@ -22,7 +22,7 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.public import type_pb2 as zetasql_dot_public_dot_type__pb2
+from zetasql.wasi._pb2.zetasql.public import type_pb2 as zetasql_dot_public_dot_type__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n1zetasql/public/functions/unsupported_fields.proto\x12\x11zetasql.functions\x1a\x19zetasql/public/type.proto\"\x9a\x01\n\x15UnsupportedFieldsEnum\"\x80\x01\n\x11UnsupportedFields\x12(\n\x1aUNSUPPORTED_FIELDS_INVALID\x10\x00\x1a\x08\xb2\xf2\xb0\x92\x0e\x02\x08\x01\x12\x08\n\x04\x46\x41IL\x10\x01\x12\n\n\x06IGNORE\x10\x02\x12\x0f\n\x0bPLACEHOLDER\x10\x03\x1a\x1a\xb2\xd0\xaf\xfa\r\x14\n\x12UNSUPPORTED_FIELDSB8\n\x1c\x63om.google.zetasql.functionsB\x18ZetaSQLUnsupportedFields')

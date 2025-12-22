@@ -22,7 +22,7 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.proto import internal_error_location_pb2 as zetasql_dot_proto_dot_internal__error__location__pb2
+from zetasql.wasi._pb2.zetasql.proto import internal_error_location_pb2 as zetasql_dot_proto_dot_internal__error__location__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n+zetasql/proto/internal_fix_suggestion.proto\x12\x07zetasql\x1a+zetasql/proto/internal_error_location.proto\"Q\n\x10InternalFixRange\x12-\n\x05start\x18\x01 \x01(\x0b\x32\x1e.zetasql.InternalErrorLocation\x12\x0e\n\x06length\x18\x02 \x01(\x05\"N\n\x10InternalTextEdit\x12(\n\x05range\x18\x01 \x01(\x0b\x32\x19.zetasql.InternalFixRange\x12\x10\n\x08new_text\x18\x02 \x01(\t\">\n\rInternalEdits\x12-\n\ntext_edits\x18\x01 \x03(\x0b\x32\x19.zetasql.InternalTextEdit\"C\n\x0bInternalFix\x12\r\n\x05title\x18\x01 \x01(\t\x12%\n\x05\x65\x64its\x18\x02 \x01(\x0b\x32\x16.zetasql.InternalEdits\"L\n\x1bInternalErrorFixSuggestions\x12-\n\x0f\x66ix_suggestions\x18\x01 \x03(\x0b\x32\x14.zetasql.InternalFixB1\n\x12\x63om.google.zetasqlB\x1bInternalFixSuggestionProtos')

@@ -22,7 +22,7 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.public import error_location_pb2 as zetasql_dot_public_dot_error__location__pb2
+from zetasql.wasi._pb2.zetasql.public import error_location_pb2 as zetasql_dot_public_dot_error__location__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n+zetasql/proto/internal_error_location.proto\x12\x07zetasql\x1a#zetasql/public/error_location.proto\"j\n\x15InternalErrorLocation\x12\x13\n\x0b\x62yte_offset\x18\x03 \x01(\x05\x12\x10\n\x08\x66ilename\x18\x04 \x01(\t\x12*\n\x0c\x65rror_source\x18\x05 \x03(\x0b\x32\x14.zetasql.ErrorSourceB1\n\x12\x63om.google.zetasqlB\x1bInternalErrorLocationProtos')

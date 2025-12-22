@@ -22,7 +22,7 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.public import type_pb2 as zetasql_dot_public_dot_type__pb2
+from zetasql.wasi._pb2.zetasql.public import type_pb2 as zetasql_dot_public_dot_type__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n.zetasql/public/functions/array_find_mode.proto\x12\x11zetasql.functions\x1a\x19zetasql/public/type.proto\"v\n\x0e\x41rrayFindEnums\"d\n\rArrayFindMode\x12%\n\x17\x41RRAY_FIND_MODE_INVALID\x10\x00\x1a\x08\xb2\xf2\xb0\x92\x0e\x02\x08\x01\x12\t\n\x05\x46IRST\x10\x01\x12\x08\n\x04LAST\x10\x02\x1a\x17\xb2\xd0\xaf\xfa\r\x11\n\x0f\x41RRAY_FIND_MODEB4\n\x1c\x63om.google.zetasql.functionsB\x14ZetaSQLArrayFindMode')

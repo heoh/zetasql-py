@@ -22,7 +22,7 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.public import type_pb2 as zetasql_dot_public_dot_type__pb2
+from zetasql.wasi._pb2.zetasql.public import type_pb2 as zetasql_dot_public_dot_type__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n4zetasql/public/functions/range_sessionize_mode.proto\x12\x11zetasql.functions\x1a\x19zetasql/public/type.proto\"\x92\x01\n\x14RangeSessionizeEnums\"z\n\x13RangeSessionizeMode\x12+\n\x1dRANGE_SESSIONIZE_MODE_INVALID\x10\x00\x1a\x08\xb2\xf2\xb0\x92\x0e\x02\x08\x01\x12\x0c\n\x08OVERLAPS\x10\x01\x12\t\n\x05MEETS\x10\x02\x1a\x1d\xb2\xd0\xaf\xfa\r\x17\n\x15RANGE_SESSIONIZE_MODEB:\n\x1c\x63om.google.zetasql.functionsB\x1aZetaSQLRangeSessionizeMode')

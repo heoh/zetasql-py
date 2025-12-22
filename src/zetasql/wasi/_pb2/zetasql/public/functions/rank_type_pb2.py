@@ -22,7 +22,7 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.public import type_pb2 as zetasql_dot_public_dot_type__pb2
+from zetasql.wasi._pb2.zetasql.public import type_pb2 as zetasql_dot_public_dot_type__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n(zetasql/public/functions/rank_type.proto\x12\x11zetasql.functions\x1a\x19zetasql/public/type.proto\"\x97\x01\n\rRankTypeEnums\"\x85\x01\n\x08RankType\x12\x1f\n\x11RANK_TYPE_UNKNOWN\x10\x00\x1a\x08\xb2\xf2\xb0\x92\x0e\x02\x08\x01\x12\x1f\n\x1b\x46RACTION_LESS_THAN_OR_EQUAL\x10\x01\x12\x0c\n\x08MIDPOINT\x10\x02\x12\x16\n\x12\x46RACTION_LESS_THAN\x10\x03\x1a\x11\xb2\xd0\xaf\xfa\r\x0b\n\tRANK_TYPEB/\n\x1c\x63om.google.zetasql.functionsB\x0fZetaSQLRankType')

@@ -22,7 +22,7 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.public import simple_table_pb2 as zetasql_dot_public_dot_simple__table__pb2
+from zetasql.wasi._pb2.zetasql.public import simple_table_pb2 as zetasql_dot_public_dot_simple__table__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n!zetasql/public/simple_model.proto\x12\x07zetasql\x1a!zetasql/public/simple_table.proto\"\x83\x01\n\x10SimpleModelProto\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x0c\n\x04name\x18\x02 \x01(\t\x12)\n\x05input\x18\x03 \x03(\x0b\x32\x1a.zetasql.SimpleColumnProto\x12*\n\x06output\x18\x04 \x03(\x0b\x32\x1a.zetasql.SimpleColumnProtoB\'\n\x12\x63om.google.zetasqlB\x11SimpleModelProtos')

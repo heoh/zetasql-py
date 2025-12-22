@@ -56,12 +56,22 @@ python -m grpc_tools.protoc \
     --pyi_out="$PROTO_OUT" \
     $PROTO_FILES
 
-# Fix imports in generated files (convert absolute imports to relative)
+# Fix imports in generated files (convert absolute imports to package-relative)
 echo "Fixing imports in generated files..."
 find "$PROTO_OUT" -name "*_pb2*.py" -type f | while read -r file; do
-    # Convert "import foo_pb2" to "from . import foo_pb2"
+    # Convert "from zetasql.X import Y" to "from zetasql.wasi._pb2.zetasql.X import Y"
+    sed -i.bak 's|from zetasql\.|from zetasql.wasi._pb2.zetasql.|g' "$file"
+    
+    # Convert "import foo_pb2" to "from . import foo_pb2" for same-directory imports
     sed -i.bak 's/^import \([a-zA-Z0-9_]*\)_pb2 as \([a-zA-Z0-9_]*\)$/from . import \1_pb2 as \2/g' "$file"
     sed -i.bak 's/^import \([a-zA-Z0-9_]*\)_pb2$/from . import \1_pb2/g' "$file"
+    rm -f "${file}.bak"
+done
+
+# Also fix .pyi stub files
+find "$PROTO_OUT" -name "*_pb2.pyi" -type f | while read -r file; do
+    # Convert "from zetasql.X import Y" to "from zetasql.wasi._pb2.zetasql.X import Y"
+    sed -i.bak 's|from zetasql\.|from zetasql.wasi._pb2.zetasql.|g' "$file"
     rm -f "${file}.bak"
 done
 

@@ -22,7 +22,7 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.public import type_pb2 as zetasql_dot_public_dot_type__pb2
+from zetasql.wasi._pb2.zetasql.public import type_pb2 as zetasql_dot_public_dot_type__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n,zetasql/public/functions/rounding_mode.proto\x12\x11zetasql.functions\x1a\x19zetasql/public/type.proto*\x82\x01\n\x0cRoundingMode\x12\'\n\x19ROUNDING_MODE_UNSPECIFIED\x10\x00\x1a\x08\xb2\xf2\xb0\x92\x0e\x02\x08\x01\x12\x1d\n\x19ROUND_HALF_AWAY_FROM_ZERO\x10\x01\x12\x13\n\x0fROUND_HALF_EVEN\x10\x02\x1a\x15\xb2\xd0\xaf\xfa\r\x0f\n\rROUNDING_MODEB3\n\x1c\x63om.google.zetasql.functionsB\x13ZetaSQLRoundingMode')

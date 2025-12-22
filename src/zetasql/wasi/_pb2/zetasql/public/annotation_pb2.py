@@ -22,7 +22,7 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.public import simple_value_pb2 as zetasql_dot_public_dot_simple__value__pb2
+from zetasql.wasi._pb2.zetasql.public import simple_value_pb2 as zetasql_dot_public_dot_simple__value__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1fzetasql/public/annotation.proto\x12\x07zetasql\x1a!zetasql/public/simple_value.proto\"G\n\x0f\x41nnotationProto\x12\n\n\x02id\x18\x01 \x01(\x03\x12(\n\x05value\x18\x02 \x01(\x0b\x32\x19.zetasql.SimpleValueProto\"\xc0\x01\n\x12\x41nnotationMapProto\x12\x0f\n\x07is_null\x18\x04 \x01(\x08\x12-\n\x0b\x61nnotations\x18\x01 \x03(\x0b\x32\x18.zetasql.AnnotationProto\x12\x36\n\rarray_element\x18\x02 \x01(\x0b\x32\x1b.zetasql.AnnotationMapProtoB\x02\x18\x01\x12\x32\n\rstruct_fields\x18\x03 \x03(\x0b\x32\x1b.zetasql.AnnotationMapProtoB*\n\x12\x63om.google.zetasqlB\x11ZetaSQLAnnotation\xf8\x01\x01')

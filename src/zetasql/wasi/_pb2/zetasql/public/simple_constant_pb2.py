@@ -22,8 +22,8 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.public import type_pb2 as zetasql_dot_public_dot_type__pb2
-from zetasql.public import value_pb2 as zetasql_dot_public_dot_value__pb2
+from zetasql.wasi._pb2.zetasql.public import type_pb2 as zetasql_dot_public_dot_type__pb2
+from zetasql.wasi._pb2.zetasql.public import value_pb2 as zetasql_dot_public_dot_value__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n$zetasql/public/simple_constant.proto\x12\x07zetasql\x1a\x19zetasql/public/type.proto\x1a\x1azetasql/public/value.proto\"n\n\x13SimpleConstantProto\x12\x11\n\tname_path\x18\x01 \x03(\t\x12 \n\x04type\x18\x02 \x01(\x0b\x32\x12.zetasql.TypeProto\x12\"\n\x05value\x18\x03 \x01(\x0b\x32\x13.zetasql.ValueProtoB*\n\x12\x63om.google.zetasqlB\x14SimpleConstantProtos')

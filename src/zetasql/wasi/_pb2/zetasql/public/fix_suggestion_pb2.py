@@ -22,7 +22,7 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.public import error_location_pb2 as zetasql_dot_public_dot_error__location__pb2
+from zetasql.wasi._pb2.zetasql.public import error_location_pb2 as zetasql_dot_public_dot_error__location__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n#zetasql/public/fix_suggestion.proto\x12\x07zetasql\x1a#zetasql/public/error_location.proto\"A\n\x08\x46ixRange\x12%\n\x05start\x18\x01 \x01(\x0b\x32\x16.zetasql.ErrorLocation\x12\x0e\n\x06length\x18\x02 \x01(\x05\">\n\x08TextEdit\x12 \n\x05range\x18\x01 \x01(\x0b\x32\x11.zetasql.FixRange\x12\x10\n\x08new_text\x18\x02 \x01(\t\".\n\x05\x45\x64its\x12%\n\ntext_edits\x18\x01 \x03(\x0b\x32\x11.zetasql.TextEdit\"3\n\x03\x46ix\x12\r\n\x05title\x18\x01 \x01(\t\x12\x1d\n\x05\x65\x64its\x18\x02 \x01(\x0b\x32\x0e.zetasql.Edits\"<\n\x13\x45rrorFixSuggestions\x12%\n\x0f\x66ix_suggestions\x18\x01 \x03(\x0b\x32\x0c.zetasql.FixB\x14\n\x12\x63om.google.zetasql')

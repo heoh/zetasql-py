@@ -22,7 +22,7 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from zetasql.public import simple_value_pb2 as zetasql_dot_public_dot_simple__value__pb2
+from zetasql.wasi._pb2.zetasql.public import simple_value_pb2 as zetasql_dot_public_dot_simple__value__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n$zetasql/public/type_parameters.proto\x12\x07zetasql\x1a!zetasql/public/simple_value.proto\"\xfe\x02\n\x13TypeParametersProto\x12\x44\n\x16string_type_parameters\x18\x01 \x01(\x0b\x32\".zetasql.StringTypeParametersProtoH\x00\x12\x46\n\x17numeric_type_parameters\x18\x02 \x01(\x0b\x32#.zetasql.NumericTypeParametersProtoH\x00\x12H\n\x18\x65xtended_type_parameters\x18\x03 \x01(\x0b\x32$.zetasql.ExtendedTypeParametersProtoH\x00\x12J\n\x19timestamp_type_parameters\x18\x04 \x01(\x0b\x32%.zetasql.TimestampTypeParametersProtoH\x00\x12\x30\n\nchild_list\x18\x64 \x03(\x0b\x32\x1c.zetasql.TypeParametersProtoB\x11\n\x0ftype_parameters\"S\n\x19StringTypeParametersProto\x12\x14\n\nmax_length\x18\x01 \x01(\x03H\x00\x12\x17\n\ris_max_length\x18\x02 \x01(\x08H\x00\x42\x07\n\x05param\"1\n\x1cTimestampTypeParametersProto\x12\x11\n\tprecision\x18\x01 \x01(\x03\"w\n\x1aNumericTypeParametersProto\x12\x13\n\tprecision\x18\x01 \x01(\x03H\x00\x12\x1a\n\x10is_max_precision\x18\x02 \x01(\x08H\x00\x12\r\n\x05scale\x18\x03 \x01(\x03*\x06\x08\xe8\x07\x10\xd1\x0f\x42\x11\n\x0fprecision_param\"L\n\x1b\x45xtendedTypeParametersProto\x12-\n\nparameters\x18\x01 \x03(\x0b\x32\x19.zetasql.SimpleValueProtoB+\n\x12\x63om.google.zetasqlB\x15ZetaSQLTypeParameters')
