@@ -566,12 +566,12 @@ class AnalyzeResponse:
         self._proto = proto
 
     @cached_property
-    def resolved_statement(self) -> Optional['AnyResolvedStatement']:
+    def resolved_statement(self) -> Optional['resolved_ast_pb2.AnyResolvedStatementProto']:
         """Field resolved_statement"""
         return AnyResolvedStatement(self._proto.resolved_statement) if self._proto.resolved_statement.ByteSize() > 0 else None
 
     @cached_property
-    def resolved_expression(self) -> Optional['AnyResolvedExpr']:
+    def resolved_expression(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field resolved_expression"""
         return AnyResolvedExpr(self._proto.resolved_expression) if self._proto.resolved_expression.ByteSize() > 0 else None
 
@@ -909,6 +909,4705 @@ class AnonOutputWithReport:
 
 
 
+class AnyASTAlterAction:
+    """Generated wrapper for AnyASTAlterActionProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTAlterActionProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_set_options_action_node(self) -> Optional['parse_tree_pb2.ASTSetOptionsActionProto']:
+        """Field ast_set_options_action_node"""
+        return ASTSetOptionsAction(self._proto.ast_set_options_action_node) if self._proto.ast_set_options_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_set_as_action_node(self) -> Optional['parse_tree_pb2.ASTSetAsActionProto']:
+        """Field ast_set_as_action_node"""
+        return ASTSetAsAction(self._proto.ast_set_as_action_node) if self._proto.ast_set_as_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_add_constraint_action_node(self) -> Optional['parse_tree_pb2.ASTAddConstraintActionProto']:
+        """Field ast_add_constraint_action_node"""
+        return ASTAddConstraintAction(self._proto.ast_add_constraint_action_node) if self._proto.ast_add_constraint_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_drop_primary_key_action_node(self) -> Optional['parse_tree_pb2.ASTDropPrimaryKeyActionProto']:
+        """Field ast_drop_primary_key_action_node"""
+        return ASTDropPrimaryKeyAction(self._proto.ast_drop_primary_key_action_node) if self._proto.ast_drop_primary_key_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_drop_constraint_action_node(self) -> Optional['parse_tree_pb2.ASTDropConstraintActionProto']:
+        """Field ast_drop_constraint_action_node"""
+        return ASTDropConstraintAction(self._proto.ast_drop_constraint_action_node) if self._proto.ast_drop_constraint_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_constraint_enforcement_action_node(self) -> Optional['parse_tree_pb2.ASTAlterConstraintEnforcementActionProto']:
+        """Field ast_alter_constraint_enforcement_action_node"""
+        return ASTAlterConstraintEnforcementAction(self._proto.ast_alter_constraint_enforcement_action_node) if self._proto.ast_alter_constraint_enforcement_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_constraint_set_options_action_node(self) -> Optional['parse_tree_pb2.ASTAlterConstraintSetOptionsActionProto']:
+        """Field ast_alter_constraint_set_options_action_node"""
+        return ASTAlterConstraintSetOptionsAction(self._proto.ast_alter_constraint_set_options_action_node) if self._proto.ast_alter_constraint_set_options_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_add_column_action_node(self) -> Optional['parse_tree_pb2.ASTAddColumnActionProto']:
+        """Field ast_add_column_action_node"""
+        return ASTAddColumnAction(self._proto.ast_add_column_action_node) if self._proto.ast_add_column_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_drop_column_action_node(self) -> Optional['parse_tree_pb2.ASTDropColumnActionProto']:
+        """Field ast_drop_column_action_node"""
+        return ASTDropColumnAction(self._proto.ast_drop_column_action_node) if self._proto.ast_drop_column_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_rename_column_action_node(self) -> Optional['parse_tree_pb2.ASTRenameColumnActionProto']:
+        """Field ast_rename_column_action_node"""
+        return ASTRenameColumnAction(self._proto.ast_rename_column_action_node) if self._proto.ast_rename_column_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_column_type_action_node(self) -> Optional['parse_tree_pb2.ASTAlterColumnTypeActionProto']:
+        """Field ast_alter_column_type_action_node"""
+        return ASTAlterColumnTypeAction(self._proto.ast_alter_column_type_action_node) if self._proto.ast_alter_column_type_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_column_options_action_node(self) -> Optional['parse_tree_pb2.ASTAlterColumnOptionsActionProto']:
+        """Field ast_alter_column_options_action_node"""
+        return ASTAlterColumnOptionsAction(self._proto.ast_alter_column_options_action_node) if self._proto.ast_alter_column_options_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_column_drop_not_null_action_node(self) -> Optional['parse_tree_pb2.ASTAlterColumnDropNotNullActionProto']:
+        """Field ast_alter_column_drop_not_null_action_node"""
+        return ASTAlterColumnDropNotNullAction(self._proto.ast_alter_column_drop_not_null_action_node) if self._proto.ast_alter_column_drop_not_null_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_grant_to_clause_node(self) -> Optional['parse_tree_pb2.ASTGrantToClauseProto']:
+        """Field ast_grant_to_clause_node"""
+        return ASTGrantToClause(self._proto.ast_grant_to_clause_node) if self._proto.ast_grant_to_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_filter_using_clause_node(self) -> Optional['parse_tree_pb2.ASTFilterUsingClauseProto']:
+        """Field ast_filter_using_clause_node"""
+        return ASTFilterUsingClause(self._proto.ast_filter_using_clause_node) if self._proto.ast_filter_using_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_revoke_from_clause_node(self) -> Optional['parse_tree_pb2.ASTRevokeFromClauseProto']:
+        """Field ast_revoke_from_clause_node"""
+        return ASTRevokeFromClause(self._proto.ast_revoke_from_clause_node) if self._proto.ast_revoke_from_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_rename_to_clause_node(self) -> Optional['parse_tree_pb2.ASTRenameToClauseProto']:
+        """Field ast_rename_to_clause_node"""
+        return ASTRenameToClause(self._proto.ast_rename_to_clause_node) if self._proto.ast_rename_to_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_set_collate_clause_node(self) -> Optional['parse_tree_pb2.ASTSetCollateClauseProto']:
+        """Field ast_set_collate_clause_node"""
+        return ASTSetCollateClause(self._proto.ast_set_collate_clause_node) if self._proto.ast_set_collate_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_column_set_default_action_node(self) -> Optional['parse_tree_pb2.ASTAlterColumnSetDefaultActionProto']:
+        """Field ast_alter_column_set_default_action_node"""
+        return ASTAlterColumnSetDefaultAction(self._proto.ast_alter_column_set_default_action_node) if self._proto.ast_alter_column_set_default_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_column_drop_default_action_node(self) -> Optional['parse_tree_pb2.ASTAlterColumnDropDefaultActionProto']:
+        """Field ast_alter_column_drop_default_action_node"""
+        return ASTAlterColumnDropDefaultAction(self._proto.ast_alter_column_drop_default_action_node) if self._proto.ast_alter_column_drop_default_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_restrict_to_clause_node(self) -> Optional['parse_tree_pb2.ASTRestrictToClauseProto']:
+        """Field ast_restrict_to_clause_node"""
+        return ASTRestrictToClause(self._proto.ast_restrict_to_clause_node) if self._proto.ast_restrict_to_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_add_to_restrictee_list_clause_node(self) -> Optional['parse_tree_pb2.ASTAddToRestricteeListClauseProto']:
+        """Field ast_add_to_restrictee_list_clause_node"""
+        return ASTAddToRestricteeListClause(self._proto.ast_add_to_restrictee_list_clause_node) if self._proto.ast_add_to_restrictee_list_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_remove_from_restrictee_list_clause_node(self) -> Optional['parse_tree_pb2.ASTRemoveFromRestricteeListClauseProto']:
+        """Field ast_remove_from_restrictee_list_clause_node"""
+        return ASTRemoveFromRestricteeListClause(self._proto.ast_remove_from_restrictee_list_clause_node) if self._proto.ast_remove_from_restrictee_list_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_sub_entity_action_node(self) -> Optional['parse_tree_pb2.ASTAlterSubEntityActionProto']:
+        """Field ast_alter_sub_entity_action_node"""
+        return ASTAlterSubEntityAction(self._proto.ast_alter_sub_entity_action_node) if self._proto.ast_alter_sub_entity_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_add_sub_entity_action_node(self) -> Optional['parse_tree_pb2.ASTAddSubEntityActionProto']:
+        """Field ast_add_sub_entity_action_node"""
+        return ASTAddSubEntityAction(self._proto.ast_add_sub_entity_action_node) if self._proto.ast_add_sub_entity_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_drop_sub_entity_action_node(self) -> Optional['parse_tree_pb2.ASTDropSubEntityActionProto']:
+        """Field ast_drop_sub_entity_action_node"""
+        return ASTDropSubEntityAction(self._proto.ast_drop_sub_entity_action_node) if self._proto.ast_drop_sub_entity_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_add_ttl_action_node(self) -> Optional['parse_tree_pb2.ASTAddTtlActionProto']:
+        """Field ast_add_ttl_action_node"""
+        return ASTAddTtlAction(self._proto.ast_add_ttl_action_node) if self._proto.ast_add_ttl_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_replace_ttl_action_node(self) -> Optional['parse_tree_pb2.ASTReplaceTtlActionProto']:
+        """Field ast_replace_ttl_action_node"""
+        return ASTReplaceTtlAction(self._proto.ast_replace_ttl_action_node) if self._proto.ast_replace_ttl_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_drop_ttl_action_node(self) -> Optional['parse_tree_pb2.ASTDropTtlActionProto']:
+        """Field ast_drop_ttl_action_node"""
+        return ASTDropTtlAction(self._proto.ast_drop_ttl_action_node) if self._proto.ast_drop_ttl_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_spanner_alter_column_action_node(self) -> Optional['parse_tree_pb2.ASTSpannerAlterColumnActionProto']:
+        """Field ast_spanner_alter_column_action_node"""
+        return ASTSpannerAlterColumnAction(self._proto.ast_spanner_alter_column_action_node) if self._proto.ast_spanner_alter_column_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_spanner_set_on_delete_action_node(self) -> Optional['parse_tree_pb2.ASTSpannerSetOnDeleteActionProto']:
+        """Field ast_spanner_set_on_delete_action_node"""
+        return ASTSpannerSetOnDeleteAction(self._proto.ast_spanner_set_on_delete_action_node) if self._proto.ast_spanner_set_on_delete_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_column_drop_generated_action_node(self) -> Optional['parse_tree_pb2.ASTAlterColumnDropGeneratedActionProto']:
+        """Field ast_alter_column_drop_generated_action_node"""
+        return ASTAlterColumnDropGeneratedAction(self._proto.ast_alter_column_drop_generated_action_node) if self._proto.ast_alter_column_drop_generated_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_add_column_identifier_action_node(self) -> Optional['parse_tree_pb2.ASTAddColumnIdentifierActionProto']:
+        """Field ast_add_column_identifier_action_node"""
+        return ASTAddColumnIdentifierAction(self._proto.ast_add_column_identifier_action_node) if self._proto.ast_add_column_identifier_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_rebuild_action_node(self) -> Optional['parse_tree_pb2.ASTRebuildActionProto']:
+        """Field ast_rebuild_action_node"""
+        return ASTRebuildAction(self._proto.ast_rebuild_action_node) if self._proto.ast_rebuild_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_column_set_generated_action_node(self) -> Optional['parse_tree_pb2.ASTAlterColumnSetGeneratedActionProto']:
+        """Field ast_alter_column_set_generated_action_node"""
+        return ASTAlterColumnSetGeneratedAction(self._proto.ast_alter_column_set_generated_action_node) if self._proto.ast_alter_column_set_generated_action_node.ByteSize() > 0 else None
+
+
+
+class AnyASTAlterStatementBase:
+    """Generated wrapper for AnyASTAlterStatementBaseProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTAlterStatementBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_alter_database_statement_node(self) -> Optional['parse_tree_pb2.ASTAlterDatabaseStatementProto']:
+        """Field ast_alter_database_statement_node"""
+        return ASTAlterDatabaseStatement(self._proto.ast_alter_database_statement_node) if self._proto.ast_alter_database_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_schema_statement_node(self) -> Optional['parse_tree_pb2.ASTAlterSchemaStatementProto']:
+        """Field ast_alter_schema_statement_node"""
+        return ASTAlterSchemaStatement(self._proto.ast_alter_schema_statement_node) if self._proto.ast_alter_schema_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_table_statement_node(self) -> Optional['parse_tree_pb2.ASTAlterTableStatementProto']:
+        """Field ast_alter_table_statement_node"""
+        return ASTAlterTableStatement(self._proto.ast_alter_table_statement_node) if self._proto.ast_alter_table_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_view_statement_node(self) -> Optional['parse_tree_pb2.ASTAlterViewStatementProto']:
+        """Field ast_alter_view_statement_node"""
+        return ASTAlterViewStatement(self._proto.ast_alter_view_statement_node) if self._proto.ast_alter_view_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_materialized_view_statement_node(self) -> Optional['parse_tree_pb2.ASTAlterMaterializedViewStatementProto']:
+        """Field ast_alter_materialized_view_statement_node"""
+        return ASTAlterMaterializedViewStatement(self._proto.ast_alter_materialized_view_statement_node) if self._proto.ast_alter_materialized_view_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_row_access_policy_statement_node(self) -> Optional['parse_tree_pb2.ASTAlterRowAccessPolicyStatementProto']:
+        """Field ast_alter_row_access_policy_statement_node"""
+        return ASTAlterRowAccessPolicyStatement(self._proto.ast_alter_row_access_policy_statement_node) if self._proto.ast_alter_row_access_policy_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_entity_statement_node(self) -> Optional['parse_tree_pb2.ASTAlterEntityStatementProto']:
+        """Field ast_alter_entity_statement_node"""
+        return ASTAlterEntityStatement(self._proto.ast_alter_entity_statement_node) if self._proto.ast_alter_entity_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_privilege_restriction_statement_node(self) -> Optional['parse_tree_pb2.ASTAlterPrivilegeRestrictionStatementProto']:
+        """Field ast_alter_privilege_restriction_statement_node"""
+        return ASTAlterPrivilegeRestrictionStatement(self._proto.ast_alter_privilege_restriction_statement_node) if self._proto.ast_alter_privilege_restriction_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_model_statement_node(self) -> Optional['parse_tree_pb2.ASTAlterModelStatementProto']:
+        """Field ast_alter_model_statement_node"""
+        return ASTAlterModelStatement(self._proto.ast_alter_model_statement_node) if self._proto.ast_alter_model_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_approx_view_statement_node(self) -> Optional['parse_tree_pb2.ASTAlterApproxViewStatementProto']:
+        """Field ast_alter_approx_view_statement_node"""
+        return ASTAlterApproxViewStatement(self._proto.ast_alter_approx_view_statement_node) if self._proto.ast_alter_approx_view_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_external_schema_statement_node(self) -> Optional['parse_tree_pb2.ASTAlterExternalSchemaStatementProto']:
+        """Field ast_alter_external_schema_statement_node"""
+        return ASTAlterExternalSchemaStatement(self._proto.ast_alter_external_schema_statement_node) if self._proto.ast_alter_external_schema_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_connection_statement_node(self) -> Optional['parse_tree_pb2.ASTAlterConnectionStatementProto']:
+        """Field ast_alter_connection_statement_node"""
+        return ASTAlterConnectionStatement(self._proto.ast_alter_connection_statement_node) if self._proto.ast_alter_connection_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_index_statement_node(self) -> Optional['parse_tree_pb2.ASTAlterIndexStatementProto']:
+        """Field ast_alter_index_statement_node"""
+        return ASTAlterIndexStatement(self._proto.ast_alter_index_statement_node) if self._proto.ast_alter_index_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_sequence_statement_node(self) -> Optional['parse_tree_pb2.ASTAlterSequenceStatementProto']:
+        """Field ast_alter_sequence_statement_node"""
+        return ASTAlterSequenceStatement(self._proto.ast_alter_sequence_statement_node) if self._proto.ast_alter_sequence_statement_node.ByteSize() > 0 else None
+
+
+
+class AnyASTBreakContinueStatement:
+    """Generated wrapper for AnyASTBreakContinueStatementProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTBreakContinueStatementProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_break_statement_node(self) -> Optional['parse_tree_pb2.ASTBreakStatementProto']:
+        """Field ast_break_statement_node"""
+        return ASTBreakStatement(self._proto.ast_break_statement_node) if self._proto.ast_break_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_continue_statement_node(self) -> Optional['parse_tree_pb2.ASTContinueStatementProto']:
+        """Field ast_continue_statement_node"""
+        return ASTContinueStatement(self._proto.ast_continue_statement_node) if self._proto.ast_continue_statement_node.ByteSize() > 0 else None
+
+
+
+class AnyASTColumnAttribute:
+    """Generated wrapper for AnyASTColumnAttributeProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTColumnAttributeProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_not_null_column_attribute_node(self) -> Optional['parse_tree_pb2.ASTNotNullColumnAttributeProto']:
+        """Field ast_not_null_column_attribute_node"""
+        return ASTNotNullColumnAttribute(self._proto.ast_not_null_column_attribute_node) if self._proto.ast_not_null_column_attribute_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_hidden_column_attribute_node(self) -> Optional['parse_tree_pb2.ASTHiddenColumnAttributeProto']:
+        """Field ast_hidden_column_attribute_node"""
+        return ASTHiddenColumnAttribute(self._proto.ast_hidden_column_attribute_node) if self._proto.ast_hidden_column_attribute_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_primary_key_column_attribute_node(self) -> Optional['parse_tree_pb2.ASTPrimaryKeyColumnAttributeProto']:
+        """Field ast_primary_key_column_attribute_node"""
+        return ASTPrimaryKeyColumnAttribute(self._proto.ast_primary_key_column_attribute_node) if self._proto.ast_primary_key_column_attribute_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_foreign_key_column_attribute_node(self) -> Optional['parse_tree_pb2.ASTForeignKeyColumnAttributeProto']:
+        """Field ast_foreign_key_column_attribute_node"""
+        return ASTForeignKeyColumnAttribute(self._proto.ast_foreign_key_column_attribute_node) if self._proto.ast_foreign_key_column_attribute_node.ByteSize() > 0 else None
+
+
+
+class AnyASTColumnSchema:
+    """Generated wrapper for AnyASTColumnSchemaProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTColumnSchemaProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_simple_column_schema_node(self) -> Optional['parse_tree_pb2.ASTSimpleColumnSchemaProto']:
+        """Field ast_simple_column_schema_node"""
+        return ASTSimpleColumnSchema(self._proto.ast_simple_column_schema_node) if self._proto.ast_simple_column_schema_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_struct_column_schema_node(self) -> Optional['parse_tree_pb2.ASTStructColumnSchemaProto']:
+        """Field ast_struct_column_schema_node"""
+        return ASTStructColumnSchema(self._proto.ast_struct_column_schema_node) if self._proto.ast_struct_column_schema_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_inferred_type_column_schema_node(self) -> Optional['parse_tree_pb2.ASTInferredTypeColumnSchemaProto']:
+        """Field ast_inferred_type_column_schema_node"""
+        return ASTInferredTypeColumnSchema(self._proto.ast_inferred_type_column_schema_node) if self._proto.ast_inferred_type_column_schema_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_element_type_column_schema_node(self) -> Optional['parse_tree_pb2.AnyASTElementTypeColumnSchemaProto']:
+        """Field ast_element_type_column_schema_node"""
+        return AnyASTElementTypeColumnSchema(self._proto.ast_element_type_column_schema_node) if self._proto.ast_element_type_column_schema_node.ByteSize() > 0 else None
+
+
+
+class AnyASTCreateFunctionStmtBase:
+    """Generated wrapper for AnyASTCreateFunctionStmtBaseProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTCreateFunctionStmtBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_create_function_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateFunctionStatementProto']:
+        """Field ast_create_function_statement_node"""
+        return ASTCreateFunctionStatement(self._proto.ast_create_function_statement_node) if self._proto.ast_create_function_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_table_function_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateTableFunctionStatementProto']:
+        """Field ast_create_table_function_statement_node"""
+        return ASTCreateTableFunctionStatement(self._proto.ast_create_table_function_statement_node) if self._proto.ast_create_table_function_statement_node.ByteSize() > 0 else None
+
+
+
+class AnyASTCreateSchemaStmtBase:
+    """Generated wrapper for AnyASTCreateSchemaStmtBaseProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTCreateSchemaStmtBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_create_schema_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateSchemaStatementProto']:
+        """Field ast_create_schema_statement_node"""
+        return ASTCreateSchemaStatement(self._proto.ast_create_schema_statement_node) if self._proto.ast_create_schema_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_external_schema_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateExternalSchemaStatementProto']:
+        """Field ast_create_external_schema_statement_node"""
+        return ASTCreateExternalSchemaStatement(self._proto.ast_create_external_schema_statement_node) if self._proto.ast_create_external_schema_statement_node.ByteSize() > 0 else None
+
+
+
+class AnyASTCreateStatement:
+    """Generated wrapper for AnyASTCreateStatementProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTCreateStatementProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_create_constant_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateConstantStatementProto']:
+        """Field ast_create_constant_statement_node"""
+        return ASTCreateConstantStatement(self._proto.ast_create_constant_statement_node) if self._proto.ast_create_constant_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_procedure_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateProcedureStatementProto']:
+        """Field ast_create_procedure_statement_node"""
+        return ASTCreateProcedureStatement(self._proto.ast_create_procedure_statement_node) if self._proto.ast_create_procedure_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_model_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateModelStatementProto']:
+        """Field ast_create_model_statement_node"""
+        return ASTCreateModelStatement(self._proto.ast_create_model_statement_node) if self._proto.ast_create_model_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_index_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateIndexStatementProto']:
+        """Field ast_create_index_statement_node"""
+        return ASTCreateIndexStatement(self._proto.ast_create_index_statement_node) if self._proto.ast_create_index_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_snapshot_table_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateSnapshotTableStatementProto']:
+        """Field ast_create_snapshot_table_statement_node"""
+        return ASTCreateSnapshotTableStatement(self._proto.ast_create_snapshot_table_statement_node) if self._proto.ast_create_snapshot_table_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_entity_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateEntityStatementProto']:
+        """Field ast_create_entity_statement_node"""
+        return ASTCreateEntityStatement(self._proto.ast_create_entity_statement_node) if self._proto.ast_create_entity_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_row_access_policy_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateRowAccessPolicyStatementProto']:
+        """Field ast_create_row_access_policy_statement_node"""
+        return ASTCreateRowAccessPolicyStatement(self._proto.ast_create_row_access_policy_statement_node) if self._proto.ast_create_row_access_policy_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_table_stmt_base_node(self) -> Optional['parse_tree_pb2.AnyASTCreateTableStmtBaseProto']:
+        """Field ast_create_table_stmt_base_node"""
+        return AnyASTCreateTableStmtBase(self._proto.ast_create_table_stmt_base_node) if self._proto.ast_create_table_stmt_base_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_view_statement_base_node(self) -> Optional['parse_tree_pb2.AnyASTCreateViewStatementBaseProto']:
+        """Field ast_create_view_statement_base_node"""
+        return AnyASTCreateViewStatementBase(self._proto.ast_create_view_statement_base_node) if self._proto.ast_create_view_statement_base_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_function_stmt_base_node(self) -> Optional['parse_tree_pb2.AnyASTCreateFunctionStmtBaseProto']:
+        """Field ast_create_function_stmt_base_node"""
+        return AnyASTCreateFunctionStmtBase(self._proto.ast_create_function_stmt_base_node) if self._proto.ast_create_function_stmt_base_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_privilege_restriction_statement_node(self) -> Optional['parse_tree_pb2.ASTCreatePrivilegeRestrictionStatementProto']:
+        """Field ast_create_privilege_restriction_statement_node"""
+        return ASTCreatePrivilegeRestrictionStatement(self._proto.ast_create_privilege_restriction_statement_node) if self._proto.ast_create_privilege_restriction_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_property_graph_statement_node(self) -> Optional['parse_tree_pb2.ASTCreatePropertyGraphStatementProto']:
+        """Field ast_create_property_graph_statement_node"""
+        return ASTCreatePropertyGraphStatement(self._proto.ast_create_property_graph_statement_node) if self._proto.ast_create_property_graph_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_snapshot_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateSnapshotStatementProto']:
+        """Field ast_create_snapshot_statement_node"""
+        return ASTCreateSnapshotStatement(self._proto.ast_create_snapshot_statement_node) if self._proto.ast_create_snapshot_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_schema_stmt_base_node(self) -> Optional['parse_tree_pb2.AnyASTCreateSchemaStmtBaseProto']:
+        """Field ast_create_schema_stmt_base_node"""
+        return AnyASTCreateSchemaStmtBase(self._proto.ast_create_schema_stmt_base_node) if self._proto.ast_create_schema_stmt_base_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_connection_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateConnectionStatementProto']:
+        """Field ast_create_connection_statement_node"""
+        return ASTCreateConnectionStatement(self._proto.ast_create_connection_statement_node) if self._proto.ast_create_connection_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_sequence_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateSequenceStatementProto']:
+        """Field ast_create_sequence_statement_node"""
+        return ASTCreateSequenceStatement(self._proto.ast_create_sequence_statement_node) if self._proto.ast_create_sequence_statement_node.ByteSize() > 0 else None
+
+
+
+class AnyASTCreateTableStmtBase:
+    """Generated wrapper for AnyASTCreateTableStmtBaseProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTCreateTableStmtBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_create_table_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateTableStatementProto']:
+        """Field ast_create_table_statement_node"""
+        return ASTCreateTableStatement(self._proto.ast_create_table_statement_node) if self._proto.ast_create_table_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_external_table_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateExternalTableStatementProto']:
+        """Field ast_create_external_table_statement_node"""
+        return ASTCreateExternalTableStatement(self._proto.ast_create_external_table_statement_node) if self._proto.ast_create_external_table_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_aux_load_data_statement_node(self) -> Optional['parse_tree_pb2.ASTAuxLoadDataStatementProto']:
+        """Field ast_aux_load_data_statement_node"""
+        return ASTAuxLoadDataStatement(self._proto.ast_aux_load_data_statement_node) if self._proto.ast_aux_load_data_statement_node.ByteSize() > 0 else None
+
+
+
+class AnyASTCreateViewStatementBase:
+    """Generated wrapper for AnyASTCreateViewStatementBaseProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTCreateViewStatementBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_create_view_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateViewStatementProto']:
+        """Field ast_create_view_statement_node"""
+        return ASTCreateViewStatement(self._proto.ast_create_view_statement_node) if self._proto.ast_create_view_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_materialized_view_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateMaterializedViewStatementProto']:
+        """Field ast_create_materialized_view_statement_node"""
+        return ASTCreateMaterializedViewStatement(self._proto.ast_create_materialized_view_statement_node) if self._proto.ast_create_materialized_view_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_approx_view_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateApproxViewStatementProto']:
+        """Field ast_create_approx_view_statement_node"""
+        return ASTCreateApproxViewStatement(self._proto.ast_create_approx_view_statement_node) if self._proto.ast_create_approx_view_statement_node.ByteSize() > 0 else None
+
+
+
+class AnyASTDdlStatement:
+    """Generated wrapper for AnyASTDdlStatementProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTDdlStatementProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_drop_entity_statement_node(self) -> Optional['parse_tree_pb2.ASTDropEntityStatementProto']:
+        """Field ast_drop_entity_statement_node"""
+        return ASTDropEntityStatement(self._proto.ast_drop_entity_statement_node) if self._proto.ast_drop_entity_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_drop_function_statement_node(self) -> Optional['parse_tree_pb2.ASTDropFunctionStatementProto']:
+        """Field ast_drop_function_statement_node"""
+        return ASTDropFunctionStatement(self._proto.ast_drop_function_statement_node) if self._proto.ast_drop_function_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_drop_table_function_statement_node(self) -> Optional['parse_tree_pb2.ASTDropTableFunctionStatementProto']:
+        """Field ast_drop_table_function_statement_node"""
+        return ASTDropTableFunctionStatement(self._proto.ast_drop_table_function_statement_node) if self._proto.ast_drop_table_function_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_drop_materialized_view_statement_node(self) -> Optional['parse_tree_pb2.ASTDropMaterializedViewStatementProto']:
+        """Field ast_drop_materialized_view_statement_node"""
+        return ASTDropMaterializedViewStatement(self._proto.ast_drop_materialized_view_statement_node) if self._proto.ast_drop_materialized_view_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_drop_snapshot_table_statement_node(self) -> Optional['parse_tree_pb2.ASTDropSnapshotTableStatementProto']:
+        """Field ast_drop_snapshot_table_statement_node"""
+        return ASTDropSnapshotTableStatement(self._proto.ast_drop_snapshot_table_statement_node) if self._proto.ast_drop_snapshot_table_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_statement_node(self) -> Optional['parse_tree_pb2.AnyASTCreateStatementProto']:
+        """Field ast_create_statement_node"""
+        return AnyASTCreateStatement(self._proto.ast_create_statement_node) if self._proto.ast_create_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_drop_row_access_policy_statement_node(self) -> Optional['parse_tree_pb2.ASTDropRowAccessPolicyStatementProto']:
+        """Field ast_drop_row_access_policy_statement_node"""
+        return ASTDropRowAccessPolicyStatement(self._proto.ast_drop_row_access_policy_statement_node) if self._proto.ast_drop_row_access_policy_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_drop_statement_node(self) -> Optional['parse_tree_pb2.ASTDropStatementProto']:
+        """Field ast_drop_statement_node"""
+        return ASTDropStatement(self._proto.ast_drop_statement_node) if self._proto.ast_drop_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_statement_base_node(self) -> Optional['parse_tree_pb2.AnyASTAlterStatementBaseProto']:
+        """Field ast_alter_statement_base_node"""
+        return AnyASTAlterStatementBase(self._proto.ast_alter_statement_base_node) if self._proto.ast_alter_statement_base_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_drop_privilege_restriction_statement_node(self) -> Optional['parse_tree_pb2.ASTDropPrivilegeRestrictionStatementProto']:
+        """Field ast_drop_privilege_restriction_statement_node"""
+        return ASTDropPrivilegeRestrictionStatement(self._proto.ast_drop_privilege_restriction_statement_node) if self._proto.ast_drop_privilege_restriction_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_undrop_statement_node(self) -> Optional['parse_tree_pb2.ASTUndropStatementProto']:
+        """Field ast_undrop_statement_node"""
+        return ASTUndropStatement(self._proto.ast_undrop_statement_node) if self._proto.ast_undrop_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_drop_index_statement_node(self) -> Optional['parse_tree_pb2.AnyASTDropIndexStatementProto']:
+        """Field ast_drop_index_statement_node"""
+        return AnyASTDropIndexStatement(self._proto.ast_drop_index_statement_node) if self._proto.ast_drop_index_statement_node.ByteSize() > 0 else None
+
+
+
+class AnyASTDropIndexStatement:
+    """Generated wrapper for AnyASTDropIndexStatementProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTDropIndexStatementProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_drop_search_index_statement_node(self) -> Optional['parse_tree_pb2.ASTDropSearchIndexStatementProto']:
+        """Field ast_drop_search_index_statement_node"""
+        return ASTDropSearchIndexStatement(self._proto.ast_drop_search_index_statement_node) if self._proto.ast_drop_search_index_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_drop_vector_index_statement_node(self) -> Optional['parse_tree_pb2.ASTDropVectorIndexStatementProto']:
+        """Field ast_drop_vector_index_statement_node"""
+        return ASTDropVectorIndexStatement(self._proto.ast_drop_vector_index_statement_node) if self._proto.ast_drop_vector_index_statement_node.ByteSize() > 0 else None
+
+
+
+class AnyASTElementTypeColumnSchema:
+    """Generated wrapper for AnyASTElementTypeColumnSchemaProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTElementTypeColumnSchemaProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_array_column_schema_node(self) -> Optional['parse_tree_pb2.ASTArrayColumnSchemaProto']:
+        """Field ast_array_column_schema_node"""
+        return ASTArrayColumnSchema(self._proto.ast_array_column_schema_node) if self._proto.ast_array_column_schema_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_range_column_schema_node(self) -> Optional['parse_tree_pb2.ASTRangeColumnSchemaProto']:
+        """Field ast_range_column_schema_node"""
+        return ASTRangeColumnSchema(self._proto.ast_range_column_schema_node) if self._proto.ast_range_column_schema_node.ByteSize() > 0 else None
+
+
+
+class AnyASTExpression:
+    """Generated wrapper for AnyASTExpressionProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTExpressionProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_leaf_node(self) -> Optional['parse_tree_pb2.AnyASTLeafProto']:
+        """Field ast_leaf_node"""
+        return AnyASTLeaf(self._proto.ast_leaf_node) if self._proto.ast_leaf_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_identifier_node(self) -> Optional['parse_tree_pb2.ASTIdentifierProto']:
+        """Field ast_identifier_node"""
+        return ASTIdentifier(self._proto.ast_identifier_node) if self._proto.ast_identifier_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_generalized_path_expression_node(self) -> Optional['parse_tree_pb2.AnyASTGeneralizedPathExpressionProto']:
+        """Field ast_generalized_path_expression_node"""
+        return AnyASTGeneralizedPathExpression(self._proto.ast_generalized_path_expression_node) if self._proto.ast_generalized_path_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_and_expr_node(self) -> Optional['parse_tree_pb2.ASTAndExprProto']:
+        """Field ast_and_expr_node"""
+        return ASTAndExpr(self._proto.ast_and_expr_node) if self._proto.ast_and_expr_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_binary_expression_node(self) -> Optional['parse_tree_pb2.ASTBinaryExpressionProto']:
+        """Field ast_binary_expression_node"""
+        return ASTBinaryExpression(self._proto.ast_binary_expression_node) if self._proto.ast_binary_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_or_expr_node(self) -> Optional['parse_tree_pb2.ASTOrExprProto']:
+        """Field ast_or_expr_node"""
+        return ASTOrExpr(self._proto.ast_or_expr_node) if self._proto.ast_or_expr_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_cast_expression_node(self) -> Optional['parse_tree_pb2.ASTCastExpressionProto']:
+        """Field ast_cast_expression_node"""
+        return ASTCastExpression(self._proto.ast_cast_expression_node) if self._proto.ast_cast_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_function_call_node(self) -> Optional['parse_tree_pb2.ASTFunctionCallProto']:
+        """Field ast_function_call_node"""
+        return ASTFunctionCall(self._proto.ast_function_call_node) if self._proto.ast_function_call_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_array_constructor_node(self) -> Optional['parse_tree_pb2.ASTArrayConstructorProto']:
+        """Field ast_array_constructor_node"""
+        return ASTArrayConstructor(self._proto.ast_array_constructor_node) if self._proto.ast_array_constructor_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_struct_constructor_with_parens_node(self) -> Optional['parse_tree_pb2.ASTStructConstructorWithParensProto']:
+        """Field ast_struct_constructor_with_parens_node"""
+        return ASTStructConstructorWithParens(self._proto.ast_struct_constructor_with_parens_node) if self._proto.ast_struct_constructor_with_parens_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_struct_constructor_with_keyword_node(self) -> Optional['parse_tree_pb2.ASTStructConstructorWithKeywordProto']:
+        """Field ast_struct_constructor_with_keyword_node"""
+        return ASTStructConstructorWithKeyword(self._proto.ast_struct_constructor_with_keyword_node) if self._proto.ast_struct_constructor_with_keyword_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_in_expression_node(self) -> Optional['parse_tree_pb2.ASTInExpressionProto']:
+        """Field ast_in_expression_node"""
+        return ASTInExpression(self._proto.ast_in_expression_node) if self._proto.ast_in_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_between_expression_node(self) -> Optional['parse_tree_pb2.ASTBetweenExpressionProto']:
+        """Field ast_between_expression_node"""
+        return ASTBetweenExpression(self._proto.ast_between_expression_node) if self._proto.ast_between_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_date_or_time_literal_node(self) -> Optional['parse_tree_pb2.ASTDateOrTimeLiteralProto']:
+        """Field ast_date_or_time_literal_node"""
+        return ASTDateOrTimeLiteral(self._proto.ast_date_or_time_literal_node) if self._proto.ast_date_or_time_literal_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_case_value_expression_node(self) -> Optional['parse_tree_pb2.ASTCaseValueExpressionProto']:
+        """Field ast_case_value_expression_node"""
+        return ASTCaseValueExpression(self._proto.ast_case_value_expression_node) if self._proto.ast_case_value_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_case_no_value_expression_node(self) -> Optional['parse_tree_pb2.ASTCaseNoValueExpressionProto']:
+        """Field ast_case_no_value_expression_node"""
+        return ASTCaseNoValueExpression(self._proto.ast_case_no_value_expression_node) if self._proto.ast_case_no_value_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_bitwise_shift_expression_node(self) -> Optional['parse_tree_pb2.ASTBitwiseShiftExpressionProto']:
+        """Field ast_bitwise_shift_expression_node"""
+        return ASTBitwiseShiftExpression(self._proto.ast_bitwise_shift_expression_node) if self._proto.ast_bitwise_shift_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_dot_star_node(self) -> Optional['parse_tree_pb2.ASTDotStarProto']:
+        """Field ast_dot_star_node"""
+        return ASTDotStar(self._proto.ast_dot_star_node) if self._proto.ast_dot_star_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_dot_star_with_modifiers_node(self) -> Optional['parse_tree_pb2.ASTDotStarWithModifiersProto']:
+        """Field ast_dot_star_with_modifiers_node"""
+        return ASTDotStarWithModifiers(self._proto.ast_dot_star_with_modifiers_node) if self._proto.ast_dot_star_with_modifiers_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_expression_subquery_node(self) -> Optional['parse_tree_pb2.ASTExpressionSubqueryProto']:
+        """Field ast_expression_subquery_node"""
+        return ASTExpressionSubquery(self._proto.ast_expression_subquery_node) if self._proto.ast_expression_subquery_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_extract_expression_node(self) -> Optional['parse_tree_pb2.ASTExtractExpressionProto']:
+        """Field ast_extract_expression_node"""
+        return ASTExtractExpression(self._proto.ast_extract_expression_node) if self._proto.ast_extract_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_interval_expr_node(self) -> Optional['parse_tree_pb2.ASTIntervalExprProto']:
+        """Field ast_interval_expr_node"""
+        return ASTIntervalExpr(self._proto.ast_interval_expr_node) if self._proto.ast_interval_expr_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_named_argument_node(self) -> Optional['parse_tree_pb2.ASTNamedArgumentProto']:
+        """Field ast_named_argument_node"""
+        return ASTNamedArgument(self._proto.ast_named_argument_node) if self._proto.ast_named_argument_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_star_with_modifiers_node(self) -> Optional['parse_tree_pb2.ASTStarWithModifiersProto']:
+        """Field ast_star_with_modifiers_node"""
+        return ASTStarWithModifiers(self._proto.ast_star_with_modifiers_node) if self._proto.ast_star_with_modifiers_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_unary_expression_node(self) -> Optional['parse_tree_pb2.ASTUnaryExpressionProto']:
+        """Field ast_unary_expression_node"""
+        return ASTUnaryExpression(self._proto.ast_unary_expression_node) if self._proto.ast_unary_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_like_expression_node(self) -> Optional['parse_tree_pb2.ASTLikeExpressionProto']:
+        """Field ast_like_expression_node"""
+        return ASTLikeExpression(self._proto.ast_like_expression_node) if self._proto.ast_like_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_parameter_expr_base_node(self) -> Optional['parse_tree_pb2.AnyASTParameterExprBaseProto']:
+        """Field ast_parameter_expr_base_node"""
+        return AnyASTParameterExprBase(self._proto.ast_parameter_expr_base_node) if self._proto.ast_parameter_expr_base_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_lambda_node(self) -> Optional['parse_tree_pb2.ASTLambdaProto']:
+        """Field ast_lambda_node"""
+        return ASTLambda(self._proto.ast_lambda_node) if self._proto.ast_lambda_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_analytic_function_call_node(self) -> Optional['parse_tree_pb2.ASTAnalyticFunctionCallProto']:
+        """Field ast_analytic_function_call_node"""
+        return ASTAnalyticFunctionCall(self._proto.ast_analytic_function_call_node) if self._proto.ast_analytic_function_call_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_new_constructor_node(self) -> Optional['parse_tree_pb2.ASTNewConstructorProto']:
+        """Field ast_new_constructor_node"""
+        return ASTNewConstructor(self._proto.ast_new_constructor_node) if self._proto.ast_new_constructor_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_default_literal_node(self) -> Optional['parse_tree_pb2.ASTDefaultLiteralProto']:
+        """Field ast_default_literal_node"""
+        return ASTDefaultLiteral(self._proto.ast_default_literal_node) if self._proto.ast_default_literal_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_replace_fields_expression_node(self) -> Optional['parse_tree_pb2.ASTReplaceFieldsExpressionProto']:
+        """Field ast_replace_fields_expression_node"""
+        return ASTReplaceFieldsExpression(self._proto.ast_replace_fields_expression_node) if self._proto.ast_replace_fields_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_braced_constructor_node(self) -> Optional['parse_tree_pb2.ASTBracedConstructorProto']:
+        """Field ast_braced_constructor_node"""
+        return ASTBracedConstructor(self._proto.ast_braced_constructor_node) if self._proto.ast_braced_constructor_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_braced_new_constructor_node(self) -> Optional['parse_tree_pb2.ASTBracedNewConstructorProto']:
+        """Field ast_braced_new_constructor_node"""
+        return ASTBracedNewConstructor(self._proto.ast_braced_new_constructor_node) if self._proto.ast_braced_new_constructor_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_with_expression_node(self) -> Optional['parse_tree_pb2.ASTWithExpressionProto']:
+        """Field ast_with_expression_node"""
+        return ASTWithExpression(self._proto.ast_with_expression_node) if self._proto.ast_with_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_range_literal_node(self) -> Optional['parse_tree_pb2.ASTRangeLiteralProto']:
+        """Field ast_range_literal_node"""
+        return ASTRangeLiteral(self._proto.ast_range_literal_node) if self._proto.ast_range_literal_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_sequence_arg_node(self) -> Optional['parse_tree_pb2.ASTSequenceArgProto']:
+        """Field ast_sequence_arg_node"""
+        return ASTSequenceArg(self._proto.ast_sequence_arg_node) if self._proto.ast_sequence_arg_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_expression_with_alias_node(self) -> Optional['parse_tree_pb2.ASTExpressionWithAliasProto']:
+        """Field ast_expression_with_alias_node"""
+        return ASTExpressionWithAlias(self._proto.ast_expression_with_alias_node) if self._proto.ast_expression_with_alias_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_struct_braced_constructor_node(self) -> Optional['parse_tree_pb2.ASTStructBracedConstructorProto']:
+        """Field ast_struct_braced_constructor_node"""
+        return ASTStructBracedConstructor(self._proto.ast_struct_braced_constructor_node) if self._proto.ast_struct_braced_constructor_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_int_or_unbounded_node(self) -> Optional['parse_tree_pb2.ASTIntOrUnboundedProto']:
+        """Field ast_int_or_unbounded_node"""
+        return ASTIntOrUnbounded(self._proto.ast_int_or_unbounded_node) if self._proto.ast_int_or_unbounded_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_is_labeled_predicate_node(self) -> Optional['parse_tree_pb2.ASTGraphIsLabeledPredicateProto']:
+        """Field ast_graph_is_labeled_predicate_node"""
+        return ASTGraphIsLabeledPredicate(self._proto.ast_graph_is_labeled_predicate_node) if self._proto.ast_graph_is_labeled_predicate_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_braced_constructor_lhs_node(self) -> Optional['parse_tree_pb2.ASTBracedConstructorLhsProto']:
+        """Field ast_braced_constructor_lhs_node"""
+        return ASTBracedConstructorLhs(self._proto.ast_braced_constructor_lhs_node) if self._proto.ast_braced_constructor_lhs_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_update_constructor_node(self) -> Optional['parse_tree_pb2.ASTUpdateConstructorProto']:
+        """Field ast_update_constructor_node"""
+        return ASTUpdateConstructor(self._proto.ast_update_constructor_node) if self._proto.ast_update_constructor_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_input_table_argument_node(self) -> Optional['parse_tree_pb2.ASTInputTableArgumentProto']:
+        """Field ast_input_table_argument_node"""
+        return ASTInputTableArgument(self._proto.ast_input_table_argument_node) if self._proto.ast_input_table_argument_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_concat_expr_node(self) -> Optional['parse_tree_pb2.ASTConcatExprProto']:
+        """Field ast_concat_expr_node"""
+        return ASTConcatExpr(self._proto.ast_concat_expr_node) if self._proto.ast_concat_expr_node.ByteSize() > 0 else None
+
+
+
+class AnyASTGeneralizedPathExpression:
+    """Generated wrapper for AnyASTGeneralizedPathExpressionProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTGeneralizedPathExpressionProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_path_expression_node(self) -> Optional['parse_tree_pb2.ASTPathExpressionProto']:
+        """Field ast_path_expression_node"""
+        return ASTPathExpression(self._proto.ast_path_expression_node) if self._proto.ast_path_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_array_element_node(self) -> Optional['parse_tree_pb2.ASTArrayElementProto']:
+        """Field ast_array_element_node"""
+        return ASTArrayElement(self._proto.ast_array_element_node) if self._proto.ast_array_element_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_dot_generalized_field_node(self) -> Optional['parse_tree_pb2.ASTDotGeneralizedFieldProto']:
+        """Field ast_dot_generalized_field_node"""
+        return ASTDotGeneralizedField(self._proto.ast_dot_generalized_field_node) if self._proto.ast_dot_generalized_field_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_dot_identifier_node(self) -> Optional['parse_tree_pb2.ASTDotIdentifierProto']:
+        """Field ast_dot_identifier_node"""
+        return ASTDotIdentifier(self._proto.ast_dot_identifier_node) if self._proto.ast_dot_identifier_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_extended_path_expression_node(self) -> Optional['parse_tree_pb2.ASTExtendedPathExpressionProto']:
+        """Field ast_extended_path_expression_node"""
+        return ASTExtendedPathExpression(self._proto.ast_extended_path_expression_node) if self._proto.ast_extended_path_expression_node.ByteSize() > 0 else None
+
+
+
+class AnyASTGqlCallBase:
+    """Generated wrapper for AnyASTGqlCallBaseProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTGqlCallBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_gql_named_call_node(self) -> Optional['parse_tree_pb2.ASTGqlNamedCallProto']:
+        """Field ast_gql_named_call_node"""
+        return ASTGqlNamedCall(self._proto.ast_gql_named_call_node) if self._proto.ast_gql_named_call_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_inline_subquery_call_node(self) -> Optional['parse_tree_pb2.ASTGqlInlineSubqueryCallProto']:
+        """Field ast_gql_inline_subquery_call_node"""
+        return ASTGqlInlineSubqueryCall(self._proto.ast_gql_inline_subquery_call_node) if self._proto.ast_gql_inline_subquery_call_node.ByteSize() > 0 else None
+
+
+
+class AnyASTGqlOperator:
+    """Generated wrapper for AnyASTGqlOperatorProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTGqlOperatorProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_gql_match_node(self) -> Optional['parse_tree_pb2.ASTGqlMatchProto']:
+        """Field ast_gql_match_node"""
+        return ASTGqlMatch(self._proto.ast_gql_match_node) if self._proto.ast_gql_match_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_return_node(self) -> Optional['parse_tree_pb2.ASTGqlReturnProto']:
+        """Field ast_gql_return_node"""
+        return ASTGqlReturn(self._proto.ast_gql_return_node) if self._proto.ast_gql_return_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_operator_list_node(self) -> Optional['parse_tree_pb2.ASTGqlOperatorListProto']:
+        """Field ast_gql_operator_list_node"""
+        return ASTGqlOperatorList(self._proto.ast_gql_operator_list_node) if self._proto.ast_gql_operator_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_let_node(self) -> Optional['parse_tree_pb2.ASTGqlLetProto']:
+        """Field ast_gql_let_node"""
+        return ASTGqlLet(self._proto.ast_gql_let_node) if self._proto.ast_gql_let_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_filter_node(self) -> Optional['parse_tree_pb2.ASTGqlFilterProto']:
+        """Field ast_gql_filter_node"""
+        return ASTGqlFilter(self._proto.ast_gql_filter_node) if self._proto.ast_gql_filter_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_order_by_and_page_node(self) -> Optional['parse_tree_pb2.ASTGqlOrderByAndPageProto']:
+        """Field ast_gql_order_by_and_page_node"""
+        return ASTGqlOrderByAndPage(self._proto.ast_gql_order_by_and_page_node) if self._proto.ast_gql_order_by_and_page_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_set_operation_node(self) -> Optional['parse_tree_pb2.ASTGqlSetOperationProto']:
+        """Field ast_gql_set_operation_node"""
+        return ASTGqlSetOperation(self._proto.ast_gql_set_operation_node) if self._proto.ast_gql_set_operation_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_with_node(self) -> Optional['parse_tree_pb2.ASTGqlWithProto']:
+        """Field ast_gql_with_node"""
+        return ASTGqlWith(self._proto.ast_gql_with_node) if self._proto.ast_gql_with_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_for_node(self) -> Optional['parse_tree_pb2.ASTGqlForProto']:
+        """Field ast_gql_for_node"""
+        return ASTGqlFor(self._proto.ast_gql_for_node) if self._proto.ast_gql_for_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_sample_node(self) -> Optional['parse_tree_pb2.ASTGqlSampleProto']:
+        """Field ast_gql_sample_node"""
+        return ASTGqlSample(self._proto.ast_gql_sample_node) if self._proto.ast_gql_sample_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_call_base_node(self) -> Optional['parse_tree_pb2.AnyASTGqlCallBaseProto']:
+        """Field ast_gql_call_base_node"""
+        return AnyASTGqlCallBase(self._proto.ast_gql_call_base_node) if self._proto.ast_gql_call_base_node.ByteSize() > 0 else None
+
+
+
+class AnyASTGraphElementPattern:
+    """Generated wrapper for AnyASTGraphElementPatternProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTGraphElementPatternProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_graph_node_pattern_node(self) -> Optional['parse_tree_pb2.ASTGraphNodePatternProto']:
+        """Field ast_graph_node_pattern_node"""
+        return ASTGraphNodePattern(self._proto.ast_graph_node_pattern_node) if self._proto.ast_graph_node_pattern_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_edge_pattern_node(self) -> Optional['parse_tree_pb2.ASTGraphEdgePatternProto']:
+        """Field ast_graph_edge_pattern_node"""
+        return ASTGraphEdgePattern(self._proto.ast_graph_edge_pattern_node) if self._proto.ast_graph_edge_pattern_node.ByteSize() > 0 else None
+
+
+
+class AnyASTGraphLabelExpression:
+    """Generated wrapper for AnyASTGraphLabelExpressionProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTGraphLabelExpressionProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_graph_element_label_node(self) -> Optional['parse_tree_pb2.ASTGraphElementLabelProto']:
+        """Field ast_graph_element_label_node"""
+        return ASTGraphElementLabel(self._proto.ast_graph_element_label_node) if self._proto.ast_graph_element_label_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_wildcard_label_node(self) -> Optional['parse_tree_pb2.ASTGraphWildcardLabelProto']:
+        """Field ast_graph_wildcard_label_node"""
+        return ASTGraphWildcardLabel(self._proto.ast_graph_wildcard_label_node) if self._proto.ast_graph_wildcard_label_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_label_operation_node(self) -> Optional['parse_tree_pb2.ASTGraphLabelOperationProto']:
+        """Field ast_graph_label_operation_node"""
+        return ASTGraphLabelOperation(self._proto.ast_graph_label_operation_node) if self._proto.ast_graph_label_operation_node.ByteSize() > 0 else None
+
+
+
+class AnyASTGraphPathBase:
+    """Generated wrapper for AnyASTGraphPathBaseProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTGraphPathBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_graph_element_pattern_node(self) -> Optional['parse_tree_pb2.AnyASTGraphElementPatternProto']:
+        """Field ast_graph_element_pattern_node"""
+        return AnyASTGraphElementPattern(self._proto.ast_graph_element_pattern_node) if self._proto.ast_graph_element_pattern_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_path_pattern_node(self) -> Optional['parse_tree_pb2.ASTGraphPathPatternProto']:
+        """Field ast_graph_path_pattern_node"""
+        return ASTGraphPathPattern(self._proto.ast_graph_path_pattern_node) if self._proto.ast_graph_path_pattern_node.ByteSize() > 0 else None
+
+
+
+class AnyASTLeaf:
+    """Generated wrapper for AnyASTLeafProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTLeafProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_string_literal_node(self) -> Optional['parse_tree_pb2.ASTStringLiteralProto']:
+        """Field ast_string_literal_node"""
+        return ASTStringLiteral(self._proto.ast_string_literal_node) if self._proto.ast_string_literal_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_numeric_literal_node(self) -> Optional['parse_tree_pb2.ASTNumericLiteralProto']:
+        """Field ast_numeric_literal_node"""
+        return ASTNumericLiteral(self._proto.ast_numeric_literal_node) if self._proto.ast_numeric_literal_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_bignumeric_literal_node(self) -> Optional['parse_tree_pb2.ASTBigNumericLiteralProto']:
+        """Field ast_bignumeric_literal_node"""
+        return ASTBigNumericLiteral(self._proto.ast_bignumeric_literal_node) if self._proto.ast_bignumeric_literal_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_bytes_literal_node(self) -> Optional['parse_tree_pb2.ASTBytesLiteralProto']:
+        """Field ast_bytes_literal_node"""
+        return ASTBytesLiteral(self._proto.ast_bytes_literal_node) if self._proto.ast_bytes_literal_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_json_literal_node(self) -> Optional['parse_tree_pb2.ASTJSONLiteralProto']:
+        """Field ast_json_literal_node"""
+        return ASTJSONLiteral(self._proto.ast_json_literal_node) if self._proto.ast_json_literal_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_printable_leaf_node(self) -> Optional['parse_tree_pb2.AnyASTPrintableLeafProto']:
+        """Field ast_printable_leaf_node"""
+        return AnyASTPrintableLeaf(self._proto.ast_printable_leaf_node) if self._proto.ast_printable_leaf_node.ByteSize() > 0 else None
+
+
+
+class AnyASTLoopStatement:
+    """Generated wrapper for AnyASTLoopStatementProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTLoopStatementProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_while_statement_node(self) -> Optional['parse_tree_pb2.ASTWhileStatementProto']:
+        """Field ast_while_statement_node"""
+        return ASTWhileStatement(self._proto.ast_while_statement_node) if self._proto.ast_while_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_repeat_statement_node(self) -> Optional['parse_tree_pb2.ASTRepeatStatementProto']:
+        """Field ast_repeat_statement_node"""
+        return ASTRepeatStatement(self._proto.ast_repeat_statement_node) if self._proto.ast_repeat_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_for_in_statement_node(self) -> Optional['parse_tree_pb2.ASTForInStatementProto']:
+        """Field ast_for_in_statement_node"""
+        return ASTForInStatement(self._proto.ast_for_in_statement_node) if self._proto.ast_for_in_statement_node.ByteSize() > 0 else None
+
+
+
+class AnyASTNode:
+    """Generated wrapper for AnyASTNodeProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTNodeProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_statement_node(self) -> Optional['parse_tree_pb2.AnyASTStatementProto']:
+        """Field ast_statement_node"""
+        return AnyASTStatement(self._proto.ast_statement_node) if self._proto.ast_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_query_expression_node(self) -> Optional['parse_tree_pb2.AnyASTQueryExpressionProto']:
+        """Field ast_query_expression_node"""
+        return AnyASTQueryExpression(self._proto.ast_query_expression_node) if self._proto.ast_query_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_select_list_node(self) -> Optional['parse_tree_pb2.ASTSelectListProto']:
+        """Field ast_select_list_node"""
+        return ASTSelectList(self._proto.ast_select_list_node) if self._proto.ast_select_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_select_column_node(self) -> Optional['parse_tree_pb2.ASTSelectColumnProto']:
+        """Field ast_select_column_node"""
+        return ASTSelectColumn(self._proto.ast_select_column_node) if self._proto.ast_select_column_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_expression_node(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
+        """Field ast_expression_node"""
+        return AnyASTExpression(self._proto.ast_expression_node) if self._proto.ast_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alias_node(self) -> Optional['parse_tree_pb2.ASTAliasProto']:
+        """Field ast_alias_node"""
+        return ASTAlias(self._proto.ast_alias_node) if self._proto.ast_alias_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_table_expression_node(self) -> Optional['parse_tree_pb2.AnyASTTableExpressionProto']:
+        """Field ast_table_expression_node"""
+        return AnyASTTableExpression(self._proto.ast_table_expression_node) if self._proto.ast_table_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_from_clause_node(self) -> Optional['parse_tree_pb2.ASTFromClauseProto']:
+        """Field ast_from_clause_node"""
+        return ASTFromClause(self._proto.ast_from_clause_node) if self._proto.ast_from_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_where_clause_node(self) -> Optional['parse_tree_pb2.ASTWhereClauseProto']:
+        """Field ast_where_clause_node"""
+        return ASTWhereClause(self._proto.ast_where_clause_node) if self._proto.ast_where_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_grouping_item_node(self) -> Optional['parse_tree_pb2.ASTGroupingItemProto']:
+        """Field ast_grouping_item_node"""
+        return ASTGroupingItem(self._proto.ast_grouping_item_node) if self._proto.ast_grouping_item_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_group_by_node(self) -> Optional['parse_tree_pb2.ASTGroupByProto']:
+        """Field ast_group_by_node"""
+        return ASTGroupBy(self._proto.ast_group_by_node) if self._proto.ast_group_by_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_ordering_expression_node(self) -> Optional['parse_tree_pb2.ASTOrderingExpressionProto']:
+        """Field ast_ordering_expression_node"""
+        return ASTOrderingExpression(self._proto.ast_ordering_expression_node) if self._proto.ast_ordering_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_order_by_node(self) -> Optional['parse_tree_pb2.ASTOrderByProto']:
+        """Field ast_order_by_node"""
+        return ASTOrderBy(self._proto.ast_order_by_node) if self._proto.ast_order_by_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_limit_offset_node(self) -> Optional['parse_tree_pb2.ASTLimitOffsetProto']:
+        """Field ast_limit_offset_node"""
+        return ASTLimitOffset(self._proto.ast_limit_offset_node) if self._proto.ast_limit_offset_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_on_clause_node(self) -> Optional['parse_tree_pb2.ASTOnClauseProto']:
+        """Field ast_on_clause_node"""
+        return ASTOnClause(self._proto.ast_on_clause_node) if self._proto.ast_on_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_aliased_query_node(self) -> Optional['parse_tree_pb2.ASTAliasedQueryProto']:
+        """Field ast_aliased_query_node"""
+        return ASTAliasedQuery(self._proto.ast_aliased_query_node) if self._proto.ast_aliased_query_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_with_clause_node(self) -> Optional['parse_tree_pb2.ASTWithClauseProto']:
+        """Field ast_with_clause_node"""
+        return ASTWithClause(self._proto.ast_with_clause_node) if self._proto.ast_with_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_having_node(self) -> Optional['parse_tree_pb2.ASTHavingProto']:
+        """Field ast_having_node"""
+        return ASTHaving(self._proto.ast_having_node) if self._proto.ast_having_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_type_node(self) -> Optional['parse_tree_pb2.AnyASTTypeProto']:
+        """Field ast_type_node"""
+        return AnyASTType(self._proto.ast_type_node) if self._proto.ast_type_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_struct_field_node(self) -> Optional['parse_tree_pb2.ASTStructFieldProto']:
+        """Field ast_struct_field_node"""
+        return ASTStructField(self._proto.ast_struct_field_node) if self._proto.ast_struct_field_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_select_as_node(self) -> Optional['parse_tree_pb2.ASTSelectAsProto']:
+        """Field ast_select_as_node"""
+        return ASTSelectAs(self._proto.ast_select_as_node) if self._proto.ast_select_as_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_rollup_node(self) -> Optional['parse_tree_pb2.ASTRollupProto']:
+        """Field ast_rollup_node"""
+        return ASTRollup(self._proto.ast_rollup_node) if self._proto.ast_rollup_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_struct_constructor_arg_node(self) -> Optional['parse_tree_pb2.ASTStructConstructorArgProto']:
+        """Field ast_struct_constructor_arg_node"""
+        return ASTStructConstructorArg(self._proto.ast_struct_constructor_arg_node) if self._proto.ast_struct_constructor_arg_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_in_list_node(self) -> Optional['parse_tree_pb2.ASTInListProto']:
+        """Field ast_in_list_node"""
+        return ASTInList(self._proto.ast_in_list_node) if self._proto.ast_in_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_collate_node(self) -> Optional['parse_tree_pb2.ASTCollateProto']:
+        """Field ast_collate_node"""
+        return ASTCollate(self._proto.ast_collate_node) if self._proto.ast_collate_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_having_modifier_node(self) -> Optional['parse_tree_pb2.ASTHavingModifierProto']:
+        """Field ast_having_modifier_node"""
+        return ASTHavingModifier(self._proto.ast_having_modifier_node) if self._proto.ast_having_modifier_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_null_order_node(self) -> Optional['parse_tree_pb2.ASTNullOrderProto']:
+        """Field ast_null_order_node"""
+        return ASTNullOrder(self._proto.ast_null_order_node) if self._proto.ast_null_order_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_on_or_using_clause_list_node(self) -> Optional['parse_tree_pb2.ASTOnOrUsingClauseListProto']:
+        """Field ast_on_or_using_clause_list_node"""
+        return ASTOnOrUsingClauseList(self._proto.ast_on_or_using_clause_list_node) if self._proto.ast_on_or_using_clause_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_partition_by_node(self) -> Optional['parse_tree_pb2.ASTPartitionByProto']:
+        """Field ast_partition_by_node"""
+        return ASTPartitionBy(self._proto.ast_partition_by_node) if self._proto.ast_partition_by_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_star_except_list_node(self) -> Optional['parse_tree_pb2.ASTStarExceptListProto']:
+        """Field ast_star_except_list_node"""
+        return ASTStarExceptList(self._proto.ast_star_except_list_node) if self._proto.ast_star_except_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_star_modifiers_node(self) -> Optional['parse_tree_pb2.ASTStarModifiersProto']:
+        """Field ast_star_modifiers_node"""
+        return ASTStarModifiers(self._proto.ast_star_modifiers_node) if self._proto.ast_star_modifiers_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_star_replace_item_node(self) -> Optional['parse_tree_pb2.ASTStarReplaceItemProto']:
+        """Field ast_star_replace_item_node"""
+        return ASTStarReplaceItem(self._proto.ast_star_replace_item_node) if self._proto.ast_star_replace_item_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_unnest_expression_node(self) -> Optional['parse_tree_pb2.ASTUnnestExpressionProto']:
+        """Field ast_unnest_expression_node"""
+        return ASTUnnestExpression(self._proto.ast_unnest_expression_node) if self._proto.ast_unnest_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_window_clause_node(self) -> Optional['parse_tree_pb2.ASTWindowClauseProto']:
+        """Field ast_window_clause_node"""
+        return ASTWindowClause(self._proto.ast_window_clause_node) if self._proto.ast_window_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_window_definition_node(self) -> Optional['parse_tree_pb2.ASTWindowDefinitionProto']:
+        """Field ast_window_definition_node"""
+        return ASTWindowDefinition(self._proto.ast_window_definition_node) if self._proto.ast_window_definition_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_window_frame_node(self) -> Optional['parse_tree_pb2.ASTWindowFrameProto']:
+        """Field ast_window_frame_node"""
+        return ASTWindowFrame(self._proto.ast_window_frame_node) if self._proto.ast_window_frame_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_window_frame_expr_node(self) -> Optional['parse_tree_pb2.ASTWindowFrameExprProto']:
+        """Field ast_window_frame_expr_node"""
+        return ASTWindowFrameExpr(self._proto.ast_window_frame_expr_node) if self._proto.ast_window_frame_expr_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_window_specification_node(self) -> Optional['parse_tree_pb2.ASTWindowSpecificationProto']:
+        """Field ast_window_specification_node"""
+        return ASTWindowSpecification(self._proto.ast_window_specification_node) if self._proto.ast_window_specification_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_with_offset_node(self) -> Optional['parse_tree_pb2.ASTWithOffsetProto']:
+        """Field ast_with_offset_node"""
+        return ASTWithOffset(self._proto.ast_with_offset_node) if self._proto.ast_with_offset_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_any_some_all_op_node(self) -> Optional['parse_tree_pb2.ASTAnySomeAllOpProto']:
+        """Field ast_any_some_all_op_node"""
+        return ASTAnySomeAllOp(self._proto.ast_any_some_all_op_node) if self._proto.ast_any_some_all_op_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_statement_list_node(self) -> Optional['parse_tree_pb2.ASTStatementListProto']:
+        """Field ast_statement_list_node"""
+        return ASTStatementList(self._proto.ast_statement_list_node) if self._proto.ast_statement_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_transaction_mode_node(self) -> Optional['parse_tree_pb2.AnyASTTransactionModeProto']:
+        """Field ast_transaction_mode_node"""
+        return AnyASTTransactionMode(self._proto.ast_transaction_mode_node) if self._proto.ast_transaction_mode_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_transaction_mode_list_node(self) -> Optional['parse_tree_pb2.ASTTransactionModeListProto']:
+        """Field ast_transaction_mode_list_node"""
+        return ASTTransactionModeList(self._proto.ast_transaction_mode_list_node) if self._proto.ast_transaction_mode_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_with_connection_clause_node(self) -> Optional['parse_tree_pb2.ASTWithConnectionClauseProto']:
+        """Field ast_with_connection_clause_node"""
+        return ASTWithConnectionClause(self._proto.ast_with_connection_clause_node) if self._proto.ast_with_connection_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_into_alias_node(self) -> Optional['parse_tree_pb2.ASTIntoAliasProto']:
+        """Field ast_into_alias_node"""
+        return ASTIntoAlias(self._proto.ast_into_alias_node) if self._proto.ast_into_alias_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_unnest_expression_with_opt_alias_and_offset_node(self) -> Optional['parse_tree_pb2.ASTUnnestExpressionWithOptAliasAndOffsetProto']:
+        """Field ast_unnest_expression_with_opt_alias_and_offset_node"""
+        return ASTUnnestExpressionWithOptAliasAndOffset(self._proto.ast_unnest_expression_with_opt_alias_and_offset_node) if self._proto.ast_unnest_expression_with_opt_alias_and_offset_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pivot_expression_node(self) -> Optional['parse_tree_pb2.ASTPivotExpressionProto']:
+        """Field ast_pivot_expression_node"""
+        return ASTPivotExpression(self._proto.ast_pivot_expression_node) if self._proto.ast_pivot_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pivot_value_node(self) -> Optional['parse_tree_pb2.ASTPivotValueProto']:
+        """Field ast_pivot_value_node"""
+        return ASTPivotValue(self._proto.ast_pivot_value_node) if self._proto.ast_pivot_value_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pivot_expression_list_node(self) -> Optional['parse_tree_pb2.ASTPivotExpressionListProto']:
+        """Field ast_pivot_expression_list_node"""
+        return ASTPivotExpressionList(self._proto.ast_pivot_expression_list_node) if self._proto.ast_pivot_expression_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pivot_value_list_node(self) -> Optional['parse_tree_pb2.ASTPivotValueListProto']:
+        """Field ast_pivot_value_list_node"""
+        return ASTPivotValueList(self._proto.ast_pivot_value_list_node) if self._proto.ast_pivot_value_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_unpivot_in_item_node(self) -> Optional['parse_tree_pb2.ASTUnpivotInItemProto']:
+        """Field ast_unpivot_in_item_node"""
+        return ASTUnpivotInItem(self._proto.ast_unpivot_in_item_node) if self._proto.ast_unpivot_in_item_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_unpivot_in_item_list_node(self) -> Optional['parse_tree_pb2.ASTUnpivotInItemListProto']:
+        """Field ast_unpivot_in_item_list_node"""
+        return ASTUnpivotInItemList(self._proto.ast_unpivot_in_item_list_node) if self._proto.ast_unpivot_in_item_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_using_clause_node(self) -> Optional['parse_tree_pb2.ASTUsingClauseProto']:
+        """Field ast_using_clause_node"""
+        return ASTUsingClause(self._proto.ast_using_clause_node) if self._proto.ast_using_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_for_system_time_node(self) -> Optional['parse_tree_pb2.ASTForSystemTimeProto']:
+        """Field ast_for_system_time_node"""
+        return ASTForSystemTime(self._proto.ast_for_system_time_node) if self._proto.ast_for_system_time_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_qualify_node(self) -> Optional['parse_tree_pb2.ASTQualifyProto']:
+        """Field ast_qualify_node"""
+        return ASTQualify(self._proto.ast_qualify_node) if self._proto.ast_qualify_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_clamped_between_modifier_node(self) -> Optional['parse_tree_pb2.ASTClampedBetweenModifierProto']:
+        """Field ast_clamped_between_modifier_node"""
+        return ASTClampedBetweenModifier(self._proto.ast_clamped_between_modifier_node) if self._proto.ast_clamped_between_modifier_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_format_clause_node(self) -> Optional['parse_tree_pb2.ASTFormatClauseProto']:
+        """Field ast_format_clause_node"""
+        return ASTFormatClause(self._proto.ast_format_clause_node) if self._proto.ast_format_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_path_expression_list_node(self) -> Optional['parse_tree_pb2.ASTPathExpressionListProto']:
+        """Field ast_path_expression_list_node"""
+        return ASTPathExpressionList(self._proto.ast_path_expression_list_node) if self._proto.ast_path_expression_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_cluster_by_node(self) -> Optional['parse_tree_pb2.ASTClusterByProto']:
+        """Field ast_cluster_by_node"""
+        return ASTClusterBy(self._proto.ast_cluster_by_node) if self._proto.ast_cluster_by_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_new_constructor_arg_node(self) -> Optional['parse_tree_pb2.ASTNewConstructorArgProto']:
+        """Field ast_new_constructor_arg_node"""
+        return ASTNewConstructorArg(self._proto.ast_new_constructor_arg_node) if self._proto.ast_new_constructor_arg_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_options_list_node(self) -> Optional['parse_tree_pb2.ASTOptionsListProto']:
+        """Field ast_options_list_node"""
+        return ASTOptionsList(self._proto.ast_options_list_node) if self._proto.ast_options_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_options_entry_node(self) -> Optional['parse_tree_pb2.ASTOptionsEntryProto']:
+        """Field ast_options_entry_node"""
+        return ASTOptionsEntry(self._proto.ast_options_entry_node) if self._proto.ast_options_entry_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_function_parameter_node(self) -> Optional['parse_tree_pb2.ASTFunctionParameterProto']:
+        """Field ast_function_parameter_node"""
+        return ASTFunctionParameter(self._proto.ast_function_parameter_node) if self._proto.ast_function_parameter_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_function_parameters_node(self) -> Optional['parse_tree_pb2.ASTFunctionParametersProto']:
+        """Field ast_function_parameters_node"""
+        return ASTFunctionParameters(self._proto.ast_function_parameters_node) if self._proto.ast_function_parameters_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_function_declaration_node(self) -> Optional['parse_tree_pb2.ASTFunctionDeclarationProto']:
+        """Field ast_function_declaration_node"""
+        return ASTFunctionDeclaration(self._proto.ast_function_declaration_node) if self._proto.ast_function_declaration_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_sql_function_body_node(self) -> Optional['parse_tree_pb2.ASTSqlFunctionBodyProto']:
+        """Field ast_sql_function_body_node"""
+        return ASTSqlFunctionBody(self._proto.ast_sql_function_body_node) if self._proto.ast_sql_function_body_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_tvf_argument_node(self) -> Optional['parse_tree_pb2.ASTTVFArgumentProto']:
+        """Field ast_tvf_argument_node"""
+        return ASTTVFArgument(self._proto.ast_tvf_argument_node) if self._proto.ast_tvf_argument_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_model_clause_node(self) -> Optional['parse_tree_pb2.ASTModelClauseProto']:
+        """Field ast_model_clause_node"""
+        return ASTModelClause(self._proto.ast_model_clause_node) if self._proto.ast_model_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_connection_clause_node(self) -> Optional['parse_tree_pb2.ASTConnectionClauseProto']:
+        """Field ast_connection_clause_node"""
+        return ASTConnectionClause(self._proto.ast_connection_clause_node) if self._proto.ast_connection_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_clone_data_source_list_node(self) -> Optional['parse_tree_pb2.ASTCloneDataSourceListProto']:
+        """Field ast_clone_data_source_list_node"""
+        return ASTCloneDataSourceList(self._proto.ast_clone_data_source_list_node) if self._proto.ast_clone_data_source_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_transform_clause_node(self) -> Optional['parse_tree_pb2.ASTTransformClauseProto']:
+        """Field ast_transform_clause_node"""
+        return ASTTransformClause(self._proto.ast_transform_clause_node) if self._proto.ast_transform_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_index_item_list_node(self) -> Optional['parse_tree_pb2.ASTIndexItemListProto']:
+        """Field ast_index_item_list_node"""
+        return ASTIndexItemList(self._proto.ast_index_item_list_node) if self._proto.ast_index_item_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_index_storing_expression_list_node(self) -> Optional['parse_tree_pb2.ASTIndexStoringExpressionListProto']:
+        """Field ast_index_storing_expression_list_node"""
+        return ASTIndexStoringExpressionList(self._proto.ast_index_storing_expression_list_node) if self._proto.ast_index_storing_expression_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_index_unnest_expression_list_node(self) -> Optional['parse_tree_pb2.ASTIndexUnnestExpressionListProto']:
+        """Field ast_index_unnest_expression_list_node"""
+        return ASTIndexUnnestExpressionList(self._proto.ast_index_unnest_expression_list_node) if self._proto.ast_index_unnest_expression_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_with_partition_columns_clause_node(self) -> Optional['parse_tree_pb2.ASTWithPartitionColumnsClauseProto']:
+        """Field ast_with_partition_columns_clause_node"""
+        return ASTWithPartitionColumnsClause(self._proto.ast_with_partition_columns_clause_node) if self._proto.ast_with_partition_columns_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_type_parameter_list_node(self) -> Optional['parse_tree_pb2.ASTTypeParameterListProto']:
+        """Field ast_type_parameter_list_node"""
+        return ASTTypeParameterList(self._proto.ast_type_parameter_list_node) if self._proto.ast_type_parameter_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_tvf_schema_node(self) -> Optional['parse_tree_pb2.ASTTVFSchemaProto']:
+        """Field ast_tvf_schema_node"""
+        return ASTTVFSchema(self._proto.ast_tvf_schema_node) if self._proto.ast_tvf_schema_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_tvf_schema_column_node(self) -> Optional['parse_tree_pb2.ASTTVFSchemaColumnProto']:
+        """Field ast_tvf_schema_column_node"""
+        return ASTTVFSchemaColumn(self._proto.ast_tvf_schema_column_node) if self._proto.ast_tvf_schema_column_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_table_and_column_info_node(self) -> Optional['parse_tree_pb2.ASTTableAndColumnInfoProto']:
+        """Field ast_table_and_column_info_node"""
+        return ASTTableAndColumnInfo(self._proto.ast_table_and_column_info_node) if self._proto.ast_table_and_column_info_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_table_and_column_info_list_node(self) -> Optional['parse_tree_pb2.ASTTableAndColumnInfoListProto']:
+        """Field ast_table_and_column_info_list_node"""
+        return ASTTableAndColumnInfoList(self._proto.ast_table_and_column_info_list_node) if self._proto.ast_table_and_column_info_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_templated_parameter_type_node(self) -> Optional['parse_tree_pb2.ASTTemplatedParameterTypeProto']:
+        """Field ast_templated_parameter_type_node"""
+        return ASTTemplatedParameterType(self._proto.ast_templated_parameter_type_node) if self._proto.ast_templated_parameter_type_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_assert_rows_modified_node(self) -> Optional['parse_tree_pb2.ASTAssertRowsModifiedProto']:
+        """Field ast_assert_rows_modified_node"""
+        return ASTAssertRowsModified(self._proto.ast_assert_rows_modified_node) if self._proto.ast_assert_rows_modified_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_returning_clause_node(self) -> Optional['parse_tree_pb2.ASTReturningClauseProto']:
+        """Field ast_returning_clause_node"""
+        return ASTReturningClause(self._proto.ast_returning_clause_node) if self._proto.ast_returning_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_column_attribute_node(self) -> Optional['parse_tree_pb2.AnyASTColumnAttributeProto']:
+        """Field ast_column_attribute_node"""
+        return AnyASTColumnAttribute(self._proto.ast_column_attribute_node) if self._proto.ast_column_attribute_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_column_attribute_list_node(self) -> Optional['parse_tree_pb2.ASTColumnAttributeListProto']:
+        """Field ast_column_attribute_list_node"""
+        return ASTColumnAttributeList(self._proto.ast_column_attribute_list_node) if self._proto.ast_column_attribute_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_struct_column_field_node(self) -> Optional['parse_tree_pb2.ASTStructColumnFieldProto']:
+        """Field ast_struct_column_field_node"""
+        return ASTStructColumnField(self._proto.ast_struct_column_field_node) if self._proto.ast_struct_column_field_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_generated_column_info_node(self) -> Optional['parse_tree_pb2.ASTGeneratedColumnInfoProto']:
+        """Field ast_generated_column_info_node"""
+        return ASTGeneratedColumnInfo(self._proto.ast_generated_column_info_node) if self._proto.ast_generated_column_info_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_table_element_node(self) -> Optional['parse_tree_pb2.AnyASTTableElementProto']:
+        """Field ast_table_element_node"""
+        return AnyASTTableElement(self._proto.ast_table_element_node) if self._proto.ast_table_element_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_table_element_list_node(self) -> Optional['parse_tree_pb2.ASTTableElementListProto']:
+        """Field ast_table_element_list_node"""
+        return ASTTableElementList(self._proto.ast_table_element_list_node) if self._proto.ast_table_element_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_column_list_node(self) -> Optional['parse_tree_pb2.ASTColumnListProto']:
+        """Field ast_column_list_node"""
+        return ASTColumnList(self._proto.ast_column_list_node) if self._proto.ast_column_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_column_position_node(self) -> Optional['parse_tree_pb2.ASTColumnPositionProto']:
+        """Field ast_column_position_node"""
+        return ASTColumnPosition(self._proto.ast_column_position_node) if self._proto.ast_column_position_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_insert_values_row_node(self) -> Optional['parse_tree_pb2.ASTInsertValuesRowProto']:
+        """Field ast_insert_values_row_node"""
+        return ASTInsertValuesRow(self._proto.ast_insert_values_row_node) if self._proto.ast_insert_values_row_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_insert_values_row_list_node(self) -> Optional['parse_tree_pb2.ASTInsertValuesRowListProto']:
+        """Field ast_insert_values_row_list_node"""
+        return ASTInsertValuesRowList(self._proto.ast_insert_values_row_list_node) if self._proto.ast_insert_values_row_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_update_set_value_node(self) -> Optional['parse_tree_pb2.ASTUpdateSetValueProto']:
+        """Field ast_update_set_value_node"""
+        return ASTUpdateSetValue(self._proto.ast_update_set_value_node) if self._proto.ast_update_set_value_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_update_item_node(self) -> Optional['parse_tree_pb2.ASTUpdateItemProto']:
+        """Field ast_update_item_node"""
+        return ASTUpdateItem(self._proto.ast_update_item_node) if self._proto.ast_update_item_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_update_item_list_node(self) -> Optional['parse_tree_pb2.ASTUpdateItemListProto']:
+        """Field ast_update_item_list_node"""
+        return ASTUpdateItemList(self._proto.ast_update_item_list_node) if self._proto.ast_update_item_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_merge_action_node(self) -> Optional['parse_tree_pb2.ASTMergeActionProto']:
+        """Field ast_merge_action_node"""
+        return ASTMergeAction(self._proto.ast_merge_action_node) if self._proto.ast_merge_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_merge_when_clause_node(self) -> Optional['parse_tree_pb2.ASTMergeWhenClauseProto']:
+        """Field ast_merge_when_clause_node"""
+        return ASTMergeWhenClause(self._proto.ast_merge_when_clause_node) if self._proto.ast_merge_when_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_merge_when_clause_list_node(self) -> Optional['parse_tree_pb2.ASTMergeWhenClauseListProto']:
+        """Field ast_merge_when_clause_list_node"""
+        return ASTMergeWhenClauseList(self._proto.ast_merge_when_clause_list_node) if self._proto.ast_merge_when_clause_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_privilege_node(self) -> Optional['parse_tree_pb2.ASTPrivilegeProto']:
+        """Field ast_privilege_node"""
+        return ASTPrivilege(self._proto.ast_privilege_node) if self._proto.ast_privilege_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_privileges_node(self) -> Optional['parse_tree_pb2.ASTPrivilegesProto']:
+        """Field ast_privileges_node"""
+        return ASTPrivileges(self._proto.ast_privileges_node) if self._proto.ast_privileges_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_grantee_list_node(self) -> Optional['parse_tree_pb2.ASTGranteeListProto']:
+        """Field ast_grantee_list_node"""
+        return ASTGranteeList(self._proto.ast_grantee_list_node) if self._proto.ast_grantee_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_repeatable_clause_node(self) -> Optional['parse_tree_pb2.ASTRepeatableClauseProto']:
+        """Field ast_repeatable_clause_node"""
+        return ASTRepeatableClause(self._proto.ast_repeatable_clause_node) if self._proto.ast_repeatable_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_filter_fields_arg_node(self) -> Optional['parse_tree_pb2.ASTFilterFieldsArgProto']:
+        """Field ast_filter_fields_arg_node"""
+        return ASTFilterFieldsArg(self._proto.ast_filter_fields_arg_node) if self._proto.ast_filter_fields_arg_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_replace_fields_arg_node(self) -> Optional['parse_tree_pb2.ASTReplaceFieldsArgProto']:
+        """Field ast_replace_fields_arg_node"""
+        return ASTReplaceFieldsArg(self._proto.ast_replace_fields_arg_node) if self._proto.ast_replace_fields_arg_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_sample_size_node(self) -> Optional['parse_tree_pb2.ASTSampleSizeProto']:
+        """Field ast_sample_size_node"""
+        return ASTSampleSize(self._proto.ast_sample_size_node) if self._proto.ast_sample_size_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_with_weight_node(self) -> Optional['parse_tree_pb2.ASTWithWeightProto']:
+        """Field ast_with_weight_node"""
+        return ASTWithWeight(self._proto.ast_with_weight_node) if self._proto.ast_with_weight_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_sample_suffix_node(self) -> Optional['parse_tree_pb2.ASTSampleSuffixProto']:
+        """Field ast_sample_suffix_node"""
+        return ASTSampleSuffix(self._proto.ast_sample_suffix_node) if self._proto.ast_sample_suffix_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_action_node(self) -> Optional['parse_tree_pb2.AnyASTAlterActionProto']:
+        """Field ast_alter_action_node"""
+        return AnyASTAlterAction(self._proto.ast_alter_action_node) if self._proto.ast_alter_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_action_list_node(self) -> Optional['parse_tree_pb2.ASTAlterActionListProto']:
+        """Field ast_alter_action_list_node"""
+        return ASTAlterActionList(self._proto.ast_alter_action_list_node) if self._proto.ast_alter_action_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_foreign_key_actions_node(self) -> Optional['parse_tree_pb2.ASTForeignKeyActionsProto']:
+        """Field ast_foreign_key_actions_node"""
+        return ASTForeignKeyActions(self._proto.ast_foreign_key_actions_node) if self._proto.ast_foreign_key_actions_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_foreign_key_reference_node(self) -> Optional['parse_tree_pb2.ASTForeignKeyReferenceProto']:
+        """Field ast_foreign_key_reference_node"""
+        return ASTForeignKeyReference(self._proto.ast_foreign_key_reference_node) if self._proto.ast_foreign_key_reference_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_script_node(self) -> Optional['parse_tree_pb2.ASTScriptProto']:
+        """Field ast_script_node"""
+        return ASTScript(self._proto.ast_script_node) if self._proto.ast_script_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_elseif_clause_node(self) -> Optional['parse_tree_pb2.ASTElseifClauseProto']:
+        """Field ast_elseif_clause_node"""
+        return ASTElseifClause(self._proto.ast_elseif_clause_node) if self._proto.ast_elseif_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_elseif_clause_list_node(self) -> Optional['parse_tree_pb2.ASTElseifClauseListProto']:
+        """Field ast_elseif_clause_list_node"""
+        return ASTElseifClauseList(self._proto.ast_elseif_clause_list_node) if self._proto.ast_elseif_clause_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_when_then_clause_node(self) -> Optional['parse_tree_pb2.ASTWhenThenClauseProto']:
+        """Field ast_when_then_clause_node"""
+        return ASTWhenThenClause(self._proto.ast_when_then_clause_node) if self._proto.ast_when_then_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_when_then_clause_list_node(self) -> Optional['parse_tree_pb2.ASTWhenThenClauseListProto']:
+        """Field ast_when_then_clause_list_node"""
+        return ASTWhenThenClauseList(self._proto.ast_when_then_clause_list_node) if self._proto.ast_when_then_clause_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_hint_node(self) -> Optional['parse_tree_pb2.ASTHintProto']:
+        """Field ast_hint_node"""
+        return ASTHint(self._proto.ast_hint_node) if self._proto.ast_hint_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_hint_entry_node(self) -> Optional['parse_tree_pb2.ASTHintEntryProto']:
+        """Field ast_hint_entry_node"""
+        return ASTHintEntry(self._proto.ast_hint_entry_node) if self._proto.ast_hint_entry_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_unpivot_in_item_label_node(self) -> Optional['parse_tree_pb2.ASTUnpivotInItemLabelProto']:
+        """Field ast_unpivot_in_item_label_node"""
+        return ASTUnpivotInItemLabel(self._proto.ast_unpivot_in_item_label_node) if self._proto.ast_unpivot_in_item_label_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_descriptor_node(self) -> Optional['parse_tree_pb2.ASTDescriptorProto']:
+        """Field ast_descriptor_node"""
+        return ASTDescriptor(self._proto.ast_descriptor_node) if self._proto.ast_descriptor_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_column_schema_node(self) -> Optional['parse_tree_pb2.AnyASTColumnSchemaProto']:
+        """Field ast_column_schema_node"""
+        return AnyASTColumnSchema(self._proto.ast_column_schema_node) if self._proto.ast_column_schema_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_descriptor_column_node(self) -> Optional['parse_tree_pb2.ASTDescriptorColumnProto']:
+        """Field ast_descriptor_column_node"""
+        return ASTDescriptorColumn(self._proto.ast_descriptor_column_node) if self._proto.ast_descriptor_column_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_descriptor_column_list_node(self) -> Optional['parse_tree_pb2.ASTDescriptorColumnListProto']:
+        """Field ast_descriptor_column_list_node"""
+        return ASTDescriptorColumnList(self._proto.ast_descriptor_column_list_node) if self._proto.ast_descriptor_column_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_exception_handler_node(self) -> Optional['parse_tree_pb2.ASTExceptionHandlerProto']:
+        """Field ast_exception_handler_node"""
+        return ASTExceptionHandler(self._proto.ast_exception_handler_node) if self._proto.ast_exception_handler_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_exception_handler_list_node(self) -> Optional['parse_tree_pb2.ASTExceptionHandlerListProto']:
+        """Field ast_exception_handler_list_node"""
+        return ASTExceptionHandlerList(self._proto.ast_exception_handler_list_node) if self._proto.ast_exception_handler_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_identifier_list_node(self) -> Optional['parse_tree_pb2.ASTIdentifierListProto']:
+        """Field ast_identifier_list_node"""
+        return ASTIdentifierList(self._proto.ast_identifier_list_node) if self._proto.ast_identifier_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_until_clause_node(self) -> Optional['parse_tree_pb2.ASTUntilClauseProto']:
+        """Field ast_until_clause_node"""
+        return ASTUntilClause(self._proto.ast_until_clause_node) if self._proto.ast_until_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_execute_into_clause_node(self) -> Optional['parse_tree_pb2.ASTExecuteIntoClauseProto']:
+        """Field ast_execute_into_clause_node"""
+        return ASTExecuteIntoClause(self._proto.ast_execute_into_clause_node) if self._proto.ast_execute_into_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_execute_using_argument_node(self) -> Optional['parse_tree_pb2.ASTExecuteUsingArgumentProto']:
+        """Field ast_execute_using_argument_node"""
+        return ASTExecuteUsingArgument(self._proto.ast_execute_using_argument_node) if self._proto.ast_execute_using_argument_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_execute_using_clause_node(self) -> Optional['parse_tree_pb2.ASTExecuteUsingClauseProto']:
+        """Field ast_execute_using_clause_node"""
+        return ASTExecuteUsingClause(self._proto.ast_execute_using_clause_node) if self._proto.ast_execute_using_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_braced_constructor_field_value_node(self) -> Optional['parse_tree_pb2.ASTBracedConstructorFieldValueProto']:
+        """Field ast_braced_constructor_field_value_node"""
+        return ASTBracedConstructorFieldValue(self._proto.ast_braced_constructor_field_value_node) if self._proto.ast_braced_constructor_field_value_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_braced_constructor_field_node(self) -> Optional['parse_tree_pb2.ASTBracedConstructorFieldProto']:
+        """Field ast_braced_constructor_field_node"""
+        return ASTBracedConstructorField(self._proto.ast_braced_constructor_field_node) if self._proto.ast_braced_constructor_field_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_with_report_modifier_node(self) -> Optional['parse_tree_pb2.ASTWithReportModifierProto']:
+        """Field ast_with_report_modifier_node"""
+        return ASTWithReportModifier(self._proto.ast_with_report_modifier_node) if self._proto.ast_with_report_modifier_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_location_node(self) -> Optional['parse_tree_pb2.ASTLocationProto']:
+        """Field ast_location_node"""
+        return ASTLocation(self._proto.ast_location_node) if self._proto.ast_location_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_aux_load_data_from_files_options_list_node(self) -> Optional['parse_tree_pb2.ASTAuxLoadDataFromFilesOptionsListProto']:
+        """Field ast_aux_load_data_from_files_options_list_node"""
+        return ASTAuxLoadDataFromFilesOptionsList(self._proto.ast_aux_load_data_from_files_options_list_node) if self._proto.ast_aux_load_data_from_files_options_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_label_node(self) -> Optional['parse_tree_pb2.ASTLabelProto']:
+        """Field ast_label_node"""
+        return ASTLabel(self._proto.ast_label_node) if self._proto.ast_label_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_primary_key_element_node(self) -> Optional['parse_tree_pb2.ASTPrimaryKeyElementProto']:
+        """Field ast_primary_key_element_node"""
+        return ASTPrimaryKeyElement(self._proto.ast_primary_key_element_node) if self._proto.ast_primary_key_element_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_primary_key_element_list_node(self) -> Optional['parse_tree_pb2.ASTPrimaryKeyElementListProto']:
+        """Field ast_primary_key_element_list_node"""
+        return ASTPrimaryKeyElementList(self._proto.ast_primary_key_element_list_node) if self._proto.ast_primary_key_element_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_spanner_table_options_node(self) -> Optional['parse_tree_pb2.ASTSpannerTableOptionsProto']:
+        """Field ast_spanner_table_options_node"""
+        return ASTSpannerTableOptions(self._proto.ast_spanner_table_options_node) if self._proto.ast_spanner_table_options_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_spanner_interleave_clause_node(self) -> Optional['parse_tree_pb2.ASTSpannerInterleaveClauseProto']:
+        """Field ast_spanner_interleave_clause_node"""
+        return ASTSpannerInterleaveClause(self._proto.ast_spanner_interleave_clause_node) if self._proto.ast_spanner_interleave_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_ttl_clause_node(self) -> Optional['parse_tree_pb2.ASTTtlClauseProto']:
+        """Field ast_ttl_clause_node"""
+        return ASTTtlClause(self._proto.ast_ttl_clause_node) if self._proto.ast_ttl_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_input_output_clause_node(self) -> Optional['parse_tree_pb2.ASTInputOutputClauseProto']:
+        """Field ast_input_output_clause_node"""
+        return ASTInputOutputClause(self._proto.ast_input_output_clause_node) if self._proto.ast_input_output_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_label_expression_node(self) -> Optional['parse_tree_pb2.AnyASTGraphLabelExpressionProto']:
+        """Field ast_graph_label_expression_node"""
+        return AnyASTGraphLabelExpression(self._proto.ast_graph_label_expression_node) if self._proto.ast_graph_label_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_label_filter_node(self) -> Optional['parse_tree_pb2.ASTGraphLabelFilterProto']:
+        """Field ast_graph_label_filter_node"""
+        return ASTGraphLabelFilter(self._proto.ast_graph_label_filter_node) if self._proto.ast_graph_label_filter_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_select_with_node(self) -> Optional['parse_tree_pb2.ASTSelectWithProto']:
+        """Field ast_select_with_node"""
+        return ASTSelectWith(self._proto.ast_select_with_node) if self._proto.ast_select_with_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_aliased_query_list_node(self) -> Optional['parse_tree_pb2.ASTAliasedQueryListProto']:
+        """Field ast_aliased_query_list_node"""
+        return ASTAliasedQueryList(self._proto.ast_aliased_query_list_node) if self._proto.ast_aliased_query_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_column_with_options_node(self) -> Optional['parse_tree_pb2.ASTColumnWithOptionsProto']:
+        """Field ast_column_with_options_node"""
+        return ASTColumnWithOptions(self._proto.ast_column_with_options_node) if self._proto.ast_column_with_options_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_column_with_options_list_node(self) -> Optional['parse_tree_pb2.ASTColumnWithOptionsListProto']:
+        """Field ast_column_with_options_list_node"""
+        return ASTColumnWithOptionsList(self._proto.ast_column_with_options_list_node) if self._proto.ast_column_with_options_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_element_pattern_filler_node(self) -> Optional['parse_tree_pb2.ASTGraphElementPatternFillerProto']:
+        """Field ast_graph_element_pattern_filler_node"""
+        return ASTGraphElementPatternFiller(self._proto.ast_graph_element_pattern_filler_node) if self._proto.ast_graph_element_pattern_filler_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_element_table_list_node(self) -> Optional['parse_tree_pb2.ASTGraphElementTableListProto']:
+        """Field ast_graph_element_table_list_node"""
+        return ASTGraphElementTableList(self._proto.ast_graph_element_table_list_node) if self._proto.ast_graph_element_table_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_element_table_node(self) -> Optional['parse_tree_pb2.ASTGraphElementTableProto']:
+        """Field ast_graph_element_table_node"""
+        return ASTGraphElementTable(self._proto.ast_graph_element_table_node) if self._proto.ast_graph_element_table_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_node_table_reference_node(self) -> Optional['parse_tree_pb2.ASTGraphNodeTableReferenceProto']:
+        """Field ast_graph_node_table_reference_node"""
+        return ASTGraphNodeTableReference(self._proto.ast_graph_node_table_reference_node) if self._proto.ast_graph_node_table_reference_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_aux_load_data_partitions_clause_node(self) -> Optional['parse_tree_pb2.ASTAuxLoadDataPartitionsClauseProto']:
+        """Field ast_aux_load_data_partitions_clause_node"""
+        return ASTAuxLoadDataPartitionsClause(self._proto.ast_aux_load_data_partitions_clause_node) if self._proto.ast_aux_load_data_partitions_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_element_label_and_properties_list_node(self) -> Optional['parse_tree_pb2.ASTGraphElementLabelAndPropertiesListProto']:
+        """Field ast_graph_element_label_and_properties_list_node"""
+        return ASTGraphElementLabelAndPropertiesList(self._proto.ast_graph_element_label_and_properties_list_node) if self._proto.ast_graph_element_label_and_properties_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_element_label_and_properties_node(self) -> Optional['parse_tree_pb2.ASTGraphElementLabelAndPropertiesProto']:
+        """Field ast_graph_element_label_and_properties_node"""
+        return ASTGraphElementLabelAndProperties(self._proto.ast_graph_element_label_and_properties_node) if self._proto.ast_graph_element_label_and_properties_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_properties_node(self) -> Optional['parse_tree_pb2.ASTGraphPropertiesProto']:
+        """Field ast_graph_properties_node"""
+        return ASTGraphProperties(self._proto.ast_graph_properties_node) if self._proto.ast_graph_properties_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_set_operation_metadata_list_node(self) -> Optional['parse_tree_pb2.ASTSetOperationMetadataListProto']:
+        """Field ast_set_operation_metadata_list_node"""
+        return ASTSetOperationMetadataList(self._proto.ast_set_operation_metadata_list_node) if self._proto.ast_set_operation_metadata_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_set_operation_all_or_distinct_node(self) -> Optional['parse_tree_pb2.ASTSetOperationAllOrDistinctProto']:
+        """Field ast_set_operation_all_or_distinct_node"""
+        return ASTSetOperationAllOrDistinct(self._proto.ast_set_operation_all_or_distinct_node) if self._proto.ast_set_operation_all_or_distinct_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_set_operation_type_node(self) -> Optional['parse_tree_pb2.ASTSetOperationTypeProto']:
+        """Field ast_set_operation_type_node"""
+        return ASTSetOperationType(self._proto.ast_set_operation_type_node) if self._proto.ast_set_operation_type_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_set_operation_metadata_node(self) -> Optional['parse_tree_pb2.ASTSetOperationMetadataProto']:
+        """Field ast_set_operation_metadata_node"""
+        return ASTSetOperationMetadata(self._proto.ast_set_operation_metadata_node) if self._proto.ast_set_operation_metadata_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_set_operation_column_match_mode_node(self) -> Optional['parse_tree_pb2.ASTSetOperationColumnMatchModeProto']:
+        """Field ast_set_operation_column_match_mode_node"""
+        return ASTSetOperationColumnMatchMode(self._proto.ast_set_operation_column_match_mode_node) if self._proto.ast_set_operation_column_match_mode_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_set_operation_column_propagation_mode_node(self) -> Optional['parse_tree_pb2.ASTSetOperationColumnPropagationModeProto']:
+        """Field ast_set_operation_column_propagation_mode_node"""
+        return ASTSetOperationColumnPropagationMode(self._proto.ast_set_operation_column_propagation_mode_node) if self._proto.ast_set_operation_column_propagation_mode_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_pattern_node(self) -> Optional['parse_tree_pb2.ASTGraphPatternProto']:
+        """Field ast_graph_pattern_node"""
+        return ASTGraphPattern(self._proto.ast_graph_pattern_node) if self._proto.ast_graph_pattern_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_cube_node(self) -> Optional['parse_tree_pb2.ASTCubeProto']:
+        """Field ast_cube_node"""
+        return ASTCube(self._proto.ast_cube_node) if self._proto.ast_cube_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_grouping_set_node(self) -> Optional['parse_tree_pb2.ASTGroupingSetProto']:
+        """Field ast_grouping_set_node"""
+        return ASTGroupingSet(self._proto.ast_grouping_set_node) if self._proto.ast_grouping_set_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_grouping_set_list_node(self) -> Optional['parse_tree_pb2.ASTGroupingSetListProto']:
+        """Field ast_grouping_set_list_node"""
+        return ASTGroupingSetList(self._proto.ast_grouping_set_list_node) if self._proto.ast_grouping_set_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_expression_with_opt_alias_node(self) -> Optional['parse_tree_pb2.ASTExpressionWithOptAliasProto']:
+        """Field ast_expression_with_opt_alias_node"""
+        return ASTExpressionWithOptAlias(self._proto.ast_expression_with_opt_alias_node) if self._proto.ast_expression_with_opt_alias_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_group_by_all_node(self) -> Optional['parse_tree_pb2.ASTGroupByAllProto']:
+        """Field ast_group_by_all_node"""
+        return ASTGroupByAll(self._proto.ast_group_by_all_node) if self._proto.ast_group_by_all_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_function_type_arg_list_node(self) -> Optional['parse_tree_pb2.ASTFunctionTypeArgListProto']:
+        """Field ast_function_type_arg_list_node"""
+        return ASTFunctionTypeArgList(self._proto.ast_function_type_arg_list_node) if self._proto.ast_function_type_arg_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_operator_node(self) -> Optional['parse_tree_pb2.AnyASTPipeOperatorProto']:
+        """Field ast_pipe_operator_node"""
+        return AnyASTPipeOperator(self._proto.ast_pipe_operator_node) if self._proto.ast_pipe_operator_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_lhs_hint_node(self) -> Optional['parse_tree_pb2.ASTGraphLhsHintProto']:
+        """Field ast_graph_lhs_hint_node"""
+        return ASTGraphLhsHint(self._proto.ast_graph_lhs_hint_node) if self._proto.ast_graph_lhs_hint_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_rhs_hint_node(self) -> Optional['parse_tree_pb2.ASTGraphRhsHintProto']:
+        """Field ast_graph_rhs_hint_node"""
+        return ASTGraphRhsHint(self._proto.ast_graph_rhs_hint_node) if self._proto.ast_graph_rhs_hint_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_identity_column_info_node(self) -> Optional['parse_tree_pb2.ASTIdentityColumnInfoProto']:
+        """Field ast_identity_column_info_node"""
+        return ASTIdentityColumnInfo(self._proto.ast_identity_column_info_node) if self._proto.ast_identity_column_info_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_identity_column_start_with_node(self) -> Optional['parse_tree_pb2.ASTIdentityColumnStartWithProto']:
+        """Field ast_identity_column_start_with_node"""
+        return ASTIdentityColumnStartWith(self._proto.ast_identity_column_start_with_node) if self._proto.ast_identity_column_start_with_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_identity_column_increment_by_node(self) -> Optional['parse_tree_pb2.ASTIdentityColumnIncrementByProto']:
+        """Field ast_identity_column_increment_by_node"""
+        return ASTIdentityColumnIncrementBy(self._proto.ast_identity_column_increment_by_node) if self._proto.ast_identity_column_increment_by_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_identity_column_max_value_node(self) -> Optional['parse_tree_pb2.ASTIdentityColumnMaxValueProto']:
+        """Field ast_identity_column_max_value_node"""
+        return ASTIdentityColumnMaxValue(self._proto.ast_identity_column_max_value_node) if self._proto.ast_identity_column_max_value_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_identity_column_min_value_node(self) -> Optional['parse_tree_pb2.ASTIdentityColumnMinValueProto']:
+        """Field ast_identity_column_min_value_node"""
+        return ASTIdentityColumnMinValue(self._proto.ast_identity_column_min_value_node) if self._proto.ast_identity_column_min_value_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_path_base_node(self) -> Optional['parse_tree_pb2.AnyASTGraphPathBaseProto']:
+        """Field ast_graph_path_base_node"""
+        return AnyASTGraphPathBase(self._proto.ast_graph_path_base_node) if self._proto.ast_graph_path_base_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_operator_node(self) -> Optional['parse_tree_pb2.AnyASTGqlOperatorProto']:
+        """Field ast_gql_operator_node"""
+        return AnyASTGqlOperator(self._proto.ast_gql_operator_node) if self._proto.ast_gql_operator_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_let_variable_definition_list_node(self) -> Optional['parse_tree_pb2.ASTGqlLetVariableDefinitionListProto']:
+        """Field ast_gql_let_variable_definition_list_node"""
+        return ASTGqlLetVariableDefinitionList(self._proto.ast_gql_let_variable_definition_list_node) if self._proto.ast_gql_let_variable_definition_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_let_variable_definition_node(self) -> Optional['parse_tree_pb2.ASTGqlLetVariableDefinitionProto']:
+        """Field ast_gql_let_variable_definition_node"""
+        return ASTGqlLetVariableDefinition(self._proto.ast_gql_let_variable_definition_node) if self._proto.ast_gql_let_variable_definition_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_set_item_node(self) -> Optional['parse_tree_pb2.ASTPipeSetItemProto']:
+        """Field ast_pipe_set_item_node"""
+        return ASTPipeSetItem(self._proto.ast_pipe_set_item_node) if self._proto.ast_pipe_set_item_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_property_specification_node(self) -> Optional['parse_tree_pb2.ASTGraphPropertySpecificationProto']:
+        """Field ast_graph_property_specification_node"""
+        return ASTGraphPropertySpecification(self._proto.ast_graph_property_specification_node) if self._proto.ast_graph_property_specification_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_property_name_and_value_node(self) -> Optional['parse_tree_pb2.ASTGraphPropertyNameAndValueProto']:
+        """Field ast_graph_property_name_and_value_node"""
+        return ASTGraphPropertyNameAndValue(self._proto.ast_graph_property_name_and_value_node) if self._proto.ast_graph_property_name_and_value_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_page_limit_node(self) -> Optional['parse_tree_pb2.ASTGqlPageLimitProto']:
+        """Field ast_gql_page_limit_node"""
+        return ASTGqlPageLimit(self._proto.ast_gql_page_limit_node) if self._proto.ast_gql_page_limit_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_page_offset_node(self) -> Optional['parse_tree_pb2.ASTGqlPageOffsetProto']:
+        """Field ast_gql_page_offset_node"""
+        return ASTGqlPageOffset(self._proto.ast_gql_page_offset_node) if self._proto.ast_gql_page_offset_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_page_node(self) -> Optional['parse_tree_pb2.ASTGqlPageProto']:
+        """Field ast_gql_page_node"""
+        return ASTGqlPage(self._proto.ast_gql_page_node) if self._proto.ast_gql_page_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_aliased_query_modifiers_node(self) -> Optional['parse_tree_pb2.ASTAliasedQueryModifiersProto']:
+        """Field ast_aliased_query_modifiers_node"""
+        return ASTAliasedQueryModifiers(self._proto.ast_aliased_query_modifiers_node) if self._proto.ast_aliased_query_modifiers_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_recursion_depth_modifier_node(self) -> Optional['parse_tree_pb2.ASTRecursionDepthModifierProto']:
+        """Field ast_recursion_depth_modifier_node"""
+        return ASTRecursionDepthModifier(self._proto.ast_recursion_depth_modifier_node) if self._proto.ast_recursion_depth_modifier_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_grouping_item_order_node(self) -> Optional['parse_tree_pb2.ASTGroupingItemOrderProto']:
+        """Field ast_grouping_item_order_node"""
+        return ASTGroupingItemOrder(self._proto.ast_grouping_item_order_node) if self._proto.ast_grouping_item_order_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_path_mode_node(self) -> Optional['parse_tree_pb2.ASTGraphPathModeProto']:
+        """Field ast_graph_path_mode_node"""
+        return ASTGraphPathMode(self._proto.ast_graph_path_mode_node) if self._proto.ast_graph_path_mode_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_path_search_prefix_node(self) -> Optional['parse_tree_pb2.ASTGraphPathSearchPrefixProto']:
+        """Field ast_graph_path_search_prefix_node"""
+        return ASTGraphPathSearchPrefix(self._proto.ast_graph_path_search_prefix_node) if self._proto.ast_graph_path_search_prefix_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_lock_mode_node(self) -> Optional['parse_tree_pb2.ASTLockModeProto']:
+        """Field ast_lock_mode_node"""
+        return ASTLockMode(self._proto.ast_lock_mode_node) if self._proto.ast_lock_mode_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_row_pattern_expression_node(self) -> Optional['parse_tree_pb2.AnyASTRowPatternExpressionProto']:
+        """Field ast_row_pattern_expression_node"""
+        return AnyASTRowPatternExpression(self._proto.ast_row_pattern_expression_node) if self._proto.ast_row_pattern_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_postfix_table_operator_node(self) -> Optional['parse_tree_pb2.AnyASTPostfixTableOperatorProto']:
+        """Field ast_postfix_table_operator_node"""
+        return AnyASTPostfixTableOperator(self._proto.ast_postfix_table_operator_node) if self._proto.ast_postfix_table_operator_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_quantifier_node(self) -> Optional['parse_tree_pb2.AnyASTQuantifierProto']:
+        """Field ast_quantifier_node"""
+        return AnyASTQuantifier(self._proto.ast_quantifier_node) if self._proto.ast_quantifier_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_quantifier_bound_node(self) -> Optional['parse_tree_pb2.ASTQuantifierBoundProto']:
+        """Field ast_quantifier_bound_node"""
+        return ASTQuantifierBound(self._proto.ast_quantifier_bound_node) if self._proto.ast_quantifier_bound_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_subpipeline_node(self) -> Optional['parse_tree_pb2.ASTSubpipelineProto']:
+        """Field ast_subpipeline_node"""
+        return ASTSubpipeline(self._proto.ast_subpipeline_node) if self._proto.ast_subpipeline_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_after_match_skip_clause_node(self) -> Optional['parse_tree_pb2.ASTAfterMatchSkipClauseProto']:
+        """Field ast_after_match_skip_clause_node"""
+        return ASTAfterMatchSkipClause(self._proto.ast_after_match_skip_clause_node) if self._proto.ast_after_match_skip_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_on_conflict_clause_node(self) -> Optional['parse_tree_pb2.ASTOnConflictClauseProto']:
+        """Field ast_on_conflict_clause_node"""
+        return ASTOnConflictClause(self._proto.ast_on_conflict_clause_node) if self._proto.ast_on_conflict_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_dynamic_label_node(self) -> Optional['parse_tree_pb2.ASTGraphDynamicLabelProto']:
+        """Field ast_graph_dynamic_label_node"""
+        return ASTGraphDynamicLabel(self._proto.ast_graph_dynamic_label_node) if self._proto.ast_graph_dynamic_label_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_dynamic_properties_node(self) -> Optional['parse_tree_pb2.ASTGraphDynamicPropertiesProto']:
+        """Field ast_graph_dynamic_properties_node"""
+        return ASTGraphDynamicProperties(self._proto.ast_graph_dynamic_properties_node) if self._proto.ast_graph_dynamic_properties_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_path_search_prefix_count_node(self) -> Optional['parse_tree_pb2.ASTGraphPathSearchPrefixCountProto']:
+        """Field ast_graph_path_search_prefix_count_node"""
+        return ASTGraphPathSearchPrefixCount(self._proto.ast_graph_path_search_prefix_count_node) if self._proto.ast_graph_path_search_prefix_count_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_chained_base_expr_node(self) -> Optional['parse_tree_pb2.ASTChainedBaseExprProto']:
+        """Field ast_chained_base_expr_node"""
+        return ASTChainedBaseExpr(self._proto.ast_chained_base_expr_node) if self._proto.ast_chained_base_expr_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_yield_item_list_node(self) -> Optional['parse_tree_pb2.ASTYieldItemListProto']:
+        """Field ast_yield_item_list_node"""
+        return ASTYieldItemList(self._proto.ast_yield_item_list_node) if self._proto.ast_yield_item_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_limit_all_node(self) -> Optional['parse_tree_pb2.ASTLimitAllProto']:
+        """Field ast_limit_all_node"""
+        return ASTLimitAll(self._proto.ast_limit_all_node) if self._proto.ast_limit_all_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_limit_node(self) -> Optional['parse_tree_pb2.ASTLimitProto']:
+        """Field ast_limit_node"""
+        return ASTLimit(self._proto.ast_limit_node) if self._proto.ast_limit_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_derived_property_node(self) -> Optional['parse_tree_pb2.ASTGraphDerivedPropertyProto']:
+        """Field ast_graph_derived_property_node"""
+        return ASTGraphDerivedProperty(self._proto.ast_graph_derived_property_node) if self._proto.ast_graph_derived_property_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_derived_property_list_node(self) -> Optional['parse_tree_pb2.ASTGraphDerivedPropertyListProto']:
+        """Field ast_graph_derived_property_list_node"""
+        return ASTGraphDerivedPropertyList(self._proto.ast_graph_derived_property_list_node) if self._proto.ast_graph_derived_property_list_node.ByteSize() > 0 else None
+
+
+
+class AnyASTParameterExprBase:
+    """Generated wrapper for AnyASTParameterExprBaseProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTParameterExprBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_parameter_expr_node(self) -> Optional['parse_tree_pb2.ASTParameterExprProto']:
+        """Field ast_parameter_expr_node"""
+        return ASTParameterExpr(self._proto.ast_parameter_expr_node) if self._proto.ast_parameter_expr_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_system_variable_expr_node(self) -> Optional['parse_tree_pb2.ASTSystemVariableExprProto']:
+        """Field ast_system_variable_expr_node"""
+        return ASTSystemVariableExpr(self._proto.ast_system_variable_expr_node) if self._proto.ast_system_variable_expr_node.ByteSize() > 0 else None
+
+
+
+class AnyASTPipeOperator:
+    """Generated wrapper for AnyASTPipeOperatorProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTPipeOperatorProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_pipe_extend_node(self) -> Optional['parse_tree_pb2.ASTPipeExtendProto']:
+        """Field ast_pipe_extend_node"""
+        return ASTPipeExtend(self._proto.ast_pipe_extend_node) if self._proto.ast_pipe_extend_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_aggregate_node(self) -> Optional['parse_tree_pb2.ASTPipeAggregateProto']:
+        """Field ast_pipe_aggregate_node"""
+        return ASTPipeAggregate(self._proto.ast_pipe_aggregate_node) if self._proto.ast_pipe_aggregate_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_set_operation_node(self) -> Optional['parse_tree_pb2.ASTPipeSetOperationProto']:
+        """Field ast_pipe_set_operation_node"""
+        return ASTPipeSetOperation(self._proto.ast_pipe_set_operation_node) if self._proto.ast_pipe_set_operation_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_join_node(self) -> Optional['parse_tree_pb2.ASTPipeJoinProto']:
+        """Field ast_pipe_join_node"""
+        return ASTPipeJoin(self._proto.ast_pipe_join_node) if self._proto.ast_pipe_join_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_call_node(self) -> Optional['parse_tree_pb2.ASTPipeCallProto']:
+        """Field ast_pipe_call_node"""
+        return ASTPipeCall(self._proto.ast_pipe_call_node) if self._proto.ast_pipe_call_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_window_node(self) -> Optional['parse_tree_pb2.ASTPipeWindowProto']:
+        """Field ast_pipe_window_node"""
+        return ASTPipeWindow(self._proto.ast_pipe_window_node) if self._proto.ast_pipe_window_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_where_node(self) -> Optional['parse_tree_pb2.ASTPipeWhereProto']:
+        """Field ast_pipe_where_node"""
+        return ASTPipeWhere(self._proto.ast_pipe_where_node) if self._proto.ast_pipe_where_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_select_node(self) -> Optional['parse_tree_pb2.ASTPipeSelectProto']:
+        """Field ast_pipe_select_node"""
+        return ASTPipeSelect(self._proto.ast_pipe_select_node) if self._proto.ast_pipe_select_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_limit_offset_node(self) -> Optional['parse_tree_pb2.ASTPipeLimitOffsetProto']:
+        """Field ast_pipe_limit_offset_node"""
+        return ASTPipeLimitOffset(self._proto.ast_pipe_limit_offset_node) if self._proto.ast_pipe_limit_offset_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_order_by_node(self) -> Optional['parse_tree_pb2.ASTPipeOrderByProto']:
+        """Field ast_pipe_order_by_node"""
+        return ASTPipeOrderBy(self._proto.ast_pipe_order_by_node) if self._proto.ast_pipe_order_by_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_distinct_node(self) -> Optional['parse_tree_pb2.ASTPipeDistinctProto']:
+        """Field ast_pipe_distinct_node"""
+        return ASTPipeDistinct(self._proto.ast_pipe_distinct_node) if self._proto.ast_pipe_distinct_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_tablesample_node(self) -> Optional['parse_tree_pb2.ASTPipeTablesampleProto']:
+        """Field ast_pipe_tablesample_node"""
+        return ASTPipeTablesample(self._proto.ast_pipe_tablesample_node) if self._proto.ast_pipe_tablesample_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_as_node(self) -> Optional['parse_tree_pb2.ASTPipeAsProto']:
+        """Field ast_pipe_as_node"""
+        return ASTPipeAs(self._proto.ast_pipe_as_node) if self._proto.ast_pipe_as_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_static_describe_node(self) -> Optional['parse_tree_pb2.ASTPipeStaticDescribeProto']:
+        """Field ast_pipe_static_describe_node"""
+        return ASTPipeStaticDescribe(self._proto.ast_pipe_static_describe_node) if self._proto.ast_pipe_static_describe_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_assert_node(self) -> Optional['parse_tree_pb2.ASTPipeAssertProto']:
+        """Field ast_pipe_assert_node"""
+        return ASTPipeAssert(self._proto.ast_pipe_assert_node) if self._proto.ast_pipe_assert_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_drop_node(self) -> Optional['parse_tree_pb2.ASTPipeDropProto']:
+        """Field ast_pipe_drop_node"""
+        return ASTPipeDrop(self._proto.ast_pipe_drop_node) if self._proto.ast_pipe_drop_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_set_node(self) -> Optional['parse_tree_pb2.ASTPipeSetProto']:
+        """Field ast_pipe_set_node"""
+        return ASTPipeSet(self._proto.ast_pipe_set_node) if self._proto.ast_pipe_set_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_pivot_node(self) -> Optional['parse_tree_pb2.ASTPipePivotProto']:
+        """Field ast_pipe_pivot_node"""
+        return ASTPipePivot(self._proto.ast_pipe_pivot_node) if self._proto.ast_pipe_pivot_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_unpivot_node(self) -> Optional['parse_tree_pb2.ASTPipeUnpivotProto']:
+        """Field ast_pipe_unpivot_node"""
+        return ASTPipeUnpivot(self._proto.ast_pipe_unpivot_node) if self._proto.ast_pipe_unpivot_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_rename_item_node(self) -> Optional['parse_tree_pb2.ASTPipeRenameItemProto']:
+        """Field ast_pipe_rename_item_node"""
+        return ASTPipeRenameItem(self._proto.ast_pipe_rename_item_node) if self._proto.ast_pipe_rename_item_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_rename_node(self) -> Optional['parse_tree_pb2.ASTPipeRenameProto']:
+        """Field ast_pipe_rename_node"""
+        return ASTPipeRename(self._proto.ast_pipe_rename_node) if self._proto.ast_pipe_rename_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_log_node(self) -> Optional['parse_tree_pb2.ASTPipeLogProto']:
+        """Field ast_pipe_log_node"""
+        return ASTPipeLog(self._proto.ast_pipe_log_node) if self._proto.ast_pipe_log_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_if_node(self) -> Optional['parse_tree_pb2.ASTPipeIfProto']:
+        """Field ast_pipe_if_node"""
+        return ASTPipeIf(self._proto.ast_pipe_if_node) if self._proto.ast_pipe_if_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_if_case_node(self) -> Optional['parse_tree_pb2.ASTPipeIfCaseProto']:
+        """Field ast_pipe_if_case_node"""
+        return ASTPipeIfCase(self._proto.ast_pipe_if_case_node) if self._proto.ast_pipe_if_case_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_fork_node(self) -> Optional['parse_tree_pb2.ASTPipeForkProto']:
+        """Field ast_pipe_fork_node"""
+        return ASTPipeFork(self._proto.ast_pipe_fork_node) if self._proto.ast_pipe_fork_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_export_data_node(self) -> Optional['parse_tree_pb2.ASTPipeExportDataProto']:
+        """Field ast_pipe_export_data_node"""
+        return ASTPipeExportData(self._proto.ast_pipe_export_data_node) if self._proto.ast_pipe_export_data_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_recursive_union_node(self) -> Optional['parse_tree_pb2.ASTPipeRecursiveUnionProto']:
+        """Field ast_pipe_recursive_union_node"""
+        return ASTPipeRecursiveUnion(self._proto.ast_pipe_recursive_union_node) if self._proto.ast_pipe_recursive_union_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_match_recognize_node(self) -> Optional['parse_tree_pb2.ASTPipeMatchRecognizeProto']:
+        """Field ast_pipe_match_recognize_node"""
+        return ASTPipeMatchRecognize(self._proto.ast_pipe_match_recognize_node) if self._proto.ast_pipe_match_recognize_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_create_table_node(self) -> Optional['parse_tree_pb2.ASTPipeCreateTableProto']:
+        """Field ast_pipe_create_table_node"""
+        return ASTPipeCreateTable(self._proto.ast_pipe_create_table_node) if self._proto.ast_pipe_create_table_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_tee_node(self) -> Optional['parse_tree_pb2.ASTPipeTeeProto']:
+        """Field ast_pipe_tee_node"""
+        return ASTPipeTee(self._proto.ast_pipe_tee_node) if self._proto.ast_pipe_tee_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_insert_node(self) -> Optional['parse_tree_pb2.ASTPipeInsertProto']:
+        """Field ast_pipe_insert_node"""
+        return ASTPipeInsert(self._proto.ast_pipe_insert_node) if self._proto.ast_pipe_insert_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_with_node(self) -> Optional['parse_tree_pb2.ASTPipeWithProto']:
+        """Field ast_pipe_with_node"""
+        return ASTPipeWith(self._proto.ast_pipe_with_node) if self._proto.ast_pipe_with_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_describe_node(self) -> Optional['parse_tree_pb2.ASTPipeDescribeProto']:
+        """Field ast_pipe_describe_node"""
+        return ASTPipeDescribe(self._proto.ast_pipe_describe_node) if self._proto.ast_pipe_describe_node.ByteSize() > 0 else None
+
+
+
+class AnyASTPostfixTableOperator:
+    """Generated wrapper for AnyASTPostfixTableOperatorProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTPostfixTableOperatorProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_pivot_clause_node(self) -> Optional['parse_tree_pb2.ASTPivotClauseProto']:
+        """Field ast_pivot_clause_node"""
+        return ASTPivotClause(self._proto.ast_pivot_clause_node) if self._proto.ast_pivot_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_unpivot_clause_node(self) -> Optional['parse_tree_pb2.ASTUnpivotClauseProto']:
+        """Field ast_unpivot_clause_node"""
+        return ASTUnpivotClause(self._proto.ast_unpivot_clause_node) if self._proto.ast_unpivot_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_sample_clause_node(self) -> Optional['parse_tree_pb2.ASTSampleClauseProto']:
+        """Field ast_sample_clause_node"""
+        return ASTSampleClause(self._proto.ast_sample_clause_node) if self._proto.ast_sample_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_match_recognize_clause_node(self) -> Optional['parse_tree_pb2.ASTMatchRecognizeClauseProto']:
+        """Field ast_match_recognize_clause_node"""
+        return ASTMatchRecognizeClause(self._proto.ast_match_recognize_clause_node) if self._proto.ast_match_recognize_clause_node.ByteSize() > 0 else None
+
+
+
+class AnyASTPrintableLeaf:
+    """Generated wrapper for AnyASTPrintableLeafProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTPrintableLeafProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_int_literal_node(self) -> Optional['parse_tree_pb2.ASTIntLiteralProto']:
+        """Field ast_int_literal_node"""
+        return ASTIntLiteral(self._proto.ast_int_literal_node) if self._proto.ast_int_literal_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_boolean_literal_node(self) -> Optional['parse_tree_pb2.ASTBooleanLiteralProto']:
+        """Field ast_boolean_literal_node"""
+        return ASTBooleanLiteral(self._proto.ast_boolean_literal_node) if self._proto.ast_boolean_literal_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_star_node(self) -> Optional['parse_tree_pb2.ASTStarProto']:
+        """Field ast_star_node"""
+        return ASTStar(self._proto.ast_star_node) if self._proto.ast_star_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_float_literal_node(self) -> Optional['parse_tree_pb2.ASTFloatLiteralProto']:
+        """Field ast_float_literal_node"""
+        return ASTFloatLiteral(self._proto.ast_float_literal_node) if self._proto.ast_float_literal_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_null_literal_node(self) -> Optional['parse_tree_pb2.ASTNullLiteralProto']:
+        """Field ast_null_literal_node"""
+        return ASTNullLiteral(self._proto.ast_null_literal_node) if self._proto.ast_null_literal_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_max_literal_node(self) -> Optional['parse_tree_pb2.ASTMaxLiteralProto']:
+        """Field ast_max_literal_node"""
+        return ASTMaxLiteral(self._proto.ast_max_literal_node) if self._proto.ast_max_literal_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_index_all_columns_node(self) -> Optional['parse_tree_pb2.ASTIndexAllColumnsProto']:
+        """Field ast_index_all_columns_node"""
+        return ASTIndexAllColumns(self._proto.ast_index_all_columns_node) if self._proto.ast_index_all_columns_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_macro_body_node(self) -> Optional['parse_tree_pb2.ASTMacroBodyProto']:
+        """Field ast_macro_body_node"""
+        return ASTMacroBody(self._proto.ast_macro_body_node) if self._proto.ast_macro_body_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_string_literal_component_node(self) -> Optional['parse_tree_pb2.ASTStringLiteralComponentProto']:
+        """Field ast_string_literal_component_node"""
+        return ASTStringLiteralComponent(self._proto.ast_string_literal_component_node) if self._proto.ast_string_literal_component_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_bytes_literal_component_node(self) -> Optional['parse_tree_pb2.ASTBytesLiteralComponentProto']:
+        """Field ast_bytes_literal_component_node"""
+        return ASTBytesLiteralComponent(self._proto.ast_bytes_literal_component_node) if self._proto.ast_bytes_literal_component_node.ByteSize() > 0 else None
+
+
+
+class AnyASTQuantifier:
+    """Generated wrapper for AnyASTQuantifierProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTQuantifierProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_bounded_quantifier_node(self) -> Optional['parse_tree_pb2.ASTBoundedQuantifierProto']:
+        """Field ast_bounded_quantifier_node"""
+        return ASTBoundedQuantifier(self._proto.ast_bounded_quantifier_node) if self._proto.ast_bounded_quantifier_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_fixed_quantifier_node(self) -> Optional['parse_tree_pb2.ASTFixedQuantifierProto']:
+        """Field ast_fixed_quantifier_node"""
+        return ASTFixedQuantifier(self._proto.ast_fixed_quantifier_node) if self._proto.ast_fixed_quantifier_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_symbol_quantifier_node(self) -> Optional['parse_tree_pb2.ASTSymbolQuantifierProto']:
+        """Field ast_symbol_quantifier_node"""
+        return ASTSymbolQuantifier(self._proto.ast_symbol_quantifier_node) if self._proto.ast_symbol_quantifier_node.ByteSize() > 0 else None
+
+
+
+class AnyASTQueryExpression:
+    """Generated wrapper for AnyASTQueryExpressionProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTQueryExpressionProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_query_node(self) -> Optional['parse_tree_pb2.ASTQueryProto']:
+        """Field ast_query_node"""
+        return ASTQuery(self._proto.ast_query_node) if self._proto.ast_query_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_select_node(self) -> Optional['parse_tree_pb2.ASTSelectProto']:
+        """Field ast_select_node"""
+        return ASTSelect(self._proto.ast_select_node) if self._proto.ast_select_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_set_operation_node(self) -> Optional['parse_tree_pb2.ASTSetOperationProto']:
+        """Field ast_set_operation_node"""
+        return ASTSetOperation(self._proto.ast_set_operation_node) if self._proto.ast_set_operation_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_table_clause_node(self) -> Optional['parse_tree_pb2.ASTTableClauseProto']:
+        """Field ast_table_clause_node"""
+        return ASTTableClause(self._proto.ast_table_clause_node) if self._proto.ast_table_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_from_query_node(self) -> Optional['parse_tree_pb2.ASTFromQueryProto']:
+        """Field ast_from_query_node"""
+        return ASTFromQuery(self._proto.ast_from_query_node) if self._proto.ast_from_query_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_query_node(self) -> Optional['parse_tree_pb2.ASTGqlQueryProto']:
+        """Field ast_gql_query_node"""
+        return ASTGqlQuery(self._proto.ast_gql_query_node) if self._proto.ast_gql_query_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_aliased_query_expression_node(self) -> Optional['parse_tree_pb2.ASTAliasedQueryExpressionProto']:
+        """Field ast_aliased_query_expression_node"""
+        return ASTAliasedQueryExpression(self._proto.ast_aliased_query_expression_node) if self._proto.ast_aliased_query_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_graph_pattern_query_node(self) -> Optional['parse_tree_pb2.ASTGqlGraphPatternQueryProto']:
+        """Field ast_gql_graph_pattern_query_node"""
+        return ASTGqlGraphPatternQuery(self._proto.ast_gql_graph_pattern_query_node) if self._proto.ast_gql_graph_pattern_query_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_gql_linear_ops_query_node(self) -> Optional['parse_tree_pb2.ASTGqlLinearOpsQueryProto']:
+        """Field ast_gql_linear_ops_query_node"""
+        return ASTGqlLinearOpsQuery(self._proto.ast_gql_linear_ops_query_node) if self._proto.ast_gql_linear_ops_query_node.ByteSize() > 0 else None
+
+
+
+class AnyASTRowPatternExpression:
+    """Generated wrapper for AnyASTRowPatternExpressionProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTRowPatternExpressionProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_row_pattern_variable_node(self) -> Optional['parse_tree_pb2.ASTRowPatternVariableProto']:
+        """Field ast_row_pattern_variable_node"""
+        return ASTRowPatternVariable(self._proto.ast_row_pattern_variable_node) if self._proto.ast_row_pattern_variable_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_row_pattern_operation_node(self) -> Optional['parse_tree_pb2.ASTRowPatternOperationProto']:
+        """Field ast_row_pattern_operation_node"""
+        return ASTRowPatternOperation(self._proto.ast_row_pattern_operation_node) if self._proto.ast_row_pattern_operation_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_empty_row_pattern_node(self) -> Optional['parse_tree_pb2.ASTEmptyRowPatternProto']:
+        """Field ast_empty_row_pattern_node"""
+        return ASTEmptyRowPattern(self._proto.ast_empty_row_pattern_node) if self._proto.ast_empty_row_pattern_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_row_pattern_quantification_node(self) -> Optional['parse_tree_pb2.ASTRowPatternQuantificationProto']:
+        """Field ast_row_pattern_quantification_node"""
+        return ASTRowPatternQuantification(self._proto.ast_row_pattern_quantification_node) if self._proto.ast_row_pattern_quantification_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_row_pattern_anchor_node(self) -> Optional['parse_tree_pb2.ASTRowPatternAnchorProto']:
+        """Field ast_row_pattern_anchor_node"""
+        return ASTRowPatternAnchor(self._proto.ast_row_pattern_anchor_node) if self._proto.ast_row_pattern_anchor_node.ByteSize() > 0 else None
+
+
+
+class AnyASTScriptStatement:
+    """Generated wrapper for AnyASTScriptStatementProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTScriptStatementProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_if_statement_node(self) -> Optional['parse_tree_pb2.ASTIfStatementProto']:
+        """Field ast_if_statement_node"""
+        return ASTIfStatement(self._proto.ast_if_statement_node) if self._proto.ast_if_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_case_statement_node(self) -> Optional['parse_tree_pb2.ASTCaseStatementProto']:
+        """Field ast_case_statement_node"""
+        return ASTCaseStatement(self._proto.ast_case_statement_node) if self._proto.ast_case_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_raise_statement_node(self) -> Optional['parse_tree_pb2.ASTRaiseStatementProto']:
+        """Field ast_raise_statement_node"""
+        return ASTRaiseStatement(self._proto.ast_raise_statement_node) if self._proto.ast_raise_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_begin_end_block_node(self) -> Optional['parse_tree_pb2.ASTBeginEndBlockProto']:
+        """Field ast_begin_end_block_node"""
+        return ASTBeginEndBlock(self._proto.ast_begin_end_block_node) if self._proto.ast_begin_end_block_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_variable_declaration_node(self) -> Optional['parse_tree_pb2.ASTVariableDeclarationProto']:
+        """Field ast_variable_declaration_node"""
+        return ASTVariableDeclaration(self._proto.ast_variable_declaration_node) if self._proto.ast_variable_declaration_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_break_continue_statement_node(self) -> Optional['parse_tree_pb2.AnyASTBreakContinueStatementProto']:
+        """Field ast_break_continue_statement_node"""
+        return AnyASTBreakContinueStatement(self._proto.ast_break_continue_statement_node) if self._proto.ast_break_continue_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_return_statement_node(self) -> Optional['parse_tree_pb2.ASTReturnStatementProto']:
+        """Field ast_return_statement_node"""
+        return ASTReturnStatement(self._proto.ast_return_statement_node) if self._proto.ast_return_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_single_assignment_node(self) -> Optional['parse_tree_pb2.ASTSingleAssignmentProto']:
+        """Field ast_single_assignment_node"""
+        return ASTSingleAssignment(self._proto.ast_single_assignment_node) if self._proto.ast_single_assignment_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_assignment_from_struct_node(self) -> Optional['parse_tree_pb2.ASTAssignmentFromStructProto']:
+        """Field ast_assignment_from_struct_node"""
+        return ASTAssignmentFromStruct(self._proto.ast_assignment_from_struct_node) if self._proto.ast_assignment_from_struct_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_loop_statement_node(self) -> Optional['parse_tree_pb2.AnyASTLoopStatementProto']:
+        """Field ast_loop_statement_node"""
+        return AnyASTLoopStatement(self._proto.ast_loop_statement_node) if self._proto.ast_loop_statement_node.ByteSize() > 0 else None
+
+
+
+class AnyASTStatement:
+    """Generated wrapper for AnyASTStatementProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTStatementProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_query_statement_node(self) -> Optional['parse_tree_pb2.ASTQueryStatementProto']:
+        """Field ast_query_statement_node"""
+        return ASTQueryStatement(self._proto.ast_query_statement_node) if self._proto.ast_query_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_script_statement_node(self) -> Optional['parse_tree_pb2.AnyASTScriptStatementProto']:
+        """Field ast_script_statement_node"""
+        return AnyASTScriptStatement(self._proto.ast_script_statement_node) if self._proto.ast_script_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_hinted_statement_node(self) -> Optional['parse_tree_pb2.ASTHintedStatementProto']:
+        """Field ast_hinted_statement_node"""
+        return ASTHintedStatement(self._proto.ast_hinted_statement_node) if self._proto.ast_hinted_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_explain_statement_node(self) -> Optional['parse_tree_pb2.ASTExplainStatementProto']:
+        """Field ast_explain_statement_node"""
+        return ASTExplainStatement(self._proto.ast_explain_statement_node) if self._proto.ast_explain_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_describe_statement_node(self) -> Optional['parse_tree_pb2.ASTDescribeStatementProto']:
+        """Field ast_describe_statement_node"""
+        return ASTDescribeStatement(self._proto.ast_describe_statement_node) if self._proto.ast_describe_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_show_statement_node(self) -> Optional['parse_tree_pb2.ASTShowStatementProto']:
+        """Field ast_show_statement_node"""
+        return ASTShowStatement(self._proto.ast_show_statement_node) if self._proto.ast_show_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_begin_statement_node(self) -> Optional['parse_tree_pb2.ASTBeginStatementProto']:
+        """Field ast_begin_statement_node"""
+        return ASTBeginStatement(self._proto.ast_begin_statement_node) if self._proto.ast_begin_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_set_transaction_statement_node(self) -> Optional['parse_tree_pb2.ASTSetTransactionStatementProto']:
+        """Field ast_set_transaction_statement_node"""
+        return ASTSetTransactionStatement(self._proto.ast_set_transaction_statement_node) if self._proto.ast_set_transaction_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_commit_statement_node(self) -> Optional['parse_tree_pb2.ASTCommitStatementProto']:
+        """Field ast_commit_statement_node"""
+        return ASTCommitStatement(self._proto.ast_commit_statement_node) if self._proto.ast_commit_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_rollback_statement_node(self) -> Optional['parse_tree_pb2.ASTRollbackStatementProto']:
+        """Field ast_rollback_statement_node"""
+        return ASTRollbackStatement(self._proto.ast_rollback_statement_node) if self._proto.ast_rollback_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_start_batch_statement_node(self) -> Optional['parse_tree_pb2.ASTStartBatchStatementProto']:
+        """Field ast_start_batch_statement_node"""
+        return ASTStartBatchStatement(self._proto.ast_start_batch_statement_node) if self._proto.ast_start_batch_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_run_batch_statement_node(self) -> Optional['parse_tree_pb2.ASTRunBatchStatementProto']:
+        """Field ast_run_batch_statement_node"""
+        return ASTRunBatchStatement(self._proto.ast_run_batch_statement_node) if self._proto.ast_run_batch_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_abort_batch_statement_node(self) -> Optional['parse_tree_pb2.ASTAbortBatchStatementProto']:
+        """Field ast_abort_batch_statement_node"""
+        return ASTAbortBatchStatement(self._proto.ast_abort_batch_statement_node) if self._proto.ast_abort_batch_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_ddl_statement_node(self) -> Optional['parse_tree_pb2.AnyASTDdlStatementProto']:
+        """Field ast_ddl_statement_node"""
+        return AnyASTDdlStatement(self._proto.ast_ddl_statement_node) if self._proto.ast_ddl_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_drop_all_row_access_policies_statement_node(self) -> Optional['parse_tree_pb2.ASTDropAllRowAccessPoliciesStatementProto']:
+        """Field ast_drop_all_row_access_policies_statement_node"""
+        return ASTDropAllRowAccessPoliciesStatement(self._proto.ast_drop_all_row_access_policies_statement_node) if self._proto.ast_drop_all_row_access_policies_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_rename_statement_node(self) -> Optional['parse_tree_pb2.ASTRenameStatementProto']:
+        """Field ast_rename_statement_node"""
+        return ASTRenameStatement(self._proto.ast_rename_statement_node) if self._proto.ast_rename_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_import_statement_node(self) -> Optional['parse_tree_pb2.ASTImportStatementProto']:
+        """Field ast_import_statement_node"""
+        return ASTImportStatement(self._proto.ast_import_statement_node) if self._proto.ast_import_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_module_statement_node(self) -> Optional['parse_tree_pb2.ASTModuleStatementProto']:
+        """Field ast_module_statement_node"""
+        return ASTModuleStatement(self._proto.ast_module_statement_node) if self._proto.ast_module_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_clone_data_statement_node(self) -> Optional['parse_tree_pb2.ASTCloneDataStatementProto']:
+        """Field ast_clone_data_statement_node"""
+        return ASTCloneDataStatement(self._proto.ast_clone_data_statement_node) if self._proto.ast_clone_data_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_database_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateDatabaseStatementProto']:
+        """Field ast_create_database_statement_node"""
+        return ASTCreateDatabaseStatement(self._proto.ast_create_database_statement_node) if self._proto.ast_create_database_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_export_data_statement_node(self) -> Optional['parse_tree_pb2.ASTExportDataStatementProto']:
+        """Field ast_export_data_statement_node"""
+        return ASTExportDataStatement(self._proto.ast_export_data_statement_node) if self._proto.ast_export_data_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_export_model_statement_node(self) -> Optional['parse_tree_pb2.ASTExportModelStatementProto']:
+        """Field ast_export_model_statement_node"""
+        return ASTExportModelStatement(self._proto.ast_export_model_statement_node) if self._proto.ast_export_model_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_call_statement_node(self) -> Optional['parse_tree_pb2.ASTCallStatementProto']:
+        """Field ast_call_statement_node"""
+        return ASTCallStatement(self._proto.ast_call_statement_node) if self._proto.ast_call_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_define_table_statement_node(self) -> Optional['parse_tree_pb2.ASTDefineTableStatementProto']:
+        """Field ast_define_table_statement_node"""
+        return ASTDefineTableStatement(self._proto.ast_define_table_statement_node) if self._proto.ast_define_table_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_analyze_statement_node(self) -> Optional['parse_tree_pb2.ASTAnalyzeStatementProto']:
+        """Field ast_analyze_statement_node"""
+        return ASTAnalyzeStatement(self._proto.ast_analyze_statement_node) if self._proto.ast_analyze_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_assert_statement_node(self) -> Optional['parse_tree_pb2.ASTAssertStatementProto']:
+        """Field ast_assert_statement_node"""
+        return ASTAssertStatement(self._proto.ast_assert_statement_node) if self._proto.ast_assert_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_delete_statement_node(self) -> Optional['parse_tree_pb2.ASTDeleteStatementProto']:
+        """Field ast_delete_statement_node"""
+        return ASTDeleteStatement(self._proto.ast_delete_statement_node) if self._proto.ast_delete_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_insert_statement_node(self) -> Optional['parse_tree_pb2.ASTInsertStatementProto']:
+        """Field ast_insert_statement_node"""
+        return ASTInsertStatement(self._proto.ast_insert_statement_node) if self._proto.ast_insert_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_update_statement_node(self) -> Optional['parse_tree_pb2.ASTUpdateStatementProto']:
+        """Field ast_update_statement_node"""
+        return ASTUpdateStatement(self._proto.ast_update_statement_node) if self._proto.ast_update_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_truncate_statement_node(self) -> Optional['parse_tree_pb2.ASTTruncateStatementProto']:
+        """Field ast_truncate_statement_node"""
+        return ASTTruncateStatement(self._proto.ast_truncate_statement_node) if self._proto.ast_truncate_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_merge_statement_node(self) -> Optional['parse_tree_pb2.ASTMergeStatementProto']:
+        """Field ast_merge_statement_node"""
+        return ASTMergeStatement(self._proto.ast_merge_statement_node) if self._proto.ast_merge_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_grant_statement_node(self) -> Optional['parse_tree_pb2.ASTGrantStatementProto']:
+        """Field ast_grant_statement_node"""
+        return ASTGrantStatement(self._proto.ast_grant_statement_node) if self._proto.ast_grant_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_revoke_statement_node(self) -> Optional['parse_tree_pb2.ASTRevokeStatementProto']:
+        """Field ast_revoke_statement_node"""
+        return ASTRevokeStatement(self._proto.ast_revoke_statement_node) if self._proto.ast_revoke_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_alter_all_row_access_policies_statement_node(self) -> Optional['parse_tree_pb2.ASTAlterAllRowAccessPoliciesStatementProto']:
+        """Field ast_alter_all_row_access_policies_statement_node"""
+        return ASTAlterAllRowAccessPoliciesStatement(self._proto.ast_alter_all_row_access_policies_statement_node) if self._proto.ast_alter_all_row_access_policies_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_parameter_assignment_node(self) -> Optional['parse_tree_pb2.ASTParameterAssignmentProto']:
+        """Field ast_parameter_assignment_node"""
+        return ASTParameterAssignment(self._proto.ast_parameter_assignment_node) if self._proto.ast_parameter_assignment_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_system_variable_assignment_node(self) -> Optional['parse_tree_pb2.ASTSystemVariableAssignmentProto']:
+        """Field ast_system_variable_assignment_node"""
+        return ASTSystemVariableAssignment(self._proto.ast_system_variable_assignment_node) if self._proto.ast_system_variable_assignment_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_execute_immediate_statement_node(self) -> Optional['parse_tree_pb2.ASTExecuteImmediateStatementProto']:
+        """Field ast_execute_immediate_statement_node"""
+        return ASTExecuteImmediateStatement(self._proto.ast_execute_immediate_statement_node) if self._proto.ast_execute_immediate_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_define_macro_statement_node(self) -> Optional['parse_tree_pb2.ASTDefineMacroStatementProto']:
+        """Field ast_define_macro_statement_node"""
+        return ASTDefineMacroStatement(self._proto.ast_define_macro_statement_node) if self._proto.ast_define_macro_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_export_metadata_statement_node(self) -> Optional['parse_tree_pb2.ASTExportMetadataStatementProto']:
+        """Field ast_export_metadata_statement_node"""
+        return ASTExportMetadataStatement(self._proto.ast_export_metadata_statement_node) if self._proto.ast_export_metadata_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_create_locality_group_statement_node(self) -> Optional['parse_tree_pb2.ASTCreateLocalityGroupStatementProto']:
+        """Field ast_create_locality_group_statement_node"""
+        return ASTCreateLocalityGroupStatement(self._proto.ast_create_locality_group_statement_node) if self._proto.ast_create_locality_group_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_run_statement_node(self) -> Optional['parse_tree_pb2.ASTRunStatementProto']:
+        """Field ast_run_statement_node"""
+        return ASTRunStatement(self._proto.ast_run_statement_node) if self._proto.ast_run_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_subpipeline_statement_node(self) -> Optional['parse_tree_pb2.ASTSubpipelineStatementProto']:
+        """Field ast_subpipeline_statement_node"""
+        return ASTSubpipelineStatement(self._proto.ast_subpipeline_statement_node) if self._proto.ast_subpipeline_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_statement_with_pipe_operators_node(self) -> Optional['parse_tree_pb2.ASTStatementWithPipeOperatorsProto']:
+        """Field ast_statement_with_pipe_operators_node"""
+        return ASTStatementWithPipeOperators(self._proto.ast_statement_with_pipe_operators_node) if self._proto.ast_statement_with_pipe_operators_node.ByteSize() > 0 else None
+
+
+
+class AnyASTTableConstraint:
+    """Generated wrapper for AnyASTTableConstraintProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTTableConstraintProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_primary_key_node(self) -> Optional['parse_tree_pb2.ASTPrimaryKeyProto']:
+        """Field ast_primary_key_node"""
+        return ASTPrimaryKey(self._proto.ast_primary_key_node) if self._proto.ast_primary_key_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_foreign_key_node(self) -> Optional['parse_tree_pb2.ASTForeignKeyProto']:
+        """Field ast_foreign_key_node"""
+        return ASTForeignKey(self._proto.ast_foreign_key_node) if self._proto.ast_foreign_key_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_check_constraint_node(self) -> Optional['parse_tree_pb2.ASTCheckConstraintProto']:
+        """Field ast_check_constraint_node"""
+        return ASTCheckConstraint(self._proto.ast_check_constraint_node) if self._proto.ast_check_constraint_node.ByteSize() > 0 else None
+
+
+
+class AnyASTTableDataSource:
+    """Generated wrapper for AnyASTTableDataSourceProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTTableDataSourceProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_clone_data_source_node(self) -> Optional['parse_tree_pb2.ASTCloneDataSourceProto']:
+        """Field ast_clone_data_source_node"""
+        return ASTCloneDataSource(self._proto.ast_clone_data_source_node) if self._proto.ast_clone_data_source_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_copy_data_source_node(self) -> Optional['parse_tree_pb2.ASTCopyDataSourceProto']:
+        """Field ast_copy_data_source_node"""
+        return ASTCopyDataSource(self._proto.ast_copy_data_source_node) if self._proto.ast_copy_data_source_node.ByteSize() > 0 else None
+
+
+
+class AnyASTTableElement:
+    """Generated wrapper for AnyASTTableElementProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTTableElementProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_column_definition_node(self) -> Optional['parse_tree_pb2.ASTColumnDefinitionProto']:
+        """Field ast_column_definition_node"""
+        return ASTColumnDefinition(self._proto.ast_column_definition_node) if self._proto.ast_column_definition_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_table_constraint_node(self) -> Optional['parse_tree_pb2.AnyASTTableConstraintProto']:
+        """Field ast_table_constraint_node"""
+        return AnyASTTableConstraint(self._proto.ast_table_constraint_node) if self._proto.ast_table_constraint_node.ByteSize() > 0 else None
+
+
+
+class AnyASTTableExpression:
+    """Generated wrapper for AnyASTTableExpressionProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTTableExpressionProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_table_path_expression_node(self) -> Optional['parse_tree_pb2.ASTTablePathExpressionProto']:
+        """Field ast_table_path_expression_node"""
+        return ASTTablePathExpression(self._proto.ast_table_path_expression_node) if self._proto.ast_table_path_expression_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_join_node(self) -> Optional['parse_tree_pb2.ASTJoinProto']:
+        """Field ast_join_node"""
+        return ASTJoin(self._proto.ast_join_node) if self._proto.ast_join_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_parenthesized_join_node(self) -> Optional['parse_tree_pb2.ASTParenthesizedJoinProto']:
+        """Field ast_parenthesized_join_node"""
+        return ASTParenthesizedJoin(self._proto.ast_parenthesized_join_node) if self._proto.ast_parenthesized_join_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_table_subquery_node(self) -> Optional['parse_tree_pb2.ASTTableSubqueryProto']:
+        """Field ast_table_subquery_node"""
+        return ASTTableSubquery(self._proto.ast_table_subquery_node) if self._proto.ast_table_subquery_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_tvf_node(self) -> Optional['parse_tree_pb2.ASTTVFProto']:
+        """Field ast_tvf_node"""
+        return ASTTVF(self._proto.ast_tvf_node) if self._proto.ast_tvf_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_table_data_source_node(self) -> Optional['parse_tree_pb2.AnyASTTableDataSourceProto']:
+        """Field ast_table_data_source_node"""
+        return AnyASTTableDataSource(self._proto.ast_table_data_source_node) if self._proto.ast_table_data_source_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_graph_table_query_node(self) -> Optional['parse_tree_pb2.ASTGraphTableQueryProto']:
+        """Field ast_graph_table_query_node"""
+        return ASTGraphTableQuery(self._proto.ast_graph_table_query_node) if self._proto.ast_graph_table_query_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_pipe_join_lhs_placeholder_node(self) -> Optional['parse_tree_pb2.ASTPipeJoinLhsPlaceholderProto']:
+        """Field ast_pipe_join_lhs_placeholder_node"""
+        return ASTPipeJoinLhsPlaceholder(self._proto.ast_pipe_join_lhs_placeholder_node) if self._proto.ast_pipe_join_lhs_placeholder_node.ByteSize() > 0 else None
+
+
+
+class AnyASTTransactionMode:
+    """Generated wrapper for AnyASTTransactionModeProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTTransactionModeProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_transaction_isolation_level_node(self) -> Optional['parse_tree_pb2.ASTTransactionIsolationLevelProto']:
+        """Field ast_transaction_isolation_level_node"""
+        return ASTTransactionIsolationLevel(self._proto.ast_transaction_isolation_level_node) if self._proto.ast_transaction_isolation_level_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_transaction_read_write_mode_node(self) -> Optional['parse_tree_pb2.ASTTransactionReadWriteModeProto']:
+        """Field ast_transaction_read_write_mode_node"""
+        return ASTTransactionReadWriteMode(self._proto.ast_transaction_read_write_mode_node) if self._proto.ast_transaction_read_write_mode_node.ByteSize() > 0 else None
+
+
+
+class AnyASTType:
+    """Generated wrapper for AnyASTTypeProto"""
+
+    def __init__(self, proto: 'parse_tree_pb2.AnyASTTypeProto'):
+        self._proto = proto
+
+    @cached_property
+    def ast_simple_type_node(self) -> Optional['parse_tree_pb2.ASTSimpleTypeProto']:
+        """Field ast_simple_type_node"""
+        return ASTSimpleType(self._proto.ast_simple_type_node) if self._proto.ast_simple_type_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_array_type_node(self) -> Optional['parse_tree_pb2.ASTArrayTypeProto']:
+        """Field ast_array_type_node"""
+        return ASTArrayType(self._proto.ast_array_type_node) if self._proto.ast_array_type_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_struct_type_node(self) -> Optional['parse_tree_pb2.ASTStructTypeProto']:
+        """Field ast_struct_type_node"""
+        return ASTStructType(self._proto.ast_struct_type_node) if self._proto.ast_struct_type_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_range_type_node(self) -> Optional['parse_tree_pb2.ASTRangeTypeProto']:
+        """Field ast_range_type_node"""
+        return ASTRangeType(self._proto.ast_range_type_node) if self._proto.ast_range_type_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_function_type_node(self) -> Optional['parse_tree_pb2.ASTFunctionTypeProto']:
+        """Field ast_function_type_node"""
+        return ASTFunctionType(self._proto.ast_function_type_node) if self._proto.ast_function_type_node.ByteSize() > 0 else None
+
+    @cached_property
+    def ast_map_type_node(self) -> Optional['parse_tree_pb2.ASTMapTypeProto']:
+        """Field ast_map_type_node"""
+        return ASTMapType(self._proto.ast_map_type_node) if self._proto.ast_map_type_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedAggregateScanBase:
+    """Generated wrapper for AnyResolvedAggregateScanBaseProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedAggregateScanBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_aggregate_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedAggregateScanProto']:
+        """Field resolved_aggregate_scan_node"""
+        return ResolvedAggregateScan(self._proto.resolved_aggregate_scan_node) if self._proto.resolved_aggregate_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_anonymized_aggregate_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedAnonymizedAggregateScanProto']:
+        """Field resolved_anonymized_aggregate_scan_node"""
+        return ResolvedAnonymizedAggregateScan(self._proto.resolved_anonymized_aggregate_scan_node) if self._proto.resolved_anonymized_aggregate_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_differential_privacy_aggregate_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedDifferentialPrivacyAggregateScanProto']:
+        """Field resolved_differential_privacy_aggregate_scan_node"""
+        return ResolvedDifferentialPrivacyAggregateScan(self._proto.resolved_differential_privacy_aggregate_scan_node) if self._proto.resolved_differential_privacy_aggregate_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_aggregation_threshold_aggregate_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedAggregationThresholdAggregateScanProto']:
+        """Field resolved_aggregation_threshold_aggregate_scan_node"""
+        return ResolvedAggregationThresholdAggregateScan(self._proto.resolved_aggregation_threshold_aggregate_scan_node) if self._proto.resolved_aggregation_threshold_aggregate_scan_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedAlterAction:
+    """Generated wrapper for AnyResolvedAlterActionProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedAlterActionProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_set_options_action_node(self) -> Optional['resolved_ast_pb2.ResolvedSetOptionsActionProto']:
+        """Field resolved_set_options_action_node"""
+        return ResolvedSetOptionsAction(self._proto.resolved_set_options_action_node) if self._proto.resolved_set_options_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_add_column_action_node(self) -> Optional['resolved_ast_pb2.ResolvedAddColumnActionProto']:
+        """Field resolved_add_column_action_node"""
+        return ResolvedAddColumnAction(self._proto.resolved_add_column_action_node) if self._proto.resolved_add_column_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_drop_column_action_node(self) -> Optional['resolved_ast_pb2.ResolvedDropColumnActionProto']:
+        """Field resolved_drop_column_action_node"""
+        return ResolvedDropColumnAction(self._proto.resolved_drop_column_action_node) if self._proto.resolved_drop_column_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_grant_to_action_node(self) -> Optional['resolved_ast_pb2.ResolvedGrantToActionProto']:
+        """Field resolved_grant_to_action_node"""
+        return ResolvedGrantToAction(self._proto.resolved_grant_to_action_node) if self._proto.resolved_grant_to_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_filter_using_action_node(self) -> Optional['resolved_ast_pb2.ResolvedFilterUsingActionProto']:
+        """Field resolved_filter_using_action_node"""
+        return ResolvedFilterUsingAction(self._proto.resolved_filter_using_action_node) if self._proto.resolved_filter_using_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_revoke_from_action_node(self) -> Optional['resolved_ast_pb2.ResolvedRevokeFromActionProto']:
+        """Field resolved_revoke_from_action_node"""
+        return ResolvedRevokeFromAction(self._proto.resolved_revoke_from_action_node) if self._proto.resolved_revoke_from_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_rename_to_action_node(self) -> Optional['resolved_ast_pb2.ResolvedRenameToActionProto']:
+        """Field resolved_rename_to_action_node"""
+        return ResolvedRenameToAction(self._proto.resolved_rename_to_action_node) if self._proto.resolved_rename_to_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_set_as_action_node(self) -> Optional['resolved_ast_pb2.ResolvedSetAsActionProto']:
+        """Field resolved_set_as_action_node"""
+        return ResolvedSetAsAction(self._proto.resolved_set_as_action_node) if self._proto.resolved_set_as_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_add_constraint_action_node(self) -> Optional['resolved_ast_pb2.ResolvedAddConstraintActionProto']:
+        """Field resolved_add_constraint_action_node"""
+        return ResolvedAddConstraintAction(self._proto.resolved_add_constraint_action_node) if self._proto.resolved_add_constraint_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_drop_constraint_action_node(self) -> Optional['resolved_ast_pb2.ResolvedDropConstraintActionProto']:
+        """Field resolved_drop_constraint_action_node"""
+        return ResolvedDropConstraintAction(self._proto.resolved_drop_constraint_action_node) if self._proto.resolved_drop_constraint_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_drop_primary_key_action_node(self) -> Optional['resolved_ast_pb2.ResolvedDropPrimaryKeyActionProto']:
+        """Field resolved_drop_primary_key_action_node"""
+        return ResolvedDropPrimaryKeyAction(self._proto.resolved_drop_primary_key_action_node) if self._proto.resolved_drop_primary_key_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_rename_column_action_node(self) -> Optional['resolved_ast_pb2.ResolvedRenameColumnActionProto']:
+        """Field resolved_rename_column_action_node"""
+        return ResolvedRenameColumnAction(self._proto.resolved_rename_column_action_node) if self._proto.resolved_rename_column_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_set_collate_clause_node(self) -> Optional['resolved_ast_pb2.ResolvedSetCollateClauseProto']:
+        """Field resolved_set_collate_clause_node"""
+        return ResolvedSetCollateClause(self._proto.resolved_set_collate_clause_node) if self._proto.resolved_set_collate_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_restrict_to_action_node(self) -> Optional['resolved_ast_pb2.ResolvedRestrictToActionProto']:
+        """Field resolved_restrict_to_action_node"""
+        return ResolvedRestrictToAction(self._proto.resolved_restrict_to_action_node) if self._proto.resolved_restrict_to_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_add_to_restrictee_list_action_node(self) -> Optional['resolved_ast_pb2.ResolvedAddToRestricteeListActionProto']:
+        """Field resolved_add_to_restrictee_list_action_node"""
+        return ResolvedAddToRestricteeListAction(self._proto.resolved_add_to_restrictee_list_action_node) if self._proto.resolved_add_to_restrictee_list_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_remove_from_restrictee_list_action_node(self) -> Optional['resolved_ast_pb2.ResolvedRemoveFromRestricteeListActionProto']:
+        """Field resolved_remove_from_restrictee_list_action_node"""
+        return ResolvedRemoveFromRestricteeListAction(self._proto.resolved_remove_from_restrictee_list_action_node) if self._proto.resolved_remove_from_restrictee_list_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_column_action_node(self) -> Optional['resolved_ast_pb2.AnyResolvedAlterColumnActionProto']:
+        """Field resolved_alter_column_action_node"""
+        return AnyResolvedAlterColumnAction(self._proto.resolved_alter_column_action_node) if self._proto.resolved_alter_column_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_sub_entity_action_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterSubEntityActionProto']:
+        """Field resolved_alter_sub_entity_action_node"""
+        return ResolvedAlterSubEntityAction(self._proto.resolved_alter_sub_entity_action_node) if self._proto.resolved_alter_sub_entity_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_add_sub_entity_action_node(self) -> Optional['resolved_ast_pb2.ResolvedAddSubEntityActionProto']:
+        """Field resolved_add_sub_entity_action_node"""
+        return ResolvedAddSubEntityAction(self._proto.resolved_add_sub_entity_action_node) if self._proto.resolved_add_sub_entity_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_drop_sub_entity_action_node(self) -> Optional['resolved_ast_pb2.ResolvedDropSubEntityActionProto']:
+        """Field resolved_drop_sub_entity_action_node"""
+        return ResolvedDropSubEntityAction(self._proto.resolved_drop_sub_entity_action_node) if self._proto.resolved_drop_sub_entity_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_add_column_identifier_action_node(self) -> Optional['resolved_ast_pb2.ResolvedAddColumnIdentifierActionProto']:
+        """Field resolved_add_column_identifier_action_node"""
+        return ResolvedAddColumnIdentifierAction(self._proto.resolved_add_column_identifier_action_node) if self._proto.resolved_add_column_identifier_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_rebuild_action_node(self) -> Optional['resolved_ast_pb2.ResolvedRebuildActionProto']:
+        """Field resolved_rebuild_action_node"""
+        return ResolvedRebuildAction(self._proto.resolved_rebuild_action_node) if self._proto.resolved_rebuild_action_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedAlterColumnAction:
+    """Generated wrapper for AnyResolvedAlterColumnActionProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedAlterColumnActionProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_alter_column_options_action_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterColumnOptionsActionProto']:
+        """Field resolved_alter_column_options_action_node"""
+        return ResolvedAlterColumnOptionsAction(self._proto.resolved_alter_column_options_action_node) if self._proto.resolved_alter_column_options_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_column_drop_not_null_action_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterColumnDropNotNullActionProto']:
+        """Field resolved_alter_column_drop_not_null_action_node"""
+        return ResolvedAlterColumnDropNotNullAction(self._proto.resolved_alter_column_drop_not_null_action_node) if self._proto.resolved_alter_column_drop_not_null_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_column_set_data_type_action_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterColumnSetDataTypeActionProto']:
+        """Field resolved_alter_column_set_data_type_action_node"""
+        return ResolvedAlterColumnSetDataTypeAction(self._proto.resolved_alter_column_set_data_type_action_node) if self._proto.resolved_alter_column_set_data_type_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_column_set_default_action_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterColumnSetDefaultActionProto']:
+        """Field resolved_alter_column_set_default_action_node"""
+        return ResolvedAlterColumnSetDefaultAction(self._proto.resolved_alter_column_set_default_action_node) if self._proto.resolved_alter_column_set_default_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_column_drop_default_action_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterColumnDropDefaultActionProto']:
+        """Field resolved_alter_column_drop_default_action_node"""
+        return ResolvedAlterColumnDropDefaultAction(self._proto.resolved_alter_column_drop_default_action_node) if self._proto.resolved_alter_column_drop_default_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_column_drop_generated_action_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterColumnDropGeneratedActionProto']:
+        """Field resolved_alter_column_drop_generated_action_node"""
+        return ResolvedAlterColumnDropGeneratedAction(self._proto.resolved_alter_column_drop_generated_action_node) if self._proto.resolved_alter_column_drop_generated_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_column_set_generated_action_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterColumnSetGeneratedActionProto']:
+        """Field resolved_alter_column_set_generated_action_node"""
+        return ResolvedAlterColumnSetGeneratedAction(self._proto.resolved_alter_column_set_generated_action_node) if self._proto.resolved_alter_column_set_generated_action_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedAlterObjectStmt:
+    """Generated wrapper for AnyResolvedAlterObjectStmtProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedAlterObjectStmtProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_alter_row_access_policy_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterRowAccessPolicyStmtProto']:
+        """Field resolved_alter_row_access_policy_stmt_node"""
+        return ResolvedAlterRowAccessPolicyStmt(self._proto.resolved_alter_row_access_policy_stmt_node) if self._proto.resolved_alter_row_access_policy_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_table_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterTableStmtProto']:
+        """Field resolved_alter_table_stmt_node"""
+        return ResolvedAlterTableStmt(self._proto.resolved_alter_table_stmt_node) if self._proto.resolved_alter_table_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_view_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterViewStmtProto']:
+        """Field resolved_alter_view_stmt_node"""
+        return ResolvedAlterViewStmt(self._proto.resolved_alter_view_stmt_node) if self._proto.resolved_alter_view_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_materialized_view_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterMaterializedViewStmtProto']:
+        """Field resolved_alter_materialized_view_stmt_node"""
+        return ResolvedAlterMaterializedViewStmt(self._proto.resolved_alter_materialized_view_stmt_node) if self._proto.resolved_alter_materialized_view_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_database_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterDatabaseStmtProto']:
+        """Field resolved_alter_database_stmt_node"""
+        return ResolvedAlterDatabaseStmt(self._proto.resolved_alter_database_stmt_node) if self._proto.resolved_alter_database_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_all_row_access_policies_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterAllRowAccessPoliciesStmtProto']:
+        """Field resolved_alter_all_row_access_policies_stmt_node"""
+        return ResolvedAlterAllRowAccessPoliciesStmt(self._proto.resolved_alter_all_row_access_policies_stmt_node) if self._proto.resolved_alter_all_row_access_policies_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_entity_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterEntityStmtProto']:
+        """Field resolved_alter_entity_stmt_node"""
+        return ResolvedAlterEntityStmt(self._proto.resolved_alter_entity_stmt_node) if self._proto.resolved_alter_entity_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_schema_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterSchemaStmtProto']:
+        """Field resolved_alter_schema_stmt_node"""
+        return ResolvedAlterSchemaStmt(self._proto.resolved_alter_schema_stmt_node) if self._proto.resolved_alter_schema_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_privilege_restriction_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterPrivilegeRestrictionStmtProto']:
+        """Field resolved_alter_privilege_restriction_stmt_node"""
+        return ResolvedAlterPrivilegeRestrictionStmt(self._proto.resolved_alter_privilege_restriction_stmt_node) if self._proto.resolved_alter_privilege_restriction_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_model_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterModelStmtProto']:
+        """Field resolved_alter_model_stmt_node"""
+        return ResolvedAlterModelStmt(self._proto.resolved_alter_model_stmt_node) if self._proto.resolved_alter_model_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_approx_view_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterApproxViewStmtProto']:
+        """Field resolved_alter_approx_view_stmt_node"""
+        return ResolvedAlterApproxViewStmt(self._proto.resolved_alter_approx_view_stmt_node) if self._proto.resolved_alter_approx_view_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_external_schema_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterExternalSchemaStmtProto']:
+        """Field resolved_alter_external_schema_stmt_node"""
+        return ResolvedAlterExternalSchemaStmt(self._proto.resolved_alter_external_schema_stmt_node) if self._proto.resolved_alter_external_schema_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_connection_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterConnectionStmtProto']:
+        """Field resolved_alter_connection_stmt_node"""
+        return ResolvedAlterConnectionStmt(self._proto.resolved_alter_connection_stmt_node) if self._proto.resolved_alter_connection_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_index_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterIndexStmtProto']:
+        """Field resolved_alter_index_stmt_node"""
+        return ResolvedAlterIndexStmt(self._proto.resolved_alter_index_stmt_node) if self._proto.resolved_alter_index_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_sequence_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterSequenceStmtProto']:
+        """Field resolved_alter_sequence_stmt_node"""
+        return ResolvedAlterSequenceStmt(self._proto.resolved_alter_sequence_stmt_node) if self._proto.resolved_alter_sequence_stmt_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedArgument:
+    """Generated wrapper for AnyResolvedArgumentProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedArgumentProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_make_proto_field_node(self) -> Optional['resolved_ast_pb2.ResolvedMakeProtoFieldProto']:
+        """Field resolved_make_proto_field_node"""
+        return ResolvedMakeField(self._proto.resolved_make_proto_field_node) if self._proto.resolved_make_proto_field_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_column_holder_node(self) -> Optional['resolved_ast_pb2.ResolvedColumnHolderProto']:
+        """Field resolved_column_holder_node"""
+        return ResolvedColumnHolder(self._proto.resolved_column_holder_node) if self._proto.resolved_column_holder_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_order_by_item_node(self) -> Optional['resolved_ast_pb2.ResolvedOrderByItemProto']:
+        """Field resolved_order_by_item_node"""
+        return ResolvedOrderByItem(self._proto.resolved_order_by_item_node) if self._proto.resolved_order_by_item_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_output_column_node(self) -> Optional['resolved_ast_pb2.ResolvedOutputColumnProto']:
+        """Field resolved_output_column_node"""
+        return ResolvedOutputColumn(self._proto.resolved_output_column_node) if self._proto.resolved_output_column_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_with_entry_node(self) -> Optional['resolved_ast_pb2.ResolvedWithEntryProto']:
+        """Field resolved_with_entry_node"""
+        return ResolvedWithEntry(self._proto.resolved_with_entry_node) if self._proto.resolved_with_entry_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_option_node(self) -> Optional['resolved_ast_pb2.ResolvedOptionProto']:
+        """Field resolved_option_node"""
+        return ResolvedOption(self._proto.resolved_option_node) if self._proto.resolved_option_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_window_partitioning_node(self) -> Optional['resolved_ast_pb2.ResolvedWindowPartitioningProto']:
+        """Field resolved_window_partitioning_node"""
+        return ResolvedWindowPartitioning(self._proto.resolved_window_partitioning_node) if self._proto.resolved_window_partitioning_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_window_ordering_node(self) -> Optional['resolved_ast_pb2.ResolvedWindowOrderingProto']:
+        """Field resolved_window_ordering_node"""
+        return ResolvedWindowOrdering(self._proto.resolved_window_ordering_node) if self._proto.resolved_window_ordering_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_window_frame_node(self) -> Optional['resolved_ast_pb2.ResolvedWindowFrameProto']:
+        """Field resolved_window_frame_node"""
+        return ResolvedWindowFrame(self._proto.resolved_window_frame_node) if self._proto.resolved_window_frame_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_analytic_function_group_node(self) -> Optional['resolved_ast_pb2.ResolvedAnalyticFunctionGroupProto']:
+        """Field resolved_analytic_function_group_node"""
+        return ResolvedAnalyticFunctionGroup(self._proto.resolved_analytic_function_group_node) if self._proto.resolved_analytic_function_group_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_window_frame_expr_node(self) -> Optional['resolved_ast_pb2.ResolvedWindowFrameExprProto']:
+        """Field resolved_window_frame_expr_node"""
+        return ResolvedWindowFrameExpr(self._proto.resolved_window_frame_expr_node) if self._proto.resolved_window_frame_expr_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_dmlvalue_node(self) -> Optional['resolved_ast_pb2.ResolvedDMLValueProto']:
+        """Field resolved_dmlvalue_node"""
+        return ResolvedDMLValue(self._proto.resolved_dmlvalue_node) if self._proto.resolved_dmlvalue_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_assert_rows_modified_node(self) -> Optional['resolved_ast_pb2.ResolvedAssertRowsModifiedProto']:
+        """Field resolved_assert_rows_modified_node"""
+        return ResolvedAssertRowsModified(self._proto.resolved_assert_rows_modified_node) if self._proto.resolved_assert_rows_modified_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_insert_row_node(self) -> Optional['resolved_ast_pb2.ResolvedInsertRowProto']:
+        """Field resolved_insert_row_node"""
+        return ResolvedInsertRow(self._proto.resolved_insert_row_node) if self._proto.resolved_insert_row_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_update_item_node(self) -> Optional['resolved_ast_pb2.ResolvedUpdateItemProto']:
+        """Field resolved_update_item_node"""
+        return ResolvedUpdateItem(self._proto.resolved_update_item_node) if self._proto.resolved_update_item_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_privilege_node(self) -> Optional['resolved_ast_pb2.ResolvedPrivilegeProto']:
+        """Field resolved_privilege_node"""
+        return ResolvedPrivilege(self._proto.resolved_privilege_node) if self._proto.resolved_privilege_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_argument_def_node(self) -> Optional['resolved_ast_pb2.ResolvedArgumentDefProto']:
+        """Field resolved_argument_def_node"""
+        return ResolvedArgumentDef(self._proto.resolved_argument_def_node) if self._proto.resolved_argument_def_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_argument_list_node(self) -> Optional['resolved_ast_pb2.ResolvedArgumentListProto']:
+        """Field resolved_argument_list_node"""
+        return ResolvedArgumentList(self._proto.resolved_argument_list_node) if self._proto.resolved_argument_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_function_argument_node(self) -> Optional['resolved_ast_pb2.ResolvedFunctionArgumentProto']:
+        """Field resolved_function_argument_node"""
+        return ResolvedFunctionArgument(self._proto.resolved_function_argument_node) if self._proto.resolved_function_argument_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_function_signature_holder_node(self) -> Optional['resolved_ast_pb2.ResolvedFunctionSignatureHolderProto']:
+        """Field resolved_function_signature_holder_node"""
+        return ResolvedFunctionSignatureHolder(self._proto.resolved_function_signature_holder_node) if self._proto.resolved_function_signature_holder_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_aggregate_having_modifier_node(self) -> Optional['resolved_ast_pb2.ResolvedAggregateHavingModifierProto']:
+        """Field resolved_aggregate_having_modifier_node"""
+        return ResolvedAggregateHavingModifier(self._proto.resolved_aggregate_having_modifier_node) if self._proto.resolved_aggregate_having_modifier_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_column_definition_node(self) -> Optional['resolved_ast_pb2.ResolvedColumnDefinitionProto']:
+        """Field resolved_column_definition_node"""
+        return ResolvedColumnDefinition(self._proto.resolved_column_definition_node) if self._proto.resolved_column_definition_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_set_operation_item_node(self) -> Optional['resolved_ast_pb2.ResolvedSetOperationItemProto']:
+        """Field resolved_set_operation_item_node"""
+        return ResolvedSetOperationItem(self._proto.resolved_set_operation_item_node) if self._proto.resolved_set_operation_item_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_index_item_node(self) -> Optional['resolved_ast_pb2.ResolvedIndexItemProto']:
+        """Field resolved_index_item_node"""
+        return ResolvedIndexItem(self._proto.resolved_index_item_node) if self._proto.resolved_index_item_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_merge_when_node(self) -> Optional['resolved_ast_pb2.ResolvedMergeWhenProto']:
+        """Field resolved_merge_when_node"""
+        return ResolvedMergeWhen(self._proto.resolved_merge_when_node) if self._proto.resolved_merge_when_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_update_item_element_node(self) -> Optional['resolved_ast_pb2.ResolvedUpdateItemElementProto']:
+        """Field resolved_update_item_element_node"""
+        return ResolvedUpdateItemElement(self._proto.resolved_update_item_element_node) if self._proto.resolved_update_item_element_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_column_annotations_node(self) -> Optional['resolved_ast_pb2.ResolvedColumnAnnotationsProto']:
+        """Field resolved_column_annotations_node"""
+        return ResolvedColumnAnnotations(self._proto.resolved_column_annotations_node) if self._proto.resolved_column_annotations_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_generated_column_info_node(self) -> Optional['resolved_ast_pb2.ResolvedGeneratedColumnInfoProto']:
+        """Field resolved_generated_column_info_node"""
+        return ResolvedGeneratedColumnInfo(self._proto.resolved_generated_column_info_node) if self._proto.resolved_generated_column_info_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_model_node(self) -> Optional['resolved_ast_pb2.ResolvedModelProto']:
+        """Field resolved_model_node"""
+        return ResolvedModel(self._proto.resolved_model_node) if self._proto.resolved_model_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_action_node(self) -> Optional['resolved_ast_pb2.AnyResolvedAlterActionProto']:
+        """Field resolved_alter_action_node"""
+        return AnyResolvedAlterAction(self._proto.resolved_alter_action_node) if self._proto.resolved_alter_action_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_unnest_item_node(self) -> Optional['resolved_ast_pb2.ResolvedUnnestItemProto']:
+        """Field resolved_unnest_item_node"""
+        return ResolvedUnnestItem(self._proto.resolved_unnest_item_node) if self._proto.resolved_unnest_item_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_replace_field_item_node(self) -> Optional['resolved_ast_pb2.ResolvedReplaceFieldItemProto']:
+        """Field resolved_replace_field_item_node"""
+        return ResolvedReplaceFieldItem(self._proto.resolved_replace_field_item_node) if self._proto.resolved_replace_field_item_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_connection_node(self) -> Optional['resolved_ast_pb2.ResolvedConnectionProto']:
+        """Field resolved_connection_node"""
+        return ResolvedConnection(self._proto.resolved_connection_node) if self._proto.resolved_connection_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_execute_immediate_argument_node(self) -> Optional['resolved_ast_pb2.ResolvedExecuteImmediateArgumentProto']:
+        """Field resolved_execute_immediate_argument_node"""
+        return ResolvedExecuteImmediateArgument(self._proto.resolved_execute_immediate_argument_node) if self._proto.resolved_execute_immediate_argument_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_descriptor_node(self) -> Optional['resolved_ast_pb2.ResolvedDescriptorProto']:
+        """Field resolved_descriptor_node"""
+        return ResolvedDescriptor(self._proto.resolved_descriptor_node) if self._proto.resolved_descriptor_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_extended_cast_element_node(self) -> Optional['resolved_ast_pb2.ResolvedExtendedCastElementProto']:
+        """Field resolved_extended_cast_element_node"""
+        return ResolvedExtendedCastElement(self._proto.resolved_extended_cast_element_node) if self._proto.resolved_extended_cast_element_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_with_partition_columns_node(self) -> Optional['resolved_ast_pb2.ResolvedWithPartitionColumnsProto']:
+        """Field resolved_with_partition_columns_node"""
+        return ResolvedWithPartitionColumns(self._proto.resolved_with_partition_columns_node) if self._proto.resolved_with_partition_columns_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_extended_cast_node(self) -> Optional['resolved_ast_pb2.ResolvedExtendedCastProto']:
+        """Field resolved_extended_cast_node"""
+        return ResolvedExtendedCast(self._proto.resolved_extended_cast_node) if self._proto.resolved_extended_cast_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_inline_lambda_node(self) -> Optional['resolved_ast_pb2.ResolvedInlineLambdaProto']:
+        """Field resolved_inline_lambda_node"""
+        return ResolvedInlineLambda(self._proto.resolved_inline_lambda_node) if self._proto.resolved_inline_lambda_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_constraint_node(self) -> Optional['resolved_ast_pb2.AnyResolvedConstraintProto']:
+        """Field resolved_constraint_node"""
+        return AnyResolvedConstraint(self._proto.resolved_constraint_node) if self._proto.resolved_constraint_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_pivot_column_node(self) -> Optional['resolved_ast_pb2.ResolvedPivotColumnProto']:
+        """Field resolved_pivot_column_node"""
+        return ResolvedPivotColumn(self._proto.resolved_pivot_column_node) if self._proto.resolved_pivot_column_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_returning_clause_node(self) -> Optional['resolved_ast_pb2.ResolvedReturningClauseProto']:
+        """Field resolved_returning_clause_node"""
+        return ResolvedReturningClause(self._proto.resolved_returning_clause_node) if self._proto.resolved_returning_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_unpivot_arg_node(self) -> Optional['resolved_ast_pb2.ResolvedUnpivotArgProto']:
+        """Field resolved_unpivot_arg_node"""
+        return ResolvedUnpivotArg(self._proto.resolved_unpivot_arg_node) if self._proto.resolved_unpivot_arg_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_filter_field_arg_node(self) -> Optional['resolved_ast_pb2.ResolvedFilterFieldArgProto']:
+        """Field resolved_filter_field_arg_node"""
+        return ResolvedFilterFieldArg(self._proto.resolved_filter_field_arg_node) if self._proto.resolved_filter_field_arg_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_table_and_column_info_node(self) -> Optional['resolved_ast_pb2.ResolvedTableAndColumnInfoProto']:
+        """Field resolved_table_and_column_info_node"""
+        return ResolvedTableAndColumnInfo(self._proto.resolved_table_and_column_info_node) if self._proto.resolved_table_and_column_info_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_column_default_value_node(self) -> Optional['resolved_ast_pb2.ResolvedColumnDefaultValueProto']:
+        """Field resolved_column_default_value_node"""
+        return ResolvedColumnDefaultValue(self._proto.resolved_column_default_value_node) if self._proto.resolved_column_default_value_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_object_unit_node(self) -> Optional['resolved_ast_pb2.ResolvedObjectUnitProto']:
+        """Field resolved_object_unit_node"""
+        return ResolvedObjectUnit(self._proto.resolved_object_unit_node) if self._proto.resolved_object_unit_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_label_expr_node(self) -> Optional['resolved_ast_pb2.AnyResolvedGraphLabelExprProto']:
+        """Field resolved_graph_label_expr_node"""
+        return AnyResolvedGraphLabelExpr(self._proto.resolved_graph_label_expr_node) if self._proto.resolved_graph_label_expr_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_element_identifier_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphElementIdentifierProto']:
+        """Field resolved_graph_element_identifier_node"""
+        return ResolvedGraphElementIdentifier(self._proto.resolved_graph_element_identifier_node) if self._proto.resolved_graph_element_identifier_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_element_property_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphElementPropertyProto']:
+        """Field resolved_graph_element_property_node"""
+        return ResolvedGraphElementProperty(self._proto.resolved_graph_element_property_node) if self._proto.resolved_graph_element_property_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_aux_load_data_partition_filter_node(self) -> Optional['resolved_ast_pb2.ResolvedAuxLoadDataPartitionFilterProto']:
+        """Field resolved_aux_load_data_partition_filter_node"""
+        return ResolvedAuxLoadDataPartitionFilter(self._proto.resolved_aux_load_data_partition_filter_node) if self._proto.resolved_aux_load_data_partition_filter_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_element_table_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphElementTableProto']:
+        """Field resolved_graph_element_table_node"""
+        return ResolvedGraphElementTable(self._proto.resolved_graph_element_table_node) if self._proto.resolved_graph_element_table_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_node_table_reference_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphNodeTableReferenceProto']:
+        """Field resolved_graph_node_table_reference_node"""
+        return ResolvedGraphNodeTableReference(self._proto.resolved_graph_node_table_reference_node) if self._proto.resolved_graph_node_table_reference_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_model_aliased_query_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateModelAliasedQueryProto']:
+        """Field resolved_create_model_aliased_query_node"""
+        return ResolvedCreateModelAliasedQuery(self._proto.resolved_create_model_aliased_query_node) if self._proto.resolved_create_model_aliased_query_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_element_label_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphElementLabelProto']:
+        """Field resolved_graph_element_label_node"""
+        return ResolvedGraphElementLabel(self._proto.resolved_graph_element_label_node) if self._proto.resolved_graph_element_label_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_property_declaration_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphPropertyDeclarationProto']:
+        """Field resolved_graph_property_declaration_node"""
+        return ResolvedGraphPropertyDeclaration(self._proto.resolved_graph_property_declaration_node) if self._proto.resolved_graph_property_declaration_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_property_definition_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphPropertyDefinitionProto']:
+        """Field resolved_graph_property_definition_node"""
+        return ResolvedGraphPropertyDefinition(self._proto.resolved_graph_property_definition_node) if self._proto.resolved_graph_property_definition_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_sequence_node(self) -> Optional['resolved_ast_pb2.ResolvedSequenceProto']:
+        """Field resolved_sequence_node"""
+        return ResolvedSequence(self._proto.resolved_sequence_node) if self._proto.resolved_sequence_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_grouping_set_multi_column_node(self) -> Optional['resolved_ast_pb2.ResolvedGroupingSetMultiColumnProto']:
+        """Field resolved_grouping_set_multi_column_node"""
+        return ResolvedGroupingSetMultiColumn(self._proto.resolved_grouping_set_multi_column_node) if self._proto.resolved_grouping_set_multi_column_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_grouping_set_base_node(self) -> Optional['resolved_ast_pb2.AnyResolvedGroupingSetBaseProto']:
+        """Field resolved_grouping_set_base_node"""
+        return AnyResolvedGroupingSetBase(self._proto.resolved_grouping_set_base_node) if self._proto.resolved_grouping_set_base_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_grouping_call_node(self) -> Optional['resolved_ast_pb2.ResolvedGroupingCallProto']:
+        """Field resolved_grouping_call_node"""
+        return ResolvedGroupingCall(self._proto.resolved_grouping_call_node) if self._proto.resolved_grouping_call_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_identity_column_info_node(self) -> Optional['resolved_ast_pb2.ResolvedIdentityColumnInfoProto']:
+        """Field resolved_identity_column_info_node"""
+        return ResolvedIdentityColumnInfo(self._proto.resolved_identity_column_info_node) if self._proto.resolved_identity_column_info_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_path_pattern_quantifier_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphPathPatternQuantifierProto']:
+        """Field resolved_graph_path_pattern_quantifier_node"""
+        return ResolvedGraphPathPatternQuantifier(self._proto.resolved_graph_path_pattern_quantifier_node) if self._proto.resolved_graph_path_pattern_quantifier_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_computed_column_base_node(self) -> Optional['resolved_ast_pb2.AnyResolvedComputedColumnBaseProto']:
+        """Field resolved_computed_column_base_node"""
+        return AnyResolvedComputedColumnBase(self._proto.resolved_computed_column_base_node) if self._proto.resolved_computed_column_base_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_recursion_depth_modifier_node(self) -> Optional['resolved_ast_pb2.ResolvedRecursionDepthModifierProto']:
+        """Field resolved_recursion_depth_modifier_node"""
+        return ResolvedRecursionDepthModifier(self._proto.resolved_recursion_depth_modifier_node) if self._proto.resolved_recursion_depth_modifier_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_make_array_variable_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphMakeArrayVariableProto']:
+        """Field resolved_graph_make_array_variable_node"""
+        return ResolvedGraphMakeArrayVariable(self._proto.resolved_graph_make_array_variable_node) if self._proto.resolved_graph_make_array_variable_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_path_mode_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphPathModeProto']:
+        """Field resolved_graph_path_mode_node"""
+        return ResolvedGraphPathMode(self._proto.resolved_graph_path_mode_node) if self._proto.resolved_graph_path_mode_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_path_search_prefix_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphPathSearchPrefixProto']:
+        """Field resolved_graph_path_search_prefix_node"""
+        return ResolvedGraphPathSearchPrefix(self._proto.resolved_graph_path_search_prefix_node) if self._proto.resolved_graph_path_search_prefix_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_match_recognize_variable_definition_node(self) -> Optional['resolved_ast_pb2.ResolvedMatchRecognizeVariableDefinitionProto']:
+        """Field resolved_match_recognize_variable_definition_node"""
+        return ResolvedMatchRecognizeVariableDefinition(self._proto.resolved_match_recognize_variable_definition_node) if self._proto.resolved_match_recognize_variable_definition_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_match_recognize_pattern_expr_node(self) -> Optional['resolved_ast_pb2.AnyResolvedMatchRecognizePatternExprProto']:
+        """Field resolved_match_recognize_pattern_expr_node"""
+        return AnyResolvedMatchRecognizePatternExpr(self._proto.resolved_match_recognize_pattern_expr_node) if self._proto.resolved_match_recognize_pattern_expr_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_subpipeline_node(self) -> Optional['resolved_ast_pb2.ResolvedSubpipelineProto']:
+        """Field resolved_subpipeline_node"""
+        return ResolvedSubpipeline(self._proto.resolved_subpipeline_node) if self._proto.resolved_subpipeline_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_lock_mode_node(self) -> Optional['resolved_ast_pb2.ResolvedLockModeProto']:
+        """Field resolved_lock_mode_node"""
+        return ResolvedLockMode(self._proto.resolved_lock_mode_node) if self._proto.resolved_lock_mode_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_pipe_if_case_node(self) -> Optional['resolved_ast_pb2.ResolvedPipeIfCaseProto']:
+        """Field resolved_pipe_if_case_node"""
+        return ResolvedPipeIfCase(self._proto.resolved_pipe_if_case_node) if self._proto.resolved_pipe_if_case_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_output_schema_node(self) -> Optional['resolved_ast_pb2.ResolvedOutputSchemaProto']:
+        """Field resolved_output_schema_node"""
+        return ResolvedOutputSchema(self._proto.resolved_output_schema_node) if self._proto.resolved_output_schema_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_measure_group_node(self) -> Optional['resolved_ast_pb2.ResolvedMeasureGroupProto']:
+        """Field resolved_measure_group_node"""
+        return ResolvedMeasureGroup(self._proto.resolved_measure_group_node) if self._proto.resolved_measure_group_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_on_conflict_clause_node(self) -> Optional['resolved_ast_pb2.ResolvedOnConflictClauseProto']:
+        """Field resolved_on_conflict_clause_node"""
+        return ResolvedOnConflictClause(self._proto.resolved_on_conflict_clause_node) if self._proto.resolved_on_conflict_clause_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_generalized_query_subpipeline_node(self) -> Optional['resolved_ast_pb2.ResolvedGeneralizedQuerySubpipelineProto']:
+        """Field resolved_generalized_query_subpipeline_node"""
+        return ResolvedGeneralizedQuerySubpipeline(self._proto.resolved_generalized_query_subpipeline_node) if self._proto.resolved_generalized_query_subpipeline_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_dynamic_label_specification_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphDynamicLabelSpecificationProto']:
+        """Field resolved_graph_dynamic_label_specification_node"""
+        return ResolvedGraphDynamicLabelSpecification(self._proto.resolved_graph_dynamic_label_specification_node) if self._proto.resolved_graph_dynamic_label_specification_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_dynamic_properties_specification_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphDynamicPropertiesSpecificationProto']:
+        """Field resolved_graph_dynamic_properties_specification_node"""
+        return ResolvedGraphDynamicPropertiesSpecification(self._proto.resolved_graph_dynamic_properties_specification_node) if self._proto.resolved_graph_dynamic_properties_specification_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_update_field_item_node(self) -> Optional['resolved_ast_pb2.ResolvedUpdateFieldItemProto']:
+        """Field resolved_update_field_item_node"""
+        return ResolvedUpdateFieldItem(self._proto.resolved_update_field_item_node) if self._proto.resolved_update_field_item_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_path_cost_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphPathCostProto']:
+        """Field resolved_graph_path_cost_node"""
+        return ResolvedGraphPathCost(self._proto.resolved_graph_path_cost_node) if self._proto.resolved_graph_path_cost_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedComputedColumnBase:
+    """Generated wrapper for AnyResolvedComputedColumnBaseProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedComputedColumnBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_computed_column_impl_node(self) -> Optional['resolved_ast_pb2.AnyResolvedComputedColumnImplProto']:
+        """Field resolved_computed_column_impl_node"""
+        return AnyResolvedComputedColumnImpl(self._proto.resolved_computed_column_impl_node) if self._proto.resolved_computed_column_impl_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedComputedColumnImpl:
+    """Generated wrapper for AnyResolvedComputedColumnImplProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedComputedColumnImplProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_computed_column_node(self) -> Optional['resolved_ast_pb2.ResolvedComputedColumnProto']:
+        """Field resolved_computed_column_node"""
+        return ResolvedComputedColumn(self._proto.resolved_computed_column_node) if self._proto.resolved_computed_column_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_deferred_computed_column_node(self) -> Optional['resolved_ast_pb2.ResolvedDeferredComputedColumnProto']:
+        """Field resolved_deferred_computed_column_node"""
+        return ResolvedDeferredComputedColumn(self._proto.resolved_deferred_computed_column_node) if self._proto.resolved_deferred_computed_column_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedConstraint:
+    """Generated wrapper for AnyResolvedConstraintProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedConstraintProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_primary_key_node(self) -> Optional['resolved_ast_pb2.ResolvedPrimaryKeyProto']:
+        """Field resolved_primary_key_node"""
+        return ResolvedPrimaryKey(self._proto.resolved_primary_key_node) if self._proto.resolved_primary_key_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_foreign_key_node(self) -> Optional['resolved_ast_pb2.ResolvedForeignKeyProto']:
+        """Field resolved_foreign_key_node"""
+        return ResolvedForeignKey(self._proto.resolved_foreign_key_node) if self._proto.resolved_foreign_key_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_check_constraint_node(self) -> Optional['resolved_ast_pb2.ResolvedCheckConstraintProto']:
+        """Field resolved_check_constraint_node"""
+        return ResolvedCheckConstraint(self._proto.resolved_check_constraint_node) if self._proto.resolved_check_constraint_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedCreateSchemaStmtBase:
+    """Generated wrapper for AnyResolvedCreateSchemaStmtBaseProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedCreateSchemaStmtBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_create_schema_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateSchemaStmtProto']:
+        """Field resolved_create_schema_stmt_node"""
+        return ResolvedCreateSchemaStmt(self._proto.resolved_create_schema_stmt_node) if self._proto.resolved_create_schema_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_external_schema_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateExternalSchemaStmtProto']:
+        """Field resolved_create_external_schema_stmt_node"""
+        return ResolvedCreateExternalSchemaStmt(self._proto.resolved_create_external_schema_stmt_node) if self._proto.resolved_create_external_schema_stmt_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedCreateStatement:
+    """Generated wrapper for AnyResolvedCreateStatementProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedCreateStatementProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_create_function_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateFunctionStmtProto']:
+        """Field resolved_create_function_stmt_node"""
+        return ResolvedCreateFunctionStmt(self._proto.resolved_create_function_stmt_node) if self._proto.resolved_create_function_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_table_function_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateTableFunctionStmtProto']:
+        """Field resolved_create_table_function_stmt_node"""
+        return ResolvedCreateTableFunctionStmt(self._proto.resolved_create_table_function_stmt_node) if self._proto.resolved_create_table_function_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_index_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateIndexStmtProto']:
+        """Field resolved_create_index_stmt_node"""
+        return ResolvedCreateIndexStmt(self._proto.resolved_create_index_stmt_node) if self._proto.resolved_create_index_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_constant_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateConstantStmtProto']:
+        """Field resolved_create_constant_stmt_node"""
+        return ResolvedCreateConstantStmt(self._proto.resolved_create_constant_stmt_node) if self._proto.resolved_create_constant_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_table_stmt_base_node(self) -> Optional['resolved_ast_pb2.AnyResolvedCreateTableStmtBaseProto']:
+        """Field resolved_create_table_stmt_base_node"""
+        return AnyResolvedCreateTableStmtBase(self._proto.resolved_create_table_stmt_base_node) if self._proto.resolved_create_table_stmt_base_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_model_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateModelStmtProto']:
+        """Field resolved_create_model_stmt_node"""
+        return ResolvedCreateModelStmt(self._proto.resolved_create_model_stmt_node) if self._proto.resolved_create_model_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_view_base_node(self) -> Optional['resolved_ast_pb2.AnyResolvedCreateViewBaseProto']:
+        """Field resolved_create_view_base_node"""
+        return AnyResolvedCreateViewBase(self._proto.resolved_create_view_base_node) if self._proto.resolved_create_view_base_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_procedure_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateProcedureStmtProto']:
+        """Field resolved_create_procedure_stmt_node"""
+        return ResolvedCreateProcedureStmt(self._proto.resolved_create_procedure_stmt_node) if self._proto.resolved_create_procedure_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_entity_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateEntityStmtProto']:
+        """Field resolved_create_entity_stmt_node"""
+        return ResolvedCreateEntityStmt(self._proto.resolved_create_entity_stmt_node) if self._proto.resolved_create_entity_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_snapshot_table_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateSnapshotTableStmtProto']:
+        """Field resolved_create_snapshot_table_stmt_node"""
+        return ResolvedCreateSnapshotTableStmt(self._proto.resolved_create_snapshot_table_stmt_node) if self._proto.resolved_create_snapshot_table_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_privilege_restriction_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreatePrivilegeRestrictionStmtProto']:
+        """Field resolved_create_privilege_restriction_stmt_node"""
+        return ResolvedCreatePrivilegeRestrictionStmt(self._proto.resolved_create_privilege_restriction_stmt_node) if self._proto.resolved_create_privilege_restriction_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_property_graph_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreatePropertyGraphStmtProto']:
+        """Field resolved_create_property_graph_stmt_node"""
+        return ResolvedCreatePropertyGraphStmt(self._proto.resolved_create_property_graph_stmt_node) if self._proto.resolved_create_property_graph_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_schema_stmt_base_node(self) -> Optional['resolved_ast_pb2.AnyResolvedCreateSchemaStmtBaseProto']:
+        """Field resolved_create_schema_stmt_base_node"""
+        return AnyResolvedCreateSchemaStmtBase(self._proto.resolved_create_schema_stmt_base_node) if self._proto.resolved_create_schema_stmt_base_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_connection_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateConnectionStmtProto']:
+        """Field resolved_create_connection_stmt_node"""
+        return ResolvedCreateConnectionStmt(self._proto.resolved_create_connection_stmt_node) if self._proto.resolved_create_connection_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_sequence_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateSequenceStmtProto']:
+        """Field resolved_create_sequence_stmt_node"""
+        return ResolvedCreateSequenceStmt(self._proto.resolved_create_sequence_stmt_node) if self._proto.resolved_create_sequence_stmt_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedCreateTableStmtBase:
+    """Generated wrapper for AnyResolvedCreateTableStmtBaseProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedCreateTableStmtBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_create_table_as_select_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateTableAsSelectStmtProto']:
+        """Field resolved_create_table_as_select_stmt_node"""
+        return ResolvedCreateTableAsSelectStmt(self._proto.resolved_create_table_as_select_stmt_node) if self._proto.resolved_create_table_as_select_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_external_table_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateExternalTableStmtProto']:
+        """Field resolved_create_external_table_stmt_node"""
+        return ResolvedCreateExternalTableStmt(self._proto.resolved_create_external_table_stmt_node) if self._proto.resolved_create_external_table_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_table_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateTableStmtProto']:
+        """Field resolved_create_table_stmt_node"""
+        return ResolvedCreateTableStmt(self._proto.resolved_create_table_stmt_node) if self._proto.resolved_create_table_stmt_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedCreateViewBase:
+    """Generated wrapper for AnyResolvedCreateViewBaseProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedCreateViewBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_create_view_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateViewStmtProto']:
+        """Field resolved_create_view_stmt_node"""
+        return ResolvedCreateViewStmt(self._proto.resolved_create_view_stmt_node) if self._proto.resolved_create_view_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_materialized_view_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateMaterializedViewStmtProto']:
+        """Field resolved_create_materialized_view_stmt_node"""
+        return ResolvedCreateMaterializedViewStmt(self._proto.resolved_create_materialized_view_stmt_node) if self._proto.resolved_create_materialized_view_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_approx_view_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateApproxViewStmtProto']:
+        """Field resolved_create_approx_view_stmt_node"""
+        return ResolvedCreateApproxViewStmt(self._proto.resolved_create_approx_view_stmt_node) if self._proto.resolved_create_approx_view_stmt_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedExpr:
+    """Generated wrapper for AnyResolvedExprProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedExprProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_literal_node(self) -> Optional['resolved_ast_pb2.ResolvedLiteralProto']:
+        """Field resolved_literal_node"""
+        return ResolvedLiteral(self._proto.resolved_literal_node) if self._proto.resolved_literal_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_parameter_node(self) -> Optional['resolved_ast_pb2.ResolvedParameterProto']:
+        """Field resolved_parameter_node"""
+        return ResolvedParameter(self._proto.resolved_parameter_node) if self._proto.resolved_parameter_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_expression_column_node(self) -> Optional['resolved_ast_pb2.ResolvedExpressionColumnProto']:
+        """Field resolved_expression_column_node"""
+        return ResolvedExpressionColumn(self._proto.resolved_expression_column_node) if self._proto.resolved_expression_column_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_column_ref_node(self) -> Optional['resolved_ast_pb2.ResolvedColumnRefProto']:
+        """Field resolved_column_ref_node"""
+        return ResolvedColumnRef(self._proto.resolved_column_ref_node) if self._proto.resolved_column_ref_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_function_call_base_node(self) -> Optional['resolved_ast_pb2.AnyResolvedFunctionCallBaseProto']:
+        """Field resolved_function_call_base_node"""
+        return AnyResolvedFunctionCallBase(self._proto.resolved_function_call_base_node) if self._proto.resolved_function_call_base_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_cast_node(self) -> Optional['resolved_ast_pb2.ResolvedCastProto']:
+        """Field resolved_cast_node"""
+        return ResolvedCast(self._proto.resolved_cast_node) if self._proto.resolved_cast_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_make_struct_node(self) -> Optional['resolved_ast_pb2.ResolvedMakeStructProto']:
+        """Field resolved_make_struct_node"""
+        return ResolvedMakeStruct(self._proto.resolved_make_struct_node) if self._proto.resolved_make_struct_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_make_proto_node(self) -> Optional['resolved_ast_pb2.ResolvedMakeProtoProto']:
+        """Field resolved_make_proto_node"""
+        return ResolvedMake(self._proto.resolved_make_proto_node) if self._proto.resolved_make_proto_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_get_struct_field_node(self) -> Optional['resolved_ast_pb2.ResolvedGetStructFieldProto']:
+        """Field resolved_get_struct_field_node"""
+        return ResolvedGetStructField(self._proto.resolved_get_struct_field_node) if self._proto.resolved_get_struct_field_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_get_proto_field_node(self) -> Optional['resolved_ast_pb2.ResolvedGetProtoFieldProto']:
+        """Field resolved_get_proto_field_node"""
+        return ResolvedGetField(self._proto.resolved_get_proto_field_node) if self._proto.resolved_get_proto_field_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_subquery_expr_node(self) -> Optional['resolved_ast_pb2.ResolvedSubqueryExprProto']:
+        """Field resolved_subquery_expr_node"""
+        return ResolvedSubqueryExpr(self._proto.resolved_subquery_expr_node) if self._proto.resolved_subquery_expr_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_dmldefault_node(self) -> Optional['resolved_ast_pb2.ResolvedDMLDefaultProto']:
+        """Field resolved_dmldefault_node"""
+        return ResolvedDMLDefault(self._proto.resolved_dmldefault_node) if self._proto.resolved_dmldefault_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_argument_ref_node(self) -> Optional['resolved_ast_pb2.ResolvedArgumentRefProto']:
+        """Field resolved_argument_ref_node"""
+        return ResolvedArgumentRef(self._proto.resolved_argument_ref_node) if self._proto.resolved_argument_ref_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_constant_node(self) -> Optional['resolved_ast_pb2.ResolvedConstantProto']:
+        """Field resolved_constant_node"""
+        return ResolvedConstant(self._proto.resolved_constant_node) if self._proto.resolved_constant_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_replace_field_node(self) -> Optional['resolved_ast_pb2.ResolvedReplaceFieldProto']:
+        """Field resolved_replace_field_node"""
+        return ResolvedReplaceField(self._proto.resolved_replace_field_node) if self._proto.resolved_replace_field_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_get_proto_oneof_node(self) -> Optional['resolved_ast_pb2.ResolvedGetProtoOneofProto']:
+        """Field resolved_get_proto_oneof_node"""
+        return ResolvedGetOneof(self._proto.resolved_get_proto_oneof_node) if self._proto.resolved_get_proto_oneof_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_system_variable_node(self) -> Optional['resolved_ast_pb2.ResolvedSystemVariableProto']:
+        """Field resolved_system_variable_node"""
+        return ResolvedSystemVariable(self._proto.resolved_system_variable_node) if self._proto.resolved_system_variable_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_flatten_node(self) -> Optional['resolved_ast_pb2.ResolvedFlattenProto']:
+        """Field resolved_flatten_node"""
+        return ResolvedFlatten(self._proto.resolved_flatten_node) if self._proto.resolved_flatten_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_flattened_arg_node(self) -> Optional['resolved_ast_pb2.ResolvedFlattenedArgProto']:
+        """Field resolved_flattened_arg_node"""
+        return ResolvedFlattenedArg(self._proto.resolved_flattened_arg_node) if self._proto.resolved_flattened_arg_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_get_json_field_node(self) -> Optional['resolved_ast_pb2.ResolvedGetJsonFieldProto']:
+        """Field resolved_get_json_field_node"""
+        return ResolvedGetJsonField(self._proto.resolved_get_json_field_node) if self._proto.resolved_get_json_field_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_filter_field_node(self) -> Optional['resolved_ast_pb2.ResolvedFilterFieldProto']:
+        """Field resolved_filter_field_node"""
+        return ResolvedFilterField(self._proto.resolved_filter_field_node) if self._proto.resolved_filter_field_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_with_expr_node(self) -> Optional['resolved_ast_pb2.ResolvedWithExprProto']:
+        """Field resolved_with_expr_node"""
+        return ResolvedWithExpr(self._proto.resolved_with_expr_node) if self._proto.resolved_with_expr_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_catalog_column_ref_node(self) -> Optional['resolved_ast_pb2.ResolvedCatalogColumnRefProto']:
+        """Field resolved_catalog_column_ref_node"""
+        return ResolvedCatalogColumnRef(self._proto.resolved_catalog_column_ref_node) if self._proto.resolved_catalog_column_ref_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_get_element_property_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphGetElementPropertyProto']:
+        """Field resolved_graph_get_element_property_node"""
+        return ResolvedGraphGetElementProperty(self._proto.resolved_graph_get_element_property_node) if self._proto.resolved_graph_get_element_property_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_make_element_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphMakeElementProto']:
+        """Field resolved_graph_make_element_node"""
+        return ResolvedGraphMakeElement(self._proto.resolved_graph_make_element_node) if self._proto.resolved_graph_make_element_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_array_aggregate_node(self) -> Optional['resolved_ast_pb2.ResolvedArrayAggregateProto']:
+        """Field resolved_array_aggregate_node"""
+        return ResolvedArrayAggregate(self._proto.resolved_array_aggregate_node) if self._proto.resolved_array_aggregate_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_is_labeled_predicate_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphIsLabeledPredicateProto']:
+        """Field resolved_graph_is_labeled_predicate_node"""
+        return ResolvedGraphIsLabeledPredicate(self._proto.resolved_graph_is_labeled_predicate_node) if self._proto.resolved_graph_is_labeled_predicate_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_update_constructor_node(self) -> Optional['resolved_ast_pb2.ResolvedUpdateConstructorProto']:
+        """Field resolved_update_constructor_node"""
+        return ResolvedUpdateConstructor(self._proto.resolved_update_constructor_node) if self._proto.resolved_update_constructor_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_get_row_field_node(self) -> Optional['resolved_ast_pb2.ResolvedGetRowFieldProto']:
+        """Field resolved_get_row_field_node"""
+        return ResolvedGetRowField(self._proto.resolved_get_row_field_node) if self._proto.resolved_get_row_field_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedFunctionCallBase:
+    """Generated wrapper for AnyResolvedFunctionCallBaseProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedFunctionCallBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_function_call_node(self) -> Optional['resolved_ast_pb2.ResolvedFunctionCallProto']:
+        """Field resolved_function_call_node"""
+        return ResolvedFunctionCall(self._proto.resolved_function_call_node) if self._proto.resolved_function_call_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_non_scalar_function_call_base_node(self) -> Optional['resolved_ast_pb2.AnyResolvedNonScalarFunctionCallBaseProto']:
+        """Field resolved_non_scalar_function_call_base_node"""
+        return AnyResolvedNonScalarFunctionCallBase(self._proto.resolved_non_scalar_function_call_base_node) if self._proto.resolved_non_scalar_function_call_base_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedGrantOrRevokeStmt:
+    """Generated wrapper for AnyResolvedGrantOrRevokeStmtProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedGrantOrRevokeStmtProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_grant_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedGrantStmtProto']:
+        """Field resolved_grant_stmt_node"""
+        return ResolvedGrantStmt(self._proto.resolved_grant_stmt_node) if self._proto.resolved_grant_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_revoke_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedRevokeStmtProto']:
+        """Field resolved_revoke_stmt_node"""
+        return ResolvedRevokeStmt(self._proto.resolved_revoke_stmt_node) if self._proto.resolved_revoke_stmt_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedGraphElementScan:
+    """Generated wrapper for AnyResolvedGraphElementScanProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedGraphElementScanProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_graph_node_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphNodeScanProto']:
+        """Field resolved_graph_node_scan_node"""
+        return ResolvedGraphNodeScan(self._proto.resolved_graph_node_scan_node) if self._proto.resolved_graph_node_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_edge_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphEdgeScanProto']:
+        """Field resolved_graph_edge_scan_node"""
+        return ResolvedGraphEdgeScan(self._proto.resolved_graph_edge_scan_node) if self._proto.resolved_graph_edge_scan_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedGraphLabelExpr:
+    """Generated wrapper for AnyResolvedGraphLabelExprProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedGraphLabelExprProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_graph_label_nary_expr_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphLabelNaryExprProto']:
+        """Field resolved_graph_label_nary_expr_node"""
+        return ResolvedGraphLabelNaryExpr(self._proto.resolved_graph_label_nary_expr_node) if self._proto.resolved_graph_label_nary_expr_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_label_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphLabelProto']:
+        """Field resolved_graph_label_node"""
+        return ResolvedGraphLabel(self._proto.resolved_graph_label_node) if self._proto.resolved_graph_label_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_wild_card_label_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphWildCardLabelProto']:
+        """Field resolved_graph_wild_card_label_node"""
+        return ResolvedGraphWildCardLabel(self._proto.resolved_graph_wild_card_label_node) if self._proto.resolved_graph_wild_card_label_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedGraphPathScanBase:
+    """Generated wrapper for AnyResolvedGraphPathScanBaseProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedGraphPathScanBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_graph_element_scan_node(self) -> Optional['resolved_ast_pb2.AnyResolvedGraphElementScanProto']:
+        """Field resolved_graph_element_scan_node"""
+        return AnyResolvedGraphElementScan(self._proto.resolved_graph_element_scan_node) if self._proto.resolved_graph_element_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_path_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphPathScanProto']:
+        """Field resolved_graph_path_scan_node"""
+        return ResolvedGraphPathScan(self._proto.resolved_graph_path_scan_node) if self._proto.resolved_graph_path_scan_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedGraphScanBase:
+    """Generated wrapper for AnyResolvedGraphScanBaseProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedGraphScanBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_graph_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphScanProto']:
+        """Field resolved_graph_scan_node"""
+        return ResolvedGraphScan(self._proto.resolved_graph_scan_node) if self._proto.resolved_graph_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_linear_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphLinearScanProto']:
+        """Field resolved_graph_linear_scan_node"""
+        return ResolvedGraphLinearScan(self._proto.resolved_graph_linear_scan_node) if self._proto.resolved_graph_linear_scan_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedGroupingSetBase:
+    """Generated wrapper for AnyResolvedGroupingSetBaseProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedGroupingSetBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_grouping_set_node(self) -> Optional['resolved_ast_pb2.ResolvedGroupingSetProto']:
+        """Field resolved_grouping_set_node"""
+        return ResolvedGroupingSet(self._proto.resolved_grouping_set_node) if self._proto.resolved_grouping_set_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_rollup_node(self) -> Optional['resolved_ast_pb2.ResolvedRollupProto']:
+        """Field resolved_rollup_node"""
+        return ResolvedRollup(self._proto.resolved_rollup_node) if self._proto.resolved_rollup_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_cube_node(self) -> Optional['resolved_ast_pb2.ResolvedCubeProto']:
+        """Field resolved_cube_node"""
+        return ResolvedCube(self._proto.resolved_cube_node) if self._proto.resolved_cube_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_grouping_set_list_node(self) -> Optional['resolved_ast_pb2.ResolvedGroupingSetListProto']:
+        """Field resolved_grouping_set_list_node"""
+        return ResolvedGroupingSetList(self._proto.resolved_grouping_set_list_node) if self._proto.resolved_grouping_set_list_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_grouping_set_product_node(self) -> Optional['resolved_ast_pb2.ResolvedGroupingSetProductProto']:
+        """Field resolved_grouping_set_product_node"""
+        return ResolvedGroupingSetProduct(self._proto.resolved_grouping_set_product_node) if self._proto.resolved_grouping_set_product_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedMatchRecognizePatternExpr:
+    """Generated wrapper for AnyResolvedMatchRecognizePatternExprProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedMatchRecognizePatternExprProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_match_recognize_pattern_empty_node(self) -> Optional['resolved_ast_pb2.ResolvedMatchRecognizePatternEmptyProto']:
+        """Field resolved_match_recognize_pattern_empty_node"""
+        return ResolvedMatchRecognizePatternEmpty(self._proto.resolved_match_recognize_pattern_empty_node) if self._proto.resolved_match_recognize_pattern_empty_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_match_recognize_pattern_variable_ref_node(self) -> Optional['resolved_ast_pb2.ResolvedMatchRecognizePatternVariableRefProto']:
+        """Field resolved_match_recognize_pattern_variable_ref_node"""
+        return ResolvedMatchRecognizePatternVariableRef(self._proto.resolved_match_recognize_pattern_variable_ref_node) if self._proto.resolved_match_recognize_pattern_variable_ref_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_match_recognize_pattern_operation_node(self) -> Optional['resolved_ast_pb2.ResolvedMatchRecognizePatternOperationProto']:
+        """Field resolved_match_recognize_pattern_operation_node"""
+        return ResolvedMatchRecognizePatternOperation(self._proto.resolved_match_recognize_pattern_operation_node) if self._proto.resolved_match_recognize_pattern_operation_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_match_recognize_pattern_quantification_node(self) -> Optional['resolved_ast_pb2.ResolvedMatchRecognizePatternQuantificationProto']:
+        """Field resolved_match_recognize_pattern_quantification_node"""
+        return ResolvedMatchRecognizePatternQuantification(self._proto.resolved_match_recognize_pattern_quantification_node) if self._proto.resolved_match_recognize_pattern_quantification_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_match_recognize_pattern_anchor_node(self) -> Optional['resolved_ast_pb2.ResolvedMatchRecognizePatternAnchorProto']:
+        """Field resolved_match_recognize_pattern_anchor_node"""
+        return ResolvedMatchRecognizePatternAnchor(self._proto.resolved_match_recognize_pattern_anchor_node) if self._proto.resolved_match_recognize_pattern_anchor_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedNode:
+    """Generated wrapper for AnyResolvedNodeProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedNodeProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_argument_node(self) -> Optional['resolved_ast_pb2.AnyResolvedArgumentProto']:
+        """Field resolved_argument_node"""
+        return AnyResolvedArgument(self._proto.resolved_argument_node) if self._proto.resolved_argument_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_expr_node(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
+        """Field resolved_expr_node"""
+        return AnyResolvedExpr(self._proto.resolved_expr_node) if self._proto.resolved_expr_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_scan_node(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
+        """Field resolved_scan_node"""
+        return AnyResolvedScan(self._proto.resolved_scan_node) if self._proto.resolved_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_statement_node(self) -> Optional['resolved_ast_pb2.AnyResolvedStatementProto']:
+        """Field resolved_statement_node"""
+        return AnyResolvedStatement(self._proto.resolved_statement_node) if self._proto.resolved_statement_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedNonScalarFunctionCallBase:
+    """Generated wrapper for AnyResolvedNonScalarFunctionCallBaseProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedNonScalarFunctionCallBaseProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_aggregate_function_call_node(self) -> Optional['resolved_ast_pb2.ResolvedAggregateFunctionCallProto']:
+        """Field resolved_aggregate_function_call_node"""
+        return ResolvedAggregateFunctionCall(self._proto.resolved_aggregate_function_call_node) if self._proto.resolved_aggregate_function_call_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_analytic_function_call_node(self) -> Optional['resolved_ast_pb2.ResolvedAnalyticFunctionCallProto']:
+        """Field resolved_analytic_function_call_node"""
+        return ResolvedAnalyticFunctionCall(self._proto.resolved_analytic_function_call_node) if self._proto.resolved_analytic_function_call_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedScan:
+    """Generated wrapper for AnyResolvedScanProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedScanProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_single_row_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedSingleRowScanProto']:
+        """Field resolved_single_row_scan_node"""
+        return ResolvedSingleRowScan(self._proto.resolved_single_row_scan_node) if self._proto.resolved_single_row_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_table_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedTableScanProto']:
+        """Field resolved_table_scan_node"""
+        return ResolvedTableScan(self._proto.resolved_table_scan_node) if self._proto.resolved_table_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_join_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedJoinScanProto']:
+        """Field resolved_join_scan_node"""
+        return ResolvedJoinScan(self._proto.resolved_join_scan_node) if self._proto.resolved_join_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_array_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedArrayScanProto']:
+        """Field resolved_array_scan_node"""
+        return ResolvedArrayScan(self._proto.resolved_array_scan_node) if self._proto.resolved_array_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_filter_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedFilterScanProto']:
+        """Field resolved_filter_scan_node"""
+        return ResolvedFilterScan(self._proto.resolved_filter_scan_node) if self._proto.resolved_filter_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_set_operation_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedSetOperationScanProto']:
+        """Field resolved_set_operation_scan_node"""
+        return ResolvedSetOperationScan(self._proto.resolved_set_operation_scan_node) if self._proto.resolved_set_operation_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_order_by_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedOrderByScanProto']:
+        """Field resolved_order_by_scan_node"""
+        return ResolvedOrderByScan(self._proto.resolved_order_by_scan_node) if self._proto.resolved_order_by_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_limit_offset_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedLimitOffsetScanProto']:
+        """Field resolved_limit_offset_scan_node"""
+        return ResolvedLimitOffsetScan(self._proto.resolved_limit_offset_scan_node) if self._proto.resolved_limit_offset_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_with_ref_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedWithRefScanProto']:
+        """Field resolved_with_ref_scan_node"""
+        return ResolvedWithRefScan(self._proto.resolved_with_ref_scan_node) if self._proto.resolved_with_ref_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_analytic_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedAnalyticScanProto']:
+        """Field resolved_analytic_scan_node"""
+        return ResolvedAnalyticScan(self._proto.resolved_analytic_scan_node) if self._proto.resolved_analytic_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_sample_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedSampleScanProto']:
+        """Field resolved_sample_scan_node"""
+        return ResolvedSampleScan(self._proto.resolved_sample_scan_node) if self._proto.resolved_sample_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_project_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedProjectScanProto']:
+        """Field resolved_project_scan_node"""
+        return ResolvedProjectScan(self._proto.resolved_project_scan_node) if self._proto.resolved_project_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_with_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedWithScanProto']:
+        """Field resolved_with_scan_node"""
+        return ResolvedWithScan(self._proto.resolved_with_scan_node) if self._proto.resolved_with_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_tvfscan_node(self) -> Optional['resolved_ast_pb2.ResolvedTVFScanProto']:
+        """Field resolved_tvfscan_node"""
+        return ResolvedTVFScan(self._proto.resolved_tvfscan_node) if self._proto.resolved_tvfscan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_relation_argument_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedRelationArgumentScanProto']:
+        """Field resolved_relation_argument_scan_node"""
+        return ResolvedRelationArgumentScan(self._proto.resolved_relation_argument_scan_node) if self._proto.resolved_relation_argument_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_aggregate_scan_base_node(self) -> Optional['resolved_ast_pb2.AnyResolvedAggregateScanBaseProto']:
+        """Field resolved_aggregate_scan_base_node"""
+        return AnyResolvedAggregateScanBase(self._proto.resolved_aggregate_scan_base_node) if self._proto.resolved_aggregate_scan_base_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_recursive_ref_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedRecursiveRefScanProto']:
+        """Field resolved_recursive_ref_scan_node"""
+        return ResolvedRecursiveRefScan(self._proto.resolved_recursive_ref_scan_node) if self._proto.resolved_recursive_ref_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_recursive_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedRecursiveScanProto']:
+        """Field resolved_recursive_scan_node"""
+        return ResolvedRecursiveScan(self._proto.resolved_recursive_scan_node) if self._proto.resolved_recursive_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_pivot_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedPivotScanProto']:
+        """Field resolved_pivot_scan_node"""
+        return ResolvedPivotScan(self._proto.resolved_pivot_scan_node) if self._proto.resolved_pivot_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_unpivot_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedUnpivotScanProto']:
+        """Field resolved_unpivot_scan_node"""
+        return ResolvedUnpivotScan(self._proto.resolved_unpivot_scan_node) if self._proto.resolved_unpivot_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_group_rows_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedGroupRowsScanProto']:
+        """Field resolved_group_rows_scan_node"""
+        return ResolvedGroupRowsScan(self._proto.resolved_group_rows_scan_node) if self._proto.resolved_group_rows_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_execute_as_role_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedExecuteAsRoleScanProto']:
+        """Field resolved_execute_as_role_scan_node"""
+        return ResolvedExecuteAsRoleScan(self._proto.resolved_execute_as_role_scan_node) if self._proto.resolved_execute_as_role_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_table_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphTableScanProto']:
+        """Field resolved_graph_table_scan_node"""
+        return ResolvedGraphTableScan(self._proto.resolved_graph_table_scan_node) if self._proto.resolved_graph_table_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_path_scan_base_node(self) -> Optional['resolved_ast_pb2.AnyResolvedGraphPathScanBaseProto']:
+        """Field resolved_graph_path_scan_base_node"""
+        return AnyResolvedGraphPathScanBase(self._proto.resolved_graph_path_scan_base_node) if self._proto.resolved_graph_path_scan_base_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_scan_base_node(self) -> Optional['resolved_ast_pb2.AnyResolvedGraphScanBaseProto']:
+        """Field resolved_graph_scan_base_node"""
+        return AnyResolvedGraphScanBase(self._proto.resolved_graph_scan_base_node) if self._proto.resolved_graph_scan_base_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_ref_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphRefScanProto']:
+        """Field resolved_graph_ref_scan_node"""
+        return ResolvedGraphRefScan(self._proto.resolved_graph_ref_scan_node) if self._proto.resolved_graph_ref_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_static_describe_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedStaticDescribeScanProto']:
+        """Field resolved_static_describe_scan_node"""
+        return ResolvedStaticDescribeScan(self._proto.resolved_static_describe_scan_node) if self._proto.resolved_static_describe_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_assert_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedAssertScanProto']:
+        """Field resolved_assert_scan_node"""
+        return ResolvedAssertScan(self._proto.resolved_assert_scan_node) if self._proto.resolved_assert_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_barrier_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedBarrierScanProto']:
+        """Field resolved_barrier_scan_node"""
+        return ResolvedBarrierScan(self._proto.resolved_barrier_scan_node) if self._proto.resolved_barrier_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_match_recognize_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedMatchRecognizeScanProto']:
+        """Field resolved_match_recognize_scan_node"""
+        return ResolvedMatchRecognizeScan(self._proto.resolved_match_recognize_scan_node) if self._proto.resolved_match_recognize_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_log_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedLogScanProto']:
+        """Field resolved_log_scan_node"""
+        return ResolvedLogScan(self._proto.resolved_log_scan_node) if self._proto.resolved_log_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_subpipeline_input_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedSubpipelineInputScanProto']:
+        """Field resolved_subpipeline_input_scan_node"""
+        return ResolvedSubpipelineInputScan(self._proto.resolved_subpipeline_input_scan_node) if self._proto.resolved_subpipeline_input_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_pipe_if_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedPipeIfScanProto']:
+        """Field resolved_pipe_if_scan_node"""
+        return ResolvedPipeIfScan(self._proto.resolved_pipe_if_scan_node) if self._proto.resolved_pipe_if_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_pipe_fork_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedPipeForkScanProto']:
+        """Field resolved_pipe_fork_scan_node"""
+        return ResolvedPipeForkScan(self._proto.resolved_pipe_fork_scan_node) if self._proto.resolved_pipe_fork_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_pipe_export_data_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedPipeExportDataScanProto']:
+        """Field resolved_pipe_export_data_scan_node"""
+        return ResolvedPipeExportDataScan(self._proto.resolved_pipe_export_data_scan_node) if self._proto.resolved_pipe_export_data_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_pipe_create_table_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedPipeCreateTableScanProto']:
+        """Field resolved_pipe_create_table_scan_node"""
+        return ResolvedPipeCreateTableScan(self._proto.resolved_pipe_create_table_scan_node) if self._proto.resolved_pipe_create_table_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_pipe_tee_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedPipeTeeScanProto']:
+        """Field resolved_pipe_tee_scan_node"""
+        return ResolvedPipeTeeScan(self._proto.resolved_pipe_tee_scan_node) if self._proto.resolved_pipe_tee_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_pipe_insert_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedPipeInsertScanProto']:
+        """Field resolved_pipe_insert_scan_node"""
+        return ResolvedPipeInsertScan(self._proto.resolved_pipe_insert_scan_node) if self._proto.resolved_pipe_insert_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_graph_call_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedGraphCallScanProto']:
+        """Field resolved_graph_call_scan_node"""
+        return ResolvedGraphCallScan(self._proto.resolved_graph_call_scan_node) if self._proto.resolved_graph_call_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_describe_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedDescribeScanProto']:
+        """Field resolved_describe_scan_node"""
+        return ResolvedDescribeScan(self._proto.resolved_describe_scan_node) if self._proto.resolved_describe_scan_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_unset_argument_scan_node(self) -> Optional['resolved_ast_pb2.ResolvedUnsetArgumentScanProto']:
+        """Field resolved_unset_argument_scan_node"""
+        return ResolvedUnsetArgumentScan(self._proto.resolved_unset_argument_scan_node) if self._proto.resolved_unset_argument_scan_node.ByteSize() > 0 else None
+
+
+
+class AnyResolvedStatement:
+    """Generated wrapper for AnyResolvedStatementProto"""
+
+    def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedStatementProto'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_explain_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedExplainStmtProto']:
+        """Field resolved_explain_stmt_node"""
+        return ResolvedExplainStmt(self._proto.resolved_explain_stmt_node) if self._proto.resolved_explain_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_query_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedQueryStmtProto']:
+        """Field resolved_query_stmt_node"""
+        return ResolvedQueryStmt(self._proto.resolved_query_stmt_node) if self._proto.resolved_query_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_statement_node(self) -> Optional['resolved_ast_pb2.AnyResolvedCreateStatementProto']:
+        """Field resolved_create_statement_node"""
+        return AnyResolvedCreateStatement(self._proto.resolved_create_statement_node) if self._proto.resolved_create_statement_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_export_data_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedExportDataStmtProto']:
+        """Field resolved_export_data_stmt_node"""
+        return ResolvedExportDataStmt(self._proto.resolved_export_data_stmt_node) if self._proto.resolved_export_data_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_define_table_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedDefineTableStmtProto']:
+        """Field resolved_define_table_stmt_node"""
+        return ResolvedDefineTableStmt(self._proto.resolved_define_table_stmt_node) if self._proto.resolved_define_table_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_describe_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedDescribeStmtProto']:
+        """Field resolved_describe_stmt_node"""
+        return ResolvedDescribeStmt(self._proto.resolved_describe_stmt_node) if self._proto.resolved_describe_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_show_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedShowStmtProto']:
+        """Field resolved_show_stmt_node"""
+        return ResolvedShowStmt(self._proto.resolved_show_stmt_node) if self._proto.resolved_show_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_begin_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedBeginStmtProto']:
+        """Field resolved_begin_stmt_node"""
+        return ResolvedBeginStmt(self._proto.resolved_begin_stmt_node) if self._proto.resolved_begin_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_commit_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCommitStmtProto']:
+        """Field resolved_commit_stmt_node"""
+        return ResolvedCommitStmt(self._proto.resolved_commit_stmt_node) if self._proto.resolved_commit_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_rollback_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedRollbackStmtProto']:
+        """Field resolved_rollback_stmt_node"""
+        return ResolvedRollbackStmt(self._proto.resolved_rollback_stmt_node) if self._proto.resolved_rollback_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_drop_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedDropStmtProto']:
+        """Field resolved_drop_stmt_node"""
+        return ResolvedDropStmt(self._proto.resolved_drop_stmt_node) if self._proto.resolved_drop_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_insert_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedInsertStmtProto']:
+        """Field resolved_insert_stmt_node"""
+        return ResolvedInsertStmt(self._proto.resolved_insert_stmt_node) if self._proto.resolved_insert_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_delete_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedDeleteStmtProto']:
+        """Field resolved_delete_stmt_node"""
+        return ResolvedDeleteStmt(self._proto.resolved_delete_stmt_node) if self._proto.resolved_delete_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_update_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedUpdateStmtProto']:
+        """Field resolved_update_stmt_node"""
+        return ResolvedUpdateStmt(self._proto.resolved_update_stmt_node) if self._proto.resolved_update_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_grant_or_revoke_stmt_node(self) -> Optional['resolved_ast_pb2.AnyResolvedGrantOrRevokeStmtProto']:
+        """Field resolved_grant_or_revoke_stmt_node"""
+        return AnyResolvedGrantOrRevokeStmt(self._proto.resolved_grant_or_revoke_stmt_node) if self._proto.resolved_grant_or_revoke_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_table_set_options_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAlterTableSetOptionsStmtProto']:
+        """Field resolved_alter_table_set_options_stmt_node"""
+        return ResolvedAlterTableSetOptionsStmt(self._proto.resolved_alter_table_set_options_stmt_node) if self._proto.resolved_alter_table_set_options_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_rename_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedRenameStmtProto']:
+        """Field resolved_rename_stmt_node"""
+        return ResolvedRenameStmt(self._proto.resolved_rename_stmt_node) if self._proto.resolved_rename_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_row_access_policy_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateRowAccessPolicyStmtProto']:
+        """Field resolved_create_row_access_policy_stmt_node"""
+        return ResolvedCreateRowAccessPolicyStmt(self._proto.resolved_create_row_access_policy_stmt_node) if self._proto.resolved_create_row_access_policy_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_drop_row_access_policy_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedDropRowAccessPolicyStmtProto']:
+        """Field resolved_drop_row_access_policy_stmt_node"""
+        return ResolvedDropRowAccessPolicyStmt(self._proto.resolved_drop_row_access_policy_stmt_node) if self._proto.resolved_drop_row_access_policy_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_drop_function_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedDropFunctionStmtProto']:
+        """Field resolved_drop_function_stmt_node"""
+        return ResolvedDropFunctionStmt(self._proto.resolved_drop_function_stmt_node) if self._proto.resolved_drop_function_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_call_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCallStmtProto']:
+        """Field resolved_call_stmt_node"""
+        return ResolvedCallStmt(self._proto.resolved_call_stmt_node) if self._proto.resolved_call_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_import_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedImportStmtProto']:
+        """Field resolved_import_stmt_node"""
+        return ResolvedImportStmt(self._proto.resolved_import_stmt_node) if self._proto.resolved_import_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_module_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedModuleStmtProto']:
+        """Field resolved_module_stmt_node"""
+        return ResolvedModuleStmt(self._proto.resolved_module_stmt_node) if self._proto.resolved_module_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_database_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateDatabaseStmtProto']:
+        """Field resolved_create_database_stmt_node"""
+        return ResolvedCreateDatabaseStmt(self._proto.resolved_create_database_stmt_node) if self._proto.resolved_create_database_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_assert_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAssertStmtProto']:
+        """Field resolved_assert_stmt_node"""
+        return ResolvedAssertStmt(self._proto.resolved_assert_stmt_node) if self._proto.resolved_assert_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_merge_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedMergeStmtProto']:
+        """Field resolved_merge_stmt_node"""
+        return ResolvedMergeStmt(self._proto.resolved_merge_stmt_node) if self._proto.resolved_merge_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_alter_object_stmt_node(self) -> Optional['resolved_ast_pb2.AnyResolvedAlterObjectStmtProto']:
+        """Field resolved_alter_object_stmt_node"""
+        return AnyResolvedAlterObjectStmt(self._proto.resolved_alter_object_stmt_node) if self._proto.resolved_alter_object_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_set_transaction_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedSetTransactionStmtProto']:
+        """Field resolved_set_transaction_stmt_node"""
+        return ResolvedSetTransactionStmt(self._proto.resolved_set_transaction_stmt_node) if self._proto.resolved_set_transaction_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_drop_materialized_view_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedDropMaterializedViewStmtProto']:
+        """Field resolved_drop_materialized_view_stmt_node"""
+        return ResolvedDropMaterializedViewStmt(self._proto.resolved_drop_materialized_view_stmt_node) if self._proto.resolved_drop_materialized_view_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_start_batch_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedStartBatchStmtProto']:
+        """Field resolved_start_batch_stmt_node"""
+        return ResolvedStartBatchStmt(self._proto.resolved_start_batch_stmt_node) if self._proto.resolved_start_batch_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_run_batch_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedRunBatchStmtProto']:
+        """Field resolved_run_batch_stmt_node"""
+        return ResolvedRunBatchStmt(self._proto.resolved_run_batch_stmt_node) if self._proto.resolved_run_batch_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_abort_batch_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAbortBatchStmtProto']:
+        """Field resolved_abort_batch_stmt_node"""
+        return ResolvedAbortBatchStmt(self._proto.resolved_abort_batch_stmt_node) if self._proto.resolved_abort_batch_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_truncate_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedTruncateStmtProto']:
+        """Field resolved_truncate_stmt_node"""
+        return ResolvedTruncateStmt(self._proto.resolved_truncate_stmt_node) if self._proto.resolved_truncate_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_execute_immediate_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedExecuteImmediateStmtProto']:
+        """Field resolved_execute_immediate_stmt_node"""
+        return ResolvedExecuteImmediateStmt(self._proto.resolved_execute_immediate_stmt_node) if self._proto.resolved_execute_immediate_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_assignment_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAssignmentStmtProto']:
+        """Field resolved_assignment_stmt_node"""
+        return ResolvedAssignmentStmt(self._proto.resolved_assignment_stmt_node) if self._proto.resolved_assignment_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_export_model_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedExportModelStmtProto']:
+        """Field resolved_export_model_stmt_node"""
+        return ResolvedExportModelStmt(self._proto.resolved_export_model_stmt_node) if self._proto.resolved_export_model_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_drop_table_function_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedDropTableFunctionStmtProto']:
+        """Field resolved_drop_table_function_stmt_node"""
+        return ResolvedDropTableFunctionStmt(self._proto.resolved_drop_table_function_stmt_node) if self._proto.resolved_drop_table_function_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_clone_data_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCloneDataStmtProto']:
+        """Field resolved_clone_data_stmt_node"""
+        return ResolvedCloneDataStmt(self._proto.resolved_clone_data_stmt_node) if self._proto.resolved_clone_data_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_analyze_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAnalyzeStmtProto']:
+        """Field resolved_analyze_stmt_node"""
+        return ResolvedAnalyzeStmt(self._proto.resolved_analyze_stmt_node) if self._proto.resolved_analyze_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_drop_snapshot_table_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedDropSnapshotTableStmtProto']:
+        """Field resolved_drop_snapshot_table_stmt_node"""
+        return ResolvedDropSnapshotTableStmt(self._proto.resolved_drop_snapshot_table_stmt_node) if self._proto.resolved_drop_snapshot_table_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_aux_load_data_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedAuxLoadDataStmtProto']:
+        """Field resolved_aux_load_data_stmt_node"""
+        return ResolvedAuxLoadDataStmt(self._proto.resolved_aux_load_data_stmt_node) if self._proto.resolved_aux_load_data_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_drop_privilege_restriction_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedDropPrivilegeRestrictionStmtProto']:
+        """Field resolved_drop_privilege_restriction_stmt_node"""
+        return ResolvedDropPrivilegeRestrictionStmt(self._proto.resolved_drop_privilege_restriction_stmt_node) if self._proto.resolved_drop_privilege_restriction_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_undrop_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedUndropStmtProto']:
+        """Field resolved_undrop_stmt_node"""
+        return ResolvedUndropStmt(self._proto.resolved_undrop_stmt_node) if self._proto.resolved_undrop_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_export_metadata_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedExportMetadataStmtProto']:
+        """Field resolved_export_metadata_stmt_node"""
+        return ResolvedExportMetadataStmt(self._proto.resolved_export_metadata_stmt_node) if self._proto.resolved_export_metadata_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_drop_index_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedDropIndexStmtProto']:
+        """Field resolved_drop_index_stmt_node"""
+        return ResolvedDropIndexStmt(self._proto.resolved_drop_index_stmt_node) if self._proto.resolved_drop_index_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_generalized_query_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedGeneralizedQueryStmtProto']:
+        """Field resolved_generalized_query_stmt_node"""
+        return ResolvedGeneralizedQueryStmt(self._proto.resolved_generalized_query_stmt_node) if self._proto.resolved_generalized_query_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_multi_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedMultiStmtProto']:
+        """Field resolved_multi_stmt_node"""
+        return ResolvedMultiStmt(self._proto.resolved_multi_stmt_node) if self._proto.resolved_multi_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_create_with_entry_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedCreateWithEntryStmtProto']:
+        """Field resolved_create_with_entry_stmt_node"""
+        return ResolvedCreateWithEntryStmt(self._proto.resolved_create_with_entry_stmt_node) if self._proto.resolved_create_with_entry_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_subpipeline_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedSubpipelineStmtProto']:
+        """Field resolved_subpipeline_stmt_node"""
+        return ResolvedSubpipelineStmt(self._proto.resolved_subpipeline_stmt_node) if self._proto.resolved_subpipeline_stmt_node.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_statement_with_pipe_operators_stmt_node(self) -> Optional['resolved_ast_pb2.ResolvedStatementWithPipeOperatorsStmtProto']:
+        """Field resolved_statement_with_pipe_operators_stmt_node"""
+        return ResolvedStatementWithPipeOperatorsStmt(self._proto.resolved_statement_with_pipe_operators_stmt_node) if self._proto.resolved_statement_with_pipe_operators_stmt_node.ByteSize() > 0 else None
+
+
+
 class ArgumentTypeLambda:
     """Generated wrapper for ArgumentTypeLambdaProto"""
 
@@ -1011,12 +5710,12 @@ class BuildSqlRequest:
         return self._proto.registered_catalog_id
 
     @cached_property
-    def resolved_statement(self) -> Optional['AnyResolvedStatement']:
+    def resolved_statement(self) -> Optional['resolved_ast_pb2.AnyResolvedStatementProto']:
         """Field resolved_statement"""
         return AnyResolvedStatement(self._proto.resolved_statement) if self._proto.resolved_statement.ByteSize() > 0 else None
 
     @cached_property
-    def resolved_expression(self) -> Optional['AnyResolvedExpr']:
+    def resolved_expression(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field resolved_expression"""
         return AnyResolvedExpr(self._proto.resolved_expression) if self._proto.resolved_expression.ByteSize() > 0 else None
 
@@ -3710,7 +8409,7 @@ class ParseResponse:
         self._proto = proto
 
     @cached_property
-    def parsed_statement(self) -> Optional['AnyASTStatement']:
+    def parsed_statement(self) -> Optional['parse_tree_pb2.AnyASTStatementProto']:
         """Field parsed_statement"""
         return AnyASTStatement(self._proto.parsed_statement) if self._proto.parsed_statement.ByteSize() > 0 else None
 
@@ -6730,7 +11429,7 @@ class ASTAlterActionList(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def actions(self) -> List['AnyASTAlterAction']:
+    def actions(self) -> List['parse_tree_pb2.AnyASTAlterActionProto']:
         """Field actions"""
         return [AnyASTAlterAction(item) for item in self._proto.actions]
 
@@ -6766,7 +11465,7 @@ class ASTAssertRowsModified(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def num_rows(self) -> Optional['AnyASTExpression']:
+    def num_rows(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field num_rows"""
         return AnyASTExpression(self._proto.num_rows) if self._proto.num_rows.ByteSize() > 0 else None
 
@@ -6802,7 +11501,7 @@ class ASTAuxLoadDataPartitionsClause(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def partition_filter(self) -> Optional['AnyASTExpression']:
+    def partition_filter(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field partition_filter"""
         return AnyASTExpression(self._proto.partition_filter) if self._proto.partition_filter.ByteSize() > 0 else None
 
@@ -6853,7 +11552,7 @@ class ASTBracedConstructorFieldValue(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -6876,7 +11575,7 @@ class ASTChainedBaseExpr(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyASTExpression']:
+    def expr(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expr"""
         return AnyASTExpression(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -6894,12 +11593,12 @@ class ASTClampedBetweenModifier(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def low(self) -> Optional['AnyASTExpression']:
+    def low(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field low"""
         return AnyASTExpression(self._proto.low) if self._proto.low.ByteSize() > 0 else None
 
     @cached_property
-    def high(self) -> Optional['AnyASTExpression']:
+    def high(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field high"""
         return AnyASTExpression(self._proto.high) if self._proto.high.ByteSize() > 0 else None
 
@@ -6935,7 +11634,7 @@ class ASTClusterBy(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def clustering_expressions(self) -> List['AnyASTExpression']:
+    def clustering_expressions(self) -> List['parse_tree_pb2.AnyASTExpressionProto']:
         """Field clustering_expressions"""
         return [AnyASTExpression(item) for item in self._proto.clustering_expressions]
 
@@ -6953,7 +11652,7 @@ class ASTCollate(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def collation_name(self) -> Optional['AnyASTExpression']:
+    def collation_name(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field collation_name"""
         return AnyASTExpression(self._proto.collation_name) if self._proto.collation_name.ByteSize() > 0 else None
 
@@ -6984,7 +11683,7 @@ class ASTColumnAttributeList(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def values(self) -> List['AnyASTColumnAttribute']:
+    def values(self) -> List['parse_tree_pb2.AnyASTColumnAttributeProto']:
         """Field values"""
         return [AnyASTColumnAttribute(item) for item in self._proto.values]
 
@@ -7053,7 +11752,7 @@ class ASTColumnSchema(ASTNode):
         return ASTGeneratedColumnInfo(self._proto.generated_column_info) if self._proto.generated_column_info.ByteSize() > 0 else None
 
     @cached_property
-    def default_expression(self) -> Optional['AnyASTExpression']:
+    def default_expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field default_expression"""
         return AnyASTExpression(self._proto.default_expression) if self._proto.default_expression.ByteSize() > 0 else None
 
@@ -7127,7 +11826,7 @@ class ASTConnectionClause(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def connection_path(self) -> Optional['AnyASTExpression']:
+    def connection_path(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field connection_path"""
         return AnyASTExpression(self._proto.connection_path) if self._proto.connection_path.ByteSize() > 0 else None
 
@@ -7145,7 +11844,7 @@ class ASTCube(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expressions(self) -> List['AnyASTExpression']:
+    def expressions(self) -> List['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expressions"""
         return [AnyASTExpression(item) for item in self._proto.expressions]
 
@@ -7217,7 +11916,7 @@ class ASTElseifClause(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def condition(self) -> Optional['AnyASTExpression']:
+    def condition(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field condition"""
         return AnyASTExpression(self._proto.condition) if self._proto.condition.ByteSize() > 0 else None
 
@@ -7312,7 +12011,7 @@ class ASTExecuteUsingArgument(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -7371,7 +12070,7 @@ class ASTExpressionWithOptAlias(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -7394,7 +12093,7 @@ class ASTFilterFieldsArg(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def path_expression(self) -> Optional['AnyASTGeneralizedPathExpression']:
+    def path_expression(self) -> Optional['parse_tree_pb2.AnyASTGeneralizedPathExpressionProto']:
         """Field path_expression"""
         return AnyASTGeneralizedPathExpression(self._proto.path_expression) if self._proto.path_expression.ByteSize() > 0 else None
 
@@ -7417,7 +12116,7 @@ class ASTForSystemTime(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -7496,12 +12195,12 @@ class ASTFormatClause(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def format(self) -> Optional['AnyASTExpression']:
+    def format(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field format"""
         return AnyASTExpression(self._proto.format) if self._proto.format.ByteSize() > 0 else None
 
     @cached_property
-    def time_zone_expr(self) -> Optional['AnyASTExpression']:
+    def time_zone_expr(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field time_zone_expr"""
         return AnyASTExpression(self._proto.time_zone_expr) if self._proto.time_zone_expr.ByteSize() > 0 else None
 
@@ -7519,7 +12218,7 @@ class ASTFromClause(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def table_expression(self) -> Optional['AnyASTTableExpression']:
+    def table_expression(self) -> Optional['parse_tree_pb2.AnyASTTableExpressionProto']:
         """Field table_expression"""
         return AnyASTTableExpression(self._proto.table_expression) if self._proto.table_expression.ByteSize() > 0 else None
 
@@ -7565,7 +12264,7 @@ class ASTFunctionParameter(ASTNode):
         return ASTIdentifier(self._proto.name) if self._proto.name.ByteSize() > 0 else None
 
     @cached_property
-    def type(self) -> Optional['AnyASTType']:
+    def type(self) -> Optional['parse_tree_pb2.AnyASTTypeProto']:
         """Field type"""
         return AnyASTType(self._proto.type) if self._proto.type.ByteSize() > 0 else None
 
@@ -7585,7 +12284,7 @@ class ASTFunctionParameter(ASTNode):
         return ASTAlias(self._proto.alias) if self._proto.alias.ByteSize() > 0 else None
 
     @cached_property
-    def default_value(self) -> Optional['AnyASTExpression']:
+    def default_value(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field default_value"""
         return AnyASTExpression(self._proto.default_value) if self._proto.default_value.ByteSize() > 0 else None
 
@@ -7631,7 +12330,7 @@ class ASTFunctionTypeArgList(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def args(self) -> List['AnyASTType']:
+    def args(self) -> List['parse_tree_pb2.AnyASTTypeProto']:
         """Field args"""
         return [AnyASTType(item) for item in self._proto.args]
 
@@ -7649,7 +12348,7 @@ class ASTGeneratedColumnInfo(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -7687,7 +12386,7 @@ class ASTGqlLetVariableDefinition(ASTNode):
         return ASTIdentifier(self._proto.identifier) if self._proto.identifier.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -7759,7 +12458,7 @@ class ASTGqlPageLimit(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def limit(self) -> Optional['AnyASTExpression']:
+    def limit(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field limit"""
         return AnyASTExpression(self._proto.limit) if self._proto.limit.ByteSize() > 0 else None
 
@@ -7777,7 +12476,7 @@ class ASTGqlPageOffset(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def offset(self) -> Optional['AnyASTExpression']:
+    def offset(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field offset"""
         return AnyASTExpression(self._proto.offset) if self._proto.offset.ByteSize() > 0 else None
 
@@ -7795,7 +12494,7 @@ class ASTGranteeList(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def grantee_list(self) -> List['AnyASTExpression']:
+    def grantee_list(self) -> List['parse_tree_pb2.AnyASTExpressionProto']:
         """Field grantee_list"""
         return [AnyASTExpression(item) for item in self._proto.grantee_list]
 
@@ -7813,7 +12512,7 @@ class ASTGraphDerivedProperty(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -7859,7 +12558,7 @@ class ASTGraphDynamicLabel(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def label(self) -> Optional['AnyASTExpression']:
+    def label(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field label"""
         return AnyASTExpression(self._proto.label) if self._proto.label.ByteSize() > 0 else None
 
@@ -7877,7 +12576,7 @@ class ASTGraphDynamicProperties(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def properties(self) -> Optional['AnyASTExpression']:
+    def properties(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field properties"""
         return AnyASTExpression(self._proto.properties) if self._proto.properties.ByteSize() > 0 else None
 
@@ -7966,7 +12665,7 @@ class ASTGraphElementPatternFiller(ASTNode):
         return ASTHint(self._proto.hint) if self._proto.hint.ByteSize() > 0 else None
 
     @cached_property
-    def edge_cost(self) -> Optional['AnyASTExpression']:
+    def edge_cost(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field edge_cost"""
         return AnyASTExpression(self._proto.edge_cost) if self._proto.edge_cost.ByteSize() > 0 else None
 
@@ -8073,7 +12772,7 @@ class ASTGraphLabelFilter(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def label_expression(self) -> Optional['AnyASTGraphLabelExpression']:
+    def label_expression(self) -> Optional['parse_tree_pb2.AnyASTGraphLabelExpressionProto']:
         """Field label_expression"""
         return AnyASTGraphLabelExpression(self._proto.label_expression) if self._proto.label_expression.ByteSize() > 0 else None
 
@@ -8142,7 +12841,7 @@ class ASTGraphPathBase(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def quantifier(self) -> Optional['AnyASTQuantifier']:
+    def quantifier(self) -> Optional['parse_tree_pb2.AnyASTQuantifierProto']:
         """Field quantifier"""
         return AnyASTQuantifier(self._proto.quantifier) if self._proto.quantifier.ByteSize() > 0 else None
 
@@ -8201,7 +12900,7 @@ class ASTGraphPathSearchPrefixCount(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def path_count(self) -> Optional['AnyASTExpression']:
+    def path_count(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field path_count"""
         return AnyASTExpression(self._proto.path_count) if self._proto.path_count.ByteSize() > 0 else None
 
@@ -8275,7 +12974,7 @@ class ASTGraphPropertyNameAndValue(ASTNode):
         return ASTIdentifier(self._proto.property_name) if self._proto.property_name.ByteSize() > 0 else None
 
     @cached_property
-    def value(self) -> Optional['AnyASTExpression']:
+    def value(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field value"""
         return AnyASTExpression(self._proto.value) if self._proto.value.ByteSize() > 0 else None
 
@@ -8375,7 +13074,7 @@ class ASTGroupingItem(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -8441,7 +13140,7 @@ class ASTGroupingSet(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -8487,7 +13186,7 @@ class ASTHaving(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -8505,7 +13204,7 @@ class ASTHavingModifier(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyASTExpression']:
+    def expr(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expr"""
         return AnyASTExpression(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -8561,7 +13260,7 @@ class ASTHintEntry(ASTNode):
         return ASTIdentifier(self._proto.name) if self._proto.name.ByteSize() > 0 else None
 
     @cached_property
-    def value(self) -> Optional['AnyASTExpression']:
+    def value(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field value"""
         return AnyASTExpression(self._proto.value) if self._proto.value.ByteSize() > 0 else None
 
@@ -8597,7 +13296,7 @@ class ASTIdentityColumnIncrementBy(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def value(self) -> Optional['AnyASTExpression']:
+    def value(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field value"""
         return AnyASTExpression(self._proto.value) if self._proto.value.ByteSize() > 0 else None
 
@@ -8653,7 +13352,7 @@ class ASTIdentityColumnMaxValue(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def value(self) -> Optional['AnyASTExpression']:
+    def value(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field value"""
         return AnyASTExpression(self._proto.value) if self._proto.value.ByteSize() > 0 else None
 
@@ -8671,7 +13370,7 @@ class ASTIdentityColumnMinValue(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def value(self) -> Optional['AnyASTExpression']:
+    def value(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field value"""
         return AnyASTExpression(self._proto.value) if self._proto.value.ByteSize() > 0 else None
 
@@ -8689,7 +13388,7 @@ class ASTIdentityColumnStartWith(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def value(self) -> Optional['AnyASTExpression']:
+    def value(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field value"""
         return AnyASTExpression(self._proto.value) if self._proto.value.ByteSize() > 0 else None
 
@@ -8707,7 +13406,7 @@ class ASTInList(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def list(self) -> List['AnyASTExpression']:
+    def list(self) -> List['parse_tree_pb2.AnyASTExpressionProto']:
         """Field list"""
         return [AnyASTExpression(item) for item in self._proto.list]
 
@@ -8743,7 +13442,7 @@ class ASTIndexStoringExpressionList(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expressions(self) -> List['AnyASTExpression']:
+    def expressions(self) -> List['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expressions"""
         return [AnyASTExpression(item) for item in self._proto.expressions]
 
@@ -8802,7 +13501,7 @@ class ASTInsertValuesRow(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def values(self) -> List['AnyASTExpression']:
+    def values(self) -> List['parse_tree_pb2.AnyASTExpressionProto']:
         """Field values"""
         return [AnyASTExpression(item) for item in self._proto.values]
 
@@ -8879,7 +13578,7 @@ class ASTLimit(ASTNode):
         return ASTLimitAll(self._proto.all) if self._proto.all.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -8915,7 +13614,7 @@ class ASTLimitOffset(ASTNode):
         return ASTLimit(self._proto.limit) if self._proto.limit.ByteSize() > 0 else None
 
     @cached_property
-    def offset(self) -> Optional['AnyASTExpression']:
+    def offset(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field offset"""
         return AnyASTExpression(self._proto.offset) if self._proto.offset.ByteSize() > 0 else None
 
@@ -8997,7 +13696,7 @@ class ASTMergeWhenClause(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def search_condition(self) -> Optional['AnyASTExpression']:
+    def search_condition(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field search_condition"""
         return AnyASTExpression(self._proto.search_condition) if self._proto.search_condition.ByteSize() > 0 else None
 
@@ -9061,7 +13760,7 @@ class ASTNewConstructorArg(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -9107,7 +13806,7 @@ class ASTOnClause(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -9145,7 +13844,7 @@ class ASTOnConflictClause(ASTNode):
         return ASTUpdateItemList(self._proto.update_item_list) if self._proto.update_item_list.ByteSize() > 0 else None
 
     @cached_property
-    def update_where_clause(self) -> Optional['AnyASTExpression']:
+    def update_where_clause(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field update_where_clause"""
         return AnyASTExpression(self._proto.update_where_clause) if self._proto.update_where_clause.ByteSize() > 0 else None
 
@@ -9186,7 +13885,7 @@ class ASTOptionsEntry(ASTNode):
         return ASTIdentifier(self._proto.name) if self._proto.name.ByteSize() > 0 else None
 
     @cached_property
-    def value(self) -> Optional['AnyASTExpression']:
+    def value(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field value"""
         return AnyASTExpression(self._proto.value) if self._proto.value.ByteSize() > 0 else None
 
@@ -9250,7 +13949,7 @@ class ASTOrderingExpression(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -9293,7 +13992,7 @@ class ASTPartitionBy(ASTNode):
         return ASTHint(self._proto.hint) if self._proto.hint.ByteSize() > 0 else None
 
     @cached_property
-    def partitioning_expressions(self) -> List['AnyASTExpression']:
+    def partitioning_expressions(self) -> List['parse_tree_pb2.AnyASTExpressionProto']:
         """Field partitioning_expressions"""
         return [AnyASTExpression(item) for item in self._proto.partitioning_expressions]
 
@@ -9347,7 +14046,7 @@ class ASTPipeSetItem(ASTNode):
         return ASTIdentifier(self._proto.column) if self._proto.column.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -9365,7 +14064,7 @@ class ASTPivotExpression(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -9406,7 +14105,7 @@ class ASTPivotValue(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def value(self) -> Optional['AnyASTExpression']:
+    def value(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field value"""
         return AnyASTExpression(self._proto.value) if self._proto.value.ByteSize() > 0 else None
 
@@ -9547,7 +14246,7 @@ class ASTQualify(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -9583,7 +14282,7 @@ class ASTQuantifierBound(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def bound(self) -> Optional['AnyASTExpression']:
+    def bound(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field bound"""
         return AnyASTExpression(self._proto.bound) if self._proto.bound.ByteSize() > 0 else None
 
@@ -9647,7 +14346,7 @@ class ASTRepeatableClause(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def argument(self) -> Optional['AnyASTExpression']:
+    def argument(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field argument"""
         return AnyASTExpression(self._proto.argument) if self._proto.argument.ByteSize() > 0 else None
 
@@ -9665,12 +14364,12 @@ class ASTReplaceFieldsArg(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
     @cached_property
-    def path_expression(self) -> Optional['AnyASTGeneralizedPathExpression']:
+    def path_expression(self) -> Optional['parse_tree_pb2.AnyASTGeneralizedPathExpressionProto']:
         """Field path_expression"""
         return AnyASTGeneralizedPathExpression(self._proto.path_expression) if self._proto.path_expression.ByteSize() > 0 else None
 
@@ -9711,7 +14410,7 @@ class ASTRollup(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expressions(self) -> List['AnyASTExpression']:
+    def expressions(self) -> List['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expressions"""
         return [AnyASTExpression(item) for item in self._proto.expressions]
 
@@ -9747,7 +14446,7 @@ class ASTSampleSize(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def size(self) -> Optional['AnyASTExpression']:
+    def size(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field size"""
         return AnyASTExpression(self._proto.size) if self._proto.size.ByteSize() > 0 else None
 
@@ -9839,7 +14538,7 @@ class ASTSelectColumn(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -10092,7 +14791,7 @@ class ASTSqlFunctionBody(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -10151,7 +14850,7 @@ class ASTStarReplaceItem(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -10187,7 +14886,7 @@ class ASTStatementList(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def statement_list(self) -> List['AnyASTStatement']:
+    def statement_list(self) -> List['parse_tree_pb2.AnyASTStatementProto']:
         """Field statement_list"""
         return [AnyASTStatement(item) for item in self._proto.statement_list]
 
@@ -10215,7 +14914,7 @@ class ASTStructColumnField(ASTNode):
         return ASTIdentifier(self._proto.name) if self._proto.name.ByteSize() > 0 else None
 
     @cached_property
-    def schema(self) -> Optional['AnyASTColumnSchema']:
+    def schema(self) -> Optional['parse_tree_pb2.AnyASTColumnSchemaProto']:
         """Field schema"""
         return AnyASTColumnSchema(self._proto.schema) if self._proto.schema.ByteSize() > 0 else None
 
@@ -10233,7 +14932,7 @@ class ASTStructConstructorArg(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -10261,7 +14960,7 @@ class ASTStructField(ASTNode):
         return ASTIdentifier(self._proto.name) if self._proto.name.ByteSize() > 0 else None
 
     @cached_property
-    def type(self) -> Optional['AnyASTType']:
+    def type(self) -> Optional['parse_tree_pb2.AnyASTTypeProto']:
         """Field type"""
         return AnyASTType(self._proto.type) if self._proto.type.ByteSize() > 0 else None
 
@@ -10279,7 +14978,7 @@ class ASTSubpipeline(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def pipe_operator_list(self) -> List['AnyASTPipeOperator']:
+    def pipe_operator_list(self) -> List['parse_tree_pb2.AnyASTPipeOperatorProto']:
         """Field pipe_operator_list"""
         return [AnyASTPipeOperator(item) for item in self._proto.pipe_operator_list]
 
@@ -10302,7 +15001,7 @@ class ASTTVFArgument(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyASTExpression']:
+    def expr(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expr"""
         return AnyASTExpression(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -10363,7 +15062,7 @@ class ASTTVFSchemaColumn(ASTNode):
         return ASTIdentifier(self._proto.name) if self._proto.name.ByteSize() > 0 else None
 
     @cached_property
-    def type(self) -> Optional['AnyASTType']:
+    def type(self) -> Optional['parse_tree_pb2.AnyASTTypeProto']:
         """Field type"""
         return AnyASTType(self._proto.type) if self._proto.type.ByteSize() > 0 else None
 
@@ -10435,7 +15134,7 @@ class ASTTableElementList(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def elements(self) -> List['AnyASTTableElement']:
+    def elements(self) -> List['parse_tree_pb2.AnyASTTableElementProto']:
         """Field elements"""
         return [AnyASTTableElement(item) for item in self._proto.elements]
 
@@ -10453,7 +15152,7 @@ class ASTTableExpression(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def postfix_operators(self) -> List['AnyASTPostfixTableOperator']:
+    def postfix_operators(self) -> List['parse_tree_pb2.AnyASTPostfixTableOperatorProto']:
         """Field postfix_operators"""
         return [AnyASTPostfixTableOperator(item) for item in self._proto.postfix_operators]
 
@@ -10502,7 +15201,7 @@ class ASTTransactionModeList(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def elements(self) -> List['AnyASTTransactionMode']:
+    def elements(self) -> List['parse_tree_pb2.AnyASTTransactionModeProto']:
         """Field elements"""
         return [AnyASTTransactionMode(item) for item in self._proto.elements]
 
@@ -10538,7 +15237,7 @@ class ASTTtlClause(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -10569,7 +15268,7 @@ class ASTTypeParameterList(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def parameters(self) -> List['AnyASTLeaf']:
+    def parameters(self) -> List['parse_tree_pb2.AnyASTLeafProto']:
         """Field parameters"""
         return [AnyASTLeaf(item) for item in self._proto.parameters]
 
@@ -10702,7 +15401,7 @@ class ASTUntilClause(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def condition(self) -> Optional['AnyASTExpression']:
+    def condition(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field condition"""
         return AnyASTExpression(self._proto.condition) if self._proto.condition.ByteSize() > 0 else None
 
@@ -10771,12 +15470,12 @@ class ASTUpdateSetValue(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def path(self) -> Optional['AnyASTGeneralizedPathExpression']:
+    def path(self) -> Optional['parse_tree_pb2.AnyASTGeneralizedPathExpressionProto']:
         """Field path"""
         return AnyASTGeneralizedPathExpression(self._proto.path) if self._proto.path.ByteSize() > 0 else None
 
     @cached_property
-    def value(self) -> Optional['AnyASTExpression']:
+    def value(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field value"""
         return AnyASTExpression(self._proto.value) if self._proto.value.ByteSize() > 0 else None
 
@@ -10812,7 +15511,7 @@ class ASTWhenThenClause(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def condition(self) -> Optional['AnyASTExpression']:
+    def condition(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field condition"""
         return AnyASTExpression(self._proto.condition) if self._proto.condition.ByteSize() > 0 else None
 
@@ -10853,7 +15552,7 @@ class ASTWhereClause(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -10940,7 +15639,7 @@ class ASTWindowFrameExpr(ASTNode):
         return ParseLocationRange(self._proto.parent.parse_location_range) if self._proto.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -11237,7 +15936,7 @@ class ASTAddColumnAction(ASTAlterAction):
         return ASTColumnPosition(self._proto.column_position) if self._proto.column_position.ByteSize() > 0 else None
 
     @cached_property
-    def fill_expression(self) -> Optional['AnyASTExpression']:
+    def fill_expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field fill_expression"""
         return AnyASTExpression(self._proto.fill_expression) if self._proto.fill_expression.ByteSize() > 0 else None
 
@@ -11288,7 +15987,7 @@ class ASTAddConstraintAction(ASTAlterAction):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def constraint(self) -> Optional['AnyASTTableConstraint']:
+    def constraint(self) -> Optional['parse_tree_pb2.AnyASTTableConstraintProto']:
         """Field constraint"""
         return AnyASTTableConstraint(self._proto.constraint) if self._proto.constraint.ByteSize() > 0 else None
 
@@ -11367,7 +16066,7 @@ class ASTAddTtlAction(ASTAlterAction):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -11423,7 +16122,7 @@ class ASTAlterAllRowAccessPoliciesStatement(ASTStatement):
         return ASTPathExpression(self._proto.table_name_path) if self._proto.table_name_path.ByteSize() > 0 else None
 
     @cached_property
-    def alter_action(self) -> Optional['AnyASTAlterAction']:
+    def alter_action(self) -> Optional['parse_tree_pb2.AnyASTAlterActionProto']:
         """Field alter_action"""
         return AnyASTAlterAction(self._proto.alter_action) if self._proto.alter_action.ByteSize() > 0 else None
 
@@ -11543,7 +16242,7 @@ class ASTAlterColumnSetDefaultAction(ASTAlterAction):
         return ASTIdentifier(self._proto.column_name) if self._proto.column_name.ByteSize() > 0 else None
 
     @cached_property
-    def default_expression(self) -> Optional['AnyASTExpression']:
+    def default_expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field default_expression"""
         return AnyASTExpression(self._proto.default_expression) if self._proto.default_expression.ByteSize() > 0 else None
 
@@ -11599,7 +16298,7 @@ class ASTAlterColumnTypeAction(ASTAlterAction):
         return ASTIdentifier(self._proto.column_name) if self._proto.column_name.ByteSize() > 0 else None
 
     @cached_property
-    def schema(self) -> Optional['AnyASTColumnSchema']:
+    def schema(self) -> Optional['parse_tree_pb2.AnyASTColumnSchemaProto']:
         """Field schema"""
         return AnyASTColumnSchema(self._proto.schema) if self._proto.schema.ByteSize() > 0 else None
 
@@ -11693,7 +16392,7 @@ class ASTAlterSubEntityAction(ASTAlterAction):
         return ASTIdentifier(self._proto.name) if self._proto.name.ByteSize() > 0 else None
 
     @cached_property
-    def action(self) -> Optional['AnyASTAlterAction']:
+    def action(self) -> Optional['parse_tree_pb2.AnyASTAlterActionProto']:
         """Field action"""
         return AnyASTAlterAction(self._proto.action) if self._proto.action.ByteSize() > 0 else None
 
@@ -11772,7 +16471,7 @@ class ASTAndExpr(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def conjuncts(self) -> List['AnyASTExpression']:
+    def conjuncts(self) -> List['parse_tree_pb2.AnyASTExpressionProto']:
         """Field conjuncts"""
         return [AnyASTExpression(item) for item in self._proto.conjuncts]
 
@@ -11800,7 +16499,7 @@ class ASTArrayConstructor(ASTExpression):
         return ASTArrayType(self._proto.type) if self._proto.type.ByteSize() > 0 else None
 
     @cached_property
-    def elements(self) -> List['AnyASTExpression']:
+    def elements(self) -> List['parse_tree_pb2.AnyASTExpressionProto']:
         """Field elements"""
         return [AnyASTExpression(item) for item in self._proto.elements]
 
@@ -11818,7 +16517,7 @@ class ASTArrayType(ASTType):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def element_type(self) -> Optional['AnyASTType']:
+    def element_type(self) -> Optional['parse_tree_pb2.AnyASTTypeProto']:
         """Field element_type"""
         return AnyASTType(self._proto.element_type) if self._proto.element_type.ByteSize() > 0 else None
 
@@ -11846,7 +16545,7 @@ class ASTAssertStatement(ASTStatement):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyASTExpression']:
+    def expr(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expr"""
         return AnyASTExpression(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -11892,17 +16591,17 @@ class ASTBetweenExpression(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def lhs(self) -> Optional['AnyASTExpression']:
+    def lhs(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field lhs"""
         return AnyASTExpression(self._proto.lhs) if self._proto.lhs.ByteSize() > 0 else None
 
     @cached_property
-    def low(self) -> Optional['AnyASTExpression']:
+    def low(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field low"""
         return AnyASTExpression(self._proto.low) if self._proto.low.ByteSize() > 0 else None
 
     @cached_property
-    def high(self) -> Optional['AnyASTExpression']:
+    def high(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field high"""
         return AnyASTExpression(self._proto.high) if self._proto.high.ByteSize() > 0 else None
 
@@ -11945,12 +16644,12 @@ class ASTBinaryExpression(ASTExpression):
         return self._proto.is_not
 
     @cached_property
-    def lhs(self) -> Optional['AnyASTExpression']:
+    def lhs(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field lhs"""
         return AnyASTExpression(self._proto.lhs) if self._proto.lhs.ByteSize() > 0 else None
 
     @cached_property
-    def rhs(self) -> Optional['AnyASTExpression']:
+    def rhs(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field rhs"""
         return AnyASTExpression(self._proto.rhs) if self._proto.rhs.ByteSize() > 0 else None
 
@@ -11973,12 +16672,12 @@ class ASTBitwiseShiftExpression(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def lhs(self) -> Optional['AnyASTExpression']:
+    def lhs(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field lhs"""
         return AnyASTExpression(self._proto.lhs) if self._proto.lhs.ByteSize() > 0 else None
 
     @cached_property
-    def rhs(self) -> Optional['AnyASTExpression']:
+    def rhs(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field rhs"""
         return AnyASTExpression(self._proto.rhs) if self._proto.rhs.ByteSize() > 0 else None
 
@@ -12062,7 +16761,7 @@ class ASTBracedConstructorLhs(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def extended_path_expr(self) -> Optional['AnyASTGeneralizedPathExpression']:
+    def extended_path_expr(self) -> Optional['parse_tree_pb2.AnyASTGeneralizedPathExpressionProto']:
         """Field extended_path_expr"""
         return AnyASTGeneralizedPathExpression(self._proto.extended_path_expr) if self._proto.extended_path_expr.ByteSize() > 0 else None
 
@@ -12141,7 +16840,7 @@ class ASTCaseNoValueExpression(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def arguments(self) -> List['AnyASTExpression']:
+    def arguments(self) -> List['parse_tree_pb2.AnyASTExpressionProto']:
         """Field arguments"""
         return [AnyASTExpression(item) for item in self._proto.arguments]
 
@@ -12164,7 +16863,7 @@ class ASTCaseValueExpression(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def arguments(self) -> List['AnyASTExpression']:
+    def arguments(self) -> List['parse_tree_pb2.AnyASTExpressionProto']:
         """Field arguments"""
         return [AnyASTExpression(item) for item in self._proto.arguments]
 
@@ -12187,12 +16886,12 @@ class ASTCastExpression(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def expr(self) -> Optional['AnyASTExpression']:
+    def expr(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expr"""
         return AnyASTExpression(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
     @cached_property
-    def type(self) -> Optional['AnyASTType']:
+    def type(self) -> Optional['parse_tree_pb2.AnyASTTypeProto']:
         """Field type"""
         return AnyASTType(self._proto.type) if self._proto.type.ByteSize() > 0 else None
 
@@ -12248,7 +16947,7 @@ class ASTColumnDefinition(ASTTableElement):
         return ASTIdentifier(self._proto.name) if self._proto.name.ByteSize() > 0 else None
 
     @cached_property
-    def schema(self) -> Optional['AnyASTColumnSchema']:
+    def schema(self) -> Optional['parse_tree_pb2.AnyASTColumnSchemaProto']:
         """Field schema"""
         return AnyASTColumnSchema(self._proto.schema) if self._proto.schema.ByteSize() > 0 else None
 
@@ -12284,7 +16983,7 @@ class ASTConcatExpr(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def operands(self) -> List['AnyASTExpression']:
+    def operands(self) -> List['parse_tree_pb2.AnyASTExpressionProto']:
         """Field operands"""
         return [AnyASTExpression(item) for item in self._proto.operands]
 
@@ -12453,7 +17152,7 @@ class ASTDeleteStatement(ASTStatement):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def target_path(self) -> Optional['AnyASTGeneralizedPathExpression']:
+    def target_path(self) -> Optional['parse_tree_pb2.AnyASTGeneralizedPathExpressionProto']:
         """Field target_path"""
         return AnyASTGeneralizedPathExpression(self._proto.target_path) if self._proto.target_path.ByteSize() > 0 else None
 
@@ -12468,7 +17167,7 @@ class ASTDeleteStatement(ASTStatement):
         return ASTWithOffset(self._proto.offset) if self._proto.offset.ByteSize() > 0 else None
 
     @cached_property
-    def where(self) -> Optional['AnyASTExpression']:
+    def where(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field where"""
         return AnyASTExpression(self._proto.where) if self._proto.where.ByteSize() > 0 else None
 
@@ -12534,7 +17233,7 @@ class ASTDotStar(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def expr(self) -> Optional['AnyASTExpression']:
+    def expr(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expr"""
         return AnyASTExpression(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -12557,7 +17256,7 @@ class ASTDotStarWithModifiers(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def expr(self) -> Optional['AnyASTExpression']:
+    def expr(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expr"""
         return AnyASTExpression(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -12723,7 +17422,7 @@ class ASTElementTypeColumnSchema(ASTColumnSchema):
         return ASTGeneratedColumnInfo(self._proto.parent.generated_column_info) if self._proto.parent.generated_column_info.ByteSize() > 0 else None
 
     @cached_property
-    def default_expression(self) -> Optional['AnyASTExpression']:
+    def default_expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field default_expression"""
         return AnyASTExpression(self._proto.parent.default_expression) if self._proto.parent.default_expression.ByteSize() > 0 else None
 
@@ -12743,7 +17442,7 @@ class ASTElementTypeColumnSchema(ASTColumnSchema):
         return ASTOptionsList(self._proto.parent.options_list) if self._proto.parent.options_list.ByteSize() > 0 else None
 
     @cached_property
-    def element_schema(self) -> Optional['AnyASTColumnSchema']:
+    def element_schema(self) -> Optional['parse_tree_pb2.AnyASTColumnSchemaProto']:
         """Field element_schema"""
         return AnyASTColumnSchema(self._proto.element_schema) if self._proto.element_schema.ByteSize() > 0 else None
 
@@ -12779,7 +17478,7 @@ class ASTExecuteImmediateStatement(ASTStatement):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def sql(self) -> Optional['AnyASTExpression']:
+    def sql(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field sql"""
         return AnyASTExpression(self._proto.sql) if self._proto.sql.ByteSize() > 0 else None
 
@@ -12807,7 +17506,7 @@ class ASTExplainStatement(ASTStatement):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def statement(self) -> Optional['AnyASTStatement']:
+    def statement(self) -> Optional['parse_tree_pb2.AnyASTStatementProto']:
         """Field statement"""
         return AnyASTStatement(self._proto.statement) if self._proto.statement.ByteSize() > 0 else None
 
@@ -12952,7 +17651,7 @@ class ASTExpressionWithAlias(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -12980,17 +17679,17 @@ class ASTExtractExpression(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def lhs_expr(self) -> Optional['AnyASTExpression']:
+    def lhs_expr(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field lhs_expr"""
         return AnyASTExpression(self._proto.lhs_expr) if self._proto.lhs_expr.ByteSize() > 0 else None
 
     @cached_property
-    def rhs_expr(self) -> Optional['AnyASTExpression']:
+    def rhs_expr(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field rhs_expr"""
         return AnyASTExpression(self._proto.rhs_expr) if self._proto.rhs_expr.ByteSize() > 0 else None
 
     @cached_property
-    def time_zone_expr(self) -> Optional['AnyASTExpression']:
+    def time_zone_expr(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field time_zone_expr"""
         return AnyASTExpression(self._proto.time_zone_expr) if self._proto.time_zone_expr.ByteSize() > 0 else None
 
@@ -13008,7 +17707,7 @@ class ASTFilterUsingClause(ASTAlterAction):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def predicate(self) -> Optional['AnyASTExpression']:
+    def predicate(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field predicate"""
         return AnyASTExpression(self._proto.predicate) if self._proto.predicate.ByteSize() > 0 else None
 
@@ -13036,7 +17735,7 @@ class ASTFixedQuantifier(ASTQuantifier):
         return self._proto.parent.is_reluctant
 
     @cached_property
-    def bound(self) -> Optional['AnyASTExpression']:
+    def bound(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field bound"""
         return AnyASTExpression(self._proto.bound) if self._proto.bound.ByteSize() > 0 else None
 
@@ -13110,7 +17809,7 @@ class ASTFunctionCall(ASTExpression):
         return ASTPathExpression(self._proto.function) if self._proto.function.ByteSize() > 0 else None
 
     @cached_property
-    def arguments(self) -> List['AnyASTExpression']:
+    def arguments(self) -> List['parse_tree_pb2.AnyASTExpressionProto']:
         """Field arguments"""
         return [AnyASTExpression(item) for item in self._proto.arguments]
 
@@ -13198,7 +17897,7 @@ class ASTFunctionType(ASTType):
         return ASTFunctionTypeArgList(self._proto.arg_list) if self._proto.arg_list.ByteSize() > 0 else None
 
     @cached_property
-    def return_type(self) -> Optional['AnyASTType']:
+    def return_type(self) -> Optional['parse_tree_pb2.AnyASTTypeProto']:
         """Field return_type"""
         return AnyASTType(self._proto.return_type) if self._proto.return_type.ByteSize() > 0 else None
 
@@ -13295,7 +17994,7 @@ class ASTGqlFor(ASTGqlOperator):
         return ASTIdentifier(self._proto.identifier) if self._proto.identifier.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -13420,7 +18119,7 @@ class ASTGqlOperatorList(ASTGqlOperator):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def operators(self) -> List['AnyASTGqlOperator']:
+    def operators(self) -> List['parse_tree_pb2.AnyASTGqlOperatorProto']:
         """Field operators"""
         return [AnyASTGqlOperator(item) for item in self._proto.operators]
 
@@ -13530,7 +18229,7 @@ class ASTGqlSetOperation(ASTGqlOperator):
         return ASTSetOperationMetadataList(self._proto.metadata) if self._proto.metadata.ByteSize() > 0 else None
 
     @cached_property
-    def inputs(self) -> List['AnyASTGqlOperator']:
+    def inputs(self) -> List['parse_tree_pb2.AnyASTGqlOperatorProto']:
         """Field inputs"""
         return [AnyASTGqlOperator(item) for item in self._proto.inputs]
 
@@ -13645,7 +18344,7 @@ class ASTGraphElementPattern(ASTGraphPathBase):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def quantifier(self) -> Optional['AnyASTQuantifier']:
+    def quantifier(self) -> Optional['parse_tree_pb2.AnyASTQuantifierProto']:
         """Field quantifier"""
         return AnyASTQuantifier(self._proto.parent.quantifier) if self._proto.parent.quantifier.ByteSize() > 0 else None
 
@@ -13678,12 +18377,12 @@ class ASTGraphIsLabeledPredicate(ASTExpression):
         return self._proto.is_not
 
     @cached_property
-    def operand(self) -> Optional['AnyASTExpression']:
+    def operand(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field operand"""
         return AnyASTExpression(self._proto.operand) if self._proto.operand.ByteSize() > 0 else None
 
     @cached_property
-    def label_expression(self) -> Optional['AnyASTGraphLabelExpression']:
+    def label_expression(self) -> Optional['parse_tree_pb2.AnyASTGraphLabelExpressionProto']:
         """Field label_expression"""
         return AnyASTGraphLabelExpression(self._proto.label_expression) if self._proto.label_expression.ByteSize() > 0 else None
 
@@ -13711,7 +18410,7 @@ class ASTGraphLabelOperation(ASTGraphLabelExpression):
         return self._proto.op_type
 
     @cached_property
-    def inputs(self) -> List['AnyASTGraphLabelExpression']:
+    def inputs(self) -> List['parse_tree_pb2.AnyASTGraphLabelExpressionProto']:
         """Field inputs"""
         return [AnyASTGraphLabelExpression(item) for item in self._proto.inputs]
 
@@ -13729,7 +18428,7 @@ class ASTGraphPathPattern(ASTGraphPathBase):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def quantifier(self) -> Optional['AnyASTQuantifier']:
+    def quantifier(self) -> Optional['parse_tree_pb2.AnyASTQuantifierProto']:
         """Field quantifier"""
         return AnyASTQuantifier(self._proto.parent.quantifier) if self._proto.parent.quantifier.ByteSize() > 0 else None
 
@@ -13749,7 +18448,7 @@ class ASTGraphPathPattern(ASTGraphPathBase):
         return ASTGraphPathMode(self._proto.path_mode) if self._proto.path_mode.ByteSize() > 0 else None
 
     @cached_property
-    def input_pattern_list(self) -> List['AnyASTGraphPathBase']:
+    def input_pattern_list(self) -> List['parse_tree_pb2.AnyASTGraphPathBaseProto']:
         """Field input_pattern_list"""
         return [AnyASTGraphPathBase(item) for item in self._proto.input_pattern_list]
 
@@ -13782,7 +18481,7 @@ class ASTGraphTableQuery(ASTTableExpression):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def postfix_operators(self) -> List['AnyASTPostfixTableOperator']:
+    def postfix_operators(self) -> List['parse_tree_pb2.AnyASTPostfixTableOperatorProto']:
         """Field postfix_operators"""
         return [AnyASTPostfixTableOperator(item) for item in self._proto.parent.postfix_operators]
 
@@ -13792,7 +18491,7 @@ class ASTGraphTableQuery(ASTTableExpression):
         return ASTPathExpression(self._proto.graph_reference) if self._proto.graph_reference.ByteSize() > 0 else None
 
     @cached_property
-    def graph_op(self) -> Optional['AnyASTGqlOperator']:
+    def graph_op(self) -> Optional['parse_tree_pb2.AnyASTGqlOperatorProto']:
         """Field graph_op"""
         return AnyASTGqlOperator(self._proto.graph_op) if self._proto.graph_op.ByteSize() > 0 else None
 
@@ -13856,7 +18555,7 @@ class ASTHintedStatement(ASTStatement):
         return ASTHint(self._proto.hint) if self._proto.hint.ByteSize() > 0 else None
 
     @cached_property
-    def statement(self) -> Optional['AnyASTStatement']:
+    def statement(self) -> Optional['parse_tree_pb2.AnyASTStatementProto']:
         """Field statement"""
         return AnyASTStatement(self._proto.statement) if self._proto.statement.ByteSize() > 0 else None
 
@@ -13950,7 +18649,7 @@ class ASTInExpression(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def lhs(self) -> Optional['AnyASTExpression']:
+    def lhs(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field lhs"""
         return AnyASTExpression(self._proto.lhs) if self._proto.lhs.ByteSize() > 0 else None
 
@@ -14008,7 +18707,7 @@ class ASTInferredTypeColumnSchema(ASTColumnSchema):
         return ASTGeneratedColumnInfo(self._proto.parent.generated_column_info) if self._proto.parent.generated_column_info.ByteSize() > 0 else None
 
     @cached_property
-    def default_expression(self) -> Optional['AnyASTExpression']:
+    def default_expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field default_expression"""
         return AnyASTExpression(self._proto.parent.default_expression) if self._proto.parent.default_expression.ByteSize() > 0 else None
 
@@ -14059,7 +18758,7 @@ class ASTInsertStatement(ASTStatement):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def target_path(self) -> Optional['AnyASTGeneralizedPathExpression']:
+    def target_path(self) -> Optional['parse_tree_pb2.AnyASTGeneralizedPathExpressionProto']:
         """Field target_path"""
         return AnyASTGeneralizedPathExpression(self._proto.target_path) if self._proto.target_path.ByteSize() > 0 else None
 
@@ -14127,7 +18826,7 @@ class ASTIntOrUnbounded(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def bound(self) -> Optional['AnyASTExpression']:
+    def bound(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field bound"""
         return AnyASTExpression(self._proto.bound) if self._proto.bound.ByteSize() > 0 else None
 
@@ -14150,7 +18849,7 @@ class ASTIntervalExpr(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def interval_value(self) -> Optional['AnyASTExpression']:
+    def interval_value(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field interval_value"""
         return AnyASTExpression(self._proto.interval_value) if self._proto.interval_value.ByteSize() > 0 else None
 
@@ -14178,12 +18877,12 @@ class ASTJoin(ASTTableExpression):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def postfix_operators(self) -> List['AnyASTPostfixTableOperator']:
+    def postfix_operators(self) -> List['parse_tree_pb2.AnyASTPostfixTableOperatorProto']:
         """Field postfix_operators"""
         return [AnyASTPostfixTableOperator(item) for item in self._proto.parent.postfix_operators]
 
     @cached_property
-    def lhs(self) -> Optional['AnyASTTableExpression']:
+    def lhs(self) -> Optional['parse_tree_pb2.AnyASTTableExpressionProto']:
         """Field lhs"""
         return AnyASTTableExpression(self._proto.lhs) if self._proto.lhs.ByteSize() > 0 else None
 
@@ -14193,7 +18892,7 @@ class ASTJoin(ASTTableExpression):
         return ASTHint(self._proto.hint) if self._proto.hint.ByteSize() > 0 else None
 
     @cached_property
-    def rhs(self) -> Optional['AnyASTTableExpression']:
+    def rhs(self) -> Optional['parse_tree_pb2.AnyASTTableExpressionProto']:
         """Field rhs"""
         return AnyASTTableExpression(self._proto.rhs) if self._proto.rhs.ByteSize() > 0 else None
 
@@ -14266,12 +18965,12 @@ class ASTLambda(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def argument_list(self) -> Optional['AnyASTExpression']:
+    def argument_list(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field argument_list"""
         return AnyASTExpression(self._proto.argument_list) if self._proto.argument_list.ByteSize() > 0 else None
 
     @cached_property
-    def body(self) -> Optional['AnyASTExpression']:
+    def body(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field body"""
         return AnyASTExpression(self._proto.body) if self._proto.body.ByteSize() > 0 else None
 
@@ -14312,7 +19011,7 @@ class ASTLikeExpression(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def lhs(self) -> Optional['AnyASTExpression']:
+    def lhs(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field lhs"""
         return AnyASTExpression(self._proto.lhs) if self._proto.lhs.ByteSize() > 0 else None
 
@@ -14365,12 +19064,12 @@ class ASTMapType(ASTType):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def key_type(self) -> Optional['AnyASTType']:
+    def key_type(self) -> Optional['parse_tree_pb2.AnyASTTypeProto']:
         """Field key_type"""
         return AnyASTType(self._proto.key_type) if self._proto.key_type.ByteSize() > 0 else None
 
     @cached_property
-    def value_type(self) -> Optional['AnyASTType']:
+    def value_type(self) -> Optional['parse_tree_pb2.AnyASTTypeProto']:
         """Field value_type"""
         return AnyASTType(self._proto.value_type) if self._proto.value_type.ByteSize() > 0 else None
 
@@ -14418,7 +19117,7 @@ class ASTMatchRecognizeClause(ASTPostfixTableOperator):
         return ASTAfterMatchSkipClause(self._proto.after_match_skip_clause) if self._proto.after_match_skip_clause.ByteSize() > 0 else None
 
     @cached_property
-    def pattern(self) -> Optional['AnyASTRowPatternExpression']:
+    def pattern(self) -> Optional['parse_tree_pb2.AnyASTRowPatternExpressionProto']:
         """Field pattern"""
         return AnyASTRowPatternExpression(self._proto.pattern) if self._proto.pattern.ByteSize() > 0 else None
 
@@ -14461,12 +19160,12 @@ class ASTMergeStatement(ASTStatement):
         return ASTAlias(self._proto.alias) if self._proto.alias.ByteSize() > 0 else None
 
     @cached_property
-    def table_expression(self) -> Optional['AnyASTTableExpression']:
+    def table_expression(self) -> Optional['parse_tree_pb2.AnyASTTableExpressionProto']:
         """Field table_expression"""
         return AnyASTTableExpression(self._proto.table_expression) if self._proto.table_expression.ByteSize() > 0 else None
 
     @cached_property
-    def merge_condition(self) -> Optional['AnyASTExpression']:
+    def merge_condition(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field merge_condition"""
         return AnyASTExpression(self._proto.merge_condition) if self._proto.merge_condition.ByteSize() > 0 else None
 
@@ -14522,7 +19221,7 @@ class ASTNamedArgument(ASTExpression):
         return ASTIdentifier(self._proto.name) if self._proto.name.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyASTExpression']:
+    def expr(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expr"""
         return AnyASTExpression(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -14586,7 +19285,7 @@ class ASTOrExpr(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def disjuncts(self) -> List['AnyASTExpression']:
+    def disjuncts(self) -> List['parse_tree_pb2.AnyASTExpressionProto']:
         """Field disjuncts"""
         return [AnyASTExpression(item) for item in self._proto.disjuncts]
 
@@ -14609,7 +19308,7 @@ class ASTParameterAssignment(ASTStatement):
         return ASTParameterExpr(self._proto.parameter) if self._proto.parameter.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -14645,7 +19344,7 @@ class ASTParenthesizedJoin(ASTTableExpression):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def postfix_operators(self) -> List['AnyASTPostfixTableOperator']:
+    def postfix_operators(self) -> List['parse_tree_pb2.AnyASTPostfixTableOperatorProto']:
         """Field postfix_operators"""
         return [AnyASTPostfixTableOperator(item) for item in self._proto.parent.postfix_operators]
 
@@ -14709,12 +19408,12 @@ class ASTPipeAssert(ASTPipeOperator):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def condition(self) -> Optional['AnyASTExpression']:
+    def condition(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field condition"""
         return AnyASTExpression(self._proto.condition) if self._proto.condition.ByteSize() > 0 else None
 
     @cached_property
-    def message_list(self) -> List['AnyASTExpression']:
+    def message_list(self) -> List['parse_tree_pb2.AnyASTExpressionProto']:
         """Field message_list"""
         return [AnyASTExpression(item) for item in self._proto.message_list]
 
@@ -14899,7 +19598,7 @@ class ASTPipeIfCase(ASTPipeOperator):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def condition(self) -> Optional['AnyASTExpression']:
+    def condition(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field condition"""
         return AnyASTExpression(self._proto.condition) if self._proto.condition.ByteSize() > 0 else None
 
@@ -14958,7 +19657,7 @@ class ASTPipeJoinLhsPlaceholder(ASTTableExpression):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def postfix_operators(self) -> List['AnyASTPostfixTableOperator']:
+    def postfix_operators(self) -> List['parse_tree_pb2.AnyASTPostfixTableOperatorProto']:
         """Field postfix_operators"""
         return [AnyASTPostfixTableOperator(item) for item in self._proto.parent.postfix_operators]
 
@@ -15086,7 +19785,7 @@ class ASTPipeRecursiveUnion(ASTPipeOperator):
         return ASTSubpipeline(self._proto.input_subpipeline) if self._proto.input_subpipeline.ByteSize() > 0 else None
 
     @cached_property
-    def input_subquery(self) -> Optional['AnyASTQueryExpression']:
+    def input_subquery(self) -> Optional['parse_tree_pb2.AnyASTQueryExpressionProto']:
         """Field input_subquery"""
         return AnyASTQueryExpression(self._proto.input_subquery) if self._proto.input_subquery.ByteSize() > 0 else None
 
@@ -15191,7 +19890,7 @@ class ASTPipeSetOperation(ASTPipeOperator):
         return ASTSetOperationMetadata(self._proto.metadata) if self._proto.metadata.ByteSize() > 0 else None
 
     @cached_property
-    def inputs(self) -> List['AnyASTQueryExpression']:
+    def inputs(self) -> List['parse_tree_pb2.AnyASTQueryExpressionProto']:
         """Field inputs"""
         return [AnyASTQueryExpression(item) for item in self._proto.inputs]
 
@@ -15340,7 +20039,7 @@ class ASTPivotClause(ASTPostfixTableOperator):
         return ASTPivotExpressionList(self._proto.pivot_expressions) if self._proto.pivot_expressions.ByteSize() > 0 else None
 
     @cached_property
-    def for_expression(self) -> Optional['AnyASTExpression']:
+    def for_expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field for_expression"""
         return AnyASTExpression(self._proto.for_expression) if self._proto.for_expression.ByteSize() > 0 else None
 
@@ -15396,7 +20095,7 @@ class ASTQuery(ASTQueryExpression):
         return ASTWithClause(self._proto.with_clause) if self._proto.with_clause.ByteSize() > 0 else None
 
     @cached_property
-    def query_expr(self) -> Optional['AnyASTQueryExpression']:
+    def query_expr(self) -> Optional['parse_tree_pb2.AnyASTQueryExpressionProto']:
         """Field query_expr"""
         return AnyASTQueryExpression(self._proto.query_expr) if self._proto.query_expr.ByteSize() > 0 else None
 
@@ -15421,7 +20120,7 @@ class ASTQuery(ASTQueryExpression):
         return self._proto.is_pivot_input
 
     @cached_property
-    def pipe_operator_list(self) -> List['AnyASTPipeOperator']:
+    def pipe_operator_list(self) -> List['parse_tree_pb2.AnyASTPipeOperatorProto']:
         """Field pipe_operator_list"""
         return [AnyASTPipeOperator(item) for item in self._proto.pipe_operator_list]
 
@@ -15490,7 +20189,7 @@ class ASTRangeType(ASTType):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def element_type(self) -> Optional['AnyASTType']:
+    def element_type(self) -> Optional['parse_tree_pb2.AnyASTTypeProto']:
         """Field element_type"""
         return AnyASTType(self._proto.element_type) if self._proto.element_type.ByteSize() > 0 else None
 
@@ -15633,7 +20332,7 @@ class ASTReplaceFieldsExpression(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def expr(self) -> Optional['AnyASTExpression']:
+    def expr(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expr"""
         return AnyASTExpression(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -15656,7 +20355,7 @@ class ASTReplaceTtlAction(ASTAlterAction):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -15799,7 +20498,7 @@ class ASTRowPatternOperation(ASTRowPatternExpression):
         return self._proto.op_type
 
     @cached_property
-    def inputs(self) -> List['AnyASTRowPatternExpression']:
+    def inputs(self) -> List['parse_tree_pb2.AnyASTRowPatternExpressionProto']:
         """Field inputs"""
         return [AnyASTRowPatternExpression(item) for item in self._proto.inputs]
 
@@ -15822,12 +20521,12 @@ class ASTRowPatternQuantification(ASTRowPatternExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def operand(self) -> Optional['AnyASTRowPatternExpression']:
+    def operand(self) -> Optional['parse_tree_pb2.AnyASTRowPatternExpressionProto']:
         """Field operand"""
         return AnyASTRowPatternExpression(self._proto.operand) if self._proto.operand.ByteSize() > 0 else None
 
     @cached_property
-    def quantifier(self) -> Optional['AnyASTQuantifier']:
+    def quantifier(self) -> Optional['parse_tree_pb2.AnyASTQuantifierProto']:
         """Field quantifier"""
         return AnyASTQuantifier(self._proto.quantifier) if self._proto.quantifier.ByteSize() > 0 else None
 
@@ -16097,7 +20796,7 @@ class ASTSetOperation(ASTQueryExpression):
         return ASTSetOperationMetadataList(self._proto.metadata) if self._proto.metadata.ByteSize() > 0 else None
 
     @cached_property
-    def inputs(self) -> List['AnyASTQueryExpression']:
+    def inputs(self) -> List['parse_tree_pb2.AnyASTQueryExpressionProto']:
         """Field inputs"""
         return [AnyASTQueryExpression(item) for item in self._proto.inputs]
 
@@ -16189,7 +20888,7 @@ class ASTSimpleColumnSchema(ASTColumnSchema):
         return ASTGeneratedColumnInfo(self._proto.parent.generated_column_info) if self._proto.parent.generated_column_info.ByteSize() > 0 else None
 
     @cached_property
-    def default_expression(self) -> Optional['AnyASTExpression']:
+    def default_expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field default_expression"""
         return AnyASTExpression(self._proto.parent.default_expression) if self._proto.parent.default_expression.ByteSize() > 0 else None
 
@@ -16332,7 +21031,7 @@ class ASTStatementWithPipeOperators(ASTStatement):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def statement(self) -> Optional['AnyASTStatement']:
+    def statement(self) -> Optional['parse_tree_pb2.AnyASTStatementProto']:
         """Field statement"""
         return AnyASTStatement(self._proto.statement) if self._proto.statement.ByteSize() > 0 else None
 
@@ -16360,7 +21059,7 @@ class ASTStructBracedConstructor(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def type_name(self) -> Optional['AnyASTType']:
+    def type_name(self) -> Optional['parse_tree_pb2.AnyASTTypeProto']:
         """Field type_name"""
         return AnyASTType(self._proto.type_name) if self._proto.type_name.ByteSize() > 0 else None
 
@@ -16393,7 +21092,7 @@ class ASTStructColumnSchema(ASTColumnSchema):
         return ASTGeneratedColumnInfo(self._proto.parent.generated_column_info) if self._proto.parent.generated_column_info.ByteSize() > 0 else None
 
     @cached_property
-    def default_expression(self) -> Optional['AnyASTExpression']:
+    def default_expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field default_expression"""
         return AnyASTExpression(self._proto.parent.default_expression) if self._proto.parent.default_expression.ByteSize() > 0 else None
 
@@ -16464,7 +21163,7 @@ class ASTStructConstructorWithParens(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def field_expressions(self) -> List['AnyASTExpression']:
+    def field_expressions(self) -> List['parse_tree_pb2.AnyASTExpressionProto']:
         """Field field_expressions"""
         return [AnyASTExpression(item) for item in self._proto.field_expressions]
 
@@ -16556,7 +21255,7 @@ class ASTSystemVariableAssignment(ASTStatement):
         return ASTSystemVariableExpr(self._proto.system_variable) if self._proto.system_variable.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -16574,7 +21273,7 @@ class ASTTVF(ASTTableExpression):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def postfix_operators(self) -> List['AnyASTPostfixTableOperator']:
+    def postfix_operators(self) -> List['parse_tree_pb2.AnyASTPostfixTableOperatorProto']:
         """Field postfix_operators"""
         return [AnyASTPostfixTableOperator(item) for item in self._proto.parent.postfix_operators]
 
@@ -16663,7 +21362,7 @@ class ASTTableDataSource(ASTTableExpression):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def postfix_operators(self) -> List['AnyASTPostfixTableOperator']:
+    def postfix_operators(self) -> List['parse_tree_pb2.AnyASTPostfixTableOperatorProto']:
         """Field postfix_operators"""
         return [AnyASTPostfixTableOperator(item) for item in self._proto.parent.postfix_operators]
 
@@ -16696,7 +21395,7 @@ class ASTTablePathExpression(ASTTableExpression):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def postfix_operators(self) -> List['AnyASTPostfixTableOperator']:
+    def postfix_operators(self) -> List['parse_tree_pb2.AnyASTPostfixTableOperatorProto']:
         """Field postfix_operators"""
         return [AnyASTPostfixTableOperator(item) for item in self._proto.parent.postfix_operators]
 
@@ -16744,7 +21443,7 @@ class ASTTableSubquery(ASTTableExpression):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def postfix_operators(self) -> List['AnyASTPostfixTableOperator']:
+    def postfix_operators(self) -> List['parse_tree_pb2.AnyASTPostfixTableOperatorProto']:
         """Field postfix_operators"""
         return [AnyASTPostfixTableOperator(item) for item in self._proto.parent.postfix_operators]
 
@@ -16823,7 +21522,7 @@ class ASTTruncateStatement(ASTStatement):
         return ASTPathExpression(self._proto.target_path) if self._proto.target_path.ByteSize() > 0 else None
 
     @cached_property
-    def where(self) -> Optional['AnyASTExpression']:
+    def where(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field where"""
         return AnyASTExpression(self._proto.where) if self._proto.where.ByteSize() > 0 else None
 
@@ -16846,7 +21545,7 @@ class ASTUnaryExpression(ASTExpression):
         return self._proto.parent.parenthesized
 
     @cached_property
-    def operand(self) -> Optional['AnyASTExpression']:
+    def operand(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field operand"""
         return AnyASTExpression(self._proto.operand) if self._proto.operand.ByteSize() > 0 else None
 
@@ -16935,7 +21634,7 @@ class ASTUpdateStatement(ASTStatement):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def target_path(self) -> Optional['AnyASTGeneralizedPathExpression']:
+    def target_path(self) -> Optional['parse_tree_pb2.AnyASTGeneralizedPathExpressionProto']:
         """Field target_path"""
         return AnyASTGeneralizedPathExpression(self._proto.target_path) if self._proto.target_path.ByteSize() > 0 else None
 
@@ -16960,7 +21659,7 @@ class ASTUpdateStatement(ASTStatement):
         return ASTFromClause(self._proto.from_clause) if self._proto.from_clause.ByteSize() > 0 else None
 
     @cached_property
-    def where(self) -> Optional['AnyASTExpression']:
+    def where(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field where"""
         return AnyASTExpression(self._proto.where) if self._proto.where.ByteSize() > 0 else None
 
@@ -17003,7 +21702,7 @@ class ASTWithExpression(ASTExpression):
         return ASTSelectList(self._proto.variables) if self._proto.variables.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -17044,7 +21743,7 @@ class ResolvedAggregateHavingModifier(ResolvedArgument):
         return self._proto.kind
 
     @cached_property
-    def having_expr(self) -> Optional['AnyResolvedExpr']:
+    def having_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field having_expr"""
         return AnyResolvedExpr(self._proto.having_expr) if self._proto.having_expr.ByteSize() > 0 else None
 
@@ -17082,7 +21781,7 @@ class ResolvedAggregateScanBase(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -17097,12 +21796,12 @@ class ResolvedAggregateScanBase(ResolvedScan):
         return [ResolvedCollation(item) for item in self._proto.collation_list]
 
     @cached_property
-    def aggregate_list(self) -> List['AnyResolvedComputedColumnBase']:
+    def aggregate_list(self) -> List['resolved_ast_pb2.AnyResolvedComputedColumnBaseProto']:
         """Field aggregate_list"""
         return [AnyResolvedComputedColumnBase(item) for item in self._proto.aggregate_list]
 
     @cached_property
-    def grouping_set_list(self) -> List['AnyResolvedGroupingSetBase']:
+    def grouping_set_list(self) -> List['resolved_ast_pb2.AnyResolvedGroupingSetBaseProto']:
         """Field grouping_set_list"""
         return [AnyResolvedGroupingSetBase(item) for item in self._proto.grouping_set_list]
 
@@ -17153,7 +21852,7 @@ class ResolvedAlterObjectStmt(ResolvedStatement):
         return self._proto.name_path
 
     @cached_property
-    def alter_action_list(self) -> List['AnyResolvedAlterAction']:
+    def alter_action_list(self) -> List['resolved_ast_pb2.AnyResolvedAlterActionProto']:
         """Field alter_action_list"""
         return [AnyResolvedAlterAction(item) for item in self._proto.alter_action_list]
 
@@ -17219,7 +21918,7 @@ class ResolvedAnalyticFunctionGroup(ResolvedArgument):
         return ResolvedWindowOrdering(self._proto.order_by) if self._proto.order_by.ByteSize() > 0 else None
 
     @cached_property
-    def analytic_function_list(self) -> List['AnyResolvedComputedColumnBase']:
+    def analytic_function_list(self) -> List['resolved_ast_pb2.AnyResolvedComputedColumnBaseProto']:
         """Field analytic_function_list"""
         return [AnyResolvedComputedColumnBase(item) for item in self._proto.analytic_function_list]
 
@@ -17257,7 +21956,7 @@ class ResolvedAnalyticScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -17397,7 +22096,7 @@ class ResolvedArrayAggregate(ResolvedExpr):
         return AnnotationMap(self._proto.parent.type_annotation_map) if self._proto.parent.type_annotation_map.ByteSize() > 0 else None
 
     @cached_property
-    def array(self) -> Optional['AnyResolvedExpr']:
+    def array(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field array"""
         return AnyResolvedExpr(self._proto.array) if self._proto.array.ByteSize() > 0 else None
 
@@ -17450,12 +22149,12 @@ class ResolvedArrayScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
     @cached_property
-    def array_expr_list(self) -> List['AnyResolvedExpr']:
+    def array_expr_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field array_expr_list"""
         return [AnyResolvedExpr(item) for item in self._proto.array_expr_list]
 
@@ -17470,7 +22169,7 @@ class ResolvedArrayScan(ResolvedScan):
         return ResolvedColumnHolder(self._proto.array_offset_column) if self._proto.array_offset_column.ByteSize() > 0 else None
 
     @cached_property
-    def join_expr(self) -> Optional['AnyResolvedExpr']:
+    def join_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field join_expr"""
         return AnyResolvedExpr(self._proto.join_expr) if self._proto.join_expr.ByteSize() > 0 else None
 
@@ -17480,7 +22179,7 @@ class ResolvedArrayScan(ResolvedScan):
         return self._proto.is_outer
 
     @cached_property
-    def array_zip_mode(self) -> Optional['AnyResolvedExpr']:
+    def array_zip_mode(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field array_zip_mode"""
         return AnyResolvedExpr(self._proto.array_zip_mode) if self._proto.array_zip_mode.ByteSize() > 0 else None
 
@@ -17498,7 +22197,7 @@ class ResolvedAssertRowsModified(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def rows(self) -> Optional['AnyResolvedExpr']:
+    def rows(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field rows"""
         return AnyResolvedExpr(self._proto.rows) if self._proto.rows.ByteSize() > 0 else None
 
@@ -17536,17 +22235,17 @@ class ResolvedAssertScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
     @cached_property
-    def condition(self) -> Optional['AnyResolvedExpr']:
+    def condition(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field condition"""
         return AnyResolvedExpr(self._proto.condition) if self._proto.condition.ByteSize() > 0 else None
 
     @cached_property
-    def message(self) -> Optional['AnyResolvedExpr']:
+    def message(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field message"""
         return AnyResolvedExpr(self._proto.message) if self._proto.message.ByteSize() > 0 else None
 
@@ -17569,7 +22268,7 @@ class ResolvedAssertStmt(ResolvedStatement):
         return [ResolvedOption(item) for item in self._proto.parent.hint_list]
 
     @cached_property
-    def expression(self) -> Optional['AnyResolvedExpr']:
+    def expression(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expression"""
         return AnyResolvedExpr(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -17597,12 +22296,12 @@ class ResolvedAssignmentStmt(ResolvedStatement):
         return [ResolvedOption(item) for item in self._proto.parent.hint_list]
 
     @cached_property
-    def target(self) -> Optional['AnyResolvedExpr']:
+    def target(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field target"""
         return AnyResolvedExpr(self._proto.target) if self._proto.target.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -17620,7 +22319,7 @@ class ResolvedAuxLoadDataPartitionFilter(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def filter(self) -> Optional['AnyResolvedExpr']:
+    def filter(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field filter"""
         return AnyResolvedExpr(self._proto.filter) if self._proto.filter.ByteSize() > 0 else None
 
@@ -17698,12 +22397,12 @@ class ResolvedAuxLoadDataStmt(ResolvedStatement):
         return [ResolvedCheckConstraint(item) for item in self._proto.check_constraint_list]
 
     @cached_property
-    def partition_by_list(self) -> List['AnyResolvedExpr']:
+    def partition_by_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field partition_by_list"""
         return [AnyResolvedExpr(item) for item in self._proto.partition_by_list]
 
     @cached_property
-    def cluster_by_list(self) -> List['AnyResolvedExpr']:
+    def cluster_by_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field cluster_by_list"""
         return [AnyResolvedExpr(item) for item in self._proto.cluster_by_list]
 
@@ -17761,7 +22460,7 @@ class ResolvedBarrierScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -17822,7 +22521,7 @@ class ResolvedCallStmt(ResolvedStatement):
         return FunctionSignature(self._proto.signature) if self._proto.signature.ByteSize() > 0 else None
 
     @cached_property
-    def argument_list(self) -> List['AnyResolvedExpr']:
+    def argument_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field argument_list"""
         return [AnyResolvedExpr(item) for item in self._proto.argument_list]
 
@@ -17850,7 +22549,7 @@ class ResolvedCast(ResolvedExpr):
         return AnnotationMap(self._proto.parent.type_annotation_map) if self._proto.parent.type_annotation_map.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -17865,12 +22564,12 @@ class ResolvedCast(ResolvedExpr):
         return ResolvedExtendedCast(self._proto.extended_cast) if self._proto.extended_cast.ByteSize() > 0 else None
 
     @cached_property
-    def format(self) -> Optional['AnyResolvedExpr']:
+    def format(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field format"""
         return AnyResolvedExpr(self._proto.format) if self._proto.format.ByteSize() > 0 else None
 
     @cached_property
-    def time_zone(self) -> Optional['AnyResolvedExpr']:
+    def time_zone(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field time_zone"""
         return AnyResolvedExpr(self._proto.time_zone) if self._proto.time_zone.ByteSize() > 0 else None
 
@@ -17931,7 +22630,7 @@ class ResolvedCloneDataStmt(ResolvedStatement):
         return ResolvedTableScan(self._proto.target_table) if self._proto.target_table.ByteSize() > 0 else None
 
     @cached_property
-    def clone_from(self) -> Optional['AnyResolvedScan']:
+    def clone_from(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field clone_from"""
         return AnyResolvedScan(self._proto.clone_from) if self._proto.clone_from.ByteSize() > 0 else None
 
@@ -17949,7 +22648,7 @@ class ResolvedColumnAnnotations(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def collation_name(self) -> Optional['AnyResolvedExpr']:
+    def collation_name(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field collation_name"""
         return AnyResolvedExpr(self._proto.collation_name) if self._proto.collation_name.ByteSize() > 0 else None
 
@@ -17987,7 +22686,7 @@ class ResolvedColumnDefaultValue(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyResolvedExpr']:
+    def expression(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expression"""
         return AnyResolvedExpr(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -18232,7 +22931,7 @@ class ResolvedCreateModelAliasedQuery(ResolvedArgument):
         return self._proto.alias
 
     @cached_property
-    def query(self) -> Optional['AnyResolvedScan']:
+    def query(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field query"""
         return AnyResolvedScan(self._proto.query) if self._proto.query.ByteSize() > 0 else None
 
@@ -18280,7 +22979,7 @@ class ResolvedCreateRowAccessPolicyStmt(ResolvedStatement):
         return self._proto.grantee_list
 
     @cached_property
-    def grantee_expr_list(self) -> List['AnyResolvedExpr']:
+    def grantee_expr_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field grantee_expr_list"""
         return [AnyResolvedExpr(item) for item in self._proto.grantee_expr_list]
 
@@ -18290,7 +22989,7 @@ class ResolvedCreateRowAccessPolicyStmt(ResolvedStatement):
         return ResolvedTableScan(self._proto.table_scan) if self._proto.table_scan.ByteSize() > 0 else None
 
     @cached_property
-    def predicate(self) -> Optional['AnyResolvedExpr']:
+    def predicate(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field predicate"""
         return AnyResolvedExpr(self._proto.predicate) if self._proto.predicate.ByteSize() > 0 else None
 
@@ -18392,7 +23091,7 @@ class ResolvedDMLValue(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def value(self) -> Optional['AnyResolvedExpr']:
+    def value(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field value"""
         return AnyResolvedExpr(self._proto.value) if self._proto.value.ByteSize() > 0 else None
 
@@ -18468,7 +23167,7 @@ class ResolvedDeleteStmt(ResolvedStatement):
         return ResolvedColumnHolder(self._proto.array_offset_column) if self._proto.array_offset_column.ByteSize() > 0 else None
 
     @cached_property
-    def where_expr(self) -> Optional['AnyResolvedExpr']:
+    def where_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field where_expr"""
         return AnyResolvedExpr(self._proto.where_expr) if self._proto.where_expr.ByteSize() > 0 else None
 
@@ -18506,7 +23205,7 @@ class ResolvedDescribeScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -18879,7 +23578,7 @@ class ResolvedExecuteAsRoleScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -18912,7 +23611,7 @@ class ResolvedExecuteImmediateArgument(ResolvedArgument):
         return self._proto.name
 
     @cached_property
-    def expression(self) -> Optional['AnyResolvedExpr']:
+    def expression(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expression"""
         return AnyResolvedExpr(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -18935,7 +23634,7 @@ class ResolvedExecuteImmediateStmt(ResolvedStatement):
         return [ResolvedOption(item) for item in self._proto.parent.hint_list]
 
     @cached_property
-    def sql(self) -> Optional['AnyResolvedExpr']:
+    def sql(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field sql"""
         return AnyResolvedExpr(self._proto.sql) if self._proto.sql.ByteSize() > 0 else None
 
@@ -18968,7 +23667,7 @@ class ResolvedExplainStmt(ResolvedStatement):
         return [ResolvedOption(item) for item in self._proto.parent.hint_list]
 
     @cached_property
-    def statement(self) -> Optional['AnyResolvedStatement']:
+    def statement(self) -> Optional['resolved_ast_pb2.AnyResolvedStatementProto']:
         """Field statement"""
         return AnyResolvedStatement(self._proto.statement) if self._proto.statement.ByteSize() > 0 else None
 
@@ -19011,7 +23710,7 @@ class ResolvedExportDataStmt(ResolvedStatement):
         return self._proto.is_value_table
 
     @cached_property
-    def query(self) -> Optional['AnyResolvedScan']:
+    def query(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field query"""
         return AnyResolvedScan(self._proto.query) if self._proto.query.ByteSize() > 0 else None
 
@@ -19184,7 +23883,7 @@ class ResolvedFilterField(ResolvedExpr):
         return AnnotationMap(self._proto.parent.type_annotation_map) if self._proto.parent.type_annotation_map.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -19255,12 +23954,12 @@ class ResolvedFilterScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
     @cached_property
-    def filter_expr(self) -> Optional['AnyResolvedExpr']:
+    def filter_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field filter_expr"""
         return AnyResolvedExpr(self._proto.filter_expr) if self._proto.filter_expr.ByteSize() > 0 else None
 
@@ -19288,12 +23987,12 @@ class ResolvedFlatten(ResolvedExpr):
         return AnnotationMap(self._proto.parent.type_annotation_map) if self._proto.parent.type_annotation_map.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
     @cached_property
-    def get_field_list(self) -> List['AnyResolvedExpr']:
+    def get_field_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field get_field_list"""
         return [AnyResolvedExpr(item) for item in self._proto.get_field_list]
 
@@ -19334,12 +24033,12 @@ class ResolvedFunctionArgument(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
     @cached_property
-    def scan(self) -> Optional['AnyResolvedScan']:
+    def scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field scan"""
         return AnyResolvedScan(self._proto.scan) if self._proto.scan.ByteSize() > 0 else None
 
@@ -19417,7 +24116,7 @@ class ResolvedFunctionCallBase(ResolvedExpr):
         return FunctionSignature(self._proto.signature) if self._proto.signature.ByteSize() > 0 else None
 
     @cached_property
-    def argument_list(self) -> List['AnyResolvedExpr']:
+    def argument_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field argument_list"""
         return [AnyResolvedExpr(item) for item in self._proto.argument_list]
 
@@ -19483,7 +24182,7 @@ class ResolvedGeneralizedQueryStmt(ResolvedStatement):
         return ResolvedOutputSchema(self._proto.output_schema) if self._proto.output_schema.ByteSize() > 0 else None
 
     @cached_property
-    def query(self) -> Optional['AnyResolvedScan']:
+    def query(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field query"""
         return AnyResolvedScan(self._proto.query) if self._proto.query.ByteSize() > 0 else None
 
@@ -19524,7 +24223,7 @@ class ResolvedGeneratedColumnInfo(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyResolvedExpr']:
+    def expression(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expression"""
         return AnyResolvedExpr(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -19567,7 +24266,7 @@ class ResolvedGetField(ResolvedExpr):
         return AnnotationMap(self._proto.parent.type_annotation_map) if self._proto.parent.type_annotation_map.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -19620,7 +24319,7 @@ class ResolvedGetJsonField(ResolvedExpr):
         return AnnotationMap(self._proto.parent.type_annotation_map) if self._proto.parent.type_annotation_map.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -19653,7 +24352,7 @@ class ResolvedGetOneof(ResolvedExpr):
         return AnnotationMap(self._proto.parent.type_annotation_map) if self._proto.parent.type_annotation_map.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -19686,7 +24385,7 @@ class ResolvedGetRowField(ResolvedExpr):
         return AnnotationMap(self._proto.parent.type_annotation_map) if self._proto.parent.type_annotation_map.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -19719,7 +24418,7 @@ class ResolvedGetStructField(ResolvedExpr):
         return AnnotationMap(self._proto.parent.type_annotation_map) if self._proto.parent.type_annotation_map.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -19772,7 +24471,7 @@ class ResolvedGrantOrRevokeStmt(ResolvedStatement):
         return self._proto.grantee_list
 
     @cached_property
-    def grantee_expr_list(self) -> List['AnyResolvedExpr']:
+    def grantee_expr_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field grantee_expr_list"""
         return [AnyResolvedExpr(item) for item in self._proto.grantee_expr_list]
 
@@ -19815,12 +24514,12 @@ class ResolvedGraphCallScan(ResolvedScan):
         return self._proto.optional
 
     @cached_property
-    def subquery(self) -> Optional['AnyResolvedScan']:
+    def subquery(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field subquery"""
         return AnyResolvedScan(self._proto.subquery) if self._proto.subquery.ByteSize() > 0 else None
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -19843,7 +24542,7 @@ class ResolvedGraphDynamicLabelSpecification(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def label_expr(self) -> Optional['AnyResolvedExpr']:
+    def label_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field label_expr"""
         return AnyResolvedExpr(self._proto.label_expr) if self._proto.label_expr.ByteSize() > 0 else None
 
@@ -19861,7 +24560,7 @@ class ResolvedGraphDynamicPropertiesSpecification(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def property_expr(self) -> Optional['AnyResolvedExpr']:
+    def property_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field property_expr"""
         return AnyResolvedExpr(self._proto.property_expr) if self._proto.property_expr.ByteSize() > 0 else None
 
@@ -19884,7 +24583,7 @@ class ResolvedGraphElementIdentifier(ResolvedArgument):
         return GraphElementTableRef(self._proto.element_table) if self._proto.element_table.ByteSize() > 0 else None
 
     @cached_property
-    def key_list(self) -> List['AnyResolvedExpr']:
+    def key_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field key_list"""
         return [AnyResolvedExpr(item) for item in self._proto.key_list]
 
@@ -19945,7 +24644,7 @@ class ResolvedGraphElementProperty(ResolvedArgument):
         return GraphPropertyDeclarationRef(self._proto.declaration) if self._proto.declaration.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -19968,12 +24667,12 @@ class ResolvedGraphElementTable(ResolvedArgument):
         return self._proto.alias
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
     @cached_property
-    def key_list(self) -> List['AnyResolvedExpr']:
+    def key_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field key_list"""
         return [AnyResolvedExpr(item) for item in self._proto.key_list]
 
@@ -20031,7 +24730,7 @@ class ResolvedGraphGetElementProperty(ResolvedExpr):
         return AnnotationMap(self._proto.parent.type_annotation_map) if self._proto.parent.type_annotation_map.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -20041,7 +24740,7 @@ class ResolvedGraphGetElementProperty(ResolvedExpr):
         return GraphPropertyDeclarationRef(self._proto.property) if self._proto.property.ByteSize() > 0 else None
 
     @cached_property
-    def property_name(self) -> Optional['AnyResolvedExpr']:
+    def property_name(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field property_name"""
         return AnyResolvedExpr(self._proto.property_name) if self._proto.property_name.ByteSize() > 0 else None
 
@@ -20074,12 +24773,12 @@ class ResolvedGraphIsLabeledPredicate(ResolvedExpr):
         return self._proto.is_not
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
     @cached_property
-    def label_expr(self) -> Optional['AnyResolvedGraphLabelExpr']:
+    def label_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedGraphLabelExprProto']:
         """Field label_expr"""
         return AnyResolvedGraphLabelExpr(self._proto.label_expr) if self._proto.label_expr.ByteSize() > 0 else None
 
@@ -20158,12 +24857,12 @@ class ResolvedGraphMakeElement(ResolvedExpr):
         return [GraphElementLabelRef(item) for item in self._proto.label_list]
 
     @cached_property
-    def dynamic_labels(self) -> Optional['AnyResolvedExpr']:
+    def dynamic_labels(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field dynamic_labels"""
         return AnyResolvedExpr(self._proto.dynamic_labels) if self._proto.dynamic_labels.ByteSize() > 0 else None
 
     @cached_property
-    def dynamic_properties(self) -> Optional['AnyResolvedExpr']:
+    def dynamic_properties(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field dynamic_properties"""
         return AnyResolvedExpr(self._proto.dynamic_properties) if self._proto.dynamic_properties.ByteSize() > 0 else None
 
@@ -20186,12 +24885,12 @@ class ResolvedGraphNodeTableReference(ResolvedArgument):
         return self._proto.node_table_identifier
 
     @cached_property
-    def edge_table_column_list(self) -> List['AnyResolvedExpr']:
+    def edge_table_column_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field edge_table_column_list"""
         return [AnyResolvedExpr(item) for item in self._proto.edge_table_column_list]
 
     @cached_property
-    def node_table_column_list(self) -> List['AnyResolvedExpr']:
+    def node_table_column_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field node_table_column_list"""
         return [AnyResolvedExpr(item) for item in self._proto.node_table_column_list]
 
@@ -20245,12 +24944,12 @@ class ResolvedGraphPathPatternQuantifier(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def lower_bound(self) -> Optional['AnyResolvedExpr']:
+    def lower_bound(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field lower_bound"""
         return AnyResolvedExpr(self._proto.lower_bound) if self._proto.lower_bound.ByteSize() > 0 else None
 
     @cached_property
-    def upper_bound(self) -> Optional['AnyResolvedExpr']:
+    def upper_bound(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field upper_bound"""
         return AnyResolvedExpr(self._proto.upper_bound) if self._proto.upper_bound.ByteSize() > 0 else None
 
@@ -20306,7 +25005,7 @@ class ResolvedGraphPathSearchPrefix(ResolvedArgument):
         return self._proto.type
 
     @cached_property
-    def path_count(self) -> Optional['AnyResolvedExpr']:
+    def path_count(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field path_count"""
         return AnyResolvedExpr(self._proto.path_count) if self._proto.path_count.ByteSize() > 0 else None
 
@@ -20347,7 +25046,7 @@ class ResolvedGraphPropertyDefinition(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -20471,7 +25170,7 @@ class ResolvedGraphTableScan(ResolvedScan):
         return PropertyGraphRef(self._proto.property_graph) if self._proto.property_graph.ByteSize() > 0 else None
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedGraphScanBase']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedGraphScanBaseProto']:
         """Field input_scan"""
         return AnyResolvedGraphScanBase(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -20715,7 +25414,7 @@ class ResolvedInlineLambda(ResolvedArgument):
         return [ResolvedColumnRef(item) for item in self._proto.parameter_list]
 
     @cached_property
-    def body(self) -> Optional['AnyResolvedExpr']:
+    def body(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field body"""
         return AnyResolvedExpr(self._proto.body) if self._proto.body.ByteSize() > 0 else None
 
@@ -20786,7 +25485,7 @@ class ResolvedInsertStmt(ResolvedStatement):
         return [ResolvedColumnRef(item) for item in self._proto.query_parameter_list]
 
     @cached_property
-    def query(self) -> Optional['AnyResolvedScan']:
+    def query(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field query"""
         return AnyResolvedScan(self._proto.query) if self._proto.query.ByteSize() > 0 else None
 
@@ -20816,7 +25515,7 @@ class ResolvedInsertStmt(ResolvedStatement):
         return self._proto.topologically_sorted_generated_column_id_list
 
     @cached_property
-    def generated_column_expr_list(self) -> List['AnyResolvedExpr']:
+    def generated_column_expr_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field generated_column_expr_list"""
         return [AnyResolvedExpr(item) for item in self._proto.generated_column_expr_list]
 
@@ -20859,17 +25558,17 @@ class ResolvedJoinScan(ResolvedScan):
         return self._proto.join_type
 
     @cached_property
-    def left_scan(self) -> Optional['AnyResolvedScan']:
+    def left_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field left_scan"""
         return AnyResolvedScan(self._proto.left_scan) if self._proto.left_scan.ByteSize() > 0 else None
 
     @cached_property
-    def right_scan(self) -> Optional['AnyResolvedScan']:
+    def right_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field right_scan"""
         return AnyResolvedScan(self._proto.right_scan) if self._proto.right_scan.ByteSize() > 0 else None
 
     @cached_property
-    def join_expr(self) -> Optional['AnyResolvedExpr']:
+    def join_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field join_expr"""
         return AnyResolvedExpr(self._proto.join_expr) if self._proto.join_expr.ByteSize() > 0 else None
 
@@ -20922,17 +25621,17 @@ class ResolvedLimitOffsetScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
     @cached_property
-    def limit(self) -> Optional['AnyResolvedExpr']:
+    def limit(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field limit"""
         return AnyResolvedExpr(self._proto.limit) if self._proto.limit.ByteSize() > 0 else None
 
     @cached_property
-    def offset(self) -> Optional['AnyResolvedExpr']:
+    def offset(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field offset"""
         return AnyResolvedExpr(self._proto.offset) if self._proto.offset.ByteSize() > 0 else None
 
@@ -21031,7 +25730,7 @@ class ResolvedLogScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -21097,7 +25796,7 @@ class ResolvedMakeField(ResolvedArgument):
         return self._proto.format
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -21125,7 +25824,7 @@ class ResolvedMakeStruct(ResolvedExpr):
         return AnnotationMap(self._proto.parent.type_annotation_map) if self._proto.parent.type_annotation_map.ByteSize() > 0 else None
 
     @cached_property
-    def field_list(self) -> List['AnyResolvedExpr']:
+    def field_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field field_list"""
         return [AnyResolvedExpr(item) for item in self._proto.field_list]
 
@@ -21176,7 +25875,7 @@ class ResolvedMatchRecognizeScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -21196,7 +25895,7 @@ class ResolvedMatchRecognizeScan(ResolvedScan):
         return [ResolvedMatchRecognizeVariableDefinition(item) for item in self._proto.pattern_variable_definition_list]
 
     @cached_property
-    def pattern(self) -> Optional['AnyResolvedMatchRecognizePatternExpr']:
+    def pattern(self) -> Optional['resolved_ast_pb2.AnyResolvedMatchRecognizePatternExprProto']:
         """Field pattern"""
         return AnyResolvedMatchRecognizePatternExpr(self._proto.pattern) if self._proto.pattern.ByteSize() > 0 else None
 
@@ -21244,7 +25943,7 @@ class ResolvedMatchRecognizeVariableDefinition(ResolvedArgument):
         return self._proto.name
 
     @cached_property
-    def predicate(self) -> Optional['AnyResolvedExpr']:
+    def predicate(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field predicate"""
         return AnyResolvedExpr(self._proto.predicate) if self._proto.predicate.ByteSize() > 0 else None
 
@@ -21267,7 +25966,7 @@ class ResolvedMeasureGroup(ResolvedArgument):
         return ResolvedMatchRecognizePatternVariableRef(self._proto.pattern_variable_ref) if self._proto.pattern_variable_ref.ByteSize() > 0 else None
 
     @cached_property
-    def aggregate_list(self) -> List['AnyResolvedComputedColumnBase']:
+    def aggregate_list(self) -> List['resolved_ast_pb2.AnyResolvedComputedColumnBaseProto']:
         """Field aggregate_list"""
         return [AnyResolvedComputedColumnBase(item) for item in self._proto.aggregate_list]
 
@@ -21300,12 +25999,12 @@ class ResolvedMergeStmt(ResolvedStatement):
         return self._proto.column_access_list
 
     @cached_property
-    def from_scan(self) -> Optional['AnyResolvedScan']:
+    def from_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field from_scan"""
         return AnyResolvedScan(self._proto.from_scan) if self._proto.from_scan.ByteSize() > 0 else None
 
     @cached_property
-    def merge_expr(self) -> Optional['AnyResolvedExpr']:
+    def merge_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field merge_expr"""
         return AnyResolvedExpr(self._proto.merge_expr) if self._proto.merge_expr.ByteSize() > 0 else None
 
@@ -21333,7 +26032,7 @@ class ResolvedMergeWhen(ResolvedArgument):
         return self._proto.match_type
 
     @cached_property
-    def match_expr(self) -> Optional['AnyResolvedExpr']:
+    def match_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field match_expr"""
         return AnyResolvedExpr(self._proto.match_expr) if self._proto.match_expr.ByteSize() > 0 else None
 
@@ -21422,7 +26121,7 @@ class ResolvedMultiStmt(ResolvedStatement):
         return [ResolvedOption(item) for item in self._proto.parent.hint_list]
 
     @cached_property
-    def statement_list(self) -> List['AnyResolvedStatement']:
+    def statement_list(self) -> List['resolved_ast_pb2.AnyResolvedStatementProto']:
         """Field statement_list"""
         return [AnyResolvedStatement(item) for item in self._proto.statement_list]
 
@@ -21483,7 +26182,7 @@ class ResolvedOnConflictClause(ResolvedArgument):
         return [ResolvedUpdateItem(item) for item in self._proto.update_item_list]
 
     @cached_property
-    def update_where_expression(self) -> Optional['AnyResolvedExpr']:
+    def update_where_expression(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field update_where_expression"""
         return AnyResolvedExpr(self._proto.update_where_expression) if self._proto.update_where_expression.ByteSize() > 0 else None
 
@@ -21511,7 +26210,7 @@ class ResolvedOption(ResolvedArgument):
         return self._proto.name
 
     @cached_property
-    def value(self) -> Optional['AnyResolvedExpr']:
+    def value(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field value"""
         return AnyResolvedExpr(self._proto.value) if self._proto.value.ByteSize() > 0 else None
 
@@ -21539,7 +26238,7 @@ class ResolvedOrderByItem(ResolvedArgument):
         return ResolvedColumnRef(self._proto.column_ref) if self._proto.column_ref.ByteSize() > 0 else None
 
     @cached_property
-    def collation_name(self) -> Optional['AnyResolvedExpr']:
+    def collation_name(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field collation_name"""
         return AnyResolvedExpr(self._proto.collation_name) if self._proto.collation_name.ByteSize() > 0 else None
 
@@ -21592,7 +26291,7 @@ class ResolvedOrderByScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -21795,7 +26494,7 @@ class ResolvedPipeForkScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -21818,7 +26517,7 @@ class ResolvedPipeIfCase(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def condition(self) -> Optional['AnyResolvedExpr']:
+    def condition(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field condition"""
         return AnyResolvedExpr(self._proto.condition) if self._proto.condition.ByteSize() > 0 else None
 
@@ -21866,7 +26565,7 @@ class ResolvedPipeIfScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -21952,7 +26651,7 @@ class ResolvedPipeTeeScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -22023,7 +26722,7 @@ class ResolvedPivotScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -22033,17 +26732,17 @@ class ResolvedPivotScan(ResolvedScan):
         return [ResolvedComputedColumn(item) for item in self._proto.group_by_list]
 
     @cached_property
-    def pivot_expr_list(self) -> List['AnyResolvedExpr']:
+    def pivot_expr_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field pivot_expr_list"""
         return [AnyResolvedExpr(item) for item in self._proto.pivot_expr_list]
 
     @cached_property
-    def for_expr(self) -> Optional['AnyResolvedExpr']:
+    def for_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field for_expr"""
         return AnyResolvedExpr(self._proto.for_expr) if self._proto.for_expr.ByteSize() > 0 else None
 
     @cached_property
-    def pivot_value_list(self) -> List['AnyResolvedExpr']:
+    def pivot_value_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field pivot_value_list"""
         return [AnyResolvedExpr(item) for item in self._proto.pivot_value_list]
 
@@ -22114,7 +26813,7 @@ class ResolvedProjectScan(ResolvedScan):
         return [ResolvedComputedColumn(item) for item in self._proto.expr_list]
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -22147,7 +26846,7 @@ class ResolvedQueryStmt(ResolvedStatement):
         return self._proto.is_value_table
 
     @cached_property
-    def query(self) -> Optional['AnyResolvedScan']:
+    def query(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field query"""
         return AnyResolvedScan(self._proto.query) if self._proto.query.ByteSize() > 0 else None
 
@@ -22165,12 +26864,12 @@ class ResolvedRecursionDepthModifier(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def lower_bound(self) -> Optional['AnyResolvedExpr']:
+    def lower_bound(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field lower_bound"""
         return AnyResolvedExpr(self._proto.lower_bound) if self._proto.lower_bound.ByteSize() > 0 else None
 
     @cached_property
-    def upper_bound(self) -> Optional['AnyResolvedExpr']:
+    def upper_bound(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field upper_bound"""
         return AnyResolvedExpr(self._proto.upper_bound) if self._proto.upper_bound.ByteSize() > 0 else None
 
@@ -22365,7 +27064,7 @@ class ResolvedReplaceField(ResolvedExpr):
         return AnnotationMap(self._proto.parent.type_annotation_map) if self._proto.parent.type_annotation_map.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -22388,7 +27087,7 @@ class ResolvedReplaceFieldItem(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -22500,7 +27199,7 @@ class ResolvedSampleScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -22510,7 +27209,7 @@ class ResolvedSampleScan(ResolvedScan):
         return self._proto.method
 
     @cached_property
-    def size(self) -> Optional['AnyResolvedExpr']:
+    def size(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field size"""
         return AnyResolvedExpr(self._proto.size) if self._proto.size.ByteSize() > 0 else None
 
@@ -22520,7 +27219,7 @@ class ResolvedSampleScan(ResolvedScan):
         return self._proto.unit
 
     @cached_property
-    def repeatable_argument(self) -> Optional['AnyResolvedExpr']:
+    def repeatable_argument(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field repeatable_argument"""
         return AnyResolvedExpr(self._proto.repeatable_argument) if self._proto.repeatable_argument.ByteSize() > 0 else None
 
@@ -22530,7 +27229,7 @@ class ResolvedSampleScan(ResolvedScan):
         return ResolvedColumnHolder(self._proto.weight_column) if self._proto.weight_column.ByteSize() > 0 else None
 
     @cached_property
-    def partition_by_list(self) -> List['AnyResolvedExpr']:
+    def partition_by_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field partition_by_list"""
         return [AnyResolvedExpr(item) for item in self._proto.partition_by_list]
 
@@ -22566,7 +27265,7 @@ class ResolvedSetOperationItem(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def scan(self) -> Optional['AnyResolvedScan']:
+    def scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field scan"""
         return AnyResolvedScan(self._proto.scan) if self._proto.scan.ByteSize() > 0 else None
 
@@ -22764,7 +27463,7 @@ class ResolvedStatementWithPipeOperatorsStmt(ResolvedStatement):
         return [ResolvedOption(item) for item in self._proto.parent.hint_list]
 
     @cached_property
-    def statement(self) -> Optional['AnyResolvedStatement']:
+    def statement(self) -> Optional['resolved_ast_pb2.AnyResolvedStatementProto']:
         """Field statement"""
         return AnyResolvedStatement(self._proto.statement) if self._proto.statement.ByteSize() > 0 else None
 
@@ -22807,7 +27506,7 @@ class ResolvedStaticDescribeScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -22830,7 +27529,7 @@ class ResolvedSubpipeline(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def scan(self) -> Optional['AnyResolvedScan']:
+    def scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field scan"""
         return AnyResolvedScan(self._proto.scan) if self._proto.scan.ByteSize() > 0 else None
 
@@ -22934,7 +27633,7 @@ class ResolvedSubqueryExpr(ResolvedExpr):
         return [ResolvedColumnRef(item) for item in self._proto.parameter_list]
 
     @cached_property
-    def in_expr(self) -> Optional['AnyResolvedExpr']:
+    def in_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field in_expr"""
         return AnyResolvedExpr(self._proto.in_expr) if self._proto.in_expr.ByteSize() > 0 else None
 
@@ -22944,7 +27643,7 @@ class ResolvedSubqueryExpr(ResolvedExpr):
         return ResolvedCollation(self._proto.in_collation) if self._proto.in_collation.ByteSize() > 0 else None
 
     @cached_property
-    def subquery(self) -> Optional['AnyResolvedScan']:
+    def subquery(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field subquery"""
         return AnyResolvedScan(self._proto.subquery) if self._proto.subquery.ByteSize() > 0 else None
 
@@ -23106,7 +27805,7 @@ class ResolvedTableScan(ResolvedScan):
         return TableRef(self._proto.table) if self._proto.table.ByteSize() > 0 else None
 
     @cached_property
-    def for_system_time_expr(self) -> Optional['AnyResolvedExpr']:
+    def for_system_time_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field for_system_time_expr"""
         return AnyResolvedExpr(self._proto.for_system_time_expr) if self._proto.for_system_time_expr.ByteSize() > 0 else None
 
@@ -23159,7 +27858,7 @@ class ResolvedTruncateStmt(ResolvedStatement):
         return ResolvedTableScan(self._proto.table_scan) if self._proto.table_scan.ByteSize() > 0 else None
 
     @cached_property
-    def where_expr(self) -> Optional['AnyResolvedExpr']:
+    def where_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field where_expr"""
         return AnyResolvedExpr(self._proto.where_expr) if self._proto.where_expr.ByteSize() > 0 else None
 
@@ -23197,7 +27896,7 @@ class ResolvedUndropStmt(ResolvedStatement):
         return self._proto.name_path
 
     @cached_property
-    def for_system_time_expr(self) -> Optional['AnyResolvedExpr']:
+    def for_system_time_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field for_system_time_expr"""
         return AnyResolvedExpr(self._proto.for_system_time_expr) if self._proto.for_system_time_expr.ByteSize() > 0 else None
 
@@ -23220,7 +27919,7 @@ class ResolvedUnnestItem(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def array_expr(self) -> Optional['AnyResolvedExpr']:
+    def array_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field array_expr"""
         return AnyResolvedExpr(self._proto.array_expr) if self._proto.array_expr.ByteSize() > 0 else None
 
@@ -23286,7 +27985,7 @@ class ResolvedUnpivotScan(ResolvedScan):
         return self._proto.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -23377,7 +28076,7 @@ class ResolvedUpdateConstructor(ResolvedExpr):
         return AnnotationMap(self._proto.parent.type_annotation_map) if self._proto.parent.type_annotation_map.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -23405,7 +28104,7 @@ class ResolvedUpdateFieldItem(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -23433,7 +28132,7 @@ class ResolvedUpdateItem(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def target(self) -> Optional['AnyResolvedExpr']:
+    def target(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field target"""
         return AnyResolvedExpr(self._proto.target) if self._proto.target.ByteSize() > 0 else None
 
@@ -23481,7 +28180,7 @@ class ResolvedUpdateItemElement(ResolvedArgument):
         return ParseLocationRange(self._proto.parent.parent.parse_location_range) if self._proto.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def subscript(self) -> Optional['AnyResolvedExpr']:
+    def subscript(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field subscript"""
         return AnyResolvedExpr(self._proto.subscript) if self._proto.subscript.ByteSize() > 0 else None
 
@@ -23534,7 +28233,7 @@ class ResolvedUpdateStmt(ResolvedStatement):
         return ResolvedColumnHolder(self._proto.array_offset_column) if self._proto.array_offset_column.ByteSize() > 0 else None
 
     @cached_property
-    def where_expr(self) -> Optional['AnyResolvedExpr']:
+    def where_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field where_expr"""
         return AnyResolvedExpr(self._proto.where_expr) if self._proto.where_expr.ByteSize() > 0 else None
 
@@ -23544,7 +28243,7 @@ class ResolvedUpdateStmt(ResolvedStatement):
         return [ResolvedUpdateItem(item) for item in self._proto.update_item_list]
 
     @cached_property
-    def from_scan(self) -> Optional['AnyResolvedScan']:
+    def from_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field from_scan"""
         return AnyResolvedScan(self._proto.from_scan) if self._proto.from_scan.ByteSize() > 0 else None
 
@@ -23554,7 +28253,7 @@ class ResolvedUpdateStmt(ResolvedStatement):
         return self._proto.topologically_sorted_generated_column_id_list
 
     @cached_property
-    def generated_column_expr_list(self) -> List['AnyResolvedExpr']:
+    def generated_column_expr_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field generated_column_expr_list"""
         return [AnyResolvedExpr(item) for item in self._proto.generated_column_expr_list]
 
@@ -23605,7 +28304,7 @@ class ResolvedWindowFrameExpr(ResolvedArgument):
         return self._proto.boundary_type
 
     @cached_property
-    def expression(self) -> Optional['AnyResolvedExpr']:
+    def expression(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expression"""
         return AnyResolvedExpr(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -23679,7 +28378,7 @@ class ResolvedWithEntry(ResolvedArgument):
         return self._proto.with_query_name
 
     @cached_property
-    def with_subquery(self) -> Optional['AnyResolvedScan']:
+    def with_subquery(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field with_subquery"""
         return AnyResolvedScan(self._proto.with_subquery) if self._proto.with_subquery.ByteSize() > 0 else None
 
@@ -23712,7 +28411,7 @@ class ResolvedWithExpr(ResolvedExpr):
         return [ResolvedComputedColumn(item) for item in self._proto.assignment_list]
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -23811,7 +28510,7 @@ class ResolvedWithScan(ResolvedScan):
         return [ResolvedWithEntry(item) for item in self._proto.with_entry_list]
 
     @cached_property
-    def query(self) -> Optional['AnyResolvedScan']:
+    def query(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field query"""
         return AnyResolvedScan(self._proto.query) if self._proto.query.ByteSize() > 0 else None
 
@@ -23872,7 +28571,7 @@ class ASTArrayColumnSchema(ASTElementTypeColumnSchema):
         return ASTGeneratedColumnInfo(self._proto.parent.parent.generated_column_info) if self._proto.parent.parent.generated_column_info.ByteSize() > 0 else None
 
     @cached_property
-    def default_expression(self) -> Optional['AnyASTExpression']:
+    def default_expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field default_expression"""
         return AnyASTExpression(self._proto.parent.parent.default_expression) if self._proto.parent.parent.default_expression.ByteSize() > 0 else None
 
@@ -23892,7 +28591,7 @@ class ASTArrayColumnSchema(ASTElementTypeColumnSchema):
         return ASTOptionsList(self._proto.parent.parent.options_list) if self._proto.parent.parent.options_list.ByteSize() > 0 else None
 
     @cached_property
-    def element_schema(self) -> Optional['AnyASTColumnSchema']:
+    def element_schema(self) -> Optional['parse_tree_pb2.AnyASTColumnSchemaProto']:
         """Field element_schema"""
         return AnyASTColumnSchema(self._proto.parent.element_schema) if self._proto.parent.element_schema.ByteSize() > 0 else None
 
@@ -23915,12 +28614,12 @@ class ASTArrayElement(ASTGeneralizedPathExpression):
         return self._proto.parent.parent.parenthesized
 
     @cached_property
-    def array(self) -> Optional['AnyASTExpression']:
+    def array(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field array"""
         return AnyASTExpression(self._proto.array) if self._proto.array.ByteSize() > 0 else None
 
     @cached_property
-    def position(self) -> Optional['AnyASTExpression']:
+    def position(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field position"""
         return AnyASTExpression(self._proto.position) if self._proto.position.ByteSize() > 0 else None
 
@@ -23948,7 +28647,7 @@ class ASTAssignmentFromStruct(ASTScriptStatement):
         return ASTIdentifierList(self._proto.variables) if self._proto.variables.ByteSize() > 0 else None
 
     @cached_property
-    def struct_expression(self) -> Optional['AnyASTExpression']:
+    def struct_expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field struct_expression"""
         return AnyASTExpression(self._proto.struct_expression) if self._proto.struct_expression.ByteSize() > 0 else None
 
@@ -24063,7 +28762,7 @@ class ASTCaseStatement(ASTScriptStatement):
         return ParseLocationRange(self._proto.parent.parent.parent.parse_location_range) if self._proto.parent.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -24091,7 +28790,7 @@ class ASTCheckConstraint(ASTTableConstraint):
         return ParseLocationRange(self._proto.parent.parent.parent.parse_location_range) if self._proto.parent.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -24124,7 +28823,7 @@ class ASTCloneDataSource(ASTTableDataSource):
         return ParseLocationRange(self._proto.parent.parent.parent.parse_location_range) if self._proto.parent.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def postfix_operators(self) -> List['AnyASTPostfixTableOperator']:
+    def postfix_operators(self) -> List['parse_tree_pb2.AnyASTPostfixTableOperatorProto']:
         """Field postfix_operators"""
         return [AnyASTPostfixTableOperator(item) for item in self._proto.parent.parent.postfix_operators]
 
@@ -24157,7 +28856,7 @@ class ASTCopyDataSource(ASTTableDataSource):
         return ParseLocationRange(self._proto.parent.parent.parent.parse_location_range) if self._proto.parent.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def postfix_operators(self) -> List['AnyASTPostfixTableOperator']:
+    def postfix_operators(self) -> List['parse_tree_pb2.AnyASTPostfixTableOperatorProto']:
         """Field postfix_operators"""
         return [AnyASTPostfixTableOperator(item) for item in self._proto.parent.parent.postfix_operators]
 
@@ -24223,7 +28922,7 @@ class ASTDotGeneralizedField(ASTGeneralizedPathExpression):
         return self._proto.parent.parent.parenthesized
 
     @cached_property
-    def expr(self) -> Optional['AnyASTExpression']:
+    def expr(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expr"""
         return AnyASTExpression(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -24251,7 +28950,7 @@ class ASTDotIdentifier(ASTGeneralizedPathExpression):
         return self._proto.parent.parent.parenthesized
 
     @cached_property
-    def expr(self) -> Optional['AnyASTExpression']:
+    def expr(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expr"""
         return AnyASTExpression(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -24526,12 +29225,12 @@ class ASTExtendedPathExpression(ASTGeneralizedPathExpression):
         return self._proto.parent.parent.parenthesized
 
     @cached_property
-    def parenthesized_path(self) -> Optional['AnyASTGeneralizedPathExpression']:
+    def parenthesized_path(self) -> Optional['parse_tree_pb2.AnyASTGeneralizedPathExpressionProto']:
         """Field parenthesized_path"""
         return AnyASTGeneralizedPathExpression(self._proto.parenthesized_path) if self._proto.parenthesized_path.ByteSize() > 0 else None
 
     @cached_property
-    def generalized_path_expression(self) -> Optional['AnyASTGeneralizedPathExpression']:
+    def generalized_path_expression(self) -> Optional['parse_tree_pb2.AnyASTGeneralizedPathExpressionProto']:
         """Field generalized_path_expression"""
         return AnyASTGeneralizedPathExpression(self._proto.generalized_path_expression) if self._proto.generalized_path_expression.ByteSize() > 0 else None
 
@@ -24653,7 +29352,7 @@ class ASTGraphEdgePattern(ASTGraphElementPattern):
         return ParseLocationRange(self._proto.parent.parent.parent.parse_location_range) if self._proto.parent.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def quantifier(self) -> Optional['AnyASTQuantifier']:
+    def quantifier(self) -> Optional['parse_tree_pb2.AnyASTQuantifierProto']:
         """Field quantifier"""
         return AnyASTQuantifier(self._proto.parent.parent.quantifier) if self._proto.parent.parent.quantifier.ByteSize() > 0 else None
 
@@ -24691,7 +29390,7 @@ class ASTGraphNodePattern(ASTGraphElementPattern):
         return ParseLocationRange(self._proto.parent.parent.parent.parse_location_range) if self._proto.parent.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def quantifier(self) -> Optional['AnyASTQuantifier']:
+    def quantifier(self) -> Optional['parse_tree_pb2.AnyASTQuantifierProto']:
         """Field quantifier"""
         return AnyASTQuantifier(self._proto.parent.parent.quantifier) if self._proto.parent.parent.quantifier.ByteSize() > 0 else None
 
@@ -24714,7 +29413,7 @@ class ASTIfStatement(ASTScriptStatement):
         return ParseLocationRange(self._proto.parent.parent.parent.parse_location_range) if self._proto.parent.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def condition(self) -> Optional['AnyASTExpression']:
+    def condition(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field condition"""
         return AnyASTExpression(self._proto.condition) if self._proto.condition.ByteSize() > 0 else None
 
@@ -24923,7 +29622,7 @@ class ASTRaiseStatement(ASTScriptStatement):
         return ParseLocationRange(self._proto.parent.parent.parent.parse_location_range) if self._proto.parent.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def message(self) -> Optional['AnyASTExpression']:
+    def message(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field message"""
         return AnyASTExpression(self._proto.message) if self._proto.message.ByteSize() > 0 else None
 
@@ -24951,7 +29650,7 @@ class ASTRangeColumnSchema(ASTElementTypeColumnSchema):
         return ASTGeneratedColumnInfo(self._proto.parent.parent.generated_column_info) if self._proto.parent.parent.generated_column_info.ByteSize() > 0 else None
 
     @cached_property
-    def default_expression(self) -> Optional['AnyASTExpression']:
+    def default_expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field default_expression"""
         return AnyASTExpression(self._proto.parent.parent.default_expression) if self._proto.parent.parent.default_expression.ByteSize() > 0 else None
 
@@ -24971,7 +29670,7 @@ class ASTRangeColumnSchema(ASTElementTypeColumnSchema):
         return ASTOptionsList(self._proto.parent.parent.options_list) if self._proto.parent.parent.options_list.ByteSize() > 0 else None
 
     @cached_property
-    def element_schema(self) -> Optional['AnyASTColumnSchema']:
+    def element_schema(self) -> Optional['parse_tree_pb2.AnyASTColumnSchemaProto']:
         """Field element_schema"""
         return AnyASTColumnSchema(self._proto.parent.element_schema) if self._proto.parent.element_schema.ByteSize() > 0 else None
 
@@ -25007,7 +29706,7 @@ class ASTSingleAssignment(ASTScriptStatement):
         return ASTIdentifier(self._proto.variable) if self._proto.variable.ByteSize() > 0 else None
 
     @cached_property
-    def expression(self) -> Optional['AnyASTExpression']:
+    def expression(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expression"""
         return AnyASTExpression(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -25119,12 +29818,12 @@ class ASTVariableDeclaration(ASTScriptStatement):
         return ASTIdentifierList(self._proto.variable_list) if self._proto.variable_list.ByteSize() > 0 else None
 
     @cached_property
-    def type(self) -> Optional['AnyASTType']:
+    def type(self) -> Optional['parse_tree_pb2.AnyASTTypeProto']:
         """Field type"""
         return AnyASTType(self._proto.type) if self._proto.type.ByteSize() > 0 else None
 
     @cached_property
-    def default_value(self) -> Optional['AnyASTExpression']:
+    def default_value(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field default_value"""
         return AnyASTExpression(self._proto.default_value) if self._proto.default_value.ByteSize() > 0 else None
 
@@ -25198,7 +29897,7 @@ class ResolvedAddConstraintAction(ResolvedAlterAction):
         return self._proto.is_if_not_exists
 
     @cached_property
-    def constraint(self) -> Optional['AnyResolvedConstraint']:
+    def constraint(self) -> Optional['resolved_ast_pb2.AnyResolvedConstraintProto']:
         """Field constraint"""
         return AnyResolvedConstraint(self._proto.constraint) if self._proto.constraint.ByteSize() > 0 else None
 
@@ -25259,7 +29958,7 @@ class ResolvedAddToRestricteeListAction(ResolvedAlterAction):
         return self._proto.is_if_not_exists
 
     @cached_property
-    def restrictee_list(self) -> List['AnyResolvedExpr']:
+    def restrictee_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field restrictee_list"""
         return [AnyResolvedExpr(item) for item in self._proto.restrictee_list]
 
@@ -25297,7 +29996,7 @@ class ResolvedAggregateScan(ResolvedAggregateScanBase):
         return self._proto.parent.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.parent.input_scan) if self._proto.parent.input_scan.ByteSize() > 0 else None
 
@@ -25312,12 +30011,12 @@ class ResolvedAggregateScan(ResolvedAggregateScanBase):
         return [ResolvedCollation(item) for item in self._proto.parent.collation_list]
 
     @cached_property
-    def aggregate_list(self) -> List['AnyResolvedComputedColumnBase']:
+    def aggregate_list(self) -> List['resolved_ast_pb2.AnyResolvedComputedColumnBaseProto']:
         """Field aggregate_list"""
         return [AnyResolvedComputedColumnBase(item) for item in self._proto.parent.aggregate_list]
 
     @cached_property
-    def grouping_set_list(self) -> List['AnyResolvedGroupingSetBase']:
+    def grouping_set_list(self) -> List['resolved_ast_pb2.AnyResolvedGroupingSetBaseProto']:
         """Field grouping_set_list"""
         return [AnyResolvedGroupingSetBase(item) for item in self._proto.parent.grouping_set_list]
 
@@ -25365,7 +30064,7 @@ class ResolvedAggregationThresholdAggregateScan(ResolvedAggregateScanBase):
         return self._proto.parent.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.parent.input_scan) if self._proto.parent.input_scan.ByteSize() > 0 else None
 
@@ -25380,12 +30079,12 @@ class ResolvedAggregationThresholdAggregateScan(ResolvedAggregateScanBase):
         return [ResolvedCollation(item) for item in self._proto.parent.collation_list]
 
     @cached_property
-    def aggregate_list(self) -> List['AnyResolvedComputedColumnBase']:
+    def aggregate_list(self) -> List['resolved_ast_pb2.AnyResolvedComputedColumnBaseProto']:
         """Field aggregate_list"""
         return [AnyResolvedComputedColumnBase(item) for item in self._proto.parent.aggregate_list]
 
     @cached_property
-    def grouping_set_list(self) -> List['AnyResolvedGroupingSetBase']:
+    def grouping_set_list(self) -> List['resolved_ast_pb2.AnyResolvedGroupingSetBaseProto']:
         """Field grouping_set_list"""
         return [AnyResolvedGroupingSetBase(item) for item in self._proto.parent.grouping_set_list]
 
@@ -25428,7 +30127,7 @@ class ResolvedAlterAllRowAccessPoliciesStmt(ResolvedAlterObjectStmt):
         return self._proto.parent.name_path
 
     @cached_property
-    def alter_action_list(self) -> List['AnyResolvedAlterAction']:
+    def alter_action_list(self) -> List['resolved_ast_pb2.AnyResolvedAlterActionProto']:
         """Field alter_action_list"""
         return [AnyResolvedAlterAction(item) for item in self._proto.parent.alter_action_list]
 
@@ -25466,7 +30165,7 @@ class ResolvedAlterApproxViewStmt(ResolvedAlterObjectStmt):
         return self._proto.parent.name_path
 
     @cached_property
-    def alter_action_list(self) -> List['AnyResolvedAlterAction']:
+    def alter_action_list(self) -> List['resolved_ast_pb2.AnyResolvedAlterActionProto']:
         """Field alter_action_list"""
         return [AnyResolvedAlterAction(item) for item in self._proto.parent.alter_action_list]
 
@@ -25522,7 +30221,7 @@ class ResolvedAlterConnectionStmt(ResolvedAlterObjectStmt):
         return self._proto.parent.name_path
 
     @cached_property
-    def alter_action_list(self) -> List['AnyResolvedAlterAction']:
+    def alter_action_list(self) -> List['resolved_ast_pb2.AnyResolvedAlterActionProto']:
         """Field alter_action_list"""
         return [AnyResolvedAlterAction(item) for item in self._proto.parent.alter_action_list]
 
@@ -25555,7 +30254,7 @@ class ResolvedAlterDatabaseStmt(ResolvedAlterObjectStmt):
         return self._proto.parent.name_path
 
     @cached_property
-    def alter_action_list(self) -> List['AnyResolvedAlterAction']:
+    def alter_action_list(self) -> List['resolved_ast_pb2.AnyResolvedAlterActionProto']:
         """Field alter_action_list"""
         return [AnyResolvedAlterAction(item) for item in self._proto.parent.alter_action_list]
 
@@ -25588,7 +30287,7 @@ class ResolvedAlterEntityStmt(ResolvedAlterObjectStmt):
         return self._proto.parent.name_path
 
     @cached_property
-    def alter_action_list(self) -> List['AnyResolvedAlterAction']:
+    def alter_action_list(self) -> List['resolved_ast_pb2.AnyResolvedAlterActionProto']:
         """Field alter_action_list"""
         return [AnyResolvedAlterAction(item) for item in self._proto.parent.alter_action_list]
 
@@ -25626,7 +30325,7 @@ class ResolvedAlterExternalSchemaStmt(ResolvedAlterObjectStmt):
         return self._proto.parent.name_path
 
     @cached_property
-    def alter_action_list(self) -> List['AnyResolvedAlterAction']:
+    def alter_action_list(self) -> List['resolved_ast_pb2.AnyResolvedAlterActionProto']:
         """Field alter_action_list"""
         return [AnyResolvedAlterAction(item) for item in self._proto.parent.alter_action_list]
 
@@ -25659,7 +30358,7 @@ class ResolvedAlterIndexStmt(ResolvedAlterObjectStmt):
         return self._proto.parent.name_path
 
     @cached_property
-    def alter_action_list(self) -> List['AnyResolvedAlterAction']:
+    def alter_action_list(self) -> List['resolved_ast_pb2.AnyResolvedAlterActionProto']:
         """Field alter_action_list"""
         return [AnyResolvedAlterAction(item) for item in self._proto.parent.alter_action_list]
 
@@ -25707,7 +30406,7 @@ class ResolvedAlterMaterializedViewStmt(ResolvedAlterObjectStmt):
         return self._proto.parent.name_path
 
     @cached_property
-    def alter_action_list(self) -> List['AnyResolvedAlterAction']:
+    def alter_action_list(self) -> List['resolved_ast_pb2.AnyResolvedAlterActionProto']:
         """Field alter_action_list"""
         return [AnyResolvedAlterAction(item) for item in self._proto.parent.alter_action_list]
 
@@ -25740,7 +30439,7 @@ class ResolvedAlterModelStmt(ResolvedAlterObjectStmt):
         return self._proto.parent.name_path
 
     @cached_property
-    def alter_action_list(self) -> List['AnyResolvedAlterAction']:
+    def alter_action_list(self) -> List['resolved_ast_pb2.AnyResolvedAlterActionProto']:
         """Field alter_action_list"""
         return [AnyResolvedAlterAction(item) for item in self._proto.parent.alter_action_list]
 
@@ -25773,7 +30472,7 @@ class ResolvedAlterPrivilegeRestrictionStmt(ResolvedAlterObjectStmt):
         return self._proto.parent.name_path
 
     @cached_property
-    def alter_action_list(self) -> List['AnyResolvedAlterAction']:
+    def alter_action_list(self) -> List['resolved_ast_pb2.AnyResolvedAlterActionProto']:
         """Field alter_action_list"""
         return [AnyResolvedAlterAction(item) for item in self._proto.parent.alter_action_list]
 
@@ -25816,7 +30515,7 @@ class ResolvedAlterRowAccessPolicyStmt(ResolvedAlterObjectStmt):
         return self._proto.parent.name_path
 
     @cached_property
-    def alter_action_list(self) -> List['AnyResolvedAlterAction']:
+    def alter_action_list(self) -> List['resolved_ast_pb2.AnyResolvedAlterActionProto']:
         """Field alter_action_list"""
         return [AnyResolvedAlterAction(item) for item in self._proto.parent.alter_action_list]
 
@@ -25859,7 +30558,7 @@ class ResolvedAlterSchemaStmt(ResolvedAlterObjectStmt):
         return self._proto.parent.name_path
 
     @cached_property
-    def alter_action_list(self) -> List['AnyResolvedAlterAction']:
+    def alter_action_list(self) -> List['resolved_ast_pb2.AnyResolvedAlterActionProto']:
         """Field alter_action_list"""
         return [AnyResolvedAlterAction(item) for item in self._proto.parent.alter_action_list]
 
@@ -25892,7 +30591,7 @@ class ResolvedAlterSequenceStmt(ResolvedAlterObjectStmt):
         return self._proto.parent.name_path
 
     @cached_property
-    def alter_action_list(self) -> List['AnyResolvedAlterAction']:
+    def alter_action_list(self) -> List['resolved_ast_pb2.AnyResolvedAlterActionProto']:
         """Field alter_action_list"""
         return [AnyResolvedAlterAction(item) for item in self._proto.parent.alter_action_list]
 
@@ -25925,7 +30624,7 @@ class ResolvedAlterSubEntityAction(ResolvedAlterAction):
         return self._proto.name
 
     @cached_property
-    def alter_action(self) -> Optional['AnyResolvedAlterAction']:
+    def alter_action(self) -> Optional['resolved_ast_pb2.AnyResolvedAlterActionProto']:
         """Field alter_action"""
         return AnyResolvedAlterAction(self._proto.alter_action) if self._proto.alter_action.ByteSize() > 0 else None
 
@@ -25958,7 +30657,7 @@ class ResolvedAlterTableStmt(ResolvedAlterObjectStmt):
         return self._proto.parent.name_path
 
     @cached_property
-    def alter_action_list(self) -> List['AnyResolvedAlterAction']:
+    def alter_action_list(self) -> List['resolved_ast_pb2.AnyResolvedAlterActionProto']:
         """Field alter_action_list"""
         return [AnyResolvedAlterAction(item) for item in self._proto.parent.alter_action_list]
 
@@ -25991,7 +30690,7 @@ class ResolvedAlterViewStmt(ResolvedAlterObjectStmt):
         return self._proto.parent.name_path
 
     @cached_property
-    def alter_action_list(self) -> List['AnyResolvedAlterAction']:
+    def alter_action_list(self) -> List['resolved_ast_pb2.AnyResolvedAlterActionProto']:
         """Field alter_action_list"""
         return [AnyResolvedAlterAction(item) for item in self._proto.parent.alter_action_list]
 
@@ -26034,7 +30733,7 @@ class ResolvedAnonymizedAggregateScan(ResolvedAggregateScanBase):
         return self._proto.parent.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.parent.input_scan) if self._proto.parent.input_scan.ByteSize() > 0 else None
 
@@ -26049,12 +30748,12 @@ class ResolvedAnonymizedAggregateScan(ResolvedAggregateScanBase):
         return [ResolvedCollation(item) for item in self._proto.parent.collation_list]
 
     @cached_property
-    def aggregate_list(self) -> List['AnyResolvedComputedColumnBase']:
+    def aggregate_list(self) -> List['resolved_ast_pb2.AnyResolvedComputedColumnBaseProto']:
         """Field aggregate_list"""
         return [AnyResolvedComputedColumnBase(item) for item in self._proto.parent.aggregate_list]
 
     @cached_property
-    def grouping_set_list(self) -> List['AnyResolvedGroupingSetBase']:
+    def grouping_set_list(self) -> List['resolved_ast_pb2.AnyResolvedGroupingSetBaseProto']:
         """Field grouping_set_list"""
         return [AnyResolvedGroupingSetBase(item) for item in self._proto.parent.grouping_set_list]
 
@@ -26069,7 +30768,7 @@ class ResolvedAnonymizedAggregateScan(ResolvedAggregateScanBase):
         return [ResolvedGroupingCall(item) for item in self._proto.parent.grouping_call_list]
 
     @cached_property
-    def k_threshold_expr(self) -> Optional['AnyResolvedExpr']:
+    def k_threshold_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field k_threshold_expr"""
         return AnyResolvedExpr(self._proto.k_threshold_expr) if self._proto.k_threshold_expr.ByteSize() > 0 else None
 
@@ -26097,7 +30796,7 @@ class ResolvedCheckConstraint(ResolvedConstraint):
         return self._proto.constraint_name
 
     @cached_property
-    def expression(self) -> Optional['AnyResolvedExpr']:
+    def expression(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expression"""
         return AnyResolvedExpr(self._proto.expression) if self._proto.expression.ByteSize() > 0 else None
 
@@ -26196,7 +30895,7 @@ class ResolvedCreateConstantStmt(ResolvedCreateStatement):
         return self._proto.parent.create_mode
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -26327,7 +31026,7 @@ class ResolvedCreateFunctionStmt(ResolvedCreateStatement):
         return [ResolvedComputedColumn(item) for item in self._proto.aggregate_expression_list]
 
     @cached_property
-    def function_expression(self) -> Optional['AnyResolvedExpr']:
+    def function_expression(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field function_expression"""
         return AnyResolvedExpr(self._proto.function_expression) if self._proto.function_expression.ByteSize() > 0 else None
 
@@ -26425,12 +31124,12 @@ class ResolvedCreateIndexStmt(ResolvedCreateStatement):
         return [ResolvedIndexItem(item) for item in self._proto.index_item_list]
 
     @cached_property
-    def storing_expression_list(self) -> List['AnyResolvedExpr']:
+    def storing_expression_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field storing_expression_list"""
         return [AnyResolvedExpr(item) for item in self._proto.storing_expression_list]
 
     @cached_property
-    def partition_by_list(self) -> List['AnyResolvedExpr']:
+    def partition_by_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field partition_by_list"""
         return [AnyResolvedExpr(item) for item in self._proto.partition_by_list]
 
@@ -26493,7 +31192,7 @@ class ResolvedCreateModelStmt(ResolvedCreateStatement):
         return [ResolvedOutputColumn(item) for item in self._proto.output_column_list]
 
     @cached_property
-    def query(self) -> Optional['AnyResolvedScan']:
+    def query(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field query"""
         return AnyResolvedScan(self._proto.query) if self._proto.query.ByteSize() > 0 else None
 
@@ -26586,7 +31285,7 @@ class ResolvedCreatePrivilegeRestrictionStmt(ResolvedCreateStatement):
         return self._proto.object_type
 
     @cached_property
-    def restrictee_list(self) -> List['AnyResolvedExpr']:
+    def restrictee_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field restrictee_list"""
         return [AnyResolvedExpr(item) for item in self._proto.restrictee_list]
 
@@ -26831,7 +31530,7 @@ class ResolvedCreateSnapshotTableStmt(ResolvedCreateStatement):
         return self._proto.parent.create_mode
 
     @cached_property
-    def clone_from(self) -> Optional['AnyResolvedScan']:
+    def clone_from(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field clone_from"""
         return AnyResolvedScan(self._proto.clone_from) if self._proto.clone_from.ByteSize() > 0 else None
 
@@ -26904,7 +31603,7 @@ class ResolvedCreateTableFunctionStmt(ResolvedCreateStatement):
         return self._proto.code
 
     @cached_property
-    def query(self) -> Optional['AnyResolvedScan']:
+    def query(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field query"""
         return AnyResolvedScan(self._proto.query) if self._proto.query.ByteSize() > 0 else None
 
@@ -26997,7 +31696,7 @@ class ResolvedCreateTableStmtBase(ResolvedCreateStatement):
         return TableRef(self._proto.like_table) if self._proto.like_table.ByteSize() > 0 else None
 
     @cached_property
-    def collation_name(self) -> Optional['AnyResolvedExpr']:
+    def collation_name(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field collation_name"""
         return AnyResolvedExpr(self._proto.collation_name) if self._proto.collation_name.ByteSize() > 0 else None
 
@@ -27055,7 +31754,7 @@ class ResolvedCreateViewBase(ResolvedCreateStatement):
         return self._proto.has_explicit_columns
 
     @cached_property
-    def query(self) -> Optional['AnyResolvedScan']:
+    def query(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field query"""
         return AnyResolvedScan(self._proto.query) if self._proto.query.ByteSize() > 0 else None
 
@@ -27136,7 +31835,7 @@ class ResolvedDifferentialPrivacyAggregateScan(ResolvedAggregateScanBase):
         return self._proto.parent.parent.node_source
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.parent.input_scan) if self._proto.parent.input_scan.ByteSize() > 0 else None
 
@@ -27151,12 +31850,12 @@ class ResolvedDifferentialPrivacyAggregateScan(ResolvedAggregateScanBase):
         return [ResolvedCollation(item) for item in self._proto.parent.collation_list]
 
     @cached_property
-    def aggregate_list(self) -> List['AnyResolvedComputedColumnBase']:
+    def aggregate_list(self) -> List['resolved_ast_pb2.AnyResolvedComputedColumnBaseProto']:
         """Field aggregate_list"""
         return [AnyResolvedComputedColumnBase(item) for item in self._proto.parent.aggregate_list]
 
     @cached_property
-    def grouping_set_list(self) -> List['AnyResolvedGroupingSetBase']:
+    def grouping_set_list(self) -> List['resolved_ast_pb2.AnyResolvedGroupingSetBaseProto']:
         """Field grouping_set_list"""
         return [AnyResolvedGroupingSetBase(item) for item in self._proto.parent.grouping_set_list]
 
@@ -27171,7 +31870,7 @@ class ResolvedDifferentialPrivacyAggregateScan(ResolvedAggregateScanBase):
         return [ResolvedGroupingCall(item) for item in self._proto.parent.grouping_call_list]
 
     @cached_property
-    def group_selection_threshold_expr(self) -> Optional['AnyResolvedExpr']:
+    def group_selection_threshold_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field group_selection_threshold_expr"""
         return AnyResolvedExpr(self._proto.group_selection_threshold_expr) if self._proto.group_selection_threshold_expr.ByteSize() > 0 else None
 
@@ -27286,7 +31985,7 @@ class ResolvedFilterUsingAction(ResolvedAlterAction):
         return ParseLocationRange(self._proto.parent.parent.parent.parse_location_range) if self._proto.parent.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def predicate(self) -> Optional['AnyResolvedExpr']:
+    def predicate(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field predicate"""
         return AnyResolvedExpr(self._proto.predicate) if self._proto.predicate.ByteSize() > 0 else None
 
@@ -27392,7 +32091,7 @@ class ResolvedFunctionCall(ResolvedFunctionCallBase):
         return FunctionSignature(self._proto.parent.signature) if self._proto.parent.signature.ByteSize() > 0 else None
 
     @cached_property
-    def argument_list(self) -> List['AnyResolvedExpr']:
+    def argument_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field argument_list"""
         return [AnyResolvedExpr(item) for item in self._proto.parent.argument_list]
 
@@ -27460,7 +32159,7 @@ class ResolvedGrantStmt(ResolvedGrantOrRevokeStmt):
         return self._proto.parent.grantee_list
 
     @cached_property
-    def grantee_expr_list(self) -> List['AnyResolvedExpr']:
+    def grantee_expr_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field grantee_expr_list"""
         return [AnyResolvedExpr(item) for item in self._proto.parent.grantee_expr_list]
 
@@ -27478,7 +32177,7 @@ class ResolvedGrantToAction(ResolvedAlterAction):
         return ParseLocationRange(self._proto.parent.parent.parent.parse_location_range) if self._proto.parent.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def grantee_expr_list(self) -> List['AnyResolvedExpr']:
+    def grantee_expr_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field grantee_expr_list"""
         return [AnyResolvedExpr(item) for item in self._proto.grantee_expr_list]
 
@@ -27516,12 +32215,12 @@ class ResolvedGraphElementScan(ResolvedGraphPathScanBase):
         return self._proto.parent.parent.node_source
 
     @cached_property
-    def filter_expr(self) -> Optional['AnyResolvedExpr']:
+    def filter_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field filter_expr"""
         return AnyResolvedExpr(self._proto.filter_expr) if self._proto.filter_expr.ByteSize() > 0 else None
 
     @cached_property
-    def label_expr(self) -> Optional['AnyResolvedGraphLabelExpr']:
+    def label_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedGraphLabelExprProto']:
         """Field label_expr"""
         return AnyResolvedGraphLabelExpr(self._proto.label_expr) if self._proto.label_expr.ByteSize() > 0 else None
 
@@ -27549,7 +32248,7 @@ class ResolvedGraphLabel(ResolvedGraphLabelExpr):
         return GraphElementLabelRef(self._proto.label) if self._proto.label.ByteSize() > 0 else None
 
     @cached_property
-    def label_name(self) -> Optional['AnyResolvedExpr']:
+    def label_name(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field label_name"""
         return AnyResolvedExpr(self._proto.label_name) if self._proto.label_name.ByteSize() > 0 else None
 
@@ -27572,7 +32271,7 @@ class ResolvedGraphLabelNaryExpr(ResolvedGraphLabelExpr):
         return self._proto.op
 
     @cached_property
-    def operand_list(self) -> List['AnyResolvedGraphLabelExpr']:
+    def operand_list(self) -> List['resolved_ast_pb2.AnyResolvedGraphLabelExprProto']:
         """Field operand_list"""
         return [AnyResolvedGraphLabelExpr(item) for item in self._proto.operand_list]
 
@@ -27610,7 +32309,7 @@ class ResolvedGraphLinearScan(ResolvedGraphScanBase):
         return self._proto.parent.parent.node_source
 
     @cached_property
-    def scan_list(self) -> List['AnyResolvedScan']:
+    def scan_list(self) -> List['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field scan_list"""
         return [AnyResolvedScan(item) for item in self._proto.scan_list]
 
@@ -27648,12 +32347,12 @@ class ResolvedGraphPathScan(ResolvedGraphPathScanBase):
         return self._proto.parent.parent.node_source
 
     @cached_property
-    def input_scan_list(self) -> List['AnyResolvedGraphPathScanBase']:
+    def input_scan_list(self) -> List['resolved_ast_pb2.AnyResolvedGraphPathScanBaseProto']:
         """Field input_scan_list"""
         return [AnyResolvedGraphPathScanBase(item) for item in self._proto.input_scan_list]
 
     @cached_property
-    def filter_expr(self) -> Optional['AnyResolvedExpr']:
+    def filter_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field filter_expr"""
         return AnyResolvedExpr(self._proto.filter_expr) if self._proto.filter_expr.ByteSize() > 0 else None
 
@@ -27741,12 +32440,12 @@ class ResolvedGraphScan(ResolvedGraphScanBase):
         return [ResolvedGraphPathScan(item) for item in self._proto.input_scan_list]
 
     @cached_property
-    def filter_expr(self) -> Optional['AnyResolvedExpr']:
+    def filter_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field filter_expr"""
         return AnyResolvedExpr(self._proto.filter_expr) if self._proto.filter_expr.ByteSize() > 0 else None
 
     @cached_property
-    def input_scan(self) -> Optional['AnyResolvedScan']:
+    def input_scan(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field input_scan"""
         return AnyResolvedScan(self._proto.input_scan) if self._proto.input_scan.ByteSize() > 0 else None
 
@@ -27800,7 +32499,7 @@ class ResolvedGroupingSetList(ResolvedGroupingSetBase):
         return ParseLocationRange(self._proto.parent.parent.parent.parse_location_range) if self._proto.parent.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def elem_list(self) -> List['AnyResolvedGroupingSetBase']:
+    def elem_list(self) -> List['resolved_ast_pb2.AnyResolvedGroupingSetBaseProto']:
         """Field elem_list"""
         return [AnyResolvedGroupingSetBase(item) for item in self._proto.elem_list]
 
@@ -27818,7 +32517,7 @@ class ResolvedGroupingSetProduct(ResolvedGroupingSetBase):
         return ParseLocationRange(self._proto.parent.parent.parent.parse_location_range) if self._proto.parent.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def input_list(self) -> List['AnyResolvedGroupingSetBase']:
+    def input_list(self) -> List['resolved_ast_pb2.AnyResolvedGroupingSetBaseProto']:
         """Field input_list"""
         return [AnyResolvedGroupingSetBase(item) for item in self._proto.input_list]
 
@@ -27872,7 +32571,7 @@ class ResolvedMatchRecognizePatternOperation(ResolvedMatchRecognizePatternExpr):
         return self._proto.op_type
 
     @cached_property
-    def operand_list(self) -> List['AnyResolvedMatchRecognizePatternExpr']:
+    def operand_list(self) -> List['resolved_ast_pb2.AnyResolvedMatchRecognizePatternExprProto']:
         """Field operand_list"""
         return [AnyResolvedMatchRecognizePatternExpr(item) for item in self._proto.operand_list]
 
@@ -27890,17 +32589,17 @@ class ResolvedMatchRecognizePatternQuantification(ResolvedMatchRecognizePatternE
         return ParseLocationRange(self._proto.parent.parent.parent.parse_location_range) if self._proto.parent.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def operand(self) -> Optional['AnyResolvedMatchRecognizePatternExpr']:
+    def operand(self) -> Optional['resolved_ast_pb2.AnyResolvedMatchRecognizePatternExprProto']:
         """Field operand"""
         return AnyResolvedMatchRecognizePatternExpr(self._proto.operand) if self._proto.operand.ByteSize() > 0 else None
 
     @cached_property
-    def lower_bound(self) -> Optional['AnyResolvedExpr']:
+    def lower_bound(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field lower_bound"""
         return AnyResolvedExpr(self._proto.lower_bound) if self._proto.lower_bound.ByteSize() > 0 else None
 
     @cached_property
-    def upper_bound(self) -> Optional['AnyResolvedExpr']:
+    def upper_bound(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field upper_bound"""
         return AnyResolvedExpr(self._proto.upper_bound) if self._proto.upper_bound.ByteSize() > 0 else None
 
@@ -27961,7 +32660,7 @@ class ResolvedNonScalarFunctionCallBase(ResolvedFunctionCallBase):
         return FunctionSignature(self._proto.parent.signature) if self._proto.parent.signature.ByteSize() > 0 else None
 
     @cached_property
-    def argument_list(self) -> List['AnyResolvedExpr']:
+    def argument_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field argument_list"""
         return [AnyResolvedExpr(item) for item in self._proto.parent.argument_list]
 
@@ -27996,7 +32695,7 @@ class ResolvedNonScalarFunctionCallBase(ResolvedFunctionCallBase):
         return self._proto.null_handling_modifier
 
     @cached_property
-    def where_expr(self) -> Optional['AnyResolvedExpr']:
+    def where_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field where_expr"""
         return AnyResolvedExpr(self._proto.where_expr) if self._proto.where_expr.ByteSize() > 0 else None
 
@@ -28070,7 +32769,7 @@ class ResolvedRemoveFromRestricteeListAction(ResolvedAlterAction):
         return self._proto.is_if_exists
 
     @cached_property
-    def restrictee_list(self) -> List['AnyResolvedExpr']:
+    def restrictee_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field restrictee_list"""
         return [AnyResolvedExpr(item) for item in self._proto.restrictee_list]
 
@@ -28134,7 +32833,7 @@ class ResolvedRestrictToAction(ResolvedAlterAction):
         return ParseLocationRange(self._proto.parent.parent.parent.parse_location_range) if self._proto.parent.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def restrictee_list(self) -> List['AnyResolvedExpr']:
+    def restrictee_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field restrictee_list"""
         return [AnyResolvedExpr(item) for item in self._proto.restrictee_list]
 
@@ -28152,7 +32851,7 @@ class ResolvedRevokeFromAction(ResolvedAlterAction):
         return ParseLocationRange(self._proto.parent.parent.parent.parse_location_range) if self._proto.parent.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def revokee_expr_list(self) -> List['AnyResolvedExpr']:
+    def revokee_expr_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field revokee_expr_list"""
         return [AnyResolvedExpr(item) for item in self._proto.revokee_expr_list]
 
@@ -28200,7 +32899,7 @@ class ResolvedRevokeStmt(ResolvedGrantOrRevokeStmt):
         return self._proto.parent.grantee_list
 
     @cached_property
-    def grantee_expr_list(self) -> List['AnyResolvedExpr']:
+    def grantee_expr_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field grantee_expr_list"""
         return [AnyResolvedExpr(item) for item in self._proto.parent.grantee_expr_list]
 
@@ -28259,7 +32958,7 @@ class ResolvedSetCollateClause(ResolvedAlterAction):
         return ParseLocationRange(self._proto.parent.parent.parent.parse_location_range) if self._proto.parent.parent.parent.parse_location_range.ByteSize() > 0 else None
 
     @cached_property
-    def collation_name(self) -> Optional['AnyResolvedExpr']:
+    def collation_name(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field collation_name"""
         return AnyResolvedExpr(self._proto.collation_name) if self._proto.collation_name.ByteSize() > 0 else None
 
@@ -28872,7 +33571,7 @@ class ASTCreateConstantStatement(ASTCreateStatement):
         return ASTPathExpression(self._proto.name) if self._proto.name.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyASTExpression']:
+    def expr(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field expr"""
         return AnyASTExpression(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -29983,7 +34682,7 @@ class ASTWhileStatement(ASTLoopStatement):
         return ASTStatementList(self._proto.parent.body) if self._proto.parent.body.ByteSize() > 0 else None
 
     @cached_property
-    def condition(self) -> Optional['AnyASTExpression']:
+    def condition(self) -> Optional['parse_tree_pb2.AnyASTExpressionProto']:
         """Field condition"""
         return AnyASTExpression(self._proto.condition) if self._proto.condition.ByteSize() > 0 else None
 
@@ -30021,7 +34720,7 @@ class ResolvedAggregateFunctionCall(ResolvedNonScalarFunctionCallBase):
         return FunctionSignature(self._proto.parent.parent.signature) if self._proto.parent.parent.signature.ByteSize() > 0 else None
 
     @cached_property
-    def argument_list(self) -> List['AnyResolvedExpr']:
+    def argument_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field argument_list"""
         return [AnyResolvedExpr(item) for item in self._proto.parent.parent.argument_list]
 
@@ -30056,7 +34755,7 @@ class ResolvedAggregateFunctionCall(ResolvedNonScalarFunctionCallBase):
         return self._proto.parent.null_handling_modifier
 
     @cached_property
-    def where_expr(self) -> Optional['AnyResolvedExpr']:
+    def where_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field where_expr"""
         return AnyResolvedExpr(self._proto.parent.where_expr) if self._proto.parent.where_expr.ByteSize() > 0 else None
 
@@ -30071,7 +34770,7 @@ class ResolvedAggregateFunctionCall(ResolvedNonScalarFunctionCallBase):
         return [ResolvedOrderByItem(item) for item in self._proto.order_by_item_list]
 
     @cached_property
-    def limit(self) -> Optional['AnyResolvedExpr']:
+    def limit(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field limit"""
         return AnyResolvedExpr(self._proto.limit) if self._proto.limit.ByteSize() > 0 else None
 
@@ -30091,12 +34790,12 @@ class ResolvedAggregateFunctionCall(ResolvedNonScalarFunctionCallBase):
         return [ResolvedOption(item) for item in self._proto.group_by_hint_list]
 
     @cached_property
-    def group_by_aggregate_list(self) -> List['AnyResolvedComputedColumnBase']:
+    def group_by_aggregate_list(self) -> List['resolved_ast_pb2.AnyResolvedComputedColumnBaseProto']:
         """Field group_by_aggregate_list"""
         return [AnyResolvedComputedColumnBase(item) for item in self._proto.group_by_aggregate_list]
 
     @cached_property
-    def having_expr(self) -> Optional['AnyResolvedExpr']:
+    def having_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field having_expr"""
         return AnyResolvedExpr(self._proto.having_expr) if self._proto.having_expr.ByteSize() > 0 else None
 
@@ -30325,7 +35024,7 @@ class ResolvedAnalyticFunctionCall(ResolvedNonScalarFunctionCallBase):
         return FunctionSignature(self._proto.parent.parent.signature) if self._proto.parent.parent.signature.ByteSize() > 0 else None
 
     @cached_property
-    def argument_list(self) -> List['AnyResolvedExpr']:
+    def argument_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field argument_list"""
         return [AnyResolvedExpr(item) for item in self._proto.parent.parent.argument_list]
 
@@ -30360,7 +35059,7 @@ class ResolvedAnalyticFunctionCall(ResolvedNonScalarFunctionCallBase):
         return self._proto.parent.null_handling_modifier
 
     @cached_property
-    def where_expr(self) -> Optional['AnyResolvedExpr']:
+    def where_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field where_expr"""
         return AnyResolvedExpr(self._proto.parent.where_expr) if self._proto.parent.where_expr.ByteSize() > 0 else None
 
@@ -30388,7 +35087,7 @@ class ResolvedComputedColumn(ResolvedComputedColumnImpl):
         return ResolvedColumn(self._proto.column) if self._proto.column.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -30441,7 +35140,7 @@ class ResolvedCreateApproxViewStmt(ResolvedCreateViewBase):
         return self._proto.parent.has_explicit_columns
 
     @cached_property
-    def query(self) -> Optional['AnyResolvedScan']:
+    def query(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field query"""
         return AnyResolvedScan(self._proto.parent.query) if self._proto.parent.query.ByteSize() > 0 else None
 
@@ -30587,7 +35286,7 @@ class ResolvedCreateExternalTableStmt(ResolvedCreateTableStmtBase):
         return TableRef(self._proto.parent.like_table) if self._proto.parent.like_table.ByteSize() > 0 else None
 
     @cached_property
-    def collation_name(self) -> Optional['AnyResolvedExpr']:
+    def collation_name(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field collation_name"""
         return AnyResolvedExpr(self._proto.parent.collation_name) if self._proto.parent.collation_name.ByteSize() > 0 else None
 
@@ -30650,7 +35349,7 @@ class ResolvedCreateMaterializedViewStmt(ResolvedCreateViewBase):
         return self._proto.parent.has_explicit_columns
 
     @cached_property
-    def query(self) -> Optional['AnyResolvedScan']:
+    def query(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field query"""
         return AnyResolvedScan(self._proto.parent.query) if self._proto.parent.query.ByteSize() > 0 else None
 
@@ -30680,17 +35379,17 @@ class ResolvedCreateMaterializedViewStmt(ResolvedCreateViewBase):
         return [ResolvedColumnDefinition(item) for item in self._proto.parent.column_definition_list]
 
     @cached_property
-    def partition_by_list(self) -> List['AnyResolvedExpr']:
+    def partition_by_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field partition_by_list"""
         return [AnyResolvedExpr(item) for item in self._proto.partition_by_list]
 
     @cached_property
-    def cluster_by_list(self) -> List['AnyResolvedExpr']:
+    def cluster_by_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field cluster_by_list"""
         return [AnyResolvedExpr(item) for item in self._proto.cluster_by_list]
 
     @cached_property
-    def replica_source(self) -> Optional['AnyResolvedScan']:
+    def replica_source(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field replica_source"""
         return AnyResolvedScan(self._proto.replica_source) if self._proto.replica_source.ByteSize() > 0 else None
 
@@ -30733,7 +35432,7 @@ class ResolvedCreateSchemaStmt(ResolvedCreateSchemaStmtBase):
         return [ResolvedOption(item) for item in self._proto.parent.option_list]
 
     @cached_property
-    def collation_name(self) -> Optional['AnyResolvedExpr']:
+    def collation_name(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field collation_name"""
         return AnyResolvedExpr(self._proto.collation_name) if self._proto.collation_name.ByteSize() > 0 else None
 
@@ -30811,7 +35510,7 @@ class ResolvedCreateTableAsSelectStmt(ResolvedCreateTableStmtBase):
         return TableRef(self._proto.parent.like_table) if self._proto.parent.like_table.ByteSize() > 0 else None
 
     @cached_property
-    def collation_name(self) -> Optional['AnyResolvedExpr']:
+    def collation_name(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field collation_name"""
         return AnyResolvedExpr(self._proto.parent.collation_name) if self._proto.parent.collation_name.ByteSize() > 0 else None
 
@@ -30821,12 +35520,12 @@ class ResolvedCreateTableAsSelectStmt(ResolvedCreateTableStmtBase):
         return ResolvedConnection(self._proto.parent.connection) if self._proto.parent.connection.ByteSize() > 0 else None
 
     @cached_property
-    def partition_by_list(self) -> List['AnyResolvedExpr']:
+    def partition_by_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field partition_by_list"""
         return [AnyResolvedExpr(item) for item in self._proto.partition_by_list]
 
     @cached_property
-    def cluster_by_list(self) -> List['AnyResolvedExpr']:
+    def cluster_by_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field cluster_by_list"""
         return [AnyResolvedExpr(item) for item in self._proto.cluster_by_list]
 
@@ -30836,7 +35535,7 @@ class ResolvedCreateTableAsSelectStmt(ResolvedCreateTableStmtBase):
         return [ResolvedOutputColumn(item) for item in self._proto.output_column_list]
 
     @cached_property
-    def query(self) -> Optional['AnyResolvedScan']:
+    def query(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field query"""
         return AnyResolvedScan(self._proto.query) if self._proto.query.ByteSize() > 0 else None
 
@@ -30914,7 +35613,7 @@ class ResolvedCreateTableStmt(ResolvedCreateTableStmtBase):
         return TableRef(self._proto.parent.like_table) if self._proto.parent.like_table.ByteSize() > 0 else None
 
     @cached_property
-    def collation_name(self) -> Optional['AnyResolvedExpr']:
+    def collation_name(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field collation_name"""
         return AnyResolvedExpr(self._proto.parent.collation_name) if self._proto.parent.collation_name.ByteSize() > 0 else None
 
@@ -30924,22 +35623,22 @@ class ResolvedCreateTableStmt(ResolvedCreateTableStmtBase):
         return ResolvedConnection(self._proto.parent.connection) if self._proto.parent.connection.ByteSize() > 0 else None
 
     @cached_property
-    def clone_from(self) -> Optional['AnyResolvedScan']:
+    def clone_from(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field clone_from"""
         return AnyResolvedScan(self._proto.clone_from) if self._proto.clone_from.ByteSize() > 0 else None
 
     @cached_property
-    def copy_from(self) -> Optional['AnyResolvedScan']:
+    def copy_from(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field copy_from"""
         return AnyResolvedScan(self._proto.copy_from) if self._proto.copy_from.ByteSize() > 0 else None
 
     @cached_property
-    def partition_by_list(self) -> List['AnyResolvedExpr']:
+    def partition_by_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field partition_by_list"""
         return [AnyResolvedExpr(item) for item in self._proto.partition_by_list]
 
     @cached_property
-    def cluster_by_list(self) -> List['AnyResolvedExpr']:
+    def cluster_by_list(self) -> List['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field cluster_by_list"""
         return [AnyResolvedExpr(item) for item in self._proto.cluster_by_list]
 
@@ -30992,7 +35691,7 @@ class ResolvedCreateViewStmt(ResolvedCreateViewBase):
         return self._proto.parent.has_explicit_columns
 
     @cached_property
-    def query(self) -> Optional['AnyResolvedScan']:
+    def query(self) -> Optional['resolved_ast_pb2.AnyResolvedScanProto']:
         """Field query"""
         return AnyResolvedScan(self._proto.parent.query) if self._proto.parent.query.ByteSize() > 0 else None
 
@@ -31040,7 +35739,7 @@ class ResolvedDeferredComputedColumn(ResolvedComputedColumnImpl):
         return ResolvedColumn(self._proto.column) if self._proto.column.ByteSize() > 0 else None
 
     @cached_property
-    def expr(self) -> Optional['AnyResolvedExpr']:
+    def expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field expr"""
         return AnyResolvedExpr(self._proto.expr) if self._proto.expr.ByteSize() > 0 else None
 
@@ -31083,12 +35782,12 @@ class ResolvedGraphEdgeScan(ResolvedGraphElementScan):
         return self._proto.parent.parent.parent.node_source
 
     @cached_property
-    def filter_expr(self) -> Optional['AnyResolvedExpr']:
+    def filter_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field filter_expr"""
         return AnyResolvedExpr(self._proto.parent.filter_expr) if self._proto.parent.filter_expr.ByteSize() > 0 else None
 
     @cached_property
-    def label_expr(self) -> Optional['AnyResolvedGraphLabelExpr']:
+    def label_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedGraphLabelExprProto']:
         """Field label_expr"""
         return AnyResolvedGraphLabelExpr(self._proto.parent.label_expr) if self._proto.parent.label_expr.ByteSize() > 0 else None
 
@@ -31113,7 +35812,7 @@ class ResolvedGraphEdgeScan(ResolvedGraphElementScan):
         return [ResolvedOption(item) for item in self._proto.rhs_hint_list]
 
     @cached_property
-    def cost_expr(self) -> Optional['AnyResolvedExpr']:
+    def cost_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field cost_expr"""
         return AnyResolvedExpr(self._proto.cost_expr) if self._proto.cost_expr.ByteSize() > 0 else None
 
@@ -31151,12 +35850,12 @@ class ResolvedGraphNodeScan(ResolvedGraphElementScan):
         return self._proto.parent.parent.parent.node_source
 
     @cached_property
-    def filter_expr(self) -> Optional['AnyResolvedExpr']:
+    def filter_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedExprProto']:
         """Field filter_expr"""
         return AnyResolvedExpr(self._proto.parent.filter_expr) if self._proto.parent.filter_expr.ByteSize() > 0 else None
 
     @cached_property
-    def label_expr(self) -> Optional['AnyResolvedGraphLabelExpr']:
+    def label_expr(self) -> Optional['resolved_ast_pb2.AnyResolvedGraphLabelExprProto']:
         """Field label_expr"""
         return AnyResolvedGraphLabelExpr(self._proto.parent.label_expr) if self._proto.parent.label_expr.ByteSize() > 0 else None
 
@@ -31481,7 +36180,7 @@ class ASTCreateFunctionStatement(ASTCreateFunctionStmtBase):
         return self._proto.parent.sql_security
 
     @cached_property
-    def return_type(self) -> Optional['AnyASTType']:
+    def return_type(self) -> Optional['parse_tree_pb2.AnyASTTypeProto']:
         """Field return_type"""
         return AnyASTType(self._proto.return_type) if self._proto.return_type.ByteSize() > 0 else None
 

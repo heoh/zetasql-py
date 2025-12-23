@@ -44,8 +44,6 @@ def get_message_classes(module) -> List[Tuple[str, Any]]:
         # Skip private/special attributes
         if name.startswith('_'):
             continue
-        if name.startswith('Any'):  # Skip oneof wrappers
-            continue
         
         obj = getattr(module, name)
         # Check if it's a proto message class (has DESCRIPTOR with fields)
