@@ -194,9 +194,12 @@ def map_proto_type_to_python(field_info: Dict[str, Any]) -> str:
     
     field_type = field_info['type']
     
-    # Message type
+    # Message type - use wrapper class name instead of Proto
     if field_type == descriptor.FieldDescriptor.TYPE_MESSAGE:
-        base_type = f"'{field_info.get('message_type', 'Any')}'"
+        proto_type = field_info.get('message_type', 'Any')
+        # Remove 'Proto' suffix to get wrapper name
+        wrapper_type = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
+        base_type = f"'{wrapper_type}'"
     else:
         base_type = type_map.get(field_type, 'Any')
     
@@ -210,8 +213,13 @@ def map_proto_type_to_python(field_info: Dict[str, Any]) -> str:
 
 def generate_property(field_info: Dict[str, Any], parent_chain: List[str]) -> str:
     """Generate @cached_property code for a field"""
+    from google.protobuf import descriptor
+    
     field_name = field_info['name']
     type_hint = map_proto_type_to_python(field_info)
+    field_type = field_info['type']
+    is_message = field_type == descriptor.FieldDescriptor.TYPE_MESSAGE
+    is_repeated = field_info.get('is_repeated', False)
     
     # Python reserved keywords that need to be suffixed
     RESERVED_KEYWORDS = {
@@ -243,10 +251,26 @@ def generate_property(field_info: Dict[str, Any], parent_chain: List[str]) -> st
     if method_name != field_name:
         doc += f" (escaped from reserved keyword '{field_name}')"
     
+    # Generate return statement
+    if is_message:
+        # Get wrapper class name
+        proto_type = field_info.get('message_type', '')
+        wrapper_type = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
+        
+        if is_repeated:
+            # Return list of wrapped objects
+            return_stmt = f"[{wrapper_type}(item) for item in {access_path}]"
+        else:
+            # Return wrapped object or None
+            return_stmt = f"{wrapper_type}({access_path}) if {access_path}.ByteSize() > 0 else None"
+    else:
+        # Primitive types - return as-is
+        return_stmt = access_path
+    
     return f'''    @cached_property
     def {method_name}(self) -> {type_hint}:
         """{doc}"""
-        return {access_path}
+        return {return_stmt}
 '''
 
 
