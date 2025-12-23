@@ -41,13 +41,15 @@ def get_message_classes(module) -> List[Tuple[str, Any]]:
     """Extract all proto message classes from a module"""
     classes = []
     for name in dir(module):
-        if not name.endswith('Proto'):
+        # Skip private/special attributes
+        if name.startswith('_'):
             continue
         if name.startswith('Any'):  # Skip oneof wrappers
             continue
         
         obj = getattr(module, name)
-        if hasattr(obj, 'DESCRIPTOR'):
+        # Check if it's a proto message class (has DESCRIPTOR with fields)
+        if hasattr(obj, 'DESCRIPTOR') and hasattr(obj.DESCRIPTOR, 'fields'):
             classes.append((name, obj))
     
     return classes

@@ -21,22 +21,46 @@ from typing import Optional, List, Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     import zetasql.wasi._pb2.zetasql.common.match_recognize.match_test_result_pb2 as match_test_result_pb2
+    import zetasql.wasi._pb2.zetasql.common.reflection_pb2 as reflection_pb2
+    import zetasql.wasi._pb2.zetasql.compliance.compliance_label_pb2 as compliance_label_pb2
+    import zetasql.wasi._pb2.zetasql.compliance.known_error_pb2 as known_error_pb2
     import zetasql.wasi._pb2.zetasql.local_service.local_service_pb2 as local_service_pb2
+    import zetasql.wasi._pb2.zetasql.parser.ast_enums_pb2 as ast_enums_pb2
     import zetasql.wasi._pb2.zetasql.parser.parse_tree_pb2 as parse_tree_pb2
+    import zetasql.wasi._pb2.zetasql.proto.anon_output_with_report_pb2 as anon_output_with_report_pb2
     import zetasql.wasi._pb2.zetasql.proto.function_pb2 as function_pb2
+    import zetasql.wasi._pb2.zetasql.proto.internal_error_location_pb2 as internal_error_location_pb2
+    import zetasql.wasi._pb2.zetasql.proto.internal_fix_suggestion_pb2 as internal_fix_suggestion_pb2
+    import zetasql.wasi._pb2.zetasql.proto.module_options_pb2 as module_options_pb2
     import zetasql.wasi._pb2.zetasql.proto.options_pb2 as options_pb2
     import zetasql.wasi._pb2.zetasql.proto.placeholder_descriptor_pb2 as placeholder_descriptor_pb2
+    import zetasql.wasi._pb2.zetasql.proto.script_exception_pb2 as script_exception_pb2
     import zetasql.wasi._pb2.zetasql.proto.simple_catalog_pb2 as simple_catalog_pb2
     import zetasql.wasi._pb2.zetasql.proto.simple_property_graph_pb2 as simple_property_graph_pb2
     import zetasql.wasi._pb2.zetasql.public.annotation_pb2 as annotation_pb2
     import zetasql.wasi._pb2.zetasql.public.collation_pb2 as collation_pb2
     import zetasql.wasi._pb2.zetasql.public.constness_level_pb2 as constness_level_pb2
+    import zetasql.wasi._pb2.zetasql.public.deprecation_warning_pb2 as deprecation_warning_pb2
+    import zetasql.wasi._pb2.zetasql.public.error_location_pb2 as error_location_pb2
     import zetasql.wasi._pb2.zetasql.public.feature_label_dictionary_pb2 as feature_label_dictionary_pb2
+    import zetasql.wasi._pb2.zetasql.public.fix_suggestion_pb2 as fix_suggestion_pb2
     import zetasql.wasi._pb2.zetasql.public.formatter_options_pb2 as formatter_options_pb2
+    import zetasql.wasi._pb2.zetasql.public.function_pb2 as function_pb2
+    import zetasql.wasi._pb2.zetasql.public.functions.array_find_mode_pb2 as array_find_mode_pb2
+    import zetasql.wasi._pb2.zetasql.public.functions.array_zip_mode_pb2 as array_zip_mode_pb2
+    import zetasql.wasi._pb2.zetasql.public.functions.bitwise_agg_mode_pb2 as bitwise_agg_mode_pb2
+    import zetasql.wasi._pb2.zetasql.public.functions.differential_privacy_pb2 as differential_privacy_pb2
     import zetasql.wasi._pb2.zetasql.public.functions.match_recognize.compiled_pattern_pb2 as compiled_pattern_pb2
+    import zetasql.wasi._pb2.zetasql.public.functions.range_sessionize_mode_pb2 as range_sessionize_mode_pb2
+    import zetasql.wasi._pb2.zetasql.public.functions.rank_type_pb2 as rank_type_pb2
+    import zetasql.wasi._pb2.zetasql.public.functions.unsupported_fields_pb2 as unsupported_fields_pb2
     import zetasql.wasi._pb2.zetasql.public.information_schema.property_graph_pb2 as property_graph_pb2
+    import zetasql.wasi._pb2.zetasql.public.options_pb2 as options_pb2
     import zetasql.wasi._pb2.zetasql.public.parse_location_range_pb2 as parse_location_range_pb2
     import zetasql.wasi._pb2.zetasql.public.parse_resume_location_pb2 as parse_resume_location_pb2
+    import zetasql.wasi._pb2.zetasql.public.proto.logging_pb2 as logging_pb2
+    import zetasql.wasi._pb2.zetasql.public.proto.type_annotation_pb2 as type_annotation_pb2
+    import zetasql.wasi._pb2.zetasql.public.proto.wire_format_annotation_pb2 as wire_format_annotation_pb2
     import zetasql.wasi._pb2.zetasql.public.simple_connection_pb2 as simple_connection_pb2
     import zetasql.wasi._pb2.zetasql.public.simple_constant_pb2 as simple_constant_pb2
     import zetasql.wasi._pb2.zetasql.public.simple_model_pb2 as simple_model_pb2
@@ -49,9 +73,223 @@ if TYPE_CHECKING:
     import zetasql.wasi._pb2.zetasql.public.type_pb2 as type_pb2
     import zetasql.wasi._pb2.zetasql.public.value_pb2 as value_pb2
     import zetasql.wasi._pb2.zetasql.reference_impl.evaluator_table_iterator_pb2 as evaluator_table_iterator_pb2
+    import zetasql.wasi._pb2.zetasql.resolved_ast.resolved_ast_enums_pb2 as resolved_ast_enums_pb2
     import zetasql.wasi._pb2.zetasql.resolved_ast.resolved_ast_pb2 as resolved_ast_pb2
     import zetasql.wasi._pb2.zetasql.resolved_ast.serialization_pb2 as serialization_pb2
+    import zetasql.wasi._pb2.zetasql.scripting.procedure_extension_pb2 as procedure_extension_pb2
     import zetasql.wasi._pb2.zetasql.scripting.script_executor_state_pb2 as script_executor_state_pb2
+    import zetasql.wasi._pb2.zetasql.scripting.variable_pb2 as variable_pb2
+    import zetasql.wasi._pb2.zetasql.tools.execute_query.execute_query_pb2 as execute_query_pb2
+
+
+class ASTAfterMatchSkipClauseEnums:
+    """Generated wrapper for ASTAfterMatchSkipClauseEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTAfterMatchSkipClauseEnums'):
+        self._proto = proto
+
+
+class ASTAlterIndexStatementEnums:
+    """Generated wrapper for ASTAlterIndexStatementEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTAlterIndexStatementEnums'):
+        self._proto = proto
+
+
+class ASTAnySomeAllOpEnums:
+    """Generated wrapper for ASTAnySomeAllOpEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTAnySomeAllOpEnums'):
+        self._proto = proto
+
+
+class ASTAuxLoadDataStatementEnums:
+    """Generated wrapper for ASTAuxLoadDataStatementEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTAuxLoadDataStatementEnums'):
+        self._proto = proto
+
+
+class ASTBinaryExpressionEnums:
+    """Generated wrapper for ASTBinaryExpressionEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTBinaryExpressionEnums'):
+        self._proto = proto
+
+
+class ASTBracedConstructorLhsEnums:
+    """Generated wrapper for ASTBracedConstructorLhsEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTBracedConstructorLhsEnums'):
+        self._proto = proto
+
+
+class ASTBreakContinueStatementEnums:
+    """Generated wrapper for ASTBreakContinueStatementEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTBreakContinueStatementEnums'):
+        self._proto = proto
+
+
+class ASTColumnPositionEnums:
+    """Generated wrapper for ASTColumnPositionEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTColumnPositionEnums'):
+        self._proto = proto
+
+
+class ASTCreateFunctionStmtBaseEnums:
+    """Generated wrapper for ASTCreateFunctionStmtBaseEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTCreateFunctionStmtBaseEnums'):
+        self._proto = proto
+
+
+class ASTCreateStatementEnums:
+    """Generated wrapper for ASTCreateStatementEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTCreateStatementEnums'):
+        self._proto = proto
+
+
+class ASTDropStatementEnums:
+    """Generated wrapper for ASTDropStatementEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTDropStatementEnums'):
+        self._proto = proto
+
+
+class ASTExpressionSubqueryEnums:
+    """Generated wrapper for ASTExpressionSubqueryEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTExpressionSubqueryEnums'):
+        self._proto = proto
+
+
+class ASTFilterFieldsArgEnums:
+    """Generated wrapper for ASTFilterFieldsArgEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTFilterFieldsArgEnums'):
+        self._proto = proto
+
+
+class ASTForeignKeyActionsEnums:
+    """Generated wrapper for ASTForeignKeyActionsEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTForeignKeyActionsEnums'):
+        self._proto = proto
+
+
+class ASTForeignKeyReferenceEnums:
+    """Generated wrapper for ASTForeignKeyReferenceEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTForeignKeyReferenceEnums'):
+        self._proto = proto
+
+
+class ASTFunctionCallEnums:
+    """Generated wrapper for ASTFunctionCallEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTFunctionCallEnums'):
+        self._proto = proto
+
+
+class ASTFunctionParameterEnums:
+    """Generated wrapper for ASTFunctionParameterEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTFunctionParameterEnums'):
+        self._proto = proto
+
+
+class ASTGeneratedColumnInfoEnums:
+    """Generated wrapper for ASTGeneratedColumnInfoEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTGeneratedColumnInfoEnums'):
+        self._proto = proto
+
+
+class ASTGraphEdgePatternEnums:
+    """Generated wrapper for ASTGraphEdgePatternEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTGraphEdgePatternEnums'):
+        self._proto = proto
+
+
+class ASTGraphLabelOperationEnums:
+    """Generated wrapper for ASTGraphLabelOperationEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTGraphLabelOperationEnums'):
+        self._proto = proto
+
+
+class ASTGraphNodeTableReferenceEnums:
+    """Generated wrapper for ASTGraphNodeTableReferenceEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTGraphNodeTableReferenceEnums'):
+        self._proto = proto
+
+
+class ASTGraphPathModeEnums:
+    """Generated wrapper for ASTGraphPathModeEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTGraphPathModeEnums'):
+        self._proto = proto
+
+
+class ASTGraphPathSearchPrefixEnums:
+    """Generated wrapper for ASTGraphPathSearchPrefixEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTGraphPathSearchPrefixEnums'):
+        self._proto = proto
+
+
+class ASTHavingModifierEnums:
+    """Generated wrapper for ASTHavingModifierEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTHavingModifierEnums'):
+        self._proto = proto
+
+
+class ASTImportStatementEnums:
+    """Generated wrapper for ASTImportStatementEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTImportStatementEnums'):
+        self._proto = proto
+
+
+class ASTInsertStatementEnums:
+    """Generated wrapper for ASTInsertStatementEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTInsertStatementEnums'):
+        self._proto = proto
+
+
+class ASTJoinEnums:
+    """Generated wrapper for ASTJoinEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTJoinEnums'):
+        self._proto = proto
+
+
+class ASTLockModeEnums:
+    """Generated wrapper for ASTLockModeEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTLockModeEnums'):
+        self._proto = proto
+
+
+class ASTMergeActionEnums:
+    """Generated wrapper for ASTMergeActionEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTMergeActionEnums'):
+        self._proto = proto
+
+
+class ASTMergeWhenClauseEnums:
+    """Generated wrapper for ASTMergeWhenClauseEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTMergeWhenClauseEnums'):
+        self._proto = proto
 
 
 class ASTNode:
@@ -65,6 +303,118 @@ class ASTNode:
         """Field parse_location_range"""
         return ParseLocationRange(self._proto.parse_location_range) if self._proto.parse_location_range.ByteSize() > 0 else None
 
+
+
+class ASTOnConflictClauseEnums:
+    """Generated wrapper for ASTOnConflictClauseEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTOnConflictClauseEnums'):
+        self._proto = proto
+
+
+class ASTOptionsEntryEnums:
+    """Generated wrapper for ASTOptionsEntryEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTOptionsEntryEnums'):
+        self._proto = proto
+
+
+class ASTOrderingExpressionEnums:
+    """Generated wrapper for ASTOrderingExpressionEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTOrderingExpressionEnums'):
+        self._proto = proto
+
+
+class ASTRowPatternAnchorEnums:
+    """Generated wrapper for ASTRowPatternAnchorEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTRowPatternAnchorEnums'):
+        self._proto = proto
+
+
+class ASTRowPatternOperationEnums:
+    """Generated wrapper for ASTRowPatternOperationEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTRowPatternOperationEnums'):
+        self._proto = proto
+
+
+class ASTSampleSizeEnums:
+    """Generated wrapper for ASTSampleSizeEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTSampleSizeEnums'):
+        self._proto = proto
+
+
+class ASTSelectAsEnums:
+    """Generated wrapper for ASTSelectAsEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTSelectAsEnums'):
+        self._proto = proto
+
+
+class ASTSetOperationEnums:
+    """Generated wrapper for ASTSetOperationEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTSetOperationEnums'):
+        self._proto = proto
+
+
+class ASTSpannerInterleaveClauseEnums:
+    """Generated wrapper for ASTSpannerInterleaveClauseEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTSpannerInterleaveClauseEnums'):
+        self._proto = proto
+
+
+class ASTSymbolQuantifierEnums:
+    """Generated wrapper for ASTSymbolQuantifierEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTSymbolQuantifierEnums'):
+        self._proto = proto
+
+
+class ASTTemplatedParameterTypeEnums:
+    """Generated wrapper for ASTTemplatedParameterTypeEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTTemplatedParameterTypeEnums'):
+        self._proto = proto
+
+
+class ASTTransactionReadWriteModeEnums:
+    """Generated wrapper for ASTTransactionReadWriteModeEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTTransactionReadWriteModeEnums'):
+        self._proto = proto
+
+
+class ASTUnaryExpressionEnums:
+    """Generated wrapper for ASTUnaryExpressionEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTUnaryExpressionEnums'):
+        self._proto = proto
+
+
+class ASTUnpivotClauseEnums:
+    """Generated wrapper for ASTUnpivotClauseEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTUnpivotClauseEnums'):
+        self._proto = proto
+
+
+class ASTWindowFrameEnums:
+    """Generated wrapper for ASTWindowFrameEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTWindowFrameEnums'):
+        self._proto = proto
+
+
+class ASTWindowFrameExprEnums:
+    """Generated wrapper for ASTWindowFrameExprEnums"""
+
+    def __init__(self, proto: 'ast_enums_pb2.ASTWindowFrameExprEnums'):
+        self._proto = proto
 
 
 class AllowedHintsAndOptions:
@@ -163,6 +513,113 @@ class AllowedHintsAndOptionsOption:
     def allow_alter_array(self) -> Optional[bool]:
         """Field allow_alter_array"""
         return self._proto.allow_alter_array
+
+
+
+class AnalyzeRequest:
+    """Generated wrapper for AnalyzeRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.AnalyzeRequest'):
+        self._proto = proto
+
+    @cached_property
+    def options(self) -> Optional['options_pb2.AnalyzerOptionsProto']:
+        """Field options"""
+        return AnalyzerOptions(self._proto.options) if self._proto.options.ByteSize() > 0 else None
+
+    @cached_property
+    def simple_catalog(self) -> Optional['simple_catalog_pb2.SimpleCatalogProto']:
+        """Field simple_catalog"""
+        return SimpleCatalog(self._proto.simple_catalog) if self._proto.simple_catalog.ByteSize() > 0 else None
+
+    @cached_property
+    def descriptor_pool_list(self) -> Optional['local_service_pb2.DescriptorPoolListProto']:
+        """Field descriptor_pool_list"""
+        return DescriptorPoolList(self._proto.descriptor_pool_list) if self._proto.descriptor_pool_list.ByteSize() > 0 else None
+
+    @cached_property
+    def registered_catalog_id(self) -> Optional[int]:
+        """Field registered_catalog_id"""
+        return self._proto.registered_catalog_id
+
+    @cached_property
+    def sql_statement(self) -> Optional[str]:
+        """Field sql_statement"""
+        return self._proto.sql_statement
+
+    @cached_property
+    def parse_resume_location(self) -> Optional['parse_resume_location_pb2.ParseResumeLocationProto']:
+        """Field parse_resume_location"""
+        return ParseResumeLocation(self._proto.parse_resume_location) if self._proto.parse_resume_location.ByteSize() > 0 else None
+
+    @cached_property
+    def sql_expression(self) -> Optional[str]:
+        """Field sql_expression"""
+        return self._proto.sql_expression
+
+
+
+class AnalyzeResponse:
+    """Generated wrapper for AnalyzeResponse"""
+
+    def __init__(self, proto: 'local_service_pb2.AnalyzeResponse'):
+        self._proto = proto
+
+    @cached_property
+    def resolved_statement(self) -> Optional['AnyResolvedStatement']:
+        """Field resolved_statement"""
+        return AnyResolvedStatement(self._proto.resolved_statement) if self._proto.resolved_statement.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_expression(self) -> Optional['AnyResolvedExpr']:
+        """Field resolved_expression"""
+        return AnyResolvedExpr(self._proto.resolved_expression) if self._proto.resolved_expression.ByteSize() > 0 else None
+
+    @cached_property
+    def resume_byte_position(self) -> Optional[int]:
+        """Field resume_byte_position"""
+        return self._proto.resume_byte_position
+
+
+
+class AnalyzerLogEntry:
+    """Generated wrapper for AnalyzerLogEntry"""
+
+    def __init__(self, proto: 'logging_pb2.AnalyzerLogEntry'):
+        self._proto = proto
+
+    @cached_property
+    def num_lexical_tokens(self) -> Optional[int]:
+        """Field num_lexical_tokens"""
+        return self._proto.num_lexical_tokens
+
+    @cached_property
+    def overall_execution_stats(self) -> Optional['logging_pb2.ExecutionStats']:
+        """Field overall_execution_stats"""
+        return ExecutionStats(self._proto.overall_execution_stats) if self._proto.overall_execution_stats.ByteSize() > 0 else None
+
+    @cached_property
+    def execution_stats_by_op(self) -> List['logging_pb2.AnalyzerLogEntry.ExecutionStatsByOpEntry']:
+        """Field execution_stats_by_op"""
+        return [AnalyzerLogEntryExecutionStatsByOpEntry(item) for item in self._proto.execution_stats_by_op]
+
+
+
+class AnalyzerLogEntryExecutionStatsByOpEntry:
+    """Generated wrapper for ExecutionStatsByOpEntry"""
+
+    def __init__(self, proto: 'logging_pb2.AnalyzerLogEntry.ExecutionStatsByOpEntry'):
+        self._proto = proto
+
+    @cached_property
+    def key(self) -> Optional[int]:
+        """Field key"""
+        return self._proto.key
+
+    @cached_property
+    def value(self) -> Optional['logging_pb2.ExecutionStats']:
+        """Field value"""
+        return ExecutionStats(self._proto.value) if self._proto.value.ByteSize() > 0 else None
 
 
 
@@ -283,7 +740,7 @@ class AnalyzerOptions:
         return self._proto.default_anon_kappa_value
 
     @cached_property
-    def rewrite_options(self) -> Optional['RewriteOptions']:
+    def rewrite_options(self) -> Optional['options_pb2.RewriteOptions']:
         """Field rewrite_options"""
         return RewriteOptions(self._proto.rewrite_options) if self._proto.rewrite_options.ByteSize() > 0 else None
 
@@ -315,6 +772,13 @@ class AnalyzerOptionsQueryParameter:
         """Field type"""
         return Type(self._proto.type) if self._proto.type.ByteSize() > 0 else None
 
+
+
+class AnalyzerOptionsRequest:
+    """Generated wrapper for AnalyzerOptionsRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.AnalyzerOptionsRequest'):
+        self._proto = proto
 
 
 class AnalyzerOptionsSystemVariable:
@@ -381,6 +845,70 @@ class AnnotationMap:
 
 
 
+class AnonOutputValue:
+    """Generated wrapper for AnonOutputValue"""
+
+    def __init__(self, proto: 'anon_output_with_report_pb2.AnonOutputValue'):
+        self._proto = proto
+
+    @cached_property
+    def int_value(self) -> Optional[int]:
+        """Field int_value"""
+        return self._proto.int_value
+
+    @cached_property
+    def float_value(self) -> Optional[float]:
+        """Field float_value"""
+        return self._proto.float_value
+
+    @cached_property
+    def string_value(self) -> Optional[str]:
+        """Field string_value"""
+        return self._proto.string_value
+
+    @cached_property
+    def noise_confidence_interval(self) -> Optional['anon_output_with_report_pb2.NoiseConfidenceInterval']:
+        """Field noise_confidence_interval"""
+        return NoiseConfidenceInterval(self._proto.noise_confidence_interval) if self._proto.noise_confidence_interval.ByteSize() > 0 else None
+
+
+
+class AnonOutputValues:
+    """Generated wrapper for AnonOutputValues"""
+
+    def __init__(self, proto: 'anon_output_with_report_pb2.AnonOutputValues'):
+        self._proto = proto
+
+    @cached_property
+    def values(self) -> List['anon_output_with_report_pb2.AnonOutputValue']:
+        """Field values"""
+        return [AnonOutputValue(item) for item in self._proto.values]
+
+
+
+class AnonOutputWithReport:
+    """Generated wrapper for AnonOutputWithReport"""
+
+    def __init__(self, proto: 'anon_output_with_report_pb2.AnonOutputWithReport'):
+        self._proto = proto
+
+    @cached_property
+    def value(self) -> Optional['anon_output_with_report_pb2.AnonOutputValue']:
+        """Field value"""
+        return AnonOutputValue(self._proto.value) if self._proto.value.ByteSize() > 0 else None
+
+    @cached_property
+    def values(self) -> Optional['anon_output_with_report_pb2.AnonOutputValues']:
+        """Field values"""
+        return AnonOutputValues(self._proto.values) if self._proto.values.ByteSize() > 0 else None
+
+    @cached_property
+    def bounding_report(self) -> Optional['anon_output_with_report_pb2.BoundingReport']:
+        """Field bounding_report"""
+        return BoundingReport(self._proto.bounding_report) if self._proto.bounding_report.ByteSize() > 0 else None
+
+
+
 class ArgumentTypeLambda:
     """Generated wrapper for ArgumentTypeLambdaProto"""
 
@@ -399,6 +927,13 @@ class ArgumentTypeLambda:
 
 
 
+class ArrayFindEnums:
+    """Generated wrapper for ArrayFindEnums"""
+
+    def __init__(self, proto: 'array_find_mode_pb2.ArrayFindEnums'):
+        self._proto = proto
+
+
 class ArrayType:
     """Generated wrapper for ArrayTypeProto"""
 
@@ -409,6 +944,94 @@ class ArrayType:
     def element_type(self) -> Optional['type_pb2.TypeProto']:
         """Field element_type"""
         return Type(self._proto.element_type) if self._proto.element_type.ByteSize() > 0 else None
+
+
+
+class ArrayZipEnums:
+    """Generated wrapper for ArrayZipEnums"""
+
+    def __init__(self, proto: 'array_zip_mode_pb2.ArrayZipEnums'):
+        self._proto = proto
+
+
+class BitwiseAggEnums:
+    """Generated wrapper for BitwiseAggEnums"""
+
+    def __init__(self, proto: 'bitwise_agg_mode_pb2.BitwiseAggEnums'):
+        self._proto = proto
+
+
+class BoundingReport:
+    """Generated wrapper for BoundingReport"""
+
+    def __init__(self, proto: 'anon_output_with_report_pb2.BoundingReport'):
+        self._proto = proto
+
+    @cached_property
+    def lower_bound(self) -> Optional['anon_output_with_report_pb2.AnonOutputValue']:
+        """Field lower_bound"""
+        return AnonOutputValue(self._proto.lower_bound) if self._proto.lower_bound.ByteSize() > 0 else None
+
+    @cached_property
+    def upper_bound(self) -> Optional['anon_output_with_report_pb2.AnonOutputValue']:
+        """Field upper_bound"""
+        return AnonOutputValue(self._proto.upper_bound) if self._proto.upper_bound.ByteSize() > 0 else None
+
+    @cached_property
+    def num_inputs(self) -> Optional[float]:
+        """Field num_inputs"""
+        return self._proto.num_inputs
+
+    @cached_property
+    def num_outside(self) -> Optional[float]:
+        """Field num_outside"""
+        return self._proto.num_outside
+
+
+
+class BuildSqlRequest:
+    """Generated wrapper for BuildSqlRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.BuildSqlRequest'):
+        self._proto = proto
+
+    @cached_property
+    def simple_catalog(self) -> Optional['simple_catalog_pb2.SimpleCatalogProto']:
+        """Field simple_catalog"""
+        return SimpleCatalog(self._proto.simple_catalog) if self._proto.simple_catalog.ByteSize() > 0 else None
+
+    @cached_property
+    def descriptor_pool_list(self) -> Optional['local_service_pb2.DescriptorPoolListProto']:
+        """Field descriptor_pool_list"""
+        return DescriptorPoolList(self._proto.descriptor_pool_list) if self._proto.descriptor_pool_list.ByteSize() > 0 else None
+
+    @cached_property
+    def registered_catalog_id(self) -> Optional[int]:
+        """Field registered_catalog_id"""
+        return self._proto.registered_catalog_id
+
+    @cached_property
+    def resolved_statement(self) -> Optional['AnyResolvedStatement']:
+        """Field resolved_statement"""
+        return AnyResolvedStatement(self._proto.resolved_statement) if self._proto.resolved_statement.ByteSize() > 0 else None
+
+    @cached_property
+    def resolved_expression(self) -> Optional['AnyResolvedExpr']:
+        """Field resolved_expression"""
+        return AnyResolvedExpr(self._proto.resolved_expression) if self._proto.resolved_expression.ByteSize() > 0 else None
+
+
+
+class BuildSqlResponse:
+    """Generated wrapper for BuildSqlResponse"""
+
+    def __init__(self, proto: 'local_service_pb2.BuildSqlResponse'):
+        self._proto = proto
+
+    @cached_property
+    def sql(self) -> Optional[str]:
+        """Field sql"""
+        return self._proto.sql
 
 
 
@@ -427,6 +1050,34 @@ class Collation:
     def child_list(self) -> List['collation_pb2.CollationProto']:
         """Field child_list"""
         return [Collation(item) for item in self._proto.child_list]
+
+
+
+class Column:
+    """Generated wrapper for Column"""
+
+    def __init__(self, proto: 'reflection_pb2.Column'):
+        self._proto = proto
+
+    @cached_property
+    def table_alias(self) -> Optional[str]:
+        """Field table_alias"""
+        return self._proto.table_alias
+
+    @cached_property
+    def column_name(self) -> Optional[str]:
+        """Field column_name"""
+        return self._proto.column_name
+
+    @cached_property
+    def type(self) -> Optional[str]:
+        """Field type"""
+        return self._proto.type
+
+    @cached_property
+    def is_value_table_column(self) -> Optional[bool]:
+        """Field is_value_table_column"""
+        return self._proto.is_value_table_column
 
 
 
@@ -458,6 +1109,98 @@ class CompiledPattern:
     def state_machine(self) -> Optional['compiled_pattern_pb2.StateMachineProto']:
         """Field state_machine"""
         return StateMachine(self._proto.state_machine) if self._proto.state_machine.ByteSize() > 0 else None
+
+
+
+class ComplianceTestCaseLabels:
+    """Generated wrapper for ComplianceTestCaseLabels"""
+
+    def __init__(self, proto: 'compliance_label_pb2.ComplianceTestCaseLabels'):
+        self._proto = proto
+
+    @cached_property
+    def test_name(self) -> Optional[str]:
+        """Field test_name"""
+        return self._proto.test_name
+
+    @cached_property
+    def test_query(self) -> Optional[str]:
+        """Field test_query"""
+        return self._proto.test_query
+
+    @cached_property
+    def param(self) -> List['compliance_label_pb2.ComplianceTestCaseLabels.Param']:
+        """Field param"""
+        return [ComplianceTestCaseLabelsParam(item) for item in self._proto.param]
+
+    @cached_property
+    def test_error_mode(self) -> Optional[int]:
+        """Field test_error_mode"""
+        return self._proto.test_error_mode
+
+    @cached_property
+    def compliance_labels(self) -> List[str]:
+        """Field compliance_labels"""
+        return self._proto.compliance_labels
+
+    @cached_property
+    def test_shard(self) -> Optional[int]:
+        """Field test_shard"""
+        return self._proto.test_shard
+
+    @cached_property
+    def test_location(self) -> Optional['compliance_label_pb2.ComplianceTestCaseLabels.Location']:
+        """Field test_location"""
+        return ComplianceTestCaseLabelsLocation(self._proto.test_location) if self._proto.test_location.ByteSize() > 0 else None
+
+
+
+class ComplianceTestCaseLabelsLocation:
+    """Generated wrapper for Location"""
+
+    def __init__(self, proto: 'compliance_label_pb2.ComplianceTestCaseLabels.Location'):
+        self._proto = proto
+
+    @cached_property
+    def file(self) -> Optional[str]:
+        """Field file"""
+        return self._proto.file
+
+    @cached_property
+    def line(self) -> Optional[int]:
+        """Field line"""
+        return self._proto.line
+
+
+
+class ComplianceTestCaseLabelsParam:
+    """Generated wrapper for Param"""
+
+    def __init__(self, proto: 'compliance_label_pb2.ComplianceTestCaseLabels.Param'):
+        self._proto = proto
+
+    @cached_property
+    def param_name(self) -> Optional[str]:
+        """Field param_name"""
+        return self._proto.param_name
+
+    @cached_property
+    def param_value_literal(self) -> Optional[str]:
+        """Field param_value_literal"""
+        return self._proto.param_value_literal
+
+
+
+class ComplianceTestsLabels:
+    """Generated wrapper for ComplianceTestsLabels"""
+
+    def __init__(self, proto: 'compliance_label_pb2.ComplianceTestsLabels'):
+        self._proto = proto
+
+    @cached_property
+    def test_cases(self) -> List['compliance_label_pb2.ComplianceTestCaseLabels']:
+        """Field test_cases"""
+        return [ComplianceTestCaseLabels(item) for item in self._proto.test_cases]
 
 
 
@@ -497,6 +1240,39 @@ class ConstnessLevel:
 
     def __init__(self, proto: 'constness_level_pb2.ConstnessLevelProto'):
         self._proto = proto
+
+
+class DeprecatedEncoding:
+    """Generated wrapper for DeprecatedEncoding"""
+
+    def __init__(self, proto: 'type_annotation_pb2.DeprecatedEncoding'):
+        self._proto = proto
+
+
+class DeprecationWarning:
+    """Generated wrapper for DeprecationWarning"""
+
+    def __init__(self, proto: 'deprecation_warning_pb2.DeprecationWarning'):
+        self._proto = proto
+
+    @cached_property
+    def kind(self) -> Optional[int]:
+        """Field kind"""
+        return self._proto.kind
+
+
+
+class DescriptorPoolIdList:
+    """Generated wrapper for DescriptorPoolIdList"""
+
+    def __init__(self, proto: 'local_service_pb2.DescriptorPoolIdList'):
+        self._proto = proto
+
+    @cached_property
+    def registered_ids(self) -> List[int]:
+        """Field registered_ids"""
+        return self._proto.registered_ids
+
 
 
 class DescriptorPoolList:
@@ -539,6 +1315,146 @@ class DescriptorPoolListDefinition:
     def builtin(self) -> Optional['local_service_pb2.DescriptorPoolListProto.Builtin']:
         """Field builtin"""
         return DescriptorPoolListBuiltin(self._proto.builtin) if self._proto.builtin.ByteSize() > 0 else None
+
+
+
+class DifferentialPrivacyBoundingReport:
+    """Generated wrapper for DifferentialPrivacyBoundingReport"""
+
+    def __init__(self, proto: 'differential_privacy_pb2.DifferentialPrivacyBoundingReport'):
+        self._proto = proto
+
+    @cached_property
+    def lower_bound(self) -> Optional['differential_privacy_pb2.DifferentialPrivacyOutputValue']:
+        """Field lower_bound"""
+        return DifferentialPrivacyOutputValue(self._proto.lower_bound) if self._proto.lower_bound.ByteSize() > 0 else None
+
+    @cached_property
+    def upper_bound(self) -> Optional['differential_privacy_pb2.DifferentialPrivacyOutputValue']:
+        """Field upper_bound"""
+        return DifferentialPrivacyOutputValue(self._proto.upper_bound) if self._proto.upper_bound.ByteSize() > 0 else None
+
+    @cached_property
+    def num_inputs(self) -> Optional[float]:
+        """Field num_inputs"""
+        return self._proto.num_inputs
+
+    @cached_property
+    def num_outside(self) -> Optional[float]:
+        """Field num_outside"""
+        return self._proto.num_outside
+
+
+
+class DifferentialPrivacyEnums:
+    """Generated wrapper for DifferentialPrivacyEnums"""
+
+    def __init__(self, proto: 'differential_privacy_pb2.DifferentialPrivacyEnums'):
+        self._proto = proto
+
+
+class DifferentialPrivacyOutputValue:
+    """Generated wrapper for DifferentialPrivacyOutputValue"""
+
+    def __init__(self, proto: 'differential_privacy_pb2.DifferentialPrivacyOutputValue'):
+        self._proto = proto
+
+    @cached_property
+    def int_value(self) -> Optional[int]:
+        """Field int_value"""
+        return self._proto.int_value
+
+    @cached_property
+    def float_value(self) -> Optional[float]:
+        """Field float_value"""
+        return self._proto.float_value
+
+    @cached_property
+    def string_value(self) -> Optional[str]:
+        """Field string_value"""
+        return self._proto.string_value
+
+    @cached_property
+    def noise_confidence_interval(self) -> Optional['anon_output_with_report_pb2.NoiseConfidenceInterval']:
+        """Field noise_confidence_interval"""
+        return NoiseConfidenceInterval(self._proto.noise_confidence_interval) if self._proto.noise_confidence_interval.ByteSize() > 0 else None
+
+
+
+class DifferentialPrivacyOutputValues:
+    """Generated wrapper for DifferentialPrivacyOutputValues"""
+
+    def __init__(self, proto: 'differential_privacy_pb2.DifferentialPrivacyOutputValues'):
+        self._proto = proto
+
+    @cached_property
+    def values(self) -> List['differential_privacy_pb2.DifferentialPrivacyOutputValue']:
+        """Field values"""
+        return [DifferentialPrivacyOutputValue(item) for item in self._proto.values]
+
+
+
+class DifferentialPrivacyOutputWithReport:
+    """Generated wrapper for DifferentialPrivacyOutputWithReport"""
+
+    def __init__(self, proto: 'differential_privacy_pb2.DifferentialPrivacyOutputWithReport'):
+        self._proto = proto
+
+    @cached_property
+    def value(self) -> Optional['differential_privacy_pb2.DifferentialPrivacyOutputValue']:
+        """Field value"""
+        return DifferentialPrivacyOutputValue(self._proto.value) if self._proto.value.ByteSize() > 0 else None
+
+    @cached_property
+    def values(self) -> Optional['differential_privacy_pb2.DifferentialPrivacyOutputValues']:
+        """Field values"""
+        return DifferentialPrivacyOutputValues(self._proto.values) if self._proto.values.ByteSize() > 0 else None
+
+    @cached_property
+    def bounding_report(self) -> Optional['differential_privacy_pb2.DifferentialPrivacyBoundingReport']:
+        """Field bounding_report"""
+        return DifferentialPrivacyBoundingReport(self._proto.bounding_report) if self._proto.bounding_report.ByteSize() > 0 else None
+
+    @cached_property
+    def count_distinct_bounding_report(self) -> Optional['differential_privacy_pb2.DifferentiallyPrivateCountDistinctBoundingReport']:
+        """Field count_distinct_bounding_report"""
+        return DifferentiallyPrivateCountDistinctBoundingReport(self._proto.count_distinct_bounding_report) if self._proto.count_distinct_bounding_report.ByteSize() > 0 else None
+
+
+
+class DifferentiallyPrivateCountDistinctBoundingReport:
+    """Generated wrapper for DifferentiallyPrivateCountDistinctBoundingReport"""
+
+    def __init__(self, proto: 'differential_privacy_pb2.DifferentiallyPrivateCountDistinctBoundingReport'):
+        self._proto = proto
+
+    @cached_property
+    def contribution_bounding_strategy(self) -> Optional[int]:
+        """Field contribution_bounding_strategy"""
+        return self._proto.contribution_bounding_strategy
+
+    @cached_property
+    def upper_bound(self) -> Optional[int]:
+        """Field upper_bound"""
+        return self._proto.upper_bound
+
+    @cached_property
+    def num_inputs(self) -> Optional[float]:
+        """Field num_inputs"""
+        return self._proto.num_inputs
+
+
+
+class Edits:
+    """Generated wrapper for Edits"""
+
+    def __init__(self, proto: 'fix_suggestion_pb2.Edits'):
+        self._proto = proto
+
+    @cached_property
+    def text_edits(self) -> List['fix_suggestion_pb2.TextEdit']:
+        """Field text_edits"""
+        return [TextEdit(item) for item in self._proto.text_edits]
 
 
 
@@ -593,6 +1509,441 @@ class EnumType:
 
 
 
+class ErrorFixSuggestions:
+    """Generated wrapper for ErrorFixSuggestions"""
+
+    def __init__(self, proto: 'fix_suggestion_pb2.ErrorFixSuggestions'):
+        self._proto = proto
+
+    @cached_property
+    def fix_suggestions(self) -> List['fix_suggestion_pb2.Fix']:
+        """Field fix_suggestions"""
+        return [Fix(item) for item in self._proto.fix_suggestions]
+
+
+
+class ErrorLocation:
+    """Generated wrapper for ErrorLocation"""
+
+    def __init__(self, proto: 'error_location_pb2.ErrorLocation'):
+        self._proto = proto
+
+    @cached_property
+    def line(self) -> Optional[int]:
+        """Field line"""
+        return self._proto.line
+
+    @cached_property
+    def column(self) -> Optional[int]:
+        """Field column"""
+        return self._proto.column
+
+    @cached_property
+    def filename(self) -> Optional[str]:
+        """Field filename"""
+        return self._proto.filename
+
+    @cached_property
+    def input_start_line_offset(self) -> Optional[int]:
+        """Field input_start_line_offset"""
+        return self._proto.input_start_line_offset
+
+    @cached_property
+    def input_start_column_offset(self) -> Optional[int]:
+        """Field input_start_column_offset"""
+        return self._proto.input_start_column_offset
+
+    @cached_property
+    def error_source(self) -> List['error_location_pb2.ErrorSource']:
+        """Field error_source"""
+        return [ErrorSource(item) for item in self._proto.error_source]
+
+
+
+class ErrorMessageModeForPayload:
+    """Generated wrapper for ErrorMessageModeForPayload"""
+
+    def __init__(self, proto: 'options_pb2.ErrorMessageModeForPayload'):
+        self._proto = proto
+
+    @cached_property
+    def mode(self) -> Optional[int]:
+        """Field mode"""
+        return self._proto.mode
+
+
+
+class ErrorSource:
+    """Generated wrapper for ErrorSource"""
+
+    def __init__(self, proto: 'error_location_pb2.ErrorSource'):
+        self._proto = proto
+
+    @cached_property
+    def error_message(self) -> Optional[str]:
+        """Field error_message"""
+        return self._proto.error_message
+
+    @cached_property
+    def error_message_caret_string(self) -> Optional[str]:
+        """Field error_message_caret_string"""
+        return self._proto.error_message_caret_string
+
+    @cached_property
+    def error_location(self) -> Optional['error_location_pb2.ErrorLocation']:
+        """Field error_location"""
+        return ErrorLocation(self._proto.error_location) if self._proto.error_location.ByteSize() > 0 else None
+
+
+
+class EvaluateModifyBatchRequest:
+    """Generated wrapper for EvaluateModifyBatchRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.EvaluateModifyBatchRequest'):
+        self._proto = proto
+
+    @cached_property
+    def request(self) -> List['local_service_pb2.EvaluateModifyRequest']:
+        """Field request"""
+        return [EvaluateModifyRequest(item) for item in self._proto.request]
+
+
+
+class EvaluateModifyBatchResponse:
+    """Generated wrapper for EvaluateModifyBatchResponse"""
+
+    def __init__(self, proto: 'local_service_pb2.EvaluateModifyBatchResponse'):
+        self._proto = proto
+
+    @cached_property
+    def response(self) -> List['local_service_pb2.EvaluateModifyResponse']:
+        """Field response"""
+        return [EvaluateModifyResponse(item) for item in self._proto.response]
+
+
+
+class EvaluateModifyRequest:
+    """Generated wrapper for EvaluateModifyRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.EvaluateModifyRequest'):
+        self._proto = proto
+
+    @cached_property
+    def sql(self) -> Optional[str]:
+        """Field sql"""
+        return self._proto.sql
+
+    @cached_property
+    def options(self) -> Optional['options_pb2.AnalyzerOptionsProto']:
+        """Field options"""
+        return AnalyzerOptions(self._proto.options) if self._proto.options.ByteSize() > 0 else None
+
+    @cached_property
+    def descriptor_pool_list(self) -> Optional['local_service_pb2.DescriptorPoolListProto']:
+        """Field descriptor_pool_list"""
+        return DescriptorPoolList(self._proto.descriptor_pool_list) if self._proto.descriptor_pool_list.ByteSize() > 0 else None
+
+    @cached_property
+    def simple_catalog(self) -> Optional['simple_catalog_pb2.SimpleCatalogProto']:
+        """Field simple_catalog"""
+        return SimpleCatalog(self._proto.simple_catalog) if self._proto.simple_catalog.ByteSize() > 0 else None
+
+    @cached_property
+    def registered_catalog_id(self) -> Optional[int]:
+        """Field registered_catalog_id"""
+        return self._proto.registered_catalog_id
+
+    @cached_property
+    def prepared_modify_id(self) -> Optional[int]:
+        """Field prepared_modify_id"""
+        return self._proto.prepared_modify_id
+
+    @cached_property
+    def table_content(self) -> List['local_service_pb2.EvaluateModifyRequest.TableContentEntry']:
+        """Field table_content"""
+        return [EvaluateModifyRequestTableContentEntry(item) for item in self._proto.table_content]
+
+    @cached_property
+    def params(self) -> List['local_service_pb2.EvaluateRequest.Parameter']:
+        """Field params"""
+        return [EvaluateRequestParameter(item) for item in self._proto.params]
+
+
+
+class EvaluateModifyRequestTableContentEntry:
+    """Generated wrapper for TableContentEntry"""
+
+    def __init__(self, proto: 'local_service_pb2.EvaluateModifyRequest.TableContentEntry'):
+        self._proto = proto
+
+    @cached_property
+    def key(self) -> Optional[str]:
+        """Field key"""
+        return self._proto.key
+
+    @cached_property
+    def value(self) -> Optional['local_service_pb2.TableContent']:
+        """Field value"""
+        return TableContent(self._proto.value) if self._proto.value.ByteSize() > 0 else None
+
+
+
+class EvaluateModifyResponse:
+    """Generated wrapper for EvaluateModifyResponse"""
+
+    def __init__(self, proto: 'local_service_pb2.EvaluateModifyResponse'):
+        self._proto = proto
+
+    @cached_property
+    def table_name(self) -> Optional[str]:
+        """Field table_name"""
+        return self._proto.table_name
+
+    @cached_property
+    def content(self) -> List['local_service_pb2.EvaluateModifyResponse.Row']:
+        """Field content"""
+        return [EvaluateModifyResponseRow(item) for item in self._proto.content]
+
+    @cached_property
+    def prepared(self) -> Optional['local_service_pb2.PreparedModifyState']:
+        """Field prepared"""
+        return PreparedModifyState(self._proto.prepared) if self._proto.prepared.ByteSize() > 0 else None
+
+
+
+class EvaluateModifyResponseRow:
+    """Generated wrapper for Row"""
+
+    def __init__(self, proto: 'local_service_pb2.EvaluateModifyResponse.Row'):
+        self._proto = proto
+
+    @cached_property
+    def operation(self) -> Optional[int]:
+        """Field operation"""
+        return self._proto.operation
+
+    @cached_property
+    def cell(self) -> List['value_pb2.ValueProto']:
+        """Field cell"""
+        return [Value(item) for item in self._proto.cell]
+
+    @cached_property
+    def old_primary_key(self) -> List['value_pb2.ValueProto']:
+        """Field old_primary_key"""
+        return [Value(item) for item in self._proto.old_primary_key]
+
+
+
+class EvaluateQueryBatchRequest:
+    """Generated wrapper for EvaluateQueryBatchRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.EvaluateQueryBatchRequest'):
+        self._proto = proto
+
+    @cached_property
+    def request(self) -> List['local_service_pb2.EvaluateQueryRequest']:
+        """Field request"""
+        return [EvaluateQueryRequest(item) for item in self._proto.request]
+
+
+
+class EvaluateQueryBatchResponse:
+    """Generated wrapper for EvaluateQueryBatchResponse"""
+
+    def __init__(self, proto: 'local_service_pb2.EvaluateQueryBatchResponse'):
+        self._proto = proto
+
+    @cached_property
+    def response(self) -> List['local_service_pb2.EvaluateQueryResponse']:
+        """Field response"""
+        return [EvaluateQueryResponse(item) for item in self._proto.response]
+
+
+
+class EvaluateQueryRequest:
+    """Generated wrapper for EvaluateQueryRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.EvaluateQueryRequest'):
+        self._proto = proto
+
+    @cached_property
+    def sql(self) -> Optional[str]:
+        """Field sql"""
+        return self._proto.sql
+
+    @cached_property
+    def options(self) -> Optional['options_pb2.AnalyzerOptionsProto']:
+        """Field options"""
+        return AnalyzerOptions(self._proto.options) if self._proto.options.ByteSize() > 0 else None
+
+    @cached_property
+    def descriptor_pool_list(self) -> Optional['local_service_pb2.DescriptorPoolListProto']:
+        """Field descriptor_pool_list"""
+        return DescriptorPoolList(self._proto.descriptor_pool_list) if self._proto.descriptor_pool_list.ByteSize() > 0 else None
+
+    @cached_property
+    def simple_catalog(self) -> Optional['simple_catalog_pb2.SimpleCatalogProto']:
+        """Field simple_catalog"""
+        return SimpleCatalog(self._proto.simple_catalog) if self._proto.simple_catalog.ByteSize() > 0 else None
+
+    @cached_property
+    def registered_catalog_id(self) -> Optional[int]:
+        """Field registered_catalog_id"""
+        return self._proto.registered_catalog_id
+
+    @cached_property
+    def prepared_query_id(self) -> Optional[int]:
+        """Field prepared_query_id"""
+        return self._proto.prepared_query_id
+
+    @cached_property
+    def table_content(self) -> List['local_service_pb2.EvaluateModifyRequest.TableContentEntry']:
+        """Field table_content"""
+        return [EvaluateModifyRequestTableContentEntry(item) for item in self._proto.table_content]
+
+    @cached_property
+    def params(self) -> List['local_service_pb2.EvaluateRequest.Parameter']:
+        """Field params"""
+        return [EvaluateRequestParameter(item) for item in self._proto.params]
+
+
+
+class EvaluateQueryRequestTableContentEntry:
+    """Generated wrapper for TableContentEntry"""
+
+    def __init__(self, proto: 'local_service_pb2.EvaluateQueryRequest.TableContentEntry'):
+        self._proto = proto
+
+    @cached_property
+    def key(self) -> Optional[str]:
+        """Field key"""
+        return self._proto.key
+
+    @cached_property
+    def value(self) -> Optional['local_service_pb2.TableContent']:
+        """Field value"""
+        return TableContent(self._proto.value) if self._proto.value.ByteSize() > 0 else None
+
+
+
+class EvaluateQueryResponse:
+    """Generated wrapper for EvaluateQueryResponse"""
+
+    def __init__(self, proto: 'local_service_pb2.EvaluateQueryResponse'):
+        self._proto = proto
+
+    @cached_property
+    def content(self) -> Optional['local_service_pb2.TableContent']:
+        """Field content"""
+        return TableContent(self._proto.content) if self._proto.content.ByteSize() > 0 else None
+
+    @cached_property
+    def prepared(self) -> Optional['local_service_pb2.PreparedQueryState']:
+        """Field prepared"""
+        return PreparedQueryState(self._proto.prepared) if self._proto.prepared.ByteSize() > 0 else None
+
+
+
+class EvaluateRequest:
+    """Generated wrapper for EvaluateRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.EvaluateRequest'):
+        self._proto = proto
+
+    @cached_property
+    def sql(self) -> Optional[str]:
+        """Field sql"""
+        return self._proto.sql
+
+    @cached_property
+    def columns(self) -> List['local_service_pb2.EvaluateRequest.Parameter']:
+        """Field columns"""
+        return [EvaluateRequestParameter(item) for item in self._proto.columns]
+
+    @cached_property
+    def params(self) -> List['local_service_pb2.EvaluateRequest.Parameter']:
+        """Field params"""
+        return [EvaluateRequestParameter(item) for item in self._proto.params]
+
+    @cached_property
+    def descriptor_pool_list(self) -> Optional['local_service_pb2.DescriptorPoolListProto']:
+        """Field descriptor_pool_list"""
+        return DescriptorPoolList(self._proto.descriptor_pool_list) if self._proto.descriptor_pool_list.ByteSize() > 0 else None
+
+    @cached_property
+    def prepared_expression_id(self) -> Optional[int]:
+        """Field prepared_expression_id"""
+        return self._proto.prepared_expression_id
+
+    @cached_property
+    def options(self) -> Optional['options_pb2.AnalyzerOptionsProto']:
+        """Field options"""
+        return AnalyzerOptions(self._proto.options) if self._proto.options.ByteSize() > 0 else None
+
+
+
+class EvaluateRequestBatch:
+    """Generated wrapper for EvaluateRequestBatch"""
+
+    def __init__(self, proto: 'local_service_pb2.EvaluateRequestBatch'):
+        self._proto = proto
+
+    @cached_property
+    def request(self) -> List['local_service_pb2.EvaluateRequest']:
+        """Field request"""
+        return [EvaluateRequest(item) for item in self._proto.request]
+
+
+
+class EvaluateRequestParameter:
+    """Generated wrapper for Parameter"""
+
+    def __init__(self, proto: 'local_service_pb2.EvaluateRequest.Parameter'):
+        self._proto = proto
+
+    @cached_property
+    def name(self) -> Optional[str]:
+        """Field name"""
+        return self._proto.name
+
+    @cached_property
+    def value(self) -> Optional['value_pb2.ValueProto']:
+        """Field value"""
+        return Value(self._proto.value) if self._proto.value.ByteSize() > 0 else None
+
+
+
+class EvaluateResponse:
+    """Generated wrapper for EvaluateResponse"""
+
+    def __init__(self, proto: 'local_service_pb2.EvaluateResponse'):
+        self._proto = proto
+
+    @cached_property
+    def value(self) -> Optional['value_pb2.ValueProto']:
+        """Field value"""
+        return Value(self._proto.value) if self._proto.value.ByteSize() > 0 else None
+
+    @cached_property
+    def prepared(self) -> Optional['local_service_pb2.PreparedState']:
+        """Field prepared"""
+        return PreparedState(self._proto.prepared) if self._proto.prepared.ByteSize() > 0 else None
+
+
+
+class EvaluateResponseBatch:
+    """Generated wrapper for EvaluateResponseBatch"""
+
+    def __init__(self, proto: 'local_service_pb2.EvaluateResponseBatch'):
+        self._proto = proto
+
+    @cached_property
+    def response(self) -> List['local_service_pb2.EvaluateResponse']:
+        """Field response"""
+        return [EvaluateResponse(item) for item in self._proto.response]
+
+
+
 class EvaluatorTableIterator:
     """Generated wrapper for EvaluatorTableIteratorProto"""
 
@@ -608,6 +1959,34 @@ class EvaluatorTableIterator:
     def next_row_count(self) -> Optional[int]:
         """Field next_row_count"""
         return self._proto.next_row_count
+
+
+
+class ExecutionStats:
+    """Generated wrapper for ExecutionStats"""
+
+    def __init__(self, proto: 'logging_pb2.ExecutionStats'):
+        self._proto = proto
+
+    @cached_property
+    def wall_time(self) -> Optional['Duration']:
+        """Field wall_time"""
+        return Duration(self._proto.wall_time) if self._proto.wall_time.ByteSize() > 0 else None
+
+    @cached_property
+    def cpu_time(self) -> Optional['Duration']:
+        """Field cpu_time"""
+        return Duration(self._proto.cpu_time) if self._proto.cpu_time.ByteSize() > 0 else None
+
+    @cached_property
+    def stack_available_bytes(self) -> Optional[int]:
+        """Field stack_available_bytes"""
+        return self._proto.stack_available_bytes
+
+    @cached_property
+    def stack_peak_used_bytes(self) -> Optional[int]:
+        """Field stack_peak_used_bytes"""
+        return self._proto.stack_peak_used_bytes
 
 
 
@@ -644,6 +2023,104 @@ class ExtendedTypeParameters:
     def parameters(self) -> List['simple_value_pb2.SimpleValueProto']:
         """Field parameters"""
         return [SimpleValue(item) for item in self._proto.parameters]
+
+
+
+class ExtractTableNamesFromNextStatementRequest:
+    """Generated wrapper for ExtractTableNamesFromNextStatementRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.ExtractTableNamesFromNextStatementRequest'):
+        self._proto = proto
+
+    @cached_property
+    def parse_resume_location(self) -> Optional['parse_resume_location_pb2.ParseResumeLocationProto']:
+        """Field parse_resume_location"""
+        return ParseResumeLocation(self._proto.parse_resume_location) if self._proto.parse_resume_location.ByteSize() > 0 else None
+
+    @cached_property
+    def options(self) -> Optional['options_pb2.LanguageOptionsProto']:
+        """Field options"""
+        return LanguageOptions(self._proto.options) if self._proto.options.ByteSize() > 0 else None
+
+
+
+class ExtractTableNamesFromNextStatementResponse:
+    """Generated wrapper for ExtractTableNamesFromNextStatementResponse"""
+
+    def __init__(self, proto: 'local_service_pb2.ExtractTableNamesFromNextStatementResponse'):
+        self._proto = proto
+
+    @cached_property
+    def table_name(self) -> List['local_service_pb2.ExtractTableNamesFromNextStatementResponse.TableName']:
+        """Field table_name"""
+        return [ExtractTableNamesFromNextStatementResponseTableName(item) for item in self._proto.table_name]
+
+    @cached_property
+    def resume_byte_position(self) -> Optional[int]:
+        """Field resume_byte_position"""
+        return self._proto.resume_byte_position
+
+
+
+class ExtractTableNamesFromNextStatementResponseTableName:
+    """Generated wrapper for TableName"""
+
+    def __init__(self, proto: 'local_service_pb2.ExtractTableNamesFromNextStatementResponse.TableName'):
+        self._proto = proto
+
+    @cached_property
+    def table_name_segment(self) -> List[str]:
+        """Field table_name_segment"""
+        return self._proto.table_name_segment
+
+
+
+class ExtractTableNamesFromStatementRequest:
+    """Generated wrapper for ExtractTableNamesFromStatementRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.ExtractTableNamesFromStatementRequest'):
+        self._proto = proto
+
+    @cached_property
+    def sql_statement(self) -> Optional[str]:
+        """Field sql_statement"""
+        return self._proto.sql_statement
+
+    @cached_property
+    def options(self) -> Optional['options_pb2.LanguageOptionsProto']:
+        """Field options"""
+        return LanguageOptions(self._proto.options) if self._proto.options.ByteSize() > 0 else None
+
+    @cached_property
+    def allow_script(self) -> Optional[bool]:
+        """Field allow_script"""
+        return self._proto.allow_script
+
+
+
+class ExtractTableNamesFromStatementResponse:
+    """Generated wrapper for ExtractTableNamesFromStatementResponse"""
+
+    def __init__(self, proto: 'local_service_pb2.ExtractTableNamesFromStatementResponse'):
+        self._proto = proto
+
+    @cached_property
+    def table_name(self) -> List['local_service_pb2.ExtractTableNamesFromNextStatementResponse.TableName']:
+        """Field table_name"""
+        return [ExtractTableNamesFromNextStatementResponseTableName(item) for item in self._proto.table_name]
+
+
+
+class ExtractTableNamesFromStatementResponseTableName:
+    """Generated wrapper for TableName"""
+
+    def __init__(self, proto: 'local_service_pb2.ExtractTableNamesFromStatementResponse.TableName'):
+        self._proto = proto
+
+    @cached_property
+    def table_name_segment(self) -> List[str]:
+        """Field table_name_segment"""
+        return self._proto.table_name_segment
 
 
 
@@ -732,6 +2209,85 @@ class FieldDescriptorRef:
 
 
 
+class FieldFormat:
+    """Generated wrapper for FieldFormat"""
+
+    def __init__(self, proto: 'type_annotation_pb2.FieldFormat'):
+        self._proto = proto
+
+
+class Fix:
+    """Generated wrapper for Fix"""
+
+    def __init__(self, proto: 'fix_suggestion_pb2.Fix'):
+        self._proto = proto
+
+    @cached_property
+    def title(self) -> Optional[str]:
+        """Field title"""
+        return self._proto.title
+
+    @cached_property
+    def edits(self) -> Optional['fix_suggestion_pb2.Edits']:
+        """Field edits"""
+        return Edits(self._proto.edits) if self._proto.edits.ByteSize() > 0 else None
+
+
+
+class FixRange:
+    """Generated wrapper for FixRange"""
+
+    def __init__(self, proto: 'fix_suggestion_pb2.FixRange'):
+        self._proto = proto
+
+    @cached_property
+    def start(self) -> Optional['error_location_pb2.ErrorLocation']:
+        """Field start"""
+        return ErrorLocation(self._proto.start) if self._proto.start.ByteSize() > 0 else None
+
+    @cached_property
+    def length(self) -> Optional[int]:
+        """Field length"""
+        return self._proto.length
+
+
+
+class FormatSqlRequest:
+    """Generated wrapper for FormatSqlRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.FormatSqlRequest'):
+        self._proto = proto
+
+    @cached_property
+    def sql(self) -> Optional[str]:
+        """Field sql"""
+        return self._proto.sql
+
+    @cached_property
+    def options(self) -> Optional['formatter_options_pb2.FormatterOptionsProto']:
+        """Field options"""
+        return FormatterOptions(self._proto.options) if self._proto.options.ByteSize() > 0 else None
+
+    @cached_property
+    def byte_ranges(self) -> List['formatter_options_pb2.FormatterRangeProto']:
+        """Field byte_ranges"""
+        return [FormatterRange(item) for item in self._proto.byte_ranges]
+
+
+
+class FormatSqlResponse:
+    """Generated wrapper for FormatSqlResponse"""
+
+    def __init__(self, proto: 'local_service_pb2.FormatSqlResponse'):
+        self._proto = proto
+
+    @cached_property
+    def sql(self) -> Optional[str]:
+        """Field sql"""
+        return self._proto.sql
+
+
+
 class FormatterOptions:
     """Generated wrapper for FormatterOptionsProto"""
 
@@ -810,6 +2366,34 @@ class FormatterRange:
     def end(self) -> Optional[int]:
         """Field end"""
         return self._proto.end
+
+
+
+class FreestandingDeprecationWarning:
+    """Generated wrapper for FreestandingDeprecationWarning"""
+
+    def __init__(self, proto: 'deprecation_warning_pb2.FreestandingDeprecationWarning'):
+        self._proto = proto
+
+    @cached_property
+    def message(self) -> Optional[str]:
+        """Field message"""
+        return self._proto.message
+
+    @cached_property
+    def caret_string(self) -> Optional[str]:
+        """Field caret_string"""
+        return self._proto.caret_string
+
+    @cached_property
+    def error_location(self) -> Optional['error_location_pb2.ErrorLocation']:
+        """Field error_location"""
+        return ErrorLocation(self._proto.error_location) if self._proto.error_location.ByteSize() > 0 else None
+
+    @cached_property
+    def deprecation_warning(self) -> Optional['deprecation_warning_pb2.DeprecationWarning']:
+        """Field deprecation_warning"""
+        return DeprecationWarning(self._proto.deprecation_warning) if self._proto.deprecation_warning.ByteSize() > 0 else None
 
 
 
@@ -1047,6 +2631,13 @@ class FunctionArgumentTypeOptions:
 
 
 
+class FunctionEnums:
+    """Generated wrapper for FunctionEnums"""
+
+    def __init__(self, proto: 'function_pb2.FunctionEnums'):
+        self._proto = proto
+
+
 class FunctionOptions:
     """Generated wrapper for FunctionOptionsProto"""
 
@@ -1203,7 +2794,7 @@ class FunctionSignatureOptions:
         return self._proto.is_deprecated
 
     @cached_property
-    def additional_deprecation_warning(self) -> List['FreestandingDeprecationWarning']:
+    def additional_deprecation_warning(self) -> List['deprecation_warning_pb2.FreestandingDeprecationWarning']:
         """Field additional_deprecation_warning"""
         return [FreestandingDeprecationWarning(item) for item in self._proto.additional_deprecation_warning]
 
@@ -1269,6 +2860,47 @@ class FunctionSignatureRewriteOptions:
     def allowed_function_groups(self) -> List[str]:
         """Field allowed_function_groups"""
         return self._proto.allowed_function_groups
+
+
+
+class GetBuiltinFunctionsResponse:
+    """Generated wrapper for GetBuiltinFunctionsResponse"""
+
+    def __init__(self, proto: 'local_service_pb2.GetBuiltinFunctionsResponse'):
+        self._proto = proto
+
+    @cached_property
+    def function(self) -> List['function_pb2.FunctionProto']:
+        """Field function"""
+        return [Function(item) for item in self._proto.function]
+
+    @cached_property
+    def types(self) -> List['local_service_pb2.GetBuiltinFunctionsResponse.TypesEntry']:
+        """Field types"""
+        return [GetBuiltinFunctionsResponseTypesEntry(item) for item in self._proto.types]
+
+    @cached_property
+    def table_valued_function(self) -> List['function_pb2.TableValuedFunctionProto']:
+        """Field table_valued_function"""
+        return [TableValuedFunction(item) for item in self._proto.table_valued_function]
+
+
+
+class GetBuiltinFunctionsResponseTypesEntry:
+    """Generated wrapper for TypesEntry"""
+
+    def __init__(self, proto: 'local_service_pb2.GetBuiltinFunctionsResponse.TypesEntry'):
+        self._proto = proto
+
+    @cached_property
+    def key(self) -> Optional[str]:
+        """Field key"""
+        return self._proto.key
+
+    @cached_property
+    def value(self) -> Optional['type_pb2.TypeProto']:
+        """Field value"""
+        return Type(self._proto.value) if self._proto.value.ByteSize() > 0 else None
 
 
 
@@ -1535,6 +3167,191 @@ class GraphPropertyDefinition:
 
 
 
+class GroupingSetRewriteOptions:
+    """Generated wrapper for GroupingSetRewriteOptions"""
+
+    def __init__(self, proto: 'options_pb2.GroupingSetRewriteOptions'):
+        self._proto = proto
+
+    @cached_property
+    def max_grouping_sets(self) -> Optional[int]:
+        """Field max_grouping_sets"""
+        return self._proto.max_grouping_sets
+
+    @cached_property
+    def max_columns_in_grouping_set(self) -> Optional[int]:
+        """Field max_columns_in_grouping_set"""
+        return self._proto.max_columns_in_grouping_set
+
+
+
+class InternalEdits:
+    """Generated wrapper for InternalEdits"""
+
+    def __init__(self, proto: 'internal_fix_suggestion_pb2.InternalEdits'):
+        self._proto = proto
+
+    @cached_property
+    def text_edits(self) -> List['internal_fix_suggestion_pb2.InternalTextEdit']:
+        """Field text_edits"""
+        return [InternalTextEdit(item) for item in self._proto.text_edits]
+
+
+
+class InternalErrorFixSuggestions:
+    """Generated wrapper for InternalErrorFixSuggestions"""
+
+    def __init__(self, proto: 'internal_fix_suggestion_pb2.InternalErrorFixSuggestions'):
+        self._proto = proto
+
+    @cached_property
+    def fix_suggestions(self) -> List['internal_fix_suggestion_pb2.InternalFix']:
+        """Field fix_suggestions"""
+        return [InternalFix(item) for item in self._proto.fix_suggestions]
+
+
+
+class InternalErrorLocation:
+    """Generated wrapper for InternalErrorLocation"""
+
+    def __init__(self, proto: 'internal_error_location_pb2.InternalErrorLocation'):
+        self._proto = proto
+
+    @cached_property
+    def byte_offset(self) -> Optional[int]:
+        """Field byte_offset"""
+        return self._proto.byte_offset
+
+    @cached_property
+    def filename(self) -> Optional[str]:
+        """Field filename"""
+        return self._proto.filename
+
+    @cached_property
+    def error_source(self) -> List['error_location_pb2.ErrorSource']:
+        """Field error_source"""
+        return [ErrorSource(item) for item in self._proto.error_source]
+
+
+
+class InternalFix:
+    """Generated wrapper for InternalFix"""
+
+    def __init__(self, proto: 'internal_fix_suggestion_pb2.InternalFix'):
+        self._proto = proto
+
+    @cached_property
+    def title(self) -> Optional[str]:
+        """Field title"""
+        return self._proto.title
+
+    @cached_property
+    def edits(self) -> Optional['internal_fix_suggestion_pb2.InternalEdits']:
+        """Field edits"""
+        return InternalEdits(self._proto.edits) if self._proto.edits.ByteSize() > 0 else None
+
+
+
+class InternalFixRange:
+    """Generated wrapper for InternalFixRange"""
+
+    def __init__(self, proto: 'internal_fix_suggestion_pb2.InternalFixRange'):
+        self._proto = proto
+
+    @cached_property
+    def start(self) -> Optional['internal_error_location_pb2.InternalErrorLocation']:
+        """Field start"""
+        return InternalErrorLocation(self._proto.start) if self._proto.start.ByteSize() > 0 else None
+
+    @cached_property
+    def length(self) -> Optional[int]:
+        """Field length"""
+        return self._proto.length
+
+
+
+class InternalTextEdit:
+    """Generated wrapper for InternalTextEdit"""
+
+    def __init__(self, proto: 'internal_fix_suggestion_pb2.InternalTextEdit'):
+        self._proto = proto
+
+    @cached_property
+    def range(self) -> Optional['internal_fix_suggestion_pb2.InternalFixRange']:
+        """Field range"""
+        return InternalFixRange(self._proto.range) if self._proto.range.ByteSize() > 0 else None
+
+    @cached_property
+    def new_text(self) -> Optional[str]:
+        """Field new_text"""
+        return self._proto.new_text
+
+
+
+class KnownErrorEntry:
+    """Generated wrapper for KnownErrorEntry"""
+
+    def __init__(self, proto: 'known_error_pb2.KnownErrorEntry'):
+        self._proto = proto
+
+    @cached_property
+    def mode(self) -> Optional[int]:
+        """Field mode"""
+        return self._proto.mode
+
+    @cached_property
+    def reason(self) -> Optional[str]:
+        """Field reason"""
+        return self._proto.reason
+
+    @cached_property
+    def label(self) -> List[str]:
+        """Field label"""
+        return self._proto.label
+
+
+
+class KnownErrorFile:
+    """Generated wrapper for KnownErrorFile"""
+
+    def __init__(self, proto: 'known_error_pb2.KnownErrorFile'):
+        self._proto = proto
+
+    @cached_property
+    def contact_email(self) -> List[str]:
+        """Field contact_email"""
+        return self._proto.contact_email
+
+    @cached_property
+    def known_errors(self) -> List['known_error_pb2.KnownErrorEntry']:
+        """Field known_errors"""
+        return [KnownErrorEntry(item) for item in self._proto.known_errors]
+
+
+
+class LanguageFeatureOptions:
+    """Generated wrapper for LanguageFeatureOptions"""
+
+    def __init__(self, proto: 'options_pb2.LanguageFeatureOptions'):
+        self._proto = proto
+
+    @cached_property
+    def ideally_enabled(self) -> Optional[bool]:
+        """Field ideally_enabled"""
+        return self._proto.ideally_enabled
+
+    @cached_property
+    def in_development(self) -> Optional[bool]:
+        """Field in_development"""
+        return self._proto.in_development
+
+    @cached_property
+    def language_version(self) -> Optional[int]:
+        """Field language_version"""
+        return self._proto.language_version
+
+
+
 class LanguageOptions:
     """Generated wrapper for LanguageOptionsProto"""
 
@@ -1580,6 +3397,24 @@ class LanguageOptions:
     def supported_generic_sub_entity_types(self) -> List[str]:
         """Field supported_generic_sub_entity_types"""
         return self._proto.supported_generic_sub_entity_types
+
+
+
+class LanguageOptionsRequest:
+    """Generated wrapper for LanguageOptionsRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.LanguageOptionsRequest'):
+        self._proto = proto
+
+    @cached_property
+    def maximum_features(self) -> Optional[bool]:
+        """Field maximum_features"""
+        return self._proto.maximum_features
+
+    @cached_property
+    def language_version(self) -> Optional[int]:
+        """Field language_version"""
+        return self._proto.language_version
 
 
 
@@ -1673,6 +3508,65 @@ class ModelRef:
 
 
 
+class ModuleOptions:
+    """Generated wrapper for ModuleOptions"""
+
+    def __init__(self, proto: 'module_options_pb2.ModuleOptions'):
+        self._proto = proto
+
+    @cached_property
+    def global_options(self) -> Optional['module_options_pb2.PerModuleOptions']:
+        """Field global_options"""
+        return PerModuleOptions(self._proto.global_options) if self._proto.global_options.ByteSize() > 0 else None
+
+    @cached_property
+    def per_module_options(self) -> List['module_options_pb2.ModuleOptions.PerModuleOptionsEntry']:
+        """Field per_module_options"""
+        return [ModuleOptionsPerModuleOptionsEntry(item) for item in self._proto.per_module_options]
+
+
+
+class ModuleOptionsPerModuleOptionsEntry:
+    """Generated wrapper for PerModuleOptionsEntry"""
+
+    def __init__(self, proto: 'module_options_pb2.ModuleOptions.PerModuleOptionsEntry'):
+        self._proto = proto
+
+    @cached_property
+    def key(self) -> Optional[str]:
+        """Field key"""
+        return self._proto.key
+
+    @cached_property
+    def value(self) -> Optional['module_options_pb2.PerModuleOptions']:
+        """Field value"""
+        return PerModuleOptions(self._proto.value) if self._proto.value.ByteSize() > 0 else None
+
+
+
+class NoiseConfidenceInterval:
+    """Generated wrapper for NoiseConfidenceInterval"""
+
+    def __init__(self, proto: 'anon_output_with_report_pb2.NoiseConfidenceInterval'):
+        self._proto = proto
+
+    @cached_property
+    def lower_bound(self) -> Optional[float]:
+        """Field lower_bound"""
+        return self._proto.lower_bound
+
+    @cached_property
+    def upper_bound(self) -> Optional[float]:
+        """Field upper_bound"""
+        return self._proto.upper_bound
+
+    @cached_property
+    def confidence_level(self) -> Optional[float]:
+        """Field confidence_level"""
+        return self._proto.confidence_level
+
+
+
 class NumericTypeParameters:
     """Generated wrapper for NumericTypeParametersProto"""
 
@@ -1714,6 +3608,50 @@ class OneofDescriptorRef:
 
 
 
+class OpaqueEnumTypeOptions:
+    """Generated wrapper for OpaqueEnumTypeOptions"""
+
+    def __init__(self, proto: 'type_pb2.OpaqueEnumTypeOptions'):
+        self._proto = proto
+
+    @cached_property
+    def sql_opaque_enum_name(self) -> Optional[str]:
+        """Field sql_opaque_enum_name"""
+        return self._proto.sql_opaque_enum_name
+
+
+
+class OpaqueEnumValueOptions:
+    """Generated wrapper for OpaqueEnumValueOptions"""
+
+    def __init__(self, proto: 'type_pb2.OpaqueEnumValueOptions'):
+        self._proto = proto
+
+    @cached_property
+    def invalid_enum_value(self) -> Optional[bool]:
+        """Field invalid_enum_value"""
+        return self._proto.invalid_enum_value
+
+
+
+class Parameter:
+    """Generated wrapper for Parameter"""
+
+    def __init__(self, proto: 'local_service_pb2.Parameter'):
+        self._proto = proto
+
+    @cached_property
+    def name(self) -> Optional[str]:
+        """Field name"""
+        return self._proto.name
+
+    @cached_property
+    def value(self) -> Optional['value_pb2.ValueProto']:
+        """Field value"""
+        return Value(self._proto.value) if self._proto.value.ByteSize() > 0 else None
+
+
+
 class ParseLocationRange:
     """Generated wrapper for ParseLocationRangeProto"""
 
@@ -1734,6 +3672,57 @@ class ParseLocationRange:
     def end(self) -> Optional[int]:
         """Field end"""
         return self._proto.end
+
+
+
+class ParseRequest:
+    """Generated wrapper for ParseRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.ParseRequest'):
+        self._proto = proto
+
+    @cached_property
+    def sql_statement(self) -> Optional[str]:
+        """Field sql_statement"""
+        return self._proto.sql_statement
+
+    @cached_property
+    def parse_resume_location(self) -> Optional['parse_resume_location_pb2.ParseResumeLocationProto']:
+        """Field parse_resume_location"""
+        return ParseResumeLocation(self._proto.parse_resume_location) if self._proto.parse_resume_location.ByteSize() > 0 else None
+
+    @cached_property
+    def options(self) -> Optional['options_pb2.LanguageOptionsProto']:
+        """Field options"""
+        return LanguageOptions(self._proto.options) if self._proto.options.ByteSize() > 0 else None
+
+    @cached_property
+    def allow_script(self) -> Optional[bool]:
+        """Field allow_script"""
+        return self._proto.allow_script
+
+
+
+class ParseResponse:
+    """Generated wrapper for ParseResponse"""
+
+    def __init__(self, proto: 'local_service_pb2.ParseResponse'):
+        self._proto = proto
+
+    @cached_property
+    def parsed_statement(self) -> Optional['AnyASTStatement']:
+        """Field parsed_statement"""
+        return AnyASTStatement(self._proto.parsed_statement) if self._proto.parsed_statement.ByteSize() > 0 else None
+
+    @cached_property
+    def parsed_script(self) -> Optional['parse_tree_pb2.ASTScriptProto']:
+        """Field parsed_script"""
+        return ASTScript(self._proto.parsed_script) if self._proto.parsed_script.ByteSize() > 0 else None
+
+    @cached_property
+    def resume_byte_position(self) -> Optional[int]:
+        """Field resume_byte_position"""
+        return self._proto.resume_byte_position
 
 
 
@@ -1765,6 +3754,47 @@ class ParseResumeLocation:
 
 
 
+class ParserErrorContext:
+    """Generated wrapper for ParserErrorContext"""
+
+    def __init__(self, proto: 'execute_query_pb2.ParserErrorContext'):
+        self._proto = proto
+
+    @cached_property
+    def text(self) -> Optional[str]:
+        """Field text"""
+        return self._proto.text
+
+
+
+class PerModuleOptions:
+    """Generated wrapper for PerModuleOptions"""
+
+    def __init__(self, proto: 'module_options_pb2.PerModuleOptions'):
+        self._proto = proto
+
+    @cached_property
+    def udf_server_address(self) -> Optional[str]:
+        """Field udf_server_address"""
+        return self._proto.udf_server_address
+
+    @cached_property
+    def udf_namespace(self) -> Optional[str]:
+        """Field udf_namespace"""
+        return self._proto.udf_namespace
+
+    @cached_property
+    def udf_server_import_mode(self) -> Optional[int]:
+        """Field udf_server_import_mode"""
+        return self._proto.udf_server_import_mode
+
+    @cached_property
+    def udf_scaling_factor(self) -> Optional[float]:
+        """Field udf_scaling_factor"""
+        return self._proto.udf_scaling_factor
+
+
+
 class PlaceholderDescriptor:
     """Generated wrapper for PlaceholderDescriptorProto"""
 
@@ -1775,6 +3805,289 @@ class PlaceholderDescriptor:
     def is_placeholder(self) -> Optional[bool]:
         """Field is_placeholder"""
         return self._proto.is_placeholder
+
+
+
+class PrepareModifyRequest:
+    """Generated wrapper for PrepareModifyRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.PrepareModifyRequest'):
+        self._proto = proto
+
+    @cached_property
+    def sql(self) -> Optional[str]:
+        """Field sql"""
+        return self._proto.sql
+
+    @cached_property
+    def options(self) -> Optional['options_pb2.AnalyzerOptionsProto']:
+        """Field options"""
+        return AnalyzerOptions(self._proto.options) if self._proto.options.ByteSize() > 0 else None
+
+    @cached_property
+    def descriptor_pool_list(self) -> Optional['local_service_pb2.DescriptorPoolListProto']:
+        """Field descriptor_pool_list"""
+        return DescriptorPoolList(self._proto.descriptor_pool_list) if self._proto.descriptor_pool_list.ByteSize() > 0 else None
+
+    @cached_property
+    def simple_catalog(self) -> Optional['simple_catalog_pb2.SimpleCatalogProto']:
+        """Field simple_catalog"""
+        return SimpleCatalog(self._proto.simple_catalog) if self._proto.simple_catalog.ByteSize() > 0 else None
+
+    @cached_property
+    def registered_catalog_id(self) -> Optional[int]:
+        """Field registered_catalog_id"""
+        return self._proto.registered_catalog_id
+
+    @cached_property
+    def table_content(self) -> List['local_service_pb2.EvaluateModifyRequest.TableContentEntry']:
+        """Field table_content"""
+        return [EvaluateModifyRequestTableContentEntry(item) for item in self._proto.table_content]
+
+
+
+class PrepareModifyRequestTableContentEntry:
+    """Generated wrapper for TableContentEntry"""
+
+    def __init__(self, proto: 'local_service_pb2.PrepareModifyRequest.TableContentEntry'):
+        self._proto = proto
+
+    @cached_property
+    def key(self) -> Optional[str]:
+        """Field key"""
+        return self._proto.key
+
+    @cached_property
+    def value(self) -> Optional['local_service_pb2.TableContent']:
+        """Field value"""
+        return TableContent(self._proto.value) if self._proto.value.ByteSize() > 0 else None
+
+
+
+class PrepareModifyResponse:
+    """Generated wrapper for PrepareModifyResponse"""
+
+    def __init__(self, proto: 'local_service_pb2.PrepareModifyResponse'):
+        self._proto = proto
+
+    @cached_property
+    def prepared(self) -> Optional['local_service_pb2.PreparedModifyState']:
+        """Field prepared"""
+        return PreparedModifyState(self._proto.prepared) if self._proto.prepared.ByteSize() > 0 else None
+
+
+
+class PrepareQueryRequest:
+    """Generated wrapper for PrepareQueryRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.PrepareQueryRequest'):
+        self._proto = proto
+
+    @cached_property
+    def sql(self) -> Optional[str]:
+        """Field sql"""
+        return self._proto.sql
+
+    @cached_property
+    def options(self) -> Optional['options_pb2.AnalyzerOptionsProto']:
+        """Field options"""
+        return AnalyzerOptions(self._proto.options) if self._proto.options.ByteSize() > 0 else None
+
+    @cached_property
+    def descriptor_pool_list(self) -> Optional['local_service_pb2.DescriptorPoolListProto']:
+        """Field descriptor_pool_list"""
+        return DescriptorPoolList(self._proto.descriptor_pool_list) if self._proto.descriptor_pool_list.ByteSize() > 0 else None
+
+    @cached_property
+    def simple_catalog(self) -> Optional['simple_catalog_pb2.SimpleCatalogProto']:
+        """Field simple_catalog"""
+        return SimpleCatalog(self._proto.simple_catalog) if self._proto.simple_catalog.ByteSize() > 0 else None
+
+    @cached_property
+    def registered_catalog_id(self) -> Optional[int]:
+        """Field registered_catalog_id"""
+        return self._proto.registered_catalog_id
+
+    @cached_property
+    def table_content(self) -> List['local_service_pb2.EvaluateModifyRequest.TableContentEntry']:
+        """Field table_content"""
+        return [EvaluateModifyRequestTableContentEntry(item) for item in self._proto.table_content]
+
+
+
+class PrepareQueryRequestTableContentEntry:
+    """Generated wrapper for TableContentEntry"""
+
+    def __init__(self, proto: 'local_service_pb2.PrepareQueryRequest.TableContentEntry'):
+        self._proto = proto
+
+    @cached_property
+    def key(self) -> Optional[str]:
+        """Field key"""
+        return self._proto.key
+
+    @cached_property
+    def value(self) -> Optional['local_service_pb2.TableContent']:
+        """Field value"""
+        return TableContent(self._proto.value) if self._proto.value.ByteSize() > 0 else None
+
+
+
+class PrepareQueryResponse:
+    """Generated wrapper for PrepareQueryResponse"""
+
+    def __init__(self, proto: 'local_service_pb2.PrepareQueryResponse'):
+        self._proto = proto
+
+    @cached_property
+    def prepared(self) -> Optional['local_service_pb2.PreparedQueryState']:
+        """Field prepared"""
+        return PreparedQueryState(self._proto.prepared) if self._proto.prepared.ByteSize() > 0 else None
+
+
+
+class PrepareRequest:
+    """Generated wrapper for PrepareRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.PrepareRequest'):
+        self._proto = proto
+
+    @cached_property
+    def sql(self) -> Optional[str]:
+        """Field sql"""
+        return self._proto.sql
+
+    @cached_property
+    def options(self) -> Optional['options_pb2.AnalyzerOptionsProto']:
+        """Field options"""
+        return AnalyzerOptions(self._proto.options) if self._proto.options.ByteSize() > 0 else None
+
+    @cached_property
+    def descriptor_pool_list(self) -> Optional['local_service_pb2.DescriptorPoolListProto']:
+        """Field descriptor_pool_list"""
+        return DescriptorPoolList(self._proto.descriptor_pool_list) if self._proto.descriptor_pool_list.ByteSize() > 0 else None
+
+    @cached_property
+    def simple_catalog(self) -> Optional['simple_catalog_pb2.SimpleCatalogProto']:
+        """Field simple_catalog"""
+        return SimpleCatalog(self._proto.simple_catalog) if self._proto.simple_catalog.ByteSize() > 0 else None
+
+    @cached_property
+    def registered_catalog_id(self) -> Optional[int]:
+        """Field registered_catalog_id"""
+        return self._proto.registered_catalog_id
+
+
+
+class PrepareResponse:
+    """Generated wrapper for PrepareResponse"""
+
+    def __init__(self, proto: 'local_service_pb2.PrepareResponse'):
+        self._proto = proto
+
+    @cached_property
+    def prepared(self) -> Optional['local_service_pb2.PreparedState']:
+        """Field prepared"""
+        return PreparedState(self._proto.prepared) if self._proto.prepared.ByteSize() > 0 else None
+
+
+
+class PreparedModifyState:
+    """Generated wrapper for PreparedModifyState"""
+
+    def __init__(self, proto: 'local_service_pb2.PreparedModifyState'):
+        self._proto = proto
+
+    @cached_property
+    def prepared_modify_id(self) -> Optional[int]:
+        """Field prepared_modify_id"""
+        return self._proto.prepared_modify_id
+
+    @cached_property
+    def referenced_parameters(self) -> List[str]:
+        """Field referenced_parameters"""
+        return self._proto.referenced_parameters
+
+    @cached_property
+    def positional_parameter_count(self) -> Optional[int]:
+        """Field positional_parameter_count"""
+        return self._proto.positional_parameter_count
+
+    @cached_property
+    def descriptor_pool_id_list(self) -> Optional['local_service_pb2.DescriptorPoolIdList']:
+        """Field descriptor_pool_id_list"""
+        return DescriptorPoolIdList(self._proto.descriptor_pool_id_list) if self._proto.descriptor_pool_id_list.ByteSize() > 0 else None
+
+
+
+class PreparedQueryState:
+    """Generated wrapper for PreparedQueryState"""
+
+    def __init__(self, proto: 'local_service_pb2.PreparedQueryState'):
+        self._proto = proto
+
+    @cached_property
+    def prepared_query_id(self) -> Optional[int]:
+        """Field prepared_query_id"""
+        return self._proto.prepared_query_id
+
+    @cached_property
+    def referenced_parameters(self) -> List[str]:
+        """Field referenced_parameters"""
+        return self._proto.referenced_parameters
+
+    @cached_property
+    def positional_parameter_count(self) -> Optional[int]:
+        """Field positional_parameter_count"""
+        return self._proto.positional_parameter_count
+
+    @cached_property
+    def columns(self) -> List['simple_table_pb2.SimpleColumnProto']:
+        """Field columns"""
+        return [SimpleColumn(item) for item in self._proto.columns]
+
+    @cached_property
+    def descriptor_pool_id_list(self) -> Optional['local_service_pb2.DescriptorPoolIdList']:
+        """Field descriptor_pool_id_list"""
+        return DescriptorPoolIdList(self._proto.descriptor_pool_id_list) if self._proto.descriptor_pool_id_list.ByteSize() > 0 else None
+
+
+
+class PreparedState:
+    """Generated wrapper for PreparedState"""
+
+    def __init__(self, proto: 'local_service_pb2.PreparedState'):
+        self._proto = proto
+
+    @cached_property
+    def prepared_expression_id(self) -> Optional[int]:
+        """Field prepared_expression_id"""
+        return self._proto.prepared_expression_id
+
+    @cached_property
+    def output_type(self) -> Optional['type_pb2.TypeProto']:
+        """Field output_type"""
+        return Type(self._proto.output_type) if self._proto.output_type.ByteSize() > 0 else None
+
+    @cached_property
+    def referenced_columns(self) -> List[str]:
+        """Field referenced_columns"""
+        return self._proto.referenced_columns
+
+    @cached_property
+    def referenced_parameters(self) -> List[str]:
+        """Field referenced_parameters"""
+        return self._proto.referenced_parameters
+
+    @cached_property
+    def positional_parameter_count(self) -> Optional[int]:
+        """Field positional_parameter_count"""
+        return self._proto.positional_parameter_count
+
+    @cached_property
+    def descriptor_pool_id_list(self) -> Optional['local_service_pb2.DescriptorPoolIdList']:
+        """Field descriptor_pool_id_list"""
+        return DescriptorPoolIdList(self._proto.descriptor_pool_id_list) if self._proto.descriptor_pool_id_list.ByteSize() > 0 else None
 
 
 
@@ -1794,6 +4107,13 @@ class Procedure:
         """Field signature"""
         return FunctionSignature(self._proto.signature) if self._proto.signature.ByteSize() > 0 else None
 
+
+
+class ProcedureExtension:
+    """Generated wrapper for ProcedureExtension"""
+
+    def __init__(self, proto: 'procedure_extension_pb2.ProcedureExtension'):
+        self._proto = proto
 
 
 class ProcedureRef:
@@ -1865,6 +4185,13 @@ class PropertyGraphRef:
 
 
 
+class RangeSessionizeEnums:
+    """Generated wrapper for RangeSessionizeEnums"""
+
+    def __init__(self, proto: 'range_sessionize_mode_pb2.RangeSessionizeEnums'):
+        self._proto = proto
+
+
 class RangeType:
     """Generated wrapper for RangeTypeProto"""
 
@@ -1876,6 +4203,125 @@ class RangeType:
         """Field element_type"""
         return Type(self._proto.element_type) if self._proto.element_type.ByteSize() > 0 else None
 
+
+
+class RankTypeEnums:
+    """Generated wrapper for RankTypeEnums"""
+
+    def __init__(self, proto: 'rank_type_pb2.RankTypeEnums'):
+        self._proto = proto
+
+
+class RegisterCatalogRequest:
+    """Generated wrapper for RegisterCatalogRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.RegisterCatalogRequest'):
+        self._proto = proto
+
+    @cached_property
+    def simple_catalog(self) -> Optional['simple_catalog_pb2.SimpleCatalogProto']:
+        """Field simple_catalog"""
+        return SimpleCatalog(self._proto.simple_catalog) if self._proto.simple_catalog.ByteSize() > 0 else None
+
+    @cached_property
+    def descriptor_pool_list(self) -> Optional['local_service_pb2.DescriptorPoolListProto']:
+        """Field descriptor_pool_list"""
+        return DescriptorPoolList(self._proto.descriptor_pool_list) if self._proto.descriptor_pool_list.ByteSize() > 0 else None
+
+    @cached_property
+    def table_content(self) -> List['local_service_pb2.EvaluateModifyRequest.TableContentEntry']:
+        """Field table_content"""
+        return [EvaluateModifyRequestTableContentEntry(item) for item in self._proto.table_content]
+
+
+
+class RegisterCatalogRequestTableContentEntry:
+    """Generated wrapper for TableContentEntry"""
+
+    def __init__(self, proto: 'local_service_pb2.RegisterCatalogRequest.TableContentEntry'):
+        self._proto = proto
+
+    @cached_property
+    def key(self) -> Optional[str]:
+        """Field key"""
+        return self._proto.key
+
+    @cached_property
+    def value(self) -> Optional['local_service_pb2.TableContent']:
+        """Field value"""
+        return TableContent(self._proto.value) if self._proto.value.ByteSize() > 0 else None
+
+
+
+class RegisterResponse:
+    """Generated wrapper for RegisterResponse"""
+
+    def __init__(self, proto: 'local_service_pb2.RegisterResponse'):
+        self._proto = proto
+
+    @cached_property
+    def registered_id(self) -> Optional[int]:
+        """Field registered_id"""
+        return self._proto.registered_id
+
+    @cached_property
+    def descriptor_pool_id_list(self) -> Optional['local_service_pb2.DescriptorPoolIdList']:
+        """Field descriptor_pool_id_list"""
+        return DescriptorPoolIdList(self._proto.descriptor_pool_id_list) if self._proto.descriptor_pool_id_list.ByteSize() > 0 else None
+
+
+
+class ResolvedASTRewriteOptions:
+    """Generated wrapper for ResolvedASTRewriteOptions"""
+
+    def __init__(self, proto: 'options_pb2.ResolvedASTRewriteOptions'):
+        self._proto = proto
+
+    @cached_property
+    def default_enabled(self) -> Optional[bool]:
+        """Field default_enabled"""
+        return self._proto.default_enabled
+
+    @cached_property
+    def in_development(self) -> Optional[bool]:
+        """Field in_development"""
+        return self._proto.in_development
+
+
+
+class ResolvedAggregateHavingModifierEnums:
+    """Generated wrapper for ResolvedAggregateHavingModifierEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedAggregateHavingModifierEnums'):
+        self._proto = proto
+
+
+class ResolvedAlterIndexStmtEnums:
+    """Generated wrapper for ResolvedAlterIndexStmtEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedAlterIndexStmtEnums'):
+        self._proto = proto
+
+
+class ResolvedArgumentDefEnums:
+    """Generated wrapper for ResolvedArgumentDefEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedArgumentDefEnums'):
+        self._proto = proto
+
+
+class ResolvedAuxLoadDataStmtEnums:
+    """Generated wrapper for ResolvedAuxLoadDataStmtEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedAuxLoadDataStmtEnums'):
+        self._proto = proto
+
+
+class ResolvedBeginStmtEnums:
+    """Generated wrapper for ResolvedBeginStmtEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedBeginStmtEnums'):
+        self._proto = proto
 
 
 class ResolvedCollation:
@@ -1929,10 +4375,136 @@ class ResolvedColumn:
 
 
 
+class ResolvedCreateStatementEnums:
+    """Generated wrapper for ResolvedCreateStatementEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedCreateStatementEnums'):
+        self._proto = proto
+
+
+class ResolvedDropIndexStmtEnums:
+    """Generated wrapper for ResolvedDropIndexStmtEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedDropIndexStmtEnums'):
+        self._proto = proto
+
+
+class ResolvedDropStmtEnums:
+    """Generated wrapper for ResolvedDropStmtEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedDropStmtEnums'):
+        self._proto = proto
+
+
+class ResolvedForeignKeyEnums:
+    """Generated wrapper for ResolvedForeignKeyEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedForeignKeyEnums'):
+        self._proto = proto
+
+
+class ResolvedFunctionCallBaseEnums:
+    """Generated wrapper for ResolvedFunctionCallBaseEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedFunctionCallBaseEnums'):
+        self._proto = proto
+
+
 class ResolvedFunctionCallInfo:
     """Generated wrapper for ResolvedFunctionCallInfoProto"""
 
     def __init__(self, proto: 'function_pb2.ResolvedFunctionCallInfoProto'):
+        self._proto = proto
+
+
+class ResolvedGeneratedColumnInfoEnums:
+    """Generated wrapper for ResolvedGeneratedColumnInfoEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedGeneratedColumnInfoEnums'):
+        self._proto = proto
+
+
+class ResolvedGraphEdgeScanEnums:
+    """Generated wrapper for ResolvedGraphEdgeScanEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedGraphEdgeScanEnums'):
+        self._proto = proto
+
+
+class ResolvedGraphLabelNaryExprEnums:
+    """Generated wrapper for ResolvedGraphLabelNaryExprEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedGraphLabelNaryExprEnums'):
+        self._proto = proto
+
+
+class ResolvedGraphPathModeEnums:
+    """Generated wrapper for ResolvedGraphPathModeEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedGraphPathModeEnums'):
+        self._proto = proto
+
+
+class ResolvedGraphPathSearchPrefixEnums:
+    """Generated wrapper for ResolvedGraphPathSearchPrefixEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedGraphPathSearchPrefixEnums'):
+        self._proto = proto
+
+
+class ResolvedImportStmtEnums:
+    """Generated wrapper for ResolvedImportStmtEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedImportStmtEnums'):
+        self._proto = proto
+
+
+class ResolvedInsertStmtEnums:
+    """Generated wrapper for ResolvedInsertStmtEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedInsertStmtEnums'):
+        self._proto = proto
+
+
+class ResolvedJoinScanEnums:
+    """Generated wrapper for ResolvedJoinScanEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedJoinScanEnums'):
+        self._proto = proto
+
+
+class ResolvedLockModeEnums:
+    """Generated wrapper for ResolvedLockModeEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedLockModeEnums'):
+        self._proto = proto
+
+
+class ResolvedMatchRecognizePatternAnchorEnums:
+    """Generated wrapper for ResolvedMatchRecognizePatternAnchorEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedMatchRecognizePatternAnchorEnums'):
+        self._proto = proto
+
+
+class ResolvedMatchRecognizePatternOperationEnums:
+    """Generated wrapper for ResolvedMatchRecognizePatternOperationEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedMatchRecognizePatternOperationEnums'):
+        self._proto = proto
+
+
+class ResolvedMatchRecognizeScanEnums:
+    """Generated wrapper for ResolvedMatchRecognizeScanEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedMatchRecognizeScanEnums'):
+        self._proto = proto
+
+
+class ResolvedMergeWhenEnums:
+    """Generated wrapper for ResolvedMergeWhenEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedMergeWhenEnums'):
         self._proto = proto
 
 
@@ -1949,6 +4521,205 @@ class ResolvedNode:
 
 
 
+class ResolvedNonScalarFunctionCallBaseEnums:
+    """Generated wrapper for ResolvedNonScalarFunctionCallBaseEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedNonScalarFunctionCallBaseEnums'):
+        self._proto = proto
+
+
+class ResolvedOnConflictClauseEnums:
+    """Generated wrapper for ResolvedOnConflictClauseEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedOnConflictClauseEnums'):
+        self._proto = proto
+
+
+class ResolvedOptionEnums:
+    """Generated wrapper for ResolvedOptionEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedOptionEnums'):
+        self._proto = proto
+
+
+class ResolvedOrderByItemEnums:
+    """Generated wrapper for ResolvedOrderByItemEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedOrderByItemEnums'):
+        self._proto = proto
+
+
+class ResolvedRecursiveScanEnums:
+    """Generated wrapper for ResolvedRecursiveScanEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedRecursiveScanEnums'):
+        self._proto = proto
+
+
+class ResolvedSampleScanEnums:
+    """Generated wrapper for ResolvedSampleScanEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedSampleScanEnums'):
+        self._proto = proto
+
+
+class ResolvedSetOperationScanEnums:
+    """Generated wrapper for ResolvedSetOperationScanEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedSetOperationScanEnums'):
+        self._proto = proto
+
+
+class ResolvedStatementEnums:
+    """Generated wrapper for ResolvedStatementEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedStatementEnums'):
+        self._proto = proto
+
+
+class ResolvedSubqueryExprEnums:
+    """Generated wrapper for ResolvedSubqueryExprEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedSubqueryExprEnums'):
+        self._proto = proto
+
+
+class ResolvedUpdateFieldItemEnums:
+    """Generated wrapper for ResolvedUpdateFieldItemEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedUpdateFieldItemEnums'):
+        self._proto = proto
+
+
+class ResolvedWindowFrameEnums:
+    """Generated wrapper for ResolvedWindowFrameEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedWindowFrameEnums'):
+        self._proto = proto
+
+
+class ResolvedWindowFrameExprEnums:
+    """Generated wrapper for ResolvedWindowFrameExprEnums"""
+
+    def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedWindowFrameExprEnums'):
+        self._proto = proto
+
+
+class ResultTable:
+    """Generated wrapper for ResultTable"""
+
+    def __init__(self, proto: 'reflection_pb2.ResultTable'):
+        self._proto = proto
+
+    @cached_property
+    def column(self) -> List['reflection_pb2.Column']:
+        """Field column"""
+        return [Column(item) for item in self._proto.column]
+
+    @cached_property
+    def pseudo_column(self) -> List['reflection_pb2.Column']:
+        """Field pseudo_column"""
+        return [Column(item) for item in self._proto.pseudo_column]
+
+    @cached_property
+    def table_alias(self) -> List['reflection_pb2.TableAlias']:
+        """Field table_alias"""
+        return [TableAlias(item) for item in self._proto.table_alias]
+
+    @cached_property
+    def common_table_expression(self) -> List['reflection_pb2.TableAlias']:
+        """Field common_table_expression"""
+        return [TableAlias(item) for item in self._proto.common_table_expression]
+
+    @cached_property
+    def is_value_table(self) -> Optional[bool]:
+        """Field is_value_table"""
+        return self._proto.is_value_table
+
+    @cached_property
+    def is_ordered(self) -> Optional[bool]:
+        """Field is_ordered"""
+        return self._proto.is_ordered
+
+
+
+class RewriteOptions:
+    """Generated wrapper for RewriteOptions"""
+
+    def __init__(self, proto: 'options_pb2.RewriteOptions'):
+        self._proto = proto
+
+    @cached_property
+    def grouping_set_rewrite_options(self) -> Optional['options_pb2.GroupingSetRewriteOptions']:
+        """Field grouping_set_rewrite_options"""
+        return GroupingSetRewriteOptions(self._proto.grouping_set_rewrite_options) if self._proto.grouping_set_rewrite_options.ByteSize() > 0 else None
+
+
+
+class ScriptException:
+    """Generated wrapper for ScriptException"""
+
+    def __init__(self, proto: 'script_exception_pb2.ScriptException'):
+        self._proto = proto
+
+    @cached_property
+    def message(self) -> Optional[str]:
+        """Field message"""
+        return self._proto.message
+
+    @cached_property
+    def internal(self) -> Optional['script_exception_pb2.ScriptException.Internal']:
+        """Field internal"""
+        return ScriptExceptionInternal(self._proto.internal) if self._proto.internal.ByteSize() > 0 else None
+
+
+
+class ScriptExceptionInternal:
+    """Generated wrapper for Internal"""
+
+    def __init__(self, proto: 'script_exception_pb2.ScriptException.Internal'):
+        self._proto = proto
+
+    @cached_property
+    def statement_text(self) -> Optional[str]:
+        """Field statement_text"""
+        return self._proto.statement_text
+
+    @cached_property
+    def stack_trace(self) -> List['script_exception_pb2.ScriptException.StackTraceFrame']:
+        """Field stack_trace"""
+        return [ScriptExceptionStackTraceFrame(item) for item in self._proto.stack_trace]
+
+
+
+class ScriptExceptionStackTraceFrame:
+    """Generated wrapper for StackTraceFrame"""
+
+    def __init__(self, proto: 'script_exception_pb2.ScriptException.StackTraceFrame'):
+        self._proto = proto
+
+    @cached_property
+    def line(self) -> Optional[int]:
+        """Field line"""
+        return self._proto.line
+
+    @cached_property
+    def column(self) -> Optional[int]:
+        """Field column"""
+        return self._proto.column
+
+    @cached_property
+    def filename(self) -> Optional[str]:
+        """Field filename"""
+        return self._proto.filename
+
+    @cached_property
+    def location(self) -> Optional[str]:
+        """Field location"""
+        return self._proto.location
+
+
+
 class ScriptExecutorState:
     """Generated wrapper for ScriptExecutorStateProto"""
 
@@ -1961,7 +4732,7 @@ class ScriptExecutorState:
         return [ScriptExecutorStateStackFrame(item) for item in self._proto.callstack]
 
     @cached_property
-    def pending_exceptions(self) -> List['ScriptException']:
+    def pending_exceptions(self) -> List['script_exception_pb2.ScriptException']:
         """Field pending_exceptions"""
         return [ScriptException(item) for item in self._proto.pending_exceptions]
 
@@ -2024,7 +4795,7 @@ class ScriptExecutorStateProcedureDefinition:
         return self._proto.is_dynamic_sql
 
     @cached_property
-    def extension(self) -> Optional['ProcedureExtension']:
+    def extension(self) -> Optional['procedure_extension_pb2.ProcedureExtension']:
         """Field extension"""
         return ProcedureExtension(self._proto.extension) if self._proto.extension.ByteSize() > 0 else None
 
@@ -2065,7 +4836,7 @@ class ScriptExecutorStateStackFrame:
         return ScriptExecutorStateProcedureDefinition(self._proto.procedure_definition) if self._proto.procedure_definition.ByteSize() > 0 else None
 
     @cached_property
-    def variables(self) -> List['Variable']:
+    def variables(self) -> List['variable_pb2.Variable']:
         """Field variables"""
         return [Variable(item) for item in self._proto.variables]
 
@@ -2103,7 +4874,7 @@ class ScriptExecutorStateStackFrameParameters:
         return self._proto.mode
 
     @cached_property
-    def variables(self) -> List['Variable']:
+    def variables(self) -> List['variable_pb2.Variable']:
         """Field variables"""
         return [Variable(item) for item in self._proto.variables]
 
@@ -3031,9 +5802,89 @@ class TVFSignatureOptions:
         self._proto = proto
 
     @cached_property
-    def additional_deprecation_warning(self) -> List['FreestandingDeprecationWarning']:
+    def additional_deprecation_warning(self) -> List['deprecation_warning_pb2.FreestandingDeprecationWarning']:
         """Field additional_deprecation_warning"""
         return [FreestandingDeprecationWarning(item) for item in self._proto.additional_deprecation_warning]
+
+
+
+class TableAlias:
+    """Generated wrapper for TableAlias"""
+
+    def __init__(self, proto: 'reflection_pb2.TableAlias'):
+        self._proto = proto
+
+    @cached_property
+    def name(self) -> Optional[str]:
+        """Field name"""
+        return self._proto.name
+
+    @cached_property
+    def column_name(self) -> List[str]:
+        """Field column_name"""
+        return self._proto.column_name
+
+    @cached_property
+    def pseudo_column_name(self) -> List[str]:
+        """Field pseudo_column_name"""
+        return self._proto.pseudo_column_name
+
+
+
+class TableContent:
+    """Generated wrapper for TableContent"""
+
+    def __init__(self, proto: 'local_service_pb2.TableContent'):
+        self._proto = proto
+
+    @cached_property
+    def table_data(self) -> Optional['local_service_pb2.TableData']:
+        """Field table_data"""
+        return TableData(self._proto.table_data) if self._proto.table_data.ByteSize() > 0 else None
+
+
+
+class TableData:
+    """Generated wrapper for TableData"""
+
+    def __init__(self, proto: 'local_service_pb2.TableData'):
+        self._proto = proto
+
+    @cached_property
+    def row(self) -> List['local_service_pb2.EvaluateModifyResponse.Row']:
+        """Field row"""
+        return [EvaluateModifyResponseRow(item) for item in self._proto.row]
+
+
+
+class TableDataRow:
+    """Generated wrapper for Row"""
+
+    def __init__(self, proto: 'local_service_pb2.TableData.Row'):
+        self._proto = proto
+
+    @cached_property
+    def cell(self) -> List['value_pb2.ValueProto']:
+        """Field cell"""
+        return [Value(item) for item in self._proto.cell]
+
+
+
+class TableFromProtoRequest:
+    """Generated wrapper for TableFromProtoRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.TableFromProtoRequest'):
+        self._proto = proto
+
+    @cached_property
+    def proto(self) -> Optional['type_pb2.ProtoTypeProto']:
+        """Field proto"""
+        return Type(self._proto.proto) if self._proto.proto.ByteSize() > 0 else None
+
+    @cached_property
+    def file_descriptor_set(self) -> Optional['FileDescriptorSet']:
+        """Field file_descriptor_set"""
+        return FileDescriptorSet(self._proto.file_descriptor_set) if self._proto.file_descriptor_set.ByteSize() > 0 else None
 
 
 
@@ -3156,6 +6007,24 @@ class TableValuedFunctionRef:
     def name(self) -> Optional[str]:
         """Field name"""
         return self._proto.name
+
+
+
+class TextEdit:
+    """Generated wrapper for TextEdit"""
+
+    def __init__(self, proto: 'fix_suggestion_pb2.TextEdit'):
+        self._proto = proto
+
+    @cached_property
+    def range(self) -> Optional['fix_suggestion_pb2.FixRange']:
+        """Field range"""
+        return FixRange(self._proto.range) if self._proto.range.ByteSize() > 0 else None
+
+    @cached_property
+    def new_text(self) -> Optional[str]:
+        """Field new_text"""
+        return self._proto.new_text
 
 
 
@@ -3330,6 +6199,65 @@ class TypeParameters:
         """Field child_list"""
         return [TypeParameters(item) for item in self._proto.child_list]
 
+
+
+class UnprepareModifyRequest:
+    """Generated wrapper for UnprepareModifyRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.UnprepareModifyRequest'):
+        self._proto = proto
+
+    @cached_property
+    def prepared_modify_id(self) -> Optional[int]:
+        """Field prepared_modify_id"""
+        return self._proto.prepared_modify_id
+
+
+
+class UnprepareQueryRequest:
+    """Generated wrapper for UnprepareQueryRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.UnprepareQueryRequest'):
+        self._proto = proto
+
+    @cached_property
+    def prepared_query_id(self) -> Optional[int]:
+        """Field prepared_query_id"""
+        return self._proto.prepared_query_id
+
+
+
+class UnprepareRequest:
+    """Generated wrapper for UnprepareRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.UnprepareRequest'):
+        self._proto = proto
+
+    @cached_property
+    def prepared_expression_id(self) -> Optional[int]:
+        """Field prepared_expression_id"""
+        return self._proto.prepared_expression_id
+
+
+
+class UnregisterRequest:
+    """Generated wrapper for UnregisterRequest"""
+
+    def __init__(self, proto: 'local_service_pb2.UnregisterRequest'):
+        self._proto = proto
+
+    @cached_property
+    def registered_id(self) -> Optional[int]:
+        """Field registered_id"""
+        return self._proto.registered_id
+
+
+
+class UnsupportedFieldsEnum:
+    """Generated wrapper for UnsupportedFieldsEnum"""
+
+    def __init__(self, proto: 'unsupported_fields_pb2.UnsupportedFieldsEnum'):
+        self._proto = proto
 
 
 class Value:
@@ -3612,6 +6540,41 @@ class ValueWithType:
         """Field value"""
         return Value(self._proto.value) if self._proto.value.ByteSize() > 0 else None
 
+
+
+class Variable:
+    """Generated wrapper for Variable"""
+
+    def __init__(self, proto: 'variable_pb2.Variable'):
+        self._proto = proto
+
+    @cached_property
+    def name(self) -> Optional[str]:
+        """Field name"""
+        return self._proto.name
+
+    @cached_property
+    def type(self) -> Optional['type_pb2.TypeProto']:
+        """Field type"""
+        return Type(self._proto.type) if self._proto.type.ByteSize() > 0 else None
+
+    @cached_property
+    def value(self) -> Optional['value_pb2.ValueProto']:
+        """Field value"""
+        return Value(self._proto.value) if self._proto.value.ByteSize() > 0 else None
+
+    @cached_property
+    def type_params(self) -> Optional['type_parameters_pb2.TypeParametersProto']:
+        """Field type_params"""
+        return TypeParameters(self._proto.type_params) if self._proto.type_params.ByteSize() > 0 else None
+
+
+
+class WireFormatAnnotationEmptyMessage:
+    """Generated wrapper for WireFormatAnnotationEmptyMessage"""
+
+    def __init__(self, proto: 'wire_format_annotation_pb2.WireFormatAnnotationEmptyMessage'):
+        self._proto = proto
 
 
 class ZetaSQLBuiltinFunctionOptions:
