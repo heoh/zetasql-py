@@ -170,24 +170,40 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
                 field_info['message_type'] = msg_type_name
                 field_info['message_type_full'] = msg_type_full
                 
-                # Find the wrapper name and module for this message type
-                # Check if it's a nested type first (contains dot in full_name after package)
-                wrapper_name = None
-                module_path = None
-                proto_full_path = None
+                # Check if this is an external type (e.g., google.protobuf)
+                is_external = not msg_type_full.startswith('zetasql.')
+                field_info['is_external'] = is_external
                 
-                # Try to find exact match in all_messages
-                for msg_name, msg_info in all_messages.items():
-                    if msg_info.get('proto_name') == msg_type_name or msg_name == msg_type_name:
-                        wrapper_name = msg_info['name'].replace('Proto', '') if msg_info['name'].endswith('Proto') else msg_info['name']
-                        module_path = msg_info['module']
-                        proto_full_path = msg_info.get('proto_full_path', msg_type_name)
-                        break
-                
-                if wrapper_name:
-                    field_info['wrapper_name'] = wrapper_name
-                    field_info['module_path'] = module_path
-                    field_info['proto_full_path'] = proto_full_path
+                if is_external:
+                    # For external types like google.protobuf, store the module info
+                    if msg_type_full.startswith('google.protobuf.'):
+                        # Extract module name from full_name (e.g., google.protobuf.FileDescriptorSet -> descriptor_pb2)
+                        # Map common google.protobuf types to their pb2 module
+                        proto_file = field.message_type.file.name  # e.g., "google/protobuf/descriptor.proto"
+                        # Extract just the filename without path and extension, add _pb2
+                        proto_filename = proto_file.split('/')[-1].replace('.proto', '')  # "descriptor"
+                        proto_module = f"google.protobuf.{proto_filename}_pb2"  # "google.protobuf.descriptor_pb2"
+                        field_info['external_module'] = proto_module
+                        field_info['external_type'] = msg_type_name
+                else:
+                    # Find the wrapper name and module for this message type
+                    # Check if it's a nested type first (contains dot in full_name after package)
+                    wrapper_name = None
+                    module_path = None
+                    proto_full_path = None
+                    
+                    # Try to find exact match in all_messages
+                    for msg_name, msg_info in all_messages.items():
+                        if msg_info.get('proto_name') == msg_type_name or msg_name == msg_type_name:
+                            wrapper_name = msg_info['name'].replace('Proto', '') if msg_info['name'].endswith('Proto') else msg_info['name']
+                            module_path = msg_info['module']
+                            proto_full_path = msg_info.get('proto_full_path', msg_type_name)
+                            break
+                    
+                    if wrapper_name:
+                        field_info['wrapper_name'] = wrapper_name
+                        field_info['module_path'] = module_path
+                        field_info['proto_full_path'] = proto_full_path
             
             own_fields.append(field_info)
         
@@ -266,23 +282,37 @@ def map_proto_type_to_python(field_info: Dict[str, Any]) -> str:
     
     # Message type - use Proto type with module prefix
     if field_type == descriptor.FieldDescriptor.TYPE_MESSAGE:
-        # Use wrapper_name if available (handles nested types correctly)
-        wrapper_name = field_info.get('wrapper_name')
-        proto_full_path = field_info.get('proto_full_path')
-        module_path = field_info.get('module_path', '')
+        # Check if this is an external type (e.g., google.protobuf)
+        is_external = field_info.get('is_external', False)
         
-        if wrapper_name and module_path and proto_full_path:
-            module_alias = module_path.split('.')[-1]  # e.g., 'resolved_ast_pb2'
-            # Use proto_full_path for nested types (e.g., 'AllowedHintsAndOptionsProto.HintProto')
-            base_type = f"'{module_alias}.{proto_full_path}'"
-        elif wrapper_name:
-            # Fallback to wrapper name without module
-            base_type = f"'{wrapper_name}'"
+        if is_external:
+            # For external types, use the module reference
+            external_module = field_info.get('external_module', '')
+            external_type = field_info.get('external_type', '')
+            if external_module and external_type:
+                # e.g., 'descriptor_pb2.FileDescriptorSet'
+                module_alias = external_module.split('.')[-1]  # 'descriptor_pb2'
+                base_type = f"'{module_alias}.{external_type}'"
+            else:
+                base_type = 'Any'
         else:
-            # Last resort fallback
-            proto_type = field_info.get('message_type', 'Any')
-            wrapper_type = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
-            base_type = f"'{wrapper_type}'"
+            # Use wrapper_name if available (handles nested types correctly)
+            wrapper_name = field_info.get('wrapper_name')
+            proto_full_path = field_info.get('proto_full_path')
+            module_path = field_info.get('module_path', '')
+            
+            if wrapper_name and module_path and proto_full_path:
+                module_alias = module_path.split('.')[-1]  # e.g., 'resolved_ast_pb2'
+                # Use proto_full_path for nested types (e.g., 'AllowedHintsAndOptionsProto.HintProto')
+                base_type = f"'{module_alias}.{proto_full_path}'"
+            elif wrapper_name:
+                # Fallback to wrapper name without module
+                base_type = f"'{wrapper_name}'"
+            else:
+                # Last resort fallback
+                proto_type = field_info.get('message_type', 'Any')
+                wrapper_type = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
+                base_type = f"'{wrapper_type}'"
     else:
         base_type = type_map.get(field_type, 'Any')
     
@@ -336,18 +366,28 @@ def generate_property(field_info: Dict[str, Any], parent_chain: List[str]) -> st
     
     # Generate return statement
     if is_message:
-        # Get wrapper class name (use wrapper_name if available for nested types)
-        wrapper_name = field_info.get('wrapper_name')
-        if not wrapper_name:
-            proto_type = field_info.get('message_type', '')
-            wrapper_name = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
+        # Check if this is an external type (e.g., google.protobuf)
+        is_external = field_info.get('is_external', False)
         
-        if is_repeated:
-            # Return list of wrapped objects
-            return_stmt = f"[{wrapper_name}(item) for item in {access_path}]"
+        if is_external:
+            # External types: return proto object directly (no wrapper)
+            if is_repeated:
+                return_stmt = f"list({access_path})"
+            else:
+                return_stmt = f"{access_path} if {access_path}.ByteSize() > 0 else None"
         else:
-            # Return wrapped object or None
-            return_stmt = f"{wrapper_name}({access_path}) if {access_path}.ByteSize() > 0 else None"
+            # Get wrapper class name (use wrapper_name if available for nested types)
+            wrapper_name = field_info.get('wrapper_name')
+            if not wrapper_name:
+                proto_type = field_info.get('message_type', '')
+                wrapper_name = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
+            
+            if is_repeated:
+                # Return list of wrapped objects
+                return_stmt = f"[{wrapper_name}(item) for item in {access_path}]"
+            else:
+                # Return wrapped object or None
+                return_stmt = f"{wrapper_name}({access_path}) if {access_path}.ByteSize() > 0 else None"
     else:
         # Primitive types - return as-is
         return_stmt = access_path
@@ -447,12 +487,18 @@ def generate_wrapper_file(graph: Dict[str, Any], output_path: Path) -> None:
     # Collect all proto types by module for TYPE_CHECKING imports
     from collections import defaultdict
     proto_types_by_module = defaultdict(set)
+    external_modules = set()
     
     for name, info in graph.items():
         # Extract module path
         # Module is like: zetasql.wasi._pb2.zetasql.resolved_ast.resolved_ast_pb2
         module_name = info['module']
         proto_types_by_module[module_name].add(name)
+        
+        # Also collect external modules from fields
+        for field in info.get('all_fields', []):
+            if field.get('is_external') and field.get('external_module'):
+                external_modules.add(field['external_module'])
     
     # Generate header
     lines = [
@@ -486,6 +532,11 @@ def generate_wrapper_file(graph: Dict[str, Any], output_path: Path) -> None:
         # Extract the last part as alias (e.g., 'resolved_ast_pb2' from 'zetasql.wasi._pb2.zetasql.resolved_ast.resolved_ast_pb2')
         module_alias = module_path.split('.')[-1]
         lines.append(f'    import {module_path} as {module_alias}')
+    
+    # Add external module imports (e.g., google.protobuf)
+    for external_module in sorted(external_modules):
+        module_alias = external_module.split('.')[-1]
+        lines.append(f'    from {external_module} import {module_alias}')
     
     lines.extend(['', ''])
     

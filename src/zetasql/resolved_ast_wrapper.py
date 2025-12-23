@@ -80,6 +80,10 @@ if TYPE_CHECKING:
     import zetasql.wasi._pb2.zetasql.scripting.script_executor_state_pb2 as script_executor_state_pb2
     import zetasql.wasi._pb2.zetasql.scripting.variable_pb2 as variable_pb2
     import zetasql.wasi._pb2.zetasql.tools.execute_query.execute_query_pb2 as execute_query_pb2
+    from google.protobuf.any_pb2 import any_pb2
+    from google.protobuf.descriptor_pb2 import descriptor_pb2
+    from google.protobuf.duration_pb2 import duration_pb2
+    from google.protobuf.timestamp_pb2 import timestamp_pb2
 
 
 class ASTAfterMatchSkipClauseEnums:
@@ -6001,9 +6005,9 @@ class DescriptorPoolListDefinition:
         self._proto = proto
 
     @cached_property
-    def file_descriptor_set(self) -> Optional['FileDescriptorSet']:
+    def file_descriptor_set(self) -> Optional['descriptor_pb2.FileDescriptorSet']:
         """Field file_descriptor_set"""
-        return FileDescriptorSet(self._proto.file_descriptor_set) if self._proto.file_descriptor_set.ByteSize() > 0 else None
+        return self._proto.file_descriptor_set if self._proto.file_descriptor_set.ByteSize() > 0 else None
 
     @cached_property
     def registered_id(self) -> Optional[int]:
@@ -6668,14 +6672,14 @@ class ExecutionStats:
         self._proto = proto
 
     @cached_property
-    def wall_time(self) -> Optional['Duration']:
+    def wall_time(self) -> Optional['duration_pb2.Duration']:
         """Field wall_time"""
-        return Duration(self._proto.wall_time) if self._proto.wall_time.ByteSize() > 0 else None
+        return self._proto.wall_time if self._proto.wall_time.ByteSize() > 0 else None
 
     @cached_property
-    def cpu_time(self) -> Optional['Duration']:
+    def cpu_time(self) -> Optional['duration_pb2.Duration']:
         """Field cpu_time"""
-        return Duration(self._proto.cpu_time) if self._proto.cpu_time.ByteSize() > 0 else None
+        return self._proto.cpu_time if self._proto.cpu_time.ByteSize() > 0 else None
 
     @cached_property
     def stack_available_bytes(self) -> Optional[int]:
@@ -9555,9 +9559,9 @@ class ScriptExecutorStateStackFrame:
         return ScriptExecutorStateStackFrameParameters(self._proto.parameters) if self._proto.parameters.ByteSize() > 0 else None
 
     @cached_property
-    def for_loop_stack(self) -> List['Any']:
+    def for_loop_stack(self) -> List['any_pb2.Any']:
         """Field for_loop_stack"""
-        return [Any(item) for item in self._proto.for_loop_stack]
+        return list(self._proto.for_loop_stack)
 
 
 
@@ -10581,9 +10585,9 @@ class TableFromProtoRequest:
         return Type(self._proto.proto) if self._proto.proto.ByteSize() > 0 else None
 
     @cached_property
-    def file_descriptor_set(self) -> Optional['FileDescriptorSet']:
+    def file_descriptor_set(self) -> Optional['descriptor_pb2.FileDescriptorSet']:
         """Field file_descriptor_set"""
-        return FileDescriptorSet(self._proto.file_descriptor_set) if self._proto.file_descriptor_set.ByteSize() > 0 else None
+        return self._proto.file_descriptor_set if self._proto.file_descriptor_set.ByteSize() > 0 else None
 
 
 
@@ -10838,9 +10842,9 @@ class Type:
         return MeasureType(self._proto.measure_type) if self._proto.measure_type.ByteSize() > 0 else None
 
     @cached_property
-    def file_descriptor_set(self) -> List['FileDescriptorSet']:
+    def file_descriptor_set(self) -> List['descriptor_pb2.FileDescriptorSet']:
         """Field file_descriptor_set"""
-        return [FileDescriptorSet(item) for item in self._proto.file_descriptor_set]
+        return list(self._proto.file_descriptor_set)
 
     @cached_property
     def extended_type_name(self) -> Optional[str]:
@@ -11036,9 +11040,9 @@ class Value:
         return self._proto.proto_value
 
     @cached_property
-    def timestamp_value(self) -> Optional['Timestamp']:
+    def timestamp_value(self) -> Optional['timestamp_pb2.Timestamp']:
         """Field timestamp_value"""
-        return Timestamp(self._proto.timestamp_value) if self._proto.timestamp_value.ByteSize() > 0 else None
+        return self._proto.timestamp_value if self._proto.timestamp_value.ByteSize() > 0 else None
 
     @cached_property
     def timestamp_pico_value(self) -> Optional[bytes]:
