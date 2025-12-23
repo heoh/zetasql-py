@@ -177,6 +177,17 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
                 if is_external:
                     # For external types like google.protobuf, store the module info
                     if msg_type_full.startswith('google.protobuf.'):
+                        # Check if this type can be converted to Python native type
+                        # Format: proto_type_name -> (python_module, python_type, conversion_method)
+                        convertible_types = {
+                            'Timestamp': ('datetime', 'datetime', 'ToDatetime'),
+                            'Duration': ('datetime', 'timedelta', 'ToTimedelta'),
+                        }
+                        
+                        if msg_type_name in convertible_types:
+                            # Mark as convertible to Python native type
+                            field_info['convert_to_python'] = convertible_types[msg_type_name]
+                        
                         # Extract module name from full_name (e.g., google.protobuf.FileDescriptorSet -> descriptor_pb2)
                         # Map common google.protobuf types to their pb2 module
                         proto_file = field.message_type.file.name  # e.g., "google/protobuf/descriptor.proto"
@@ -286,15 +297,22 @@ def map_proto_type_to_python(field_info: Dict[str, Any]) -> str:
         is_external = field_info.get('is_external', False)
         
         if is_external:
-            # For external types, use the module reference
-            external_module = field_info.get('external_module', '')
-            external_type = field_info.get('external_type', '')
-            if external_module and external_type:
-                # e.g., 'descriptor_pb2.FileDescriptorSet'
-                module_alias = external_module.split('.')[-1]  # 'descriptor_pb2'
-                base_type = f"'{module_alias}.{external_type}'"
+            # Check if convertible to Python native type
+            convert_info = field_info.get('convert_to_python')
+            if convert_info:
+                # Use Python native type (e.g., datetime.datetime, datetime.timedelta)
+                py_module, py_type, _ = convert_info
+                base_type = f"'{py_module}.{py_type}'"
             else:
-                base_type = 'Any'
+                # For external types, use the module reference
+                external_module = field_info.get('external_module', '')
+                external_type = field_info.get('external_type', '')
+                if external_module and external_type:
+                    # e.g., 'descriptor_pb2.FileDescriptorSet'
+                    module_alias = external_module.split('.')[-1]  # 'descriptor_pb2'
+                    base_type = f"'{module_alias}.{external_type}'"
+                else:
+                    base_type = 'Any'
         else:
             # Use wrapper_name if available (handles nested types correctly)
             wrapper_name = field_info.get('wrapper_name')
@@ -370,11 +388,22 @@ def generate_property(field_info: Dict[str, Any], parent_chain: List[str]) -> st
         is_external = field_info.get('is_external', False)
         
         if is_external:
-            # External types: return proto object directly (no wrapper)
-            if is_repeated:
-                return_stmt = f"list({access_path})"
+            # Check if convertible to Python native type
+            convert_info = field_info.get('convert_to_python')
+            if convert_info:
+                # Convert to Python native type
+                _, _, conversion_method = convert_info
+                
+                if is_repeated:
+                    return_stmt = f"[item.{conversion_method}() for item in {access_path}]"
+                else:
+                    return_stmt = f"{access_path}.{conversion_method}() if {access_path}.ByteSize() > 0 else None"
             else:
-                return_stmt = f"{access_path} if {access_path}.ByteSize() > 0 else None"
+                # External types: return proto object directly (no wrapper)
+                if is_repeated:
+                    return_stmt = f"list({access_path})"
+                else:
+                    return_stmt = f"{access_path} if {access_path}.ByteSize() > 0 else None"
         else:
             # Get wrapper class name (use wrapper_name if available for nested types)
             wrapper_name = field_info.get('wrapper_name')
@@ -522,6 +551,7 @@ def generate_wrapper_file(graph: Dict[str, Any], output_path: Path) -> None:
         'from __future__ import annotations',
         'from functools import cached_property',
         'from typing import Optional, List, Any, TYPE_CHECKING',
+        'import datetime',
         '',
         'if TYPE_CHECKING:',
     ]

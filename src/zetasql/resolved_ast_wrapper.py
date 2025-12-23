@@ -18,6 +18,7 @@ Usage:
 from __future__ import annotations
 from functools import cached_property
 from typing import Optional, List, Any, TYPE_CHECKING
+import datetime
 
 if TYPE_CHECKING:
     import zetasql.wasi._pb2.zetasql.common.match_recognize.match_test_result_pb2 as match_test_result_pb2
@@ -6672,14 +6673,14 @@ class ExecutionStats:
         self._proto = proto
 
     @cached_property
-    def wall_time(self) -> Optional['duration_pb2.Duration']:
+    def wall_time(self) -> Optional['datetime.timedelta']:
         """Field wall_time"""
-        return self._proto.wall_time if self._proto.wall_time.ByteSize() > 0 else None
+        return self._proto.wall_time.ToTimedelta() if self._proto.wall_time.ByteSize() > 0 else None
 
     @cached_property
-    def cpu_time(self) -> Optional['duration_pb2.Duration']:
+    def cpu_time(self) -> Optional['datetime.timedelta']:
         """Field cpu_time"""
-        return self._proto.cpu_time if self._proto.cpu_time.ByteSize() > 0 else None
+        return self._proto.cpu_time.ToTimedelta() if self._proto.cpu_time.ByteSize() > 0 else None
 
     @cached_property
     def stack_available_bytes(self) -> Optional[int]:
@@ -11040,9 +11041,9 @@ class Value:
         return self._proto.proto_value
 
     @cached_property
-    def timestamp_value(self) -> Optional['timestamp_pb2.Timestamp']:
+    def timestamp_value(self) -> Optional['datetime.datetime']:
         """Field timestamp_value"""
-        return self._proto.timestamp_value if self._proto.timestamp_value.ByteSize() > 0 else None
+        return self._proto.timestamp_value.ToDatetime() if self._proto.timestamp_value.ByteSize() > 0 else None
 
     @cached_property
     def timestamp_pico_value(self) -> Optional[bytes]:
