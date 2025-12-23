@@ -20,9 +20,16 @@ from collections import defaultdict
 import argparse
 
 
-def load_pb2_module(path: Path):
+def load_pb2_module(path: Path, base_dir: Path):
     """Dynamically load a _pb2.py module"""
-    spec = importlib.util.spec_from_file_location(f"pb2_module_{path.stem}", path)
+    # Calculate the module name based on the relative path
+    # e.g., base_dir/zetasql/resolved_ast/resolved_ast_pb2.py
+    # -> zetasql.wasi._pb2.zetasql.resolved_ast.resolved_ast_pb2
+    rel_path = path.relative_to(base_dir)
+    module_parts = list(rel_path.parts[:-1]) + [path.stem]  # Remove .py extension
+    module_name = 'zetasql.wasi._pb2.' + '.'.join(module_parts)
+    
+    spec = importlib.util.spec_from_file_location(module_name, path)
     if spec is None or spec.loader is None:
         raise ImportError(f"Cannot load module from {path}")
     module = importlib.util.module_from_spec(spec)
@@ -65,9 +72,36 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
     """
     print(f"Scanning {base_dir} for _pb2.py files...")
     
-    # Stage 1: Collect all message classes
+    # Stage 1: Collect all message classes (including nested)
     all_messages = {}
     module_cache = {}
+    
+    def collect_nested_messages(descriptor, parent_cls, parent_name, module_name):
+        """Recursively collect nested message types"""
+        nested_messages = {}
+        for nested_type in descriptor.nested_types:
+            # Nested wrapper class name: ParentName + NestedName (without 'Proto' suffix)
+            nested_wrapper_name = parent_name + nested_type.name.replace('Proto', '')
+            nested_proto_full_path = f"{parent_cls.__name__}.{nested_type.name}"
+            
+            # Get the nested class from parent
+            nested_cls = getattr(parent_cls, nested_type.name)
+            
+            nested_messages[nested_wrapper_name] = {
+                'class': nested_cls,
+                'module': module_name,
+                'name': nested_wrapper_name,
+                'proto_name': nested_type.name,
+                'proto_full_path': nested_proto_full_path,
+                'parent_wrapper': parent_name,
+                'is_nested': True
+            }
+            
+            # Recursively collect nested messages within this nested message
+            sub_nested = collect_nested_messages(nested_type, nested_cls, nested_wrapper_name, module_name)
+            nested_messages.update(sub_nested)
+        
+        return nested_messages
     
     for pb2_file in sorted(base_dir.rglob('*_pb2.py')):
         if '__pycache__' in str(pb2_file):
@@ -75,7 +109,7 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
         
         print(f"  Loading {pb2_file.relative_to(base_dir)}...")
         try:
-            module = load_pb2_module(pb2_file)
+            module = load_pb2_module(pb2_file, base_dir)
             module_cache[pb2_file] = module
             
             for name, cls in get_message_classes(module):
@@ -84,13 +118,20 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
                     'class': cls,
                     'module': module.__name__,
                     'name': name,
-                    'file': pb2_file
+                    'proto_name': name,
+                    'file': pb2_file,
+                    'is_nested': False
                 }
+                
+                # Collect nested messages
+                nested = collect_nested_messages(cls.DESCRIPTOR, cls, name.replace('Proto', ''), module.__name__)
+                all_messages.update(nested)
+                
         except Exception as e:
             print(f"  Warning: Failed to load {pb2_file}: {e}")
             continue
     
-    print(f"\nFound {len(all_messages)} proto message classes")
+    print(f"\nFound {len(all_messages)} proto message classes (including nested)")
     
     # Stage 2: Extract parent relationships and fields
     graph = {}
@@ -98,13 +139,15 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
     for full_name, info in all_messages.items():
         cls = info['class']
         descriptor = cls.DESCRIPTOR
+        is_nested = info.get('is_nested', False)
         
-        # Extract parent
+        # Extract parent (for inheritance, not nesting)
         parent_name = None
         if 'parent' in descriptor.fields_by_name:
             parent_field = descriptor.fields_by_name['parent']
             parent_msg_type = parent_field.message_type
-            parent_name = parent_msg_type.name
+            # Remove 'Proto' suffix to match graph keys
+            parent_name = parent_msg_type.name.replace('Proto', '') if parent_msg_type.name.endswith('Proto') else parent_msg_type.name
         
         # Extract own fields (excluding parent)
         own_fields = []
@@ -115,21 +158,48 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
             field_info = {
                 'name': field.name,
                 'type': field.type,
-                'is_repeated': field.is_repeated,  # Use is_repeated property
+                'is_repeated': field.is_repeated,
                 'number': field.number,
             }
             
             # Add message type info if applicable
             if field.message_type:
-                field_info['message_type'] = field.message_type.name
-                field_info['message_type_full'] = field.message_type.full_name
+                msg_type_name = field.message_type.name
+                msg_type_full = field.message_type.full_name
+                
+                field_info['message_type'] = msg_type_name
+                field_info['message_type_full'] = msg_type_full
+                
+                # Find the wrapper name and module for this message type
+                # Check if it's a nested type first (contains dot in full_name after package)
+                wrapper_name = None
+                module_path = None
+                proto_full_path = None
+                
+                # Try to find exact match in all_messages
+                for msg_name, msg_info in all_messages.items():
+                    if msg_info.get('proto_name') == msg_type_name or msg_name == msg_type_name:
+                        wrapper_name = msg_info['name'].replace('Proto', '') if msg_info['name'].endswith('Proto') else msg_info['name']
+                        module_path = msg_info['module']
+                        proto_full_path = msg_info.get('proto_full_path', msg_type_name)
+                        break
+                
+                if wrapper_name:
+                    field_info['wrapper_name'] = wrapper_name
+                    field_info['module_path'] = module_path
+                    field_info['proto_full_path'] = proto_full_path
             
             own_fields.append(field_info)
         
-        graph[full_name] = {
+        wrapper_name = info['name'].replace('Proto', '') if info['name'].endswith('Proto') else info['name']
+        
+        graph[wrapper_name] = {
             'parent': parent_name,
             'module': info['module'],
             'class': cls,
+            'proto_name': info.get('proto_name', info['name']),
+            'proto_full_path': info.get('proto_full_path', info.get('proto_name', info['name'])),
+            'is_nested': is_nested,
             'own_fields': own_fields,
             'all_fields': None,  # Will be computed later
             'children': [],
@@ -194,12 +264,25 @@ def map_proto_type_to_python(field_info: Dict[str, Any]) -> str:
     
     field_type = field_info['type']
     
-    # Message type - use wrapper class name instead of Proto
+    # Message type - use Proto type with module prefix
     if field_type == descriptor.FieldDescriptor.TYPE_MESSAGE:
-        proto_type = field_info.get('message_type', 'Any')
-        # Remove 'Proto' suffix to get wrapper name
-        wrapper_type = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
-        base_type = f"'{wrapper_type}'"
+        # Use wrapper_name if available (handles nested types correctly)
+        wrapper_name = field_info.get('wrapper_name')
+        proto_full_path = field_info.get('proto_full_path')
+        module_path = field_info.get('module_path', '')
+        
+        if wrapper_name and module_path and proto_full_path:
+            module_alias = module_path.split('.')[-1]  # e.g., 'resolved_ast_pb2'
+            # Use proto_full_path for nested types (e.g., 'AllowedHintsAndOptionsProto.HintProto')
+            base_type = f"'{module_alias}.{proto_full_path}'"
+        elif wrapper_name:
+            # Fallback to wrapper name without module
+            base_type = f"'{wrapper_name}'"
+        else:
+            # Last resort fallback
+            proto_type = field_info.get('message_type', 'Any')
+            wrapper_type = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
+            base_type = f"'{wrapper_type}'"
     else:
         base_type = type_map.get(field_type, 'Any')
     
@@ -253,16 +336,18 @@ def generate_property(field_info: Dict[str, Any], parent_chain: List[str]) -> st
     
     # Generate return statement
     if is_message:
-        # Get wrapper class name
-        proto_type = field_info.get('message_type', '')
-        wrapper_type = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
+        # Get wrapper class name (use wrapper_name if available for nested types)
+        wrapper_name = field_info.get('wrapper_name')
+        if not wrapper_name:
+            proto_type = field_info.get('message_type', '')
+            wrapper_name = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
         
         if is_repeated:
             # Return list of wrapped objects
-            return_stmt = f"[{wrapper_type}(item) for item in {access_path}]"
+            return_stmt = f"[{wrapper_name}(item) for item in {access_path}]"
         else:
             # Return wrapped object or None
-            return_stmt = f"{wrapper_type}({access_path}) if {access_path}.ByteSize() > 0 else None"
+            return_stmt = f"{wrapper_name}({access_path}) if {access_path}.ByteSize() > 0 else None"
     else:
         # Primitive types - return as-is
         return_stmt = access_path
@@ -273,26 +358,28 @@ def generate_property(field_info: Dict[str, Any], parent_chain: List[str]) -> st
         return {return_stmt}
 '''
 
-
 def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any]) -> str:
     """Generate a single wrapper class"""
-    wrapper_name = name.replace('Proto', '')
     parent_name = info['parent']
+    proto_name = info.get('proto_name', name)
+    proto_full_path = info.get('proto_full_path', proto_name)
     
     # Determine parent class
     if parent_name and parent_name in graph:
         parent_wrapper = parent_name.replace('Proto', '')
-        class_decl = f"class {wrapper_name}({parent_wrapper}):"
+        class_decl = f"class {name}({parent_wrapper}):"
     else:
-        class_decl = f"class {wrapper_name}:"
+        class_decl = f"class {name}:"
     
     # Module for proto type
     module_import = info['module'].split('.')[-1]  # e.g., 'resolved_ast_pb2'
     
-    # Generate __init__ - DON'T call super().__init__
-    # Each class stores its own proto, not the parent proto
+    # Generate __init__
+    # For nested types, use module.ParentProto.NestedProto format
+    proto_type_hint = f"'{module_import}.{proto_full_path}'"
+    
     init_lines = [
-        f"    def __init__(self, proto: '{name}'):",
+        f"    def __init__(self, proto: {proto_type_hint}):",
         f"        self._proto = proto"
     ]
     
@@ -338,7 +425,7 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any]) -> st
     # Combine all parts
     parts = [
         class_decl,
-        '    """Generated wrapper for ' + name + '"""',
+        f'    """Generated wrapper for {proto_name}"""',
         '',
         init_method
     ]
@@ -356,6 +443,16 @@ def generate_wrapper_file(graph: Dict[str, Any], output_path: Path) -> None:
     
     # Sort by depth (parents first)
     sorted_names = sorted(graph.keys(), key=lambda n: (graph[n]['depth'], n))
+    
+    # Collect all proto types by module for TYPE_CHECKING imports
+    from collections import defaultdict
+    proto_types_by_module = defaultdict(set)
+    
+    for name, info in graph.items():
+        # Extract module path
+        # Module is like: zetasql.wasi._pb2.zetasql.resolved_ast.resolved_ast_pb2
+        module_name = info['module']
+        proto_types_by_module[module_name].add(name)
     
     # Generate header
     lines = [
@@ -381,11 +478,16 @@ def generate_wrapper_file(graph: Dict[str, Any], output_path: Path) -> None:
         'from typing import Optional, List, Any, TYPE_CHECKING',
         '',
         'if TYPE_CHECKING:',
-        '    from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_pb2',
-        '    from zetasql.wasi._pb2.zetasql.resolved_ast import serialization_pb2',
-        '',
-        ''
     ]
+    
+    # Add proto module imports for TYPE_CHECKING
+    # Create short alias for each module (e.g., parse_tree_pb2, resolved_ast_pb2)
+    for module_path in sorted(proto_types_by_module.keys()):
+        # Extract the last part as alias (e.g., 'resolved_ast_pb2' from 'zetasql.wasi._pb2.zetasql.resolved_ast.resolved_ast_pb2')
+        module_alias = module_path.split('.')[-1]
+        lines.append(f'    import {module_path} as {module_alias}')
+    
+    lines.extend(['', ''])
     
     # Generate classes
     class_count = 0
