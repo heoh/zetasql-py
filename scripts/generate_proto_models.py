@@ -590,9 +590,10 @@ def generate_model_file(graph: Dict[str, Any], output_path: Path) -> None:
         class_names.append(name)
     
     # Generate __all__ for proper exports
+    export_names = ['parse_proto', 'ProtoModel'] + class_names
     lines.append('# Export all generated proto model classes')
     lines.append('__all__ = [')
-    for name in class_names:
+    for name in export_names:
         lines.append(f"    '{name}',")
     lines.append(']')
     lines.append('')

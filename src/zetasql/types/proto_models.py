@@ -32841,6 +32841,8 @@ class ASTCreateViewStatement(ASTCreateViewStatementBase):
 
 # Export all generated proto model classes
 __all__ = [
+    'parse_proto',
+    'ProtoModel',
     'ASTAfterMatchSkipClauseEnums',
     'ASTAlterIndexStatementEnums',
     'ASTAnySomeAllOpEnums',

@@ -15,7 +15,5 @@ from zetasql.types.proto_models import *  # noqa: F401, F403
 from zetasql.types.proto_model import ProtoModel, parse_proto  # noqa: F401
 
 __all__ = [
-    "ProtoModel",
-    "parse_proto",
     *proto_models.__all__,
 ]
