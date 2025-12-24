@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from zetasql.wrapper_utils import parse_wrapper
 """
 Basic ZetaSQL LocalService examples with Wrappers
 
@@ -7,7 +8,6 @@ Simple examples demonstrating common ZetaSQL operations.
 
 from zetasql.local_service import ZetaSqlLocalService
 from zetasql.resolved_ast_wrapper import ResolvedQueryStmt
-from zetasql.wrapper_utils import resolve_type, node_kind
 from zetasql.wasi._pb2.zetasql.proto import simple_catalog_pb2, options_pb2
 from zetasql.wasi._pb2.zetasql.public import type_pb2, options_pb2 as public_options_pb2
 
@@ -109,7 +109,7 @@ def example_2_analyze():
         )
         
         # Use wrapper for clean access
-        resolved_stmt = ResolvedQueryStmt(
+        resolved_stmt = parse_wrapper(
             response.resolved_statement.resolved_query_stmt_node
         )
         
@@ -193,7 +193,7 @@ def example_5_wrapper_benefits():
         )
         
         # Use wrapper
-        resolved_stmt = ResolvedQueryStmt(
+        resolved_stmt = parse_wrapper(
             response.resolved_statement.resolved_query_stmt_node
         )
         
@@ -251,7 +251,7 @@ def example_6_scan_tree_traversal():
             options=analyzer_options
         )
         
-        resolved_stmt = ResolvedQueryStmt(
+        resolved_stmt = parse_wrapper(
             response.resolved_statement.resolved_query_stmt_node
         )
         
@@ -329,7 +329,7 @@ def example_7_aggregate_analysis():
             options=analyzer_options
         )
         
-        resolved_stmt = ResolvedQueryStmt(
+        resolved_stmt = parse_wrapper(
             response.resolved_statement.resolved_query_stmt_node
         )
         
@@ -397,7 +397,7 @@ def example_8_column_tracking():
             options=analyzer_options
         )
         
-        resolved_stmt = ResolvedQueryStmt(
+        resolved_stmt = parse_wrapper(
             response.resolved_statement.resolved_query_stmt_node
         )
         
@@ -471,7 +471,7 @@ def example_9_expression_analysis():
             options=analyzer_options
         )
         
-        resolved_stmt = ResolvedQueryStmt(
+        resolved_stmt = parse_wrapper(
             response.resolved_statement.resolved_query_stmt_node
         )
         
@@ -553,7 +553,7 @@ def example_10_query_complexity():
                 options=analyzer_options
             )
             
-            resolved_stmt = ResolvedQueryStmt(
+            resolved_stmt = parse_wrapper(
                 response.resolved_statement.resolved_query_stmt_node
             )
             
@@ -568,11 +568,11 @@ def example_10_query_complexity():
                 if not scan:
                     return
                 
-                # Resolve any union types to concrete types
-                scan = resolve_type(scan)
+                # Union types auto-resolved by from_proto in properties
+                # No need for manual resolve_type() call
                 
                 scan_count += 1
-                scan_type = node_kind(scan)
+                scan_type = type(scan).__name__
                 
                 if 'Filter' in scan_type:
                     filter_count += 1

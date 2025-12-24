@@ -424,23 +424,13 @@ def generate_property(field_info: Dict[str, Any], parent_chain: List[str], graph
                 proto_type = field_info.get('message_type', '')
                 wrapper_name = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
             
-            # Check if this is a oneof union type that needs auto-resolution
-            is_oneof_union = wrapper_name and wrapper_name.startswith('Any') and ('AST' in wrapper_name or 'Resolved' in wrapper_name)
-            
+            # Use parse_wrapper() for all wrapper creation (handles union auto-resolution)
             if is_repeated:
                 # Return list of wrapped objects
-                if is_oneof_union:
-                    # Auto-resolve each item in the list
-                    return_stmt = f"[resolve_type({wrapper_name}(item)) for item in {access_path}]"
-                else:
-                    return_stmt = f"[{wrapper_name}(item) for item in {access_path}]"
+                return_stmt = f"[parse_wrapper(item) for item in {access_path}]"
             else:
                 # Return wrapped object or None
-                if is_oneof_union:
-                    # Auto-resolve oneof union types
-                    return_stmt = f"resolve_type({wrapper_name}({access_path})) if {access_path}.ByteSize() > 0 else None"
-                else:
-                    return_stmt = f"{wrapper_name}({access_path}) if {access_path}.ByteSize() > 0 else None"
+                return_stmt = f"parse_wrapper({access_path}) if {access_path}.ByteSize() > 0 else None"
     else:
         # Primitive types - return as-is
         return_stmt = access_path
@@ -465,21 +455,8 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any]) -> st
         # All root classes inherit from WrapperBase
         class_decl = f"class {name}(WrapperBase):"
     
-    # Module for proto type
-    module_import = info['module'].split('.')[-1]  # e.g., 'resolved_ast_pb2'
-    
-    # Generate __init__
-    # For nested types, use module.ParentProto.NestedProto format
-    proto_type_hint = f"'{module_import}.{proto_full_path}'"
-    
-    init_lines = [
-        f"    def __init__(self, proto: {proto_type_hint}):",
-        f"        self._proto = proto"
-    ]
-    
-    init_method = '\n'.join(init_lines)
-    
     # Generate properties for ALL fields (own + inherited)
+    # Note: No __init__ method - instances are created via from_proto() classmethod
     # Inherited fields need parent chain to access
     properties = []
     
@@ -519,9 +496,7 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any]) -> st
     # Combine all parts
     parts = [
         class_decl,
-        f'    """Generated wrapper for {proto_name}"""',
-        '',
-        init_method
+        f'    """Generated wrapper for {proto_name}"""'
     ]
     
     if properties:
@@ -595,10 +570,10 @@ def generate_wrapper_file(graph: Dict[str, Any], output_path: Path) -> None:
     
     lines.extend(['', ''])
     
-    # Import WrapperBase and resolve_type from wrapper_utils
+    # Import WrapperBase and parse_wrapper from wrapper_utils
     lines.extend([
         '# Import utilities for wrapper functionality',
-        'from zetasql.wrapper_utils import WrapperBase, resolve_type',
+        'from zetasql.wrapper_utils import WrapperBase, parse_wrapper',
         '',
         '',
     ])

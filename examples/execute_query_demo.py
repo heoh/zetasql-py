@@ -34,7 +34,7 @@ from zetasql.resolved_ast_wrapper import (
 from zetasql.wasi._pb2.zetasql.proto import simple_catalog_pb2, options_pb2
 from zetasql.wasi._pb2.zetasql.public import type_pb2, options_pb2 as public_options_pb2
 from zetasql.wasi._pb2.zetasql.local_service import local_service_pb2
-from zetasql.wrapper_utils import WrapperBase, resolve_type
+from zetasql.wrapper_utils import WrapperBase, parse_wrapper
 from google.protobuf import text_format
 
 
@@ -389,7 +389,7 @@ def example_1_parse_mode(service: ZetaSqlLocalService, catalog_id, analyzer_opti
     
     # Parse the SQL
     parse_response = service.parse(sql_statement=sql)
-    parse_response = ParseResponse(parse_response)
+    parse_response = parse_wrapper(parse_response)
     
     # Get the parsed statement (wrapped)
     stmt = parse_response.parsed_statement
@@ -426,7 +426,7 @@ def example_2_analyze_mode(service, catalog_id, analyzer_options):
     Shows:
     - LocalService.analyze() API usage
     - ResolvedQueryStmt Wrapper for type-safe AST access
-    - Using resolve_type and node_kind for abstraction
+    - Using wrapper classes for clean AST navigation
     - Traversing scan tree with Wrapper properties
     - Extracting semantic information (tables, columns, joins, filters)
     """
@@ -454,7 +454,7 @@ def example_2_analyze_mode(service, catalog_id, analyzer_options):
         registered_catalog_id=catalog_id,
         options=analyzer_options
     )
-    analyze_response = AnalyzeResponse(analyze_response)
+    analyze_response = parse_wrapper(analyze_response)
     
     # Wrap in ResolvedQueryStmt for type-safe access
     resolved_stmt = analyze_response.resolved_statement
@@ -488,8 +488,8 @@ def example_2_analyze_mode(service, catalog_id, analyzer_options):
         
         indent = "   " * depth
         
-        # Use resolve_type for union types
-        scan = resolve_type(scan)
+        # Union types auto-resolved by from_proto in properties
+        # scan is already the concrete type (e.g., ResolvedTableScan)
         scan_type = type(scan).__name__
         
         print(f"{indent}└─ {scan_type}")
@@ -563,7 +563,7 @@ def example_2_analyze_mode(service, catalog_id, analyzer_options):
     
     print(f"\n💡 Benefits of using Wrappers:")
     print(f"  • Type-safe access: isinstance(scan, ResolvedTableScan) for clear type checking")
-    print(f"  • Clean abstraction: resolve_type() handles union types automatically")
+    print(f"  • Clean abstraction: from_proto() handles union types automatically")
     print(f"  • Property access: scan.input_scan instead of proto field navigation")
     print(f"  • IDE support: Full autocompletion and type hints for Wrapper classes")
 

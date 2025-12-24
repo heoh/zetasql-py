@@ -4,148 +4,165 @@ ZetaSQL Wrapper Utilities
 Utility functions for working with ZetaSQL wrapper classes.
 """
 
-from typing import TypeVar, Any
+from google.protobuf import message as _message
+from typing import TypeVar, Any, cast
 
+T = TypeVar("T", bound="WrapperBase")
 
 class WrapperBase:
     """Base class for all ZetaSQL wrapper classes"""
     
-    def __init__(self, proto: Any):
-        self._proto = proto
+    @classmethod
+    def from_proto(cls: type[T], proto: _message.Message) -> T:
+        """
+        Create a wrapper instance from a proto object (simple constructor).
+        
+        This is a minimal constructor that directly wraps the proto without
+        any type resolution. For union types, use parse_wrapper() instead.
+        
+        Args:
+            proto: A proto message instance
+            
+        Returns:
+            Wrapper instance of the calling class type
+            
+        Example:
+            >>> proto = resolved_ast_pb2.ResolvedFilterScanProto()
+            >>> scan = ResolvedFilterScan.from_proto(proto)
+            >>> # scan is ResolvedFilterScan instance
+        """
+        # Create instance without calling __init__
+        instance = object.__new__(cls)
+        instance._proto = proto
+        return instance
+    
+    def as_type(self, wrapper_type: type[T]) -> T:
+        """
+        Cast wrapper to a specific type with runtime validation.
+        
+        This is useful for type narrowing in IDEs after isinstance checks.
+        
+        Args:
+            wrapper_type: The wrapper class to cast to
+            
+        Returns:
+            Self cast to the specified type
+            
+        Raises:
+            TypeError: If the wrapper is not an instance of wrapper_type
+            
+        Example:
+            >>> scan = some_union_scan
+            >>> if isinstance(scan, ResolvedFilterScan):
+            ...     filter_scan = scan.as_type(ResolvedFilterScan)
+            ...     print(filter_scan.filter_expr)  # IDE autocomplete works
+        """
+        if not isinstance(self, wrapper_type):
+            raise TypeError(
+                f"Cannot cast {type(self).__name__} to {wrapper_type.__name__}. "
+                f"Instance is not of the target type."
+            )
+        return cast(T, self)
 
 
-T = TypeVar('T', bound=WrapperBase)
-
-
-def node_kind(wrapper: WrapperBase) -> str:
+def parse_wrapper(proto: _message.Message) -> WrapperBase:
     """
-    Get the concrete type name of a wrapper instance.
+    Parse a proto object to its concrete wrapper type.
+    
+    This is the recommended way to create wrappers from protos.
+    For union types (oneof), it automatically resolves to the concrete type.
+    For regular protos, it wraps them in the appropriate wrapper class.
+    
+    This function is idempotent: calling it on a proto multiple times will
+    return equivalent wrapper instances (same type, same proto).
     
     Args:
-        wrapper: A wrapper instance
+        proto: A proto message that may be a union type
         
     Returns:
-        The class name of the wrapper (e.g., 'ResolvedFilterScan')
+        A wrapper instance of the concrete type
         
     Example:
-        >>> scan = ResolvedFilterScan(proto)
-        >>> node_kind(scan)
+        >>> # Regular proto
+        >>> proto = resolved_ast_pb2.ResolvedFilterScanProto()
+        >>> scan = parse_wrapper(proto)
+        >>> type(scan).__name__
+        'ResolvedFilterScan'
+        
+        >>> # Union type proto - automatically resolves to concrete
+        >>> any_scan_proto = resolved_ast_pb2.AnyResolvedScanProto()
+        >>> any_scan_proto.resolved_filter_scan_node.CopyFrom(filter_proto)
+        >>> wrapper = parse_wrapper(any_scan_proto)
+        >>> type(wrapper).__name__  # Resolved to concrete type
         'ResolvedFilterScan'
     """
-    return type(wrapper).__name__
-
-
-def resolve_type(wrapper: T) -> T:
-    """
-    Resolve a wrapper to its concrete type.
-    
-    For wrapper instances that represent oneof unions (detected by the presence
-    of WhichOneof('node') on their proto), this returns a wrapper instance of
-    the concrete variant type. For already-concrete types, returns the input
-    unchanged.
-    
-    This function is idempotent: calling it multiple times on the same instance
-    or on an already-resolved instance will return the same result.
-    
-    Args:
-        wrapper: A wrapper instance that may be a union type
-        
-    Returns:
-        A wrapper instance of the concrete type, or the original wrapper if
-        already concrete or if resolution fails
-        
-    Example:
-        >>> # scan might be AnyResolvedScan (union type)
-        >>> scan = resolve_type(scan)
-        >>> # Now scan is the concrete type, e.g., ResolvedFilterScan
-        >>> isinstance(scan, ResolvedFilterScan)
-        True
-        
-        >>> # Calling on already-concrete type returns same instance
-        >>> filter_scan = ResolvedFilterScan(proto)
-        >>> resolve_type(filter_scan) is filter_scan
-        True
-    """
-    # Check if this wrapper has a oneof field
-    proto = wrapper._proto
-    
-    # Try to detect oneof by checking for WhichOneof method
-    if not hasattr(proto, 'WhichOneof'):
-        # Not a oneof type, return as-is
-        return wrapper
-    
     try:
         # Check which variant is set
         which = proto.WhichOneof('node')
         if not which:
-            # No variant set, return as-is
-            return wrapper
-    except (ValueError, TypeError):
+            # No variant set, create Any* wrapper as fallback
+            return _create_wrapper_from_proto(proto)
+    except ValueError:
         # WhichOneof raised an error or 'node' doesn't exist
-        # This is not a oneof type, return as-is
-        return wrapper
+        # This is not a oneof type
+        return _create_wrapper_from_proto(proto)
     
     # Get the proto of the active variant
     try:
         variant_proto = getattr(proto, which)
     except AttributeError:
         # Shouldn't happen, but be defensive
-        return wrapper
+        return _create_wrapper_from_proto(proto)
     
-    # Map the field name to wrapper class name
-    # Field names follow pattern: resolved_xxx_scan_node -> ResolvedXxxScan
-    # We need to convert snake_case field name to PascalCase class name
-    wrapper_class_name = _field_name_to_class_name(which)
-    
-    # Dynamically get the wrapper class
-    try:
-        # Import the module at runtime to avoid circular imports
-        import zetasql.resolved_ast_wrapper as wrapper_module
-        wrapper_class = getattr(wrapper_module, wrapper_class_name, None)
-        
-        if wrapper_class is None:
-            # Class not found, return original
-            return wrapper
-        
-        # Create and return the concrete wrapper instance
-        return resolve_type(wrapper_class(variant_proto))
-    except Exception:
-        # Any error in resolution, return original
-        return wrapper
+    # Recursively parse the variant (in case it's also a oneof)
+    return parse_wrapper(variant_proto)
 
 
-def _field_name_to_class_name(field_name: str) -> str:
+def _create_wrapper_from_proto(proto: _message.Message) -> WrapperBase:
     """
-    Convert a proto oneof field name to its corresponding wrapper class name.
+    Create wrapper instance from a proto by looking up the wrapper class.
     
-    Examples:
-        resolved_filter_scan_node -> ResolvedFilterScan
-        resolved_project_scan_node -> ResolvedProjectScan
-        resolved_literal_node -> ResolvedLiteral
-        ast_select_node -> ASTSelect
-        ast_query_expression_node -> ASTQueryExpression
+    Maps proto class name to wrapper class name by removing 'Proto' suffix.
+    For nested messages, uses the full proto path to construct the wrapper name.
+    Uses object.__new__() to create instances without calling __init__.
     """
-    # Remove common suffixes
-    name = field_name
-    if name.endswith('_node'):
-        name = name[:-5]  # Remove '_node'
-    if name.endswith('_proto'):
-        name = name[:-6]  # Remove '_proto'
+    # Import the module at runtime to avoid circular imports
+    import zetasql.resolved_ast_wrapper as wrapper_module
+
+    proto_type_name = type(proto).__name__.removesuffix('Proto')
     
-    # Convert snake_case to PascalCase
-    # Special handling for acronyms like 'ast', 'sql', 'dml', 'ddl'
-    parts = name.split('_')
-    acronyms = {'AST', 'SQL', 'DML', 'DDL', 'GQL', 'TVF', 'UDAF', 'UDF'}
+    # Try to get full name from DESCRIPTOR for nested messages
+    wrapper_class_name = None
+    if hasattr(proto, 'DESCRIPTOR') and hasattr(proto.DESCRIPTOR, 'full_name'):
+        full_name = cast(str, proto.DESCRIPTOR.full_name)
+        # full_name is like: zetasql.AllowedHintsAndOptionsProto.HintProto
+        # We need to convert this to: AllowedHintsAndOptionsHint
+        
+        # For nested messages, we need parent + child names
+        # e.g., "zetasql.AllowedHintsAndOptionsProto.HintProto" -> "AllowedHintsAndOptionsHint"
+        # But for top-level messages, we just need the last part
+        # e.g., "zetasql.local_service.ParseResponse" -> "ParseResponse"
+        
+        parts = full_name.split('.')
+        # Find message parts (skip package names)
+        # If we have something like A.B.C, where A is package:
+        # - If B ends with Proto and C exists: B + C is nested (AllowedHintsAndOptionsProto.HintProto)
+        # - Otherwise: C is top-level (local_service.ParseResponse)
+        
+        if len(parts) >= 2:
+            # Check if second-to-last part ends with Proto (indicates parent message)
+            if len(parts) >= 3:
+                # Nested message: combine parent + child
+                # e.g., AllowedHintsAndOptionsProto.HintProto -> AllowedHintsAndOptionsHint
+                sub_names = [part.removesuffix('Proto') for part in parts[-2:]]
+                wrapper_class_name = ''.join(sub_names)
+            else:
+                # Top-level message: use last part only
+                # e.g., local_service.ParseResponse -> ParseResponse
+                last_part = parts[-1]
+                wrapper_class_name = last_part.removesuffix('Proto')
     
-    class_name_parts = []
-    for word in parts:
-        if word.upper() in acronyms:
-            # Keep acronyms in uppercase
-            class_name_parts.append(word.upper())
-        else:
-            # Regular word: capitalize first letter
-            class_name_parts.append(word.capitalize())
-    
-    class_name = ''.join(class_name_parts)
-    
-    return class_name
+    wrapper_class = getattr(wrapper_module, wrapper_class_name, WrapperBase)
+    if not issubclass(wrapper_class, WrapperBase):
+        wrapper_class = WrapperBase
+    return wrapper_class.from_proto(proto)

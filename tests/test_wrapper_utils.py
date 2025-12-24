@@ -3,133 +3,180 @@ Tests for wrapper_utils module
 """
 
 import pytest
-from zetasql.wrapper_utils import resolve_type, node_kind
+from zetasql.wrapper_utils import parse_wrapper
 from zetasql.resolved_ast_wrapper import WrapperBase
 
 
-class TestNodeKind:
-    """Tests for node_kind function"""
+class TestFromProto:
+    """Tests for WrapperBase.from_proto classmethod"""
     
-    def test_returns_class_name(self):
-        """node_kind should return the class name of the wrapper"""
-        # Create a simple wrapper for testing
-        from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_pb2
-        
-        proto = resolved_ast_pb2.ResolvedLiteralProto()
-        from zetasql.resolved_ast_wrapper import ResolvedLiteral
-        wrapper = ResolvedLiteral(proto)
-        
-        assert node_kind(wrapper) == 'ResolvedLiteral'
-    
-    def test_works_with_any_wrapper(self):
-        """node_kind should work with any wrapper type"""
-        from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_pb2
-        from zetasql.resolved_ast_wrapper import ResolvedQueryStmt
-        
-        proto = resolved_ast_pb2.ResolvedQueryStmtProto()
-        wrapper = ResolvedQueryStmt(proto)
-        
-        assert node_kind(wrapper) == 'ResolvedQueryStmt'
-
-
-class TestResolveType:
-    """Tests for resolve_type function"""
-    
-    def test_idempotent_on_concrete_type(self):
-        """resolve_type should return the same instance for concrete types"""
+    def test_concrete_class_from_proto(self):
+        """Concrete wrapper classes should create instances via from_proto"""
         from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_pb2
         from zetasql.resolved_ast_wrapper import ResolvedLiteral
         
         proto = resolved_ast_pb2.ResolvedLiteralProto()
-        wrapper = ResolvedLiteral(proto)
+        wrapper = parse_wrapper(proto)
         
-        # Should return the same instance
-        resolved = resolve_type(wrapper)
-        assert resolved is wrapper
-        assert node_kind(resolved) == 'ResolvedLiteral'
+        assert isinstance(wrapper, ResolvedLiteral)
+        assert wrapper._proto is proto
     
-    def test_resolves_oneof_to_concrete_type(self):
-        """resolve_type should resolve union types to concrete types"""
+    def test_from_proto_does_not_resolve_unions(self):
+        """from_proto() should NOT auto-resolve union types (that's parse_wrapper's job)"""
         from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_pb2
         from zetasql.resolved_ast_wrapper import (
-            AnyResolvedScan, 
+            AnyResolvedScan,
             ResolvedTableScan
         )
         
-        # Create a TableScan proto (just need a valid proto)
+        # Create a TableScan proto
         table_scan_proto = resolved_ast_pb2.ResolvedTableScanProto()
         
         # Wrap it in AnyResolvedScan (union type)
         any_scan_proto = resolved_ast_pb2.AnyResolvedScanProto()
         any_scan_proto.resolved_table_scan_node.CopyFrom(table_scan_proto)
         
-        any_scan_wrapper = AnyResolvedScan(any_scan_proto)
+        # Calling from_proto on union class should NOT resolve - just wrap
+        wrapper = AnyResolvedScan.from_proto(any_scan_proto)
         
-        # Before resolution
-        assert node_kind(any_scan_wrapper) == 'AnyResolvedScan'
-        
-        # After resolution
-        resolved = resolve_type(any_scan_wrapper)
-        assert node_kind(resolved) == 'ResolvedTableScan'
-        assert isinstance(resolved, ResolvedTableScan)
+        # Should stay as AnyResolvedScan, not resolve to concrete
+        assert type(wrapper).__name__ == 'AnyResolvedScan'
+        assert isinstance(wrapper, AnyResolvedScan)
+
+
+class TestParseWrapper:
+    """Tests for parse_wrapper function"""
     
-    def test_multiple_calls_are_idempotent(self):
-        """Calling resolve_type multiple times should be safe"""
+    def test_parses_concrete_proto(self):
+        """parse_wrapper should wrap concrete proto types"""
         from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_pb2
         from zetasql.resolved_ast_wrapper import ResolvedLiteral
         
         proto = resolved_ast_pb2.ResolvedLiteralProto()
-        wrapper = ResolvedLiteral(proto)
+        wrapper = parse_wrapper(proto)
         
-        # Multiple calls should all return the same instance
-        resolved1 = resolve_type(wrapper)
-        resolved2 = resolve_type(resolved1)
-        resolved3 = resolve_type(resolved2)
-        
-        assert resolved1 is wrapper
-        assert resolved2 is wrapper
-        assert resolved3 is wrapper
+        assert type(wrapper).__name__ == 'ResolvedLiteral'
+        assert isinstance(wrapper, ResolvedLiteral)
+        assert wrapper._proto is proto
     
-    def test_returns_original_on_unknown_variant(self):
-        """resolve_type should return original if variant is unknown"""
-        # Create a wrapper with mock proto that has WhichOneof but unknown field
-        from unittest.mock import Mock
+    def test_resolves_union_proto_to_concrete(self):
+        """parse_wrapper should resolve union protos to concrete types"""
+        from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_pb2
+        from zetasql.resolved_ast_wrapper import ResolvedTableScan
         
-        mock_proto = Mock()
-        mock_proto.WhichOneof.return_value = 'unknown_field_that_does_not_exist'
+        # Create a TableScan proto
+        table_scan_proto = resolved_ast_pb2.ResolvedTableScanProto()
         
-        # Create a simple wrapper
-        wrapper = WrapperBase(mock_proto)
+        # Wrap it in AnyResolvedScan (union type)
+        any_scan_proto = resolved_ast_pb2.AnyResolvedScanProto()
+        any_scan_proto.resolved_table_scan_node.CopyFrom(table_scan_proto)
         
-        # Should return original wrapper without error
-        resolved = resolve_type(wrapper)
-        assert resolved is wrapper
+        wrapper = parse_wrapper(any_scan_proto)
+        
+        # Should resolve to the concrete type
+        assert type(wrapper).__name__ == 'ResolvedTableScan'
+        assert isinstance(wrapper, ResolvedTableScan)
     
-    def test_returns_original_when_no_variant_set(self):
-        """resolve_type should return original if no oneof variant is set"""
+    def test_idempotent_on_same_proto(self):
+        """Calling parse_wrapper multiple times on same proto should yield equivalent results"""
+        from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_pb2
+        
+        proto = resolved_ast_pb2.ResolvedLiteralProto()
+        
+        wrapper1 = parse_wrapper(proto)
+        wrapper2 = parse_wrapper(proto)
+        wrapper3 = parse_wrapper(proto)
+        
+        # All should be the same type and reference the same proto
+        assert type(wrapper1) == type(wrapper2) == type(wrapper3)
+        assert wrapper1._proto is proto
+        assert wrapper2._proto is proto
+        assert wrapper3._proto is proto
+    
+    def test_handles_empty_union(self):
+        """parse_wrapper should handle union protos with no variant set"""
         from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_pb2
         from zetasql.resolved_ast_wrapper import AnyResolvedScan
         
         # Create empty AnyResolvedScan (no variant set)
         any_scan_proto = resolved_ast_pb2.AnyResolvedScanProto()
-        any_scan_wrapper = AnyResolvedScan(any_scan_proto)
         
-        # Should return original
-        resolved = resolve_type(any_scan_wrapper)
-        assert resolved is any_scan_wrapper
-        assert node_kind(resolved) == 'AnyResolvedScan'
+        wrapper = parse_wrapper(any_scan_proto)
+        
+        # Should create AnyResolvedScan wrapper (fallback)
+        assert type(wrapper).__name__ == 'AnyResolvedScan'
+        assert isinstance(wrapper, AnyResolvedScan)
 
 
-class TestFieldNameToClassName:
-    """Tests for _field_name_to_class_name helper"""
+class TestAsType:
+    """Tests for as_type instance method"""
     
-    def test_converts_field_names_correctly(self):
-        """Test the internal field name to class name conversion"""
-        from zetasql.wrapper_utils import _field_name_to_class_name
+    def test_successful_cast(self):
+        """as_type should return self when type matches"""
+        from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_pb2
+        from zetasql.resolved_ast_wrapper import ResolvedLiteral
         
-        # Test various field name patterns
-        assert _field_name_to_class_name('resolved_filter_scan_node') == 'ResolvedFilterScan'
-        assert _field_name_to_class_name('resolved_project_scan_node') == 'ResolvedProjectScan'
-        assert _field_name_to_class_name('resolved_table_scan_node') == 'ResolvedTableScan'
-        assert _field_name_to_class_name('resolved_literal_node') == 'ResolvedLiteral'
-        assert _field_name_to_class_name('resolved_aggregate_scan_node') == 'ResolvedAggregateScan'
+        proto = resolved_ast_pb2.ResolvedLiteralProto()
+        wrapper = parse_wrapper(proto)
+        
+        result = wrapper.as_type(ResolvedLiteral)
+        assert result is wrapper
+    
+    def test_successful_cast_to_parent(self):
+        """as_type should work for parent classes"""
+        from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_pb2
+        from zetasql.resolved_ast_wrapper import (
+            ResolvedLiteral,
+            ResolvedExpr,
+            ResolvedNode
+        )
+        
+        proto = resolved_ast_pb2.ResolvedLiteralProto()
+        wrapper = parse_wrapper(proto)
+        
+        # Should be able to cast to parent types
+        as_expr = wrapper.as_type(ResolvedExpr)
+        assert as_expr is wrapper
+        
+        as_node = wrapper.as_type(ResolvedNode)
+        assert as_node is wrapper
+    
+    def test_failed_cast_raises_typeerror(self):
+        """as_type should raise TypeError when type doesn't match"""
+        from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_pb2
+        from zetasql.resolved_ast_wrapper import (
+            ResolvedLiteral,
+            ResolvedTableScan
+        )
+        
+        proto = resolved_ast_pb2.ResolvedLiteralProto()
+        wrapper = parse_wrapper(proto)
+        
+        with pytest.raises(TypeError) as exc_info:
+            wrapper.as_type(ResolvedTableScan)
+        
+        assert "Cannot cast ResolvedLiteral to ResolvedTableScan" in str(exc_info.value)
+    
+    def test_use_case_after_isinstance_check(self):
+        """as_type is useful after isinstance checks for IDE autocomplete"""
+        from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_pb2
+        from zetasql.resolved_ast_wrapper import (
+            ResolvedTableScan,
+            ResolvedFilterScan
+        )
+        
+        # Create a TableScan
+        table_scan_proto = resolved_ast_pb2.ResolvedTableScanProto()
+        any_scan_proto = resolved_ast_pb2.AnyResolvedScanProto()
+        any_scan_proto.resolved_table_scan_node.CopyFrom(table_scan_proto)
+        
+        scan = parse_wrapper(any_scan_proto)
+        
+        # Use isinstance check + as_type for type narrowing
+        if isinstance(scan, ResolvedTableScan):
+            typed_scan = scan.as_type(ResolvedTableScan)
+            # Now IDE knows typed_scan is ResolvedTableScan
+            assert typed_scan is scan
+        else:
+            pytest.fail("Expected ResolvedTableScan")
+
