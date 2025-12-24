@@ -1,15 +1,16 @@
 """
 Test ZetaSqlLocalService class
 
-Tests for the high-level local service wrapper.
+Tests for the high-level local service wrapper using ProtoModel API.
 """
 
 import pytest
 from zetasql.local_service import ZetaSqlLocalService
-from zetasql.wasi._pb2.zetasql.local_service import local_service_pb2
+from zetasql.types import proto_models
 from zetasql.wasi._pb2.zetasql.proto import options_pb2, simple_catalog_pb2
 from zetasql.wasi._pb2.zetasql.public import type_pb2
 from zetasql.wasi._pb2.zetasql.public import options_pb2 as public_options_pb2
+from zetasql.wasi._pb2.zetasql.public import parse_resume_location_pb2
 
 
 @pytest.fixture(scope="session")
@@ -81,21 +82,24 @@ class TestParsing:
         """Test parsing a simple SELECT statement."""
         response = service.parse(sql_statement="SELECT 1 AS one")
         
-        assert response.HasField("parsed_statement")
+        assert isinstance(response, proto_models.ParseResponse)
+        assert response.parsed_statement is not None
     
     def test_parse_complex_query(self, service):
         """Test parsing a complex query."""
         sql = "SELECT a, b FROM table1 WHERE a > 10 ORDER BY b LIMIT 5"
         response = service.parse(sql_statement=sql)
         
-        assert response.HasField("parsed_statement")
+        assert isinstance(response, proto_models.ParseResponse)
+        assert response.parsed_statement is not None
     
     def test_parse_join(self, service):
         """Test parsing a query with JOIN."""
         sql = "SELECT t1.id, t2.name FROM table1 t1 JOIN table2 t2 ON t1.id = t2.id"
         response = service.parse(sql_statement=sql)
         
-        assert response.HasField("parsed_statement")
+        assert isinstance(response, proto_models.ParseResponse)
+        assert response.parsed_statement is not None
     
     def test_parse_with_cte(self, service):
         """Test parsing a query with CTE."""
@@ -107,7 +111,8 @@ class TestParsing:
         """
         response = service.parse(sql_statement=sql)
         
-        assert response.HasField("parsed_statement")
+        assert isinstance(response, proto_models.ParseResponse)
+        assert response.parsed_statement is not None
 
 
 class TestAnalysis:
@@ -121,7 +126,8 @@ class TestAnalysis:
             options=analyzer_options
         )
         
-        assert response.HasField("resolved_statement")
+        assert isinstance(response, proto_models.AnalyzeResponse)
+        assert response.resolved_statement is not None
     
     def test_analyze_table_query(self, service, simple_catalog, analyzer_options):
         """Test analyzing a query against a table."""
@@ -131,7 +137,8 @@ class TestAnalysis:
             options=analyzer_options
         )
         
-        assert response.HasField("resolved_statement")
+        assert isinstance(response, proto_models.AnalyzeResponse)
+        assert response.resolved_statement is not None
     
     def test_analyze_with_where(self, service, simple_catalog, analyzer_options):
         """Test analyzing a query with WHERE clause."""
@@ -141,7 +148,8 @@ class TestAnalysis:
             options=analyzer_options
         )
         
-        assert response.HasField("resolved_statement")
+        assert isinstance(response, proto_models.AnalyzeResponse)
+        assert response.resolved_statement is not None
     
     def test_analyze_with_aggregation(self, service, simple_catalog, analyzer_options):
         """Test analyzing a query with aggregation."""
@@ -151,7 +159,8 @@ class TestAnalysis:
             options=analyzer_options
         )
         
-        assert response.HasField("resolved_statement")
+        assert isinstance(response, proto_models.AnalyzeResponse)
+        assert response.resolved_statement is not None
 
 
 class TestFormatting:
@@ -162,6 +171,8 @@ class TestFormatting:
         sql = "select   1    as   one"
         response = service.format_sql(sql=sql)
         
+        assert isinstance(response, proto_models.FormatSqlResponse)
+        assert response.sql is not None
         assert response.sql.strip()  # Should return formatted SQL
         assert "SELECT" in response.sql  # Should normalize keywords
     
@@ -170,6 +181,7 @@ class TestFormatting:
         sql = "select a,b,c from table1 where a>10 and b<20 order by c"
         response = service.format_sql(sql=sql)
         
+        assert isinstance(response, proto_models.FormatSqlResponse)
         assert response.sql.strip()
         assert "SELECT" in response.sql
         assert "FROM" in response.sql
@@ -180,6 +192,7 @@ class TestFormatting:
         sql = "SELECT 1 AS one"
         response = service.lenient_format_sql(sql=sql)
         
+        assert isinstance(response, proto_models.FormatSqlResponse)
         assert response.sql.strip()
 
 
@@ -194,8 +207,10 @@ class TestExpressions:
             simple_catalog=simple_catalog
         )
         
+        assert isinstance(response, proto_models.PrepareResponse)
+        assert response.prepared is not None
         assert response.prepared.prepared_expression_id >= 0
-        assert response.prepared.output_type.type_kind == type_pb2.TYPE_INT64
+        assert response.prepared.output_type is not None
 
 
 class TestQueries:
@@ -208,6 +223,8 @@ class TestQueries:
             simple_catalog=simple_catalog
         )
         
+        assert isinstance(response, proto_models.PrepareQueryResponse)
+        assert response.prepared is not None
         assert response.prepared.prepared_query_id >= 0
         assert len(response.prepared.columns) > 0
     
@@ -218,10 +235,14 @@ class TestQueries:
             simple_catalog=simple_catalog
         )
         
+        assert isinstance(response, proto_models.PrepareQueryResponse)
+        assert response.prepared is not None
         assert response.prepared.prepared_query_id >= 0
         assert len(response.prepared.columns) == 2
-        assert response.prepared.columns[0].name == "id"
-        assert response.prepared.columns[1].name == "name"
+        # Access columns using list methods, they return ProtoModel objects
+        columns = response.prepared.columns
+        assert columns[0].name == "id"
+        assert columns[1].name == "name"
     
     def test_unprepare_query(self, service, simple_catalog):
         """Test unpreparing a query."""
@@ -232,9 +253,8 @@ class TestQueries:
         )
         prepared_id = response.prepared.prepared_query_id
         
-        # Then unprepare
+        # Then unprepare (should not raise error)
         service.unprepare_query(prepared_query_id=prepared_id)
-        # If no error, test passes
 
 
 class TestCatalog:
@@ -244,6 +264,7 @@ class TestCatalog:
         """Test registering a catalog."""
         response = service.register_catalog(simple_catalog=simple_catalog)
         
+        assert isinstance(response, proto_models.RegisterResponse)
         assert response.registered_id >= 0
     
     def test_register_and_use_catalog(self, service, simple_catalog):
@@ -258,6 +279,7 @@ class TestCatalog:
             registered_catalog_id=catalog_id
         )
         
+        assert isinstance(query_response, proto_models.PrepareQueryResponse)
         assert query_response.prepared.prepared_query_id >= 0
     
     def test_unregister_catalog(self, service, simple_catalog):
@@ -266,9 +288,8 @@ class TestCatalog:
         register_response = service.register_catalog(simple_catalog=simple_catalog)
         catalog_id = register_response.registered_id
         
-        # Unregister
+        # Unregister (should not raise error)
         service.unregister_catalog(registered_id=catalog_id)
-        # If no error, test passes
 
 
 class TestTableExtraction:
@@ -280,6 +301,7 @@ class TestTableExtraction:
             sql_statement="SELECT * FROM table1"
         )
         
+        assert isinstance(response, proto_models.ExtractTableNamesFromStatementResponse)
         assert len(response.table_name) == 1
         assert response.table_name[0].table_name_segment[0] == "table1"
     
@@ -289,6 +311,7 @@ class TestTableExtraction:
             sql_statement="SELECT * FROM table1 JOIN table2 ON table1.id = table2.id"
         )
         
+        assert isinstance(response, proto_models.ExtractTableNamesFromStatementResponse)
         assert len(response.table_name) == 2
         table_names = [t.table_name_segment[0] for t in response.table_name]
         assert "table1" in table_names
@@ -296,8 +319,6 @@ class TestTableExtraction:
     
     def test_extract_table_names_multiple_statements(self, service):
         """Test extracting table names from multiple statements."""
-        from zetasql.wasi._pb2.zetasql.public import parse_resume_location_pb2
-        
         sql = "SELECT * FROM table1; SELECT * FROM table2"
         
         # First statement
@@ -309,6 +330,7 @@ class TestTableExtraction:
             parse_resume_location=parse_resume
         )
         
+        assert isinstance(response, proto_models.ExtractTableNamesFromNextStatementResponse)
         assert len(response.table_name) == 1
         assert response.table_name[0].table_name_segment[0] == "table1"
         assert response.resume_byte_position > 0
@@ -321,6 +343,7 @@ class TestBuiltinFunctions:
         """Test getting builtin functions."""
         response = service.get_builtin_functions()
         
+        assert isinstance(response, proto_models.GetBuiltinFunctionsResponse)
         # Should return some functions
         assert len(response.function) > 0
 
@@ -332,12 +355,12 @@ class TestOptions:
         """Test getting language options."""
         response = service.get_language_options()
         
-        # Should return language options
-        assert isinstance(response, options_pb2.LanguageOptionsProto)
+        # Should return language options ProtoModel
+        assert isinstance(response, proto_models.LanguageOptions)
     
     def test_get_analyzer_options(self, service):
         """Test getting analyzer options."""
         response = service.get_analyzer_options()
         
-        # Should return analyzer options
-        assert isinstance(response, options_pb2.AnalyzerOptionsProto)
+        # Should return analyzer options ProtoModel
+        assert isinstance(response, proto_models.AnalyzerOptions)

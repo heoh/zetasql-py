@@ -118,6 +118,11 @@ def parse_proto(proto: _message.Message) -> ProtoModel:
     return parse_proto(variant_proto)
 
 
+def _is_pascal_case(name: str) -> bool:
+    """Check if a name is in PascalCase (starts with uppercase)."""
+    return len(name) > 0 and name[0].isupper()
+
+
 def _create_model_from_proto(proto: _message.Message) -> ProtoModel:
     """
     Create proto model instance from a proto by looking up the model class.
@@ -135,32 +140,28 @@ def _create_model_from_proto(proto: _message.Message) -> ProtoModel:
     model_class_name = None
     if hasattr(proto, 'DESCRIPTOR') and hasattr(proto.DESCRIPTOR, 'full_name'):
         full_name = cast(str, proto.DESCRIPTOR.full_name)
-        # full_name is like: zetasql.AllowedHintsAndOptionsProto.HintProto
-        # We need to convert this to: AllowedHintsAndOptionsHint
-        
-        # For nested messages, we need parent + child names
-        # e.g., "zetasql.AllowedHintsAndOptionsProto.HintProto" -> "AllowedHintsAndOptionsHint"
-        # But for top-level messages, we just need the last part
-        # e.g., "zetasql.local_service.ParseResponse" -> "ParseResponse"
+        # full_name examples:
+        # - "zetasql.local_service.ParseResponse" (top-level)
+        # - "zetasql.local_service.ExtractTableNamesFromNextStatementResponse.TableName" (nested)
+        # - "zetasql.AllowedHintsAndOptionsProto.HintProto" (nested with Proto suffix)
         
         parts = full_name.split('.')
-        # Find message parts (skip package names)
-        # If we have something like A.B.C, where A is package:
-        # - If B ends with Proto and C exists: B + C is nested (AllowedHintsAndOptionsProto.HintProto)
-        # - Otherwise: C is top-level (local_service.ParseResponse)
         
-        if len(parts) >= 2:
-            # Check if second-to-last part ends with Proto (indicates parent message)
-            if len(parts) >= 3:
-                # Nested message: combine parent + child
-                # e.g., AllowedHintsAndOptionsProto.HintProto -> AllowedHintsAndOptionsHint
-                sub_names = [part.removesuffix('Proto') for part in parts[-2:]]
-                model_class_name = ''.join(sub_names)
-            else:
-                # Top-level message: use last part only
-                # e.g., local_service.ParseResponse -> ParseResponse
-                last_part = parts[-1]
-                model_class_name = last_part.removesuffix('Proto')
+        # Find class name parts by looking for PascalCase names
+        # Package/module names are lowercase or snake_case, class names are PascalCase
+        pascal_parts = [part for part in parts if _is_pascal_case(part)]
+        
+        if pascal_parts:
+            # Join all PascalCase parts and remove Proto suffix
+            # Examples:
+            # - ["ParseResponse"] -> "ParseResponse"
+            # - ["ExtractTableNamesFromNextStatementResponse", "TableName"] 
+            #   -> "ExtractTableNamesFromNextStatementResponseTableName"
+            # - ["AllowedHintsAndOptionsProto", "HintProto"] -> "AllowedHintsAndOptionsHint"
+            model_class_name = ''.join(part.removesuffix('Proto') for part in pascal_parts)
+    else:
+        # No DESCRIPTOR, use proto type name
+        model_class_name = proto_type_name
     
     model_class = getattr(model_module, model_class_name, ProtoModel)
     if not issubclass(model_class, ProtoModel):
