@@ -350,100 +350,84 @@ def example_1_parse_mode(service, catalog_id, analyzer_options):
     print(f"Parsed successfully! Statement type: {node_type}")
     print(f"Using Wrapper: {type(stmt).__name__}\n")
     
-    # ========== Shallow Traversal with Wrappers ==========
-    print_subsection("Shallow AST Traversal (depth=2) - Using Wrappers")
-    print("Quick overview of top-level structure using wrapper properties:\n")
+    # ========== Clean AST Tree Traversal ==========
+    print_subsection("AST Wrapper Structure")
+    print("Clean view of the parsed query structure:\n")
     
-    def traverse_shallow_with_wrapper(node, depth=0, max_depth=2, prefix=""):
-        """Shallow traversal using wrapper classes and isinstance."""
-        if depth > max_depth or not node:
+    def traverse_ast_tree(wrapper, depth=0, prefix="", visited=None):
+        """Recursively traverse and print AST structure using wrapper types."""
+        if wrapper is None:
             return
         
+        # Prevent infinite recursion
+        if visited is None:
+            visited = set()
+        
+        obj_id = id(wrapper)
+        if obj_id in visited:
+            return
+        visited.add(obj_id)
+        
         indent = "  " * depth
-        node_type = type(node).__name__
+        wrapper_type = type(wrapper).__name__
+        print(f"{indent}{prefix}{wrapper_type}")
         
-        print(f"{indent}{prefix}{node_type}")
+        # Get all public attributes (not starting with _ and not callable)
+        attrs = [attr for attr in dir(wrapper) 
+                if not attr.startswith('_') 
+                and not callable(getattr(wrapper, attr, None))
+                and attr not in ('parse_location_range', 'parenthesized', 'is_quoted', 
+                                'filename', 'start', 'end', 'is_nested', 'is_pivot_input',
+                                'distinct', 'natural', 'join_hint', 'join_type', 'join_location',
+                                'transformation_needed', 'unmatched_join_count', 'contains_comma_join',
+                                'null_handling_modifier', 'is_current_date_time_without_parentheses',
+                                'is_chained_call', 'is_not', 'op', 'and_order_by', 'image')]
         
-        # Show key information based on wrapper type
-        if isinstance(node, ASTQueryStatement):
-            if hasattr(node, 'query') and node.query:
-                print(f"{indent}  📖 Has query")
-                traverse_shallow_with_wrapper(node.query, depth + 1, max_depth, "query: ")
-        
-        elif isinstance(node, ASTSelect):
-            if hasattr(node, 'select_list') and node.select_list:
-                print(f"{indent}  📊 Select list: {len(node.select_list.columns) if hasattr(node.select_list, 'columns') else 0} columns")
-            if hasattr(node, 'from_clause') and node.from_clause:
-                print(f"{indent}  📂 Has FROM clause")
-            if hasattr(node, 'where_clause') and node.where_clause:
-                print(f"{indent}  🔍 Has WHERE clause")
-            if hasattr(node, 'group_by') and node.group_by:
-                print(f"{indent}  📁 Has GROUP BY")
-            if hasattr(node, 'having') and node.having:
-                print(f"{indent}  ✅ Has HAVING")
-            if hasattr(node, 'order_by') and node.order_by:
-                print(f"{indent}  🔍 Has ORDER BY")
-    
-    traverse_shallow_with_wrapper(stmt)
-    
-    # ========== Deep Traversal ==========
-    print_subsection("Key AST Components (using wrapper properties)")
-    print("Accessing specific parts of the parse tree:\n")
-    
-    # Access query
-    if hasattr(stmt, 'query') and stmt.query:
-        query = stmt.query
-        print(f"📖 Query: {type(query).__name__}")
-        
-        # Access query expression (SELECT)
-        if hasattr(query, 'query_expr') and query.query_expr:
-            query_expr = query.query_expr
-            # Resolve union type
-            query_expr = resolve_type(query_expr)
-            print(f"  ├─ Query Expression: {type(query_expr).__name__}")
-            
-            # Check if it's a SELECT statement
-            if isinstance(query_expr, ASTSelect):
-                # Show select list
-                if hasattr(query_expr, 'select_list') and query_expr.select_list:
-                    select_list = query_expr.select_list
-                    if hasattr(select_list, 'columns'):
-                        print(f"  │  ├─ SELECT columns: {len(select_list.columns)}")
-                        for i, col in enumerate(select_list.columns[:3]):  # Show first 3
-                            col_type = type(col).__name__
-                            print(f"  │  │  [{i}] {col_type}")
-                        if len(select_list.columns) > 3:
-                            print(f"  │  │  ... and {len(select_list.columns) - 3} more")
+        for attr_name in attrs:
+            try:
+                attr_value = getattr(wrapper, attr_name)
                 
-                # Show FROM clause
-                if hasattr(query_expr, 'from_clause') and query_expr.from_clause:
-                    print(f"  │  ├─ FROM clause: {type(query_expr.from_clause).__name__}")
+                # Handle None
+                if attr_value is None:
+                    continue
                 
-                # Show WHERE clause
-                if hasattr(query_expr, 'where_clause') and query_expr.where_clause:
-                    print(f"  │  ├─ WHERE clause: {type(query_expr.where_clause).__name__}")
+                # Handle lists
+                if isinstance(attr_value, list):
+                    if attr_value:
+                        print(f"{indent}  ├─ {attr_name} [{len(attr_value)} items]")
+                        for i, item in enumerate(attr_value):
+                            try:
+                                resolved_item = resolve_type(item)
+                                traverse_ast_tree(resolved_item, depth + 2, f"[{i}] ", visited)
+                            except:
+                                # Skip non-wrapper items
+                                pass
                 
-                # Show GROUP BY
-                if hasattr(query_expr, 'group_by') and query_expr.group_by:
-                    group_by = query_expr.group_by
-                    if hasattr(group_by, 'grouping_items'):
-                        print(f"  │  ├─ GROUP BY: {len(group_by.grouping_items)} items")
+                # Handle wrapper objects (has _proto attribute)
+                elif hasattr(attr_value, '_proto'):
+                    try:
+                        resolved = resolve_type(attr_value)
+                        print(f"{indent}  ├─ {attr_name}:")
+                        traverse_ast_tree(resolved, depth + 2, "", visited)
+                    except:
+                        print(f"{indent}  ├─ {attr_name}:")
+                        traverse_ast_tree(attr_value, depth + 2, "", visited)
                 
-                # Show HAVING
-                if hasattr(query_expr, 'having') and query_expr.having:
-                    print(f"  │  ├─ HAVING: {type(query_expr.having).__name__}")
-        
-        # Show ORDER BY
-        if hasattr(query, 'order_by') and query.order_by:
-            order_by = query.order_by
-            if hasattr(order_by, 'ordering_expressions'):
-                print(f"  └─ ORDER BY: {len(order_by.ordering_expressions)} expressions")
+                # Show important string values (like identifiers)
+                elif isinstance(attr_value, str) and attr_name == 'id_string':
+                    print(f"{indent}  ├─ id_string: '{attr_value}'")
+                
+            except Exception:
+                # Skip problematic attributes
+                pass
     
-    print(f"\n💡 Benefits of AST Wrappers:")
-    print(f"  • Type-safe access: isinstance(node, ASTSelect) for parse tree nodes")
-    print(f"  • Property access: stmt.query instead of protobuf field navigation")
-    print(f"  • Clean code: No need to check HasField() or handle proto unions manually")
-    print(f"  • IDE support: Full autocompletion for AST node properties")
+    traverse_ast_tree(stmt)
+    
+    print(f"\n💡 Clean AST Structure Benefits:")
+    print(f"  • Shows query structure without noise")
+    print(f"  • Wrapper types clearly visible")
+    print(f"  • Easy to understand query composition")
+    print(f"  • Perfect for learning AST navigation")
     
     sql = """
     SELECT 
