@@ -15,8 +15,7 @@ Usage:
 import sys
 import importlib.util
 from pathlib import Path
-from typing import Dict, List, Any, Optional, Set, Tuple
-from collections import defaultdict
+from typing import Dict, List, Any, Set, Tuple
 import argparse
 
 
@@ -81,7 +80,7 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
         nested_messages = {}
         for nested_type in descriptor.nested_types:
             # Nested wrapper class name: ParentName + NestedName (without 'Proto' suffix)
-            nested_model_name = parent_name + nested_type.name.replace('Proto', '')
+            nested_model_name = parent_name + nested_type.name.removesuffix('Proto')
             nested_proto_full_path = f"{parent_cls.__name__}.{nested_type.name}"
             
             # Get the nested class from parent
@@ -124,7 +123,7 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
                 }
                 
                 # Collect nested messages
-                nested = collect_nested_messages(cls.DESCRIPTOR, cls, name.replace('Proto', ''), module.__name__)
+                nested = collect_nested_messages(cls.DESCRIPTOR, cls, name.removesuffix('Proto'), module.__name__)
                 all_messages.update(nested)
                 
         except Exception as e:
@@ -147,7 +146,7 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
             parent_field = descriptor.fields_by_name['parent']
             parent_msg_type = parent_field.message_type
             # Remove 'Proto' suffix to match graph keys
-            parent_name = parent_msg_type.name.replace('Proto', '') if parent_msg_type.name.endswith('Proto') else parent_msg_type.name
+            parent_name = parent_msg_type.name.removesuffix('Proto')
         
         # Extract own fields (excluding parent)
         own_fields = []
@@ -206,7 +205,7 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
                     # Try to find exact match in all_messages
                     for msg_name, msg_info in all_messages.items():
                         if msg_info.get('proto_name') == msg_type_name or msg_name == msg_type_name:
-                            model_name = msg_info['name'].replace('Proto', '') if msg_info['name'].endswith('Proto') else msg_info['name']
+                            model_name = msg_info['name'].removesuffix('Proto')
                             module_path = msg_info['module']
                             proto_full_path = msg_info.get('proto_full_path', msg_type_name)
                             break
@@ -218,7 +217,7 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
             
             own_fields.append(field_info)
         
-        model_name = info['name'].replace('Proto', '') if info['name'].endswith('Proto') else info['name']
+        model_name = info['name'].removesuffix('Proto')
         
         graph[model_name] = {
             'parent': parent_name,
@@ -332,17 +331,14 @@ def map_proto_type_to_python(field_info: Dict[str, Any], graph: Dict[str, Any] =
                         proto_full_path = graph[base_class_name]['proto_full_path']
                 # else: base class doesn't exist, keep original Any* name (fallback)
             
-            if model_name and module_path and proto_full_path:
-                module_alias = module_path.split('.')[-1]  # e.g., 'resolved_ast_pb2'
-                # Use proto_full_path for nested types (e.g., 'AllowedHintsAndOptionsProto.HintProto')
-                base_type = f"'{module_alias}.{proto_full_path}'"
-            elif model_name:
-                # Fallback to wrapper name without module
+            if model_name:
+                # Use the ProtoModel class name directly (without Proto suffix)
+                # This provides better type hints since parse_proto() returns ProtoModel instances
                 base_type = f"'{model_name}'"
             else:
                 # Last resort fallback
                 proto_type = field_info.get('message_type', 'Any')
-                model_type = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
+                model_type = proto_type.removesuffix('Proto')
                 base_type = f"'{model_type}'"
     else:
         base_type = type_map.get(field_type, 'Any')
@@ -422,7 +418,7 @@ def generate_property(field_info: Dict[str, Any], parent_chain: List[str], graph
             model_name = field_info.get('model_name')
             if not model_name:
                 proto_type = field_info.get('message_type', '')
-                model_name = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
+                model_name = proto_type.removesuffix('Proto')
             
             # Use parse_proto() for all wrapper creation (handles union auto-resolution)
             if is_repeated:
@@ -449,7 +445,7 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any]) -> st
     
     # Determine parent class
     if parent_name and parent_name in graph:
-        parent_model = parent_name.replace('Proto', '')
+        parent_model = parent_name.removesuffix('Proto')
         class_decl = f"class {name}({parent_model}):"
     else:
         # All root classes inherit from ProtoModel
