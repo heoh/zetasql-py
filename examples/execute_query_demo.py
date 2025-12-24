@@ -28,6 +28,8 @@ from zetasql.resolved_ast_wrapper import (
     ResolvedAggregateScan,
     ResolvedOrderByScan,
     ResolvedLimitOffsetScan,
+    ASTQueryStatement,
+    ASTSelect,
 )
 from zetasql.wasi._pb2.zetasql.proto import simple_catalog_pb2, options_pb2
 from zetasql.wasi._pb2.zetasql.public import type_pb2, options_pb2 as public_options_pb2
@@ -309,15 +311,139 @@ def setup_catalog_and_data(service):
 
 def example_1_parse_mode(service, catalog_id, analyzer_options):
     """
-    Demonstrate parsing SQL to AST with shallow and deep traversal.
+    Demonstrate parsing SQL to AST with Wrapper-based traversal.
     
     Shows:
     - LocalService.parse() API usage
-    - Wrapper classes for AST navigation
+    - AST Wrapper classes (ASTQueryStatement, ASTSelect, etc.)
+    - Using isinstance for type-safe AST navigation
     - Shallow traversal (depth-limited) for overview
-    - Deep traversal (full tree) for detailed analysis
+    - Deep traversal with wrapper properties
     """
-    print_section("Example 1: Parse Mode - AST Traversal")
+    print_section("Example 1: Parse Mode - AST Traversal with Wrappers")
+    
+    sql = """
+    SELECT 
+        c.name,
+        c.country,
+        COUNT(*) as order_count
+    FROM Customers c
+    JOIN Orders o ON c.customer_id = o.customer_id
+    WHERE o.status = 'Delivered'
+    GROUP BY c.name, c.country
+    HAVING COUNT(*) > 1
+    ORDER BY order_count DESC
+    """
+    
+    print(f"SQL Query:\n{sql}\n")
+    
+    # Parse the SQL
+    parse_response = service.parse(sql_statement=sql)
+    
+    # Get the parsed statement (it's a oneof field)
+    node_type = parse_response.parsed_statement.WhichOneof('node')
+    stmt_proto = getattr(parse_response.parsed_statement, node_type)
+    
+    # Wrap in AST wrapper for type-safe access
+    stmt = ASTQueryStatement(stmt_proto)
+    
+    print(f"Parsed successfully! Statement type: {node_type}")
+    print(f"Using Wrapper: {type(stmt).__name__}\n")
+    
+    # ========== Shallow Traversal with Wrappers ==========
+    print_subsection("Shallow AST Traversal (depth=2) - Using Wrappers")
+    print("Quick overview of top-level structure using wrapper properties:\n")
+    
+    def traverse_shallow_with_wrapper(node, depth=0, max_depth=2, prefix=""):
+        """Shallow traversal using wrapper classes and isinstance."""
+        if depth > max_depth or not node:
+            return
+        
+        indent = "  " * depth
+        node_type = type(node).__name__
+        
+        print(f"{indent}{prefix}{node_type}")
+        
+        # Show key information based on wrapper type
+        if isinstance(node, ASTQueryStatement):
+            if hasattr(node, 'query') and node.query:
+                print(f"{indent}  📖 Has query")
+                traverse_shallow_with_wrapper(node.query, depth + 1, max_depth, "query: ")
+        
+        elif isinstance(node, ASTSelect):
+            if hasattr(node, 'select_list') and node.select_list:
+                print(f"{indent}  📊 Select list: {len(node.select_list.columns) if hasattr(node.select_list, 'columns') else 0} columns")
+            if hasattr(node, 'from_clause') and node.from_clause:
+                print(f"{indent}  📂 Has FROM clause")
+            if hasattr(node, 'where_clause') and node.where_clause:
+                print(f"{indent}  🔍 Has WHERE clause")
+            if hasattr(node, 'group_by') and node.group_by:
+                print(f"{indent}  📁 Has GROUP BY")
+            if hasattr(node, 'having') and node.having:
+                print(f"{indent}  ✅ Has HAVING")
+            if hasattr(node, 'order_by') and node.order_by:
+                print(f"{indent}  🔍 Has ORDER BY")
+    
+    traverse_shallow_with_wrapper(stmt)
+    
+    # ========== Deep Traversal ==========
+    print_subsection("Key AST Components (using wrapper properties)")
+    print("Accessing specific parts of the parse tree:\n")
+    
+    # Access query
+    if hasattr(stmt, 'query') and stmt.query:
+        query = stmt.query
+        print(f"📖 Query: {type(query).__name__}")
+        
+        # Access query expression (SELECT)
+        if hasattr(query, 'query_expr') and query.query_expr:
+            query_expr = query.query_expr
+            # Resolve union type
+            query_expr = resolve_type(query_expr)
+            print(f"  ├─ Query Expression: {type(query_expr).__name__}")
+            
+            # Check if it's a SELECT statement
+            if isinstance(query_expr, ASTSelect):
+                # Show select list
+                if hasattr(query_expr, 'select_list') and query_expr.select_list:
+                    select_list = query_expr.select_list
+                    if hasattr(select_list, 'columns'):
+                        print(f"  │  ├─ SELECT columns: {len(select_list.columns)}")
+                        for i, col in enumerate(select_list.columns[:3]):  # Show first 3
+                            col_type = type(col).__name__
+                            print(f"  │  │  [{i}] {col_type}")
+                        if len(select_list.columns) > 3:
+                            print(f"  │  │  ... and {len(select_list.columns) - 3} more")
+                
+                # Show FROM clause
+                if hasattr(query_expr, 'from_clause') and query_expr.from_clause:
+                    print(f"  │  ├─ FROM clause: {type(query_expr.from_clause).__name__}")
+                
+                # Show WHERE clause
+                if hasattr(query_expr, 'where_clause') and query_expr.where_clause:
+                    print(f"  │  ├─ WHERE clause: {type(query_expr.where_clause).__name__}")
+                
+                # Show GROUP BY
+                if hasattr(query_expr, 'group_by') and query_expr.group_by:
+                    group_by = query_expr.group_by
+                    if hasattr(group_by, 'grouping_items'):
+                        print(f"  │  ├─ GROUP BY: {len(group_by.grouping_items)} items")
+                
+                # Show HAVING
+                if hasattr(query_expr, 'having') and query_expr.having:
+                    print(f"  │  ├─ HAVING: {type(query_expr.having).__name__}")
+        
+        # Show ORDER BY
+        if hasattr(query, 'order_by') and query.order_by:
+            order_by = query.order_by
+            if hasattr(order_by, 'ordering_expressions'):
+                print(f"  └─ ORDER BY: {len(order_by.ordering_expressions)} expressions")
+    
+    print(f"\n💡 Benefits of AST Wrappers:")
+    print(f"  • Type-safe access: isinstance(node, ASTSelect) for parse tree nodes")
+    print(f"  • Property access: stmt.query instead of protobuf field navigation")
+    print(f"  • Clean code: No need to check HasField() or handle proto unions manually")
+    print(f"  • IDE support: Full autocompletion for AST node properties")
     
     sql = """
     SELECT 
