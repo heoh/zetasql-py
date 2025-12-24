@@ -1,10 +1,10 @@
 """Test nested message wrappers"""
-from zetasql.wrapper_utils import parse_wrapper
+from zetasql.types.proto_model import parse_proto
 import sys
 sys.path.insert(0, 'src')
 
 from zetasql.wasi._pb2.zetasql.proto import options_pb2
-from zetasql.resolved_ast_wrapper import AllowedHintsAndOptions, AllowedHintsAndOptionsHint, AllowedHintsAndOptionsOption
+from zetasql.types.proto_models import AllowedHintsAndOptions, AllowedHintsAndOptionsHint, AllowedHintsAndOptionsOption
 
 
 def test_nested_messages():
@@ -24,7 +24,7 @@ def test_nested_messages():
     option.name = "test_option"
     
     # Wrap it using from_proto
-    wrapper = parse_wrapper(proto)
+    wrapper = parse_proto(proto)
     
     print("✓ Testing nested message wrappers...")
     

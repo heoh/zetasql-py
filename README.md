@@ -45,7 +45,7 @@ parse_loc = literal_proto.parent.parent.parse_location_range  # 😞 Even deeper
 
 **Solution:** Python wrappers with real inheritance
 ```python
-from zetasql.resolved_ast_wrapper import ResolvedLiteral
+from zetasql.types import ResolvedLiteral  # Import directly from zetasql.types
 
 # Wrapper way - clean and IDE-friendly
 literal = ResolvedLiteral(literal_proto)

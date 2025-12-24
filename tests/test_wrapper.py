@@ -1,5 +1,5 @@
 """Test the generated wrapper classes"""
-from zetasql.wrapper_utils import parse_wrapper
+from zetasql.types.proto_model import parse_proto
 import sys
 from pathlib import Path
 
@@ -7,7 +7,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_pb2
-from zetasql.resolved_ast_wrapper import ResolvedLiteral, ResolvedExpr, ResolvedNode
+from zetasql.types.proto_models import ResolvedLiteral, ResolvedExpr, ResolvedNode
 
 
 def test_wrapper_basic():
@@ -27,7 +27,7 @@ def test_wrapper_basic():
     literal_proto.parent.parent.parse_location_range.end = 10
     
     # Wrap it using from_proto
-    literal = parse_wrapper(literal_proto)
+    literal = parse_proto(literal_proto)
     
     # Test direct properties
     print("✓ Testing direct properties...")

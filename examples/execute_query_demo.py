@@ -19,8 +19,7 @@ Demonstrates:
 
 import sys
 from zetasql.local_service import ZetaSqlLocalService
-from zetasql.resolved_ast_wrapper import (
-    ResolvedQueryStmt,
+from zetasql.types import (
     ResolvedTableScan,
     ResolvedJoinScan,
     ResolvedFilterScan,
@@ -28,13 +27,11 @@ from zetasql.resolved_ast_wrapper import (
     ResolvedAggregateScan,
     ResolvedOrderByScan,
     ResolvedLimitOffsetScan,
-    ParseResponse,
-    AnalyzeResponse,
 )
 from zetasql.wasi._pb2.zetasql.proto import simple_catalog_pb2, options_pb2
 from zetasql.wasi._pb2.zetasql.public import type_pb2, options_pb2 as public_options_pb2
 from zetasql.wasi._pb2.zetasql.local_service import local_service_pb2
-from zetasql.wrapper_utils import WrapperBase, parse_wrapper
+from zetasql.types import ProtoModel, parse_proto
 from google.protobuf import text_format
 
 
@@ -346,7 +343,7 @@ def print_tree(node, depth=0, max_depth=None, prefix="", visited=None):
                         pass
         
         # Handle wrapper objects
-        elif isinstance(attr_value, WrapperBase):
+        elif isinstance(attr_value, ProtoModel):
             # attr_value is already resolved via property
             print_tree(attr_value, depth + 1, max_depth, f"└─ {attr_name}: ", visited)
         
@@ -389,7 +386,7 @@ def example_1_parse_mode(service: ZetaSqlLocalService, catalog_id, analyzer_opti
     
     # Parse the SQL
     parse_response = service.parse(sql_statement=sql)
-    parse_response = parse_wrapper(parse_response)
+    parse_response = parse_proto(parse_response)
     
     # Get the parsed statement (wrapped)
     stmt = parse_response.parsed_statement
@@ -454,7 +451,7 @@ def example_2_analyze_mode(service, catalog_id, analyzer_options):
         registered_catalog_id=catalog_id,
         options=analyzer_options
     )
-    analyze_response = parse_wrapper(analyze_response)
+    analyze_response = parse_proto(analyze_response)
     
     # Wrap in ResolvedQueryStmt for type-safe access
     resolved_stmt = analyze_response.resolved_statement

@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-ZetaSQL ResolvedAST Python Wrapper Generator
+ZetaSQL Proto Model Generator
 
-Generates Python wrapper classes for ZetaSQL proto messages with:
+Generates Python proto model classes for ZetaSQL proto messages with:
 - Automatic inheritance hierarchy from proto parent fields
 - Type hints for IDE autocompletion
 - Cached properties for efficient field access
 - Cross-file dependency resolution
 
 Usage:
-    python scripts/generate_wrappers.py
+    python scripts/generate_proto_models.py
 """
 
 import sys
@@ -81,24 +81,24 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
         nested_messages = {}
         for nested_type in descriptor.nested_types:
             # Nested wrapper class name: ParentName + NestedName (without 'Proto' suffix)
-            nested_wrapper_name = parent_name + nested_type.name.replace('Proto', '')
+            nested_model_name = parent_name + nested_type.name.replace('Proto', '')
             nested_proto_full_path = f"{parent_cls.__name__}.{nested_type.name}"
             
             # Get the nested class from parent
             nested_cls = getattr(parent_cls, nested_type.name)
             
-            nested_messages[nested_wrapper_name] = {
+            nested_messages[nested_model_name] = {
                 'class': nested_cls,
                 'module': module_name,
-                'name': nested_wrapper_name,
+                'name': nested_model_name,
                 'proto_name': nested_type.name,
                 'proto_full_path': nested_proto_full_path,
-                'parent_wrapper': parent_name,
+                'parent_model': parent_name,
                 'is_nested': True
             }
             
             # Recursively collect nested messages within this nested message
-            sub_nested = collect_nested_messages(nested_type, nested_cls, nested_wrapper_name, module_name)
+            sub_nested = collect_nested_messages(nested_type, nested_cls, nested_model_name, module_name)
             nested_messages.update(sub_nested)
         
         return nested_messages
@@ -199,28 +199,28 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
                 else:
                     # Find the wrapper name and module for this message type
                     # Check if it's a nested type first (contains dot in full_name after package)
-                    wrapper_name = None
+                    model_name = None
                     module_path = None
                     proto_full_path = None
                     
                     # Try to find exact match in all_messages
                     for msg_name, msg_info in all_messages.items():
                         if msg_info.get('proto_name') == msg_type_name or msg_name == msg_type_name:
-                            wrapper_name = msg_info['name'].replace('Proto', '') if msg_info['name'].endswith('Proto') else msg_info['name']
+                            model_name = msg_info['name'].replace('Proto', '') if msg_info['name'].endswith('Proto') else msg_info['name']
                             module_path = msg_info['module']
                             proto_full_path = msg_info.get('proto_full_path', msg_type_name)
                             break
                     
-                    if wrapper_name:
-                        field_info['wrapper_name'] = wrapper_name
+                    if model_name:
+                        field_info['model_name'] = model_name
                         field_info['module_path'] = module_path
                         field_info['proto_full_path'] = proto_full_path
             
             own_fields.append(field_info)
         
-        wrapper_name = info['name'].replace('Proto', '') if info['name'].endswith('Proto') else info['name']
+        model_name = info['name'].replace('Proto', '') if info['name'].endswith('Proto') else info['name']
         
-        graph[wrapper_name] = {
+        graph[model_name] = {
             'parent': parent_name,
             'module': info['module'],
             'class': cls,
@@ -314,36 +314,36 @@ def map_proto_type_to_python(field_info: Dict[str, Any], graph: Dict[str, Any] =
                 else:
                     base_type = 'Any'
         else:
-            # Use wrapper_name if available (handles nested types correctly)
-            wrapper_name = field_info.get('wrapper_name')
+            # Use model_name if available (handles nested types correctly)
+            model_name = field_info.get('model_name')
             proto_full_path = field_info.get('proto_full_path')
             module_path = field_info.get('module_path', '')
             
             # Check if this is a oneof union type (starts with "Any")
             # If so, try to use the base class instead for more accurate type hints
-            if wrapper_name and wrapper_name.startswith('Any') and graph:
+            if model_name and model_name.startswith('Any') and graph:
                 # Try to find base class (e.g., AnyResolvedExpr -> ResolvedExpr)
-                base_class_name = wrapper_name[3:]  # Remove "Any" prefix
+                base_class_name = model_name[3:]  # Remove "Any" prefix
                 if base_class_name in graph:
                     # Base class exists, use it for type hint
-                    wrapper_name = base_class_name
+                    model_name = base_class_name
                     # Also update proto_full_path for the base class
                     if graph[base_class_name].get('proto_full_path'):
                         proto_full_path = graph[base_class_name]['proto_full_path']
                 # else: base class doesn't exist, keep original Any* name (fallback)
             
-            if wrapper_name and module_path and proto_full_path:
+            if model_name and module_path and proto_full_path:
                 module_alias = module_path.split('.')[-1]  # e.g., 'resolved_ast_pb2'
                 # Use proto_full_path for nested types (e.g., 'AllowedHintsAndOptionsProto.HintProto')
                 base_type = f"'{module_alias}.{proto_full_path}'"
-            elif wrapper_name:
+            elif model_name:
                 # Fallback to wrapper name without module
-                base_type = f"'{wrapper_name}'"
+                base_type = f"'{model_name}'"
             else:
                 # Last resort fallback
                 proto_type = field_info.get('message_type', 'Any')
-                wrapper_type = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
-                base_type = f"'{wrapper_type}'"
+                model_type = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
+                base_type = f"'{model_type}'"
     else:
         base_type = type_map.get(field_type, 'Any')
     
@@ -418,19 +418,19 @@ def generate_property(field_info: Dict[str, Any], parent_chain: List[str], graph
                 else:
                     return_stmt = f"{access_path} if {access_path}.ByteSize() > 0 else None"
         else:
-            # Get wrapper class name (use wrapper_name if available for nested types)
-            wrapper_name = field_info.get('wrapper_name')
-            if not wrapper_name:
+            # Get wrapper class name (use model_name if available for nested types)
+            model_name = field_info.get('model_name')
+            if not model_name:
                 proto_type = field_info.get('message_type', '')
-                wrapper_name = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
+                model_name = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
             
-            # Use parse_wrapper() for all wrapper creation (handles union auto-resolution)
+            # Use parse_proto() for all wrapper creation (handles union auto-resolution)
             if is_repeated:
                 # Return list of wrapped objects
-                return_stmt = f"[parse_wrapper(item) for item in {access_path}]"
+                return_stmt = f"[parse_proto(item) for item in {access_path}]"
             else:
                 # Return wrapped object or None
-                return_stmt = f"parse_wrapper({access_path}) if {access_path}.ByteSize() > 0 else None"
+                return_stmt = f"parse_proto({access_path}) if {access_path}.ByteSize() > 0 else None"
     else:
         # Primitive types - return as-is
         return_stmt = access_path
@@ -449,11 +449,11 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any]) -> st
     
     # Determine parent class
     if parent_name and parent_name in graph:
-        parent_wrapper = parent_name.replace('Proto', '')
-        class_decl = f"class {name}({parent_wrapper}):"
+        parent_model = parent_name.replace('Proto', '')
+        class_decl = f"class {name}({parent_model}):"
     else:
-        # All root classes inherit from WrapperBase
-        class_decl = f"class {name}(WrapperBase):"
+        # All root classes inherit from ProtoModel
+        class_decl = f"class {name}(ProtoModel):"
     
     # Generate properties for ALL fields (own + inherited)
     # Note: No __init__ method - instances are created via from_proto() classmethod
@@ -496,7 +496,7 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any]) -> st
     # Combine all parts
     parts = [
         class_decl,
-        f'    """Generated wrapper for {proto_name}"""'
+        f'    """Generated model for {proto_name}"""'
     ]
     
     if properties:
@@ -506,9 +506,9 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any]) -> st
     return '\n'.join(parts)
 
 
-def generate_wrapper_file(graph: Dict[str, Any], output_path: Path) -> None:
-    """Generate complete wrapper Python file"""
-    print(f"\nGenerating wrapper file: {output_path}")
+def generate_model_file(graph: Dict[str, Any], output_path: Path) -> None:
+    """Generate complete proto models Python file"""
+    print(f"\nGenerating proto models file: {output_path}")
     
     # Sort by depth (parents first)
     sorted_names = sorted(graph.keys(), key=lambda n: (graph[n]['depth'], n))
@@ -532,20 +532,20 @@ def generate_wrapper_file(graph: Dict[str, Any], output_path: Path) -> None:
     # Generate header
     lines = [
         '"""',
-        'ZetaSQL ResolvedAST Python Wrappers',
+        'ZetaSQL Proto Models',
         '',
-        'Auto-generated wrapper classes for convenient proto field access.',
-        'DO NOT EDIT MANUALLY - regenerate with scripts/generate_wrappers.py',
+        'Auto-generated proto model classes for convenient proto field access.',
+        'DO NOT EDIT MANUALLY - regenerate with scripts/generate_proto_models.py',
         '',
         'Usage:',
-        '    from zetasql.resolved_ast_wrapper import ResolvedLiteral',
+        '    from zetasql.types import ResolvedLiteral, ASTNode, AnalyzeRequest',
         '    ',
         '    proto = resolved_ast_pb2.ResolvedLiteralProto()',
-        '    wrapper = ResolvedLiteral(proto)',
+        '    model = ResolvedLiteral.from_proto(proto)',
         '    ',
         '    # Convenient access with IDE autocompletion',
-        '    print(wrapper.value)  # Instead of proto.value',
-        '    print(wrapper.type)   # Instead of proto.parent.type',
+        '    print(model.value)  # Instead of proto.value',
+        '    print(model.type)   # Instead of proto.parent.type',
         '"""',
         '',
         'from __future__ import annotations',
@@ -570,22 +570,32 @@ def generate_wrapper_file(graph: Dict[str, Any], output_path: Path) -> None:
     
     lines.extend(['', ''])
     
-    # Import WrapperBase and parse_wrapper from wrapper_utils
+    # Import ProtoModel and parse_proto from proto_model
     lines.extend([
-        '# Import utilities for wrapper functionality',
-        'from zetasql.wrapper_utils import WrapperBase, parse_wrapper',
+        '# Import utilities for proto model functionality',
+        'from zetasql.types.proto_model import ProtoModel, parse_proto',
         '',
         '',
     ])
     
     # Generate classes
     class_count = 0
+    class_names = []
     for name in sorted_names:
         info = graph[name]
         class_code = generate_class(name, info, graph)
         lines.append(class_code)
         lines.append('\n')
         class_count += 1
+        class_names.append(name)
+    
+    # Generate __all__ for proper exports
+    lines.append('# Export all generated proto model classes')
+    lines.append('__all__ = [')
+    for name in class_names:
+        lines.append(f"    '{name}',")
+    lines.append(']')
+    lines.append('')
     
     # Write file
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -606,7 +616,7 @@ def main():
     parser.add_argument(
         '--output',
         type=Path,
-        default=Path(__file__).parent.parent / 'src/zetasql/resolved_ast_wrapper.py',
+        default=Path(__file__).parent.parent / 'src/zetasql/types/proto_models.py',
         help='Output Python file'
     )
     
@@ -617,21 +627,21 @@ def main():
         sys.exit(1)
     
     print("=" * 70)
-    print("ZetaSQL Python Wrapper Generator")
+    print("ZetaSQL Python Proto Model Generator")
     print("=" * 70)
     
     # Extract inheritance graph
     graph = extract_inheritance_graph(args.base_dir)
     
-    # Generate wrapper file
-    generate_wrapper_file(graph, args.output)
+    # Generate proto models file
+    generate_model_file(graph, args.output)
     
     print("\n" + "=" * 70)
     print("Generation complete!")
     print("=" * 70)
     print(f"\nGenerated file: {args.output}")
     print("\nYou can now use:")
-    print("  from zetasql.resolved_ast_wrapper import ResolvedLiteral")
+    print("  from zetasql.types import ResolvedLiteral, ASTNode, AnalyzeRequest")
 
 
 if __name__ == '__main__':

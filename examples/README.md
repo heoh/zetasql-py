@@ -12,7 +12,7 @@ Basic ZetaSQL operations with wrapper classes:
 - **Format SQL**: Auto-format SQL with proper indentation
 - **Multi-Statement Analysis**: Process scripts with multiple statements
 - **Wrapper Navigation**: Navigate resolved AST using wrapper classes
-- **Type Resolution**: Use `resolve_type()` to handle union types automatically
+- **Type Resolution**: Use `parse_proto()` to handle union types automatically
 
 ```bash
 python examples/basic_usage.py
@@ -23,17 +23,14 @@ python examples/basic_usage.py
 - Working with SimpleCatalogProto and SimpleTableProto
 - Using ResolvedQueryStmt wrapper for clean AST access
 - Type hints and IDE autocompletion benefits
-- Using `resolve_type()` and `node_kind()` utilities for type handling
+- Using `parse_proto()` utility for type handling
 
 **New Utilities:**
 ```python
-from zetasql.wrapper_utils import resolve_type, node_kind
+from zetasql.types import parse_proto
 
 # Automatically resolve union types to concrete types
-scan = resolve_type(scan)  # AnyResolvedScan -> ResolvedFilterScan
-
-# Get the concrete type name
-print(node_kind(scan))  # 'ResolvedFilterScan'
+scan = parse_proto(scan)  # AnyResolvedScan -> ResolvedFilterScan
 ```
 
 ---
@@ -161,7 +158,7 @@ resolved_stmt = ResolvedQueryStmt(
 ### Using Wrappers for Clean Access
 
 ```python
-from zetasql.resolved_ast_wrapper import ResolvedQueryStmt
+from zetasql.types.proto_models import ResolvedQueryStmt
 
 # Instead of: proto.resolved_statement.resolved_query_stmt_node.output_column_list
 # Use wrapper:
@@ -315,7 +312,7 @@ Demonstrates specific features or use cases.
 """
 
 from zetasql.local_service import ZetaSqlLocalService
-from zetasql.resolved_ast_wrapper import ResolvedQueryStmt
+from zetasql.types.proto_models import ResolvedQueryStmt
 
 
 def example_your_feature():

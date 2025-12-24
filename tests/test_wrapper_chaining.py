@@ -1,12 +1,12 @@
 """Test wrapper chaining and nested access"""
-from zetasql.wrapper_utils import parse_wrapper
+from zetasql.types.proto_model import parse_proto
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_pb2
-from zetasql.resolved_ast_wrapper import ResolvedLiteral, ParseLocationRange
+from zetasql.types.proto_models import ResolvedLiteral, ParseLocationRange
 
 
 def test_wrapper_chaining():
@@ -21,7 +21,7 @@ def test_wrapper_chaining():
     literal_proto.parent.parent.parse_location_range.filename = "test.sql"
     
     # Wrap it using from_proto
-    literal = parse_wrapper(literal_proto)
+    literal = parse_proto(literal_proto)
     
     print("✓ Testing wrapper chaining...")
     
@@ -50,7 +50,7 @@ def test_wrapper_chaining():
     
     # Create proto without type_annotation_map
     literal_proto2 = resolved_ast_pb2.ResolvedLiteralProto()
-    literal2 = parse_wrapper(literal_proto2)
+    literal2 = parse_proto(literal_proto2)
     
     # Should return None for empty message
     assert literal2.type_annotation_map is None

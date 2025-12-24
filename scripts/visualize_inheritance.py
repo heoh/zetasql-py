@@ -7,7 +7,7 @@ from collections import defaultdict
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 # Import the generator to reuse the graph extraction logic
-from generate_wrappers import extract_inheritance_graph
+from generate_proto_models import extract_inheritance_graph
 
 
 def visualize_graph(graph: dict, output_file: str = "inheritance_graph.txt", 

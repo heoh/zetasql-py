@@ -220,7 +220,7 @@ Handles proto messages split across files:
 ### Basic Usage
 ```python
 from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_pb2
-from zetasql.resolved_ast_wrapper import ResolvedLiteral
+from zetasql.types.proto_models import ResolvedLiteral
 
 # Create proto
 proto = resolved_ast_pb2.ResolvedLiteralProto()
@@ -245,7 +245,7 @@ assert isinstance(literal, ResolvedNode)
 ### Usage with External Types
 ```python
 from zetasql.wasi._pb2.zetasql.public.proto import logging_pb2
-from zetasql.resolved_ast_wrapper import ExecutionStats
+from zetasql.types.proto_models import ExecutionStats
 import datetime
 
 # Create proto with Duration
@@ -313,7 +313,7 @@ Matches Google's approach in C++:
 ## Limitations & Future Work
 
 **Current:**
-- Manual wrapper import: `from zetasql.resolved_ast_wrapper import X`
+- Manual wrapper import: `from zetasql.types.proto_models import X`
 - Proto → Wrapper: Manual `ResolvedLiteral(proto)` call
 
 **Potential enhancements:**
