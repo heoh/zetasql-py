@@ -5,7 +5,13 @@ Utility functions for working with ZetaSQL wrapper classes.
 """
 
 from typing import TypeVar, Any
-from zetasql.resolved_ast_wrapper import WrapperBase
+
+
+class WrapperBase:
+    """Base class for all ZetaSQL wrapper classes"""
+    
+    def __init__(self, proto: Any):
+        self._proto = proto
 
 
 T = TypeVar('T', bound=WrapperBase)
@@ -102,7 +108,7 @@ def resolve_type(wrapper: T) -> T:
             return wrapper
         
         # Create and return the concrete wrapper instance
-        return wrapper_class(variant_proto)
+        return resolve_type(wrapper_class(variant_proto))
     except Exception:
         # Any error in resolution, return original
         return wrapper
@@ -116,6 +122,8 @@ def _field_name_to_class_name(field_name: str) -> str:
         resolved_filter_scan_node -> ResolvedFilterScan
         resolved_project_scan_node -> ResolvedProjectScan
         resolved_literal_node -> ResolvedLiteral
+        ast_select_node -> ASTSelect
+        ast_query_expression_node -> ASTQueryExpression
     """
     # Remove common suffixes
     name = field_name
@@ -125,7 +133,19 @@ def _field_name_to_class_name(field_name: str) -> str:
         name = name[:-6]  # Remove '_proto'
     
     # Convert snake_case to PascalCase
+    # Special handling for acronyms like 'ast', 'sql', 'dml', 'ddl'
     parts = name.split('_')
-    class_name = ''.join(word.capitalize() for word in parts)
+    acronyms = {'AST', 'SQL', 'DML', 'DDL', 'GQL', 'TVF', 'UDAF', 'UDF'}
+    
+    class_name_parts = []
+    for word in parts:
+        if word.upper() in acronyms:
+            # Keep acronyms in uppercase
+            class_name_parts.append(word.upper())
+        else:
+            # Regular word: capitalize first letter
+            class_name_parts.append(word.capitalize())
+    
+    class_name = ''.join(class_name_parts)
     
     return class_name

@@ -272,7 +272,7 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
     return graph
 
 
-def map_proto_type_to_python(field_info: Dict[str, Any]) -> str:
+def map_proto_type_to_python(field_info: Dict[str, Any], graph: Dict[str, Any] = None) -> str:
     """Convert protobuf field type to Python type hint"""
     from google.protobuf import descriptor
     
@@ -319,6 +319,19 @@ def map_proto_type_to_python(field_info: Dict[str, Any]) -> str:
             proto_full_path = field_info.get('proto_full_path')
             module_path = field_info.get('module_path', '')
             
+            # Check if this is a oneof union type (starts with "Any")
+            # If so, try to use the base class instead for more accurate type hints
+            if wrapper_name and wrapper_name.startswith('Any') and graph:
+                # Try to find base class (e.g., AnyResolvedExpr -> ResolvedExpr)
+                base_class_name = wrapper_name[3:]  # Remove "Any" prefix
+                if base_class_name in graph:
+                    # Base class exists, use it for type hint
+                    wrapper_name = base_class_name
+                    # Also update proto_full_path for the base class
+                    if graph[base_class_name].get('proto_full_path'):
+                        proto_full_path = graph[base_class_name]['proto_full_path']
+                # else: base class doesn't exist, keep original Any* name (fallback)
+            
             if wrapper_name and module_path and proto_full_path:
                 module_alias = module_path.split('.')[-1]  # e.g., 'resolved_ast_pb2'
                 # Use proto_full_path for nested types (e.g., 'AllowedHintsAndOptionsProto.HintProto')
@@ -342,12 +355,12 @@ def map_proto_type_to_python(field_info: Dict[str, Any]) -> str:
     return f"Optional[{base_type}]"
 
 
-def generate_property(field_info: Dict[str, Any], parent_chain: List[str]) -> str:
+def generate_property(field_info: Dict[str, Any], parent_chain: List[str], graph: Dict[str, Any] = None) -> str:
     """Generate @cached_property code for a field"""
     from google.protobuf import descriptor
     
     field_name = field_info['name']
-    type_hint = map_proto_type_to_python(field_info)
+    type_hint = map_proto_type_to_python(field_info, graph)
     field_type = field_info['type']
     is_message = field_type == descriptor.FieldDescriptor.TYPE_MESSAGE
     is_repeated = field_info.get('is_repeated', False)
@@ -411,12 +424,23 @@ def generate_property(field_info: Dict[str, Any], parent_chain: List[str]) -> st
                 proto_type = field_info.get('message_type', '')
                 wrapper_name = proto_type.replace('Proto', '') if proto_type.endswith('Proto') else proto_type
             
+            # Check if this is a oneof union type that needs auto-resolution
+            is_oneof_union = wrapper_name and wrapper_name.startswith('Any') and ('AST' in wrapper_name or 'Resolved' in wrapper_name)
+            
             if is_repeated:
                 # Return list of wrapped objects
-                return_stmt = f"[{wrapper_name}(item) for item in {access_path}]"
+                if is_oneof_union:
+                    # Auto-resolve each item in the list
+                    return_stmt = f"[resolve_type({wrapper_name}(item)) for item in {access_path}]"
+                else:
+                    return_stmt = f"[{wrapper_name}(item) for item in {access_path}]"
             else:
                 # Return wrapped object or None
-                return_stmt = f"{wrapper_name}({access_path}) if {access_path}.ByteSize() > 0 else None"
+                if is_oneof_union:
+                    # Auto-resolve oneof union types
+                    return_stmt = f"resolve_type({wrapper_name}({access_path})) if {access_path}.ByteSize() > 0 else None"
+                else:
+                    return_stmt = f"{wrapper_name}({access_path}) if {access_path}.ByteSize() > 0 else None"
     else:
         # Primitive types - return as-is
         return_stmt = access_path
@@ -484,12 +508,12 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any]) -> st
                 if ancestor and ancestor in graph:
                     chain.insert(0, 'parent')
             
-            prop = generate_property(field, chain)
+            prop = generate_property(field, chain, graph)
             properties.append(prop)
     
     # Then generate own fields (no parent chain)
     for field in info['own_fields']:
-        prop = generate_property(field, [])
+        prop = generate_property(field, [], graph)
         properties.append(prop)
     
     # Combine all parts
@@ -571,13 +595,10 @@ def generate_wrapper_file(graph: Dict[str, Any], output_path: Path) -> None:
     
     lines.extend(['', ''])
     
-    # Generate WrapperBase class
+    # Import WrapperBase and resolve_type from wrapper_utils
     lines.extend([
-        'class WrapperBase:',
-        '    """Base class for all ZetaSQL wrapper classes"""',
-        '    ',
-        '    def __init__(self, proto: Any):',
-        '        self._proto = proto',
+        '# Import utilities for wrapper functionality',
+        'from zetasql.wrapper_utils import WrapperBase, resolve_type',
         '',
         '',
     ])

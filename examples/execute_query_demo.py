@@ -28,13 +28,13 @@ from zetasql.resolved_ast_wrapper import (
     ResolvedAggregateScan,
     ResolvedOrderByScan,
     ResolvedLimitOffsetScan,
-    ASTQueryStatement,
-    ASTSelect,
+    ParseResponse,
+    AnalyzeResponse,
 )
 from zetasql.wasi._pb2.zetasql.proto import simple_catalog_pb2, options_pb2
 from zetasql.wasi._pb2.zetasql.public import type_pb2, options_pb2 as public_options_pb2
 from zetasql.wasi._pb2.zetasql.local_service import local_service_pb2
-from zetasql.wrapper_utils import resolve_type
+from zetasql.wrapper_utils import WrapperBase, resolve_type
 from google.protobuf import text_format
 
 
@@ -304,12 +304,62 @@ def setup_catalog_and_data(service):
     
     return catalog_id, analyzer_options, catalog, table_content
 
+def print_tree(node, depth=0, max_depth=None, prefix="", visited=None):
+    """Recursively traverse and print AST structure using wrapper types."""
+    if not node:
+        return
+    if max_depth and depth > max_depth:
+        return
+    
+    indent = "  " * (depth * 2)
+    wrapper_type = type(node).__name__
+    print(f"{indent}{prefix}{wrapper_type}")
+    
+    # Get all public attributes (not starting with _ and not callable)
+    attrs = [attr for attr in dir(node) 
+            if not attr.startswith('_') 
+            and not callable(getattr(node, attr, None))
+            and attr not in ('parse_location_range', 'parenthesized', 'is_quoted', 
+                            'filename', 'start', 'end', 'is_nested', 'is_pivot_input',
+                            'distinct', 'natural', 'join_hint', 'join_type', 'join_location',
+                            'transformation_needed', 'unmatched_join_count', 'contains_comma_join',
+                            'null_handling_modifier', 'is_current_date_time_without_parentheses',
+                            'is_chained_call', 'is_not', 'op', 'and_order_by', 'image')]
+    
+    for attr_name in attrs:
+        attr_value = getattr(node, attr_name)
+        
+        # Handle None
+        if attr_value is None:
+            continue
+        
+        # Handle lists
+        if isinstance(attr_value, list):
+            if attr_value:
+                print(f"{indent}  └─ {attr_name} [{len(attr_value)} items]")
+                for i, item in enumerate(attr_value):
+                    try:
+                        # Item is already resolved via property
+                        print_tree(item, depth + 1, max_depth, f"[{i}] ", visited)
+                    except:
+                        # Skip non-wrapper items
+                        pass
+        
+        # Handle wrapper objects
+        elif isinstance(attr_value, WrapperBase):
+            # attr_value is already resolved via property
+            print_tree(attr_value, depth + 1, max_depth, f"└─ {attr_name}: ", visited)
+        
+        # Handle other attributes (like id_string)
+        else:
+            print(f"{indent}  └─ {attr_name}: {repr(attr_value)}")
+
 
 # ============================================================================
 # Example 1: Parse Mode - Shallow and Deep AST Traversal
 # ============================================================================
 
-def example_1_parse_mode(service, catalog_id, analyzer_options):
+def example_1_parse_mode(service: ZetaSqlLocalService, catalog_id, analyzer_options):
     """
     Demonstrate parsing SQL to AST with Wrapper-based traversal.
     
@@ -339,89 +389,24 @@ def example_1_parse_mode(service, catalog_id, analyzer_options):
     
     # Parse the SQL
     parse_response = service.parse(sql_statement=sql)
+    parse_response = ParseResponse(parse_response)
     
-    # Get the parsed statement (it's a oneof field)
-    node_type = parse_response.parsed_statement.WhichOneof('node')
-    stmt_proto = getattr(parse_response.parsed_statement, node_type)
+    # Get the parsed statement (wrapped)
+    stmt = parse_response.parsed_statement
     
-    # Wrap in AST wrapper for type-safe access
-    stmt = ASTQueryStatement(stmt_proto)
+    print(f"Parsed successfully! Statement type: {type(stmt).__name__}")
     
-    print(f"Parsed successfully! Statement type: {node_type}")
-    print(f"Using Wrapper: {type(stmt).__name__}\n")
+    # ========== Shallow AST Tree Traversal ==========
+    print_subsection("Shallow AST Wrapper Structure")
+    print("Shallow traversal (max depth = 3) of the AST structure:\n")
     
+    print_tree(stmt, max_depth=3)
+
     # ========== Clean AST Tree Traversal ==========
     print_subsection("AST Wrapper Structure")
     print("Clean view of the parsed query structure:\n")
     
-    def traverse_ast_tree(wrapper, depth=0, prefix="", visited=None):
-        """Recursively traverse and print AST structure using wrapper types."""
-        if wrapper is None:
-            return
-        
-        # Prevent infinite recursion
-        if visited is None:
-            visited = set()
-        
-        obj_id = id(wrapper)
-        if obj_id in visited:
-            return
-        visited.add(obj_id)
-        
-        indent = "  " * depth
-        wrapper_type = type(wrapper).__name__
-        print(f"{indent}{prefix}{wrapper_type}")
-        
-        # Get all public attributes (not starting with _ and not callable)
-        attrs = [attr for attr in dir(wrapper) 
-                if not attr.startswith('_') 
-                and not callable(getattr(wrapper, attr, None))
-                and attr not in ('parse_location_range', 'parenthesized', 'is_quoted', 
-                                'filename', 'start', 'end', 'is_nested', 'is_pivot_input',
-                                'distinct', 'natural', 'join_hint', 'join_type', 'join_location',
-                                'transformation_needed', 'unmatched_join_count', 'contains_comma_join',
-                                'null_handling_modifier', 'is_current_date_time_without_parentheses',
-                                'is_chained_call', 'is_not', 'op', 'and_order_by', 'image')]
-        
-        for attr_name in attrs:
-            try:
-                attr_value = getattr(wrapper, attr_name)
-                
-                # Handle None
-                if attr_value is None:
-                    continue
-                
-                # Handle lists
-                if isinstance(attr_value, list):
-                    if attr_value:
-                        print(f"{indent}  ├─ {attr_name} [{len(attr_value)} items]")
-                        for i, item in enumerate(attr_value):
-                            try:
-                                resolved_item = resolve_type(item)
-                                traverse_ast_tree(resolved_item, depth + 2, f"[{i}] ", visited)
-                            except:
-                                # Skip non-wrapper items
-                                pass
-                
-                # Handle wrapper objects (has _proto attribute)
-                elif hasattr(attr_value, '_proto'):
-                    try:
-                        resolved = resolve_type(attr_value)
-                        print(f"{indent}  ├─ {attr_name}:")
-                        traverse_ast_tree(resolved, depth + 2, "", visited)
-                    except:
-                        print(f"{indent}  ├─ {attr_name}:")
-                        traverse_ast_tree(attr_value, depth + 2, "", visited)
-                
-                # Show important string values (like identifiers)
-                elif isinstance(attr_value, str) and attr_name == 'id_string':
-                    print(f"{indent}  ├─ id_string: '{attr_value}'")
-                
-            except Exception:
-                # Skip problematic attributes
-                pass
-    
-    traverse_ast_tree(stmt)
+    print_tree(stmt)
     
     print(f"\n💡 Clean AST Structure Benefits:")
     print(f"  • Shows query structure without noise")
@@ -429,125 +414,6 @@ def example_1_parse_mode(service, catalog_id, analyzer_options):
     print(f"  • Easy to understand query composition")
     print(f"  • Perfect for learning AST navigation")
     
-    sql = """
-    SELECT 
-        c.name,
-        c.country,
-        COUNT(*) as order_count
-    FROM Customers c
-    JOIN Orders o ON c.customer_id = o.customer_id
-    WHERE o.status = 'Delivered'
-    GROUP BY c.name, c.country
-    HAVING COUNT(*) > 1
-    ORDER BY order_count DESC
-    """
-    
-    print(f"SQL Query:\n{sql}\n")
-    
-    # Parse the SQL
-    parse_response = service.parse(sql_statement=sql)
-    
-    # Get the parsed statement (it's a oneof field)
-    node_type = parse_response.parsed_statement.WhichOneof('node')
-    stmt = getattr(parse_response.parsed_statement, node_type)
-    
-    print(f"Parsed successfully! Statement type: {node_type}\n")
-    
-    # ========== Shallow Traversal (depth = 2) ==========
-    print_subsection("Shallow AST Traversal (depth=2)")
-    print("Quick overview of top-level structure:\n")
-    
-    def traverse_shallow(node, depth=0, max_depth=2, prefix=""):
-        """Shallow traversal shows high-level structure."""
-        if depth > max_depth or not node:
-            return
-        
-        indent = "  " * depth
-        type_name = node.DESCRIPTOR.name if hasattr(node, 'DESCRIPTOR') else type(node).__name__
-        
-        # Print node type
-        print(f"{indent}{prefix}{type_name}")
-        
-        # Show key fields at this level
-        if hasattr(node, 'DESCRIPTOR'):
-            for field in node.DESCRIPTOR.fields:
-                if field.name == 'parent':  # Skip parent references
-                    continue
-                
-                # Handle repeated fields differently
-                if field.is_repeated:
-                    values = getattr(node, field.name)
-                    if len(values) > 0:
-                        print(f"{indent}  └─ {field.name}: ({len(values)} items)")
-                        if depth < max_depth:
-                            for i, value in enumerate(values):
-                                if field.type == field.TYPE_MESSAGE:
-                                    traverse_shallow(value, depth + 1, max_depth, f"[{i}]: ")
-                else:
-                    # Singular fields
-                    if node.HasField(field.name):
-                        value = getattr(node, field.name)
-                        
-                        # For leaf values, show them
-                        if field.type in [field.TYPE_STRING, field.TYPE_INT32, field.TYPE_INT64, field.TYPE_BOOL]:
-                            print(f"{indent}  └─ {field.name}: {value}")
-                        # For nested messages, recurse
-                        elif field.type == field.TYPE_MESSAGE and depth < max_depth:
-                            traverse_shallow(value, depth + 1, max_depth, f"{field.name}: ")
-        
-    traverse_shallow(stmt)
-    
-    # ========== Deep Traversal (full tree) ==========
-    print_subsection("Deep AST Traversal (full tree)")
-    print("Complete AST structure with all fields:\n")
-    
-    visited = set()
-    
-    def traverse_deep(node, depth=0, prefix="", max_depth=20):
-        """Deep traversal shows complete AST with all fields."""
-        if depth > max_depth or not node or id(node) in visited:
-            return
-        
-        visited.add(id(node))
-        indent = "  " * depth
-        type_name = node.DESCRIPTOR.name if hasattr(node, 'DESCRIPTOR') else type(node).__name__
-        
-        # Print node type
-        print(f"{indent}{prefix}{type_name}")
-        
-        # Show all fields
-        if hasattr(node, 'DESCRIPTOR'):
-            for field in node.DESCRIPTOR.fields:
-                if field.name == 'parent':  # Skip parent references
-                    continue
-                
-                # Check if field is set (for singular fields)
-                if not field.is_repeated:
-                    if not node.HasField(field.name):
-                        continue
-                    
-                    value = getattr(node, field.name)
-                    
-                    # Handle different field types
-                    if field.type == field.TYPE_MESSAGE:
-                        traverse_deep(value, depth + 1, f"{field.name}: ", max_depth)
-                    elif field.type in [field.TYPE_STRING, field.TYPE_INT32, field.TYPE_INT64, 
-                                       field.TYPE_BOOL, field.TYPE_DOUBLE, field.TYPE_ENUM]:
-                        if value or value == 0 or value == False:  # Show non-empty values
-                            print(f"{indent}  └─ {field.name}: {value}")
-                else:
-                    # Repeated fields
-                    values = getattr(node, field.name)
-                    if len(values) > 0:
-                        print(f"{indent}  └─ {field.name} ({len(values)} items):")
-                        for i, item in enumerate(values):
-                            if field.type == field.TYPE_MESSAGE:
-                                traverse_deep(item, depth + 2, f"[{i}]: ", max_depth)
-                            else:
-                                print(f"{indent}      [{i}]: {item}")
-    
-    traverse_deep(stmt)
-
 
 # ============================================================================
 # Example 2: Analyze Mode - Semantic Analysis with Wrappers
@@ -588,12 +454,11 @@ def example_2_analyze_mode(service, catalog_id, analyzer_options):
         registered_catalog_id=catalog_id,
         options=analyzer_options
     )
+    analyze_response = AnalyzeResponse(analyze_response)
     
     # Wrap in ResolvedQueryStmt for type-safe access
-    resolved_stmt = ResolvedQueryStmt(
-        analyze_response.resolved_statement.resolved_query_stmt_node
-    )
-    
+    resolved_stmt = analyze_response.resolved_statement
+
     print_subsection("Using Wrapper Classes for Clean Access")
     print("Resolved AST analysis with high-level Wrapper API:\n")
     
