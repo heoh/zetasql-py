@@ -438,7 +438,8 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any]) -> st
         parent_wrapper = parent_name.replace('Proto', '')
         class_decl = f"class {name}({parent_wrapper}):"
     else:
-        class_decl = f"class {name}:"
+        # All root classes inherit from WrapperBase
+        class_decl = f"class {name}(WrapperBase):"
     
     # Module for proto type
     module_import = info['module'].split('.')[-1]  # e.g., 'resolved_ast_pb2'
@@ -569,6 +570,17 @@ def generate_wrapper_file(graph: Dict[str, Any], output_path: Path) -> None:
         lines.append(f'    from {external_module} import {module_alias}')
     
     lines.extend(['', ''])
+    
+    # Generate WrapperBase class
+    lines.extend([
+        'class WrapperBase:',
+        '    """Base class for all ZetaSQL wrapper classes"""',
+        '    ',
+        '    def __init__(self, proto: Any):',
+        '        self._proto = proto',
+        '',
+        '',
+    ])
     
     # Generate classes
     class_count = 0

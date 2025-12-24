@@ -87,217 +87,224 @@ if TYPE_CHECKING:
     from google.protobuf.timestamp_pb2 import timestamp_pb2
 
 
-class ASTAfterMatchSkipClauseEnums:
+class WrapperBase:
+    """Base class for all ZetaSQL wrapper classes"""
+    
+    def __init__(self, proto: Any):
+        self._proto = proto
+
+
+class ASTAfterMatchSkipClauseEnums(WrapperBase):
     """Generated wrapper for ASTAfterMatchSkipClauseEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTAfterMatchSkipClauseEnums'):
         self._proto = proto
 
 
-class ASTAlterIndexStatementEnums:
+class ASTAlterIndexStatementEnums(WrapperBase):
     """Generated wrapper for ASTAlterIndexStatementEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTAlterIndexStatementEnums'):
         self._proto = proto
 
 
-class ASTAnySomeAllOpEnums:
+class ASTAnySomeAllOpEnums(WrapperBase):
     """Generated wrapper for ASTAnySomeAllOpEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTAnySomeAllOpEnums'):
         self._proto = proto
 
 
-class ASTAuxLoadDataStatementEnums:
+class ASTAuxLoadDataStatementEnums(WrapperBase):
     """Generated wrapper for ASTAuxLoadDataStatementEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTAuxLoadDataStatementEnums'):
         self._proto = proto
 
 
-class ASTBinaryExpressionEnums:
+class ASTBinaryExpressionEnums(WrapperBase):
     """Generated wrapper for ASTBinaryExpressionEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTBinaryExpressionEnums'):
         self._proto = proto
 
 
-class ASTBracedConstructorLhsEnums:
+class ASTBracedConstructorLhsEnums(WrapperBase):
     """Generated wrapper for ASTBracedConstructorLhsEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTBracedConstructorLhsEnums'):
         self._proto = proto
 
 
-class ASTBreakContinueStatementEnums:
+class ASTBreakContinueStatementEnums(WrapperBase):
     """Generated wrapper for ASTBreakContinueStatementEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTBreakContinueStatementEnums'):
         self._proto = proto
 
 
-class ASTColumnPositionEnums:
+class ASTColumnPositionEnums(WrapperBase):
     """Generated wrapper for ASTColumnPositionEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTColumnPositionEnums'):
         self._proto = proto
 
 
-class ASTCreateFunctionStmtBaseEnums:
+class ASTCreateFunctionStmtBaseEnums(WrapperBase):
     """Generated wrapper for ASTCreateFunctionStmtBaseEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTCreateFunctionStmtBaseEnums'):
         self._proto = proto
 
 
-class ASTCreateStatementEnums:
+class ASTCreateStatementEnums(WrapperBase):
     """Generated wrapper for ASTCreateStatementEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTCreateStatementEnums'):
         self._proto = proto
 
 
-class ASTDropStatementEnums:
+class ASTDropStatementEnums(WrapperBase):
     """Generated wrapper for ASTDropStatementEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTDropStatementEnums'):
         self._proto = proto
 
 
-class ASTExpressionSubqueryEnums:
+class ASTExpressionSubqueryEnums(WrapperBase):
     """Generated wrapper for ASTExpressionSubqueryEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTExpressionSubqueryEnums'):
         self._proto = proto
 
 
-class ASTFilterFieldsArgEnums:
+class ASTFilterFieldsArgEnums(WrapperBase):
     """Generated wrapper for ASTFilterFieldsArgEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTFilterFieldsArgEnums'):
         self._proto = proto
 
 
-class ASTForeignKeyActionsEnums:
+class ASTForeignKeyActionsEnums(WrapperBase):
     """Generated wrapper for ASTForeignKeyActionsEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTForeignKeyActionsEnums'):
         self._proto = proto
 
 
-class ASTForeignKeyReferenceEnums:
+class ASTForeignKeyReferenceEnums(WrapperBase):
     """Generated wrapper for ASTForeignKeyReferenceEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTForeignKeyReferenceEnums'):
         self._proto = proto
 
 
-class ASTFunctionCallEnums:
+class ASTFunctionCallEnums(WrapperBase):
     """Generated wrapper for ASTFunctionCallEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTFunctionCallEnums'):
         self._proto = proto
 
 
-class ASTFunctionParameterEnums:
+class ASTFunctionParameterEnums(WrapperBase):
     """Generated wrapper for ASTFunctionParameterEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTFunctionParameterEnums'):
         self._proto = proto
 
 
-class ASTGeneratedColumnInfoEnums:
+class ASTGeneratedColumnInfoEnums(WrapperBase):
     """Generated wrapper for ASTGeneratedColumnInfoEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTGeneratedColumnInfoEnums'):
         self._proto = proto
 
 
-class ASTGraphEdgePatternEnums:
+class ASTGraphEdgePatternEnums(WrapperBase):
     """Generated wrapper for ASTGraphEdgePatternEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTGraphEdgePatternEnums'):
         self._proto = proto
 
 
-class ASTGraphLabelOperationEnums:
+class ASTGraphLabelOperationEnums(WrapperBase):
     """Generated wrapper for ASTGraphLabelOperationEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTGraphLabelOperationEnums'):
         self._proto = proto
 
 
-class ASTGraphNodeTableReferenceEnums:
+class ASTGraphNodeTableReferenceEnums(WrapperBase):
     """Generated wrapper for ASTGraphNodeTableReferenceEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTGraphNodeTableReferenceEnums'):
         self._proto = proto
 
 
-class ASTGraphPathModeEnums:
+class ASTGraphPathModeEnums(WrapperBase):
     """Generated wrapper for ASTGraphPathModeEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTGraphPathModeEnums'):
         self._proto = proto
 
 
-class ASTGraphPathSearchPrefixEnums:
+class ASTGraphPathSearchPrefixEnums(WrapperBase):
     """Generated wrapper for ASTGraphPathSearchPrefixEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTGraphPathSearchPrefixEnums'):
         self._proto = proto
 
 
-class ASTHavingModifierEnums:
+class ASTHavingModifierEnums(WrapperBase):
     """Generated wrapper for ASTHavingModifierEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTHavingModifierEnums'):
         self._proto = proto
 
 
-class ASTImportStatementEnums:
+class ASTImportStatementEnums(WrapperBase):
     """Generated wrapper for ASTImportStatementEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTImportStatementEnums'):
         self._proto = proto
 
 
-class ASTInsertStatementEnums:
+class ASTInsertStatementEnums(WrapperBase):
     """Generated wrapper for ASTInsertStatementEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTInsertStatementEnums'):
         self._proto = proto
 
 
-class ASTJoinEnums:
+class ASTJoinEnums(WrapperBase):
     """Generated wrapper for ASTJoinEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTJoinEnums'):
         self._proto = proto
 
 
-class ASTLockModeEnums:
+class ASTLockModeEnums(WrapperBase):
     """Generated wrapper for ASTLockModeEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTLockModeEnums'):
         self._proto = proto
 
 
-class ASTMergeActionEnums:
+class ASTMergeActionEnums(WrapperBase):
     """Generated wrapper for ASTMergeActionEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTMergeActionEnums'):
         self._proto = proto
 
 
-class ASTMergeWhenClauseEnums:
+class ASTMergeWhenClauseEnums(WrapperBase):
     """Generated wrapper for ASTMergeWhenClauseEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTMergeWhenClauseEnums'):
         self._proto = proto
 
 
-class ASTNode:
+class ASTNode(WrapperBase):
     """Generated wrapper for ASTNodeProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.ASTNodeProto'):
@@ -310,119 +317,119 @@ class ASTNode:
 
 
 
-class ASTOnConflictClauseEnums:
+class ASTOnConflictClauseEnums(WrapperBase):
     """Generated wrapper for ASTOnConflictClauseEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTOnConflictClauseEnums'):
         self._proto = proto
 
 
-class ASTOptionsEntryEnums:
+class ASTOptionsEntryEnums(WrapperBase):
     """Generated wrapper for ASTOptionsEntryEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTOptionsEntryEnums'):
         self._proto = proto
 
 
-class ASTOrderingExpressionEnums:
+class ASTOrderingExpressionEnums(WrapperBase):
     """Generated wrapper for ASTOrderingExpressionEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTOrderingExpressionEnums'):
         self._proto = proto
 
 
-class ASTRowPatternAnchorEnums:
+class ASTRowPatternAnchorEnums(WrapperBase):
     """Generated wrapper for ASTRowPatternAnchorEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTRowPatternAnchorEnums'):
         self._proto = proto
 
 
-class ASTRowPatternOperationEnums:
+class ASTRowPatternOperationEnums(WrapperBase):
     """Generated wrapper for ASTRowPatternOperationEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTRowPatternOperationEnums'):
         self._proto = proto
 
 
-class ASTSampleSizeEnums:
+class ASTSampleSizeEnums(WrapperBase):
     """Generated wrapper for ASTSampleSizeEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTSampleSizeEnums'):
         self._proto = proto
 
 
-class ASTSelectAsEnums:
+class ASTSelectAsEnums(WrapperBase):
     """Generated wrapper for ASTSelectAsEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTSelectAsEnums'):
         self._proto = proto
 
 
-class ASTSetOperationEnums:
+class ASTSetOperationEnums(WrapperBase):
     """Generated wrapper for ASTSetOperationEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTSetOperationEnums'):
         self._proto = proto
 
 
-class ASTSpannerInterleaveClauseEnums:
+class ASTSpannerInterleaveClauseEnums(WrapperBase):
     """Generated wrapper for ASTSpannerInterleaveClauseEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTSpannerInterleaveClauseEnums'):
         self._proto = proto
 
 
-class ASTSymbolQuantifierEnums:
+class ASTSymbolQuantifierEnums(WrapperBase):
     """Generated wrapper for ASTSymbolQuantifierEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTSymbolQuantifierEnums'):
         self._proto = proto
 
 
-class ASTTemplatedParameterTypeEnums:
+class ASTTemplatedParameterTypeEnums(WrapperBase):
     """Generated wrapper for ASTTemplatedParameterTypeEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTTemplatedParameterTypeEnums'):
         self._proto = proto
 
 
-class ASTTransactionReadWriteModeEnums:
+class ASTTransactionReadWriteModeEnums(WrapperBase):
     """Generated wrapper for ASTTransactionReadWriteModeEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTTransactionReadWriteModeEnums'):
         self._proto = proto
 
 
-class ASTUnaryExpressionEnums:
+class ASTUnaryExpressionEnums(WrapperBase):
     """Generated wrapper for ASTUnaryExpressionEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTUnaryExpressionEnums'):
         self._proto = proto
 
 
-class ASTUnpivotClauseEnums:
+class ASTUnpivotClauseEnums(WrapperBase):
     """Generated wrapper for ASTUnpivotClauseEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTUnpivotClauseEnums'):
         self._proto = proto
 
 
-class ASTWindowFrameEnums:
+class ASTWindowFrameEnums(WrapperBase):
     """Generated wrapper for ASTWindowFrameEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTWindowFrameEnums'):
         self._proto = proto
 
 
-class ASTWindowFrameExprEnums:
+class ASTWindowFrameExprEnums(WrapperBase):
     """Generated wrapper for ASTWindowFrameExprEnums"""
 
     def __init__(self, proto: 'ast_enums_pb2.ASTWindowFrameExprEnums'):
         self._proto = proto
 
 
-class AllowedHintsAndOptions:
+class AllowedHintsAndOptions(WrapperBase):
     """Generated wrapper for AllowedHintsAndOptionsProto"""
 
     def __init__(self, proto: 'options_pb2.AllowedHintsAndOptionsProto'):
@@ -465,7 +472,7 @@ class AllowedHintsAndOptions:
 
 
 
-class AllowedHintsAndOptionsHint:
+class AllowedHintsAndOptionsHint(WrapperBase):
     """Generated wrapper for HintProto"""
 
     def __init__(self, proto: 'options_pb2.AllowedHintsAndOptionsProto.HintProto'):
@@ -493,7 +500,7 @@ class AllowedHintsAndOptionsHint:
 
 
 
-class AllowedHintsAndOptionsOption:
+class AllowedHintsAndOptionsOption(WrapperBase):
     """Generated wrapper for OptionProto"""
 
     def __init__(self, proto: 'options_pb2.AllowedHintsAndOptionsProto.OptionProto'):
@@ -521,7 +528,7 @@ class AllowedHintsAndOptionsOption:
 
 
 
-class AnalyzeRequest:
+class AnalyzeRequest(WrapperBase):
     """Generated wrapper for AnalyzeRequest"""
 
     def __init__(self, proto: 'local_service_pb2.AnalyzeRequest'):
@@ -564,7 +571,7 @@ class AnalyzeRequest:
 
 
 
-class AnalyzeResponse:
+class AnalyzeResponse(WrapperBase):
     """Generated wrapper for AnalyzeResponse"""
 
     def __init__(self, proto: 'local_service_pb2.AnalyzeResponse'):
@@ -587,7 +594,7 @@ class AnalyzeResponse:
 
 
 
-class AnalyzerLogEntry:
+class AnalyzerLogEntry(WrapperBase):
     """Generated wrapper for AnalyzerLogEntry"""
 
     def __init__(self, proto: 'logging_pb2.AnalyzerLogEntry'):
@@ -610,7 +617,7 @@ class AnalyzerLogEntry:
 
 
 
-class AnalyzerLogEntryExecutionStatsByOpEntry:
+class AnalyzerLogEntryExecutionStatsByOpEntry(WrapperBase):
     """Generated wrapper for ExecutionStatsByOpEntry"""
 
     def __init__(self, proto: 'logging_pb2.AnalyzerLogEntry.ExecutionStatsByOpEntry'):
@@ -628,7 +635,7 @@ class AnalyzerLogEntryExecutionStatsByOpEntry:
 
 
 
-class AnalyzerOptions:
+class AnalyzerOptions(WrapperBase):
     """Generated wrapper for AnalyzerOptionsProto"""
 
     def __init__(self, proto: 'options_pb2.AnalyzerOptionsProto'):
@@ -761,7 +768,7 @@ class AnalyzerOptions:
 
 
 
-class AnalyzerOptionsQueryParameter:
+class AnalyzerOptionsQueryParameter(WrapperBase):
     """Generated wrapper for QueryParameterProto"""
 
     def __init__(self, proto: 'options_pb2.AnalyzerOptionsProto.QueryParameterProto'):
@@ -779,14 +786,14 @@ class AnalyzerOptionsQueryParameter:
 
 
 
-class AnalyzerOptionsRequest:
+class AnalyzerOptionsRequest(WrapperBase):
     """Generated wrapper for AnalyzerOptionsRequest"""
 
     def __init__(self, proto: 'local_service_pb2.AnalyzerOptionsRequest'):
         self._proto = proto
 
 
-class AnalyzerOptionsSystemVariable:
+class AnalyzerOptionsSystemVariable(WrapperBase):
     """Generated wrapper for SystemVariableProto"""
 
     def __init__(self, proto: 'options_pb2.AnalyzerOptionsProto.SystemVariableProto'):
@@ -804,7 +811,7 @@ class AnalyzerOptionsSystemVariable:
 
 
 
-class Annotation:
+class Annotation(WrapperBase):
     """Generated wrapper for AnnotationProto"""
 
     def __init__(self, proto: 'annotation_pb2.AnnotationProto'):
@@ -822,7 +829,7 @@ class Annotation:
 
 
 
-class AnnotationMap:
+class AnnotationMap(WrapperBase):
     """Generated wrapper for AnnotationMapProto"""
 
     def __init__(self, proto: 'annotation_pb2.AnnotationMapProto'):
@@ -850,7 +857,7 @@ class AnnotationMap:
 
 
 
-class AnonOutputValue:
+class AnonOutputValue(WrapperBase):
     """Generated wrapper for AnonOutputValue"""
 
     def __init__(self, proto: 'anon_output_with_report_pb2.AnonOutputValue'):
@@ -878,7 +885,7 @@ class AnonOutputValue:
 
 
 
-class AnonOutputValues:
+class AnonOutputValues(WrapperBase):
     """Generated wrapper for AnonOutputValues"""
 
     def __init__(self, proto: 'anon_output_with_report_pb2.AnonOutputValues'):
@@ -891,7 +898,7 @@ class AnonOutputValues:
 
 
 
-class AnonOutputWithReport:
+class AnonOutputWithReport(WrapperBase):
     """Generated wrapper for AnonOutputWithReport"""
 
     def __init__(self, proto: 'anon_output_with_report_pb2.AnonOutputWithReport'):
@@ -914,7 +921,7 @@ class AnonOutputWithReport:
 
 
 
-class AnyASTAlterAction:
+class AnyASTAlterAction(WrapperBase):
     """Generated wrapper for AnyASTAlterActionProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTAlterActionProto'):
@@ -1097,7 +1104,7 @@ class AnyASTAlterAction:
 
 
 
-class AnyASTAlterStatementBase:
+class AnyASTAlterStatementBase(WrapperBase):
     """Generated wrapper for AnyASTAlterStatementBaseProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTAlterStatementBaseProto'):
@@ -1175,7 +1182,7 @@ class AnyASTAlterStatementBase:
 
 
 
-class AnyASTBreakContinueStatement:
+class AnyASTBreakContinueStatement(WrapperBase):
     """Generated wrapper for AnyASTBreakContinueStatementProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTBreakContinueStatementProto'):
@@ -1193,7 +1200,7 @@ class AnyASTBreakContinueStatement:
 
 
 
-class AnyASTColumnAttribute:
+class AnyASTColumnAttribute(WrapperBase):
     """Generated wrapper for AnyASTColumnAttributeProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTColumnAttributeProto'):
@@ -1221,7 +1228,7 @@ class AnyASTColumnAttribute:
 
 
 
-class AnyASTColumnSchema:
+class AnyASTColumnSchema(WrapperBase):
     """Generated wrapper for AnyASTColumnSchemaProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTColumnSchemaProto'):
@@ -1249,7 +1256,7 @@ class AnyASTColumnSchema:
 
 
 
-class AnyASTCreateFunctionStmtBase:
+class AnyASTCreateFunctionStmtBase(WrapperBase):
     """Generated wrapper for AnyASTCreateFunctionStmtBaseProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTCreateFunctionStmtBaseProto'):
@@ -1267,7 +1274,7 @@ class AnyASTCreateFunctionStmtBase:
 
 
 
-class AnyASTCreateSchemaStmtBase:
+class AnyASTCreateSchemaStmtBase(WrapperBase):
     """Generated wrapper for AnyASTCreateSchemaStmtBaseProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTCreateSchemaStmtBaseProto'):
@@ -1285,7 +1292,7 @@ class AnyASTCreateSchemaStmtBase:
 
 
 
-class AnyASTCreateStatement:
+class AnyASTCreateStatement(WrapperBase):
     """Generated wrapper for AnyASTCreateStatementProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTCreateStatementProto'):
@@ -1373,7 +1380,7 @@ class AnyASTCreateStatement:
 
 
 
-class AnyASTCreateTableStmtBase:
+class AnyASTCreateTableStmtBase(WrapperBase):
     """Generated wrapper for AnyASTCreateTableStmtBaseProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTCreateTableStmtBaseProto'):
@@ -1396,7 +1403,7 @@ class AnyASTCreateTableStmtBase:
 
 
 
-class AnyASTCreateViewStatementBase:
+class AnyASTCreateViewStatementBase(WrapperBase):
     """Generated wrapper for AnyASTCreateViewStatementBaseProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTCreateViewStatementBaseProto'):
@@ -1419,7 +1426,7 @@ class AnyASTCreateViewStatementBase:
 
 
 
-class AnyASTDdlStatement:
+class AnyASTDdlStatement(WrapperBase):
     """Generated wrapper for AnyASTDdlStatementProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTDdlStatementProto'):
@@ -1487,7 +1494,7 @@ class AnyASTDdlStatement:
 
 
 
-class AnyASTDropIndexStatement:
+class AnyASTDropIndexStatement(WrapperBase):
     """Generated wrapper for AnyASTDropIndexStatementProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTDropIndexStatementProto'):
@@ -1505,7 +1512,7 @@ class AnyASTDropIndexStatement:
 
 
 
-class AnyASTElementTypeColumnSchema:
+class AnyASTElementTypeColumnSchema(WrapperBase):
     """Generated wrapper for AnyASTElementTypeColumnSchemaProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTElementTypeColumnSchemaProto'):
@@ -1523,7 +1530,7 @@ class AnyASTElementTypeColumnSchema:
 
 
 
-class AnyASTExpression:
+class AnyASTExpression(WrapperBase):
     """Generated wrapper for AnyASTExpressionProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTExpressionProto'):
@@ -1756,7 +1763,7 @@ class AnyASTExpression:
 
 
 
-class AnyASTGeneralizedPathExpression:
+class AnyASTGeneralizedPathExpression(WrapperBase):
     """Generated wrapper for AnyASTGeneralizedPathExpressionProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTGeneralizedPathExpressionProto'):
@@ -1789,7 +1796,7 @@ class AnyASTGeneralizedPathExpression:
 
 
 
-class AnyASTGqlCallBase:
+class AnyASTGqlCallBase(WrapperBase):
     """Generated wrapper for AnyASTGqlCallBaseProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTGqlCallBaseProto'):
@@ -1807,7 +1814,7 @@ class AnyASTGqlCallBase:
 
 
 
-class AnyASTGqlOperator:
+class AnyASTGqlOperator(WrapperBase):
     """Generated wrapper for AnyASTGqlOperatorProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTGqlOperatorProto'):
@@ -1870,7 +1877,7 @@ class AnyASTGqlOperator:
 
 
 
-class AnyASTGraphElementPattern:
+class AnyASTGraphElementPattern(WrapperBase):
     """Generated wrapper for AnyASTGraphElementPatternProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTGraphElementPatternProto'):
@@ -1888,7 +1895,7 @@ class AnyASTGraphElementPattern:
 
 
 
-class AnyASTGraphLabelExpression:
+class AnyASTGraphLabelExpression(WrapperBase):
     """Generated wrapper for AnyASTGraphLabelExpressionProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTGraphLabelExpressionProto'):
@@ -1911,7 +1918,7 @@ class AnyASTGraphLabelExpression:
 
 
 
-class AnyASTGraphPathBase:
+class AnyASTGraphPathBase(WrapperBase):
     """Generated wrapper for AnyASTGraphPathBaseProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTGraphPathBaseProto'):
@@ -1929,7 +1936,7 @@ class AnyASTGraphPathBase:
 
 
 
-class AnyASTLeaf:
+class AnyASTLeaf(WrapperBase):
     """Generated wrapper for AnyASTLeafProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTLeafProto'):
@@ -1967,7 +1974,7 @@ class AnyASTLeaf:
 
 
 
-class AnyASTLoopStatement:
+class AnyASTLoopStatement(WrapperBase):
     """Generated wrapper for AnyASTLoopStatementProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTLoopStatementProto'):
@@ -1990,7 +1997,7 @@ class AnyASTLoopStatement:
 
 
 
-class AnyASTNode:
+class AnyASTNode(WrapperBase):
     """Generated wrapper for AnyASTNodeProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTNodeProto'):
@@ -3048,7 +3055,7 @@ class AnyASTNode:
 
 
 
-class AnyASTParameterExprBase:
+class AnyASTParameterExprBase(WrapperBase):
     """Generated wrapper for AnyASTParameterExprBaseProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTParameterExprBaseProto'):
@@ -3066,7 +3073,7 @@ class AnyASTParameterExprBase:
 
 
 
-class AnyASTPipeOperator:
+class AnyASTPipeOperator(WrapperBase):
     """Generated wrapper for AnyASTPipeOperatorProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTPipeOperatorProto'):
@@ -3239,7 +3246,7 @@ class AnyASTPipeOperator:
 
 
 
-class AnyASTPostfixTableOperator:
+class AnyASTPostfixTableOperator(WrapperBase):
     """Generated wrapper for AnyASTPostfixTableOperatorProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTPostfixTableOperatorProto'):
@@ -3267,7 +3274,7 @@ class AnyASTPostfixTableOperator:
 
 
 
-class AnyASTPrintableLeaf:
+class AnyASTPrintableLeaf(WrapperBase):
     """Generated wrapper for AnyASTPrintableLeafProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTPrintableLeafProto'):
@@ -3325,7 +3332,7 @@ class AnyASTPrintableLeaf:
 
 
 
-class AnyASTQuantifier:
+class AnyASTQuantifier(WrapperBase):
     """Generated wrapper for AnyASTQuantifierProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTQuantifierProto'):
@@ -3348,7 +3355,7 @@ class AnyASTQuantifier:
 
 
 
-class AnyASTQueryExpression:
+class AnyASTQueryExpression(WrapperBase):
     """Generated wrapper for AnyASTQueryExpressionProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTQueryExpressionProto'):
@@ -3401,7 +3408,7 @@ class AnyASTQueryExpression:
 
 
 
-class AnyASTRowPatternExpression:
+class AnyASTRowPatternExpression(WrapperBase):
     """Generated wrapper for AnyASTRowPatternExpressionProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTRowPatternExpressionProto'):
@@ -3434,7 +3441,7 @@ class AnyASTRowPatternExpression:
 
 
 
-class AnyASTScriptStatement:
+class AnyASTScriptStatement(WrapperBase):
     """Generated wrapper for AnyASTScriptStatementProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTScriptStatementProto'):
@@ -3492,7 +3499,7 @@ class AnyASTScriptStatement:
 
 
 
-class AnyASTStatement:
+class AnyASTStatement(WrapperBase):
     """Generated wrapper for AnyASTStatementProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTStatementProto'):
@@ -3715,7 +3722,7 @@ class AnyASTStatement:
 
 
 
-class AnyASTTableConstraint:
+class AnyASTTableConstraint(WrapperBase):
     """Generated wrapper for AnyASTTableConstraintProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTTableConstraintProto'):
@@ -3738,7 +3745,7 @@ class AnyASTTableConstraint:
 
 
 
-class AnyASTTableDataSource:
+class AnyASTTableDataSource(WrapperBase):
     """Generated wrapper for AnyASTTableDataSourceProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTTableDataSourceProto'):
@@ -3756,7 +3763,7 @@ class AnyASTTableDataSource:
 
 
 
-class AnyASTTableElement:
+class AnyASTTableElement(WrapperBase):
     """Generated wrapper for AnyASTTableElementProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTTableElementProto'):
@@ -3774,7 +3781,7 @@ class AnyASTTableElement:
 
 
 
-class AnyASTTableExpression:
+class AnyASTTableExpression(WrapperBase):
     """Generated wrapper for AnyASTTableExpressionProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTTableExpressionProto'):
@@ -3822,7 +3829,7 @@ class AnyASTTableExpression:
 
 
 
-class AnyASTTransactionMode:
+class AnyASTTransactionMode(WrapperBase):
     """Generated wrapper for AnyASTTransactionModeProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTTransactionModeProto'):
@@ -3840,7 +3847,7 @@ class AnyASTTransactionMode:
 
 
 
-class AnyASTType:
+class AnyASTType(WrapperBase):
     """Generated wrapper for AnyASTTypeProto"""
 
     def __init__(self, proto: 'parse_tree_pb2.AnyASTTypeProto'):
@@ -3878,7 +3885,7 @@ class AnyASTType:
 
 
 
-class AnyResolvedAggregateScanBase:
+class AnyResolvedAggregateScanBase(WrapperBase):
     """Generated wrapper for AnyResolvedAggregateScanBaseProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedAggregateScanBaseProto'):
@@ -3906,7 +3913,7 @@ class AnyResolvedAggregateScanBase:
 
 
 
-class AnyResolvedAlterAction:
+class AnyResolvedAlterAction(WrapperBase):
     """Generated wrapper for AnyResolvedAlterActionProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedAlterActionProto'):
@@ -4024,7 +4031,7 @@ class AnyResolvedAlterAction:
 
 
 
-class AnyResolvedAlterColumnAction:
+class AnyResolvedAlterColumnAction(WrapperBase):
     """Generated wrapper for AnyResolvedAlterColumnActionProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedAlterColumnActionProto'):
@@ -4067,7 +4074,7 @@ class AnyResolvedAlterColumnAction:
 
 
 
-class AnyResolvedAlterObjectStmt:
+class AnyResolvedAlterObjectStmt(WrapperBase):
     """Generated wrapper for AnyResolvedAlterObjectStmtProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedAlterObjectStmtProto'):
@@ -4150,7 +4157,7 @@ class AnyResolvedAlterObjectStmt:
 
 
 
-class AnyResolvedArgument:
+class AnyResolvedArgument(WrapperBase):
     """Generated wrapper for AnyResolvedArgumentProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedArgumentProto'):
@@ -4563,7 +4570,7 @@ class AnyResolvedArgument:
 
 
 
-class AnyResolvedComputedColumnBase:
+class AnyResolvedComputedColumnBase(WrapperBase):
     """Generated wrapper for AnyResolvedComputedColumnBaseProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedComputedColumnBaseProto'):
@@ -4576,7 +4583,7 @@ class AnyResolvedComputedColumnBase:
 
 
 
-class AnyResolvedComputedColumnImpl:
+class AnyResolvedComputedColumnImpl(WrapperBase):
     """Generated wrapper for AnyResolvedComputedColumnImplProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedComputedColumnImplProto'):
@@ -4594,7 +4601,7 @@ class AnyResolvedComputedColumnImpl:
 
 
 
-class AnyResolvedConstraint:
+class AnyResolvedConstraint(WrapperBase):
     """Generated wrapper for AnyResolvedConstraintProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedConstraintProto'):
@@ -4617,7 +4624,7 @@ class AnyResolvedConstraint:
 
 
 
-class AnyResolvedCreateSchemaStmtBase:
+class AnyResolvedCreateSchemaStmtBase(WrapperBase):
     """Generated wrapper for AnyResolvedCreateSchemaStmtBaseProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedCreateSchemaStmtBaseProto'):
@@ -4635,7 +4642,7 @@ class AnyResolvedCreateSchemaStmtBase:
 
 
 
-class AnyResolvedCreateStatement:
+class AnyResolvedCreateStatement(WrapperBase):
     """Generated wrapper for AnyResolvedCreateStatementProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedCreateStatementProto'):
@@ -4718,7 +4725,7 @@ class AnyResolvedCreateStatement:
 
 
 
-class AnyResolvedCreateTableStmtBase:
+class AnyResolvedCreateTableStmtBase(WrapperBase):
     """Generated wrapper for AnyResolvedCreateTableStmtBaseProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedCreateTableStmtBaseProto'):
@@ -4741,7 +4748,7 @@ class AnyResolvedCreateTableStmtBase:
 
 
 
-class AnyResolvedCreateViewBase:
+class AnyResolvedCreateViewBase(WrapperBase):
     """Generated wrapper for AnyResolvedCreateViewBaseProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedCreateViewBaseProto'):
@@ -4764,7 +4771,7 @@ class AnyResolvedCreateViewBase:
 
 
 
-class AnyResolvedExpr:
+class AnyResolvedExpr(WrapperBase):
     """Generated wrapper for AnyResolvedExprProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedExprProto'):
@@ -4917,7 +4924,7 @@ class AnyResolvedExpr:
 
 
 
-class AnyResolvedFunctionCallBase:
+class AnyResolvedFunctionCallBase(WrapperBase):
     """Generated wrapper for AnyResolvedFunctionCallBaseProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedFunctionCallBaseProto'):
@@ -4935,7 +4942,7 @@ class AnyResolvedFunctionCallBase:
 
 
 
-class AnyResolvedGrantOrRevokeStmt:
+class AnyResolvedGrantOrRevokeStmt(WrapperBase):
     """Generated wrapper for AnyResolvedGrantOrRevokeStmtProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedGrantOrRevokeStmtProto'):
@@ -4953,7 +4960,7 @@ class AnyResolvedGrantOrRevokeStmt:
 
 
 
-class AnyResolvedGraphElementScan:
+class AnyResolvedGraphElementScan(WrapperBase):
     """Generated wrapper for AnyResolvedGraphElementScanProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedGraphElementScanProto'):
@@ -4971,7 +4978,7 @@ class AnyResolvedGraphElementScan:
 
 
 
-class AnyResolvedGraphLabelExpr:
+class AnyResolvedGraphLabelExpr(WrapperBase):
     """Generated wrapper for AnyResolvedGraphLabelExprProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedGraphLabelExprProto'):
@@ -4994,7 +5001,7 @@ class AnyResolvedGraphLabelExpr:
 
 
 
-class AnyResolvedGraphPathScanBase:
+class AnyResolvedGraphPathScanBase(WrapperBase):
     """Generated wrapper for AnyResolvedGraphPathScanBaseProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedGraphPathScanBaseProto'):
@@ -5012,7 +5019,7 @@ class AnyResolvedGraphPathScanBase:
 
 
 
-class AnyResolvedGraphScanBase:
+class AnyResolvedGraphScanBase(WrapperBase):
     """Generated wrapper for AnyResolvedGraphScanBaseProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedGraphScanBaseProto'):
@@ -5030,7 +5037,7 @@ class AnyResolvedGraphScanBase:
 
 
 
-class AnyResolvedGroupingSetBase:
+class AnyResolvedGroupingSetBase(WrapperBase):
     """Generated wrapper for AnyResolvedGroupingSetBaseProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedGroupingSetBaseProto'):
@@ -5063,7 +5070,7 @@ class AnyResolvedGroupingSetBase:
 
 
 
-class AnyResolvedMatchRecognizePatternExpr:
+class AnyResolvedMatchRecognizePatternExpr(WrapperBase):
     """Generated wrapper for AnyResolvedMatchRecognizePatternExprProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedMatchRecognizePatternExprProto'):
@@ -5096,7 +5103,7 @@ class AnyResolvedMatchRecognizePatternExpr:
 
 
 
-class AnyResolvedNode:
+class AnyResolvedNode(WrapperBase):
     """Generated wrapper for AnyResolvedNodeProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedNodeProto'):
@@ -5124,7 +5131,7 @@ class AnyResolvedNode:
 
 
 
-class AnyResolvedNonScalarFunctionCallBase:
+class AnyResolvedNonScalarFunctionCallBase(WrapperBase):
     """Generated wrapper for AnyResolvedNonScalarFunctionCallBaseProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedNonScalarFunctionCallBaseProto'):
@@ -5142,7 +5149,7 @@ class AnyResolvedNonScalarFunctionCallBase:
 
 
 
-class AnyResolvedScan:
+class AnyResolvedScan(WrapperBase):
     """Generated wrapper for AnyResolvedScanProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedScanProto'):
@@ -5355,7 +5362,7 @@ class AnyResolvedScan:
 
 
 
-class AnyResolvedStatement:
+class AnyResolvedStatement(WrapperBase):
     """Generated wrapper for AnyResolvedStatementProto"""
 
     def __init__(self, proto: 'resolved_ast_pb2.AnyResolvedStatementProto'):
@@ -5613,7 +5620,7 @@ class AnyResolvedStatement:
 
 
 
-class ArgumentTypeLambda:
+class ArgumentTypeLambda(WrapperBase):
     """Generated wrapper for ArgumentTypeLambdaProto"""
 
     def __init__(self, proto: 'function_pb2.ArgumentTypeLambdaProto'):
@@ -5631,14 +5638,14 @@ class ArgumentTypeLambda:
 
 
 
-class ArrayFindEnums:
+class ArrayFindEnums(WrapperBase):
     """Generated wrapper for ArrayFindEnums"""
 
     def __init__(self, proto: 'array_find_mode_pb2.ArrayFindEnums'):
         self._proto = proto
 
 
-class ArrayType:
+class ArrayType(WrapperBase):
     """Generated wrapper for ArrayTypeProto"""
 
     def __init__(self, proto: 'type_pb2.ArrayTypeProto'):
@@ -5651,21 +5658,21 @@ class ArrayType:
 
 
 
-class ArrayZipEnums:
+class ArrayZipEnums(WrapperBase):
     """Generated wrapper for ArrayZipEnums"""
 
     def __init__(self, proto: 'array_zip_mode_pb2.ArrayZipEnums'):
         self._proto = proto
 
 
-class BitwiseAggEnums:
+class BitwiseAggEnums(WrapperBase):
     """Generated wrapper for BitwiseAggEnums"""
 
     def __init__(self, proto: 'bitwise_agg_mode_pb2.BitwiseAggEnums'):
         self._proto = proto
 
 
-class BoundingReport:
+class BoundingReport(WrapperBase):
     """Generated wrapper for BoundingReport"""
 
     def __init__(self, proto: 'anon_output_with_report_pb2.BoundingReport'):
@@ -5693,7 +5700,7 @@ class BoundingReport:
 
 
 
-class BuildSqlRequest:
+class BuildSqlRequest(WrapperBase):
     """Generated wrapper for BuildSqlRequest"""
 
     def __init__(self, proto: 'local_service_pb2.BuildSqlRequest'):
@@ -5726,7 +5733,7 @@ class BuildSqlRequest:
 
 
 
-class BuildSqlResponse:
+class BuildSqlResponse(WrapperBase):
     """Generated wrapper for BuildSqlResponse"""
 
     def __init__(self, proto: 'local_service_pb2.BuildSqlResponse'):
@@ -5739,7 +5746,7 @@ class BuildSqlResponse:
 
 
 
-class Collation:
+class Collation(WrapperBase):
     """Generated wrapper for CollationProto"""
 
     def __init__(self, proto: 'collation_pb2.CollationProto'):
@@ -5757,7 +5764,7 @@ class Collation:
 
 
 
-class Column:
+class Column(WrapperBase):
     """Generated wrapper for Column"""
 
     def __init__(self, proto: 'reflection_pb2.Column'):
@@ -5785,7 +5792,7 @@ class Column:
 
 
 
-class ColumnRef:
+class ColumnRef(WrapperBase):
     """Generated wrapper for ColumnRefProto"""
 
     def __init__(self, proto: 'serialization_pb2.ColumnRefProto'):
@@ -5803,7 +5810,7 @@ class ColumnRef:
 
 
 
-class CompiledPattern:
+class CompiledPattern(WrapperBase):
     """Generated wrapper for CompiledPatternProto"""
 
     def __init__(self, proto: 'compiled_pattern_pb2.CompiledPatternProto'):
@@ -5816,7 +5823,7 @@ class CompiledPattern:
 
 
 
-class ComplianceTestCaseLabels:
+class ComplianceTestCaseLabels(WrapperBase):
     """Generated wrapper for ComplianceTestCaseLabels"""
 
     def __init__(self, proto: 'compliance_label_pb2.ComplianceTestCaseLabels'):
@@ -5859,7 +5866,7 @@ class ComplianceTestCaseLabels:
 
 
 
-class ComplianceTestCaseLabelsLocation:
+class ComplianceTestCaseLabelsLocation(WrapperBase):
     """Generated wrapper for Location"""
 
     def __init__(self, proto: 'compliance_label_pb2.ComplianceTestCaseLabels.Location'):
@@ -5877,7 +5884,7 @@ class ComplianceTestCaseLabelsLocation:
 
 
 
-class ComplianceTestCaseLabelsParam:
+class ComplianceTestCaseLabelsParam(WrapperBase):
     """Generated wrapper for Param"""
 
     def __init__(self, proto: 'compliance_label_pb2.ComplianceTestCaseLabels.Param'):
@@ -5895,7 +5902,7 @@ class ComplianceTestCaseLabelsParam:
 
 
 
-class ComplianceTestsLabels:
+class ComplianceTestsLabels(WrapperBase):
     """Generated wrapper for ComplianceTestsLabels"""
 
     def __init__(self, proto: 'compliance_label_pb2.ComplianceTestsLabels'):
@@ -5908,7 +5915,7 @@ class ComplianceTestsLabels:
 
 
 
-class ConnectionRef:
+class ConnectionRef(WrapperBase):
     """Generated wrapper for ConnectionRefProto"""
 
     def __init__(self, proto: 'serialization_pb2.ConnectionRefProto'):
@@ -5926,7 +5933,7 @@ class ConnectionRef:
 
 
 
-class ConstantRef:
+class ConstantRef(WrapperBase):
     """Generated wrapper for ConstantRefProto"""
 
     def __init__(self, proto: 'serialization_pb2.ConstantRefProto'):
@@ -5939,21 +5946,21 @@ class ConstantRef:
 
 
 
-class ConstnessLevel:
+class ConstnessLevel(WrapperBase):
     """Generated wrapper for ConstnessLevelProto"""
 
     def __init__(self, proto: 'constness_level_pb2.ConstnessLevelProto'):
         self._proto = proto
 
 
-class DeprecatedEncoding:
+class DeprecatedEncoding(WrapperBase):
     """Generated wrapper for DeprecatedEncoding"""
 
     def __init__(self, proto: 'type_annotation_pb2.DeprecatedEncoding'):
         self._proto = proto
 
 
-class DeprecationWarning:
+class DeprecationWarning(WrapperBase):
     """Generated wrapper for DeprecationWarning"""
 
     def __init__(self, proto: 'deprecation_warning_pb2.DeprecationWarning'):
@@ -5966,7 +5973,7 @@ class DeprecationWarning:
 
 
 
-class DescriptorPoolIdList:
+class DescriptorPoolIdList(WrapperBase):
     """Generated wrapper for DescriptorPoolIdList"""
 
     def __init__(self, proto: 'local_service_pb2.DescriptorPoolIdList'):
@@ -5979,7 +5986,7 @@ class DescriptorPoolIdList:
 
 
 
-class DescriptorPoolList:
+class DescriptorPoolList(WrapperBase):
     """Generated wrapper for DescriptorPoolListProto"""
 
     def __init__(self, proto: 'local_service_pb2.DescriptorPoolListProto'):
@@ -5992,14 +5999,14 @@ class DescriptorPoolList:
 
 
 
-class DescriptorPoolListBuiltin:
+class DescriptorPoolListBuiltin(WrapperBase):
     """Generated wrapper for Builtin"""
 
     def __init__(self, proto: 'local_service_pb2.DescriptorPoolListProto.Builtin'):
         self._proto = proto
 
 
-class DescriptorPoolListDefinition:
+class DescriptorPoolListDefinition(WrapperBase):
     """Generated wrapper for Definition"""
 
     def __init__(self, proto: 'local_service_pb2.DescriptorPoolListProto.Definition'):
@@ -6022,7 +6029,7 @@ class DescriptorPoolListDefinition:
 
 
 
-class DifferentialPrivacyBoundingReport:
+class DifferentialPrivacyBoundingReport(WrapperBase):
     """Generated wrapper for DifferentialPrivacyBoundingReport"""
 
     def __init__(self, proto: 'differential_privacy_pb2.DifferentialPrivacyBoundingReport'):
@@ -6050,14 +6057,14 @@ class DifferentialPrivacyBoundingReport:
 
 
 
-class DifferentialPrivacyEnums:
+class DifferentialPrivacyEnums(WrapperBase):
     """Generated wrapper for DifferentialPrivacyEnums"""
 
     def __init__(self, proto: 'differential_privacy_pb2.DifferentialPrivacyEnums'):
         self._proto = proto
 
 
-class DifferentialPrivacyOutputValue:
+class DifferentialPrivacyOutputValue(WrapperBase):
     """Generated wrapper for DifferentialPrivacyOutputValue"""
 
     def __init__(self, proto: 'differential_privacy_pb2.DifferentialPrivacyOutputValue'):
@@ -6085,7 +6092,7 @@ class DifferentialPrivacyOutputValue:
 
 
 
-class DifferentialPrivacyOutputValues:
+class DifferentialPrivacyOutputValues(WrapperBase):
     """Generated wrapper for DifferentialPrivacyOutputValues"""
 
     def __init__(self, proto: 'differential_privacy_pb2.DifferentialPrivacyOutputValues'):
@@ -6098,7 +6105,7 @@ class DifferentialPrivacyOutputValues:
 
 
 
-class DifferentialPrivacyOutputWithReport:
+class DifferentialPrivacyOutputWithReport(WrapperBase):
     """Generated wrapper for DifferentialPrivacyOutputWithReport"""
 
     def __init__(self, proto: 'differential_privacy_pb2.DifferentialPrivacyOutputWithReport'):
@@ -6126,7 +6133,7 @@ class DifferentialPrivacyOutputWithReport:
 
 
 
-class DifferentiallyPrivateCountDistinctBoundingReport:
+class DifferentiallyPrivateCountDistinctBoundingReport(WrapperBase):
     """Generated wrapper for DifferentiallyPrivateCountDistinctBoundingReport"""
 
     def __init__(self, proto: 'differential_privacy_pb2.DifferentiallyPrivateCountDistinctBoundingReport'):
@@ -6149,7 +6156,7 @@ class DifferentiallyPrivateCountDistinctBoundingReport:
 
 
 
-class Edits:
+class Edits(WrapperBase):
     """Generated wrapper for Edits"""
 
     def __init__(self, proto: 'fix_suggestion_pb2.Edits'):
@@ -6162,7 +6169,7 @@ class Edits:
 
 
 
-class EnabledRewrite:
+class EnabledRewrite(WrapperBase):
     """Generated wrapper for EnabledRewriteProto"""
 
     def __init__(self, proto: 'options_pb2.EnabledRewriteProto'):
@@ -6180,7 +6187,7 @@ class EnabledRewrite:
 
 
 
-class EnumType:
+class EnumType(WrapperBase):
     """Generated wrapper for EnumTypeProto"""
 
     def __init__(self, proto: 'type_pb2.EnumTypeProto'):
@@ -6213,7 +6220,7 @@ class EnumType:
 
 
 
-class ErrorFixSuggestions:
+class ErrorFixSuggestions(WrapperBase):
     """Generated wrapper for ErrorFixSuggestions"""
 
     def __init__(self, proto: 'fix_suggestion_pb2.ErrorFixSuggestions'):
@@ -6226,7 +6233,7 @@ class ErrorFixSuggestions:
 
 
 
-class ErrorLocation:
+class ErrorLocation(WrapperBase):
     """Generated wrapper for ErrorLocation"""
 
     def __init__(self, proto: 'error_location_pb2.ErrorLocation'):
@@ -6264,7 +6271,7 @@ class ErrorLocation:
 
 
 
-class ErrorMessageModeForPayload:
+class ErrorMessageModeForPayload(WrapperBase):
     """Generated wrapper for ErrorMessageModeForPayload"""
 
     def __init__(self, proto: 'options_pb2.ErrorMessageModeForPayload'):
@@ -6277,7 +6284,7 @@ class ErrorMessageModeForPayload:
 
 
 
-class ErrorSource:
+class ErrorSource(WrapperBase):
     """Generated wrapper for ErrorSource"""
 
     def __init__(self, proto: 'error_location_pb2.ErrorSource'):
@@ -6300,7 +6307,7 @@ class ErrorSource:
 
 
 
-class EvaluateModifyBatchRequest:
+class EvaluateModifyBatchRequest(WrapperBase):
     """Generated wrapper for EvaluateModifyBatchRequest"""
 
     def __init__(self, proto: 'local_service_pb2.EvaluateModifyBatchRequest'):
@@ -6313,7 +6320,7 @@ class EvaluateModifyBatchRequest:
 
 
 
-class EvaluateModifyBatchResponse:
+class EvaluateModifyBatchResponse(WrapperBase):
     """Generated wrapper for EvaluateModifyBatchResponse"""
 
     def __init__(self, proto: 'local_service_pb2.EvaluateModifyBatchResponse'):
@@ -6326,7 +6333,7 @@ class EvaluateModifyBatchResponse:
 
 
 
-class EvaluateModifyRequest:
+class EvaluateModifyRequest(WrapperBase):
     """Generated wrapper for EvaluateModifyRequest"""
 
     def __init__(self, proto: 'local_service_pb2.EvaluateModifyRequest'):
@@ -6374,7 +6381,7 @@ class EvaluateModifyRequest:
 
 
 
-class EvaluateModifyRequestTableContentEntry:
+class EvaluateModifyRequestTableContentEntry(WrapperBase):
     """Generated wrapper for TableContentEntry"""
 
     def __init__(self, proto: 'local_service_pb2.EvaluateModifyRequest.TableContentEntry'):
@@ -6392,7 +6399,7 @@ class EvaluateModifyRequestTableContentEntry:
 
 
 
-class EvaluateModifyResponse:
+class EvaluateModifyResponse(WrapperBase):
     """Generated wrapper for EvaluateModifyResponse"""
 
     def __init__(self, proto: 'local_service_pb2.EvaluateModifyResponse'):
@@ -6415,7 +6422,7 @@ class EvaluateModifyResponse:
 
 
 
-class EvaluateModifyResponseRow:
+class EvaluateModifyResponseRow(WrapperBase):
     """Generated wrapper for Row"""
 
     def __init__(self, proto: 'local_service_pb2.EvaluateModifyResponse.Row'):
@@ -6438,7 +6445,7 @@ class EvaluateModifyResponseRow:
 
 
 
-class EvaluateQueryBatchRequest:
+class EvaluateQueryBatchRequest(WrapperBase):
     """Generated wrapper for EvaluateQueryBatchRequest"""
 
     def __init__(self, proto: 'local_service_pb2.EvaluateQueryBatchRequest'):
@@ -6451,7 +6458,7 @@ class EvaluateQueryBatchRequest:
 
 
 
-class EvaluateQueryBatchResponse:
+class EvaluateQueryBatchResponse(WrapperBase):
     """Generated wrapper for EvaluateQueryBatchResponse"""
 
     def __init__(self, proto: 'local_service_pb2.EvaluateQueryBatchResponse'):
@@ -6464,7 +6471,7 @@ class EvaluateQueryBatchResponse:
 
 
 
-class EvaluateQueryRequest:
+class EvaluateQueryRequest(WrapperBase):
     """Generated wrapper for EvaluateQueryRequest"""
 
     def __init__(self, proto: 'local_service_pb2.EvaluateQueryRequest'):
@@ -6512,7 +6519,7 @@ class EvaluateQueryRequest:
 
 
 
-class EvaluateQueryRequestTableContentEntry:
+class EvaluateQueryRequestTableContentEntry(WrapperBase):
     """Generated wrapper for TableContentEntry"""
 
     def __init__(self, proto: 'local_service_pb2.EvaluateQueryRequest.TableContentEntry'):
@@ -6530,7 +6537,7 @@ class EvaluateQueryRequestTableContentEntry:
 
 
 
-class EvaluateQueryResponse:
+class EvaluateQueryResponse(WrapperBase):
     """Generated wrapper for EvaluateQueryResponse"""
 
     def __init__(self, proto: 'local_service_pb2.EvaluateQueryResponse'):
@@ -6548,7 +6555,7 @@ class EvaluateQueryResponse:
 
 
 
-class EvaluateRequest:
+class EvaluateRequest(WrapperBase):
     """Generated wrapper for EvaluateRequest"""
 
     def __init__(self, proto: 'local_service_pb2.EvaluateRequest'):
@@ -6586,7 +6593,7 @@ class EvaluateRequest:
 
 
 
-class EvaluateRequestBatch:
+class EvaluateRequestBatch(WrapperBase):
     """Generated wrapper for EvaluateRequestBatch"""
 
     def __init__(self, proto: 'local_service_pb2.EvaluateRequestBatch'):
@@ -6599,7 +6606,7 @@ class EvaluateRequestBatch:
 
 
 
-class EvaluateRequestParameter:
+class EvaluateRequestParameter(WrapperBase):
     """Generated wrapper for Parameter"""
 
     def __init__(self, proto: 'local_service_pb2.EvaluateRequest.Parameter'):
@@ -6617,7 +6624,7 @@ class EvaluateRequestParameter:
 
 
 
-class EvaluateResponse:
+class EvaluateResponse(WrapperBase):
     """Generated wrapper for EvaluateResponse"""
 
     def __init__(self, proto: 'local_service_pb2.EvaluateResponse'):
@@ -6635,7 +6642,7 @@ class EvaluateResponse:
 
 
 
-class EvaluateResponseBatch:
+class EvaluateResponseBatch(WrapperBase):
     """Generated wrapper for EvaluateResponseBatch"""
 
     def __init__(self, proto: 'local_service_pb2.EvaluateResponseBatch'):
@@ -6648,7 +6655,7 @@ class EvaluateResponseBatch:
 
 
 
-class EvaluatorTableIterator:
+class EvaluatorTableIterator(WrapperBase):
     """Generated wrapper for EvaluatorTableIteratorProto"""
 
     def __init__(self, proto: 'evaluator_table_iterator_pb2.EvaluatorTableIteratorProto'):
@@ -6666,7 +6673,7 @@ class EvaluatorTableIterator:
 
 
 
-class ExecutionStats:
+class ExecutionStats(WrapperBase):
     """Generated wrapper for ExecutionStats"""
 
     def __init__(self, proto: 'logging_pb2.ExecutionStats'):
@@ -6694,7 +6701,7 @@ class ExecutionStats:
 
 
 
-class ExpressionAttribute:
+class ExpressionAttribute(WrapperBase):
     """Generated wrapper for ExpressionAttributeProto"""
 
     def __init__(self, proto: 'simple_table_pb2.ExpressionAttributeProto'):
@@ -6717,7 +6724,7 @@ class ExpressionAttribute:
 
 
 
-class ExtendedTypeParameters:
+class ExtendedTypeParameters(WrapperBase):
     """Generated wrapper for ExtendedTypeParametersProto"""
 
     def __init__(self, proto: 'type_parameters_pb2.ExtendedTypeParametersProto'):
@@ -6730,7 +6737,7 @@ class ExtendedTypeParameters:
 
 
 
-class ExtractTableNamesFromNextStatementRequest:
+class ExtractTableNamesFromNextStatementRequest(WrapperBase):
     """Generated wrapper for ExtractTableNamesFromNextStatementRequest"""
 
     def __init__(self, proto: 'local_service_pb2.ExtractTableNamesFromNextStatementRequest'):
@@ -6748,7 +6755,7 @@ class ExtractTableNamesFromNextStatementRequest:
 
 
 
-class ExtractTableNamesFromNextStatementResponse:
+class ExtractTableNamesFromNextStatementResponse(WrapperBase):
     """Generated wrapper for ExtractTableNamesFromNextStatementResponse"""
 
     def __init__(self, proto: 'local_service_pb2.ExtractTableNamesFromNextStatementResponse'):
@@ -6766,7 +6773,7 @@ class ExtractTableNamesFromNextStatementResponse:
 
 
 
-class ExtractTableNamesFromNextStatementResponseTableName:
+class ExtractTableNamesFromNextStatementResponseTableName(WrapperBase):
     """Generated wrapper for TableName"""
 
     def __init__(self, proto: 'local_service_pb2.ExtractTableNamesFromNextStatementResponse.TableName'):
@@ -6779,7 +6786,7 @@ class ExtractTableNamesFromNextStatementResponseTableName:
 
 
 
-class ExtractTableNamesFromStatementRequest:
+class ExtractTableNamesFromStatementRequest(WrapperBase):
     """Generated wrapper for ExtractTableNamesFromStatementRequest"""
 
     def __init__(self, proto: 'local_service_pb2.ExtractTableNamesFromStatementRequest'):
@@ -6802,7 +6809,7 @@ class ExtractTableNamesFromStatementRequest:
 
 
 
-class ExtractTableNamesFromStatementResponse:
+class ExtractTableNamesFromStatementResponse(WrapperBase):
     """Generated wrapper for ExtractTableNamesFromStatementResponse"""
 
     def __init__(self, proto: 'local_service_pb2.ExtractTableNamesFromStatementResponse'):
@@ -6815,7 +6822,7 @@ class ExtractTableNamesFromStatementResponse:
 
 
 
-class ExtractTableNamesFromStatementResponseTableName:
+class ExtractTableNamesFromStatementResponseTableName(WrapperBase):
     """Generated wrapper for TableName"""
 
     def __init__(self, proto: 'local_service_pb2.ExtractTableNamesFromStatementResponse.TableName'):
@@ -6828,7 +6835,7 @@ class ExtractTableNamesFromStatementResponseTableName:
 
 
 
-class FeatureLabelDictionary:
+class FeatureLabelDictionary(WrapperBase):
     """Generated wrapper for FeatureLabelDictionaryProto"""
 
     def __init__(self, proto: 'feature_label_dictionary_pb2.FeatureLabelDictionaryProto'):
@@ -6846,7 +6853,7 @@ class FeatureLabelDictionary:
 
 
 
-class FeatureLabelDictionaryEncodedLabelsEntry:
+class FeatureLabelDictionaryEncodedLabelsEntry(WrapperBase):
     """Generated wrapper for EncodedLabelsEntry"""
 
     def __init__(self, proto: 'feature_label_dictionary_pb2.FeatureLabelDictionaryProto.EncodedLabelsEntry'):
@@ -6864,7 +6871,7 @@ class FeatureLabelDictionaryEncodedLabelsEntry:
 
 
 
-class FeatureLabelDictionaryLabelMappingEntry:
+class FeatureLabelDictionaryLabelMappingEntry(WrapperBase):
     """Generated wrapper for LabelMappingEntry"""
 
     def __init__(self, proto: 'feature_label_dictionary_pb2.FeatureLabelDictionaryProto.LabelMappingEntry'):
@@ -6882,7 +6889,7 @@ class FeatureLabelDictionaryLabelMappingEntry:
 
 
 
-class FeatureLabelDictionaryLabelSet:
+class FeatureLabelDictionaryLabelSet(WrapperBase):
     """Generated wrapper for LabelSet"""
 
     def __init__(self, proto: 'feature_label_dictionary_pb2.FeatureLabelDictionaryProto.LabelSet'):
@@ -6895,7 +6902,7 @@ class FeatureLabelDictionaryLabelSet:
 
 
 
-class FieldDescriptorRef:
+class FieldDescriptorRef(WrapperBase):
     """Generated wrapper for FieldDescriptorRefProto"""
 
     def __init__(self, proto: 'serialization_pb2.FieldDescriptorRefProto'):
@@ -6913,14 +6920,14 @@ class FieldDescriptorRef:
 
 
 
-class FieldFormat:
+class FieldFormat(WrapperBase):
     """Generated wrapper for FieldFormat"""
 
     def __init__(self, proto: 'type_annotation_pb2.FieldFormat'):
         self._proto = proto
 
 
-class Fix:
+class Fix(WrapperBase):
     """Generated wrapper for Fix"""
 
     def __init__(self, proto: 'fix_suggestion_pb2.Fix'):
@@ -6938,7 +6945,7 @@ class Fix:
 
 
 
-class FixRange:
+class FixRange(WrapperBase):
     """Generated wrapper for FixRange"""
 
     def __init__(self, proto: 'fix_suggestion_pb2.FixRange'):
@@ -6956,7 +6963,7 @@ class FixRange:
 
 
 
-class FormatSqlRequest:
+class FormatSqlRequest(WrapperBase):
     """Generated wrapper for FormatSqlRequest"""
 
     def __init__(self, proto: 'local_service_pb2.FormatSqlRequest'):
@@ -6979,7 +6986,7 @@ class FormatSqlRequest:
 
 
 
-class FormatSqlResponse:
+class FormatSqlResponse(WrapperBase):
     """Generated wrapper for FormatSqlResponse"""
 
     def __init__(self, proto: 'local_service_pb2.FormatSqlResponse'):
@@ -6992,7 +6999,7 @@ class FormatSqlResponse:
 
 
 
-class FormatterOptions:
+class FormatterOptions(WrapperBase):
     """Generated wrapper for FormatterOptionsProto"""
 
     def __init__(self, proto: 'formatter_options_pb2.FormatterOptionsProto'):
@@ -7055,7 +7062,7 @@ class FormatterOptions:
 
 
 
-class FormatterRange:
+class FormatterRange(WrapperBase):
     """Generated wrapper for FormatterRangeProto"""
 
     def __init__(self, proto: 'formatter_options_pb2.FormatterRangeProto'):
@@ -7073,7 +7080,7 @@ class FormatterRange:
 
 
 
-class FreestandingDeprecationWarning:
+class FreestandingDeprecationWarning(WrapperBase):
     """Generated wrapper for FreestandingDeprecationWarning"""
 
     def __init__(self, proto: 'deprecation_warning_pb2.FreestandingDeprecationWarning'):
@@ -7101,7 +7108,7 @@ class FreestandingDeprecationWarning:
 
 
 
-class Function:
+class Function(WrapperBase):
     """Generated wrapper for FunctionProto"""
 
     def __init__(self, proto: 'function_pb2.FunctionProto'):
@@ -7154,7 +7161,7 @@ class Function:
 
 
 
-class FunctionArgumentType:
+class FunctionArgumentType(WrapperBase):
     """Generated wrapper for FunctionArgumentTypeProto"""
 
     def __init__(self, proto: 'function_pb2.FunctionArgumentTypeProto'):
@@ -7187,7 +7194,7 @@ class FunctionArgumentType:
 
 
 
-class FunctionArgumentTypeOptions:
+class FunctionArgumentTypeOptions(WrapperBase):
     """Generated wrapper for FunctionArgumentTypeOptionsProto"""
 
     def __init__(self, proto: 'function_pb2.FunctionArgumentTypeOptionsProto'):
@@ -7335,14 +7342,14 @@ class FunctionArgumentTypeOptions:
 
 
 
-class FunctionEnums:
+class FunctionEnums(WrapperBase):
     """Generated wrapper for FunctionEnums"""
 
     def __init__(self, proto: 'function_pb2.FunctionEnums'):
         self._proto = proto
 
 
-class FunctionOptions:
+class FunctionOptions(WrapperBase):
     """Generated wrapper for FunctionOptionsProto"""
 
     def __init__(self, proto: 'function_pb2.FunctionOptionsProto'):
@@ -7445,7 +7452,7 @@ class FunctionOptions:
 
 
 
-class FunctionRef:
+class FunctionRef(WrapperBase):
     """Generated wrapper for FunctionRefProto"""
 
     def __init__(self, proto: 'serialization_pb2.FunctionRefProto'):
@@ -7458,7 +7465,7 @@ class FunctionRef:
 
 
 
-class FunctionSignature:
+class FunctionSignature(WrapperBase):
     """Generated wrapper for FunctionSignatureProto"""
 
     def __init__(self, proto: 'function_pb2.FunctionSignatureProto'):
@@ -7486,7 +7493,7 @@ class FunctionSignature:
 
 
 
-class FunctionSignatureOptions:
+class FunctionSignatureOptions(WrapperBase):
     """Generated wrapper for FunctionSignatureOptionsProto"""
 
     def __init__(self, proto: 'function_pb2.FunctionSignatureOptionsProto'):
@@ -7534,7 +7541,7 @@ class FunctionSignatureOptions:
 
 
 
-class FunctionSignatureRewriteOptions:
+class FunctionSignatureRewriteOptions(WrapperBase):
     """Generated wrapper for FunctionSignatureRewriteOptionsProto"""
 
     def __init__(self, proto: 'function_pb2.FunctionSignatureRewriteOptionsProto'):
@@ -7567,7 +7574,7 @@ class FunctionSignatureRewriteOptions:
 
 
 
-class GetBuiltinFunctionsResponse:
+class GetBuiltinFunctionsResponse(WrapperBase):
     """Generated wrapper for GetBuiltinFunctionsResponse"""
 
     def __init__(self, proto: 'local_service_pb2.GetBuiltinFunctionsResponse'):
@@ -7590,7 +7597,7 @@ class GetBuiltinFunctionsResponse:
 
 
 
-class GetBuiltinFunctionsResponseTypesEntry:
+class GetBuiltinFunctionsResponseTypesEntry(WrapperBase):
     """Generated wrapper for TypesEntry"""
 
     def __init__(self, proto: 'local_service_pb2.GetBuiltinFunctionsResponse.TypesEntry'):
@@ -7608,7 +7615,7 @@ class GetBuiltinFunctionsResponseTypesEntry:
 
 
 
-class GraphElementLabel:
+class GraphElementLabel(WrapperBase):
     """Generated wrapper for GraphElementLabelProto"""
 
     def __init__(self, proto: 'property_graph_pb2.GraphElementLabelProto'):
@@ -7626,7 +7633,7 @@ class GraphElementLabel:
 
 
 
-class GraphElementLabelRef:
+class GraphElementLabelRef(WrapperBase):
     """Generated wrapper for GraphElementLabelRefProto"""
 
     def __init__(self, proto: 'serialization_pb2.GraphElementLabelRefProto'):
@@ -7644,7 +7651,7 @@ class GraphElementLabelRef:
 
 
 
-class GraphElementTable:
+class GraphElementTable(WrapperBase):
     """Generated wrapper for GraphElementTableProto"""
 
     def __init__(self, proto: 'property_graph_pb2.GraphElementTableProto'):
@@ -7712,7 +7719,7 @@ class GraphElementTable:
 
 
 
-class GraphElementTableRef:
+class GraphElementTableRef(WrapperBase):
     """Generated wrapper for GraphElementTableRefProto"""
 
     def __init__(self, proto: 'serialization_pb2.GraphElementTableRefProto'):
@@ -7730,7 +7737,7 @@ class GraphElementTableRef:
 
 
 
-class GraphElementType:
+class GraphElementType(WrapperBase):
     """Generated wrapper for GraphElementTypeProto"""
 
     def __init__(self, proto: 'type_pb2.GraphElementTypeProto'):
@@ -7758,7 +7765,7 @@ class GraphElementType:
 
 
 
-class GraphElementTypePropertyType:
+class GraphElementTypePropertyType(WrapperBase):
     """Generated wrapper for PropertyTypeProto"""
 
     def __init__(self, proto: 'type_pb2.GraphElementTypeProto.PropertyTypeProto'):
@@ -7776,7 +7783,7 @@ class GraphElementTypePropertyType:
 
 
 
-class GraphNodeTableReference:
+class GraphNodeTableReference(WrapperBase):
     """Generated wrapper for GraphNodeTableReferenceProto"""
 
     def __init__(self, proto: 'property_graph_pb2.GraphNodeTableReferenceProto'):
@@ -7799,7 +7806,7 @@ class GraphNodeTableReference:
 
 
 
-class GraphPathType:
+class GraphPathType(WrapperBase):
     """Generated wrapper for GraphPathTypeProto"""
 
     def __init__(self, proto: 'type_pb2.GraphPathTypeProto'):
@@ -7817,7 +7824,7 @@ class GraphPathType:
 
 
 
-class GraphPropertyDeclaration:
+class GraphPropertyDeclaration(WrapperBase):
     """Generated wrapper for GraphPropertyDeclarationProto"""
 
     def __init__(self, proto: 'property_graph_pb2.GraphPropertyDeclarationProto'):
@@ -7835,7 +7842,7 @@ class GraphPropertyDeclaration:
 
 
 
-class GraphPropertyDeclarationRef:
+class GraphPropertyDeclarationRef(WrapperBase):
     """Generated wrapper for GraphPropertyDeclarationRefProto"""
 
     def __init__(self, proto: 'serialization_pb2.GraphPropertyDeclarationRefProto'):
@@ -7853,7 +7860,7 @@ class GraphPropertyDeclarationRef:
 
 
 
-class GraphPropertyDefinition:
+class GraphPropertyDefinition(WrapperBase):
     """Generated wrapper for GraphPropertyDefinitionProto"""
 
     def __init__(self, proto: 'property_graph_pb2.GraphPropertyDefinitionProto'):
@@ -7871,7 +7878,7 @@ class GraphPropertyDefinition:
 
 
 
-class GroupingSetRewriteOptions:
+class GroupingSetRewriteOptions(WrapperBase):
     """Generated wrapper for GroupingSetRewriteOptions"""
 
     def __init__(self, proto: 'options_pb2.GroupingSetRewriteOptions'):
@@ -7889,7 +7896,7 @@ class GroupingSetRewriteOptions:
 
 
 
-class InternalEdits:
+class InternalEdits(WrapperBase):
     """Generated wrapper for InternalEdits"""
 
     def __init__(self, proto: 'internal_fix_suggestion_pb2.InternalEdits'):
@@ -7902,7 +7909,7 @@ class InternalEdits:
 
 
 
-class InternalErrorFixSuggestions:
+class InternalErrorFixSuggestions(WrapperBase):
     """Generated wrapper for InternalErrorFixSuggestions"""
 
     def __init__(self, proto: 'internal_fix_suggestion_pb2.InternalErrorFixSuggestions'):
@@ -7915,7 +7922,7 @@ class InternalErrorFixSuggestions:
 
 
 
-class InternalErrorLocation:
+class InternalErrorLocation(WrapperBase):
     """Generated wrapper for InternalErrorLocation"""
 
     def __init__(self, proto: 'internal_error_location_pb2.InternalErrorLocation'):
@@ -7938,7 +7945,7 @@ class InternalErrorLocation:
 
 
 
-class InternalFix:
+class InternalFix(WrapperBase):
     """Generated wrapper for InternalFix"""
 
     def __init__(self, proto: 'internal_fix_suggestion_pb2.InternalFix'):
@@ -7956,7 +7963,7 @@ class InternalFix:
 
 
 
-class InternalFixRange:
+class InternalFixRange(WrapperBase):
     """Generated wrapper for InternalFixRange"""
 
     def __init__(self, proto: 'internal_fix_suggestion_pb2.InternalFixRange'):
@@ -7974,7 +7981,7 @@ class InternalFixRange:
 
 
 
-class InternalTextEdit:
+class InternalTextEdit(WrapperBase):
     """Generated wrapper for InternalTextEdit"""
 
     def __init__(self, proto: 'internal_fix_suggestion_pb2.InternalTextEdit'):
@@ -7992,7 +7999,7 @@ class InternalTextEdit:
 
 
 
-class KnownErrorEntry:
+class KnownErrorEntry(WrapperBase):
     """Generated wrapper for KnownErrorEntry"""
 
     def __init__(self, proto: 'known_error_pb2.KnownErrorEntry'):
@@ -8015,7 +8022,7 @@ class KnownErrorEntry:
 
 
 
-class KnownErrorFile:
+class KnownErrorFile(WrapperBase):
     """Generated wrapper for KnownErrorFile"""
 
     def __init__(self, proto: 'known_error_pb2.KnownErrorFile'):
@@ -8033,7 +8040,7 @@ class KnownErrorFile:
 
 
 
-class LanguageFeatureOptions:
+class LanguageFeatureOptions(WrapperBase):
     """Generated wrapper for LanguageFeatureOptions"""
 
     def __init__(self, proto: 'options_pb2.LanguageFeatureOptions'):
@@ -8056,7 +8063,7 @@ class LanguageFeatureOptions:
 
 
 
-class LanguageOptions:
+class LanguageOptions(WrapperBase):
     """Generated wrapper for LanguageOptionsProto"""
 
     def __init__(self, proto: 'options_pb2.LanguageOptionsProto'):
@@ -8104,7 +8111,7 @@ class LanguageOptions:
 
 
 
-class LanguageOptionsRequest:
+class LanguageOptionsRequest(WrapperBase):
     """Generated wrapper for LanguageOptionsRequest"""
 
     def __init__(self, proto: 'local_service_pb2.LanguageOptionsRequest'):
@@ -8122,7 +8129,7 @@ class LanguageOptionsRequest:
 
 
 
-class MapType:
+class MapType(WrapperBase):
     """Generated wrapper for MapTypeProto"""
 
     def __init__(self, proto: 'type_pb2.MapTypeProto'):
@@ -8140,7 +8147,7 @@ class MapType:
 
 
 
-class MatchPartitionResult:
+class MatchPartitionResult(WrapperBase):
     """Generated wrapper for MatchPartitionResultProto"""
 
     def __init__(self, proto: 'match_test_result_pb2.MatchPartitionResultProto'):
@@ -8158,7 +8165,7 @@ class MatchPartitionResult:
 
 
 
-class MatchResult:
+class MatchResult(WrapperBase):
     """Generated wrapper for MatchResultProto"""
 
     def __init__(self, proto: 'match_test_result_pb2.MatchResultProto'):
@@ -8176,7 +8183,7 @@ class MatchResult:
 
 
 
-class MeasureType:
+class MeasureType(WrapperBase):
     """Generated wrapper for MeasureTypeProto"""
 
     def __init__(self, proto: 'type_pb2.MeasureTypeProto'):
@@ -8189,7 +8196,7 @@ class MeasureType:
 
 
 
-class ModelRef:
+class ModelRef(WrapperBase):
     """Generated wrapper for ModelRefProto"""
 
     def __init__(self, proto: 'serialization_pb2.ModelRefProto'):
@@ -8212,7 +8219,7 @@ class ModelRef:
 
 
 
-class ModuleOptions:
+class ModuleOptions(WrapperBase):
     """Generated wrapper for ModuleOptions"""
 
     def __init__(self, proto: 'module_options_pb2.ModuleOptions'):
@@ -8230,7 +8237,7 @@ class ModuleOptions:
 
 
 
-class ModuleOptionsPerModuleOptionsEntry:
+class ModuleOptionsPerModuleOptionsEntry(WrapperBase):
     """Generated wrapper for PerModuleOptionsEntry"""
 
     def __init__(self, proto: 'module_options_pb2.ModuleOptions.PerModuleOptionsEntry'):
@@ -8248,7 +8255,7 @@ class ModuleOptionsPerModuleOptionsEntry:
 
 
 
-class NoiseConfidenceInterval:
+class NoiseConfidenceInterval(WrapperBase):
     """Generated wrapper for NoiseConfidenceInterval"""
 
     def __init__(self, proto: 'anon_output_with_report_pb2.NoiseConfidenceInterval'):
@@ -8271,7 +8278,7 @@ class NoiseConfidenceInterval:
 
 
 
-class NumericTypeParameters:
+class NumericTypeParameters(WrapperBase):
     """Generated wrapper for NumericTypeParametersProto"""
 
     def __init__(self, proto: 'type_parameters_pb2.NumericTypeParametersProto'):
@@ -8294,7 +8301,7 @@ class NumericTypeParameters:
 
 
 
-class OneofDescriptorRef:
+class OneofDescriptorRef(WrapperBase):
     """Generated wrapper for OneofDescriptorRefProto"""
 
     def __init__(self, proto: 'serialization_pb2.OneofDescriptorRefProto'):
@@ -8312,7 +8319,7 @@ class OneofDescriptorRef:
 
 
 
-class OpaqueEnumTypeOptions:
+class OpaqueEnumTypeOptions(WrapperBase):
     """Generated wrapper for OpaqueEnumTypeOptions"""
 
     def __init__(self, proto: 'type_pb2.OpaqueEnumTypeOptions'):
@@ -8325,7 +8332,7 @@ class OpaqueEnumTypeOptions:
 
 
 
-class OpaqueEnumValueOptions:
+class OpaqueEnumValueOptions(WrapperBase):
     """Generated wrapper for OpaqueEnumValueOptions"""
 
     def __init__(self, proto: 'type_pb2.OpaqueEnumValueOptions'):
@@ -8338,7 +8345,7 @@ class OpaqueEnumValueOptions:
 
 
 
-class Parameter:
+class Parameter(WrapperBase):
     """Generated wrapper for Parameter"""
 
     def __init__(self, proto: 'local_service_pb2.Parameter'):
@@ -8356,7 +8363,7 @@ class Parameter:
 
 
 
-class ParseLocationRange:
+class ParseLocationRange(WrapperBase):
     """Generated wrapper for ParseLocationRangeProto"""
 
     def __init__(self, proto: 'parse_location_range_pb2.ParseLocationRangeProto'):
@@ -8379,7 +8386,7 @@ class ParseLocationRange:
 
 
 
-class ParseRequest:
+class ParseRequest(WrapperBase):
     """Generated wrapper for ParseRequest"""
 
     def __init__(self, proto: 'local_service_pb2.ParseRequest'):
@@ -8407,7 +8414,7 @@ class ParseRequest:
 
 
 
-class ParseResponse:
+class ParseResponse(WrapperBase):
     """Generated wrapper for ParseResponse"""
 
     def __init__(self, proto: 'local_service_pb2.ParseResponse'):
@@ -8430,7 +8437,7 @@ class ParseResponse:
 
 
 
-class ParseResumeLocation:
+class ParseResumeLocation(WrapperBase):
     """Generated wrapper for ParseResumeLocationProto"""
 
     def __init__(self, proto: 'parse_resume_location_pb2.ParseResumeLocationProto'):
@@ -8458,7 +8465,7 @@ class ParseResumeLocation:
 
 
 
-class ParserErrorContext:
+class ParserErrorContext(WrapperBase):
     """Generated wrapper for ParserErrorContext"""
 
     def __init__(self, proto: 'execute_query_pb2.ParserErrorContext'):
@@ -8471,7 +8478,7 @@ class ParserErrorContext:
 
 
 
-class PerModuleOptions:
+class PerModuleOptions(WrapperBase):
     """Generated wrapper for PerModuleOptions"""
 
     def __init__(self, proto: 'module_options_pb2.PerModuleOptions'):
@@ -8499,7 +8506,7 @@ class PerModuleOptions:
 
 
 
-class PlaceholderDescriptor:
+class PlaceholderDescriptor(WrapperBase):
     """Generated wrapper for PlaceholderDescriptorProto"""
 
     def __init__(self, proto: 'placeholder_descriptor_pb2.PlaceholderDescriptorProto'):
@@ -8512,7 +8519,7 @@ class PlaceholderDescriptor:
 
 
 
-class PrepareModifyRequest:
+class PrepareModifyRequest(WrapperBase):
     """Generated wrapper for PrepareModifyRequest"""
 
     def __init__(self, proto: 'local_service_pb2.PrepareModifyRequest'):
@@ -8550,7 +8557,7 @@ class PrepareModifyRequest:
 
 
 
-class PrepareModifyRequestTableContentEntry:
+class PrepareModifyRequestTableContentEntry(WrapperBase):
     """Generated wrapper for TableContentEntry"""
 
     def __init__(self, proto: 'local_service_pb2.PrepareModifyRequest.TableContentEntry'):
@@ -8568,7 +8575,7 @@ class PrepareModifyRequestTableContentEntry:
 
 
 
-class PrepareModifyResponse:
+class PrepareModifyResponse(WrapperBase):
     """Generated wrapper for PrepareModifyResponse"""
 
     def __init__(self, proto: 'local_service_pb2.PrepareModifyResponse'):
@@ -8581,7 +8588,7 @@ class PrepareModifyResponse:
 
 
 
-class PrepareQueryRequest:
+class PrepareQueryRequest(WrapperBase):
     """Generated wrapper for PrepareQueryRequest"""
 
     def __init__(self, proto: 'local_service_pb2.PrepareQueryRequest'):
@@ -8619,7 +8626,7 @@ class PrepareQueryRequest:
 
 
 
-class PrepareQueryRequestTableContentEntry:
+class PrepareQueryRequestTableContentEntry(WrapperBase):
     """Generated wrapper for TableContentEntry"""
 
     def __init__(self, proto: 'local_service_pb2.PrepareQueryRequest.TableContentEntry'):
@@ -8637,7 +8644,7 @@ class PrepareQueryRequestTableContentEntry:
 
 
 
-class PrepareQueryResponse:
+class PrepareQueryResponse(WrapperBase):
     """Generated wrapper for PrepareQueryResponse"""
 
     def __init__(self, proto: 'local_service_pb2.PrepareQueryResponse'):
@@ -8650,7 +8657,7 @@ class PrepareQueryResponse:
 
 
 
-class PrepareRequest:
+class PrepareRequest(WrapperBase):
     """Generated wrapper for PrepareRequest"""
 
     def __init__(self, proto: 'local_service_pb2.PrepareRequest'):
@@ -8683,7 +8690,7 @@ class PrepareRequest:
 
 
 
-class PrepareResponse:
+class PrepareResponse(WrapperBase):
     """Generated wrapper for PrepareResponse"""
 
     def __init__(self, proto: 'local_service_pb2.PrepareResponse'):
@@ -8696,7 +8703,7 @@ class PrepareResponse:
 
 
 
-class PreparedModifyState:
+class PreparedModifyState(WrapperBase):
     """Generated wrapper for PreparedModifyState"""
 
     def __init__(self, proto: 'local_service_pb2.PreparedModifyState'):
@@ -8724,7 +8731,7 @@ class PreparedModifyState:
 
 
 
-class PreparedQueryState:
+class PreparedQueryState(WrapperBase):
     """Generated wrapper for PreparedQueryState"""
 
     def __init__(self, proto: 'local_service_pb2.PreparedQueryState'):
@@ -8757,7 +8764,7 @@ class PreparedQueryState:
 
 
 
-class PreparedState:
+class PreparedState(WrapperBase):
     """Generated wrapper for PreparedState"""
 
     def __init__(self, proto: 'local_service_pb2.PreparedState'):
@@ -8795,7 +8802,7 @@ class PreparedState:
 
 
 
-class Procedure:
+class Procedure(WrapperBase):
     """Generated wrapper for ProcedureProto"""
 
     def __init__(self, proto: 'function_pb2.ProcedureProto'):
@@ -8813,14 +8820,14 @@ class Procedure:
 
 
 
-class ProcedureExtension:
+class ProcedureExtension(WrapperBase):
     """Generated wrapper for ProcedureExtension"""
 
     def __init__(self, proto: 'procedure_extension_pb2.ProcedureExtension'):
         self._proto = proto
 
 
-class ProcedureRef:
+class ProcedureRef(WrapperBase):
     """Generated wrapper for ProcedureRefProto"""
 
     def __init__(self, proto: 'serialization_pb2.ProcedureRefProto'):
@@ -8833,7 +8840,7 @@ class ProcedureRef:
 
 
 
-class PropertyGraph:
+class PropertyGraph(WrapperBase):
     """Generated wrapper for PropertyGraphProto"""
 
     def __init__(self, proto: 'property_graph_pb2.PropertyGraphProto'):
@@ -8876,7 +8883,7 @@ class PropertyGraph:
 
 
 
-class PropertyGraphRef:
+class PropertyGraphRef(WrapperBase):
     """Generated wrapper for PropertyGraphRefProto"""
 
     def __init__(self, proto: 'serialization_pb2.PropertyGraphRefProto'):
@@ -8889,14 +8896,14 @@ class PropertyGraphRef:
 
 
 
-class RangeSessionizeEnums:
+class RangeSessionizeEnums(WrapperBase):
     """Generated wrapper for RangeSessionizeEnums"""
 
     def __init__(self, proto: 'range_sessionize_mode_pb2.RangeSessionizeEnums'):
         self._proto = proto
 
 
-class RangeType:
+class RangeType(WrapperBase):
     """Generated wrapper for RangeTypeProto"""
 
     def __init__(self, proto: 'type_pb2.RangeTypeProto'):
@@ -8909,14 +8916,14 @@ class RangeType:
 
 
 
-class RankTypeEnums:
+class RankTypeEnums(WrapperBase):
     """Generated wrapper for RankTypeEnums"""
 
     def __init__(self, proto: 'rank_type_pb2.RankTypeEnums'):
         self._proto = proto
 
 
-class RegisterCatalogRequest:
+class RegisterCatalogRequest(WrapperBase):
     """Generated wrapper for RegisterCatalogRequest"""
 
     def __init__(self, proto: 'local_service_pb2.RegisterCatalogRequest'):
@@ -8939,7 +8946,7 @@ class RegisterCatalogRequest:
 
 
 
-class RegisterCatalogRequestTableContentEntry:
+class RegisterCatalogRequestTableContentEntry(WrapperBase):
     """Generated wrapper for TableContentEntry"""
 
     def __init__(self, proto: 'local_service_pb2.RegisterCatalogRequest.TableContentEntry'):
@@ -8957,7 +8964,7 @@ class RegisterCatalogRequestTableContentEntry:
 
 
 
-class RegisterResponse:
+class RegisterResponse(WrapperBase):
     """Generated wrapper for RegisterResponse"""
 
     def __init__(self, proto: 'local_service_pb2.RegisterResponse'):
@@ -8975,7 +8982,7 @@ class RegisterResponse:
 
 
 
-class ResolvedASTRewriteOptions:
+class ResolvedASTRewriteOptions(WrapperBase):
     """Generated wrapper for ResolvedASTRewriteOptions"""
 
     def __init__(self, proto: 'options_pb2.ResolvedASTRewriteOptions'):
@@ -8993,42 +9000,42 @@ class ResolvedASTRewriteOptions:
 
 
 
-class ResolvedAggregateHavingModifierEnums:
+class ResolvedAggregateHavingModifierEnums(WrapperBase):
     """Generated wrapper for ResolvedAggregateHavingModifierEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedAggregateHavingModifierEnums'):
         self._proto = proto
 
 
-class ResolvedAlterIndexStmtEnums:
+class ResolvedAlterIndexStmtEnums(WrapperBase):
     """Generated wrapper for ResolvedAlterIndexStmtEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedAlterIndexStmtEnums'):
         self._proto = proto
 
 
-class ResolvedArgumentDefEnums:
+class ResolvedArgumentDefEnums(WrapperBase):
     """Generated wrapper for ResolvedArgumentDefEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedArgumentDefEnums'):
         self._proto = proto
 
 
-class ResolvedAuxLoadDataStmtEnums:
+class ResolvedAuxLoadDataStmtEnums(WrapperBase):
     """Generated wrapper for ResolvedAuxLoadDataStmtEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedAuxLoadDataStmtEnums'):
         self._proto = proto
 
 
-class ResolvedBeginStmtEnums:
+class ResolvedBeginStmtEnums(WrapperBase):
     """Generated wrapper for ResolvedBeginStmtEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedBeginStmtEnums'):
         self._proto = proto
 
 
-class ResolvedCollation:
+class ResolvedCollation(WrapperBase):
     """Generated wrapper for ResolvedCollationProto"""
 
     def __init__(self, proto: 'serialization_pb2.ResolvedCollationProto'):
@@ -9046,7 +9053,7 @@ class ResolvedCollation:
 
 
 
-class ResolvedColumn:
+class ResolvedColumn(WrapperBase):
     """Generated wrapper for ResolvedColumnProto"""
 
     def __init__(self, proto: 'serialization_pb2.ResolvedColumnProto'):
@@ -9079,140 +9086,140 @@ class ResolvedColumn:
 
 
 
-class ResolvedCreateStatementEnums:
+class ResolvedCreateStatementEnums(WrapperBase):
     """Generated wrapper for ResolvedCreateStatementEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedCreateStatementEnums'):
         self._proto = proto
 
 
-class ResolvedDropIndexStmtEnums:
+class ResolvedDropIndexStmtEnums(WrapperBase):
     """Generated wrapper for ResolvedDropIndexStmtEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedDropIndexStmtEnums'):
         self._proto = proto
 
 
-class ResolvedDropStmtEnums:
+class ResolvedDropStmtEnums(WrapperBase):
     """Generated wrapper for ResolvedDropStmtEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedDropStmtEnums'):
         self._proto = proto
 
 
-class ResolvedForeignKeyEnums:
+class ResolvedForeignKeyEnums(WrapperBase):
     """Generated wrapper for ResolvedForeignKeyEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedForeignKeyEnums'):
         self._proto = proto
 
 
-class ResolvedFunctionCallBaseEnums:
+class ResolvedFunctionCallBaseEnums(WrapperBase):
     """Generated wrapper for ResolvedFunctionCallBaseEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedFunctionCallBaseEnums'):
         self._proto = proto
 
 
-class ResolvedFunctionCallInfo:
+class ResolvedFunctionCallInfo(WrapperBase):
     """Generated wrapper for ResolvedFunctionCallInfoProto"""
 
     def __init__(self, proto: 'function_pb2.ResolvedFunctionCallInfoProto'):
         self._proto = proto
 
 
-class ResolvedGeneratedColumnInfoEnums:
+class ResolvedGeneratedColumnInfoEnums(WrapperBase):
     """Generated wrapper for ResolvedGeneratedColumnInfoEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedGeneratedColumnInfoEnums'):
         self._proto = proto
 
 
-class ResolvedGraphEdgeScanEnums:
+class ResolvedGraphEdgeScanEnums(WrapperBase):
     """Generated wrapper for ResolvedGraphEdgeScanEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedGraphEdgeScanEnums'):
         self._proto = proto
 
 
-class ResolvedGraphLabelNaryExprEnums:
+class ResolvedGraphLabelNaryExprEnums(WrapperBase):
     """Generated wrapper for ResolvedGraphLabelNaryExprEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedGraphLabelNaryExprEnums'):
         self._proto = proto
 
 
-class ResolvedGraphPathModeEnums:
+class ResolvedGraphPathModeEnums(WrapperBase):
     """Generated wrapper for ResolvedGraphPathModeEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedGraphPathModeEnums'):
         self._proto = proto
 
 
-class ResolvedGraphPathSearchPrefixEnums:
+class ResolvedGraphPathSearchPrefixEnums(WrapperBase):
     """Generated wrapper for ResolvedGraphPathSearchPrefixEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedGraphPathSearchPrefixEnums'):
         self._proto = proto
 
 
-class ResolvedImportStmtEnums:
+class ResolvedImportStmtEnums(WrapperBase):
     """Generated wrapper for ResolvedImportStmtEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedImportStmtEnums'):
         self._proto = proto
 
 
-class ResolvedInsertStmtEnums:
+class ResolvedInsertStmtEnums(WrapperBase):
     """Generated wrapper for ResolvedInsertStmtEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedInsertStmtEnums'):
         self._proto = proto
 
 
-class ResolvedJoinScanEnums:
+class ResolvedJoinScanEnums(WrapperBase):
     """Generated wrapper for ResolvedJoinScanEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedJoinScanEnums'):
         self._proto = proto
 
 
-class ResolvedLockModeEnums:
+class ResolvedLockModeEnums(WrapperBase):
     """Generated wrapper for ResolvedLockModeEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedLockModeEnums'):
         self._proto = proto
 
 
-class ResolvedMatchRecognizePatternAnchorEnums:
+class ResolvedMatchRecognizePatternAnchorEnums(WrapperBase):
     """Generated wrapper for ResolvedMatchRecognizePatternAnchorEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedMatchRecognizePatternAnchorEnums'):
         self._proto = proto
 
 
-class ResolvedMatchRecognizePatternOperationEnums:
+class ResolvedMatchRecognizePatternOperationEnums(WrapperBase):
     """Generated wrapper for ResolvedMatchRecognizePatternOperationEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedMatchRecognizePatternOperationEnums'):
         self._proto = proto
 
 
-class ResolvedMatchRecognizeScanEnums:
+class ResolvedMatchRecognizeScanEnums(WrapperBase):
     """Generated wrapper for ResolvedMatchRecognizeScanEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedMatchRecognizeScanEnums'):
         self._proto = proto
 
 
-class ResolvedMergeWhenEnums:
+class ResolvedMergeWhenEnums(WrapperBase):
     """Generated wrapper for ResolvedMergeWhenEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedMergeWhenEnums'):
         self._proto = proto
 
 
-class ResolvedNode:
+class ResolvedNode(WrapperBase):
     """Generated wrapper for ResolvedNodeProto"""
 
     def __init__(self, proto: 'serialization_pb2.ResolvedNodeProto'):
@@ -9225,91 +9232,91 @@ class ResolvedNode:
 
 
 
-class ResolvedNonScalarFunctionCallBaseEnums:
+class ResolvedNonScalarFunctionCallBaseEnums(WrapperBase):
     """Generated wrapper for ResolvedNonScalarFunctionCallBaseEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedNonScalarFunctionCallBaseEnums'):
         self._proto = proto
 
 
-class ResolvedOnConflictClauseEnums:
+class ResolvedOnConflictClauseEnums(WrapperBase):
     """Generated wrapper for ResolvedOnConflictClauseEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedOnConflictClauseEnums'):
         self._proto = proto
 
 
-class ResolvedOptionEnums:
+class ResolvedOptionEnums(WrapperBase):
     """Generated wrapper for ResolvedOptionEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedOptionEnums'):
         self._proto = proto
 
 
-class ResolvedOrderByItemEnums:
+class ResolvedOrderByItemEnums(WrapperBase):
     """Generated wrapper for ResolvedOrderByItemEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedOrderByItemEnums'):
         self._proto = proto
 
 
-class ResolvedRecursiveScanEnums:
+class ResolvedRecursiveScanEnums(WrapperBase):
     """Generated wrapper for ResolvedRecursiveScanEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedRecursiveScanEnums'):
         self._proto = proto
 
 
-class ResolvedSampleScanEnums:
+class ResolvedSampleScanEnums(WrapperBase):
     """Generated wrapper for ResolvedSampleScanEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedSampleScanEnums'):
         self._proto = proto
 
 
-class ResolvedSetOperationScanEnums:
+class ResolvedSetOperationScanEnums(WrapperBase):
     """Generated wrapper for ResolvedSetOperationScanEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedSetOperationScanEnums'):
         self._proto = proto
 
 
-class ResolvedStatementEnums:
+class ResolvedStatementEnums(WrapperBase):
     """Generated wrapper for ResolvedStatementEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedStatementEnums'):
         self._proto = proto
 
 
-class ResolvedSubqueryExprEnums:
+class ResolvedSubqueryExprEnums(WrapperBase):
     """Generated wrapper for ResolvedSubqueryExprEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedSubqueryExprEnums'):
         self._proto = proto
 
 
-class ResolvedUpdateFieldItemEnums:
+class ResolvedUpdateFieldItemEnums(WrapperBase):
     """Generated wrapper for ResolvedUpdateFieldItemEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedUpdateFieldItemEnums'):
         self._proto = proto
 
 
-class ResolvedWindowFrameEnums:
+class ResolvedWindowFrameEnums(WrapperBase):
     """Generated wrapper for ResolvedWindowFrameEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedWindowFrameEnums'):
         self._proto = proto
 
 
-class ResolvedWindowFrameExprEnums:
+class ResolvedWindowFrameExprEnums(WrapperBase):
     """Generated wrapper for ResolvedWindowFrameExprEnums"""
 
     def __init__(self, proto: 'resolved_ast_enums_pb2.ResolvedWindowFrameExprEnums'):
         self._proto = proto
 
 
-class ResultTable:
+class ResultTable(WrapperBase):
     """Generated wrapper for ResultTable"""
 
     def __init__(self, proto: 'reflection_pb2.ResultTable'):
@@ -9347,7 +9354,7 @@ class ResultTable:
 
 
 
-class RewriteOptions:
+class RewriteOptions(WrapperBase):
     """Generated wrapper for RewriteOptions"""
 
     def __init__(self, proto: 'options_pb2.RewriteOptions'):
@@ -9360,7 +9367,7 @@ class RewriteOptions:
 
 
 
-class ScriptException:
+class ScriptException(WrapperBase):
     """Generated wrapper for ScriptException"""
 
     def __init__(self, proto: 'script_exception_pb2.ScriptException'):
@@ -9378,7 +9385,7 @@ class ScriptException:
 
 
 
-class ScriptExceptionInternal:
+class ScriptExceptionInternal(WrapperBase):
     """Generated wrapper for Internal"""
 
     def __init__(self, proto: 'script_exception_pb2.ScriptException.Internal'):
@@ -9396,7 +9403,7 @@ class ScriptExceptionInternal:
 
 
 
-class ScriptExceptionStackTraceFrame:
+class ScriptExceptionStackTraceFrame(WrapperBase):
     """Generated wrapper for StackTraceFrame"""
 
     def __init__(self, proto: 'script_exception_pb2.ScriptException.StackTraceFrame'):
@@ -9424,7 +9431,7 @@ class ScriptExceptionStackTraceFrame:
 
 
 
-class ScriptExecutorState:
+class ScriptExecutorState(WrapperBase):
     """Generated wrapper for ScriptExecutorStateProto"""
 
     def __init__(self, proto: 'script_executor_state_pb2.ScriptExecutorStateProto'):
@@ -9467,7 +9474,7 @@ class ScriptExecutorState:
 
 
 
-class ScriptExecutorStateProcedureDefinition:
+class ScriptExecutorStateProcedureDefinition(WrapperBase):
     """Generated wrapper for ProcedureDefinition"""
 
     def __init__(self, proto: 'script_executor_state_pb2.ScriptExecutorStateProto.ProcedureDefinition'):
@@ -9505,7 +9512,7 @@ class ScriptExecutorStateProcedureDefinition:
 
 
 
-class ScriptExecutorStateScriptFeatureUsage:
+class ScriptExecutorStateScriptFeatureUsage(WrapperBase):
     """Generated wrapper for ScriptFeatureUsage"""
 
     def __init__(self, proto: 'script_executor_state_pb2.ScriptExecutorStateProto.ScriptFeatureUsage'):
@@ -9528,7 +9535,7 @@ class ScriptExecutorStateScriptFeatureUsage:
 
 
 
-class ScriptExecutorStateStackFrame:
+class ScriptExecutorStateStackFrame(WrapperBase):
     """Generated wrapper for StackFrame"""
 
     def __init__(self, proto: 'script_executor_state_pb2.ScriptExecutorStateProto.StackFrame'):
@@ -9566,7 +9573,7 @@ class ScriptExecutorStateStackFrame:
 
 
 
-class ScriptExecutorStateStackFrameParameters:
+class ScriptExecutorStateStackFrameParameters(WrapperBase):
     """Generated wrapper for Parameters"""
 
     def __init__(self, proto: 'script_executor_state_pb2.StackFrame.Parameters'):
@@ -9584,7 +9591,7 @@ class ScriptExecutorStateStackFrameParameters:
 
 
 
-class SequenceRef:
+class SequenceRef(WrapperBase):
     """Generated wrapper for SequenceRefProto"""
 
     def __init__(self, proto: 'serialization_pb2.SequenceRefProto'):
@@ -9602,7 +9609,7 @@ class SequenceRef:
 
 
 
-class SimpleAnonymizationInfo:
+class SimpleAnonymizationInfo(WrapperBase):
     """Generated wrapper for SimpleAnonymizationInfoProto"""
 
     def __init__(self, proto: 'simple_table_pb2.SimpleAnonymizationInfoProto'):
@@ -9615,7 +9622,7 @@ class SimpleAnonymizationInfo:
 
 
 
-class SimpleCatalog:
+class SimpleCatalog(WrapperBase):
     """Generated wrapper for SimpleCatalogProto"""
 
     def __init__(self, proto: 'simple_catalog_pb2.SimpleCatalogProto'):
@@ -9693,7 +9700,7 @@ class SimpleCatalog:
 
 
 
-class SimpleCatalogNamedType:
+class SimpleCatalogNamedType(WrapperBase):
     """Generated wrapper for NamedTypeProto"""
 
     def __init__(self, proto: 'simple_catalog_pb2.SimpleCatalogProto.NamedTypeProto'):
@@ -9711,7 +9718,7 @@ class SimpleCatalogNamedType:
 
 
 
-class SimpleColumn:
+class SimpleColumn(WrapperBase):
     """Generated wrapper for SimpleColumnProto"""
 
     def __init__(self, proto: 'simple_table_pb2.SimpleColumnProto'):
@@ -9759,7 +9766,7 @@ class SimpleColumn:
 
 
 
-class SimpleConnection:
+class SimpleConnection(WrapperBase):
     """Generated wrapper for SimpleConnectionProto"""
 
     def __init__(self, proto: 'simple_connection_pb2.SimpleConnectionProto'):
@@ -9772,7 +9779,7 @@ class SimpleConnection:
 
 
 
-class SimpleConstant:
+class SimpleConstant(WrapperBase):
     """Generated wrapper for SimpleConstantProto"""
 
     def __init__(self, proto: 'simple_constant_pb2.SimpleConstantProto'):
@@ -9795,7 +9802,7 @@ class SimpleConstant:
 
 
 
-class SimpleGraphElementDynamicLabel:
+class SimpleGraphElementDynamicLabel(WrapperBase):
     """Generated wrapper for SimpleGraphElementDynamicLabelProto"""
 
     def __init__(self, proto: 'simple_property_graph_pb2.SimpleGraphElementDynamicLabelProto'):
@@ -9808,7 +9815,7 @@ class SimpleGraphElementDynamicLabel:
 
 
 
-class SimpleGraphElementDynamicProperties:
+class SimpleGraphElementDynamicProperties(WrapperBase):
     """Generated wrapper for SimpleGraphElementDynamicPropertiesProto"""
 
     def __init__(self, proto: 'simple_property_graph_pb2.SimpleGraphElementDynamicPropertiesProto'):
@@ -9821,7 +9828,7 @@ class SimpleGraphElementDynamicProperties:
 
 
 
-class SimpleGraphElementLabel:
+class SimpleGraphElementLabel(WrapperBase):
     """Generated wrapper for SimpleGraphElementLabelProto"""
 
     def __init__(self, proto: 'simple_property_graph_pb2.SimpleGraphElementLabelProto'):
@@ -9844,7 +9851,7 @@ class SimpleGraphElementLabel:
 
 
 
-class SimpleGraphElementTable:
+class SimpleGraphElementTable(WrapperBase):
     """Generated wrapper for SimpleGraphElementTableProto"""
 
     def __init__(self, proto: 'simple_property_graph_pb2.SimpleGraphElementTableProto'):
@@ -9907,7 +9914,7 @@ class SimpleGraphElementTable:
 
 
 
-class SimpleGraphNodeTableReference:
+class SimpleGraphNodeTableReference(WrapperBase):
     """Generated wrapper for SimpleGraphNodeTableReferenceProto"""
 
     def __init__(self, proto: 'simple_property_graph_pb2.SimpleGraphNodeTableReferenceProto'):
@@ -9930,7 +9937,7 @@ class SimpleGraphNodeTableReference:
 
 
 
-class SimpleGraphPropertyDeclaration:
+class SimpleGraphPropertyDeclaration(WrapperBase):
     """Generated wrapper for SimpleGraphPropertyDeclarationProto"""
 
     def __init__(self, proto: 'simple_property_graph_pb2.SimpleGraphPropertyDeclarationProto'):
@@ -9953,7 +9960,7 @@ class SimpleGraphPropertyDeclaration:
 
 
 
-class SimpleGraphPropertyDefinition:
+class SimpleGraphPropertyDefinition(WrapperBase):
     """Generated wrapper for SimpleGraphPropertyDefinitionProto"""
 
     def __init__(self, proto: 'simple_property_graph_pb2.SimpleGraphPropertyDefinitionProto'):
@@ -9971,7 +9978,7 @@ class SimpleGraphPropertyDefinition:
 
 
 
-class SimpleModel:
+class SimpleModel(WrapperBase):
     """Generated wrapper for SimpleModelProto"""
 
     def __init__(self, proto: 'simple_model_pb2.SimpleModelProto'):
@@ -9999,7 +10006,7 @@ class SimpleModel:
 
 
 
-class SimplePropertyGraph:
+class SimplePropertyGraph(WrapperBase):
     """Generated wrapper for SimplePropertyGraphProto"""
 
     def __init__(self, proto: 'simple_property_graph_pb2.SimplePropertyGraphProto'):
@@ -10037,7 +10044,7 @@ class SimplePropertyGraph:
 
 
 
-class SimpleSequence:
+class SimpleSequence(WrapperBase):
     """Generated wrapper for SimpleSequenceProto"""
 
     def __init__(self, proto: 'simple_sequence_pb2.SimpleSequenceProto'):
@@ -10055,7 +10062,7 @@ class SimpleSequence:
 
 
 
-class SimpleTable:
+class SimpleTable(WrapperBase):
     """Generated wrapper for SimpleTableProto"""
 
     def __init__(self, proto: 'simple_table_pb2.SimpleTableProto'):
@@ -10118,7 +10125,7 @@ class SimpleTable:
 
 
 
-class SimpleTokenList:
+class SimpleTokenList(WrapperBase):
     """Generated wrapper for SimpleTokenListProto"""
 
     def __init__(self, proto: 'simple_token_list_pb2.SimpleTokenListProto'):
@@ -10131,7 +10138,7 @@ class SimpleTokenList:
 
 
 
-class SimpleValue:
+class SimpleValue(WrapperBase):
     """Generated wrapper for SimpleValueProto"""
 
     def __init__(self, proto: 'simple_value_pb2.SimpleValueProto'):
@@ -10169,7 +10176,7 @@ class SimpleValue:
 
 
 
-class StateMachine:
+class StateMachine(WrapperBase):
     """Generated wrapper for StateMachineProto"""
 
     def __init__(self, proto: 'compiled_pattern_pb2.StateMachineProto'):
@@ -10192,7 +10199,7 @@ class StateMachine:
 
 
 
-class StateMachineCompiledNFA:
+class StateMachineCompiledNFA(WrapperBase):
     """Generated wrapper for CompiledNFAProto"""
 
     def __init__(self, proto: 'compiled_pattern_pb2.StateMachineProto.CompiledNFAProto'):
@@ -10220,7 +10227,7 @@ class StateMachineCompiledNFA:
 
 
 
-class StateMachineCompiledNFAEdge:
+class StateMachineCompiledNFAEdge(WrapperBase):
     """Generated wrapper for EdgeProto"""
 
     def __init__(self, proto: 'compiled_pattern_pb2.CompiledNFAProto.EdgeProto'):
@@ -10248,7 +10255,7 @@ class StateMachineCompiledNFAEdge:
 
 
 
-class StateMachineCompiledNFAState:
+class StateMachineCompiledNFAState(WrapperBase):
     """Generated wrapper for StateProto"""
 
     def __init__(self, proto: 'compiled_pattern_pb2.CompiledNFAProto.StateProto'):
@@ -10261,7 +10268,7 @@ class StateMachineCompiledNFAState:
 
 
 
-class StringTypeParameters:
+class StringTypeParameters(WrapperBase):
     """Generated wrapper for StringTypeParametersProto"""
 
     def __init__(self, proto: 'type_parameters_pb2.StringTypeParametersProto'):
@@ -10279,7 +10286,7 @@ class StringTypeParameters:
 
 
 
-class StructField:
+class StructField(WrapperBase):
     """Generated wrapper for StructFieldProto"""
 
     def __init__(self, proto: 'type_pb2.StructFieldProto'):
@@ -10297,7 +10304,7 @@ class StructField:
 
 
 
-class StructType:
+class StructType(WrapperBase):
     """Generated wrapper for StructTypeProto"""
 
     def __init__(self, proto: 'type_pb2.StructTypeProto'):
@@ -10310,7 +10317,7 @@ class StructType:
 
 
 
-class TVFArgument:
+class TVFArgument(WrapperBase):
     """Generated wrapper for TVFArgumentProto"""
 
     def __init__(self, proto: 'function_pb2.TVFArgumentProto'):
@@ -10348,7 +10355,7 @@ class TVFArgument:
 
 
 
-class TVFConnection:
+class TVFConnection(WrapperBase):
     """Generated wrapper for TVFConnectionProto"""
 
     def __init__(self, proto: 'function_pb2.TVFConnectionProto'):
@@ -10366,7 +10373,7 @@ class TVFConnection:
 
 
 
-class TVFDescriptor:
+class TVFDescriptor(WrapperBase):
     """Generated wrapper for TVFDescriptorProto"""
 
     def __init__(self, proto: 'function_pb2.TVFDescriptorProto'):
@@ -10379,7 +10386,7 @@ class TVFDescriptor:
 
 
 
-class TVFGraph:
+class TVFGraph(WrapperBase):
     """Generated wrapper for TVFGraphProto"""
 
     def __init__(self, proto: 'function_pb2.TVFGraphProto'):
@@ -10397,7 +10404,7 @@ class TVFGraph:
 
 
 
-class TVFModel:
+class TVFModel(WrapperBase):
     """Generated wrapper for TVFModelProto"""
 
     def __init__(self, proto: 'function_pb2.TVFModelProto'):
@@ -10415,7 +10422,7 @@ class TVFModel:
 
 
 
-class TVFRelation:
+class TVFRelation(WrapperBase):
     """Generated wrapper for TVFRelationProto"""
 
     def __init__(self, proto: 'function_pb2.TVFRelationProto'):
@@ -10433,7 +10440,7 @@ class TVFRelation:
 
 
 
-class TVFRelationColumn:
+class TVFRelationColumn(WrapperBase):
     """Generated wrapper for TVFRelationColumnProto"""
 
     def __init__(self, proto: 'function_pb2.TVFRelationColumnProto'):
@@ -10471,7 +10478,7 @@ class TVFRelationColumn:
 
 
 
-class TVFSignature:
+class TVFSignature(WrapperBase):
     """Generated wrapper for TVFSignatureProto"""
 
     def __init__(self, proto: 'function_pb2.TVFSignatureProto'):
@@ -10499,7 +10506,7 @@ class TVFSignature:
 
 
 
-class TVFSignatureOptions:
+class TVFSignatureOptions(WrapperBase):
     """Generated wrapper for TVFSignatureOptionsProto"""
 
     def __init__(self, proto: 'function_pb2.TVFSignatureOptionsProto'):
@@ -10512,7 +10519,7 @@ class TVFSignatureOptions:
 
 
 
-class TableAlias:
+class TableAlias(WrapperBase):
     """Generated wrapper for TableAlias"""
 
     def __init__(self, proto: 'reflection_pb2.TableAlias'):
@@ -10535,7 +10542,7 @@ class TableAlias:
 
 
 
-class TableContent:
+class TableContent(WrapperBase):
     """Generated wrapper for TableContent"""
 
     def __init__(self, proto: 'local_service_pb2.TableContent'):
@@ -10548,7 +10555,7 @@ class TableContent:
 
 
 
-class TableData:
+class TableData(WrapperBase):
     """Generated wrapper for TableData"""
 
     def __init__(self, proto: 'local_service_pb2.TableData'):
@@ -10561,7 +10568,7 @@ class TableData:
 
 
 
-class TableDataRow:
+class TableDataRow(WrapperBase):
     """Generated wrapper for Row"""
 
     def __init__(self, proto: 'local_service_pb2.TableData.Row'):
@@ -10574,7 +10581,7 @@ class TableDataRow:
 
 
 
-class TableFromProtoRequest:
+class TableFromProtoRequest(WrapperBase):
     """Generated wrapper for TableFromProtoRequest"""
 
     def __init__(self, proto: 'local_service_pb2.TableFromProtoRequest'):
@@ -10592,7 +10599,7 @@ class TableFromProtoRequest:
 
 
 
-class TableRef:
+class TableRef(WrapperBase):
     """Generated wrapper for TableRefProto"""
 
     def __init__(self, proto: 'serialization_pb2.TableRefProto'):
@@ -10615,7 +10622,7 @@ class TableRef:
 
 
 
-class TableValuedFunction:
+class TableValuedFunction(WrapperBase):
     """Generated wrapper for TableValuedFunctionProto"""
 
     def __init__(self, proto: 'function_pb2.TableValuedFunctionProto'):
@@ -10683,7 +10690,7 @@ class TableValuedFunction:
 
 
 
-class TableValuedFunctionOptions:
+class TableValuedFunctionOptions(WrapperBase):
     """Generated wrapper for TableValuedFunctionOptionsProto"""
 
     def __init__(self, proto: 'function_pb2.TableValuedFunctionOptionsProto'):
@@ -10701,7 +10708,7 @@ class TableValuedFunctionOptions:
 
 
 
-class TableValuedFunctionRef:
+class TableValuedFunctionRef(WrapperBase):
     """Generated wrapper for TableValuedFunctionRefProto"""
 
     def __init__(self, proto: 'serialization_pb2.TableValuedFunctionRefProto'):
@@ -10714,7 +10721,7 @@ class TableValuedFunctionRef:
 
 
 
-class TextEdit:
+class TextEdit(WrapperBase):
     """Generated wrapper for TextEdit"""
 
     def __init__(self, proto: 'fix_suggestion_pb2.TextEdit'):
@@ -10732,7 +10739,7 @@ class TextEdit:
 
 
 
-class TextToken:
+class TextToken(WrapperBase):
     """Generated wrapper for TextTokenProto"""
 
     def __init__(self, proto: 'simple_token_list_pb2.TextTokenProto'):
@@ -10755,7 +10762,7 @@ class TextToken:
 
 
 
-class TimestampTypeParameters:
+class TimestampTypeParameters(WrapperBase):
     """Generated wrapper for TimestampTypeParametersProto"""
 
     def __init__(self, proto: 'type_parameters_pb2.TimestampTypeParametersProto'):
@@ -10768,7 +10775,7 @@ class TimestampTypeParameters:
 
 
 
-class Token:
+class Token(WrapperBase):
     """Generated wrapper for TokenProto"""
 
     def __init__(self, proto: 'simple_token_list_pb2.TokenProto'):
@@ -10786,7 +10793,7 @@ class Token:
 
 
 
-class Type:
+class Type(WrapperBase):
     """Generated wrapper for TypeProto"""
 
     def __init__(self, proto: 'type_pb2.TypeProto'):
@@ -10854,7 +10861,7 @@ class Type:
 
 
 
-class TypeModifiers:
+class TypeModifiers(WrapperBase):
     """Generated wrapper for TypeModifiersProto"""
 
     def __init__(self, proto: 'type_modifiers_pb2.TypeModifiersProto'):
@@ -10872,7 +10879,7 @@ class TypeModifiers:
 
 
 
-class TypeParameters:
+class TypeParameters(WrapperBase):
     """Generated wrapper for TypeParametersProto"""
 
     def __init__(self, proto: 'type_parameters_pb2.TypeParametersProto'):
@@ -10905,7 +10912,7 @@ class TypeParameters:
 
 
 
-class UnprepareModifyRequest:
+class UnprepareModifyRequest(WrapperBase):
     """Generated wrapper for UnprepareModifyRequest"""
 
     def __init__(self, proto: 'local_service_pb2.UnprepareModifyRequest'):
@@ -10918,7 +10925,7 @@ class UnprepareModifyRequest:
 
 
 
-class UnprepareQueryRequest:
+class UnprepareQueryRequest(WrapperBase):
     """Generated wrapper for UnprepareQueryRequest"""
 
     def __init__(self, proto: 'local_service_pb2.UnprepareQueryRequest'):
@@ -10931,7 +10938,7 @@ class UnprepareQueryRequest:
 
 
 
-class UnprepareRequest:
+class UnprepareRequest(WrapperBase):
     """Generated wrapper for UnprepareRequest"""
 
     def __init__(self, proto: 'local_service_pb2.UnprepareRequest'):
@@ -10944,7 +10951,7 @@ class UnprepareRequest:
 
 
 
-class UnregisterRequest:
+class UnregisterRequest(WrapperBase):
     """Generated wrapper for UnregisterRequest"""
 
     def __init__(self, proto: 'local_service_pb2.UnregisterRequest'):
@@ -10957,14 +10964,14 @@ class UnregisterRequest:
 
 
 
-class UnsupportedFieldsEnum:
+class UnsupportedFieldsEnum(WrapperBase):
     """Generated wrapper for UnsupportedFieldsEnum"""
 
     def __init__(self, proto: 'unsupported_fields_pb2.UnsupportedFieldsEnum'):
         self._proto = proto
 
 
-class Value:
+class Value(WrapperBase):
     """Generated wrapper for ValueProto"""
 
     def __init__(self, proto: 'value_pb2.ValueProto'):
@@ -11117,7 +11124,7 @@ class Value:
 
 
 
-class ValueArray:
+class ValueArray(WrapperBase):
     """Generated wrapper for Array"""
 
     def __init__(self, proto: 'value_pb2.ValueProto.Array'):
@@ -11130,7 +11137,7 @@ class ValueArray:
 
 
 
-class ValueDatetime:
+class ValueDatetime(WrapperBase):
     """Generated wrapper for Datetime"""
 
     def __init__(self, proto: 'value_pb2.ValueProto.Datetime'):
@@ -11148,7 +11155,7 @@ class ValueDatetime:
 
 
 
-class ValueMap:
+class ValueMap(WrapperBase):
     """Generated wrapper for Map"""
 
     def __init__(self, proto: 'value_pb2.ValueProto.Map'):
@@ -11161,7 +11168,7 @@ class ValueMap:
 
 
 
-class ValueMapEntry:
+class ValueMapEntry(WrapperBase):
     """Generated wrapper for MapEntry"""
 
     def __init__(self, proto: 'value_pb2.ValueProto.MapEntry'):
@@ -11179,7 +11186,7 @@ class ValueMapEntry:
 
 
 
-class ValueRange:
+class ValueRange(WrapperBase):
     """Generated wrapper for Range"""
 
     def __init__(self, proto: 'value_pb2.ValueProto.Range'):
@@ -11197,7 +11204,7 @@ class ValueRange:
 
 
 
-class ValueStruct:
+class ValueStruct(WrapperBase):
     """Generated wrapper for Struct"""
 
     def __init__(self, proto: 'value_pb2.ValueProto.Struct'):
@@ -11210,7 +11217,7 @@ class ValueStruct:
 
 
 
-class ValueTimestampPicos:
+class ValueTimestampPicos(WrapperBase):
     """Generated wrapper for TimestampPicos"""
 
     def __init__(self, proto: 'value_pb2.ValueProto.TimestampPicos'):
@@ -11228,7 +11235,7 @@ class ValueTimestampPicos:
 
 
 
-class ValueWithType:
+class ValueWithType(WrapperBase):
     """Generated wrapper for ValueWithTypeProto"""
 
     def __init__(self, proto: 'serialization_pb2.ValueWithTypeProto'):
@@ -11246,7 +11253,7 @@ class ValueWithType:
 
 
 
-class Variable:
+class Variable(WrapperBase):
     """Generated wrapper for Variable"""
 
     def __init__(self, proto: 'variable_pb2.Variable'):
@@ -11274,14 +11281,14 @@ class Variable:
 
 
 
-class WireFormatAnnotationEmptyMessage:
+class WireFormatAnnotationEmptyMessage(WrapperBase):
     """Generated wrapper for WireFormatAnnotationEmptyMessage"""
 
     def __init__(self, proto: 'wire_format_annotation_pb2.WireFormatAnnotationEmptyMessage'):
         self._proto = proto
 
 
-class ZetaSQLBuiltinFunctionOptions:
+class ZetaSQLBuiltinFunctionOptions(WrapperBase):
     """Generated wrapper for ZetaSQLBuiltinFunctionOptionsProto"""
 
     def __init__(self, proto: 'options_pb2.ZetaSQLBuiltinFunctionOptionsProto'):

@@ -12,6 +12,7 @@ Basic ZetaSQL operations with wrapper classes:
 - **Format SQL**: Auto-format SQL with proper indentation
 - **Multi-Statement Analysis**: Process scripts with multiple statements
 - **Wrapper Navigation**: Navigate resolved AST using wrapper classes
+- **Type Resolution**: Use `resolve_type()` to handle union types automatically
 
 ```bash
 python examples/basic_usage.py
@@ -22,6 +23,18 @@ python examples/basic_usage.py
 - Working with SimpleCatalogProto and SimpleTableProto
 - Using ResolvedQueryStmt wrapper for clean AST access
 - Type hints and IDE autocompletion benefits
+- Using `resolve_type()` and `node_kind()` utilities for type handling
+
+**New Utilities:**
+```python
+from zetasql.wrapper_utils import resolve_type, node_kind
+
+# Automatically resolve union types to concrete types
+scan = resolve_type(scan)  # AnyResolvedScan -> ResolvedFilterScan
+
+# Get the concrete type name
+print(node_kind(scan))  # 'ResolvedFilterScan'
+```
 
 ---
 

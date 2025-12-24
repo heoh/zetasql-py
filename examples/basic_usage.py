@@ -7,6 +7,7 @@ Simple examples demonstrating common ZetaSQL operations.
 
 from zetasql.local_service import ZetaSqlLocalService
 from zetasql.resolved_ast_wrapper import ResolvedQueryStmt
+from zetasql.wrapper_utils import resolve_type, node_kind
 from zetasql.wasi._pb2.zetasql.proto import simple_catalog_pb2, options_pb2
 from zetasql.wasi._pb2.zetasql.public import type_pb2, options_pb2 as public_options_pb2
 
@@ -567,31 +568,11 @@ def example_10_query_complexity():
                 if not scan:
                     return
                 
-                # For AnyResolvedScan, get the actual scan from proto
-                if type(scan).__name__ == 'AnyResolvedScan':
-                    # Get the actual scan type from proto
-                    scan_proto = scan._proto
-                    which = scan_proto.WhichOneof('node')
-                    if which:
-                        actual_scan_proto = getattr(scan_proto, which)
-                        # Import the appropriate wrapper
-                        from zetasql.resolved_ast_wrapper import (
-                            ResolvedProjectScan, ResolvedFilterScan, 
-                            ResolvedAggregateScan, ResolvedTableScan
-                        )
-                        
-                        # Wrap the actual scan
-                        if 'project_scan' in which:
-                            scan = ResolvedProjectScan(actual_scan_proto)
-                        elif 'filter_scan' in which:
-                            scan = ResolvedFilterScan(actual_scan_proto)
-                        elif 'aggregate_scan' in which:
-                            scan = ResolvedAggregateScan(actual_scan_proto)
-                        elif 'table_scan' in which:
-                            scan = ResolvedTableScan(actual_scan_proto)
+                # Resolve any union types to concrete types
+                scan = resolve_type(scan)
                 
                 scan_count += 1
-                scan_type = type(scan).__name__
+                scan_type = node_kind(scan)
                 
                 if 'Filter' in scan_type:
                     filter_count += 1
