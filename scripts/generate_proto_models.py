@@ -743,7 +743,8 @@ def generate_model_file(graph: Dict[str, Any], output_path: Path) -> None:
     
     # Add external module imports
     for external_module in sorted(external_modules):
-        alias = external_module.replace('.', '_')
+        # Use short alias: google.protobuf.any_pb2 -> any_pb2
+        alias = external_module.split('.')[-1]
         lines.append(f'import {external_module} as {alias}')
     
     lines.extend(['', ''])

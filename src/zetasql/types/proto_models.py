@@ -92,10 +92,10 @@ import zetasql.wasi._pb2.zetasql.scripting.procedure_extension_pb2 as scripting_
 import zetasql.wasi._pb2.zetasql.scripting.script_executor_state_pb2 as scripting_script_executor_state_pb2
 import zetasql.wasi._pb2.zetasql.scripting.variable_pb2 as scripting_variable_pb2
 import zetasql.wasi._pb2.zetasql.tools.execute_query.execute_query_pb2 as execute_query_execute_query_pb2
-import google.protobuf.any_pb2 as google_protobuf_any_pb2
-import google.protobuf.descriptor_pb2 as google_protobuf_descriptor_pb2
-import google.protobuf.duration_pb2 as google_protobuf_duration_pb2
-import google.protobuf.timestamp_pb2 as google_protobuf_timestamp_pb2
+import google.protobuf.any_pb2 as any_pb2
+import google.protobuf.descriptor_pb2 as descriptor_pb2
+import google.protobuf.duration_pb2 as duration_pb2
+import google.protobuf.timestamp_pb2 as timestamp_pb2
 
 
 # Import utilities for proto model functionality
