@@ -6,7 +6,7 @@ making it easy to compose tables and configure builtin functions.
 
 Examples:
     >>> from zetasql.builders import CatalogBuilder, TableBuilder
-    >>> from zetasql.types.type_kind import TypeKind
+    >>> from zetasql.types import TypeKind
     >>> 
     >>> # Build catalog with multiple tables
     >>> orders = (TableBuilder("orders")

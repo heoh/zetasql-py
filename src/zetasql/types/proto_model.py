@@ -151,13 +151,13 @@ class ProtoModel:
                         target_list = getattr(current_proto, proto_field)
                         del target_list[:]  # Clear existing
                         for item in value:
-                            if hasattr(item, 'to_proto'):
+                            if isinstance(item, ProtoModel):
                                 target_list.add().CopyFrom(item.to_proto())
                             else:
                                 target_list.append(item)
                     else:
                         # Singular message field
-                        if hasattr(value, 'to_proto'):
+                        if isinstance(value, ProtoModel):
                             getattr(current_proto, proto_field).CopyFrom(value.to_proto())
                         else:
                             getattr(current_proto, proto_field).CopyFrom(value)

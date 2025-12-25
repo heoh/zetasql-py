@@ -6,7 +6,7 @@ Tests the factory methods for creating Type ProtoModel objects.
 
 import pytest
 from zetasql.types.type_factory import TypeFactory
-from zetasql.types.type_kind import TypeKind
+from zetasql.types import TypeKind
 from zetasql.types.proto_models import Type, ArrayType, StructType, MapType
 
 

@@ -6,8 +6,7 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from zetasql.types import ResolvedLiteral, ResolvedExpr, ResolvedNode, Type, ParseLocationRange
-from zetasql.types.type_kind import TypeKind
+from zetasql.types import ResolvedLiteral, ResolvedExpr, ResolvedNode, Type, ParseLocationRange, TypeKind
 
 
 def test_proto_model_basic():

@@ -6,7 +6,7 @@ offering a clean alternative to manual protobuf construction.
 
 Examples:
     >>> from zetasql.types.type_factory import TypeFactory
-    >>> from zetasql.types.type_kind import TypeKind
+    >>> from zetasql.types import TypeKind
     >>> 
     >>> # Simple types
     >>> int_type = TypeFactory.create_simple_type(TypeKind.TYPE_INT64)
@@ -24,8 +24,7 @@ Examples:
 """
 
 from typing import List, Tuple, Union
-from zetasql.types.type_kind import TypeKind
-from zetasql.types.proto_models import Type, ArrayType, StructType, StructField, MapType
+from zetasql.types.proto_models import Type, ArrayType, StructType, StructField, MapType, TypeKind
 
 
 class TypeFactory:

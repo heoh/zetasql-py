@@ -6,7 +6,7 @@ making catalog creation much cleaner than manual protobuf manipulation.
 
 Examples:
     >>> from zetasql.builders import TableBuilder
-    >>> from zetasql.types.type_kind import TypeKind
+    >>> from zetasql.types import TypeKind
     >>> 
     >>> # Simple table with basic columns
     >>> orders = (TableBuilder("orders")
@@ -27,8 +27,7 @@ Examples:
 """
 
 from typing import Union, TYPE_CHECKING
-from zetasql.types.type_kind import TypeKind
-from zetasql.types.proto_models import SimpleTable, SimpleColumn, Type
+from zetasql.types.proto_models import SimpleTable, SimpleColumn, Type, TypeKind
 from zetasql.types.type_factory import TypeFactory
 
 if TYPE_CHECKING:

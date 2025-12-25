@@ -25,7 +25,7 @@ class TestTypeKind:
         assert TypeKind.TYPE_STRUCT == 17
     
     def test_typekind_is_integer(self):
-        """Test is_integer() method"""
+        """Test is_integer() method (is_integer conflicts with int.is_integer)"""
         assert TypeKind.TYPE_INT32.is_integer()
         assert TypeKind.TYPE_INT64.is_integer()
         assert TypeKind.TYPE_UINT32.is_integer()

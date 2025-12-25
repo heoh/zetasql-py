@@ -50,6 +50,7 @@ import zetasql.wasi._pb2.zetasql.proto.script_exception_pb2 as proto_script_exce
 import zetasql.wasi._pb2.zetasql.proto.simple_catalog_pb2 as proto_simple_catalog_pb2
 import zetasql.wasi._pb2.zetasql.proto.simple_property_graph_pb2 as proto_simple_property_graph_pb2
 import zetasql.wasi._pb2.zetasql.public.annotation_pb2 as public_annotation_pb2
+import zetasql.wasi._pb2.zetasql.public.builtin_function_pb2 as public_builtin_function_pb2
 import zetasql.wasi._pb2.zetasql.public.collation_pb2 as public_collation_pb2
 import zetasql.wasi._pb2.zetasql.public.constness_level_pb2 as public_constness_level_pb2
 import zetasql.wasi._pb2.zetasql.public.deprecation_warning_pb2 as public_deprecation_warning_pb2
@@ -61,10 +62,13 @@ import zetasql.wasi._pb2.zetasql.public.function_pb2 as public_function_pb2
 import zetasql.wasi._pb2.zetasql.public.functions.array_find_mode_pb2 as functions_array_find_mode_pb2
 import zetasql.wasi._pb2.zetasql.public.functions.array_zip_mode_pb2 as functions_array_zip_mode_pb2
 import zetasql.wasi._pb2.zetasql.public.functions.bitwise_agg_mode_pb2 as functions_bitwise_agg_mode_pb2
+import zetasql.wasi._pb2.zetasql.public.functions.datetime_pb2 as functions_datetime_pb2
 import zetasql.wasi._pb2.zetasql.public.functions.differential_privacy_pb2 as functions_differential_privacy_pb2
 import zetasql.wasi._pb2.zetasql.public.functions.match_recognize.compiled_pattern_pb2 as match_recognize_compiled_pattern_pb2
+import zetasql.wasi._pb2.zetasql.public.functions.normalize_mode_pb2 as functions_normalize_mode_pb2
 import zetasql.wasi._pb2.zetasql.public.functions.range_sessionize_mode_pb2 as functions_range_sessionize_mode_pb2
 import zetasql.wasi._pb2.zetasql.public.functions.rank_type_pb2 as functions_rank_type_pb2
+import zetasql.wasi._pb2.zetasql.public.functions.rounding_mode_pb2 as functions_rounding_mode_pb2
 import zetasql.wasi._pb2.zetasql.public.functions.unsupported_fields_pb2 as functions_unsupported_fields_pb2
 import zetasql.wasi._pb2.zetasql.public.information_schema.property_graph_pb2 as information_schema_property_graph_pb2
 import zetasql.wasi._pb2.zetasql.public.options_pb2 as public_options_pb2
@@ -87,6 +91,7 @@ import zetasql.wasi._pb2.zetasql.public.value_pb2 as public_value_pb2
 import zetasql.wasi._pb2.zetasql.reference_impl.evaluator_table_iterator_pb2 as reference_impl_evaluator_table_iterator_pb2
 import zetasql.wasi._pb2.zetasql.resolved_ast.resolved_ast_enums_pb2 as resolved_ast_resolved_ast_enums_pb2
 import zetasql.wasi._pb2.zetasql.resolved_ast.resolved_ast_pb2 as resolved_ast_resolved_ast_pb2
+import zetasql.wasi._pb2.zetasql.resolved_ast.resolved_node_kind_pb2 as resolved_ast_resolved_node_kind_pb2
 import zetasql.wasi._pb2.zetasql.resolved_ast.serialization_pb2 as resolved_ast_serialization_pb2
 import zetasql.wasi._pb2.zetasql.scripting.procedure_extension_pb2 as scripting_procedure_extension_pb2
 import zetasql.wasi._pb2.zetasql.scripting.script_executor_state_pb2 as scripting_script_executor_state_pb2
@@ -98,9 +103,2327 @@ import google.protobuf.duration_pb2 as duration_pb2
 import google.protobuf.timestamp_pb2 as timestamp_pb2
 
 
+# Import IntEnum for enum types
+from enum import IntEnum
+
 # Import utilities for proto model functionality
 from zetasql.types.proto_model import ProtoModel, parse_proto
+from zetasql.types import proto_model_mixins
 
+# ============================================================================
+# Enum Types
+# ============================================================================
+
+class DateTimestampPart(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf DateTimestampPart.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    __DateTimePart__switch_must_have_a_default__ = functions_datetime_pb2.__DateTimePart__switch_must_have_a_default__  # -1
+    YEAR = functions_datetime_pb2.YEAR  # 1
+    MONTH = functions_datetime_pb2.MONTH  # 2
+    DAY = functions_datetime_pb2.DAY  # 3
+    DAYOFWEEK = functions_datetime_pb2.DAYOFWEEK  # 4
+    DAYOFYEAR = functions_datetime_pb2.DAYOFYEAR  # 5
+    QUARTER = functions_datetime_pb2.QUARTER  # 6
+    HOUR = functions_datetime_pb2.HOUR  # 7
+    MINUTE = functions_datetime_pb2.MINUTE  # 8
+    SECOND = functions_datetime_pb2.SECOND  # 9
+    MILLISECOND = functions_datetime_pb2.MILLISECOND  # 10
+    MICROSECOND = functions_datetime_pb2.MICROSECOND  # 11
+    NANOSECOND = functions_datetime_pb2.NANOSECOND  # 12
+    DATE = functions_datetime_pb2.DATE  # 13
+    WEEK = functions_datetime_pb2.WEEK  # 14
+    DATETIME = functions_datetime_pb2.DATETIME  # 15
+    TIME = functions_datetime_pb2.TIME  # 16
+    ISOYEAR = functions_datetime_pb2.ISOYEAR  # 17
+    ISOWEEK = functions_datetime_pb2.ISOWEEK  # 18
+    WEEK_MONDAY = functions_datetime_pb2.WEEK_MONDAY  # 19
+    WEEK_TUESDAY = functions_datetime_pb2.WEEK_TUESDAY  # 20
+    WEEK_WEDNESDAY = functions_datetime_pb2.WEEK_WEDNESDAY  # 21
+    WEEK_THURSDAY = functions_datetime_pb2.WEEK_THURSDAY  # 22
+    WEEK_FRIDAY = functions_datetime_pb2.WEEK_FRIDAY  # 23
+    WEEK_SATURDAY = functions_datetime_pb2.WEEK_SATURDAY  # 24
+    PICOSECOND = functions_datetime_pb2.PICOSECOND  # 25
+
+
+class ErrorMessageMode(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf ErrorMessageMode.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    ERROR_MESSAGE_WITH_PAYLOAD = public_options_pb2.ERROR_MESSAGE_WITH_PAYLOAD  # 0
+    ERROR_MESSAGE_ONE_LINE = public_options_pb2.ERROR_MESSAGE_ONE_LINE  # 1
+    ERROR_MESSAGE_MULTI_LINE_WITH_CARET = public_options_pb2.ERROR_MESSAGE_MULTI_LINE_WITH_CARET  # 2
+
+
+class ErrorMessageStability(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf ErrorMessageStability.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    ERROR_MESSAGE_STABILITY_UNSPECIFIED = public_options_pb2.ERROR_MESSAGE_STABILITY_UNSPECIFIED  # 0
+    ERROR_MESSAGE_STABILITY_PRODUCTION = public_options_pb2.ERROR_MESSAGE_STABILITY_PRODUCTION  # 1
+    ERROR_MESSAGE_STABILITY_TEST_REDACTED = public_options_pb2.ERROR_MESSAGE_STABILITY_TEST_REDACTED  # 2
+    ERROR_MESSAGE_STABILITY_TEST_REDACTED_WITH_PAYLOADS = public_options_pb2.ERROR_MESSAGE_STABILITY_TEST_REDACTED_WITH_PAYLOADS  # 3
+    ERROR_MESSAGE_STABILITY_TEST_MINIMIZED = public_options_pb2.ERROR_MESSAGE_STABILITY_TEST_MINIMIZED  # 4
+    ERROR_MESSAGE_STABILITY_TEST_MINIMIZED_WITH_PAYLOADS = public_options_pb2.ERROR_MESSAGE_STABILITY_TEST_MINIMIZED_WITH_PAYLOADS  # 5
+
+
+class FunctionSignatureId(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf FunctionSignatureId.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    __FunctionSignatureId__switch_must_have_a_default__ = public_builtin_function_pb2.__FunctionSignatureId__switch_must_have_a_default__  # -1
+    FN_INVALID_FUNCTION_ID = public_builtin_function_pb2.FN_INVALID_FUNCTION_ID  # 1
+    FN_ADD_DOUBLE = public_builtin_function_pb2.FN_ADD_DOUBLE  # 2
+    FN_ADD_INT64 = public_builtin_function_pb2.FN_ADD_INT64  # 4
+    FN_AND = public_builtin_function_pb2.FN_AND  # 5
+    FN_CASE_NO_VALUE = public_builtin_function_pb2.FN_CASE_NO_VALUE  # 6
+    FN_CASE_WITH_VALUE = public_builtin_function_pb2.FN_CASE_WITH_VALUE  # 7
+    FN_DIVIDE_DOUBLE = public_builtin_function_pb2.FN_DIVIDE_DOUBLE  # 40
+    FN_MULTIPLY_DOUBLE = public_builtin_function_pb2.FN_MULTIPLY_DOUBLE  # 41
+    FN_EQUAL = public_builtin_function_pb2.FN_EQUAL  # 42
+    FN_MULTIPLY_INT64 = public_builtin_function_pb2.FN_MULTIPLY_INT64  # 44
+    FN_NOT = public_builtin_function_pb2.FN_NOT  # 45
+    FN_OR = public_builtin_function_pb2.FN_OR  # 46
+    FN_SUBTRACT_INT64 = public_builtin_function_pb2.FN_SUBTRACT_INT64  # 48
+    FN_COUNT_STAR = public_builtin_function_pb2.FN_COUNT_STAR  # 57
+    FN_UNARY_MINUS_INT32 = public_builtin_function_pb2.FN_UNARY_MINUS_INT32  # 83
+    FN_UNARY_MINUS_INT64 = public_builtin_function_pb2.FN_UNARY_MINUS_INT64  # 84
+    FN_UNARY_MINUS_FLOAT = public_builtin_function_pb2.FN_UNARY_MINUS_FLOAT  # 87
+    FN_UNARY_MINUS_DOUBLE = public_builtin_function_pb2.FN_UNARY_MINUS_DOUBLE  # 88
+    FN_STRING_LIKE = public_builtin_function_pb2.FN_STRING_LIKE  # 97
+    FN_BYTE_LIKE = public_builtin_function_pb2.FN_BYTE_LIKE  # 98
+    FN_IN = public_builtin_function_pb2.FN_IN  # 100
+    FN_IS_NULL = public_builtin_function_pb2.FN_IS_NULL  # 101
+    FN_IS_TRUE = public_builtin_function_pb2.FN_IS_TRUE  # 102
+    FN_IS_FALSE = public_builtin_function_pb2.FN_IS_FALSE  # 103
+    FN_LESS = public_builtin_function_pb2.FN_LESS  # 105
+    FN_LESS_OR_EQUAL = public_builtin_function_pb2.FN_LESS_OR_EQUAL  # 106
+    FN_GREATER = public_builtin_function_pb2.FN_GREATER  # 107
+    FN_GREATER_OR_EQUAL = public_builtin_function_pb2.FN_GREATER_OR_EQUAL  # 108
+    FN_NOT_EQUAL = public_builtin_function_pb2.FN_NOT_EQUAL  # 109
+    FN_BETWEEN = public_builtin_function_pb2.FN_BETWEEN  # 110
+    FN_MULTIPLY_UINT64 = public_builtin_function_pb2.FN_MULTIPLY_UINT64  # 114
+    FN_SUBTRACT_DOUBLE = public_builtin_function_pb2.FN_SUBTRACT_DOUBLE  # 115
+    FN_SUBTRACT_UINT64 = public_builtin_function_pb2.FN_SUBTRACT_UINT64  # 117
+    FN_ADD_UINT64 = public_builtin_function_pb2.FN_ADD_UINT64  # 119
+    FN_BITWISE_NOT_INT32 = public_builtin_function_pb2.FN_BITWISE_NOT_INT32  # 120
+    FN_BITWISE_NOT_INT64 = public_builtin_function_pb2.FN_BITWISE_NOT_INT64  # 121
+    FN_BITWISE_NOT_UINT32 = public_builtin_function_pb2.FN_BITWISE_NOT_UINT32  # 122
+    FN_BITWISE_NOT_UINT64 = public_builtin_function_pb2.FN_BITWISE_NOT_UINT64  # 123
+    FN_BITWISE_OR_INT32 = public_builtin_function_pb2.FN_BITWISE_OR_INT32  # 124
+    FN_BITWISE_OR_INT64 = public_builtin_function_pb2.FN_BITWISE_OR_INT64  # 125
+    FN_BITWISE_OR_UINT32 = public_builtin_function_pb2.FN_BITWISE_OR_UINT32  # 126
+    FN_BITWISE_OR_UINT64 = public_builtin_function_pb2.FN_BITWISE_OR_UINT64  # 127
+    FN_BITWISE_XOR_INT32 = public_builtin_function_pb2.FN_BITWISE_XOR_INT32  # 128
+    FN_BITWISE_XOR_INT64 = public_builtin_function_pb2.FN_BITWISE_XOR_INT64  # 129
+    FN_BITWISE_XOR_UINT32 = public_builtin_function_pb2.FN_BITWISE_XOR_UINT32  # 130
+    FN_BITWISE_XOR_UINT64 = public_builtin_function_pb2.FN_BITWISE_XOR_UINT64  # 131
+    FN_BITWISE_AND_INT32 = public_builtin_function_pb2.FN_BITWISE_AND_INT32  # 132
+    FN_BITWISE_AND_INT64 = public_builtin_function_pb2.FN_BITWISE_AND_INT64  # 133
+    FN_BITWISE_AND_UINT32 = public_builtin_function_pb2.FN_BITWISE_AND_UINT32  # 134
+    FN_BITWISE_AND_UINT64 = public_builtin_function_pb2.FN_BITWISE_AND_UINT64  # 135
+    FN_BITWISE_LEFT_SHIFT_INT32 = public_builtin_function_pb2.FN_BITWISE_LEFT_SHIFT_INT32  # 136
+    FN_BITWISE_LEFT_SHIFT_INT64 = public_builtin_function_pb2.FN_BITWISE_LEFT_SHIFT_INT64  # 137
+    FN_BITWISE_LEFT_SHIFT_UINT32 = public_builtin_function_pb2.FN_BITWISE_LEFT_SHIFT_UINT32  # 138
+    FN_BITWISE_LEFT_SHIFT_UINT64 = public_builtin_function_pb2.FN_BITWISE_LEFT_SHIFT_UINT64  # 139
+    FN_BITWISE_RIGHT_SHIFT_INT32 = public_builtin_function_pb2.FN_BITWISE_RIGHT_SHIFT_INT32  # 140
+    FN_BITWISE_RIGHT_SHIFT_INT64 = public_builtin_function_pb2.FN_BITWISE_RIGHT_SHIFT_INT64  # 141
+    FN_BITWISE_RIGHT_SHIFT_UINT32 = public_builtin_function_pb2.FN_BITWISE_RIGHT_SHIFT_UINT32  # 142
+    FN_BITWISE_RIGHT_SHIFT_UINT64 = public_builtin_function_pb2.FN_BITWISE_RIGHT_SHIFT_UINT64  # 143
+    FN_BIT_COUNT_INT32 = public_builtin_function_pb2.FN_BIT_COUNT_INT32  # 144
+    FN_BIT_COUNT_INT64 = public_builtin_function_pb2.FN_BIT_COUNT_INT64  # 145
+    FN_BIT_COUNT_UINT64 = public_builtin_function_pb2.FN_BIT_COUNT_UINT64  # 146
+    FN_MAKE_ARRAY = public_builtin_function_pb2.FN_MAKE_ARRAY  # 218
+    FN_IN_ARRAY = public_builtin_function_pb2.FN_IN_ARRAY  # 219
+    FN_ARRAY_LENGTH = public_builtin_function_pb2.FN_ARRAY_LENGTH  # 220
+    FN_GREATER_INT64_UINT64 = public_builtin_function_pb2.FN_GREATER_INT64_UINT64  # 222
+    FN_GREATER_UINT64_INT64 = public_builtin_function_pb2.FN_GREATER_UINT64_INT64  # 223
+    FN_GREATER_OR_EQUAL_INT64_UINT64 = public_builtin_function_pb2.FN_GREATER_OR_EQUAL_INT64_UINT64  # 224
+    FN_GREATER_OR_EQUAL_UINT64_INT64 = public_builtin_function_pb2.FN_GREATER_OR_EQUAL_UINT64_INT64  # 225
+    FN_LESS_INT64_UINT64 = public_builtin_function_pb2.FN_LESS_INT64_UINT64  # 226
+    FN_LESS_UINT64_INT64 = public_builtin_function_pb2.FN_LESS_UINT64_INT64  # 227
+    FN_LESS_OR_EQUAL_INT64_UINT64 = public_builtin_function_pb2.FN_LESS_OR_EQUAL_INT64_UINT64  # 228
+    FN_LESS_OR_EQUAL_UINT64_INT64 = public_builtin_function_pb2.FN_LESS_OR_EQUAL_UINT64_INT64  # 229
+    FN_EQUAL_INT64_UINT64 = public_builtin_function_pb2.FN_EQUAL_INT64_UINT64  # 230
+    FN_EQUAL_UINT64_INT64 = public_builtin_function_pb2.FN_EQUAL_UINT64_INT64  # 231
+    FN_NOT_EQUAL_INT64_UINT64 = public_builtin_function_pb2.FN_NOT_EQUAL_INT64_UINT64  # 232
+    FN_NOT_EQUAL_UINT64_INT64 = public_builtin_function_pb2.FN_NOT_EQUAL_UINT64_INT64  # 233
+    FN_ARRAY_AT_OFFSET = public_builtin_function_pb2.FN_ARRAY_AT_OFFSET  # 234
+    FN_ARRAY_AT_ORDINAL = public_builtin_function_pb2.FN_ARRAY_AT_ORDINAL  # 235
+    FN_ARRAY_CONCAT = public_builtin_function_pb2.FN_ARRAY_CONCAT  # 236
+    FN_ARRAY_TO_STRING = public_builtin_function_pb2.FN_ARRAY_TO_STRING  # 237
+    FN_ARRAY_TO_BYTES = public_builtin_function_pb2.FN_ARRAY_TO_BYTES  # 238
+    FN_SAFE_ARRAY_AT_OFFSET = public_builtin_function_pb2.FN_SAFE_ARRAY_AT_OFFSET  # 239
+    FN_SAFE_ARRAY_AT_ORDINAL = public_builtin_function_pb2.FN_SAFE_ARRAY_AT_ORDINAL  # 240
+    FN_BITWISE_NOT_BYTES = public_builtin_function_pb2.FN_BITWISE_NOT_BYTES  # 241
+    FN_BITWISE_OR_BYTES = public_builtin_function_pb2.FN_BITWISE_OR_BYTES  # 242
+    FN_BITWISE_XOR_BYTES = public_builtin_function_pb2.FN_BITWISE_XOR_BYTES  # 243
+    FN_BITWISE_AND_BYTES = public_builtin_function_pb2.FN_BITWISE_AND_BYTES  # 244
+    FN_BITWISE_LEFT_SHIFT_BYTES = public_builtin_function_pb2.FN_BITWISE_LEFT_SHIFT_BYTES  # 245
+    FN_BITWISE_RIGHT_SHIFT_BYTES = public_builtin_function_pb2.FN_BITWISE_RIGHT_SHIFT_BYTES  # 246
+    FN_BIT_COUNT_BYTES = public_builtin_function_pb2.FN_BIT_COUNT_BYTES  # 247
+    FN_ADD_NUMERIC = public_builtin_function_pb2.FN_ADD_NUMERIC  # 248
+    FN_SUBTRACT_NUMERIC = public_builtin_function_pb2.FN_SUBTRACT_NUMERIC  # 249
+    FN_DIVIDE_NUMERIC = public_builtin_function_pb2.FN_DIVIDE_NUMERIC  # 250
+    FN_MULTIPLY_NUMERIC = public_builtin_function_pb2.FN_MULTIPLY_NUMERIC  # 251
+    FN_UNARY_MINUS_NUMERIC = public_builtin_function_pb2.FN_UNARY_MINUS_NUMERIC  # 252
+    FN_ERROR = public_builtin_function_pb2.FN_ERROR  # 253
+    FN_BETWEEN_INT64_UINT64_UINT64 = public_builtin_function_pb2.FN_BETWEEN_INT64_UINT64_UINT64  # 254
+    FN_BETWEEN_INT64_UINT64_INT64 = public_builtin_function_pb2.FN_BETWEEN_INT64_UINT64_INT64  # 255
+    FN_BETWEEN_INT64_INT64_UINT64 = public_builtin_function_pb2.FN_BETWEEN_INT64_INT64_UINT64  # 256
+    FN_BETWEEN_UINT64_INT64_INT64 = public_builtin_function_pb2.FN_BETWEEN_UINT64_INT64_INT64  # 257
+    FN_BETWEEN_UINT64_UINT64_INT64 = public_builtin_function_pb2.FN_BETWEEN_UINT64_UINT64_INT64  # 258
+    FN_BETWEEN_UINT64_INT64_UINT64 = public_builtin_function_pb2.FN_BETWEEN_UINT64_INT64_UINT64  # 259
+    FN_ARRAY_CONCAT_OP = public_builtin_function_pb2.FN_ARRAY_CONCAT_OP  # 260
+    FN_ADD_BIGNUMERIC = public_builtin_function_pb2.FN_ADD_BIGNUMERIC  # 261
+    FN_SUBTRACT_BIGNUMERIC = public_builtin_function_pb2.FN_SUBTRACT_BIGNUMERIC  # 262
+    FN_DIVIDE_BIGNUMERIC = public_builtin_function_pb2.FN_DIVIDE_BIGNUMERIC  # 263
+    FN_MULTIPLY_BIGNUMERIC = public_builtin_function_pb2.FN_MULTIPLY_BIGNUMERIC  # 264
+    FN_UNARY_MINUS_BIGNUMERIC = public_builtin_function_pb2.FN_UNARY_MINUS_BIGNUMERIC  # 265
+    FN_ADD_DATE_INT64 = public_builtin_function_pb2.FN_ADD_DATE_INT64  # 266
+    FN_ADD_INT64_DATE = public_builtin_function_pb2.FN_ADD_INT64_DATE  # 267
+    FN_SUBTRACT_DATE_INT64 = public_builtin_function_pb2.FN_SUBTRACT_DATE_INT64  # 268
+    FN_DISTINCT = public_builtin_function_pb2.FN_DISTINCT  # 269
+    FN_DISTINCT_INT64_UINT64 = public_builtin_function_pb2.FN_DISTINCT_INT64_UINT64  # 270
+    FN_DISTINCT_UINT64_INT64 = public_builtin_function_pb2.FN_DISTINCT_UINT64_INT64  # 271
+    FN_NOT_DISTINCT = public_builtin_function_pb2.FN_NOT_DISTINCT  # 272
+    FN_NOT_DISTINCT_INT64_UINT64 = public_builtin_function_pb2.FN_NOT_DISTINCT_INT64_UINT64  # 273
+    FN_NOT_DISTINCT_UINT64_INT64 = public_builtin_function_pb2.FN_NOT_DISTINCT_UINT64_INT64  # 274
+    FN_UNARY_MINUS_INTERVAL = public_builtin_function_pb2.FN_UNARY_MINUS_INTERVAL  # 275
+    FN_SUBTRACT_DATE = public_builtin_function_pb2.FN_SUBTRACT_DATE  # 276
+    FN_SUBTRACT_TIMESTAMP = public_builtin_function_pb2.FN_SUBTRACT_TIMESTAMP  # 277
+    FN_SUBTRACT_DATETIME = public_builtin_function_pb2.FN_SUBTRACT_DATETIME  # 278
+    FN_SUBTRACT_TIME = public_builtin_function_pb2.FN_SUBTRACT_TIME  # 279
+    FN_ADD_TIMESTAMP_INTERVAL = public_builtin_function_pb2.FN_ADD_TIMESTAMP_INTERVAL  # 280
+    FN_ADD_INTERVAL_TIMESTAMP = public_builtin_function_pb2.FN_ADD_INTERVAL_TIMESTAMP  # 281
+    FN_ADD_DATE_INTERVAL = public_builtin_function_pb2.FN_ADD_DATE_INTERVAL  # 282
+    FN_ADD_INTERVAL_DATE = public_builtin_function_pb2.FN_ADD_INTERVAL_DATE  # 283
+    FN_ADD_DATETIME_INTERVAL = public_builtin_function_pb2.FN_ADD_DATETIME_INTERVAL  # 284
+    FN_ADD_INTERVAL_DATETIME = public_builtin_function_pb2.FN_ADD_INTERVAL_DATETIME  # 285
+    FN_SUBTRACT_TIMESTAMP_INTERVAL = public_builtin_function_pb2.FN_SUBTRACT_TIMESTAMP_INTERVAL  # 286
+    FN_SUBTRACT_DATE_INTERVAL = public_builtin_function_pb2.FN_SUBTRACT_DATE_INTERVAL  # 287
+    FN_SUBTRACT_DATETIME_INTERVAL = public_builtin_function_pb2.FN_SUBTRACT_DATETIME_INTERVAL  # 288
+    FN_ADD_INTERVAL_INTERVAL = public_builtin_function_pb2.FN_ADD_INTERVAL_INTERVAL  # 289
+    FN_SUBTRACT_INTERVAL_INTERVAL = public_builtin_function_pb2.FN_SUBTRACT_INTERVAL_INTERVAL  # 290
+    FN_STRING_ARRAY_LIKE_ANY = public_builtin_function_pb2.FN_STRING_ARRAY_LIKE_ANY  # 291
+    FN_STRING_ARRAY_LIKE_ALL = public_builtin_function_pb2.FN_STRING_ARRAY_LIKE_ALL  # 292
+    FN_STRING_LIKE_ANY = public_builtin_function_pb2.FN_STRING_LIKE_ANY  # 293
+    FN_STRING_LIKE_ALL = public_builtin_function_pb2.FN_STRING_LIKE_ALL  # 294
+    FN_BYTE_ARRAY_LIKE_ANY = public_builtin_function_pb2.FN_BYTE_ARRAY_LIKE_ANY  # 295
+    FN_BYTE_ARRAY_LIKE_ALL = public_builtin_function_pb2.FN_BYTE_ARRAY_LIKE_ALL  # 296
+    FN_BYTE_LIKE_ANY = public_builtin_function_pb2.FN_BYTE_LIKE_ANY  # 297
+    FN_BYTE_LIKE_ALL = public_builtin_function_pb2.FN_BYTE_LIKE_ALL  # 298
+    FN_MULTIPLY_INTERVAL_INT64 = public_builtin_function_pb2.FN_MULTIPLY_INTERVAL_INT64  # 299
+    FN_MULTIPLY_INT64_INTERVAL = public_builtin_function_pb2.FN_MULTIPLY_INT64_INTERVAL  # 300
+    FN_DIVIDE_INTERVAL_INT64 = public_builtin_function_pb2.FN_DIVIDE_INTERVAL_INT64  # 301
+    FN_STRING_NOT_LIKE_ANY = public_builtin_function_pb2.FN_STRING_NOT_LIKE_ANY  # 302
+    FN_BYTE_NOT_LIKE_ANY = public_builtin_function_pb2.FN_BYTE_NOT_LIKE_ANY  # 303
+    FN_STRING_ARRAY_NOT_LIKE_ANY = public_builtin_function_pb2.FN_STRING_ARRAY_NOT_LIKE_ANY  # 304
+    FN_BYTE_ARRAY_NOT_LIKE_ANY = public_builtin_function_pb2.FN_BYTE_ARRAY_NOT_LIKE_ANY  # 305
+    FN_STRING_NOT_LIKE_ALL = public_builtin_function_pb2.FN_STRING_NOT_LIKE_ALL  # 306
+    FN_BYTE_NOT_LIKE_ALL = public_builtin_function_pb2.FN_BYTE_NOT_LIKE_ALL  # 307
+    FN_STRING_ARRAY_NOT_LIKE_ALL = public_builtin_function_pb2.FN_STRING_ARRAY_NOT_LIKE_ALL  # 308
+    FN_BYTE_ARRAY_NOT_LIKE_ALL = public_builtin_function_pb2.FN_BYTE_ARRAY_NOT_LIKE_ALL  # 309
+    FN_CONCAT_STRING = public_builtin_function_pb2.FN_CONCAT_STRING  # 1000
+    FN_CONCAT_BYTES = public_builtin_function_pb2.FN_CONCAT_BYTES  # 1001
+    FN_STRPOS_STRING = public_builtin_function_pb2.FN_STRPOS_STRING  # 1002
+    FN_STRPOS_BYTES = public_builtin_function_pb2.FN_STRPOS_BYTES  # 1003
+    FN_LOWER_STRING = public_builtin_function_pb2.FN_LOWER_STRING  # 1006
+    FN_LOWER_BYTES = public_builtin_function_pb2.FN_LOWER_BYTES  # 1007
+    FN_UPPER_STRING = public_builtin_function_pb2.FN_UPPER_STRING  # 1008
+    FN_UPPER_BYTES = public_builtin_function_pb2.FN_UPPER_BYTES  # 1009
+    FN_LENGTH_STRING = public_builtin_function_pb2.FN_LENGTH_STRING  # 1010
+    FN_LENGTH_BYTES = public_builtin_function_pb2.FN_LENGTH_BYTES  # 1011
+    FN_STARTS_WITH_STRING = public_builtin_function_pb2.FN_STARTS_WITH_STRING  # 1012
+    FN_STARTS_WITH_BYTES = public_builtin_function_pb2.FN_STARTS_WITH_BYTES  # 1013
+    FN_ENDS_WITH_STRING = public_builtin_function_pb2.FN_ENDS_WITH_STRING  # 1014
+    FN_ENDS_WITH_BYTES = public_builtin_function_pb2.FN_ENDS_WITH_BYTES  # 1015
+    FN_SUBSTR_STRING = public_builtin_function_pb2.FN_SUBSTR_STRING  # 1016
+    FN_SUBSTR_BYTES = public_builtin_function_pb2.FN_SUBSTR_BYTES  # 1017
+    FN_TRIM_STRING = public_builtin_function_pb2.FN_TRIM_STRING  # 1018
+    FN_TRIM_BYTES = public_builtin_function_pb2.FN_TRIM_BYTES  # 1019
+    FN_LTRIM_STRING = public_builtin_function_pb2.FN_LTRIM_STRING  # 1020
+    FN_LTRIM_BYTES = public_builtin_function_pb2.FN_LTRIM_BYTES  # 1021
+    FN_RTRIM_STRING = public_builtin_function_pb2.FN_RTRIM_STRING  # 1022
+    FN_RTRIM_BYTES = public_builtin_function_pb2.FN_RTRIM_BYTES  # 1023
+    FN_REPLACE_STRING = public_builtin_function_pb2.FN_REPLACE_STRING  # 1024
+    FN_REPLACE_BYTES = public_builtin_function_pb2.FN_REPLACE_BYTES  # 1025
+    FN_REGEXP_MATCH_STRING = public_builtin_function_pb2.FN_REGEXP_MATCH_STRING  # 1026
+    FN_REGEXP_MATCH_BYTES = public_builtin_function_pb2.FN_REGEXP_MATCH_BYTES  # 1027
+    FN_REGEXP_EXTRACT_STRING = public_builtin_function_pb2.FN_REGEXP_EXTRACT_STRING  # 1028
+    FN_REGEXP_EXTRACT_BYTES = public_builtin_function_pb2.FN_REGEXP_EXTRACT_BYTES  # 1029
+    FN_REGEXP_REPLACE_STRING = public_builtin_function_pb2.FN_REGEXP_REPLACE_STRING  # 1030
+    FN_REGEXP_REPLACE_BYTES = public_builtin_function_pb2.FN_REGEXP_REPLACE_BYTES  # 1031
+    FN_REGEXP_EXTRACT_ALL_STRING = public_builtin_function_pb2.FN_REGEXP_EXTRACT_ALL_STRING  # 1032
+    FN_REGEXP_EXTRACT_ALL_BYTES = public_builtin_function_pb2.FN_REGEXP_EXTRACT_ALL_BYTES  # 1033
+    FN_BYTE_LENGTH_STRING = public_builtin_function_pb2.FN_BYTE_LENGTH_STRING  # 1034
+    FN_BYTE_LENGTH_BYTES = public_builtin_function_pb2.FN_BYTE_LENGTH_BYTES  # 1035
+    FN_CHAR_LENGTH_STRING = public_builtin_function_pb2.FN_CHAR_LENGTH_STRING  # 1036
+    FN_FORMAT_STRING = public_builtin_function_pb2.FN_FORMAT_STRING  # 1037
+    FN_SPLIT_STRING = public_builtin_function_pb2.FN_SPLIT_STRING  # 1038
+    FN_SPLIT_BYTES = public_builtin_function_pb2.FN_SPLIT_BYTES  # 1039
+    FN_REGEXP_CONTAINS_STRING = public_builtin_function_pb2.FN_REGEXP_CONTAINS_STRING  # 1040
+    FN_REGEXP_CONTAINS_BYTES = public_builtin_function_pb2.FN_REGEXP_CONTAINS_BYTES  # 1041
+    FN_SAFE_CONVERT_BYTES_TO_STRING = public_builtin_function_pb2.FN_SAFE_CONVERT_BYTES_TO_STRING  # 1042
+    FN_NORMALIZE_STRING = public_builtin_function_pb2.FN_NORMALIZE_STRING  # 1043
+    FN_NORMALIZE_AND_CASEFOLD_STRING = public_builtin_function_pb2.FN_NORMALIZE_AND_CASEFOLD_STRING  # 1044
+    FN_TO_BASE64 = public_builtin_function_pb2.FN_TO_BASE64  # 1045
+    FN_FROM_BASE64 = public_builtin_function_pb2.FN_FROM_BASE64  # 1046
+    FN_TO_CODE_POINTS_STRING = public_builtin_function_pb2.FN_TO_CODE_POINTS_STRING  # 1047
+    FN_TO_CODE_POINTS_BYTES = public_builtin_function_pb2.FN_TO_CODE_POINTS_BYTES  # 1048
+    FN_CODE_POINTS_TO_STRING = public_builtin_function_pb2.FN_CODE_POINTS_TO_STRING  # 1049
+    FN_CODE_POINTS_TO_BYTES = public_builtin_function_pb2.FN_CODE_POINTS_TO_BYTES  # 1050
+    FN_LPAD_BYTES = public_builtin_function_pb2.FN_LPAD_BYTES  # 1051
+    FN_LPAD_STRING = public_builtin_function_pb2.FN_LPAD_STRING  # 1052
+    FN_RPAD_BYTES = public_builtin_function_pb2.FN_RPAD_BYTES  # 1053
+    FN_RPAD_STRING = public_builtin_function_pb2.FN_RPAD_STRING  # 1054
+    FN_REPEAT_BYTES = public_builtin_function_pb2.FN_REPEAT_BYTES  # 1055
+    FN_REPEAT_STRING = public_builtin_function_pb2.FN_REPEAT_STRING  # 1056
+    FN_REVERSE_STRING = public_builtin_function_pb2.FN_REVERSE_STRING  # 1057
+    FN_REVERSE_BYTES = public_builtin_function_pb2.FN_REVERSE_BYTES  # 1058
+    FN_TO_HEX = public_builtin_function_pb2.FN_TO_HEX  # 1059
+    FN_FROM_HEX = public_builtin_function_pb2.FN_FROM_HEX  # 1060
+    FN_TO_BASE32 = public_builtin_function_pb2.FN_TO_BASE32  # 1061
+    FN_FROM_BASE32 = public_builtin_function_pb2.FN_FROM_BASE32  # 1062
+    FN_CONCAT_OP_STRING = public_builtin_function_pb2.FN_CONCAT_OP_STRING  # 1063
+    FN_CONCAT_OP_BYTES = public_builtin_function_pb2.FN_CONCAT_OP_BYTES  # 1064
+    FN_LEFT_STRING = public_builtin_function_pb2.FN_LEFT_STRING  # 1065
+    FN_LEFT_BYTES = public_builtin_function_pb2.FN_LEFT_BYTES  # 1066
+    FN_RIGHT_STRING = public_builtin_function_pb2.FN_RIGHT_STRING  # 1067
+    FN_RIGHT_BYTES = public_builtin_function_pb2.FN_RIGHT_BYTES  # 1068
+    FN_SOUNDEX_STRING = public_builtin_function_pb2.FN_SOUNDEX_STRING  # 1069
+    FN_INSTR_STRING = public_builtin_function_pb2.FN_INSTR_STRING  # 1070
+    FN_INSTR_BYTES = public_builtin_function_pb2.FN_INSTR_BYTES  # 1071
+    FN_ASCII_STRING = public_builtin_function_pb2.FN_ASCII_STRING  # 1072
+    FN_ASCII_BYTES = public_builtin_function_pb2.FN_ASCII_BYTES  # 1073
+    FN_TRANSLATE_STRING = public_builtin_function_pb2.FN_TRANSLATE_STRING  # 1074
+    FN_TRANSLATE_BYTES = public_builtin_function_pb2.FN_TRANSLATE_BYTES  # 1075
+    FN_INITCAP_STRING = public_builtin_function_pb2.FN_INITCAP_STRING  # 1076
+    FN_UNICODE_STRING = public_builtin_function_pb2.FN_UNICODE_STRING  # 1077
+    FN_CHR_STRING = public_builtin_function_pb2.FN_CHR_STRING  # 1078
+    FN_REGEXP_INSTR_STRING = public_builtin_function_pb2.FN_REGEXP_INSTR_STRING  # 1079
+    FN_REGEXP_INSTR_BYTES = public_builtin_function_pb2.FN_REGEXP_INSTR_BYTES  # 1080
+    FN_COLLATE = public_builtin_function_pb2.FN_COLLATE  # 1082
+    FN_SPLIT_SUBSTR = public_builtin_function_pb2.FN_SPLIT_SUBSTR  # 1083
+    FN_REGEXP_EXTRACT_GROUPS_STRING = public_builtin_function_pb2.FN_REGEXP_EXTRACT_GROUPS_STRING  # 1084
+    FN_REGEXP_EXTRACT_GROUPS_BYTES = public_builtin_function_pb2.FN_REGEXP_EXTRACT_GROUPS_BYTES  # 1085
+    FN_IF = public_builtin_function_pb2.FN_IF  # 1100
+    FN_COALESCE = public_builtin_function_pb2.FN_COALESCE  # 1101
+    FN_IFNULL = public_builtin_function_pb2.FN_IFNULL  # 1102
+    FN_NULLIF = public_builtin_function_pb2.FN_NULLIF  # 1103
+    FN_IFERROR = public_builtin_function_pb2.FN_IFERROR  # 1104
+    FN_NULLIFERROR = public_builtin_function_pb2.FN_NULLIFERROR  # 1105
+    FN_ISERROR = public_builtin_function_pb2.FN_ISERROR  # 1106
+    FN_WITH_SIDE_EFFECTS = public_builtin_function_pb2.FN_WITH_SIDE_EFFECTS  # 1107
+    FN_CURRENT_DATE = public_builtin_function_pb2.FN_CURRENT_DATE  # 1200
+    FN_DATE_ADD_DATE = public_builtin_function_pb2.FN_DATE_ADD_DATE  # 1205
+    FN_DATE_DIFF_DATE = public_builtin_function_pb2.FN_DATE_DIFF_DATE  # 1210
+    FN_DATE_SUB_DATE = public_builtin_function_pb2.FN_DATE_SUB_DATE  # 1215
+    FN_DATE_TRUNC_DATE = public_builtin_function_pb2.FN_DATE_TRUNC_DATE  # 1220
+    FN_DATE_FROM_UNIX_DATE = public_builtin_function_pb2.FN_DATE_FROM_UNIX_DATE  # 1225
+    FN_UNIX_DATE = public_builtin_function_pb2.FN_UNIX_DATE  # 1230
+    FN_EXTRACT_FROM_DATE = public_builtin_function_pb2.FN_EXTRACT_FROM_DATE  # 1251
+    FN_CURRENT_TIMESTAMP = public_builtin_function_pb2.FN_CURRENT_TIMESTAMP  # 1260
+    FN_TIMESTAMP_ADD = public_builtin_function_pb2.FN_TIMESTAMP_ADD  # 1261
+    FN_TIMESTAMP_DIFF = public_builtin_function_pb2.FN_TIMESTAMP_DIFF  # 1262
+    FN_TIMESTAMP_SUB = public_builtin_function_pb2.FN_TIMESTAMP_SUB  # 1263
+    FN_TIMESTAMP_TRUNC = public_builtin_function_pb2.FN_TIMESTAMP_TRUNC  # 1264
+    FN_UNIX_SECONDS_FROM_TIMESTAMP = public_builtin_function_pb2.FN_UNIX_SECONDS_FROM_TIMESTAMP  # 1268
+    FN_UNIX_MILLIS_FROM_TIMESTAMP = public_builtin_function_pb2.FN_UNIX_MILLIS_FROM_TIMESTAMP  # 1269
+    FN_UNIX_MICROS_FROM_TIMESTAMP = public_builtin_function_pb2.FN_UNIX_MICROS_FROM_TIMESTAMP  # 1270
+    FN_DATE_FROM_TIMESTAMP = public_builtin_function_pb2.FN_DATE_FROM_TIMESTAMP  # 1271
+    FN_TIMESTAMP_FROM_STRING = public_builtin_function_pb2.FN_TIMESTAMP_FROM_STRING  # 1272
+    FN_TIMESTAMP_FROM_DATE = public_builtin_function_pb2.FN_TIMESTAMP_FROM_DATE  # 1273
+    FN_STRING_FROM_TIMESTAMP = public_builtin_function_pb2.FN_STRING_FROM_TIMESTAMP  # 1274
+    FN_EXTRACT_FROM_TIMESTAMP = public_builtin_function_pb2.FN_EXTRACT_FROM_TIMESTAMP  # 1275
+    FN_EXTRACT_DATE_FROM_TIMESTAMP = public_builtin_function_pb2.FN_EXTRACT_DATE_FROM_TIMESTAMP  # 1276
+    FN_TIMESTAMP_FROM_INT64_SECONDS = public_builtin_function_pb2.FN_TIMESTAMP_FROM_INT64_SECONDS  # 1289
+    FN_TIMESTAMP_FROM_INT64_MILLIS = public_builtin_function_pb2.FN_TIMESTAMP_FROM_INT64_MILLIS  # 1290
+    FN_TIMESTAMP_FROM_INT64_MICROS = public_builtin_function_pb2.FN_TIMESTAMP_FROM_INT64_MICROS  # 1291
+    FN_FORMAT_DATE = public_builtin_function_pb2.FN_FORMAT_DATE  # 1293
+    FN_FORMAT_TIMESTAMP = public_builtin_function_pb2.FN_FORMAT_TIMESTAMP  # 1294
+    FN_PARSE_DATE = public_builtin_function_pb2.FN_PARSE_DATE  # 1295
+    FN_PARSE_TIMESTAMP = public_builtin_function_pb2.FN_PARSE_TIMESTAMP  # 1296
+    FN_DATE_FROM_YEAR_MONTH_DAY = public_builtin_function_pb2.FN_DATE_FROM_YEAR_MONTH_DAY  # 1297
+    FN_TIME_FROM_HOUR_MINUTE_SECOND = public_builtin_function_pb2.FN_TIME_FROM_HOUR_MINUTE_SECOND  # 1298
+    FN_DATETIME_FROM_DATE_AND_TIME = public_builtin_function_pb2.FN_DATETIME_FROM_DATE_AND_TIME  # 1299
+    FN_ABS_INT32 = public_builtin_function_pb2.FN_ABS_INT32  # 1300
+    FN_ABS_INT64 = public_builtin_function_pb2.FN_ABS_INT64  # 1301
+    FN_ABS_FLOAT = public_builtin_function_pb2.FN_ABS_FLOAT  # 1302
+    FN_ABS_DOUBLE = public_builtin_function_pb2.FN_ABS_DOUBLE  # 1303
+    FN_ROUND_DOUBLE = public_builtin_function_pb2.FN_ROUND_DOUBLE  # 1305
+    FN_ROUND_FLOAT = public_builtin_function_pb2.FN_ROUND_FLOAT  # 1306
+    FN_ROUND_WITH_DIGITS_DOUBLE = public_builtin_function_pb2.FN_ROUND_WITH_DIGITS_DOUBLE  # 1307
+    FN_ROUND_WITH_DIGITS_FLOAT = public_builtin_function_pb2.FN_ROUND_WITH_DIGITS_FLOAT  # 1308
+    FN_TRUNC_DOUBLE = public_builtin_function_pb2.FN_TRUNC_DOUBLE  # 1309
+    FN_TRUNC_FLOAT = public_builtin_function_pb2.FN_TRUNC_FLOAT  # 1310
+    FN_TRUNC_WITH_DIGITS_DOUBLE = public_builtin_function_pb2.FN_TRUNC_WITH_DIGITS_DOUBLE  # 1311
+    FN_TRUNC_WITH_DIGITS_FLOAT = public_builtin_function_pb2.FN_TRUNC_WITH_DIGITS_FLOAT  # 1312
+    FN_CEIL_DOUBLE = public_builtin_function_pb2.FN_CEIL_DOUBLE  # 1313
+    FN_CEIL_FLOAT = public_builtin_function_pb2.FN_CEIL_FLOAT  # 1314
+    FN_FLOOR_DOUBLE = public_builtin_function_pb2.FN_FLOOR_DOUBLE  # 1315
+    FN_FLOOR_FLOAT = public_builtin_function_pb2.FN_FLOOR_FLOAT  # 1316
+    FN_IS_INF = public_builtin_function_pb2.FN_IS_INF  # 1317
+    FN_IS_NAN = public_builtin_function_pb2.FN_IS_NAN  # 1318
+    FN_IEEE_DIVIDE_DOUBLE = public_builtin_function_pb2.FN_IEEE_DIVIDE_DOUBLE  # 1319
+    FN_IEEE_DIVIDE_FLOAT = public_builtin_function_pb2.FN_IEEE_DIVIDE_FLOAT  # 1320
+    FN_GREATEST = public_builtin_function_pb2.FN_GREATEST  # 1321
+    FN_LEAST = public_builtin_function_pb2.FN_LEAST  # 1322
+    FN_SQRT_DOUBLE = public_builtin_function_pb2.FN_SQRT_DOUBLE  # 1323
+    FN_POW_DOUBLE = public_builtin_function_pb2.FN_POW_DOUBLE  # 1324
+    FN_EXP_DOUBLE = public_builtin_function_pb2.FN_EXP_DOUBLE  # 1325
+    FN_NATURAL_LOGARITHM_DOUBLE = public_builtin_function_pb2.FN_NATURAL_LOGARITHM_DOUBLE  # 1326
+    FN_LOGARITHM_DOUBLE = public_builtin_function_pb2.FN_LOGARITHM_DOUBLE  # 1327
+    FN_COS_DOUBLE = public_builtin_function_pb2.FN_COS_DOUBLE  # 1328
+    FN_COSH_DOUBLE = public_builtin_function_pb2.FN_COSH_DOUBLE  # 1329
+    FN_ACOS_DOUBLE = public_builtin_function_pb2.FN_ACOS_DOUBLE  # 1330
+    FN_ACOSH_DOUBLE = public_builtin_function_pb2.FN_ACOSH_DOUBLE  # 1331
+    FN_SIN_DOUBLE = public_builtin_function_pb2.FN_SIN_DOUBLE  # 1332
+    FN_SINH_DOUBLE = public_builtin_function_pb2.FN_SINH_DOUBLE  # 1333
+    FN_ASIN_DOUBLE = public_builtin_function_pb2.FN_ASIN_DOUBLE  # 1334
+    FN_ASINH_DOUBLE = public_builtin_function_pb2.FN_ASINH_DOUBLE  # 1335
+    FN_TAN_DOUBLE = public_builtin_function_pb2.FN_TAN_DOUBLE  # 1336
+    FN_TANH_DOUBLE = public_builtin_function_pb2.FN_TANH_DOUBLE  # 1337
+    FN_ATAN_DOUBLE = public_builtin_function_pb2.FN_ATAN_DOUBLE  # 1338
+    FN_ATANH_DOUBLE = public_builtin_function_pb2.FN_ATANH_DOUBLE  # 1339
+    FN_ATAN2_DOUBLE = public_builtin_function_pb2.FN_ATAN2_DOUBLE  # 1340
+    FN_SIGN_INT32 = public_builtin_function_pb2.FN_SIGN_INT32  # 1341
+    FN_SIGN_INT64 = public_builtin_function_pb2.FN_SIGN_INT64  # 1342
+    FN_SIGN_FLOAT = public_builtin_function_pb2.FN_SIGN_FLOAT  # 1343
+    FN_SIGN_DOUBLE = public_builtin_function_pb2.FN_SIGN_DOUBLE  # 1344
+    FN_DECIMAL_LOGARITHM_DOUBLE = public_builtin_function_pb2.FN_DECIMAL_LOGARITHM_DOUBLE  # 1345
+    FN_ABS_UINT32 = public_builtin_function_pb2.FN_ABS_UINT32  # 1346
+    FN_ABS_UINT64 = public_builtin_function_pb2.FN_ABS_UINT64  # 1347
+    FN_MOD_INT64 = public_builtin_function_pb2.FN_MOD_INT64  # 1349
+    FN_MOD_UINT64 = public_builtin_function_pb2.FN_MOD_UINT64  # 1351
+    FN_DIV_INT64 = public_builtin_function_pb2.FN_DIV_INT64  # 1353
+    FN_DIV_UINT64 = public_builtin_function_pb2.FN_DIV_UINT64  # 1355
+    FN_SIGN_UINT32 = public_builtin_function_pb2.FN_SIGN_UINT32  # 1356
+    FN_SIGN_UINT64 = public_builtin_function_pb2.FN_SIGN_UINT64  # 1357
+    FN_SAFE_DIVIDE_DOUBLE = public_builtin_function_pb2.FN_SAFE_DIVIDE_DOUBLE  # 1358
+    FN_ABS_NUMERIC = public_builtin_function_pb2.FN_ABS_NUMERIC  # 1359
+    FN_SIGN_NUMERIC = public_builtin_function_pb2.FN_SIGN_NUMERIC  # 1360
+    FN_SAFE_DIVIDE_NUMERIC = public_builtin_function_pb2.FN_SAFE_DIVIDE_NUMERIC  # 1361
+    FN_DIV_NUMERIC = public_builtin_function_pb2.FN_DIV_NUMERIC  # 1362
+    FN_ROUND_NUMERIC = public_builtin_function_pb2.FN_ROUND_NUMERIC  # 1363
+    FN_ROUND_WITH_DIGITS_NUMERIC = public_builtin_function_pb2.FN_ROUND_WITH_DIGITS_NUMERIC  # 1364
+    FN_TRUNC_NUMERIC = public_builtin_function_pb2.FN_TRUNC_NUMERIC  # 1365
+    FN_TRUNC_WITH_DIGITS_NUMERIC = public_builtin_function_pb2.FN_TRUNC_WITH_DIGITS_NUMERIC  # 1366
+    FN_MOD_NUMERIC = public_builtin_function_pb2.FN_MOD_NUMERIC  # 1367
+    FN_CEIL_NUMERIC = public_builtin_function_pb2.FN_CEIL_NUMERIC  # 1368
+    FN_FLOOR_NUMERIC = public_builtin_function_pb2.FN_FLOOR_NUMERIC  # 1369
+    FN_POW_NUMERIC = public_builtin_function_pb2.FN_POW_NUMERIC  # 1370
+    FN_SAFE_ADD_INT64 = public_builtin_function_pb2.FN_SAFE_ADD_INT64  # 1371
+    FN_SAFE_ADD_UINT64 = public_builtin_function_pb2.FN_SAFE_ADD_UINT64  # 1372
+    FN_SAFE_ADD_DOUBLE = public_builtin_function_pb2.FN_SAFE_ADD_DOUBLE  # 1373
+    FN_SAFE_ADD_NUMERIC = public_builtin_function_pb2.FN_SAFE_ADD_NUMERIC  # 1374
+    FN_SAFE_SUBTRACT_INT64 = public_builtin_function_pb2.FN_SAFE_SUBTRACT_INT64  # 1375
+    FN_SAFE_SUBTRACT_UINT64 = public_builtin_function_pb2.FN_SAFE_SUBTRACT_UINT64  # 1376
+    FN_SAFE_SUBTRACT_DOUBLE = public_builtin_function_pb2.FN_SAFE_SUBTRACT_DOUBLE  # 1377
+    FN_SAFE_SUBTRACT_NUMERIC = public_builtin_function_pb2.FN_SAFE_SUBTRACT_NUMERIC  # 1378
+    FN_SAFE_MULTIPLY_INT64 = public_builtin_function_pb2.FN_SAFE_MULTIPLY_INT64  # 1379
+    FN_SAFE_MULTIPLY_UINT64 = public_builtin_function_pb2.FN_SAFE_MULTIPLY_UINT64  # 1380
+    FN_SAFE_MULTIPLY_DOUBLE = public_builtin_function_pb2.FN_SAFE_MULTIPLY_DOUBLE  # 1381
+    FN_SAFE_MULTIPLY_NUMERIC = public_builtin_function_pb2.FN_SAFE_MULTIPLY_NUMERIC  # 1382
+    FN_SAFE_UNARY_MINUS_INT32 = public_builtin_function_pb2.FN_SAFE_UNARY_MINUS_INT32  # 1383
+    FN_SAFE_UNARY_MINUS_INT64 = public_builtin_function_pb2.FN_SAFE_UNARY_MINUS_INT64  # 1384
+    FN_SAFE_UNARY_MINUS_FLOAT = public_builtin_function_pb2.FN_SAFE_UNARY_MINUS_FLOAT  # 1385
+    FN_SAFE_UNARY_MINUS_DOUBLE = public_builtin_function_pb2.FN_SAFE_UNARY_MINUS_DOUBLE  # 1386
+    FN_SAFE_UNARY_MINUS_NUMERIC = public_builtin_function_pb2.FN_SAFE_UNARY_MINUS_NUMERIC  # 1387
+    FN_SAFE_DIVIDE_BIGNUMERIC = public_builtin_function_pb2.FN_SAFE_DIVIDE_BIGNUMERIC  # 1388
+    FN_SAFE_ADD_BIGNUMERIC = public_builtin_function_pb2.FN_SAFE_ADD_BIGNUMERIC  # 1389
+    FN_SAFE_SUBTRACT_BIGNUMERIC = public_builtin_function_pb2.FN_SAFE_SUBTRACT_BIGNUMERIC  # 1390
+    FN_SAFE_MULTIPLY_BIGNUMERIC = public_builtin_function_pb2.FN_SAFE_MULTIPLY_BIGNUMERIC  # 1391
+    FN_SAFE_UNARY_MINUS_BIGNUMERIC = public_builtin_function_pb2.FN_SAFE_UNARY_MINUS_BIGNUMERIC  # 1392
+    FN_CEIL_BIGNUMERIC = public_builtin_function_pb2.FN_CEIL_BIGNUMERIC  # 1393
+    FN_FLOOR_BIGNUMERIC = public_builtin_function_pb2.FN_FLOOR_BIGNUMERIC  # 1394
+    FN_ABS_BIGNUMERIC = public_builtin_function_pb2.FN_ABS_BIGNUMERIC  # 1395
+    FN_SIGN_BIGNUMERIC = public_builtin_function_pb2.FN_SIGN_BIGNUMERIC  # 1396
+    FN_ROUND_BIGNUMERIC = public_builtin_function_pb2.FN_ROUND_BIGNUMERIC  # 1397
+    FN_ROUND_WITH_DIGITS_BIGNUMERIC = public_builtin_function_pb2.FN_ROUND_WITH_DIGITS_BIGNUMERIC  # 1398
+    FN_TRUNC_BIGNUMERIC = public_builtin_function_pb2.FN_TRUNC_BIGNUMERIC  # 1399
+    FN_ANY_VALUE = public_builtin_function_pb2.FN_ANY_VALUE  # 1400
+    FN_ARRAY_AGG = public_builtin_function_pb2.FN_ARRAY_AGG  # 1401
+    FN_AVG_INT64 = public_builtin_function_pb2.FN_AVG_INT64  # 1402
+    FN_AVG_UINT64 = public_builtin_function_pb2.FN_AVG_UINT64  # 1403
+    FN_AVG_DOUBLE = public_builtin_function_pb2.FN_AVG_DOUBLE  # 1404
+    FN_COUNT = public_builtin_function_pb2.FN_COUNT  # 1405
+    FN_MAX = public_builtin_function_pb2.FN_MAX  # 1406
+    FN_MIN = public_builtin_function_pb2.FN_MIN  # 1407
+    FN_STRING_AGG_STRING = public_builtin_function_pb2.FN_STRING_AGG_STRING  # 1408
+    FN_STRING_AGG_DELIM_STRING = public_builtin_function_pb2.FN_STRING_AGG_DELIM_STRING  # 1409
+    FN_SUM_INT64 = public_builtin_function_pb2.FN_SUM_INT64  # 1410
+    FN_SUM_UINT64 = public_builtin_function_pb2.FN_SUM_UINT64  # 1411
+    FN_SUM_DOUBLE = public_builtin_function_pb2.FN_SUM_DOUBLE  # 1412
+    FN_STRING_AGG_BYTES = public_builtin_function_pb2.FN_STRING_AGG_BYTES  # 1413
+    FN_STRING_AGG_DELIM_BYTES = public_builtin_function_pb2.FN_STRING_AGG_DELIM_BYTES  # 1414
+    FN_BIT_AND_INT32 = public_builtin_function_pb2.FN_BIT_AND_INT32  # 1415
+    FN_BIT_AND_INT64 = public_builtin_function_pb2.FN_BIT_AND_INT64  # 1416
+    FN_BIT_AND_UINT32 = public_builtin_function_pb2.FN_BIT_AND_UINT32  # 1417
+    FN_BIT_AND_UINT64 = public_builtin_function_pb2.FN_BIT_AND_UINT64  # 1418
+    FN_BIT_OR_INT32 = public_builtin_function_pb2.FN_BIT_OR_INT32  # 1419
+    FN_BIT_OR_INT64 = public_builtin_function_pb2.FN_BIT_OR_INT64  # 1420
+    FN_BIT_OR_UINT32 = public_builtin_function_pb2.FN_BIT_OR_UINT32  # 1421
+    FN_BIT_OR_UINT64 = public_builtin_function_pb2.FN_BIT_OR_UINT64  # 1422
+    FN_BIT_XOR_INT32 = public_builtin_function_pb2.FN_BIT_XOR_INT32  # 1423
+    FN_BIT_XOR_INT64 = public_builtin_function_pb2.FN_BIT_XOR_INT64  # 1424
+    FN_BIT_XOR_UINT32 = public_builtin_function_pb2.FN_BIT_XOR_UINT32  # 1425
+    FN_BIT_XOR_UINT64 = public_builtin_function_pb2.FN_BIT_XOR_UINT64  # 1426
+    FN_LOGICAL_AND = public_builtin_function_pb2.FN_LOGICAL_AND  # 1427
+    FN_LOGICAL_OR = public_builtin_function_pb2.FN_LOGICAL_OR  # 1428
+    FN_APPROX_COUNT_DISTINCT = public_builtin_function_pb2.FN_APPROX_COUNT_DISTINCT  # 1429
+    FN_APPROX_QUANTILES = public_builtin_function_pb2.FN_APPROX_QUANTILES  # 1430
+    FN_APPROX_TOP_COUNT = public_builtin_function_pb2.FN_APPROX_TOP_COUNT  # 1431
+    FN_APPROX_TOP_SUM_INT64 = public_builtin_function_pb2.FN_APPROX_TOP_SUM_INT64  # 1432
+    FN_APPROX_TOP_SUM_UINT64 = public_builtin_function_pb2.FN_APPROX_TOP_SUM_UINT64  # 1433
+    FN_APPROX_TOP_SUM_DOUBLE = public_builtin_function_pb2.FN_APPROX_TOP_SUM_DOUBLE  # 1434
+    FN_CORR = public_builtin_function_pb2.FN_CORR  # 1435
+    FN_COVAR_POP = public_builtin_function_pb2.FN_COVAR_POP  # 1436
+    FN_COVAR_SAMP = public_builtin_function_pb2.FN_COVAR_SAMP  # 1437
+    FN_STDDEV_POP = public_builtin_function_pb2.FN_STDDEV_POP  # 1438
+    FN_STDDEV_SAMP = public_builtin_function_pb2.FN_STDDEV_SAMP  # 1439
+    FN_VAR_POP = public_builtin_function_pb2.FN_VAR_POP  # 1440
+    FN_VAR_SAMP = public_builtin_function_pb2.FN_VAR_SAMP  # 1441
+    FN_ARRAY_CONCAT_AGG = public_builtin_function_pb2.FN_ARRAY_CONCAT_AGG  # 1442
+    FN_COUNTIF = public_builtin_function_pb2.FN_COUNTIF  # 1443
+    FN_HLL_COUNT_MERGE = public_builtin_function_pb2.FN_HLL_COUNT_MERGE  # 1444
+    FN_HLL_COUNT_EXTRACT = public_builtin_function_pb2.FN_HLL_COUNT_EXTRACT  # 1445
+    FN_HLL_COUNT_INIT_INT64 = public_builtin_function_pb2.FN_HLL_COUNT_INIT_INT64  # 1446
+    FN_HLL_COUNT_INIT_UINT64 = public_builtin_function_pb2.FN_HLL_COUNT_INIT_UINT64  # 1447
+    FN_HLL_COUNT_INIT_STRING = public_builtin_function_pb2.FN_HLL_COUNT_INIT_STRING  # 1448
+    FN_HLL_COUNT_INIT_BYTES = public_builtin_function_pb2.FN_HLL_COUNT_INIT_BYTES  # 1449
+    FN_HLL_COUNT_MERGE_PARTIAL = public_builtin_function_pb2.FN_HLL_COUNT_MERGE_PARTIAL  # 1450
+    FN_KLL_QUANTILES_INIT_INT64 = public_builtin_function_pb2.FN_KLL_QUANTILES_INIT_INT64  # 1451
+    FN_KLL_QUANTILES_INIT_UINT64 = public_builtin_function_pb2.FN_KLL_QUANTILES_INIT_UINT64  # 1452
+    FN_KLL_QUANTILES_INIT_DOUBLE = public_builtin_function_pb2.FN_KLL_QUANTILES_INIT_DOUBLE  # 1453
+    FN_KLL_QUANTILES_MERGE_PARTIAL = public_builtin_function_pb2.FN_KLL_QUANTILES_MERGE_PARTIAL  # 1454
+    FN_KLL_QUANTILES_MERGE_INT64 = public_builtin_function_pb2.FN_KLL_QUANTILES_MERGE_INT64  # 1455
+    FN_KLL_QUANTILES_MERGE_UINT64 = public_builtin_function_pb2.FN_KLL_QUANTILES_MERGE_UINT64  # 1456
+    FN_KLL_QUANTILES_MERGE_DOUBLE = public_builtin_function_pb2.FN_KLL_QUANTILES_MERGE_DOUBLE  # 1457
+    FN_KLL_QUANTILES_EXTRACT_INT64 = public_builtin_function_pb2.FN_KLL_QUANTILES_EXTRACT_INT64  # 1458
+    FN_KLL_QUANTILES_EXTRACT_UINT64 = public_builtin_function_pb2.FN_KLL_QUANTILES_EXTRACT_UINT64  # 1459
+    FN_KLL_QUANTILES_EXTRACT_DOUBLE = public_builtin_function_pb2.FN_KLL_QUANTILES_EXTRACT_DOUBLE  # 1460
+    FN_KLL_QUANTILES_MERGE_POINT_INT64 = public_builtin_function_pb2.FN_KLL_QUANTILES_MERGE_POINT_INT64  # 1461
+    FN_KLL_QUANTILES_MERGE_POINT_UINT64 = public_builtin_function_pb2.FN_KLL_QUANTILES_MERGE_POINT_UINT64  # 1462
+    FN_KLL_QUANTILES_MERGE_POINT_DOUBLE = public_builtin_function_pb2.FN_KLL_QUANTILES_MERGE_POINT_DOUBLE  # 1463
+    FN_KLL_QUANTILES_EXTRACT_POINT_INT64 = public_builtin_function_pb2.FN_KLL_QUANTILES_EXTRACT_POINT_INT64  # 1464
+    FN_KLL_QUANTILES_EXTRACT_POINT_UINT64 = public_builtin_function_pb2.FN_KLL_QUANTILES_EXTRACT_POINT_UINT64  # 1465
+    FN_KLL_QUANTILES_EXTRACT_POINT_DOUBLE = public_builtin_function_pb2.FN_KLL_QUANTILES_EXTRACT_POINT_DOUBLE  # 1466
+    FN_SUM_NUMERIC = public_builtin_function_pb2.FN_SUM_NUMERIC  # 1467
+    FN_AVG_NUMERIC = public_builtin_function_pb2.FN_AVG_NUMERIC  # 1468
+    FN_APPROX_TOP_SUM_NUMERIC = public_builtin_function_pb2.FN_APPROX_TOP_SUM_NUMERIC  # 1469
+    FN_HLL_COUNT_INIT_NUMERIC = public_builtin_function_pb2.FN_HLL_COUNT_INIT_NUMERIC  # 1470
+    FN_CORR_NUMERIC = public_builtin_function_pb2.FN_CORR_NUMERIC  # 1471
+    FN_COVAR_POP_NUMERIC = public_builtin_function_pb2.FN_COVAR_POP_NUMERIC  # 1472
+    FN_COVAR_SAMP_NUMERIC = public_builtin_function_pb2.FN_COVAR_SAMP_NUMERIC  # 1473
+    FN_STDDEV_POP_NUMERIC = public_builtin_function_pb2.FN_STDDEV_POP_NUMERIC  # 1474
+    FN_STDDEV_SAMP_NUMERIC = public_builtin_function_pb2.FN_STDDEV_SAMP_NUMERIC  # 1475
+    FN_VAR_POP_NUMERIC = public_builtin_function_pb2.FN_VAR_POP_NUMERIC  # 1476
+    FN_VAR_SAMP_NUMERIC = public_builtin_function_pb2.FN_VAR_SAMP_NUMERIC  # 1477
+    FN_SUM_BIGNUMERIC = public_builtin_function_pb2.FN_SUM_BIGNUMERIC  # 1478
+    FN_AVG_BIGNUMERIC = public_builtin_function_pb2.FN_AVG_BIGNUMERIC  # 1479
+    FN_APPROX_TOP_SUM_BIGNUMERIC = public_builtin_function_pb2.FN_APPROX_TOP_SUM_BIGNUMERIC  # 1480
+    FN_HLL_COUNT_INIT_BIGNUMERIC = public_builtin_function_pb2.FN_HLL_COUNT_INIT_BIGNUMERIC  # 1481
+    FN_STDDEV_POP_BIGNUMERIC = public_builtin_function_pb2.FN_STDDEV_POP_BIGNUMERIC  # 1482
+    FN_STDDEV_SAMP_BIGNUMERIC = public_builtin_function_pb2.FN_STDDEV_SAMP_BIGNUMERIC  # 1483
+    FN_VAR_POP_BIGNUMERIC = public_builtin_function_pb2.FN_VAR_POP_BIGNUMERIC  # 1484
+    FN_VAR_SAMP_BIGNUMERIC = public_builtin_function_pb2.FN_VAR_SAMP_BIGNUMERIC  # 1485
+    FN_COVAR_POP_BIGNUMERIC = public_builtin_function_pb2.FN_COVAR_POP_BIGNUMERIC  # 1486
+    FN_COVAR_SAMP_BIGNUMERIC = public_builtin_function_pb2.FN_COVAR_SAMP_BIGNUMERIC  # 1487
+    FN_CORR_BIGNUMERIC = public_builtin_function_pb2.FN_CORR_BIGNUMERIC  # 1488
+    FN_SUM_INTERVAL = public_builtin_function_pb2.FN_SUM_INTERVAL  # 1489
+    FN_AVG_INTERVAL = public_builtin_function_pb2.FN_AVG_INTERVAL  # 1490
+    FN_D3A_COUNT_MERGE = public_builtin_function_pb2.FN_D3A_COUNT_MERGE  # 1491
+    FN_D3A_COUNT_EXTRACT = public_builtin_function_pb2.FN_D3A_COUNT_EXTRACT  # 1492
+    FN_D3A_COUNT_INIT_INT64 = public_builtin_function_pb2.FN_D3A_COUNT_INIT_INT64  # 1493
+    FN_D3A_COUNT_INIT_UINT64 = public_builtin_function_pb2.FN_D3A_COUNT_INIT_UINT64  # 1494
+    FN_D3A_COUNT_INIT_NUMERIC = public_builtin_function_pb2.FN_D3A_COUNT_INIT_NUMERIC  # 1495
+    FN_D3A_COUNT_INIT_BIGNUMERIC = public_builtin_function_pb2.FN_D3A_COUNT_INIT_BIGNUMERIC  # 1496
+    FN_D3A_COUNT_INIT_STRING = public_builtin_function_pb2.FN_D3A_COUNT_INIT_STRING  # 1497
+    FN_D3A_COUNT_INIT_BYTES = public_builtin_function_pb2.FN_D3A_COUNT_INIT_BYTES  # 1498
+    FN_D3A_COUNT_MERGE_PARTIAL = public_builtin_function_pb2.FN_D3A_COUNT_MERGE_PARTIAL  # 1499
+    FN_DENSE_RANK = public_builtin_function_pb2.FN_DENSE_RANK  # 1500
+    FN_RANK = public_builtin_function_pb2.FN_RANK  # 1501
+    FN_ROW_NUMBER = public_builtin_function_pb2.FN_ROW_NUMBER  # 1502
+    FN_PERCENT_RANK = public_builtin_function_pb2.FN_PERCENT_RANK  # 1503
+    FN_CUME_DIST = public_builtin_function_pb2.FN_CUME_DIST  # 1504
+    FN_NTILE = public_builtin_function_pb2.FN_NTILE  # 1505
+    FN_LEAD = public_builtin_function_pb2.FN_LEAD  # 1506
+    FN_LAG = public_builtin_function_pb2.FN_LAG  # 1507
+    FN_FIRST_VALUE = public_builtin_function_pb2.FN_FIRST_VALUE  # 1508
+    FN_LAST_VALUE = public_builtin_function_pb2.FN_LAST_VALUE  # 1509
+    FN_NTH_VALUE = public_builtin_function_pb2.FN_NTH_VALUE  # 1510
+    FN_PERCENTILE_CONT = public_builtin_function_pb2.FN_PERCENTILE_CONT  # 1511
+    FN_PERCENTILE_DISC = public_builtin_function_pb2.FN_PERCENTILE_DISC  # 1512
+    FN_PERCENTILE_CONT_NUMERIC = public_builtin_function_pb2.FN_PERCENTILE_CONT_NUMERIC  # 1513
+    FN_PERCENTILE_DISC_NUMERIC = public_builtin_function_pb2.FN_PERCENTILE_DISC_NUMERIC  # 1514
+    FN_PERCENTILE_CONT_BIGNUMERIC = public_builtin_function_pb2.FN_PERCENTILE_CONT_BIGNUMERIC  # 1515
+    FN_PERCENTILE_DISC_BIGNUMERIC = public_builtin_function_pb2.FN_PERCENTILE_DISC_BIGNUMERIC  # 1516
+    FN_IS_FIRST = public_builtin_function_pb2.FN_IS_FIRST  # 1517
+    FN_IS_LAST = public_builtin_function_pb2.FN_IS_LAST  # 1518
+    FN_BIT_CAST_INT32_TO_INT32 = public_builtin_function_pb2.FN_BIT_CAST_INT32_TO_INT32  # 1604
+    FN_BIT_CAST_UINT32_TO_INT32 = public_builtin_function_pb2.FN_BIT_CAST_UINT32_TO_INT32  # 1605
+    FN_BIT_CAST_INT64_TO_INT64 = public_builtin_function_pb2.FN_BIT_CAST_INT64_TO_INT64  # 1606
+    FN_BIT_CAST_UINT64_TO_INT64 = public_builtin_function_pb2.FN_BIT_CAST_UINT64_TO_INT64  # 1607
+    FN_BIT_CAST_UINT32_TO_UINT32 = public_builtin_function_pb2.FN_BIT_CAST_UINT32_TO_UINT32  # 1608
+    FN_BIT_CAST_INT32_TO_UINT32 = public_builtin_function_pb2.FN_BIT_CAST_INT32_TO_UINT32  # 1609
+    FN_BIT_CAST_UINT64_TO_UINT64 = public_builtin_function_pb2.FN_BIT_CAST_UINT64_TO_UINT64  # 1610
+    FN_BIT_CAST_INT64_TO_UINT64 = public_builtin_function_pb2.FN_BIT_CAST_INT64_TO_UINT64  # 1611
+    FN_SESSION_USER = public_builtin_function_pb2.FN_SESSION_USER  # 1612
+    FN_GENERATE_ARRAY_INT64 = public_builtin_function_pb2.FN_GENERATE_ARRAY_INT64  # 1613
+    FN_GENERATE_ARRAY_UINT64 = public_builtin_function_pb2.FN_GENERATE_ARRAY_UINT64  # 1614
+    FN_GENERATE_ARRAY_DOUBLE = public_builtin_function_pb2.FN_GENERATE_ARRAY_DOUBLE  # 1615
+    FN_GENERATE_DATE_ARRAY = public_builtin_function_pb2.FN_GENERATE_DATE_ARRAY  # 1616
+    FN_GENERATE_TIMESTAMP_ARRAY = public_builtin_function_pb2.FN_GENERATE_TIMESTAMP_ARRAY  # 1617
+    FN_RAND = public_builtin_function_pb2.FN_RAND  # 1618
+    FN_JSON_EXTRACT = public_builtin_function_pb2.FN_JSON_EXTRACT  # 1619
+    FN_JSON_EXTRACT_SCALAR = public_builtin_function_pb2.FN_JSON_EXTRACT_SCALAR  # 1620
+    FN_ARRAY_REVERSE = public_builtin_function_pb2.FN_ARRAY_REVERSE  # 1621
+    FN_TO_JSON_STRING = public_builtin_function_pb2.FN_TO_JSON_STRING  # 1622
+    FN_JSON_QUERY = public_builtin_function_pb2.FN_JSON_QUERY  # 1623
+    FN_JSON_VALUE = public_builtin_function_pb2.FN_JSON_VALUE  # 1624
+    FN_GENERATE_ARRAY_NUMERIC = public_builtin_function_pb2.FN_GENERATE_ARRAY_NUMERIC  # 1625
+    FN_FROM_PROTO_TIMESTAMP = public_builtin_function_pb2.FN_FROM_PROTO_TIMESTAMP  # 1626
+    FN_FROM_PROTO_DATE = public_builtin_function_pb2.FN_FROM_PROTO_DATE  # 1627
+    FN_FROM_PROTO_TIME_OF_DAY = public_builtin_function_pb2.FN_FROM_PROTO_TIME_OF_DAY  # 1628
+    FN_FROM_PROTO_DOUBLE = public_builtin_function_pb2.FN_FROM_PROTO_DOUBLE  # 1630
+    FN_FROM_PROTO_FLOAT = public_builtin_function_pb2.FN_FROM_PROTO_FLOAT  # 1631
+    FN_FROM_PROTO_INT64 = public_builtin_function_pb2.FN_FROM_PROTO_INT64  # 1632
+    FN_FROM_PROTO_UINT64 = public_builtin_function_pb2.FN_FROM_PROTO_UINT64  # 1633
+    FN_FROM_PROTO_INT32 = public_builtin_function_pb2.FN_FROM_PROTO_INT32  # 1634
+    FN_FROM_PROTO_UINT32 = public_builtin_function_pb2.FN_FROM_PROTO_UINT32  # 1635
+    FN_FROM_PROTO_BOOL = public_builtin_function_pb2.FN_FROM_PROTO_BOOL  # 1636
+    FN_FROM_PROTO_BYTES = public_builtin_function_pb2.FN_FROM_PROTO_BYTES  # 1637
+    FN_FROM_PROTO_STRING = public_builtin_function_pb2.FN_FROM_PROTO_STRING  # 1638
+    FN_FROM_PROTO_IDEMPOTENT_TIMESTAMP = public_builtin_function_pb2.FN_FROM_PROTO_IDEMPOTENT_TIMESTAMP  # 1639
+    FN_FROM_PROTO_IDEMPOTENT_DATE = public_builtin_function_pb2.FN_FROM_PROTO_IDEMPOTENT_DATE  # 1640
+    FN_FROM_PROTO_IDEMPOTENT_TIME = public_builtin_function_pb2.FN_FROM_PROTO_IDEMPOTENT_TIME  # 1641
+    FN_FROM_PROTO_IDEMPOTENT_DOUBLE = public_builtin_function_pb2.FN_FROM_PROTO_IDEMPOTENT_DOUBLE  # 1643
+    FN_FROM_PROTO_IDEMPOTENT_FLOAT = public_builtin_function_pb2.FN_FROM_PROTO_IDEMPOTENT_FLOAT  # 1644
+    FN_FROM_PROTO_IDEMPOTENT_INT64 = public_builtin_function_pb2.FN_FROM_PROTO_IDEMPOTENT_INT64  # 1645
+    FN_FROM_PROTO_IDEMPOTENT_UINT64 = public_builtin_function_pb2.FN_FROM_PROTO_IDEMPOTENT_UINT64  # 1646
+    FN_FROM_PROTO_IDEMPOTENT_INT32 = public_builtin_function_pb2.FN_FROM_PROTO_IDEMPOTENT_INT32  # 1647
+    FN_FROM_PROTO_IDEMPOTENT_UINT32 = public_builtin_function_pb2.FN_FROM_PROTO_IDEMPOTENT_UINT32  # 1648
+    FN_FROM_PROTO_IDEMPOTENT_BOOL = public_builtin_function_pb2.FN_FROM_PROTO_IDEMPOTENT_BOOL  # 1649
+    FN_FROM_PROTO_IDEMPOTENT_BYTES = public_builtin_function_pb2.FN_FROM_PROTO_IDEMPOTENT_BYTES  # 1650
+    FN_FROM_PROTO_IDEMPOTENT_STRING = public_builtin_function_pb2.FN_FROM_PROTO_IDEMPOTENT_STRING  # 1651
+    FN_TO_PROTO_TIMESTAMP = public_builtin_function_pb2.FN_TO_PROTO_TIMESTAMP  # 1652
+    FN_TO_PROTO_DATE = public_builtin_function_pb2.FN_TO_PROTO_DATE  # 1653
+    FN_TO_PROTO_TIME = public_builtin_function_pb2.FN_TO_PROTO_TIME  # 1654
+    FN_TO_PROTO_DOUBLE = public_builtin_function_pb2.FN_TO_PROTO_DOUBLE  # 1656
+    FN_TO_PROTO_FLOAT = public_builtin_function_pb2.FN_TO_PROTO_FLOAT  # 1657
+    FN_TO_PROTO_INT64 = public_builtin_function_pb2.FN_TO_PROTO_INT64  # 1658
+    FN_TO_PROTO_UINT64 = public_builtin_function_pb2.FN_TO_PROTO_UINT64  # 1659
+    FN_TO_PROTO_INT32 = public_builtin_function_pb2.FN_TO_PROTO_INT32  # 1660
+    FN_TO_PROTO_UINT32 = public_builtin_function_pb2.FN_TO_PROTO_UINT32  # 1661
+    FN_TO_PROTO_BOOL = public_builtin_function_pb2.FN_TO_PROTO_BOOL  # 1662
+    FN_TO_PROTO_BYTES = public_builtin_function_pb2.FN_TO_PROTO_BYTES  # 1663
+    FN_TO_PROTO_STRING = public_builtin_function_pb2.FN_TO_PROTO_STRING  # 1664
+    FN_TO_PROTO_IDEMPOTENT_TIMESTAMP = public_builtin_function_pb2.FN_TO_PROTO_IDEMPOTENT_TIMESTAMP  # 1665
+    FN_TO_PROTO_IDEMPOTENT_DATE = public_builtin_function_pb2.FN_TO_PROTO_IDEMPOTENT_DATE  # 1666
+    FN_TO_PROTO_IDEMPOTENT_TIME_OF_DAY = public_builtin_function_pb2.FN_TO_PROTO_IDEMPOTENT_TIME_OF_DAY  # 1667
+    FN_TO_PROTO_IDEMPOTENT_DOUBLE = public_builtin_function_pb2.FN_TO_PROTO_IDEMPOTENT_DOUBLE  # 1669
+    FN_TO_PROTO_IDEMPOTENT_FLOAT = public_builtin_function_pb2.FN_TO_PROTO_IDEMPOTENT_FLOAT  # 1670
+    FN_TO_PROTO_IDEMPOTENT_INT64 = public_builtin_function_pb2.FN_TO_PROTO_IDEMPOTENT_INT64  # 1671
+    FN_TO_PROTO_IDEMPOTENT_UINT64 = public_builtin_function_pb2.FN_TO_PROTO_IDEMPOTENT_UINT64  # 1672
+    FN_TO_PROTO_IDEMPOTENT_INT32 = public_builtin_function_pb2.FN_TO_PROTO_IDEMPOTENT_INT32  # 1673
+    FN_TO_PROTO_IDEMPOTENT_UINT32 = public_builtin_function_pb2.FN_TO_PROTO_IDEMPOTENT_UINT32  # 1674
+    FN_TO_PROTO_IDEMPOTENT_BOOL = public_builtin_function_pb2.FN_TO_PROTO_IDEMPOTENT_BOOL  # 1675
+    FN_TO_PROTO_IDEMPOTENT_BYTES = public_builtin_function_pb2.FN_TO_PROTO_IDEMPOTENT_BYTES  # 1676
+    FN_TO_PROTO_IDEMPOTENT_STRING = public_builtin_function_pb2.FN_TO_PROTO_IDEMPOTENT_STRING  # 1677
+    FN_PROTO_DEFAULT_IF_NULL = public_builtin_function_pb2.FN_PROTO_DEFAULT_IF_NULL  # 1678
+    FN_GENERATE_UUID = public_builtin_function_pb2.FN_GENERATE_UUID  # 1679
+    FN_RANGE_BUCKET = public_builtin_function_pb2.FN_RANGE_BUCKET  # 1680
+    FN_JSON_EXTRACT_ARRAY = public_builtin_function_pb2.FN_JSON_EXTRACT_ARRAY  # 1681
+    FN_ENUM_VALUE_DESCRIPTOR_PROTO = public_builtin_function_pb2.FN_ENUM_VALUE_DESCRIPTOR_PROTO  # 1682
+    FN_GENERATE_ARRAY_BIGNUMERIC = public_builtin_function_pb2.FN_GENERATE_ARRAY_BIGNUMERIC  # 1683
+    FN_JSON_EXTRACT_JSON = public_builtin_function_pb2.FN_JSON_EXTRACT_JSON  # 1684
+    FN_JSON_EXTRACT_SCALAR_JSON = public_builtin_function_pb2.FN_JSON_EXTRACT_SCALAR_JSON  # 1685
+    FN_JSON_QUERY_JSON = public_builtin_function_pb2.FN_JSON_QUERY_JSON  # 1686
+    FN_JSON_VALUE_JSON = public_builtin_function_pb2.FN_JSON_VALUE_JSON  # 1687
+    FN_JSON_EXTRACT_STRING_ARRAY = public_builtin_function_pb2.FN_JSON_EXTRACT_STRING_ARRAY  # 1688
+    FN_JSON_SUBSCRIPT_INT64 = public_builtin_function_pb2.FN_JSON_SUBSCRIPT_INT64  # 1689
+    FN_JSON_SUBSCRIPT_STRING = public_builtin_function_pb2.FN_JSON_SUBSCRIPT_STRING  # 1690
+    FN_JSON_EXTRACT_ARRAY_JSON = public_builtin_function_pb2.FN_JSON_EXTRACT_ARRAY_JSON  # 1691
+    FN_JSON_EXTRACT_STRING_ARRAY_JSON = public_builtin_function_pb2.FN_JSON_EXTRACT_STRING_ARRAY_JSON  # 1692
+    FN_JSON_QUERY_ARRAY = public_builtin_function_pb2.FN_JSON_QUERY_ARRAY  # 1693
+    FN_JSON_QUERY_ARRAY_JSON = public_builtin_function_pb2.FN_JSON_QUERY_ARRAY_JSON  # 1694
+    FN_JSON_VALUE_ARRAY = public_builtin_function_pb2.FN_JSON_VALUE_ARRAY  # 1695
+    FN_JSON_VALUE_ARRAY_JSON = public_builtin_function_pb2.FN_JSON_VALUE_ARRAY_JSON  # 1696
+    FN_TO_JSON = public_builtin_function_pb2.FN_TO_JSON  # 1697
+    FN_PARSE_JSON = public_builtin_function_pb2.FN_PARSE_JSON  # 1698
+    FN_TYPEOF = public_builtin_function_pb2.FN_TYPEOF  # 1699
+    FN_NET_FORMAT_IP = public_builtin_function_pb2.FN_NET_FORMAT_IP  # 1700
+    FN_NET_PARSE_IP = public_builtin_function_pb2.FN_NET_PARSE_IP  # 1701
+    FN_NET_FORMAT_PACKED_IP = public_builtin_function_pb2.FN_NET_FORMAT_PACKED_IP  # 1702
+    FN_NET_PARSE_PACKED_IP = public_builtin_function_pb2.FN_NET_PARSE_PACKED_IP  # 1703
+    FN_NET_IP_IN_NET = public_builtin_function_pb2.FN_NET_IP_IN_NET  # 1704
+    FN_NET_MAKE_NET = public_builtin_function_pb2.FN_NET_MAKE_NET  # 1705
+    FN_NET_HOST = public_builtin_function_pb2.FN_NET_HOST  # 1706
+    FN_NET_REG_DOMAIN = public_builtin_function_pb2.FN_NET_REG_DOMAIN  # 1707
+    FN_NET_PUBLIC_SUFFIX = public_builtin_function_pb2.FN_NET_PUBLIC_SUFFIX  # 1708
+    FN_NET_IP_FROM_STRING = public_builtin_function_pb2.FN_NET_IP_FROM_STRING  # 1709
+    FN_NET_SAFE_IP_FROM_STRING = public_builtin_function_pb2.FN_NET_SAFE_IP_FROM_STRING  # 1710
+    FN_NET_IP_TO_STRING = public_builtin_function_pb2.FN_NET_IP_TO_STRING  # 1711
+    FN_NET_IP_NET_MASK = public_builtin_function_pb2.FN_NET_IP_NET_MASK  # 1712
+    FN_NET_IP_TRUNC = public_builtin_function_pb2.FN_NET_IP_TRUNC  # 1713
+    FN_NET_IPV4_FROM_INT64 = public_builtin_function_pb2.FN_NET_IPV4_FROM_INT64  # 1714
+    FN_NET_IPV4_TO_INT64 = public_builtin_function_pb2.FN_NET_IPV4_TO_INT64  # 1715
+    FN_DATETIME_FROM_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND = public_builtin_function_pb2.FN_DATETIME_FROM_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND  # 1800
+    FN_TIMESTAMP_FROM_DATETIME = public_builtin_function_pb2.FN_TIMESTAMP_FROM_DATETIME  # 1801
+    FN_TIME_FROM_TIMESTAMP = public_builtin_function_pb2.FN_TIME_FROM_TIMESTAMP  # 1802
+    FN_DATETIME_FROM_TIMESTAMP = public_builtin_function_pb2.FN_DATETIME_FROM_TIMESTAMP  # 1803
+    FN_CURRENT_DATETIME = public_builtin_function_pb2.FN_CURRENT_DATETIME  # 1804
+    FN_CURRENT_TIME = public_builtin_function_pb2.FN_CURRENT_TIME  # 1805
+    FN_EXTRACT_FROM_DATETIME = public_builtin_function_pb2.FN_EXTRACT_FROM_DATETIME  # 1806
+    FN_EXTRACT_FROM_TIME = public_builtin_function_pb2.FN_EXTRACT_FROM_TIME  # 1807
+    FN_EXTRACT_DATE_FROM_DATETIME = public_builtin_function_pb2.FN_EXTRACT_DATE_FROM_DATETIME  # 1808
+    FN_EXTRACT_TIME_FROM_DATETIME = public_builtin_function_pb2.FN_EXTRACT_TIME_FROM_DATETIME  # 1809
+    FN_EXTRACT_TIME_FROM_TIMESTAMP = public_builtin_function_pb2.FN_EXTRACT_TIME_FROM_TIMESTAMP  # 1810
+    FN_EXTRACT_DATETIME_FROM_TIMESTAMP = public_builtin_function_pb2.FN_EXTRACT_DATETIME_FROM_TIMESTAMP  # 1811
+    FN_DATETIME_ADD = public_builtin_function_pb2.FN_DATETIME_ADD  # 1812
+    FN_TIME_ADD = public_builtin_function_pb2.FN_TIME_ADD  # 1813
+    FN_DATETIME_SUB = public_builtin_function_pb2.FN_DATETIME_SUB  # 1814
+    FN_TIME_SUB = public_builtin_function_pb2.FN_TIME_SUB  # 1815
+    FN_DATETIME_DIFF = public_builtin_function_pb2.FN_DATETIME_DIFF  # 1816
+    FN_TIME_DIFF = public_builtin_function_pb2.FN_TIME_DIFF  # 1817
+    FN_DATETIME_TRUNC = public_builtin_function_pb2.FN_DATETIME_TRUNC  # 1818
+    FN_TIME_TRUNC = public_builtin_function_pb2.FN_TIME_TRUNC  # 1819
+    FN_FORMAT_DATETIME = public_builtin_function_pb2.FN_FORMAT_DATETIME  # 1820
+    FN_FORMAT_TIME = public_builtin_function_pb2.FN_FORMAT_TIME  # 1821
+    FN_PARSE_DATETIME = public_builtin_function_pb2.FN_PARSE_DATETIME  # 1822
+    FN_PARSE_TIME = public_builtin_function_pb2.FN_PARSE_TIME  # 1823
+    FN_DATETIME_FROM_DATE = public_builtin_function_pb2.FN_DATETIME_FROM_DATE  # 1824
+    FN_TIME_FROM_DATETIME = public_builtin_function_pb2.FN_TIME_FROM_DATETIME  # 1825
+    FN_DATE_FROM_DATETIME = public_builtin_function_pb2.FN_DATE_FROM_DATETIME  # 1826
+    FN_TIMESTAMP_FROM_UNIX_SECONDS_INT64 = public_builtin_function_pb2.FN_TIMESTAMP_FROM_UNIX_SECONDS_INT64  # 1827
+    FN_TIMESTAMP_FROM_UNIX_SECONDS_TIMESTAMP = public_builtin_function_pb2.FN_TIMESTAMP_FROM_UNIX_SECONDS_TIMESTAMP  # 1828
+    FN_TIMESTAMP_FROM_UNIX_MILLIS_INT64 = public_builtin_function_pb2.FN_TIMESTAMP_FROM_UNIX_MILLIS_INT64  # 1829
+    FN_TIMESTAMP_FROM_UNIX_MILLIS_TIMESTAMP = public_builtin_function_pb2.FN_TIMESTAMP_FROM_UNIX_MILLIS_TIMESTAMP  # 1830
+    FN_TIMESTAMP_FROM_UNIX_MICROS_INT64 = public_builtin_function_pb2.FN_TIMESTAMP_FROM_UNIX_MICROS_INT64  # 1831
+    FN_TIMESTAMP_FROM_UNIX_MICROS_TIMESTAMP = public_builtin_function_pb2.FN_TIMESTAMP_FROM_UNIX_MICROS_TIMESTAMP  # 1832
+    FN_DATE_FROM_DATE = public_builtin_function_pb2.FN_DATE_FROM_DATE  # 1833
+    FN_TIMESTAMP_FROM_TIMESTAMP = public_builtin_function_pb2.FN_TIMESTAMP_FROM_TIMESTAMP  # 1834
+    FN_DATETIME_FROM_DATETIME = public_builtin_function_pb2.FN_DATETIME_FROM_DATETIME  # 1835
+    FN_TIME_FROM_TIME = public_builtin_function_pb2.FN_TIME_FROM_TIME  # 1836
+    FN_DATE_FROM_STRING = public_builtin_function_pb2.FN_DATE_FROM_STRING  # 1837
+    FN_TIME_FROM_STRING = public_builtin_function_pb2.FN_TIME_FROM_STRING  # 1838
+    FN_DATETIME_FROM_STRING = public_builtin_function_pb2.FN_DATETIME_FROM_STRING  # 1839
+    FN_STRING_FROM_DATE = public_builtin_function_pb2.FN_STRING_FROM_DATE  # 1840
+    FN_STRING_FROM_DATETIME = public_builtin_function_pb2.FN_STRING_FROM_DATETIME  # 1841
+    FN_STRING_FROM_TIME = public_builtin_function_pb2.FN_STRING_FROM_TIME  # 1842
+    FN_LAST_DAY_DATE = public_builtin_function_pb2.FN_LAST_DAY_DATE  # 1843
+    FN_LAST_DAY_DATETIME = public_builtin_function_pb2.FN_LAST_DAY_DATETIME  # 1844
+    FN_INTERVAL_CONSTRUCTOR = public_builtin_function_pb2.FN_INTERVAL_CONSTRUCTOR  # 1855
+    FN_MAKE_INTERVAL = public_builtin_function_pb2.FN_MAKE_INTERVAL  # 1856
+    FN_EXTRACT_FROM_INTERVAL = public_builtin_function_pb2.FN_EXTRACT_FROM_INTERVAL  # 1857
+    FN_JUSTIFY_HOURS = public_builtin_function_pb2.FN_JUSTIFY_HOURS  # 1858
+    FN_JUSTIFY_DAYS = public_builtin_function_pb2.FN_JUSTIFY_DAYS  # 1859
+    FN_JUSTIFY_INTERVAL = public_builtin_function_pb2.FN_JUSTIFY_INTERVAL  # 1860
+    FN_TIMESTAMP_BUCKET = public_builtin_function_pb2.FN_TIMESTAMP_BUCKET  # 1861
+    FN_DATETIME_BUCKET = public_builtin_function_pb2.FN_DATETIME_BUCKET  # 1862
+    FN_DATE_BUCKET = public_builtin_function_pb2.FN_DATE_BUCKET  # 1863
+    FN_TIMESTAMP_FROM_UNIX_SECONDS_UINT64 = public_builtin_function_pb2.FN_TIMESTAMP_FROM_UNIX_SECONDS_UINT64  # 1864
+    FN_TIMESTAMP_FROM_UNIX_MILLIS_UINT64 = public_builtin_function_pb2.FN_TIMESTAMP_FROM_UNIX_MILLIS_UINT64  # 1865
+    FN_TIMESTAMP_FROM_UNIX_MICROS_UINT64 = public_builtin_function_pb2.FN_TIMESTAMP_FROM_UNIX_MICROS_UINT64  # 1866
+    FN_TO_SECONDS_INTERVAL = public_builtin_function_pb2.FN_TO_SECONDS_INTERVAL  # 1867
+    FN_PARSE_TIMESTAMP_WITH_PRECISION = public_builtin_function_pb2.FN_PARSE_TIMESTAMP_WITH_PRECISION  # 1868
+    FN_PARSE_TIMESTAMP_WITH_PRECISION_AND_TIMEZONE = public_builtin_function_pb2.FN_PARSE_TIMESTAMP_WITH_PRECISION_AND_TIMEZONE  # 1869
+    FN_ADD_MONTHS_DATE = public_builtin_function_pb2.FN_ADD_MONTHS_DATE  # 1870
+    FN_ADD_MONTHS_DATETIME = public_builtin_function_pb2.FN_ADD_MONTHS_DATETIME  # 1871
+    FN_NEXT_DAY_DATE = public_builtin_function_pb2.FN_NEXT_DAY_DATE  # 1872
+    FN_NEXT_DAY_DATETIME = public_builtin_function_pb2.FN_NEXT_DAY_DATETIME  # 1873
+    FN_MD5_BYTES = public_builtin_function_pb2.FN_MD5_BYTES  # 1900
+    FN_MD5_STRING = public_builtin_function_pb2.FN_MD5_STRING  # 1901
+    FN_SHA1_BYTES = public_builtin_function_pb2.FN_SHA1_BYTES  # 1902
+    FN_SHA1_STRING = public_builtin_function_pb2.FN_SHA1_STRING  # 1903
+    FN_SHA256_BYTES = public_builtin_function_pb2.FN_SHA256_BYTES  # 1904
+    FN_SHA256_STRING = public_builtin_function_pb2.FN_SHA256_STRING  # 1905
+    FN_SHA512_BYTES = public_builtin_function_pb2.FN_SHA512_BYTES  # 1906
+    FN_SHA512_STRING = public_builtin_function_pb2.FN_SHA512_STRING  # 1907
+    FN_FARM_FINGERPRINT_BYTES = public_builtin_function_pb2.FN_FARM_FINGERPRINT_BYTES  # 1908
+    FN_FARM_FINGERPRINT_STRING = public_builtin_function_pb2.FN_FARM_FINGERPRINT_STRING  # 1909
+    FN_KEYS_NEW_KEYSET = public_builtin_function_pb2.FN_KEYS_NEW_KEYSET  # 1910
+    FN_KEYS_ADD_KEY_FROM_RAW_BYTES = public_builtin_function_pb2.FN_KEYS_ADD_KEY_FROM_RAW_BYTES  # 1911
+    FN_KEYS_ROTATE_KEYSET = public_builtin_function_pb2.FN_KEYS_ROTATE_KEYSET  # 1912
+    FN_KEYS_KEYSET_LENGTH = public_builtin_function_pb2.FN_KEYS_KEYSET_LENGTH  # 1913
+    FN_KEYS_KEYSET_TO_JSON = public_builtin_function_pb2.FN_KEYS_KEYSET_TO_JSON  # 1914
+    FN_KEYS_KEYSET_FROM_JSON = public_builtin_function_pb2.FN_KEYS_KEYSET_FROM_JSON  # 1915
+    FN_AEAD_ENCRYPT_STRING = public_builtin_function_pb2.FN_AEAD_ENCRYPT_STRING  # 1916
+    FN_AEAD_ENCRYPT_BYTES = public_builtin_function_pb2.FN_AEAD_ENCRYPT_BYTES  # 1917
+    FN_AEAD_DECRYPT_STRING = public_builtin_function_pb2.FN_AEAD_DECRYPT_STRING  # 1918
+    FN_AEAD_DECRYPT_BYTES = public_builtin_function_pb2.FN_AEAD_DECRYPT_BYTES  # 1919
+    FN_AEAD_ENVELOPE_ENCRYPT_STRING = public_builtin_function_pb2.FN_AEAD_ENVELOPE_ENCRYPT_STRING  # 1924
+    FN_AEAD_ENVELOPE_ENCRYPT_BYTES = public_builtin_function_pb2.FN_AEAD_ENVELOPE_ENCRYPT_BYTES  # 1925
+    FN_AEAD_ENVELOPE_DECRYPT_STRING = public_builtin_function_pb2.FN_AEAD_ENVELOPE_DECRYPT_STRING  # 1926
+    FN_AEAD_ENVELOPE_DECRYPT_BYTES = public_builtin_function_pb2.FN_AEAD_ENVELOPE_DECRYPT_BYTES  # 1927
+    FN_KEYS_KEYSET_CHAIN_STRING_BYTES_BYTES = public_builtin_function_pb2.FN_KEYS_KEYSET_CHAIN_STRING_BYTES_BYTES  # 1928
+    FN_KEYS_KEYSET_CHAIN_STRING_BYTES = public_builtin_function_pb2.FN_KEYS_KEYSET_CHAIN_STRING_BYTES  # 1929
+    FN_AEAD_ENCRYPT_STRUCT_STRING = public_builtin_function_pb2.FN_AEAD_ENCRYPT_STRUCT_STRING  # 1930
+    FN_AEAD_ENCRYPT_STRUCT_BYTES = public_builtin_function_pb2.FN_AEAD_ENCRYPT_STRUCT_BYTES  # 1931
+    FN_AEAD_DECRYPT_STRUCT_STRING = public_builtin_function_pb2.FN_AEAD_DECRYPT_STRUCT_STRING  # 1932
+    FN_AEAD_DECRYPT_STRUCT_BYTES = public_builtin_function_pb2.FN_AEAD_DECRYPT_STRUCT_BYTES  # 1933
+    FN_DETERMINISTIC_ENCRYPT_STRING = public_builtin_function_pb2.FN_DETERMINISTIC_ENCRYPT_STRING  # 1934
+    FN_DETERMINISTIC_ENCRYPT_BYTES = public_builtin_function_pb2.FN_DETERMINISTIC_ENCRYPT_BYTES  # 1935
+    FN_DETERMINISTIC_DECRYPT_STRING = public_builtin_function_pb2.FN_DETERMINISTIC_DECRYPT_STRING  # 1936
+    FN_DETERMINISTIC_DECRYPT_BYTES = public_builtin_function_pb2.FN_DETERMINISTIC_DECRYPT_BYTES  # 1937
+    FN_DETERMINISTIC_ENCRYPT_STRUCT_STRING = public_builtin_function_pb2.FN_DETERMINISTIC_ENCRYPT_STRUCT_STRING  # 1938
+    FN_DETERMINISTIC_ENCRYPT_STRUCT_BYTES = public_builtin_function_pb2.FN_DETERMINISTIC_ENCRYPT_STRUCT_BYTES  # 1939
+    FN_DETERMINISTIC_DECRYPT_STRUCT_STRING = public_builtin_function_pb2.FN_DETERMINISTIC_DECRYPT_STRUCT_STRING  # 1940
+    FN_DETERMINISTIC_DECRYPT_STRUCT_BYTES = public_builtin_function_pb2.FN_DETERMINISTIC_DECRYPT_STRUCT_BYTES  # 1941
+    FN_KEYS_NEW_WRAPPED_KEYSET = public_builtin_function_pb2.FN_KEYS_NEW_WRAPPED_KEYSET  # 1942
+    FN_KEYS_ROTATE_WRAPPED_KEYSET = public_builtin_function_pb2.FN_KEYS_ROTATE_WRAPPED_KEYSET  # 1943
+    FN_KEYS_REWRAP_KEYSET = public_builtin_function_pb2.FN_KEYS_REWRAP_KEYSET  # 1944
+    FN_ROUND_WITH_ROUNDING_MODE_NUMERIC = public_builtin_function_pb2.FN_ROUND_WITH_ROUNDING_MODE_NUMERIC  # 1945
+    FN_ROUND_WITH_ROUNDING_MODE_BIGNUMERIC = public_builtin_function_pb2.FN_ROUND_WITH_ROUNDING_MODE_BIGNUMERIC  # 1946
+    FN_GROUPING = public_builtin_function_pb2.FN_GROUPING  # 1947
+    FN_TO_JSON_UNSUPPORTED_FIELDS = public_builtin_function_pb2.FN_TO_JSON_UNSUPPORTED_FIELDS  # 1948
+    FN_SAFE_TO_JSON = public_builtin_function_pb2.FN_SAFE_TO_JSON  # 1949
+    FN_ST_GEOG_POINT = public_builtin_function_pb2.FN_ST_GEOG_POINT  # 2000
+    FN_ST_MAKE_LINE = public_builtin_function_pb2.FN_ST_MAKE_LINE  # 2001
+    FN_ST_MAKE_LINE_ARRAY = public_builtin_function_pb2.FN_ST_MAKE_LINE_ARRAY  # 2002
+    FN_ST_MAKE_POLYGON = public_builtin_function_pb2.FN_ST_MAKE_POLYGON  # 2003
+    FN_ST_MAKE_POLYGON_ORIENTED = public_builtin_function_pb2.FN_ST_MAKE_POLYGON_ORIENTED  # 2004
+    FN_ST_INTERSECTION = public_builtin_function_pb2.FN_ST_INTERSECTION  # 2007
+    FN_ST_UNION = public_builtin_function_pb2.FN_ST_UNION  # 2008
+    FN_ST_UNION_ARRAY = public_builtin_function_pb2.FN_ST_UNION_ARRAY  # 2009
+    FN_ST_DIFFERENCE = public_builtin_function_pb2.FN_ST_DIFFERENCE  # 2010
+    FN_ST_UNARY_UNION = public_builtin_function_pb2.FN_ST_UNARY_UNION  # 2011
+    FN_ST_CENTROID = public_builtin_function_pb2.FN_ST_CENTROID  # 2012
+    FN_ST_BUFFER = public_builtin_function_pb2.FN_ST_BUFFER  # 2013
+    FN_ST_BUFFER_WITH_TOLERANCE = public_builtin_function_pb2.FN_ST_BUFFER_WITH_TOLERANCE  # 2014
+    FN_ST_SIMPLIFY = public_builtin_function_pb2.FN_ST_SIMPLIFY  # 2015
+    FN_ST_SNAP_TO_GRID = public_builtin_function_pb2.FN_ST_SNAP_TO_GRID  # 2016
+    FN_ST_CLOSEST_POINT = public_builtin_function_pb2.FN_ST_CLOSEST_POINT  # 2017
+    FN_ST_BOUNDARY = public_builtin_function_pb2.FN_ST_BOUNDARY  # 2018
+    FN_ST_EQUALS = public_builtin_function_pb2.FN_ST_EQUALS  # 2020
+    FN_ST_INTERSECTS = public_builtin_function_pb2.FN_ST_INTERSECTS  # 2021
+    FN_ST_CONTAINS = public_builtin_function_pb2.FN_ST_CONTAINS  # 2022
+    FN_ST_COVERS = public_builtin_function_pb2.FN_ST_COVERS  # 2023
+    FN_ST_DISJOINT = public_builtin_function_pb2.FN_ST_DISJOINT  # 2024
+    FN_ST_INTERSECTS_BOX = public_builtin_function_pb2.FN_ST_INTERSECTS_BOX  # 2025
+    FN_ST_DWITHIN = public_builtin_function_pb2.FN_ST_DWITHIN  # 2026
+    FN_ST_WITHIN = public_builtin_function_pb2.FN_ST_WITHIN  # 2027
+    FN_ST_COVEREDBY = public_builtin_function_pb2.FN_ST_COVEREDBY  # 2028
+    FN_ST_TOUCHES = public_builtin_function_pb2.FN_ST_TOUCHES  # 2029
+    FN_ST_IS_EMPTY = public_builtin_function_pb2.FN_ST_IS_EMPTY  # 2030
+    FN_ST_IS_COLLECTION = public_builtin_function_pb2.FN_ST_IS_COLLECTION  # 2031
+    FN_ST_DIMENSION = public_builtin_function_pb2.FN_ST_DIMENSION  # 2032
+    FN_ST_NUM_POINTS = public_builtin_function_pb2.FN_ST_NUM_POINTS  # 2033
+    FN_ST_NUM_GEOMETRIES = public_builtin_function_pb2.FN_ST_NUM_GEOMETRIES  # 2034
+    FN_ST_GEOMETRY_TYPE = public_builtin_function_pb2.FN_ST_GEOMETRY_TYPE  # 2035
+    FN_ST_LENGTH = public_builtin_function_pb2.FN_ST_LENGTH  # 2040
+    FN_ST_PERIMETER = public_builtin_function_pb2.FN_ST_PERIMETER  # 2041
+    FN_ST_AREA = public_builtin_function_pb2.FN_ST_AREA  # 2042
+    FN_ST_DISTANCE = public_builtin_function_pb2.FN_ST_DISTANCE  # 2043
+    FN_ST_MAX_DISTANCE = public_builtin_function_pb2.FN_ST_MAX_DISTANCE  # 2044
+    FN_ST_GEOG_FROM_TEXT = public_builtin_function_pb2.FN_ST_GEOG_FROM_TEXT  # 2050
+    FN_ST_GEOG_FROM_KML = public_builtin_function_pb2.FN_ST_GEOG_FROM_KML  # 2051
+    FN_ST_GEOG_FROM_GEO_JSON = public_builtin_function_pb2.FN_ST_GEOG_FROM_GEO_JSON  # 2052
+    FN_ST_AS_TEXT = public_builtin_function_pb2.FN_ST_AS_TEXT  # 2053
+    FN_ST_AS_KML = public_builtin_function_pb2.FN_ST_AS_KML  # 2054
+    FN_ST_AS_GEO_JSON = public_builtin_function_pb2.FN_ST_AS_GEO_JSON  # 2055
+    FN_ST_GEOG_FROM_WKB = public_builtin_function_pb2.FN_ST_GEOG_FROM_WKB  # 2056
+    FN_ST_AS_BINARY = public_builtin_function_pb2.FN_ST_AS_BINARY  # 2057
+    FN_ST_GEOHASH = public_builtin_function_pb2.FN_ST_GEOHASH  # 2058
+    FN_ST_GEOG_POINT_FROM_GEOHASH = public_builtin_function_pb2.FN_ST_GEOG_POINT_FROM_GEOHASH  # 2059
+    FN_ST_GEOG_FROM_TEXT_EXT = public_builtin_function_pb2.FN_ST_GEOG_FROM_TEXT_EXT  # 2060
+    FN_ST_UNION_AGG = public_builtin_function_pb2.FN_ST_UNION_AGG  # 2061
+    FN_ST_ACCUM = public_builtin_function_pb2.FN_ST_ACCUM  # 2062
+    FN_ST_CENTROID_AGG = public_builtin_function_pb2.FN_ST_CENTROID_AGG  # 2063
+    FN_ST_DUMP = public_builtin_function_pb2.FN_ST_DUMP  # 2064
+    FN_ST_CONVEXHULL = public_builtin_function_pb2.FN_ST_CONVEXHULL  # 2065
+    FN_ST_CLUSTERDBSCAN = public_builtin_function_pb2.FN_ST_CLUSTERDBSCAN  # 2066
+    FN_ST_NEAREST_NEIGHBORS = public_builtin_function_pb2.FN_ST_NEAREST_NEIGHBORS  # 2067
+    FN_ST_GEOG_FROM_GEO_JSON_EXT = public_builtin_function_pb2.FN_ST_GEOG_FROM_GEO_JSON_EXT  # 2068
+    FN_ST_X = public_builtin_function_pb2.FN_ST_X  # 2070
+    FN_ST_Y = public_builtin_function_pb2.FN_ST_Y  # 2071
+    FN_ST_GEOG_FROM_WKB_HEX = public_builtin_function_pb2.FN_ST_GEOG_FROM_WKB_HEX  # 2072
+    FN_ST_GEOG_FROM_STRING = public_builtin_function_pb2.FN_ST_GEOG_FROM_STRING  # 2073
+    FN_ST_GEOG_FROM_BYTES = public_builtin_function_pb2.FN_ST_GEOG_FROM_BYTES  # 2074
+    FN_ST_POINT_N = public_builtin_function_pb2.FN_ST_POINT_N  # 2075
+    FN_ST_START_POINT = public_builtin_function_pb2.FN_ST_START_POINT  # 2076
+    FN_ST_END_POINT = public_builtin_function_pb2.FN_ST_END_POINT  # 2077
+    FN_ST_EXTERIORRING = public_builtin_function_pb2.FN_ST_EXTERIORRING  # 2078
+    FN_ST_INTERIORRINGS = public_builtin_function_pb2.FN_ST_INTERIORRINGS  # 2079
+    FN_ST_AZIMUTH = public_builtin_function_pb2.FN_ST_AZIMUTH  # 2080
+    FN_ST_ANGLE = public_builtin_function_pb2.FN_ST_ANGLE  # 2081
+    FN_S2_COVERINGCELLIDS = public_builtin_function_pb2.FN_S2_COVERINGCELLIDS  # 2082
+    FN_ST_EXTENT = public_builtin_function_pb2.FN_ST_EXTENT  # 2083
+    FN_ST_BOUNDING_BOX = public_builtin_function_pb2.FN_ST_BOUNDING_BOX  # 2084
+    FN_S2_CELLIDFROMPOINT = public_builtin_function_pb2.FN_S2_CELLIDFROMPOINT  # 2085
+    FN_ST_IS_CLOSED = public_builtin_function_pb2.FN_ST_IS_CLOSED  # 2086
+    FN_ST_IS_RING = public_builtin_function_pb2.FN_ST_IS_RING  # 2087
+    FN_ST_DUMP_POINTS = public_builtin_function_pb2.FN_ST_DUMP_POINTS  # 2088
+    FN_ST_LINE_LOCATE_POINT = public_builtin_function_pb2.FN_ST_LINE_LOCATE_POINT  # 2089
+    FN_ST_HAUSDORFF_DISTANCE = public_builtin_function_pb2.FN_ST_HAUSDORFF_DISTANCE  # 2090
+    FN_ST_LINE_SUBSTRING = public_builtin_function_pb2.FN_ST_LINE_SUBSTRING  # 2091
+    FN_ST_LINE_INTERPOLATE_POINT = public_builtin_function_pb2.FN_ST_LINE_INTERPOLATE_POINT  # 2092
+    FN_ST_GEOG_FROM_WKB_EXT = public_builtin_function_pb2.FN_ST_GEOG_FROM_WKB_EXT  # 2093
+    FN_ST_GEOG_FROM_WKB_HEX_EXT = public_builtin_function_pb2.FN_ST_GEOG_FROM_WKB_HEX_EXT  # 2094
+    FN_ST_HAUSDORFF_DWITHIN = public_builtin_function_pb2.FN_ST_HAUSDORFF_DWITHIN  # 2095
+    FN_ANON_COUNT = public_builtin_function_pb2.FN_ANON_COUNT  # 2200
+    FN_ANON_COUNT_STAR = public_builtin_function_pb2.FN_ANON_COUNT_STAR  # 2201
+    FN_ANON_SUM_INT64 = public_builtin_function_pb2.FN_ANON_SUM_INT64  # 2202
+    FN_ANON_SUM_UINT64 = public_builtin_function_pb2.FN_ANON_SUM_UINT64  # 2203
+    FN_ANON_SUM_DOUBLE = public_builtin_function_pb2.FN_ANON_SUM_DOUBLE  # 2204
+    FN_ANON_SUM_NUMERIC = public_builtin_function_pb2.FN_ANON_SUM_NUMERIC  # 2205
+    FN_ANON_AVG_DOUBLE = public_builtin_function_pb2.FN_ANON_AVG_DOUBLE  # 2206
+    FN_ANON_AVG_NUMERIC = public_builtin_function_pb2.FN_ANON_AVG_NUMERIC  # 2207
+    FN_ANON_VAR_POP_DOUBLE = public_builtin_function_pb2.FN_ANON_VAR_POP_DOUBLE  # 2208
+    FN_ANON_VAR_POP_DOUBLE_ARRAY = public_builtin_function_pb2.FN_ANON_VAR_POP_DOUBLE_ARRAY  # 2209
+    FN_ANON_STDDEV_POP_DOUBLE = public_builtin_function_pb2.FN_ANON_STDDEV_POP_DOUBLE  # 2210
+    FN_ANON_STDDEV_POP_DOUBLE_ARRAY = public_builtin_function_pb2.FN_ANON_STDDEV_POP_DOUBLE_ARRAY  # 2211
+    FN_ANON_PERCENTILE_CONT_DOUBLE = public_builtin_function_pb2.FN_ANON_PERCENTILE_CONT_DOUBLE  # 2212
+    FN_ANON_PERCENTILE_CONT_DOUBLE_ARRAY = public_builtin_function_pb2.FN_ANON_PERCENTILE_CONT_DOUBLE_ARRAY  # 2213
+    FN_ANON_SUM_WITH_REPORT_JSON_INT64 = public_builtin_function_pb2.FN_ANON_SUM_WITH_REPORT_JSON_INT64  # 2214
+    FN_ANON_SUM_WITH_REPORT_JSON_DOUBLE = public_builtin_function_pb2.FN_ANON_SUM_WITH_REPORT_JSON_DOUBLE  # 2215
+    FN_ANON_SUM_WITH_REPORT_JSON_UINT64 = public_builtin_function_pb2.FN_ANON_SUM_WITH_REPORT_JSON_UINT64  # 2216
+    FN_ANON_SUM_WITH_REPORT_PROTO_INT64 = public_builtin_function_pb2.FN_ANON_SUM_WITH_REPORT_PROTO_INT64  # 2217
+    FN_ANON_SUM_WITH_REPORT_PROTO_DOUBLE = public_builtin_function_pb2.FN_ANON_SUM_WITH_REPORT_PROTO_DOUBLE  # 2218
+    FN_ANON_SUM_WITH_REPORT_PROTO_UINT64 = public_builtin_function_pb2.FN_ANON_SUM_WITH_REPORT_PROTO_UINT64  # 2219
+    FN_ANON_QUANTILES_DOUBLE = public_builtin_function_pb2.FN_ANON_QUANTILES_DOUBLE  # 2220
+    FN_ANON_QUANTILES_DOUBLE_ARRAY = public_builtin_function_pb2.FN_ANON_QUANTILES_DOUBLE_ARRAY  # 2221
+    FN_ANON_COUNT_WITH_REPORT_JSON = public_builtin_function_pb2.FN_ANON_COUNT_WITH_REPORT_JSON  # 2222
+    FN_ANON_COUNT_WITH_REPORT_PROTO = public_builtin_function_pb2.FN_ANON_COUNT_WITH_REPORT_PROTO  # 2223
+    FN_ANON_COUNT_STAR_WITH_REPORT_JSON = public_builtin_function_pb2.FN_ANON_COUNT_STAR_WITH_REPORT_JSON  # 2224
+    FN_ANON_COUNT_STAR_WITH_REPORT_PROTO = public_builtin_function_pb2.FN_ANON_COUNT_STAR_WITH_REPORT_PROTO  # 2225
+    FN_ANON_QUANTILES_DOUBLE_WITH_REPORT_JSON = public_builtin_function_pb2.FN_ANON_QUANTILES_DOUBLE_WITH_REPORT_JSON  # 2226
+    FN_ANON_QUANTILES_DOUBLE_WITH_REPORT_PROTO = public_builtin_function_pb2.FN_ANON_QUANTILES_DOUBLE_WITH_REPORT_PROTO  # 2227
+    FN_ANON_QUANTILES_DOUBLE_ARRAY_WITH_REPORT_JSON = public_builtin_function_pb2.FN_ANON_QUANTILES_DOUBLE_ARRAY_WITH_REPORT_JSON  # 2228
+    FN_ANON_QUANTILES_DOUBLE_ARRAY_WITH_REPORT_PROTO = public_builtin_function_pb2.FN_ANON_QUANTILES_DOUBLE_ARRAY_WITH_REPORT_PROTO  # 2229
+    FN_ANON_AVG_DOUBLE_WITH_REPORT_JSON = public_builtin_function_pb2.FN_ANON_AVG_DOUBLE_WITH_REPORT_JSON  # 2230
+    FN_ANON_AVG_DOUBLE_WITH_REPORT_PROTO = public_builtin_function_pb2.FN_ANON_AVG_DOUBLE_WITH_REPORT_PROTO  # 2231
+    FN_TRUNC_WITH_DIGITS_BIGNUMERIC = public_builtin_function_pb2.FN_TRUNC_WITH_DIGITS_BIGNUMERIC  # 2300
+    FN_MOD_BIGNUMERIC = public_builtin_function_pb2.FN_MOD_BIGNUMERIC  # 2301
+    FN_DIV_BIGNUMERIC = public_builtin_function_pb2.FN_DIV_BIGNUMERIC  # 2302
+    FN_POW_BIGNUMERIC = public_builtin_function_pb2.FN_POW_BIGNUMERIC  # 2303
+    FN_EXP_NUMERIC = public_builtin_function_pb2.FN_EXP_NUMERIC  # 2304
+    FN_EXP_BIGNUMERIC = public_builtin_function_pb2.FN_EXP_BIGNUMERIC  # 2305
+    FN_NATURAL_LOGARITHM_NUMERIC = public_builtin_function_pb2.FN_NATURAL_LOGARITHM_NUMERIC  # 2306
+    FN_NATURAL_LOGARITHM_BIGNUMERIC = public_builtin_function_pb2.FN_NATURAL_LOGARITHM_BIGNUMERIC  # 2307
+    FN_SQRT_NUMERIC = public_builtin_function_pb2.FN_SQRT_NUMERIC  # 2308
+    FN_SQRT_BIGNUMERIC = public_builtin_function_pb2.FN_SQRT_BIGNUMERIC  # 2309
+    FN_DECIMAL_LOGARITHM_NUMERIC = public_builtin_function_pb2.FN_DECIMAL_LOGARITHM_NUMERIC  # 2310
+    FN_DECIMAL_LOGARITHM_BIGNUMERIC = public_builtin_function_pb2.FN_DECIMAL_LOGARITHM_BIGNUMERIC  # 2311
+    FN_LOGARITHM_NUMERIC = public_builtin_function_pb2.FN_LOGARITHM_NUMERIC  # 2312
+    FN_LOGARITHM_BIGNUMERIC = public_builtin_function_pb2.FN_LOGARITHM_BIGNUMERIC  # 2313
+    FN_PARSE_NUMERIC = public_builtin_function_pb2.FN_PARSE_NUMERIC  # 2314
+    FN_PARSE_BIGNUMERIC = public_builtin_function_pb2.FN_PARSE_BIGNUMERIC  # 2315
+    FN_CSC_DOUBLE = public_builtin_function_pb2.FN_CSC_DOUBLE  # 2316
+    FN_SEC_DOUBLE = public_builtin_function_pb2.FN_SEC_DOUBLE  # 2317
+    FN_COT_DOUBLE = public_builtin_function_pb2.FN_COT_DOUBLE  # 2318
+    FN_CSCH_DOUBLE = public_builtin_function_pb2.FN_CSCH_DOUBLE  # 2319
+    FN_SECH_DOUBLE = public_builtin_function_pb2.FN_SECH_DOUBLE  # 2320
+    FN_COTH_DOUBLE = public_builtin_function_pb2.FN_COTH_DOUBLE  # 2321
+    FN_CBRT_DOUBLE = public_builtin_function_pb2.FN_CBRT_DOUBLE  # 2322
+    FN_CBRT_NUMERIC = public_builtin_function_pb2.FN_CBRT_NUMERIC  # 2323
+    FN_CBRT_BIGNUMERIC = public_builtin_function_pb2.FN_CBRT_BIGNUMERIC  # 2324
+    FN_PI_DOUBLE = public_builtin_function_pb2.FN_PI_DOUBLE  # 2325
+    FN_PI_NUMERIC = public_builtin_function_pb2.FN_PI_NUMERIC  # 2326
+    FN_PI_BIGNUMERIC = public_builtin_function_pb2.FN_PI_BIGNUMERIC  # 2327
+    FN_NULLIFZERO_INT32 = public_builtin_function_pb2.FN_NULLIFZERO_INT32  # 2329
+    FN_NULLIFZERO_UINT32 = public_builtin_function_pb2.FN_NULLIFZERO_UINT32  # 2330
+    FN_NULLIFZERO_INT64 = public_builtin_function_pb2.FN_NULLIFZERO_INT64  # 2331
+    FN_NULLIFZERO_UINT64 = public_builtin_function_pb2.FN_NULLIFZERO_UINT64  # 2332
+    FN_NULLIFZERO_FLOAT = public_builtin_function_pb2.FN_NULLIFZERO_FLOAT  # 2333
+    FN_NULLIFZERO_DOUBLE = public_builtin_function_pb2.FN_NULLIFZERO_DOUBLE  # 2334
+    FN_NULLIFZERO_NUMERIC = public_builtin_function_pb2.FN_NULLIFZERO_NUMERIC  # 2335
+    FN_NULLIFZERO_BIGNUMERIC = public_builtin_function_pb2.FN_NULLIFZERO_BIGNUMERIC  # 2336
+    FN_ZEROIFNULL_INT32 = public_builtin_function_pb2.FN_ZEROIFNULL_INT32  # 2337
+    FN_ZEROIFNULL_UINT32 = public_builtin_function_pb2.FN_ZEROIFNULL_UINT32  # 2338
+    FN_ZEROIFNULL_INT64 = public_builtin_function_pb2.FN_ZEROIFNULL_INT64  # 2339
+    FN_ZEROIFNULL_UINT64 = public_builtin_function_pb2.FN_ZEROIFNULL_UINT64  # 2340
+    FN_ZEROIFNULL_FLOAT = public_builtin_function_pb2.FN_ZEROIFNULL_FLOAT  # 2341
+    FN_ZEROIFNULL_DOUBLE = public_builtin_function_pb2.FN_ZEROIFNULL_DOUBLE  # 2342
+    FN_ZEROIFNULL_NUMERIC = public_builtin_function_pb2.FN_ZEROIFNULL_NUMERIC  # 2343
+    FN_ZEROIFNULL_BIGNUMERIC = public_builtin_function_pb2.FN_ZEROIFNULL_BIGNUMERIC  # 2344
+    FN_COSINE_DISTANCE_DENSE_DOUBLE = public_builtin_function_pb2.FN_COSINE_DISTANCE_DENSE_DOUBLE  # 2345
+    FN_COSINE_DISTANCE_SPARSE_INT64 = public_builtin_function_pb2.FN_COSINE_DISTANCE_SPARSE_INT64  # 2346
+    FN_COSINE_DISTANCE_SPARSE_STRING = public_builtin_function_pb2.FN_COSINE_DISTANCE_SPARSE_STRING  # 2347
+    FN_EUCLIDEAN_DISTANCE_DENSE_DOUBLE = public_builtin_function_pb2.FN_EUCLIDEAN_DISTANCE_DENSE_DOUBLE  # 2348
+    FN_EUCLIDEAN_DISTANCE_SPARSE_INT64 = public_builtin_function_pb2.FN_EUCLIDEAN_DISTANCE_SPARSE_INT64  # 2349
+    FN_EUCLIDEAN_DISTANCE_SPARSE_STRING = public_builtin_function_pb2.FN_EUCLIDEAN_DISTANCE_SPARSE_STRING  # 2350
+    FN_EDIT_DISTANCE = public_builtin_function_pb2.FN_EDIT_DISTANCE  # 2351
+    FN_EDIT_DISTANCE_BYTES = public_builtin_function_pb2.FN_EDIT_DISTANCE_BYTES  # 2352
+    FN_COSINE_DISTANCE_DENSE_FLOAT = public_builtin_function_pb2.FN_COSINE_DISTANCE_DENSE_FLOAT  # 2353
+    FN_EUCLIDEAN_DISTANCE_DENSE_FLOAT = public_builtin_function_pb2.FN_EUCLIDEAN_DISTANCE_DENSE_FLOAT  # 2354
+    FN_APPROX_COSINE_DISTANCE_DOUBLE = public_builtin_function_pb2.FN_APPROX_COSINE_DISTANCE_DOUBLE  # 2355
+    FN_APPROX_COSINE_DISTANCE_FLOAT = public_builtin_function_pb2.FN_APPROX_COSINE_DISTANCE_FLOAT  # 2356
+    FN_APPROX_COSINE_DISTANCE_DOUBLE_WITH_JSON_OPTIONS = public_builtin_function_pb2.FN_APPROX_COSINE_DISTANCE_DOUBLE_WITH_JSON_OPTIONS  # 2357
+    FN_APPROX_COSINE_DISTANCE_FLOAT_WITH_JSON_OPTIONS = public_builtin_function_pb2.FN_APPROX_COSINE_DISTANCE_FLOAT_WITH_JSON_OPTIONS  # 2358
+    FN_APPROX_EUCLIDEAN_DISTANCE_DOUBLE = public_builtin_function_pb2.FN_APPROX_EUCLIDEAN_DISTANCE_DOUBLE  # 2359
+    FN_APPROX_EUCLIDEAN_DISTANCE_FLOAT = public_builtin_function_pb2.FN_APPROX_EUCLIDEAN_DISTANCE_FLOAT  # 2360
+    FN_APPROX_EUCLIDEAN_DISTANCE_DOUBLE_WITH_JSON_OPTIONS = public_builtin_function_pb2.FN_APPROX_EUCLIDEAN_DISTANCE_DOUBLE_WITH_JSON_OPTIONS  # 2361
+    FN_APPROX_EUCLIDEAN_DISTANCE_FLOAT_WITH_JSON_OPTIONS = public_builtin_function_pb2.FN_APPROX_EUCLIDEAN_DISTANCE_FLOAT_WITH_JSON_OPTIONS  # 2362
+    FN_DOT_PRODUCT_INT64 = public_builtin_function_pb2.FN_DOT_PRODUCT_INT64  # 2363
+    FN_DOT_PRODUCT_FLOAT = public_builtin_function_pb2.FN_DOT_PRODUCT_FLOAT  # 2364
+    FN_DOT_PRODUCT_DOUBLE = public_builtin_function_pb2.FN_DOT_PRODUCT_DOUBLE  # 2365
+    FN_APPROX_DOT_PRODUCT_INT64 = public_builtin_function_pb2.FN_APPROX_DOT_PRODUCT_INT64  # 2366
+    FN_APPROX_DOT_PRODUCT_FLOAT = public_builtin_function_pb2.FN_APPROX_DOT_PRODUCT_FLOAT  # 2367
+    FN_APPROX_DOT_PRODUCT_DOUBLE = public_builtin_function_pb2.FN_APPROX_DOT_PRODUCT_DOUBLE  # 2368
+    FN_APPROX_DOT_PRODUCT_INT64_WITH_JSON_OPTIONS = public_builtin_function_pb2.FN_APPROX_DOT_PRODUCT_INT64_WITH_JSON_OPTIONS  # 2369
+    FN_APPROX_DOT_PRODUCT_FLOAT_WITH_JSON_OPTIONS = public_builtin_function_pb2.FN_APPROX_DOT_PRODUCT_FLOAT_WITH_JSON_OPTIONS  # 2370
+    FN_APPROX_DOT_PRODUCT_DOUBLE_WITH_JSON_OPTIONS = public_builtin_function_pb2.FN_APPROX_DOT_PRODUCT_DOUBLE_WITH_JSON_OPTIONS  # 2371
+    FN_MANHATTAN_DISTANCE_INT64 = public_builtin_function_pb2.FN_MANHATTAN_DISTANCE_INT64  # 2372
+    FN_MANHATTAN_DISTANCE_FLOAT = public_builtin_function_pb2.FN_MANHATTAN_DISTANCE_FLOAT  # 2373
+    FN_MANHATTAN_DISTANCE_DOUBLE = public_builtin_function_pb2.FN_MANHATTAN_DISTANCE_DOUBLE  # 2374
+    FN_L1_NORM_INT64 = public_builtin_function_pb2.FN_L1_NORM_INT64  # 2375
+    FN_L1_NORM_FLOAT = public_builtin_function_pb2.FN_L1_NORM_FLOAT  # 2376
+    FN_L1_NORM_DOUBLE = public_builtin_function_pb2.FN_L1_NORM_DOUBLE  # 2377
+    FN_L2_NORM_INT64 = public_builtin_function_pb2.FN_L2_NORM_INT64  # 2378
+    FN_L2_NORM_FLOAT = public_builtin_function_pb2.FN_L2_NORM_FLOAT  # 2379
+    FN_L2_NORM_DOUBLE = public_builtin_function_pb2.FN_L2_NORM_DOUBLE  # 2380
+    FN_APPROX_COSINE_DISTANCE_DOUBLE_WITH_PROTO_OPTIONS = public_builtin_function_pb2.FN_APPROX_COSINE_DISTANCE_DOUBLE_WITH_PROTO_OPTIONS  # 2381
+    FN_APPROX_COSINE_DISTANCE_FLOAT_WITH_PROTO_OPTIONS = public_builtin_function_pb2.FN_APPROX_COSINE_DISTANCE_FLOAT_WITH_PROTO_OPTIONS  # 2382
+    FN_APPROX_EUCLIDEAN_DISTANCE_DOUBLE_WITH_PROTO_OPTIONS = public_builtin_function_pb2.FN_APPROX_EUCLIDEAN_DISTANCE_DOUBLE_WITH_PROTO_OPTIONS  # 2383
+    FN_APPROX_EUCLIDEAN_DISTANCE_FLOAT_WITH_PROTO_OPTIONS = public_builtin_function_pb2.FN_APPROX_EUCLIDEAN_DISTANCE_FLOAT_WITH_PROTO_OPTIONS  # 2384
+    FN_APPROX_DOT_PRODUCT_INT64_WITH_PROTO_OPTIONS = public_builtin_function_pb2.FN_APPROX_DOT_PRODUCT_INT64_WITH_PROTO_OPTIONS  # 2385
+    FN_APPROX_DOT_PRODUCT_FLOAT_WITH_PROTO_OPTIONS = public_builtin_function_pb2.FN_APPROX_DOT_PRODUCT_FLOAT_WITH_PROTO_OPTIONS  # 2386
+    FN_APPROX_DOT_PRODUCT_DOUBLE_WITH_PROTO_OPTIONS = public_builtin_function_pb2.FN_APPROX_DOT_PRODUCT_DOUBLE_WITH_PROTO_OPTIONS  # 2387
+    FN_DEGREES_DOUBLE = public_builtin_function_pb2.FN_DEGREES_DOUBLE  # 2388
+    FN_DEGREES_NUMERIC = public_builtin_function_pb2.FN_DEGREES_NUMERIC  # 2389
+    FN_DEGREES_BIGNUMERIC = public_builtin_function_pb2.FN_DEGREES_BIGNUMERIC  # 2390
+    FN_RADIANS_DOUBLE = public_builtin_function_pb2.FN_RADIANS_DOUBLE  # 2391
+    FN_RADIANS_NUMERIC = public_builtin_function_pb2.FN_RADIANS_NUMERIC  # 2392
+    FN_RADIANS_BIGNUMERIC = public_builtin_function_pb2.FN_RADIANS_BIGNUMERIC  # 2393
+    FN_FLATTEN = public_builtin_function_pb2.FN_FLATTEN  # 2500
+    FN_ARRAY_IS_DISTINCT = public_builtin_function_pb2.FN_ARRAY_IS_DISTINCT  # 2501
+    FN_PROTO_MAP_AT_KEY = public_builtin_function_pb2.FN_PROTO_MAP_AT_KEY  # 2502
+    FN_SAFE_PROTO_MAP_AT_KEY = public_builtin_function_pb2.FN_SAFE_PROTO_MAP_AT_KEY  # 2503
+    FN_ARRAY_FILTER = public_builtin_function_pb2.FN_ARRAY_FILTER  # 2504
+    FN_ARRAY_FILTER_WITH_INDEX = public_builtin_function_pb2.FN_ARRAY_FILTER_WITH_INDEX  # 2505
+    FN_ARRAY_TRANSFORM = public_builtin_function_pb2.FN_ARRAY_TRANSFORM  # 2506
+    FN_ARRAY_TRANSFORM_WITH_INDEX = public_builtin_function_pb2.FN_ARRAY_TRANSFORM_WITH_INDEX  # 2507
+    FN_PROTO_MAP_CONTAINS_KEY = public_builtin_function_pb2.FN_PROTO_MAP_CONTAINS_KEY  # 2508
+    FN_PROTO_MODIFY_MAP = public_builtin_function_pb2.FN_PROTO_MODIFY_MAP  # 2510
+    FN_ARRAY_INCLUDES = public_builtin_function_pb2.FN_ARRAY_INCLUDES  # 2511
+    FN_ARRAY_INCLUDES_LAMBDA = public_builtin_function_pb2.FN_ARRAY_INCLUDES_LAMBDA  # 2512
+    FN_ARRAY_INCLUDES_ANY = public_builtin_function_pb2.FN_ARRAY_INCLUDES_ANY  # 2513
+    FN_ARRAY_INCLUDES_ALL = public_builtin_function_pb2.FN_ARRAY_INCLUDES_ALL  # 2514
+    FN_ARRAY_FIRST = public_builtin_function_pb2.FN_ARRAY_FIRST  # 2515
+    FN_ARRAY_LAST = public_builtin_function_pb2.FN_ARRAY_LAST  # 2516
+    FN_ARRAY_SLICE = public_builtin_function_pb2.FN_ARRAY_SLICE  # 2517
+    FN_ARRAY_SUM_INT32 = public_builtin_function_pb2.FN_ARRAY_SUM_INT32  # 2518
+    FN_ARRAY_SUM_INT64 = public_builtin_function_pb2.FN_ARRAY_SUM_INT64  # 2519
+    FN_ARRAY_SUM_UINT32 = public_builtin_function_pb2.FN_ARRAY_SUM_UINT32  # 2520
+    FN_ARRAY_SUM_UINT64 = public_builtin_function_pb2.FN_ARRAY_SUM_UINT64  # 2521
+    FN_ARRAY_SUM_FLOAT = public_builtin_function_pb2.FN_ARRAY_SUM_FLOAT  # 2522
+    FN_ARRAY_SUM_DOUBLE = public_builtin_function_pb2.FN_ARRAY_SUM_DOUBLE  # 2523
+    FN_ARRAY_SUM_NUMERIC = public_builtin_function_pb2.FN_ARRAY_SUM_NUMERIC  # 2524
+    FN_ARRAY_SUM_BIGNUMERIC = public_builtin_function_pb2.FN_ARRAY_SUM_BIGNUMERIC  # 2525
+    FN_ARRAY_SUM_INTERVAL = public_builtin_function_pb2.FN_ARRAY_SUM_INTERVAL  # 2526
+    FN_ARRAY_AVG_INT32 = public_builtin_function_pb2.FN_ARRAY_AVG_INT32  # 2527
+    FN_ARRAY_AVG_INT64 = public_builtin_function_pb2.FN_ARRAY_AVG_INT64  # 2528
+    FN_ARRAY_AVG_UINT32 = public_builtin_function_pb2.FN_ARRAY_AVG_UINT32  # 2529
+    FN_ARRAY_AVG_UINT64 = public_builtin_function_pb2.FN_ARRAY_AVG_UINT64  # 2530
+    FN_ARRAY_AVG_FLOAT = public_builtin_function_pb2.FN_ARRAY_AVG_FLOAT  # 2531
+    FN_ARRAY_AVG_DOUBLE = public_builtin_function_pb2.FN_ARRAY_AVG_DOUBLE  # 2532
+    FN_ARRAY_AVG_NUMERIC = public_builtin_function_pb2.FN_ARRAY_AVG_NUMERIC  # 2533
+    FN_ARRAY_AVG_BIGNUMERIC = public_builtin_function_pb2.FN_ARRAY_AVG_BIGNUMERIC  # 2534
+    FN_ARRAY_AVG_INTERVAL = public_builtin_function_pb2.FN_ARRAY_AVG_INTERVAL  # 2535
+    FN_ARRAY_OFFSET = public_builtin_function_pb2.FN_ARRAY_OFFSET  # 2536
+    FN_ARRAY_OFFSETS = public_builtin_function_pb2.FN_ARRAY_OFFSETS  # 2537
+    FN_ARRAY_FIND = public_builtin_function_pb2.FN_ARRAY_FIND  # 2538
+    FN_ARRAY_FIND_ALL = public_builtin_function_pb2.FN_ARRAY_FIND_ALL  # 2539
+    FN_ARRAY_MIN = public_builtin_function_pb2.FN_ARRAY_MIN  # 2540
+    FN_ARRAY_MAX = public_builtin_function_pb2.FN_ARRAY_MAX  # 2541
+    FN_ARRAY_MAX_FLOAT = public_builtin_function_pb2.FN_ARRAY_MAX_FLOAT  # 2542
+    FN_ARRAY_MAX_DOUBLE = public_builtin_function_pb2.FN_ARRAY_MAX_DOUBLE  # 2543
+    FN_ARRAY_FIRST_N = public_builtin_function_pb2.FN_ARRAY_FIRST_N  # 2544
+    FN_ARRAY_LAST_N = public_builtin_function_pb2.FN_ARRAY_LAST_N  # 2545
+    FN_ARRAY_REMOVE_FIRST_N = public_builtin_function_pb2.FN_ARRAY_REMOVE_FIRST_N  # 2546
+    FN_ARRAY_REMOVE_LAST_N = public_builtin_function_pb2.FN_ARRAY_REMOVE_LAST_N  # 2547
+    FN_ARRAY_OFFSET_LAMBDA = public_builtin_function_pb2.FN_ARRAY_OFFSET_LAMBDA  # 2548
+    FN_ARRAY_OFFSETS_LAMBDA = public_builtin_function_pb2.FN_ARRAY_OFFSETS_LAMBDA  # 2549
+    FN_ARRAY_FIND_LAMBDA = public_builtin_function_pb2.FN_ARRAY_FIND_LAMBDA  # 2550
+    FN_ARRAY_FIND_ALL_LAMBDA = public_builtin_function_pb2.FN_ARRAY_FIND_ALL_LAMBDA  # 2551
+    FN_ARRAY_ZIP_TWO_ARRAY = public_builtin_function_pb2.FN_ARRAY_ZIP_TWO_ARRAY  # 2552
+    FN_ARRAY_ZIP_TWO_ARRAY_LAMBDA = public_builtin_function_pb2.FN_ARRAY_ZIP_TWO_ARRAY_LAMBDA  # 2553
+    FN_ARRAY_ZIP_THREE_ARRAY = public_builtin_function_pb2.FN_ARRAY_ZIP_THREE_ARRAY  # 2555
+    FN_ARRAY_ZIP_THREE_ARRAY_LAMBDA = public_builtin_function_pb2.FN_ARRAY_ZIP_THREE_ARRAY_LAMBDA  # 2556
+    FN_ARRAY_ZIP_FOUR_ARRAY = public_builtin_function_pb2.FN_ARRAY_ZIP_FOUR_ARRAY  # 2558
+    FN_ARRAY_ZIP_FOUR_ARRAY_LAMBDA = public_builtin_function_pb2.FN_ARRAY_ZIP_FOUR_ARRAY_LAMBDA  # 2559
+    FN_JSON_TO_INT64 = public_builtin_function_pb2.FN_JSON_TO_INT64  # 2600
+    FN_JSON_TO_BOOL = public_builtin_function_pb2.FN_JSON_TO_BOOL  # 2601
+    FN_JSON_TO_STRING = public_builtin_function_pb2.FN_JSON_TO_STRING  # 2602
+    FN_JSON_TYPE = public_builtin_function_pb2.FN_JSON_TYPE  # 2603
+    FN_JSON_TO_DOUBLE = public_builtin_function_pb2.FN_JSON_TO_DOUBLE  # 2604
+    FN_RANGE = public_builtin_function_pb2.FN_RANGE  # 2605
+    FN_JSON_LAX_TO_INT64 = public_builtin_function_pb2.FN_JSON_LAX_TO_INT64  # 2606
+    FN_JSON_LAX_TO_BOOL = public_builtin_function_pb2.FN_JSON_LAX_TO_BOOL  # 2607
+    FN_JSON_LAX_TO_STRING = public_builtin_function_pb2.FN_JSON_LAX_TO_STRING  # 2608
+    FN_JSON_LAX_TO_DOUBLE = public_builtin_function_pb2.FN_JSON_LAX_TO_DOUBLE  # 2609
+    FN_IS_SOURCE_NODE = public_builtin_function_pb2.FN_IS_SOURCE_NODE  # 2610
+    FN_IS_DEST_NODE = public_builtin_function_pb2.FN_IS_DEST_NODE  # 2611
+    FN_SAME_GRAPH_ELEMENT = public_builtin_function_pb2.FN_SAME_GRAPH_ELEMENT  # 2612
+    FN_PROPERTY_EXISTS = public_builtin_function_pb2.FN_PROPERTY_EXISTS  # 2613
+    FN_JSON_ARRAY = public_builtin_function_pb2.FN_JSON_ARRAY  # 2614
+    FN_JSON_OBJECT = public_builtin_function_pb2.FN_JSON_OBJECT  # 2615
+    FN_JSON_OBJECT_ARRAYS = public_builtin_function_pb2.FN_JSON_OBJECT_ARRAYS  # 2616
+    FN_JSON_REMOVE = public_builtin_function_pb2.FN_JSON_REMOVE  # 2617
+    FN_JSON_SET = public_builtin_function_pb2.FN_JSON_SET  # 2618
+    FN_JSON_STRIP_NULLS = public_builtin_function_pb2.FN_JSON_STRIP_NULLS  # 2619
+    FN_JSON_ARRAY_INSERT = public_builtin_function_pb2.FN_JSON_ARRAY_INSERT  # 2620
+    FN_JSON_ARRAY_APPEND = public_builtin_function_pb2.FN_JSON_ARRAY_APPEND  # 2621
+    FN_ALL_DIFFERENT_GRAPH_ELEMENT = public_builtin_function_pb2.FN_ALL_DIFFERENT_GRAPH_ELEMENT  # 2622
+    FN_EQUAL_GRAPH_NODE = public_builtin_function_pb2.FN_EQUAL_GRAPH_NODE  # 2623
+    FN_EQUAL_GRAPH_EDGE = public_builtin_function_pb2.FN_EQUAL_GRAPH_EDGE  # 2624
+    FN_NOT_EQUAL_GRAPH_NODE = public_builtin_function_pb2.FN_NOT_EQUAL_GRAPH_NODE  # 2625
+    FN_NOT_EQUAL_GRAPH_EDGE = public_builtin_function_pb2.FN_NOT_EQUAL_GRAPH_EDGE  # 2626
+    FN_JSON_TO_BOOL_ARRAY = public_builtin_function_pb2.FN_JSON_TO_BOOL_ARRAY  # 2627
+    FN_JSON_LAX_TO_BOOL_ARRAY = public_builtin_function_pb2.FN_JSON_LAX_TO_BOOL_ARRAY  # 2628
+    FN_JSON_TO_FLOAT64_ARRAY = public_builtin_function_pb2.FN_JSON_TO_FLOAT64_ARRAY  # 2629
+    FN_JSON_LAX_TO_FLOAT64_ARRAY = public_builtin_function_pb2.FN_JSON_LAX_TO_FLOAT64_ARRAY  # 2630
+    FN_JSON_TO_INT64_ARRAY = public_builtin_function_pb2.FN_JSON_TO_INT64_ARRAY  # 2631
+    FN_JSON_LAX_TO_INT64_ARRAY = public_builtin_function_pb2.FN_JSON_LAX_TO_INT64_ARRAY  # 2632
+    FN_JSON_TO_STRING_ARRAY = public_builtin_function_pb2.FN_JSON_TO_STRING_ARRAY  # 2633
+    FN_JSON_LAX_TO_STRING_ARRAY = public_builtin_function_pb2.FN_JSON_LAX_TO_STRING_ARRAY  # 2634
+    FN_JSON_TO_FLOAT32 = public_builtin_function_pb2.FN_JSON_TO_FLOAT32  # 2635
+    FN_JSON_LAX_TO_FLOAT32 = public_builtin_function_pb2.FN_JSON_LAX_TO_FLOAT32  # 2636
+    FN_JSON_TO_FLOAT32_ARRAY = public_builtin_function_pb2.FN_JSON_TO_FLOAT32_ARRAY  # 2637
+    FN_JSON_LAX_TO_FLOAT32_ARRAY = public_builtin_function_pb2.FN_JSON_LAX_TO_FLOAT32_ARRAY  # 2638
+    FN_JSON_TO_INT32 = public_builtin_function_pb2.FN_JSON_TO_INT32  # 2639
+    FN_JSON_LAX_TO_INT32 = public_builtin_function_pb2.FN_JSON_LAX_TO_INT32  # 2640
+    FN_JSON_TO_INT32_ARRAY = public_builtin_function_pb2.FN_JSON_TO_INT32_ARRAY  # 2641
+    FN_JSON_LAX_TO_INT32_ARRAY = public_builtin_function_pb2.FN_JSON_LAX_TO_INT32_ARRAY  # 2642
+    FN_JSON_TO_UINT32 = public_builtin_function_pb2.FN_JSON_TO_UINT32  # 2643
+    FN_JSON_LAX_TO_UINT32 = public_builtin_function_pb2.FN_JSON_LAX_TO_UINT32  # 2644
+    FN_JSON_TO_UINT32_ARRAY = public_builtin_function_pb2.FN_JSON_TO_UINT32_ARRAY  # 2645
+    FN_JSON_LAX_TO_UINT32_ARRAY = public_builtin_function_pb2.FN_JSON_LAX_TO_UINT32_ARRAY  # 2646
+    FN_JSON_TO_UINT64 = public_builtin_function_pb2.FN_JSON_TO_UINT64  # 2647
+    FN_JSON_LAX_TO_UINT64 = public_builtin_function_pb2.FN_JSON_LAX_TO_UINT64  # 2648
+    FN_JSON_TO_UINT64_ARRAY = public_builtin_function_pb2.FN_JSON_TO_UINT64_ARRAY  # 2649
+    FN_JSON_LAX_TO_UINT64_ARRAY = public_builtin_function_pb2.FN_JSON_LAX_TO_UINT64_ARRAY  # 2650
+    FN_JSON_CONTAINS = public_builtin_function_pb2.FN_JSON_CONTAINS  # 2651
+    FN_LABELS_GRAPH_ELEMENT = public_builtin_function_pb2.FN_LABELS_GRAPH_ELEMENT  # 2653
+    FN_PROPERTY_NAMES_GRAPH_ELEMENT = public_builtin_function_pb2.FN_PROPERTY_NAMES_GRAPH_ELEMENT  # 2654
+    FN_TYPEOF_GRAPH_ELEMENT = public_builtin_function_pb2.FN_TYPEOF_GRAPH_ELEMENT  # 2655
+    FN_JSON_KEYS = public_builtin_function_pb2.FN_JSON_KEYS  # 2656
+    FN_NEW_UUID = public_builtin_function_pb2.FN_NEW_UUID  # 2657
+    FN_ELEMENT_ID_GRAPH_ELEMENT = public_builtin_function_pb2.FN_ELEMENT_ID_GRAPH_ELEMENT  # 2658
+    FN_SOURCE_NODE_ID = public_builtin_function_pb2.FN_SOURCE_NODE_ID  # 2659
+    FN_DESTINATION_NODE_ID = public_builtin_function_pb2.FN_DESTINATION_NODE_ID  # 2660
+    FN_ELEMENT_DEFINITION_NAME = public_builtin_function_pb2.FN_ELEMENT_DEFINITION_NAME  # 2661
+    FN_PATH_LENGTH = public_builtin_function_pb2.FN_PATH_LENGTH  # 2662
+    FN_PATH_NODES = public_builtin_function_pb2.FN_PATH_NODES  # 2663
+    FN_PATH_EDGES = public_builtin_function_pb2.FN_PATH_EDGES  # 2664
+    FN_PATH_FIRST = public_builtin_function_pb2.FN_PATH_FIRST  # 2665
+    FN_PATH_LAST = public_builtin_function_pb2.FN_PATH_LAST  # 2666
+    FN_CONCAT_PATH = public_builtin_function_pb2.FN_CONCAT_PATH  # 2667
+    FN_CONCAT_OP_PATH = public_builtin_function_pb2.FN_CONCAT_OP_PATH  # 2668
+    FN_PATH_CREATE = public_builtin_function_pb2.FN_PATH_CREATE  # 2669
+    FN_UNCHECKED_CONCAT_PATH = public_builtin_function_pb2.FN_UNCHECKED_CONCAT_PATH  # 2670
+    FN_UNCHECKED_PATH_CREATE = public_builtin_function_pb2.FN_UNCHECKED_PATH_CREATE  # 2671
+    FN_IS_ACYCLIC = public_builtin_function_pb2.FN_IS_ACYCLIC  # 2672
+    FN_IS_TRAIL = public_builtin_function_pb2.FN_IS_TRAIL  # 2673
+    FN_IS_SIMPLE = public_builtin_function_pb2.FN_IS_SIMPLE  # 2674
+    FN_DYNAMIC_PROPERTY_EQUALS = public_builtin_function_pb2.FN_DYNAMIC_PROPERTY_EQUALS  # 2683
+    FN_FROM_PROTO_DURATION = public_builtin_function_pb2.FN_FROM_PROTO_DURATION  # 2684
+    FN_FROM_PROTO_IDEMPOTENT_INTERVAL = public_builtin_function_pb2.FN_FROM_PROTO_IDEMPOTENT_INTERVAL  # 2685
+    FN_APPLY = public_builtin_function_pb2.FN_APPLY  # 2686
+    FN_JSON_FLATTEN = public_builtin_function_pb2.FN_JSON_FLATTEN  # 2687
+    FN_TO_PROTO_INTERVAL = public_builtin_function_pb2.FN_TO_PROTO_INTERVAL  # 2688
+    FN_TO_PROTO_IDEMPOTENT_DURATION = public_builtin_function_pb2.FN_TO_PROTO_IDEMPOTENT_DURATION  # 2689
+    FN_ZSTD_COMPRESS_FROM_BYTES = public_builtin_function_pb2.FN_ZSTD_COMPRESS_FROM_BYTES  # 2690
+    FN_ZSTD_COMPRESS_FROM_STRING = public_builtin_function_pb2.FN_ZSTD_COMPRESS_FROM_STRING  # 2691
+    FN_ZSTD_DECOMPRESS_TO_BYTES = public_builtin_function_pb2.FN_ZSTD_DECOMPRESS_TO_BYTES  # 2692
+    FN_ZSTD_DECOMPRESS_TO_STRING = public_builtin_function_pb2.FN_ZSTD_DECOMPRESS_TO_STRING  # 2693
+    FN_D3A_COUNT_TO_HLL = public_builtin_function_pb2.FN_D3A_COUNT_TO_HLL  # 2700
+    FN_ELEMENTWISE_SUM_INT32 = public_builtin_function_pb2.FN_ELEMENTWISE_SUM_INT32  # 2746
+    FN_ELEMENTWISE_SUM_INT64 = public_builtin_function_pb2.FN_ELEMENTWISE_SUM_INT64  # 2747
+    FN_ELEMENTWISE_SUM_UINT32 = public_builtin_function_pb2.FN_ELEMENTWISE_SUM_UINT32  # 2748
+    FN_ELEMENTWISE_SUM_UINT64 = public_builtin_function_pb2.FN_ELEMENTWISE_SUM_UINT64  # 2749
+    FN_ELEMENTWISE_SUM_FLOAT = public_builtin_function_pb2.FN_ELEMENTWISE_SUM_FLOAT  # 2750
+    FN_ELEMENTWISE_SUM_DOUBLE = public_builtin_function_pb2.FN_ELEMENTWISE_SUM_DOUBLE  # 2751
+    FN_ELEMENTWISE_SUM_NUMERIC = public_builtin_function_pb2.FN_ELEMENTWISE_SUM_NUMERIC  # 2752
+    FN_ELEMENTWISE_SUM_BIGNUMERIC = public_builtin_function_pb2.FN_ELEMENTWISE_SUM_BIGNUMERIC  # 2753
+    FN_ELEMENTWISE_SUM_INTERVAL = public_builtin_function_pb2.FN_ELEMENTWISE_SUM_INTERVAL  # 2754
+    FN_ELEMENTWISE_AVG_INT32 = public_builtin_function_pb2.FN_ELEMENTWISE_AVG_INT32  # 2755
+    FN_ELEMENTWISE_AVG_INT64 = public_builtin_function_pb2.FN_ELEMENTWISE_AVG_INT64  # 2756
+    FN_ELEMENTWISE_AVG_UINT32 = public_builtin_function_pb2.FN_ELEMENTWISE_AVG_UINT32  # 2757
+    FN_ELEMENTWISE_AVG_UINT64 = public_builtin_function_pb2.FN_ELEMENTWISE_AVG_UINT64  # 2758
+    FN_ELEMENTWISE_AVG_FLOAT = public_builtin_function_pb2.FN_ELEMENTWISE_AVG_FLOAT  # 2759
+    FN_ELEMENTWISE_AVG_DOUBLE = public_builtin_function_pb2.FN_ELEMENTWISE_AVG_DOUBLE  # 2760
+    FN_ELEMENTWISE_AVG_NUMERIC = public_builtin_function_pb2.FN_ELEMENTWISE_AVG_NUMERIC  # 2761
+    FN_ELEMENTWISE_AVG_BIGNUMERIC = public_builtin_function_pb2.FN_ELEMENTWISE_AVG_BIGNUMERIC  # 2762
+    FN_ELEMENTWISE_AVG_INTERVAL = public_builtin_function_pb2.FN_ELEMENTWISE_AVG_INTERVAL  # 2763
+    FN_BIT_AND_BYTES = public_builtin_function_pb2.FN_BIT_AND_BYTES  # 2780
+    FN_BIT_OR_BYTES = public_builtin_function_pb2.FN_BIT_OR_BYTES  # 2781
+    FN_BIT_XOR_BYTES = public_builtin_function_pb2.FN_BIT_XOR_BYTES  # 2782
+    FN_KLL_QUANTILES_MERGE_RELATIVE_RANK_INT64 = public_builtin_function_pb2.FN_KLL_QUANTILES_MERGE_RELATIVE_RANK_INT64  # 2797
+    FN_KLL_QUANTILES_MERGE_RELATIVE_RANK_UINT64 = public_builtin_function_pb2.FN_KLL_QUANTILES_MERGE_RELATIVE_RANK_UINT64  # 2798
+    FN_KLL_QUANTILES_MERGE_RELATIVE_RANK_DOUBLE = public_builtin_function_pb2.FN_KLL_QUANTILES_MERGE_RELATIVE_RANK_DOUBLE  # 2799
+    FN_DIFFERENTIAL_PRIVACY_COUNT = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_COUNT  # 2800
+    FN_DIFFERENTIAL_PRIVACY_COUNT_STAR = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_COUNT_STAR  # 2801
+    FN_DIFFERENTIAL_PRIVACY_SUM_INT64 = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_SUM_INT64  # 2802
+    FN_DIFFERENTIAL_PRIVACY_SUM_UINT64 = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_SUM_UINT64  # 2803
+    FN_DIFFERENTIAL_PRIVACY_SUM_DOUBLE = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_SUM_DOUBLE  # 2804
+    FN_DIFFERENTIAL_PRIVACY_SUM_NUMERIC = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_SUM_NUMERIC  # 2805
+    FN_DIFFERENTIAL_PRIVACY_AVG_DOUBLE = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_AVG_DOUBLE  # 2806
+    FN_DIFFERENTIAL_PRIVACY_AVG_NUMERIC = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_AVG_NUMERIC  # 2807
+    FN_DIFFERENTIAL_PRIVACY_VAR_POP_DOUBLE = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_VAR_POP_DOUBLE  # 2808
+    FN_DIFFERENTIAL_PRIVACY_VAR_POP_DOUBLE_ARRAY = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_VAR_POP_DOUBLE_ARRAY  # 2809
+    FN_DIFFERENTIAL_PRIVACY_STDDEV_POP_DOUBLE = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_STDDEV_POP_DOUBLE  # 2810
+    FN_DIFFERENTIAL_PRIVACY_STDDEV_POP_DOUBLE_ARRAY = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_STDDEV_POP_DOUBLE_ARRAY  # 2811
+    FN_DIFFERENTIAL_PRIVACY_PERCENTILE_CONT_DOUBLE = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_PERCENTILE_CONT_DOUBLE  # 2812
+    FN_DIFFERENTIAL_PRIVACY_PERCENTILE_CONT_DOUBLE_ARRAY = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_PERCENTILE_CONT_DOUBLE_ARRAY  # 2813
+    FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_JSON_INT64 = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_JSON_INT64  # 2814
+    FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_JSON_DOUBLE = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_JSON_DOUBLE  # 2815
+    FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_JSON_UINT64 = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_JSON_UINT64  # 2816
+    FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_PROTO_INT64 = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_PROTO_INT64  # 2817
+    FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_PROTO_DOUBLE = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_PROTO_DOUBLE  # 2818
+    FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_PROTO_UINT64 = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_SUM_REPORT_PROTO_UINT64  # 2819
+    FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE  # 2820
+    FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_ARRAY = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_ARRAY  # 2821
+    FN_DIFFERENTIAL_PRIVACY_COUNT_REPORT_JSON = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_COUNT_REPORT_JSON  # 2822
+    FN_DIFFERENTIAL_PRIVACY_COUNT_REPORT_PROTO = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_COUNT_REPORT_PROTO  # 2823
+    FN_DIFFERENTIAL_PRIVACY_COUNT_STAR_REPORT_JSON = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_COUNT_STAR_REPORT_JSON  # 2824
+    FN_DIFFERENTIAL_PRIVACY_COUNT_STAR_REPORT_PROTO = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_COUNT_STAR_REPORT_PROTO  # 2825
+    FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_REPORT_JSON = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_REPORT_JSON  # 2826
+    FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_REPORT_PROTO = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_REPORT_PROTO  # 2827
+    FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_ARRAY_REPORT_JSON = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_ARRAY_REPORT_JSON  # 2828
+    FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_ARRAY_REPORT_PROTO = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_QUANTILES_DOUBLE_ARRAY_REPORT_PROTO  # 2829
+    FN_DIFFERENTIAL_PRIVACY_AVG_DOUBLE_REPORT_JSON = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_AVG_DOUBLE_REPORT_JSON  # 2830
+    FN_DIFFERENTIAL_PRIVACY_AVG_DOUBLE_REPORT_PROTO = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_AVG_DOUBLE_REPORT_PROTO  # 2831
+    FN_DIFFERENTIAL_PRIVACY_APPROX_COUNT_DISTINCT = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_APPROX_COUNT_DISTINCT  # 2832
+    FN_DIFFERENTIAL_PRIVACY_APPROX_COUNT_DISTINCT_REPORT_JSON = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_APPROX_COUNT_DISTINCT_REPORT_JSON  # 2833
+    FN_DIFFERENTIAL_PRIVACY_APPROX_COUNT_DISTINCT_REPORT_PROTO = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_APPROX_COUNT_DISTINCT_REPORT_PROTO  # 2834
+    FN_DIFFERENTIAL_PRIVACY_INIT_FOR_DP_APPROX_COUNT_DISTINCT = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_INIT_FOR_DP_APPROX_COUNT_DISTINCT  # 2835
+    FN_DIFFERENTIAL_PRIVACY_MERGE_PARTIAL_FOR_DP_APPROX_COUNT_DISTINCT = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_MERGE_PARTIAL_FOR_DP_APPROX_COUNT_DISTINCT  # 2836
+    FN_DIFFERENTIAL_PRIVACY_EXTRACT_FOR_DP_APPROX_COUNT_DISTINCT = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_EXTRACT_FOR_DP_APPROX_COUNT_DISTINCT  # 2837
+    FN_DIFFERENTIAL_PRIVACY_EXTRACT_FOR_DP_APPROX_COUNT_DISTINCT_REPORT_JSON = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_EXTRACT_FOR_DP_APPROX_COUNT_DISTINCT_REPORT_JSON  # 2838
+    FN_DIFFERENTIAL_PRIVACY_EXTRACT_FOR_DP_APPROX_COUNT_DISTINCT_REPORT_PROTO = public_builtin_function_pb2.FN_DIFFERENTIAL_PRIVACY_EXTRACT_FOR_DP_APPROX_COUNT_DISTINCT_REPORT_PROTO  # 2839
+    FN_RANGE_IS_START_UNBOUNDED = public_builtin_function_pb2.FN_RANGE_IS_START_UNBOUNDED  # 2900
+    FN_RANGE_IS_END_UNBOUNDED = public_builtin_function_pb2.FN_RANGE_IS_END_UNBOUNDED  # 2902
+    FN_RANGE_START = public_builtin_function_pb2.FN_RANGE_START  # 2904
+    FN_RANGE_END = public_builtin_function_pb2.FN_RANGE_END  # 2906
+    FN_RANGE_OVERLAPS = public_builtin_function_pb2.FN_RANGE_OVERLAPS  # 2908
+    FN_RANGE_INTERSECT = public_builtin_function_pb2.FN_RANGE_INTERSECT  # 2912
+    FN_GENERATE_DATE_RANGE_ARRAY = public_builtin_function_pb2.FN_GENERATE_DATE_RANGE_ARRAY  # 2916
+    FN_GENERATE_DATETIME_RANGE_ARRAY = public_builtin_function_pb2.FN_GENERATE_DATETIME_RANGE_ARRAY  # 2917
+    FN_GENERATE_TIMESTAMP_RANGE_ARRAY = public_builtin_function_pb2.FN_GENERATE_TIMESTAMP_RANGE_ARRAY  # 2918
+    FN_RANGE_CONTAINS_RANGE = public_builtin_function_pb2.FN_RANGE_CONTAINS_RANGE  # 2919
+    FN_RANGE_CONTAINS_ELEMENT = public_builtin_function_pb2.FN_RANGE_CONTAINS_ELEMENT  # 2920
+    FN_MAP_FROM_ARRAY = public_builtin_function_pb2.FN_MAP_FROM_ARRAY  # 3000
+    FN_MAP_ENTRIES_SORTED = public_builtin_function_pb2.FN_MAP_ENTRIES_SORTED  # 3001
+    FN_MAP_ENTRIES_UNSORTED = public_builtin_function_pb2.FN_MAP_ENTRIES_UNSORTED  # 3002
+    FN_MAP_GET = public_builtin_function_pb2.FN_MAP_GET  # 3003
+    FN_MAP_SUBSCRIPT = public_builtin_function_pb2.FN_MAP_SUBSCRIPT  # 3004
+    FN_MAP_SUBSCRIPT_WITH_KEY = public_builtin_function_pb2.FN_MAP_SUBSCRIPT_WITH_KEY  # 3005
+    FN_MAP_CONTAINS_KEY = public_builtin_function_pb2.FN_MAP_CONTAINS_KEY  # 3006
+    FN_MAP_KEYS_SORTED = public_builtin_function_pb2.FN_MAP_KEYS_SORTED  # 3007
+    FN_MAP_KEYS_UNSORTED = public_builtin_function_pb2.FN_MAP_KEYS_UNSORTED  # 3008
+    FN_MAP_VALUES_SORTED = public_builtin_function_pb2.FN_MAP_VALUES_SORTED  # 3009
+    FN_MAP_VALUES_UNSORTED = public_builtin_function_pb2.FN_MAP_VALUES_UNSORTED  # 3010
+    FN_MAP_VALUES_SORTED_BY_KEY = public_builtin_function_pb2.FN_MAP_VALUES_SORTED_BY_KEY  # 3011
+    FN_MAP_EMPTY = public_builtin_function_pb2.FN_MAP_EMPTY  # 3012
+    FN_MAP_INSERT = public_builtin_function_pb2.FN_MAP_INSERT  # 3013
+    FN_MAP_INSERT_OR_REPLACE = public_builtin_function_pb2.FN_MAP_INSERT_OR_REPLACE  # 3014
+    FN_MAP_REPLACE_KV_PAIRS = public_builtin_function_pb2.FN_MAP_REPLACE_KV_PAIRS  # 3015
+    FN_MAP_REPLACE_K_REPEATED_V_LAMBDA = public_builtin_function_pb2.FN_MAP_REPLACE_K_REPEATED_V_LAMBDA  # 3016
+    FN_MAP_CARDINALITY = public_builtin_function_pb2.FN_MAP_CARDINALITY  # 3017
+    FN_MAP_DELETE = public_builtin_function_pb2.FN_MAP_DELETE  # 3018
+    FN_MAP_FILTER = public_builtin_function_pb2.FN_MAP_FILTER  # 3019
+    FN_MAP_SAFE_SUBSCRIPT_WITH_KEY = public_builtin_function_pb2.FN_MAP_SAFE_SUBSCRIPT_WITH_KEY  # 3020
+    FN_AGG = public_builtin_function_pb2.FN_AGG  # 3100
+    FN_FIRST_AGG = public_builtin_function_pb2.FN_FIRST_AGG  # 3200
+    FN_LAST_AGG = public_builtin_function_pb2.FN_LAST_AGG  # 3201
+    FN_MATCH_NUMBER = public_builtin_function_pb2.FN_MATCH_NUMBER  # 3202
+    FN_MATCH_ROW_NUMBER = public_builtin_function_pb2.FN_MATCH_ROW_NUMBER  # 3203
+    FN_CLASSIFIER = public_builtin_function_pb2.FN_CLASSIFIER  # 3204
+    FN_NEXT = public_builtin_function_pb2.FN_NEXT  # 3205
+    FN_PREV = public_builtin_function_pb2.FN_PREV  # 3206
+    FN_KLL_QUANTILES_EXTRACT_RELATIVE_RANK_INT64 = public_builtin_function_pb2.FN_KLL_QUANTILES_EXTRACT_RELATIVE_RANK_INT64  # 3300
+    FN_KLL_QUANTILES_EXTRACT_RELATIVE_RANK_UINT64 = public_builtin_function_pb2.FN_KLL_QUANTILES_EXTRACT_RELATIVE_RANK_UINT64  # 3301
+    FN_KLL_QUANTILES_EXTRACT_RELATIVE_RANK_DOUBLE = public_builtin_function_pb2.FN_KLL_QUANTILES_EXTRACT_RELATIVE_RANK_DOUBLE  # 3302
+    FN_TO_JSON_PATH_AS_OBJECT = public_builtin_function_pb2.FN_TO_JSON_PATH_AS_OBJECT  # 3405
+    FN_TO_JSON_UNSUPPORTED_FIELDS_PATH_AS_OBJECT = public_builtin_function_pb2.FN_TO_JSON_UNSUPPORTED_FIELDS_PATH_AS_OBJECT  # 3406
+    FN_VECTOR_SEARCH_TVF = public_builtin_function_pb2.FN_VECTOR_SEARCH_TVF  # 4000
+    FN_TUMBLE = public_builtin_function_pb2.FN_TUMBLE  # 4001
+    FN_HOP = public_builtin_function_pb2.FN_HOP  # 4002
+    FN_TUMBLE_NO_TIMESTAMP_COL = public_builtin_function_pb2.FN_TUMBLE_NO_TIMESTAMP_COL  # 4003
+    FN_HOP_NO_TIMESTAMP_COL = public_builtin_function_pb2.FN_HOP_NO_TIMESTAMP_COL  # 4004
+
+
+class KnownErrorMode(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf KnownErrorMode.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    NONE = compliance_known_error_pb2.NONE  # 0
+    ALLOW_UNIMPLEMENTED = compliance_known_error_pb2.ALLOW_UNIMPLEMENTED  # 10
+    ALLOW_ERROR = compliance_known_error_pb2.ALLOW_ERROR  # 20
+    ALLOW_ERROR_OR_WRONG_ANSWER = compliance_known_error_pb2.ALLOW_ERROR_OR_WRONG_ANSWER  # 30
+    CRASHES_DO_NOT_RUN = compliance_known_error_pb2.CRASHES_DO_NOT_RUN  # 100
+
+
+class LanguageFeature(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf LanguageFeature.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    __LanguageFeature__switch_must_have_a_default__ = public_options_pb2.__LanguageFeature__switch_must_have_a_default__  # -1
+    FEATURE_ANALYTIC_FUNCTIONS = public_options_pb2.FEATURE_ANALYTIC_FUNCTIONS  # 1
+    FEATURE_TABLESAMPLE = public_options_pb2.FEATURE_TABLESAMPLE  # 2
+    FEATURE_DISALLOW_GROUP_BY_FLOAT = public_options_pb2.FEATURE_DISALLOW_GROUP_BY_FLOAT  # 3
+    FEATURE_TIMESTAMP_NANOS = public_options_pb2.FEATURE_TIMESTAMP_NANOS  # 5
+    FEATURE_DML_UPDATE_WITH_JOIN = public_options_pb2.FEATURE_DML_UPDATE_WITH_JOIN  # 6
+    FEATURE_TABLE_VALUED_FUNCTIONS = public_options_pb2.FEATURE_TABLE_VALUED_FUNCTIONS  # 8
+    FEATURE_CREATE_AGGREGATE_FUNCTION = public_options_pb2.FEATURE_CREATE_AGGREGATE_FUNCTION  # 9
+    FEATURE_CREATE_TABLE_FUNCTION = public_options_pb2.FEATURE_CREATE_TABLE_FUNCTION  # 10
+    FEATURE_GROUP_BY_ROLLUP = public_options_pb2.FEATURE_GROUP_BY_ROLLUP  # 12
+    FEATURE_TEMPLATE_FUNCTIONS = public_options_pb2.FEATURE_TEMPLATE_FUNCTIONS  # 13
+    FEATURE_CREATE_TABLE_PARTITION_BY = public_options_pb2.FEATURE_CREATE_TABLE_PARTITION_BY  # 14
+    FEATURE_CREATE_TABLE_CLUSTER_BY = public_options_pb2.FEATURE_CREATE_TABLE_CLUSTER_BY  # 15
+    FEATURE_NUMERIC_TYPE = public_options_pb2.FEATURE_NUMERIC_TYPE  # 16
+    FEATURE_CREATE_TABLE_NOT_NULL = public_options_pb2.FEATURE_CREATE_TABLE_NOT_NULL  # 17
+    FEATURE_CREATE_TABLE_FIELD_ANNOTATIONS = public_options_pb2.FEATURE_CREATE_TABLE_FIELD_ANNOTATIONS  # 18
+    FEATURE_CREATE_TABLE_AS_SELECT_COLUMN_LIST = public_options_pb2.FEATURE_CREATE_TABLE_AS_SELECT_COLUMN_LIST  # 19
+    FEATURE_DISALLOW_NULL_PRIMARY_KEYS = public_options_pb2.FEATURE_DISALLOW_NULL_PRIMARY_KEYS  # 20
+    FEATURE_DISALLOW_PRIMARY_KEY_UPDATES = public_options_pb2.FEATURE_DISALLOW_PRIMARY_KEY_UPDATES  # 21
+    FEATURE_TABLESAMPLE_FROM_TABLE_VALUED_FUNCTIONS = public_options_pb2.FEATURE_TABLESAMPLE_FROM_TABLE_VALUED_FUNCTIONS  # 22
+    FEATURE_ENCRYPTION = public_options_pb2.FEATURE_ENCRYPTION  # 23
+    FEATURE_ANONYMIZATION = public_options_pb2.FEATURE_ANONYMIZATION  # 24
+    FEATURE_GEOGRAPHY = public_options_pb2.FEATURE_GEOGRAPHY  # 25
+    FEATURE_STRATIFIED_RESERVOIR_TABLESAMPLE = public_options_pb2.FEATURE_STRATIFIED_RESERVOIR_TABLESAMPLE  # 26
+    FEATURE_FOREIGN_KEYS = public_options_pb2.FEATURE_FOREIGN_KEYS  # 27
+    FEATURE_BETWEEN_UINT64_INT64 = public_options_pb2.FEATURE_BETWEEN_UINT64_INT64  # 28
+    FEATURE_CHECK_CONSTRAINT = public_options_pb2.FEATURE_CHECK_CONSTRAINT  # 29
+    FEATURE_PARAMETERS_IN_GRANTEE_LIST = public_options_pb2.FEATURE_PARAMETERS_IN_GRANTEE_LIST  # 30
+    FEATURE_NAMED_ARGUMENTS = public_options_pb2.FEATURE_NAMED_ARGUMENTS  # 31
+    FEATURE_ALLOW_LEGACY_ROW_ACCESS_POLICY_SYNTAX = public_options_pb2.FEATURE_ALLOW_LEGACY_ROW_ACCESS_POLICY_SYNTAX  # 32
+    FEATURE_CREATE_MATERIALIZED_VIEW_PARTITION_BY = public_options_pb2.FEATURE_CREATE_MATERIALIZED_VIEW_PARTITION_BY  # 33
+    FEATURE_CREATE_MATERIALIZED_VIEW_CLUSTER_BY = public_options_pb2.FEATURE_CREATE_MATERIALIZED_VIEW_CLUSTER_BY  # 34
+    FEATURE_CREATE_EXTERNAL_TABLE_WITH_TABLE_ELEMENT_LIST = public_options_pb2.FEATURE_CREATE_EXTERNAL_TABLE_WITH_TABLE_ELEMENT_LIST  # 35
+    FEATURE_UNENFORCED_PRIMARY_KEYS = public_options_pb2.FEATURE_UNENFORCED_PRIMARY_KEYS  # 40
+    FEATURE_BIGNUMERIC_TYPE = public_options_pb2.FEATURE_BIGNUMERIC_TYPE  # 41
+    FEATURE_EXTENDED_TYPES = public_options_pb2.FEATURE_EXTENDED_TYPES  # 42
+    FEATURE_JSON_TYPE = public_options_pb2.FEATURE_JSON_TYPE  # 43
+    FEATURE_CREATE_EXTERNAL_TABLE_WITH_PARTITION_COLUMNS = public_options_pb2.FEATURE_CREATE_EXTERNAL_TABLE_WITH_PARTITION_COLUMNS  # 47
+    FEATURE_INTERVAL_TYPE = public_options_pb2.FEATURE_INTERVAL_TYPE  # 49
+    FEATURE_EXTRACT_ONEOF_CASE = public_options_pb2.FEATURE_EXTRACT_ONEOF_CASE  # 50
+    FEATURE_TOKENIZED_SEARCH = public_options_pb2.FEATURE_TOKENIZED_SEARCH  # 51
+    FEATURE_JSON_STRICT_NUMBER_PARSING = public_options_pb2.FEATURE_JSON_STRICT_NUMBER_PARSING  # 52
+    FEATURE_ENABLE_CONSTANT_EXPRESSION_IN_JSON_PATH = public_options_pb2.FEATURE_ENABLE_CONSTANT_EXPRESSION_IN_JSON_PATH  # 53
+    FEATURE_PARAMETERIZED_TYPES = public_options_pb2.FEATURE_PARAMETERIZED_TYPES  # 56
+    FEATURE_CREATE_TABLE_LIKE = public_options_pb2.FEATURE_CREATE_TABLE_LIKE  # 57
+    FEATURE_JSON_ARRAY_FUNCTIONS = public_options_pb2.FEATURE_JSON_ARRAY_FUNCTIONS  # 58
+    FEATURE_CREATE_VIEW_WITH_COLUMN_LIST = public_options_pb2.FEATURE_CREATE_VIEW_WITH_COLUMN_LIST  # 59
+    FEATURE_CREATE_TABLE_CLONE = public_options_pb2.FEATURE_CREATE_TABLE_CLONE  # 60
+    FEATURE_CLONE_DATA = public_options_pb2.FEATURE_CLONE_DATA  # 61
+    FEATURE_ALTER_COLUMN_SET_DATA_TYPE = public_options_pb2.FEATURE_ALTER_COLUMN_SET_DATA_TYPE  # 62
+    FEATURE_CREATE_SNAPSHOT_TABLE = public_options_pb2.FEATURE_CREATE_SNAPSHOT_TABLE  # 63
+    FEATURE_FUNCTION_ARGUMENTS_WITH_DEFAULTS = public_options_pb2.FEATURE_FUNCTION_ARGUMENTS_WITH_DEFAULTS  # 64
+    FEATURE_CREATE_EXTERNAL_TABLE_WITH_CONNECTION = public_options_pb2.FEATURE_CREATE_EXTERNAL_TABLE_WITH_CONNECTION  # 65
+    FEATURE_CREATE_TABLE_COPY = public_options_pb2.FEATURE_CREATE_TABLE_COPY  # 66
+    FEATURE_ALTER_TABLE_RENAME_COLUMN = public_options_pb2.FEATURE_ALTER_TABLE_RENAME_COLUMN  # 67
+    FEATURE_JSON_VALUE_EXTRACTION_FUNCTIONS = public_options_pb2.FEATURE_JSON_VALUE_EXTRACTION_FUNCTIONS  # 68
+    FEATURE_DISALLOW_LEGACY_UNICODE_COLLATION = public_options_pb2.FEATURE_DISALLOW_LEGACY_UNICODE_COLLATION  # 69
+    FEATURE_ALLOW_MISSING_PATH_EXPRESSION_IN_ALTER_DDL = public_options_pb2.FEATURE_ALLOW_MISSING_PATH_EXPRESSION_IN_ALTER_DDL  # 70
+    FEATURE_TIME_BUCKET_FUNCTIONS = public_options_pb2.FEATURE_TIME_BUCKET_FUNCTIONS  # 71
+    FEATURE_INVERSE_TRIG_FUNCTIONS = public_options_pb2.FEATURE_INVERSE_TRIG_FUNCTIONS  # 72
+    FEATURE_RANGE_TYPE = public_options_pb2.FEATURE_RANGE_TYPE  # 73
+    FEATURE_NON_SQL_PROCEDURE = public_options_pb2.FEATURE_NON_SQL_PROCEDURE  # 75
+    FEATURE_ROUND_WITH_ROUNDING_MODE = public_options_pb2.FEATURE_ROUND_WITH_ROUNDING_MODE  # 76
+    FEATURE_CBRT_FUNCTIONS = public_options_pb2.FEATURE_CBRT_FUNCTIONS  # 77
+    FEATURE_SPANNER_LEGACY_DDL = public_options_pb2.FEATURE_SPANNER_LEGACY_DDL  # 78
+    FEATURE_DISABLE_ARRAY_MIN_AND_MAX = public_options_pb2.FEATURE_DISABLE_ARRAY_MIN_AND_MAX  # 79
+    FEATURE_STRICT_FUNCTION_DEFAULT_ARG_TYPE_COERCION = public_options_pb2.FEATURE_STRICT_FUNCTION_DEFAULT_ARG_TYPE_COERCION  # 80
+    FEATURE_JSON_LAX_VALUE_EXTRACTION_FUNCTIONS = public_options_pb2.FEATURE_JSON_LAX_VALUE_EXTRACTION_FUNCTIONS  # 81
+    FEATURE_PROTO_BASE = public_options_pb2.FEATURE_PROTO_BASE  # 82
+    FEATURE_ANONYMIZATION_THRESHOLDING = public_options_pb2.FEATURE_ANONYMIZATION_THRESHOLDING  # 83
+    FEATURE_DISABLE_ARRAY_SUM_AND_AVG = public_options_pb2.FEATURE_DISABLE_ARRAY_SUM_AND_AVG  # 84
+    FEATURE_ANONYMIZATION_CASE_INSENSITIVE_OPTIONS = public_options_pb2.FEATURE_ANONYMIZATION_CASE_INSENSITIVE_OPTIONS  # 85
+    FEATURE_CREATE_VIEWS_WITH_COLUMN_OPTIONS = public_options_pb2.FEATURE_CREATE_VIEWS_WITH_COLUMN_OPTIONS  # 86
+    FEATURE_ALTER_VIEWS_ALTER_COLUMN_SET_OPTIONS = public_options_pb2.FEATURE_ALTER_VIEWS_ALTER_COLUMN_SET_OPTIONS  # 87
+    FEATURE_DIFFERENTIAL_PRIVACY = public_options_pb2.FEATURE_DIFFERENTIAL_PRIVACY  # 88
+    FEATURE_DIFFERENTIAL_PRIVACY_REPORT_FUNCTIONS = public_options_pb2.FEATURE_DIFFERENTIAL_PRIVACY_REPORT_FUNCTIONS  # 89
+    FEATURE_DIFFERENTIAL_PRIVACY_THRESHOLDING = public_options_pb2.FEATURE_DIFFERENTIAL_PRIVACY_THRESHOLDING  # 90
+    FEATURE_CREATE_TABLE_WITH_CONNECTION = public_options_pb2.FEATURE_CREATE_TABLE_WITH_CONNECTION  # 91
+    FEATURE_AGGREGATION_THRESHOLD = public_options_pb2.FEATURE_AGGREGATION_THRESHOLD  # 92
+    FEATURE_JSON_CONSTRUCTOR_FUNCTIONS = public_options_pb2.FEATURE_JSON_CONSTRUCTOR_FUNCTIONS  # 93
+    FEATURE_DISABLE_OUTER_JOIN_ARRAY = public_options_pb2.FEATURE_DISABLE_OUTER_JOIN_ARRAY  # 94
+    FEATURE_DIFFERENTIAL_PRIVACY_MAX_ROWS_CONTRIBUTED = public_options_pb2.FEATURE_DIFFERENTIAL_PRIVACY_MAX_ROWS_CONTRIBUTED  # 95
+    FEATURE_EXTERNAL_SECURITY_PROCEDURE = public_options_pb2.FEATURE_EXTERNAL_SECURITY_PROCEDURE  # 96
+    FEATURE_CREATE_MATERIALIZED_VIEW_AS_REPLICA_OF = public_options_pb2.FEATURE_CREATE_MATERIALIZED_VIEW_AS_REPLICA_OF  # 97
+    FEATURE_JSON_MUTATOR_FUNCTIONS = public_options_pb2.FEATURE_JSON_MUTATOR_FUNCTIONS  # 98
+    FEATURE_DIFFERENTIAL_PRIVACY_PUBLIC_GROUPS = public_options_pb2.FEATURE_DIFFERENTIAL_PRIVACY_PUBLIC_GROUPS  # 100
+    FEATURE_PIPES = public_options_pb2.FEATURE_PIPES  # 101
+    FEATURE_ENABLE_ALTER_ARRAY_OPTIONS = public_options_pb2.FEATURE_ENABLE_ALTER_ARRAY_OPTIONS  # 102
+    FEATURE_GENERATED_BY_DEFAULT = public_options_pb2.FEATURE_GENERATED_BY_DEFAULT  # 103
+    FEATURE_DIFFERENTIAL_PRIVACY_MIN_PRIVACY_UNITS_PER_GROUP = public_options_pb2.FEATURE_DIFFERENTIAL_PRIVACY_MIN_PRIVACY_UNITS_PER_GROUP  # 104
+    FEATURE_ENFORCE_MICROS_MODE_IN_INTERVAL_TYPE = public_options_pb2.FEATURE_ENFORCE_MICROS_MODE_IN_INTERVAL_TYPE  # 105
+    FEATURE_ALTER_COLUMN_DROP_GENERATED = public_options_pb2.FEATURE_ALTER_COLUMN_DROP_GENERATED  # 106
+    FEATURE_DISABLE_TEXTMAPPER_PARSER = public_options_pb2.FEATURE_DISABLE_TEXTMAPPER_PARSER  # 107
+    FEATURE_IDENTITY_COLUMNS = public_options_pb2.FEATURE_IDENTITY_COLUMNS  # 109
+    FEATURE_EXTERNAL_SCHEMA_DDL = public_options_pb2.FEATURE_EXTERNAL_SCHEMA_DDL  # 111
+    FEATURE_PIPE_STATIC_DESCRIBE = public_options_pb2.FEATURE_PIPE_STATIC_DESCRIBE  # 112
+    FEATURE_PIPE_ASSERT = public_options_pb2.FEATURE_PIPE_ASSERT  # 113
+    FEATURE_TEMPLATED_SQL_FUNCTION_RESOLVE_WITH_TYPED_ARGS = public_options_pb2.FEATURE_TEMPLATED_SQL_FUNCTION_RESOLVE_WITH_TYPED_ARGS  # 114
+    FEATURE_JSON_QUERY_LAX = public_options_pb2.FEATURE_JSON_QUERY_LAX  # 115
+    FEATURE_JSON_CONTAINS_FUNCTION = public_options_pb2.FEATURE_JSON_CONTAINS_FUNCTION  # 116
+    FEATURE_CREATE_INDEX_PARTITION_BY = public_options_pb2.FEATURE_CREATE_INDEX_PARTITION_BY  # 117
+    FEATURE_JSON_KEYS_FUNCTION = public_options_pb2.FEATURE_JSON_KEYS_FUNCTION  # 118
+    FEATURE_TO_JSON_UNSUPPORTED_FIELDS = public_options_pb2.FEATURE_TO_JSON_UNSUPPORTED_FIELDS  # 119
+    FEATURE_PIPE_LOG = public_options_pb2.FEATURE_PIPE_LOG  # 120
+    FEATURE_PROPERTY_GRAPH_ENFORCE_EXPLICIT_PROPERTIES = public_options_pb2.FEATURE_PROPERTY_GRAPH_ENFORCE_EXPLICIT_PROPERTIES  # 121
+    FEATURE_DIFFERENTIAL_PRIVACY_PER_AGGREGATION_BUDGET = public_options_pb2.FEATURE_DIFFERENTIAL_PRIVACY_PER_AGGREGATION_BUDGET  # 122
+    FEATURE_TIMESTAMP_PICOS = public_options_pb2.FEATURE_TIMESTAMP_PICOS  # 123
+    FEATURE_PIPE_IF = public_options_pb2.FEATURE_PIPE_IF  # 125
+    FEATURE_TIMESTAMP_FROM_UNIX_FUNCTIONS_WITH_UINT64 = public_options_pb2.FEATURE_TIMESTAMP_FROM_UNIX_FUNCTIONS_WITH_UINT64  # 126
+    FEATURE_TABLE_SYNTAX_RESOLVE_ARGUMENT_LAST = public_options_pb2.FEATURE_TABLE_SYNTAX_RESOLVE_ARGUMENT_LAST  # 127
+    FEATURE_PIPE_FORK = public_options_pb2.FEATURE_PIPE_FORK  # 128
+    FEATURE_PIPE_EXPORT_DATA = public_options_pb2.FEATURE_PIPE_EXPORT_DATA  # 129
+    FEATURE_PIPE_CREATE_TABLE = public_options_pb2.FEATURE_PIPE_CREATE_TABLE  # 130
+    FEATURE_PIPE_TEE = public_options_pb2.FEATURE_PIPE_TEE  # 131
+    FEATURE_PIPE_INSERT = public_options_pb2.FEATURE_PIPE_INSERT  # 133
+    FEATURE_DISABLE_VALIDATE_REWRITERS_REFER_TO_BUILTINS = public_options_pb2.FEATURE_DISABLE_VALIDATE_REWRITERS_REFER_TO_BUILTINS  # 134
+    FEATURE_PIPE_WITH = public_options_pb2.FEATURE_PIPE_WITH  # 135
+    FEATURE_CREATE_LOCALITY_GROUP = public_options_pb2.FEATURE_CREATE_LOCALITY_GROUP  # 136
+    FEATURE_JSON_FLATTEN_FUNCTION = public_options_pb2.FEATURE_JSON_FLATTEN_FUNCTION  # 137
+    FEATURE_JSON_SUBFIELDS_WITH_SET = public_options_pb2.FEATURE_JSON_SUBFIELDS_WITH_SET  # 138
+    FEATURE_JSON_TYPE_COMPARISON = public_options_pb2.FEATURE_JSON_TYPE_COMPARISON  # 139
+    FEATURE_ALTER_COLUMN_SET_GENERATED_AS_IDENTITY = public_options_pb2.FEATURE_ALTER_COLUMN_SET_GENERATED_AS_IDENTITY  # 141
+    FEATURE_PIPE_AGGREGATE_WITH_DIFFERENTIAL_PRIVACY = public_options_pb2.FEATURE_PIPE_AGGREGATE_WITH_DIFFERENTIAL_PRIVACY  # 142
+    FEATURE_MULTILEVEL_AGGREGATION_ON_UDAS = public_options_pb2.FEATURE_MULTILEVEL_AGGREGATION_ON_UDAS  # 143
+    FEATURE_DIFFERENTIAL_PRIVACY_NESTED = public_options_pb2.FEATURE_DIFFERENTIAL_PRIVACY_NESTED  # 144
+    FEATURE_STATEMENT_WITH_PIPE_OPERATORS = public_options_pb2.FEATURE_STATEMENT_WITH_PIPE_OPERATORS  # 145
+    FEATURE_VECTOR_SEARCH_TVF = public_options_pb2.FEATURE_VECTOR_SEARCH_TVF  # 146
+    FEATURE_TUMBLE_HOP_TVFS = public_options_pb2.FEATURE_TUMBLE_HOP_TVFS  # 147
+    FEATURE_TUMBLE_HOP_TVFS_NO_TIMESTAMP_COL = public_options_pb2.FEATURE_TUMBLE_HOP_TVFS_NO_TIMESTAMP_COL  # 148
+    FEATURE_LEGACY_BINARY_CONCAT = public_options_pb2.FEATURE_LEGACY_BINARY_CONCAT  # 149
+    FEATURE_PROCEDURES_IN_MODULES = public_options_pb2.FEATURE_PROCEDURES_IN_MODULES  # 150
+    FEATURE_ALTER_MATERIALIZED_VIEW_ALTER_COLUMN_SET_OPTIONS = public_options_pb2.FEATURE_ALTER_MATERIALIZED_VIEW_ALTER_COLUMN_SET_OPTIONS  # 151
+    FEATURE_TOP_LEVEL_TABLE_STATEMENTS = public_options_pb2.FEATURE_TOP_LEVEL_TABLE_STATEMENTS  # 152
+    FEATURE_ORDER_BY_COLLATE = public_options_pb2.FEATURE_ORDER_BY_COLLATE  # 11001
+    FEATURE_V_1_1_ORDER_BY_COLLATE = public_options_pb2.FEATURE_V_1_1_ORDER_BY_COLLATE  # 11001
+    FEATURE_WITH_ON_SUBQUERY = public_options_pb2.FEATURE_WITH_ON_SUBQUERY  # 11002
+    FEATURE_V_1_1_WITH_ON_SUBQUERY = public_options_pb2.FEATURE_V_1_1_WITH_ON_SUBQUERY  # 11002
+    FEATURE_SELECT_STAR_EXCEPT_REPLACE = public_options_pb2.FEATURE_SELECT_STAR_EXCEPT_REPLACE  # 11003
+    FEATURE_V_1_1_SELECT_STAR_EXCEPT_REPLACE = public_options_pb2.FEATURE_V_1_1_SELECT_STAR_EXCEPT_REPLACE  # 11003
+    FEATURE_ORDER_BY_IN_AGGREGATE = public_options_pb2.FEATURE_ORDER_BY_IN_AGGREGATE  # 11004
+    FEATURE_V_1_1_ORDER_BY_IN_AGGREGATE = public_options_pb2.FEATURE_V_1_1_ORDER_BY_IN_AGGREGATE  # 11004
+    FEATURE_CAST_DIFFERENT_ARRAY_TYPES = public_options_pb2.FEATURE_CAST_DIFFERENT_ARRAY_TYPES  # 11005
+    FEATURE_V_1_1_CAST_DIFFERENT_ARRAY_TYPES = public_options_pb2.FEATURE_V_1_1_CAST_DIFFERENT_ARRAY_TYPES  # 11005
+    FEATURE_ARRAY_EQUALITY = public_options_pb2.FEATURE_ARRAY_EQUALITY  # 11006
+    FEATURE_V_1_1_ARRAY_EQUALITY = public_options_pb2.FEATURE_V_1_1_ARRAY_EQUALITY  # 11006
+    FEATURE_LIMIT_IN_AGGREGATE = public_options_pb2.FEATURE_LIMIT_IN_AGGREGATE  # 11007
+    FEATURE_V_1_1_LIMIT_IN_AGGREGATE = public_options_pb2.FEATURE_V_1_1_LIMIT_IN_AGGREGATE  # 11007
+    FEATURE_HAVING_IN_AGGREGATE = public_options_pb2.FEATURE_HAVING_IN_AGGREGATE  # 11008
+    FEATURE_V_1_1_HAVING_IN_AGGREGATE = public_options_pb2.FEATURE_V_1_1_HAVING_IN_AGGREGATE  # 11008
+    FEATURE_NULL_HANDLING_MODIFIER_IN_ANALYTIC = public_options_pb2.FEATURE_NULL_HANDLING_MODIFIER_IN_ANALYTIC  # 11009
+    FEATURE_V_1_1_NULL_HANDLING_MODIFIER_IN_ANALYTIC = public_options_pb2.FEATURE_V_1_1_NULL_HANDLING_MODIFIER_IN_ANALYTIC  # 11009
+    FEATURE_NULL_HANDLING_MODIFIER_IN_AGGREGATE = public_options_pb2.FEATURE_NULL_HANDLING_MODIFIER_IN_AGGREGATE  # 11010
+    FEATURE_V_1_1_NULL_HANDLING_MODIFIER_IN_AGGREGATE = public_options_pb2.FEATURE_V_1_1_NULL_HANDLING_MODIFIER_IN_AGGREGATE  # 11010
+    FEATURE_FOR_SYSTEM_TIME_AS_OF = public_options_pb2.FEATURE_FOR_SYSTEM_TIME_AS_OF  # 11011
+    FEATURE_V_1_1_FOR_SYSTEM_TIME_AS_OF = public_options_pb2.FEATURE_V_1_1_FOR_SYSTEM_TIME_AS_OF  # 11011
+    FEATURE_CIVIL_TIME = public_options_pb2.FEATURE_CIVIL_TIME  # 12001
+    FEATURE_V_1_2_CIVIL_TIME = public_options_pb2.FEATURE_V_1_2_CIVIL_TIME  # 12001
+    FEATURE_SAFE_FUNCTION_CALL = public_options_pb2.FEATURE_SAFE_FUNCTION_CALL  # 12002
+    FEATURE_V_1_2_SAFE_FUNCTION_CALL = public_options_pb2.FEATURE_V_1_2_SAFE_FUNCTION_CALL  # 12002
+    FEATURE_GROUP_BY_STRUCT = public_options_pb2.FEATURE_GROUP_BY_STRUCT  # 12003
+    FEATURE_V_1_2_GROUP_BY_STRUCT = public_options_pb2.FEATURE_V_1_2_GROUP_BY_STRUCT  # 12003
+    FEATURE_PROTO_EXTENSIONS_WITH_NEW = public_options_pb2.FEATURE_PROTO_EXTENSIONS_WITH_NEW  # 12004
+    FEATURE_V_1_2_PROTO_EXTENSIONS_WITH_NEW = public_options_pb2.FEATURE_V_1_2_PROTO_EXTENSIONS_WITH_NEW  # 12004
+    FEATURE_GROUP_BY_ARRAY = public_options_pb2.FEATURE_GROUP_BY_ARRAY  # 12005
+    FEATURE_V_1_2_GROUP_BY_ARRAY = public_options_pb2.FEATURE_V_1_2_GROUP_BY_ARRAY  # 12005
+    FEATURE_PROTO_EXTENSIONS_WITH_SET = public_options_pb2.FEATURE_PROTO_EXTENSIONS_WITH_SET  # 12006
+    FEATURE_V_1_2_PROTO_EXTENSIONS_WITH_SET = public_options_pb2.FEATURE_V_1_2_PROTO_EXTENSIONS_WITH_SET  # 12006
+    FEATURE_CORRELATED_REFS_IN_NESTED_DML = public_options_pb2.FEATURE_CORRELATED_REFS_IN_NESTED_DML  # 12007
+    FEATURE_V_1_2_CORRELATED_REFS_IN_NESTED_DML = public_options_pb2.FEATURE_V_1_2_CORRELATED_REFS_IN_NESTED_DML  # 12007
+    FEATURE_WEEK_WITH_WEEKDAY = public_options_pb2.FEATURE_WEEK_WITH_WEEKDAY  # 12008
+    FEATURE_V_1_2_WEEK_WITH_WEEKDAY = public_options_pb2.FEATURE_V_1_2_WEEK_WITH_WEEKDAY  # 12008
+    FEATURE_ARRAY_ELEMENTS_WITH_SET = public_options_pb2.FEATURE_ARRAY_ELEMENTS_WITH_SET  # 12009
+    FEATURE_V_1_2_ARRAY_ELEMENTS_WITH_SET = public_options_pb2.FEATURE_V_1_2_ARRAY_ELEMENTS_WITH_SET  # 12009
+    FEATURE_NESTED_UPDATE_DELETE_WITH_OFFSET = public_options_pb2.FEATURE_NESTED_UPDATE_DELETE_WITH_OFFSET  # 12010
+    FEATURE_V_1_2_NESTED_UPDATE_DELETE_WITH_OFFSET = public_options_pb2.FEATURE_V_1_2_NESTED_UPDATE_DELETE_WITH_OFFSET  # 12010
+    FEATURE_GENERATED_COLUMNS = public_options_pb2.FEATURE_GENERATED_COLUMNS  # 12011
+    FEATURE_V_1_2_GENERATED_COLUMNS = public_options_pb2.FEATURE_V_1_2_GENERATED_COLUMNS  # 12011
+    FEATURE_PROTO_DEFAULT_IF_NULL = public_options_pb2.FEATURE_PROTO_DEFAULT_IF_NULL  # 13001
+    FEATURE_V_1_3_PROTO_DEFAULT_IF_NULL = public_options_pb2.FEATURE_V_1_3_PROTO_DEFAULT_IF_NULL  # 13001
+    FEATURE_EXTRACT_FROM_PROTO = public_options_pb2.FEATURE_EXTRACT_FROM_PROTO  # 13002
+    FEATURE_V_1_3_EXTRACT_FROM_PROTO = public_options_pb2.FEATURE_V_1_3_EXTRACT_FROM_PROTO  # 13002
+    FEATURE_DEPRECATED_DISALLOW_PROTO3_HAS_SCALAR_FIELD = public_options_pb2.FEATURE_DEPRECATED_DISALLOW_PROTO3_HAS_SCALAR_FIELD  # 13003
+    FEATURE_V_1_3_DEPRECATED_DISALLOW_PROTO3_HAS_SCALAR_FIELD = public_options_pb2.FEATURE_V_1_3_DEPRECATED_DISALLOW_PROTO3_HAS_SCALAR_FIELD  # 13003
+    FEATURE_ARRAY_ORDERING = public_options_pb2.FEATURE_ARRAY_ORDERING  # 13004
+    FEATURE_V_1_3_ARRAY_ORDERING = public_options_pb2.FEATURE_V_1_3_ARRAY_ORDERING  # 13004
+    FEATURE_OMIT_INSERT_COLUMN_LIST = public_options_pb2.FEATURE_OMIT_INSERT_COLUMN_LIST  # 13005
+    FEATURE_V_1_3_OMIT_INSERT_COLUMN_LIST = public_options_pb2.FEATURE_V_1_3_OMIT_INSERT_COLUMN_LIST  # 13005
+    FEATURE_IGNORE_PROTO3_USE_DEFAULTS = public_options_pb2.FEATURE_IGNORE_PROTO3_USE_DEFAULTS  # 13006
+    FEATURE_V_1_3_IGNORE_PROTO3_USE_DEFAULTS = public_options_pb2.FEATURE_V_1_3_IGNORE_PROTO3_USE_DEFAULTS  # 13006
+    FEATURE_REPLACE_FIELDS = public_options_pb2.FEATURE_REPLACE_FIELDS  # 13007
+    FEATURE_V_1_3_REPLACE_FIELDS = public_options_pb2.FEATURE_V_1_3_REPLACE_FIELDS  # 13007
+    FEATURE_NULLS_FIRST_LAST_IN_ORDER_BY = public_options_pb2.FEATURE_NULLS_FIRST_LAST_IN_ORDER_BY  # 13008
+    FEATURE_V_1_3_NULLS_FIRST_LAST_IN_ORDER_BY = public_options_pb2.FEATURE_V_1_3_NULLS_FIRST_LAST_IN_ORDER_BY  # 13008
+    FEATURE_ALLOW_DASHES_IN_TABLE_NAME = public_options_pb2.FEATURE_ALLOW_DASHES_IN_TABLE_NAME  # 13009
+    FEATURE_V_1_3_ALLOW_DASHES_IN_TABLE_NAME = public_options_pb2.FEATURE_V_1_3_ALLOW_DASHES_IN_TABLE_NAME  # 13009
+    FEATURE_CONCAT_MIXED_TYPES = public_options_pb2.FEATURE_CONCAT_MIXED_TYPES  # 13010
+    FEATURE_V_1_3_CONCAT_MIXED_TYPES = public_options_pb2.FEATURE_V_1_3_CONCAT_MIXED_TYPES  # 13010
+    FEATURE_WITH_RECURSIVE = public_options_pb2.FEATURE_WITH_RECURSIVE  # 13011
+    FEATURE_V_1_3_WITH_RECURSIVE = public_options_pb2.FEATURE_V_1_3_WITH_RECURSIVE  # 13011
+    FEATURE_PROTO_MAPS = public_options_pb2.FEATURE_PROTO_MAPS  # 13012
+    FEATURE_V_1_3_PROTO_MAPS = public_options_pb2.FEATURE_V_1_3_PROTO_MAPS  # 13012
+    FEATURE_ENUM_VALUE_DESCRIPTOR_PROTO = public_options_pb2.FEATURE_ENUM_VALUE_DESCRIPTOR_PROTO  # 13013
+    FEATURE_V_1_3_ENUM_VALUE_DESCRIPTOR_PROTO = public_options_pb2.FEATURE_V_1_3_ENUM_VALUE_DESCRIPTOR_PROTO  # 13013
+    FEATURE_DECIMAL_ALIAS = public_options_pb2.FEATURE_DECIMAL_ALIAS  # 13014
+    FEATURE_V_1_3_DECIMAL_ALIAS = public_options_pb2.FEATURE_V_1_3_DECIMAL_ALIAS  # 13014
+    FEATURE_UNNEST_AND_FLATTEN_ARRAYS = public_options_pb2.FEATURE_UNNEST_AND_FLATTEN_ARRAYS  # 13015
+    FEATURE_V_1_3_UNNEST_AND_FLATTEN_ARRAYS = public_options_pb2.FEATURE_V_1_3_UNNEST_AND_FLATTEN_ARRAYS  # 13015
+    FEATURE_ALLOW_CONSECUTIVE_ON = public_options_pb2.FEATURE_ALLOW_CONSECUTIVE_ON  # 13016
+    FEATURE_V_1_3_ALLOW_CONSECUTIVE_ON = public_options_pb2.FEATURE_V_1_3_ALLOW_CONSECUTIVE_ON  # 13016
+    FEATURE_ALLOW_REGEXP_EXTRACT_OPTIONALS = public_options_pb2.FEATURE_ALLOW_REGEXP_EXTRACT_OPTIONALS  # 13017
+    FEATURE_V_1_3_ALLOW_REGEXP_EXTRACT_OPTIONALS = public_options_pb2.FEATURE_V_1_3_ALLOW_REGEXP_EXTRACT_OPTIONALS  # 13017
+    FEATURE_DATE_TIME_CONSTRUCTORS = public_options_pb2.FEATURE_DATE_TIME_CONSTRUCTORS  # 13018
+    FEATURE_V_1_3_DATE_TIME_CONSTRUCTORS = public_options_pb2.FEATURE_V_1_3_DATE_TIME_CONSTRUCTORS  # 13018
+    FEATURE_DATE_ARITHMETICS = public_options_pb2.FEATURE_DATE_ARITHMETICS  # 13019
+    FEATURE_V_1_3_DATE_ARITHMETICS = public_options_pb2.FEATURE_V_1_3_DATE_ARITHMETICS  # 13019
+    FEATURE_ADDITIONAL_STRING_FUNCTIONS = public_options_pb2.FEATURE_ADDITIONAL_STRING_FUNCTIONS  # 13020
+    FEATURE_V_1_3_ADDITIONAL_STRING_FUNCTIONS = public_options_pb2.FEATURE_V_1_3_ADDITIONAL_STRING_FUNCTIONS  # 13020
+    FEATURE_WITH_GROUP_ROWS = public_options_pb2.FEATURE_WITH_GROUP_ROWS  # 13021
+    FEATURE_V_1_3_WITH_GROUP_ROWS = public_options_pb2.FEATURE_V_1_3_WITH_GROUP_ROWS  # 13021
+    FEATURE_EXTENDED_DATE_TIME_SIGNATURES = public_options_pb2.FEATURE_EXTENDED_DATE_TIME_SIGNATURES  # 13022
+    FEATURE_V_1_3_EXTENDED_DATE_TIME_SIGNATURES = public_options_pb2.FEATURE_V_1_3_EXTENDED_DATE_TIME_SIGNATURES  # 13022
+    FEATURE_EXTENDED_GEOGRAPHY_PARSERS = public_options_pb2.FEATURE_EXTENDED_GEOGRAPHY_PARSERS  # 13023
+    FEATURE_V_1_3_EXTENDED_GEOGRAPHY_PARSERS = public_options_pb2.FEATURE_V_1_3_EXTENDED_GEOGRAPHY_PARSERS  # 13023
+    FEATURE_INLINE_LAMBDA_ARGUMENT = public_options_pb2.FEATURE_INLINE_LAMBDA_ARGUMENT  # 13024
+    FEATURE_V_1_3_INLINE_LAMBDA_ARGUMENT = public_options_pb2.FEATURE_V_1_3_INLINE_LAMBDA_ARGUMENT  # 13024
+    FEATURE_PIVOT = public_options_pb2.FEATURE_PIVOT  # 13025
+    FEATURE_V_1_3_PIVOT = public_options_pb2.FEATURE_V_1_3_PIVOT  # 13025
+    FEATURE_ANNOTATION_FRAMEWORK = public_options_pb2.FEATURE_ANNOTATION_FRAMEWORK  # 13026
+    FEATURE_V_1_3_ANNOTATION_FRAMEWORK = public_options_pb2.FEATURE_V_1_3_ANNOTATION_FRAMEWORK  # 13026
+    FEATURE_COLLATION_SUPPORT = public_options_pb2.FEATURE_COLLATION_SUPPORT  # 13027
+    FEATURE_V_1_3_COLLATION_SUPPORT = public_options_pb2.FEATURE_V_1_3_COLLATION_SUPPORT  # 13027
+    FEATURE_IS_DISTINCT = public_options_pb2.FEATURE_IS_DISTINCT  # 13028
+    FEATURE_V_1_3_IS_DISTINCT = public_options_pb2.FEATURE_V_1_3_IS_DISTINCT  # 13028
+    FEATURE_FORMAT_IN_CAST = public_options_pb2.FEATURE_FORMAT_IN_CAST  # 13029
+    FEATURE_V_1_3_FORMAT_IN_CAST = public_options_pb2.FEATURE_V_1_3_FORMAT_IN_CAST  # 13029
+    FEATURE_UNPIVOT = public_options_pb2.FEATURE_UNPIVOT  # 13030
+    FEATURE_V_1_3_UNPIVOT = public_options_pb2.FEATURE_V_1_3_UNPIVOT  # 13030
+    FEATURE_DML_RETURNING = public_options_pb2.FEATURE_DML_RETURNING  # 13031
+    FEATURE_V_1_3_DML_RETURNING = public_options_pb2.FEATURE_V_1_3_DML_RETURNING  # 13031
+    FEATURE_FILTER_FIELDS = public_options_pb2.FEATURE_FILTER_FIELDS  # 13032
+    FEATURE_V_1_3_FILTER_FIELDS = public_options_pb2.FEATURE_V_1_3_FILTER_FIELDS  # 13032
+    FEATURE_QUALIFY = public_options_pb2.FEATURE_QUALIFY  # 13033
+    FEATURE_V_1_3_QUALIFY = public_options_pb2.FEATURE_V_1_3_QUALIFY  # 13033
+    FEATURE_REPEAT = public_options_pb2.FEATURE_REPEAT  # 13034
+    FEATURE_V_1_3_REPEAT = public_options_pb2.FEATURE_V_1_3_REPEAT  # 13034
+    FEATURE_COLUMN_DEFAULT_VALUE = public_options_pb2.FEATURE_COLUMN_DEFAULT_VALUE  # 13035
+    FEATURE_V_1_3_COLUMN_DEFAULT_VALUE = public_options_pb2.FEATURE_V_1_3_COLUMN_DEFAULT_VALUE  # 13035
+    FEATURE_FOR_IN = public_options_pb2.FEATURE_FOR_IN  # 13036
+    FEATURE_V_1_3_FOR_IN = public_options_pb2.FEATURE_V_1_3_FOR_IN  # 13036
+    FEATURE_KLL_WEIGHTS = public_options_pb2.FEATURE_KLL_WEIGHTS  # 13037
+    FEATURE_V_1_3_KLL_WEIGHTS = public_options_pb2.FEATURE_V_1_3_KLL_WEIGHTS  # 13037
+    FEATURE_LIKE_ANY_SOME_ALL = public_options_pb2.FEATURE_LIKE_ANY_SOME_ALL  # 13038
+    FEATURE_V_1_3_LIKE_ANY_SOME_ALL = public_options_pb2.FEATURE_V_1_3_LIKE_ANY_SOME_ALL  # 13038
+    FEATURE_CASE_STMT = public_options_pb2.FEATURE_CASE_STMT  # 13039
+    FEATURE_V_1_3_CASE_STMT = public_options_pb2.FEATURE_V_1_3_CASE_STMT  # 13039
+    FEATURE_ALLOW_SLASH_PATHS = public_options_pb2.FEATURE_ALLOW_SLASH_PATHS  # 13040
+    FEATURE_V_1_3_ALLOW_SLASH_PATHS = public_options_pb2.FEATURE_V_1_3_ALLOW_SLASH_PATHS  # 13040
+    FEATURE_TYPEOF_FUNCTION = public_options_pb2.FEATURE_TYPEOF_FUNCTION  # 13041
+    FEATURE_V_1_3_TYPEOF_FUNCTION = public_options_pb2.FEATURE_V_1_3_TYPEOF_FUNCTION  # 13041
+    FEATURE_SCRIPT_LABEL = public_options_pb2.FEATURE_SCRIPT_LABEL  # 13042
+    FEATURE_V_1_3_SCRIPT_LABEL = public_options_pb2.FEATURE_V_1_3_SCRIPT_LABEL  # 13042
+    FEATURE_REMOTE_FUNCTION = public_options_pb2.FEATURE_REMOTE_FUNCTION  # 13043
+    FEATURE_V_1_3_REMOTE_FUNCTION = public_options_pb2.FEATURE_V_1_3_REMOTE_FUNCTION  # 13043
+    FEATURE_ARRAY_GREATEST_LEAST = public_options_pb2.FEATURE_ARRAY_GREATEST_LEAST  # 13044
+    FEATURE_V_1_3_ARRAY_GREATEST_LEAST = public_options_pb2.FEATURE_V_1_3_ARRAY_GREATEST_LEAST  # 13044
+    FEATURE_BRACED_PROTO_CONSTRUCTORS = public_options_pb2.FEATURE_BRACED_PROTO_CONSTRUCTORS  # 13045
+    FEATURE_V_1_3_BRACED_PROTO_CONSTRUCTORS = public_options_pb2.FEATURE_V_1_3_BRACED_PROTO_CONSTRUCTORS  # 13045
+    FEATURE_WITH_EXPRESSION = public_options_pb2.FEATURE_WITH_EXPRESSION  # 14000
+    FEATURE_V_1_4_WITH_EXPRESSION = public_options_pb2.FEATURE_V_1_4_WITH_EXPRESSION  # 14000
+    FEATURE_ORDERED_PRIMARY_KEYS = public_options_pb2.FEATURE_ORDERED_PRIMARY_KEYS  # 14002
+    FEATURE_V_1_4_ORDERED_PRIMARY_KEYS = public_options_pb2.FEATURE_V_1_4_ORDERED_PRIMARY_KEYS  # 14002
+    FEATURE_TTL = public_options_pb2.FEATURE_TTL  # 14003
+    FEATURE_V_1_4_TTL = public_options_pb2.FEATURE_V_1_4_TTL  # 14003
+    FEATURE_BARE_ARRAY_ACCESS = public_options_pb2.FEATURE_BARE_ARRAY_ACCESS  # 14004
+    FEATURE_V_1_4_BARE_ARRAY_ACCESS = public_options_pb2.FEATURE_V_1_4_BARE_ARRAY_ACCESS  # 14004
+    FEATURE_ARRAY_AGGREGATION_FUNCTIONS = public_options_pb2.FEATURE_ARRAY_AGGREGATION_FUNCTIONS  # 14005
+    FEATURE_V_1_4_ARRAY_AGGREGATION_FUNCTIONS = public_options_pb2.FEATURE_V_1_4_ARRAY_AGGREGATION_FUNCTIONS  # 14005
+    FEATURE_ARRAY_FIND_FUNCTIONS = public_options_pb2.FEATURE_ARRAY_FIND_FUNCTIONS  # 14006
+    FEATURE_V_1_4_ARRAY_FIND_FUNCTIONS = public_options_pb2.FEATURE_V_1_4_ARRAY_FIND_FUNCTIONS  # 14006
+    FEATURE_SAFE_FUNCTION_CALL_WITH_LAMBDA_ARGS = public_options_pb2.FEATURE_SAFE_FUNCTION_CALL_WITH_LAMBDA_ARGS  # 14007
+    FEATURE_V_1_4_SAFE_FUNCTION_CALL_WITH_LAMBDA_ARGS = public_options_pb2.FEATURE_V_1_4_SAFE_FUNCTION_CALL_WITH_LAMBDA_ARGS  # 14007
+    FEATURE_SQL_GRAPH = public_options_pb2.FEATURE_SQL_GRAPH  # 14008
+    FEATURE_V_1_4_SQL_GRAPH = public_options_pb2.FEATURE_V_1_4_SQL_GRAPH  # 14008
+    FEATURE_REMOTE_MODEL = public_options_pb2.FEATURE_REMOTE_MODEL  # 14009
+    FEATURE_V_1_4_REMOTE_MODEL = public_options_pb2.FEATURE_V_1_4_REMOTE_MODEL  # 14009
+    FEATURE_STRUCT_POSITIONAL_ACCESSOR = public_options_pb2.FEATURE_STRUCT_POSITIONAL_ACCESSOR  # 14010
+    FEATURE_V_1_4_STRUCT_POSITIONAL_ACCESSOR = public_options_pb2.FEATURE_V_1_4_STRUCT_POSITIONAL_ACCESSOR  # 14010
+    FEATURE_SINGLE_TABLE_NAME_ARRAY_PATH = public_options_pb2.FEATURE_SINGLE_TABLE_NAME_ARRAY_PATH  # 14011
+    FEATURE_V_1_4_SINGLE_TABLE_NAME_ARRAY_PATH = public_options_pb2.FEATURE_V_1_4_SINGLE_TABLE_NAME_ARRAY_PATH  # 14011
+    FEATURE_COLLATION_IN_WITH_RECURSIVE = public_options_pb2.FEATURE_COLLATION_IN_WITH_RECURSIVE  # 14013
+    FEATURE_V_1_4_COLLATION_IN_WITH_RECURSIVE = public_options_pb2.FEATURE_V_1_4_COLLATION_IN_WITH_RECURSIVE  # 14013
+    FEATURE_COLLATION_IN_EXPLICIT_CAST = public_options_pb2.FEATURE_COLLATION_IN_EXPLICIT_CAST  # 14014
+    FEATURE_V_1_4_COLLATION_IN_EXPLICIT_CAST = public_options_pb2.FEATURE_V_1_4_COLLATION_IN_EXPLICIT_CAST  # 14014
+    FEATURE_LOAD_DATA_PARTITIONS = public_options_pb2.FEATURE_LOAD_DATA_PARTITIONS  # 14015
+    FEATURE_V_1_4_LOAD_DATA_PARTITIONS = public_options_pb2.FEATURE_V_1_4_LOAD_DATA_PARTITIONS  # 14015
+    FEATURE_CREATE_MODEL_WITH_ALIASED_QUERY_LIST = public_options_pb2.FEATURE_CREATE_MODEL_WITH_ALIASED_QUERY_LIST  # 14016
+    FEATURE_V_1_4_CREATE_MODEL_WITH_ALIASED_QUERY_LIST = public_options_pb2.FEATURE_V_1_4_CREATE_MODEL_WITH_ALIASED_QUERY_LIST  # 14016
+    FEATURE_LOAD_DATA_TEMP_TABLE = public_options_pb2.FEATURE_LOAD_DATA_TEMP_TABLE  # 14017
+    FEATURE_V_1_4_LOAD_DATA_TEMP_TABLE = public_options_pb2.FEATURE_V_1_4_LOAD_DATA_TEMP_TABLE  # 14017
+    FEATURE_CORRESPONDING = public_options_pb2.FEATURE_CORRESPONDING  # 14018
+    FEATURE_V_1_4_CORRESPONDING = public_options_pb2.FEATURE_V_1_4_CORRESPONDING  # 14018
+    FEATURE_SEQUENCE_ARG = public_options_pb2.FEATURE_SEQUENCE_ARG  # 14019
+    FEATURE_V_1_4_SEQUENCE_ARG = public_options_pb2.FEATURE_V_1_4_SEQUENCE_ARG  # 14019
+    FEATURE_GROUPING_BUILTIN = public_options_pb2.FEATURE_GROUPING_BUILTIN  # 14020
+    FEATURE_V_1_4_GROUPING_BUILTIN = public_options_pb2.FEATURE_V_1_4_GROUPING_BUILTIN  # 14020
+    FEATURE_GROUPING_SETS = public_options_pb2.FEATURE_GROUPING_SETS  # 14021
+    FEATURE_V_1_4_GROUPING_SETS = public_options_pb2.FEATURE_V_1_4_GROUPING_SETS  # 14021
+    FEATURE_PRESERVE_ANNOTATION_IN_IMPLICIT_CAST_IN_SCAN = public_options_pb2.FEATURE_PRESERVE_ANNOTATION_IN_IMPLICIT_CAST_IN_SCAN  # 14022
+    FEATURE_V_1_4_PRESERVE_ANNOTATION_IN_IMPLICIT_CAST_IN_SCAN = public_options_pb2.FEATURE_V_1_4_PRESERVE_ANNOTATION_IN_IMPLICIT_CAST_IN_SCAN  # 14022
+    FEATURE_CORRESPONDING_FULL = public_options_pb2.FEATURE_CORRESPONDING_FULL  # 14023
+    FEATURE_V_1_4_CORRESPONDING_FULL = public_options_pb2.FEATURE_V_1_4_CORRESPONDING_FULL  # 14023
+    FEATURE_LIKE_ANY_SOME_ALL_ARRAY = public_options_pb2.FEATURE_LIKE_ANY_SOME_ALL_ARRAY  # 14025
+    FEATURE_V_1_4_LIKE_ANY_SOME_ALL_ARRAY = public_options_pb2.FEATURE_V_1_4_LIKE_ANY_SOME_ALL_ARRAY  # 14025
+    FEATURE_LIKE_ANY_SOME_ALL_SUBQUERY = public_options_pb2.FEATURE_LIKE_ANY_SOME_ALL_SUBQUERY  # 14026
+    FEATURE_V_1_4_LIKE_ANY_SOME_ALL_SUBQUERY = public_options_pb2.FEATURE_V_1_4_LIKE_ANY_SOME_ALL_SUBQUERY  # 14026
+    FEATURE_FIRST_AND_LAST_N = public_options_pb2.FEATURE_FIRST_AND_LAST_N  # 14027
+    FEATURE_V_1_4_FIRST_AND_LAST_N = public_options_pb2.FEATURE_V_1_4_FIRST_AND_LAST_N  # 14027
+    FEATURE_NULLIFZERO_ZEROIFNULL = public_options_pb2.FEATURE_NULLIFZERO_ZEROIFNULL  # 14028
+    FEATURE_V_1_4_NULLIFZERO_ZEROIFNULL = public_options_pb2.FEATURE_V_1_4_NULLIFZERO_ZEROIFNULL  # 14028
+    FEATURE_PI_FUNCTIONS = public_options_pb2.FEATURE_PI_FUNCTIONS  # 14029
+    FEATURE_V_1_4_PI_FUNCTIONS = public_options_pb2.FEATURE_V_1_4_PI_FUNCTIONS  # 14029
+    FEATURE_CREATE_FUNCTION_LANGUAGE_WITH_CONNECTION = public_options_pb2.FEATURE_CREATE_FUNCTION_LANGUAGE_WITH_CONNECTION  # 14030
+    FEATURE_V_1_4_CREATE_FUNCTION_LANGUAGE_WITH_CONNECTION = public_options_pb2.FEATURE_V_1_4_CREATE_FUNCTION_LANGUAGE_WITH_CONNECTION  # 14030
+    FEATURE_SINGLETON_UNNEST_INFERS_ALIAS = public_options_pb2.FEATURE_SINGLETON_UNNEST_INFERS_ALIAS  # 14031
+    FEATURE_V_1_4_SINGLETON_UNNEST_INFERS_ALIAS = public_options_pb2.FEATURE_V_1_4_SINGLETON_UNNEST_INFERS_ALIAS  # 14031
+    FEATURE_ARRAY_ZIP = public_options_pb2.FEATURE_ARRAY_ZIP  # 14032
+    FEATURE_V_1_4_ARRAY_ZIP = public_options_pb2.FEATURE_V_1_4_ARRAY_ZIP  # 14032
+    FEATURE_MULTIWAY_UNNEST = public_options_pb2.FEATURE_MULTIWAY_UNNEST  # 14033
+    FEATURE_V_1_4_MULTIWAY_UNNEST = public_options_pb2.FEATURE_V_1_4_MULTIWAY_UNNEST  # 14033
+    FEATURE_USE_OPERATION_COLLATION_FOR_NULLIF = public_options_pb2.FEATURE_USE_OPERATION_COLLATION_FOR_NULLIF  # 14034
+    FEATURE_V_1_4_USE_OPERATION_COLLATION_FOR_NULLIF = public_options_pb2.FEATURE_V_1_4_USE_OPERATION_COLLATION_FOR_NULLIF  # 14034
+    FEATURE_ENABLE_EDIT_DISTANCE_BYTES = public_options_pb2.FEATURE_ENABLE_EDIT_DISTANCE_BYTES  # 14035
+    FEATURE_V_1_4_ENABLE_EDIT_DISTANCE_BYTES = public_options_pb2.FEATURE_V_1_4_ENABLE_EDIT_DISTANCE_BYTES  # 14035
+    FEATURE_SQL_GRAPH_ADVANCED_QUERY = public_options_pb2.FEATURE_SQL_GRAPH_ADVANCED_QUERY  # 14036
+    FEATURE_V_1_4_SQL_GRAPH_ADVANCED_QUERY = public_options_pb2.FEATURE_V_1_4_SQL_GRAPH_ADVANCED_QUERY  # 14036
+    FEATURE_ENABLE_FLOAT_DISTANCE_FUNCTIONS = public_options_pb2.FEATURE_ENABLE_FLOAT_DISTANCE_FUNCTIONS  # 14037
+    FEATURE_V_1_4_ENABLE_FLOAT_DISTANCE_FUNCTIONS = public_options_pb2.FEATURE_V_1_4_ENABLE_FLOAT_DISTANCE_FUNCTIONS  # 14037
+    FEATURE_ENABLE_MEASURES = public_options_pb2.FEATURE_ENABLE_MEASURES  # 14038
+    FEATURE_V_1_4_ENABLE_MEASURES = public_options_pb2.FEATURE_V_1_4_ENABLE_MEASURES  # 14038
+    FEATURE_GROUP_BY_ALL = public_options_pb2.FEATURE_GROUP_BY_ALL  # 14039
+    FEATURE_V_1_4_GROUP_BY_ALL = public_options_pb2.FEATURE_V_1_4_GROUP_BY_ALL  # 14039
+    FEATURE_SQL_GRAPH_EXPOSE_GRAPH_ELEMENT = public_options_pb2.FEATURE_SQL_GRAPH_EXPOSE_GRAPH_ELEMENT  # 14041
+    FEATURE_V_1_4_SQL_GRAPH_EXPOSE_GRAPH_ELEMENT = public_options_pb2.FEATURE_V_1_4_SQL_GRAPH_EXPOSE_GRAPH_ELEMENT  # 14041
+    FEATURE_LIMIT_OFFSET_EXPRESSIONS = public_options_pb2.FEATURE_LIMIT_OFFSET_EXPRESSIONS  # 14042
+    FEATURE_V_1_4_LIMIT_OFFSET_EXPRESSIONS = public_options_pb2.FEATURE_V_1_4_LIMIT_OFFSET_EXPRESSIONS  # 14042
+    FEATURE_MAP_TYPE = public_options_pb2.FEATURE_MAP_TYPE  # 14043
+    FEATURE_V_1_4_MAP_TYPE = public_options_pb2.FEATURE_V_1_4_MAP_TYPE  # 14043
+    FEATURE_DISABLE_FLOAT32 = public_options_pb2.FEATURE_DISABLE_FLOAT32  # 14044
+    FEATURE_V_1_4_DISABLE_FLOAT32 = public_options_pb2.FEATURE_V_1_4_DISABLE_FLOAT32  # 14044
+    FEATURE_LITERAL_CONCATENATION = public_options_pb2.FEATURE_LITERAL_CONCATENATION  # 14045
+    FEATURE_V_1_4_LITERAL_CONCATENATION = public_options_pb2.FEATURE_V_1_4_LITERAL_CONCATENATION  # 14045
+    FEATURE_DOT_PRODUCT = public_options_pb2.FEATURE_DOT_PRODUCT  # 14046
+    FEATURE_V_1_4_DOT_PRODUCT = public_options_pb2.FEATURE_V_1_4_DOT_PRODUCT  # 14046
+    FEATURE_OPT_IN_NEW_BEHAVIOR_NOT_LIKE_ANY_SOME_ALL = public_options_pb2.FEATURE_OPT_IN_NEW_BEHAVIOR_NOT_LIKE_ANY_SOME_ALL  # 14047
+    FEATURE_V_1_4_OPT_IN_NEW_BEHAVIOR_NOT_LIKE_ANY_SOME_ALL = public_options_pb2.FEATURE_V_1_4_OPT_IN_NEW_BEHAVIOR_NOT_LIKE_ANY_SOME_ALL  # 14047
+    FEATURE_MANHATTAN_DISTANCE = public_options_pb2.FEATURE_MANHATTAN_DISTANCE  # 14048
+    FEATURE_V_1_4_MANHATTAN_DISTANCE = public_options_pb2.FEATURE_V_1_4_MANHATTAN_DISTANCE  # 14048
+    FEATURE_L1_NORM = public_options_pb2.FEATURE_L1_NORM  # 14049
+    FEATURE_V_1_4_L1_NORM = public_options_pb2.FEATURE_V_1_4_L1_NORM  # 14049
+    FEATURE_L2_NORM = public_options_pb2.FEATURE_L2_NORM  # 14050
+    FEATURE_V_1_4_L2_NORM = public_options_pb2.FEATURE_V_1_4_L2_NORM  # 14050
+    FEATURE_STRUCT_BRACED_CONSTRUCTORS = public_options_pb2.FEATURE_STRUCT_BRACED_CONSTRUCTORS  # 14051
+    FEATURE_V_1_4_STRUCT_BRACED_CONSTRUCTORS = public_options_pb2.FEATURE_V_1_4_STRUCT_BRACED_CONSTRUCTORS  # 14051
+    FEATURE_WITH_RECURSIVE_DEPTH_MODIFIER = public_options_pb2.FEATURE_WITH_RECURSIVE_DEPTH_MODIFIER  # 14052
+    FEATURE_V_1_4_WITH_RECURSIVE_DEPTH_MODIFIER = public_options_pb2.FEATURE_V_1_4_WITH_RECURSIVE_DEPTH_MODIFIER  # 14052
+    FEATURE_JSON_ARRAY_VALUE_EXTRACTION_FUNCTIONS = public_options_pb2.FEATURE_JSON_ARRAY_VALUE_EXTRACTION_FUNCTIONS  # 14053
+    FEATURE_V_1_4_JSON_ARRAY_VALUE_EXTRACTION_FUNCTIONS = public_options_pb2.FEATURE_V_1_4_JSON_ARRAY_VALUE_EXTRACTION_FUNCTIONS  # 14053
+    FEATURE_ENFORCE_CONDITIONAL_EVALUATION = public_options_pb2.FEATURE_ENFORCE_CONDITIONAL_EVALUATION  # 14054
+    FEATURE_V_1_4_ENFORCE_CONDITIONAL_EVALUATION = public_options_pb2.FEATURE_V_1_4_ENFORCE_CONDITIONAL_EVALUATION  # 14054
+    FEATURE_JSON_MORE_VALUE_EXTRACTION_FUNCTIONS = public_options_pb2.FEATURE_JSON_MORE_VALUE_EXTRACTION_FUNCTIONS  # 14055
+    FEATURE_V_1_4_JSON_MORE_VALUE_EXTRACTION_FUNCTIONS = public_options_pb2.FEATURE_V_1_4_JSON_MORE_VALUE_EXTRACTION_FUNCTIONS  # 14055
+    FEATURE_IMPLICIT_COERCION_STRING_LITERAL_TO_BYTES = public_options_pb2.FEATURE_IMPLICIT_COERCION_STRING_LITERAL_TO_BYTES  # 14056
+    FEATURE_V_1_4_IMPLICIT_COERCION_STRING_LITERAL_TO_BYTES = public_options_pb2.FEATURE_V_1_4_IMPLICIT_COERCION_STRING_LITERAL_TO_BYTES  # 14056
+    FEATURE_UUID_TYPE = public_options_pb2.FEATURE_UUID_TYPE  # 14057
+    FEATURE_V_1_4_UUID_TYPE = public_options_pb2.FEATURE_V_1_4_UUID_TYPE  # 14057
+    FEATURE_MULTILEVEL_AGGREGATION = public_options_pb2.FEATURE_MULTILEVEL_AGGREGATION  # 14058
+    FEATURE_V_1_4_MULTILEVEL_AGGREGATION = public_options_pb2.FEATURE_V_1_4_MULTILEVEL_AGGREGATION  # 14058
+    FEATURE_SQL_GRAPH_BOUNDED_PATH_QUANTIFICATION = public_options_pb2.FEATURE_SQL_GRAPH_BOUNDED_PATH_QUANTIFICATION  # 14059
+    FEATURE_V_1_4_SQL_GRAPH_BOUNDED_PATH_QUANTIFICATION = public_options_pb2.FEATURE_V_1_4_SQL_GRAPH_BOUNDED_PATH_QUANTIFICATION  # 14059
+    FEATURE_REPLACE_FIELDS_ALLOW_MULTI_ONEOF = public_options_pb2.FEATURE_REPLACE_FIELDS_ALLOW_MULTI_ONEOF  # 14060
+    FEATURE_V_1_4_REPLACE_FIELDS_ALLOW_MULTI_ONEOF = public_options_pb2.FEATURE_V_1_4_REPLACE_FIELDS_ALLOW_MULTI_ONEOF  # 14060
+    FEATURE_SQL_GRAPH_PATH_TYPE = public_options_pb2.FEATURE_SQL_GRAPH_PATH_TYPE  # 14062
+    FEATURE_V_1_4_SQL_GRAPH_PATH_TYPE = public_options_pb2.FEATURE_V_1_4_SQL_GRAPH_PATH_TYPE  # 14062
+    FEATURE_SQL_GRAPH_PATH_MODE = public_options_pb2.FEATURE_SQL_GRAPH_PATH_MODE  # 14063
+    FEATURE_V_1_4_SQL_GRAPH_PATH_MODE = public_options_pb2.FEATURE_V_1_4_SQL_GRAPH_PATH_MODE  # 14063
+    FEATURE_KLL_FLOAT64_PRIMARY_WITH_DOUBLE_ALIAS = public_options_pb2.FEATURE_KLL_FLOAT64_PRIMARY_WITH_DOUBLE_ALIAS  # 14064
+    FEATURE_V_1_4_KLL_FLOAT64_PRIMARY_WITH_DOUBLE_ALIAS = public_options_pb2.FEATURE_V_1_4_KLL_FLOAT64_PRIMARY_WITH_DOUBLE_ALIAS  # 14064
+    FEATURE_FOR_UPDATE = public_options_pb2.FEATURE_FOR_UPDATE  # 14065
+    FEATURE_V_1_4_FOR_UPDATE = public_options_pb2.FEATURE_V_1_4_FOR_UPDATE  # 14065
+    FEATURE_DISALLOW_PIVOT_AND_UNPIVOT_ON_ARRAY_SCANS = public_options_pb2.FEATURE_DISALLOW_PIVOT_AND_UNPIVOT_ON_ARRAY_SCANS  # 14066
+    FEATURE_V_1_4_DISALLOW_PIVOT_AND_UNPIVOT_ON_ARRAY_SCANS = public_options_pb2.FEATURE_V_1_4_DISALLOW_PIVOT_AND_UNPIVOT_ON_ARRAY_SCANS  # 14066
+    FEATURE_GROUP_BY_GRAPH_PATH = public_options_pb2.FEATURE_GROUP_BY_GRAPH_PATH  # 14067
+    FEATURE_V_1_4_GROUP_BY_GRAPH_PATH = public_options_pb2.FEATURE_V_1_4_GROUP_BY_GRAPH_PATH  # 14067
+    FEATURE_MATCH_RECOGNIZE = public_options_pb2.FEATURE_MATCH_RECOGNIZE  # 14068
+    FEATURE_V_1_4_MATCH_RECOGNIZE = public_options_pb2.FEATURE_V_1_4_MATCH_RECOGNIZE  # 14068
+    FEATURE_SQL_GRAPH_RETURN_EXTENSIONS = public_options_pb2.FEATURE_SQL_GRAPH_RETURN_EXTENSIONS  # 14069
+    FEATURE_V_1_4_SQL_GRAPH_RETURN_EXTENSIONS = public_options_pb2.FEATURE_V_1_4_SQL_GRAPH_RETURN_EXTENSIONS  # 14069
+    FEATURE_BY_NAME = public_options_pb2.FEATURE_BY_NAME  # 14070
+    FEATURE_V_1_4_BY_NAME = public_options_pb2.FEATURE_V_1_4_BY_NAME  # 14070
+    FEATURE_INSERT_ON_CONFLICT_CLAUSE = public_options_pb2.FEATURE_INSERT_ON_CONFLICT_CLAUSE  # 14071
+    FEATURE_V_1_4_INSERT_ON_CONFLICT_CLAUSE = public_options_pb2.FEATURE_V_1_4_INSERT_ON_CONFLICT_CLAUSE  # 14071
+    FEATURE_SQL_GRAPH_DYNAMIC_ELEMENT_TYPE = public_options_pb2.FEATURE_SQL_GRAPH_DYNAMIC_ELEMENT_TYPE  # 14072
+    FEATURE_V_1_4_SQL_GRAPH_DYNAMIC_ELEMENT_TYPE = public_options_pb2.FEATURE_V_1_4_SQL_GRAPH_DYNAMIC_ELEMENT_TYPE  # 14072
+    FEATURE_AGGREGATE_FILTERING = public_options_pb2.FEATURE_AGGREGATE_FILTERING  # 14073
+    FEATURE_V_1_4_AGGREGATE_FILTERING = public_options_pb2.FEATURE_V_1_4_AGGREGATE_FILTERING  # 14073
+    FEATURE_BITWISE_AGGREGATE_BYTES_SIGNATURES = public_options_pb2.FEATURE_BITWISE_AGGREGATE_BYTES_SIGNATURES  # 14074
+    FEATURE_V_1_4_BITWISE_AGGREGATE_BYTES_SIGNATURES = public_options_pb2.FEATURE_V_1_4_BITWISE_AGGREGATE_BYTES_SIGNATURES  # 14074
+    FEATURE_PIPE_RECURSIVE_UNION = public_options_pb2.FEATURE_PIPE_RECURSIVE_UNION  # 14075
+    FEATURE_V_1_4_PIPE_RECURSIVE_UNION = public_options_pb2.FEATURE_V_1_4_PIPE_RECURSIVE_UNION  # 14075
+    FEATURE_SQL_GRAPH_DYNAMIC_LABEL_PROPERTIES_IN_DDL = public_options_pb2.FEATURE_SQL_GRAPH_DYNAMIC_LABEL_PROPERTIES_IN_DDL  # 14078
+    FEATURE_V_1_4_SQL_GRAPH_DYNAMIC_LABEL_PROPERTIES_IN_DDL = public_options_pb2.FEATURE_V_1_4_SQL_GRAPH_DYNAMIC_LABEL_PROPERTIES_IN_DDL  # 14078
+    FEATURE_UPDATE_CONSTRUCTOR = public_options_pb2.FEATURE_UPDATE_CONSTRUCTOR  # 14079
+    FEATURE_V_1_4_UPDATE_CONSTRUCTOR = public_options_pb2.FEATURE_V_1_4_UPDATE_CONSTRUCTOR  # 14079
+    FEATURE_ALIASES_FOR_STRING_AND_DATE_FUNCTIONS = public_options_pb2.FEATURE_ALIASES_FOR_STRING_AND_DATE_FUNCTIONS  # 14080
+    FEATURE_V_1_4_ALIASES_FOR_STRING_AND_DATE_FUNCTIONS = public_options_pb2.FEATURE_V_1_4_ALIASES_FOR_STRING_AND_DATE_FUNCTIONS  # 14080
+    FEATURE_VIEWS_IN_MODULES = public_options_pb2.FEATURE_VIEWS_IN_MODULES  # 14081
+    FEATURE_V_1_4_VIEWS_IN_MODULES = public_options_pb2.FEATURE_V_1_4_VIEWS_IN_MODULES  # 14081
+    FEATURE_FROM_AND_TO_PROTO_INTERVAL = public_options_pb2.FEATURE_FROM_AND_TO_PROTO_INTERVAL  # 14083
+    FEATURE_V_1_4_FROM_AND_TO_PROTO_INTERVAL = public_options_pb2.FEATURE_V_1_4_FROM_AND_TO_PROTO_INTERVAL  # 14083
+    FEATURE_SIMPLIFY_PIVOT_REWRITE = public_options_pb2.FEATURE_SIMPLIFY_PIVOT_REWRITE  # 14084
+    FEATURE_V_1_4_SIMPLIFY_PIVOT_REWRITE = public_options_pb2.FEATURE_V_1_4_SIMPLIFY_PIVOT_REWRITE  # 14084
+    FEATURE_PIPE_NAMED_WINDOWS = public_options_pb2.FEATURE_PIPE_NAMED_WINDOWS  # 14086
+    FEATURE_V_1_4_PIPE_NAMED_WINDOWS = public_options_pb2.FEATURE_V_1_4_PIPE_NAMED_WINDOWS  # 14086
+    FEATURE_SQL_GRAPH_ELEMENT_DEFINITION_NAME_IN_JSON_RESULT = public_options_pb2.FEATURE_SQL_GRAPH_ELEMENT_DEFINITION_NAME_IN_JSON_RESULT  # 14087
+    FEATURE_V_1_4_SQL_GRAPH_ELEMENT_DEFINITION_NAME_IN_JSON_RESULT = public_options_pb2.FEATURE_V_1_4_SQL_GRAPH_ELEMENT_DEFINITION_NAME_IN_JSON_RESULT  # 14087
+    FEATURE_TVF_PSEUDO_COLUMNS = public_options_pb2.FEATURE_TVF_PSEUDO_COLUMNS  # 14088
+    FEATURE_V_1_4_TVF_PSEUDO_COLUMNS = public_options_pb2.FEATURE_V_1_4_TVF_PSEUDO_COLUMNS  # 14088
+    FEATURE_LATERAL_JOIN = public_options_pb2.FEATURE_LATERAL_JOIN  # 14089
+    FEATURE_V_1_4_LATERAL_JOIN = public_options_pb2.FEATURE_V_1_4_LATERAL_JOIN  # 14089
+    FEATURE_CHAINED_FUNCTION_CALLS = public_options_pb2.FEATURE_CHAINED_FUNCTION_CALLS  # 14090
+    FEATURE_V_1_4_CHAINED_FUNCTION_CALLS = public_options_pb2.FEATURE_V_1_4_CHAINED_FUNCTION_CALLS  # 14090
+    FEATURE_SQL_GRAPH_CHEAPEST_PATH = public_options_pb2.FEATURE_SQL_GRAPH_CHEAPEST_PATH  # 14091
+    FEATURE_V_1_4_SQL_GRAPH_CHEAPEST_PATH = public_options_pb2.FEATURE_V_1_4_SQL_GRAPH_CHEAPEST_PATH  # 14091
+    FEATURE_SQL_GRAPH_PATH_SEARCH_PREFIX_PATH_COUNT = public_options_pb2.FEATURE_SQL_GRAPH_PATH_SEARCH_PREFIX_PATH_COUNT  # 14092
+    FEATURE_V_1_4_SQL_GRAPH_PATH_SEARCH_PREFIX_PATH_COUNT = public_options_pb2.FEATURE_V_1_4_SQL_GRAPH_PATH_SEARCH_PREFIX_PATH_COUNT  # 14092
+    FEATURE_TIMESTAMP_PRECISION = public_options_pb2.FEATURE_TIMESTAMP_PRECISION  # 14093
+    FEATURE_V_1_4_TIMESTAMP_PRECISION = public_options_pb2.FEATURE_V_1_4_TIMESTAMP_PRECISION  # 14093
+    FEATURE_ANALYSIS_CONSTANT_STRUCT_POSITIONAL_ACCESSOR = public_options_pb2.FEATURE_ANALYSIS_CONSTANT_STRUCT_POSITIONAL_ACCESSOR  # 14094
+    FEATURE_V_1_4_ANALYSIS_CONSTANT_STRUCT_POSITIONAL_ACCESSOR = public_options_pb2.FEATURE_V_1_4_ANALYSIS_CONSTANT_STRUCT_POSITIONAL_ACCESSOR  # 14094
+    FEATURE_SQL_GRAPH_DYNAMIC_LABEL_EXTENSION_IN_DDL = public_options_pb2.FEATURE_SQL_GRAPH_DYNAMIC_LABEL_EXTENSION_IN_DDL  # 14095
+    FEATURE_V_1_4_SQL_GRAPH_DYNAMIC_LABEL_EXTENSION_IN_DDL = public_options_pb2.FEATURE_V_1_4_SQL_GRAPH_DYNAMIC_LABEL_EXTENSION_IN_DDL  # 14095
+    FEATURE_TIMESTAMP_PRECISION_ANNOTATION = public_options_pb2.FEATURE_TIMESTAMP_PRECISION_ANNOTATION  # 14096
+    FEATURE_V_1_4_TIMESTAMP_PRECISION_ANNOTATION = public_options_pb2.FEATURE_V_1_4_TIMESTAMP_PRECISION_ANNOTATION  # 14096
+    FEATURE_PIPE_DESCRIBE = public_options_pb2.FEATURE_PIPE_DESCRIBE  # 14098
+    FEATURE_SQL_GRAPH_DYNAMIC_MULTI_LABEL_NODES = public_options_pb2.FEATURE_SQL_GRAPH_DYNAMIC_MULTI_LABEL_NODES  # 14099
+    FEATURE_V_1_4_SQL_GRAPH_DYNAMIC_MULTI_LABEL_NODES = public_options_pb2.FEATURE_V_1_4_SQL_GRAPH_DYNAMIC_MULTI_LABEL_NODES  # 14099
+    FEATURE_SQL_GRAPH_CALL = public_options_pb2.FEATURE_SQL_GRAPH_CALL  # 14100
+    FEATURE_V_1_4_SQL_GRAPH_CALL = public_options_pb2.FEATURE_V_1_4_SQL_GRAPH_CALL  # 14100
+    FEATURE_MULTI_GROUPING_SETS = public_options_pb2.FEATURE_MULTI_GROUPING_SETS  # 14101
+    FEATURE_ANALYSIS_CONSTANT_PIVOT_COLUMN = public_options_pb2.FEATURE_ANALYSIS_CONSTANT_PIVOT_COLUMN  # 14102
+    FEATURE_ANALYSIS_CONSTANT_FUNCTION_ARGUMENT = public_options_pb2.FEATURE_ANALYSIS_CONSTANT_FUNCTION_ARGUMENT  # 14103
+    FEATURE_ANALYSIS_CONSTANT_INTERVAL_CONSTRUCTOR = public_options_pb2.FEATURE_ANALYSIS_CONSTANT_INTERVAL_CONSTRUCTOR  # 14104
+    FEATURE_PIPE_CALL_INPUT_TABLE = public_options_pb2.FEATURE_PIPE_CALL_INPUT_TABLE  # 14105
+    FEATURE_RELAXED_WITH_RECURSIVE = public_options_pb2.FEATURE_RELAXED_WITH_RECURSIVE  # 14106
+    FEATURE_SQL_GRAPH_UNBOUNDED_PATH_QUANTIFICATION = public_options_pb2.FEATURE_SQL_GRAPH_UNBOUNDED_PATH_QUANTIFICATION  # 14107
+    FEATURE_REPORT_FORMAT_CONSTANT_ARGUMENT = public_options_pb2.FEATURE_REPORT_FORMAT_CONSTANT_ARGUMENT  # 14108
+    FEATURE_RADIANS_DEGREES_FUNCTIONS = public_options_pb2.FEATURE_RADIANS_DEGREES_FUNCTIONS  # 14109
+    FEATURE_RUN_STATEMENT = public_options_pb2.FEATURE_RUN_STATEMENT  # 14110
+    FEATURE_PARSE_TIMESTAMP_WITH_PRECISION_AND_TIMEZONE = public_options_pb2.FEATURE_PARSE_TIMESTAMP_WITH_PRECISION_AND_TIMEZONE  # 14112
+    FEATURE_LIMIT_ALL = public_options_pb2.FEATURE_LIMIT_ALL  # 14113
+    FEATURE_ADDITIONAL_DATE_TIME_FUNCTIONS = public_options_pb2.FEATURE_ADDITIONAL_DATE_TIME_FUNCTIONS  # 14114
+    FEATURE_KLL_QUANTILES_EXTRACT_RELATIVE_RANK = public_options_pb2.FEATURE_KLL_QUANTILES_EXTRACT_RELATIVE_RANK  # 14115
+    FEATURE_MATCH_MAKE_STRUCT_IN_GROUP_BY = public_options_pb2.FEATURE_MATCH_MAKE_STRUCT_IN_GROUP_BY  # 14116
+    FEATURE_ARRAY_CONSTRUCTOR_EXPLICIT_TYPE_ENFORCE_TARGET_ANNOTATIONS = public_options_pb2.FEATURE_ARRAY_CONSTRUCTOR_EXPLICIT_TYPE_ENFORCE_TARGET_ANNOTATIONS  # 14117
+    FEATURE_LATERAL_COLUMN_REFERENCES = public_options_pb2.FEATURE_LATERAL_COLUMN_REFERENCES  # 14118
+    FEATURE_ROW_TYPE = public_options_pb2.FEATURE_ROW_TYPE  # 14119
+    FEATURE_SQL_GRAPH_SET_OPERATION_PROPAGATION_MODE = public_options_pb2.FEATURE_SQL_GRAPH_SET_OPERATION_PROPAGATION_MODE  # 14120
+    FEATURE_SQL_GRAPH_DEFAULT_LABEL_AND_PROPERTY_DEFINITION_OPTIONS = public_options_pb2.FEATURE_SQL_GRAPH_DEFAULT_LABEL_AND_PROPERTY_DEFINITION_OPTIONS  # 14121
+    FEATURE_MEASURES_TVF = public_options_pb2.FEATURE_MEASURES_TVF  # 14122
+    FEATURE_EXPERIMENTAL_MODULES = public_options_pb2.FEATURE_EXPERIMENTAL_MODULES  # 999002
+    FEATURE_TEST_IDEALLY_ENABLED_BUT_IN_DEVELOPMENT = public_options_pb2.FEATURE_TEST_IDEALLY_ENABLED_BUT_IN_DEVELOPMENT  # 999991
+    FEATURE_TEST_IDEALLY_DISABLED = public_options_pb2.FEATURE_TEST_IDEALLY_DISABLED  # 999992
+    FEATURE_TEST_IDEALLY_DISABLED_AND_IN_DEVELOPMENT = public_options_pb2.FEATURE_TEST_IDEALLY_DISABLED_AND_IN_DEVELOPMENT  # 999993
+
+
+class LanguageVersion(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf LanguageVersion.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    __LanguageVersion__switch_must_have_a_default__ = public_options_pb2.__LanguageVersion__switch_must_have_a_default__  # -1
+    LANGUAGE_VERSION_UNSPECIFIED = public_options_pb2.LANGUAGE_VERSION_UNSPECIFIED  # 0
+    VERSION_CURRENT = public_options_pb2.VERSION_CURRENT  # 1
+    VERSION_1_0 = public_options_pb2.VERSION_1_0  # 10000
+    VERSION_1_1 = public_options_pb2.VERSION_1_1  # 11000
+    VERSION_1_2 = public_options_pb2.VERSION_1_2  # 12000
+    VERSION_1_3 = public_options_pb2.VERSION_1_3  # 13000
+    VERSION_1_4 = public_options_pb2.VERSION_1_4  # 14000
+
+
+class NameResolutionMode(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf NameResolutionMode.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    NAME_RESOLUTION_DEFAULT = public_options_pb2.NAME_RESOLUTION_DEFAULT  # 0
+    NAME_RESOLUTION_STRICT = public_options_pb2.NAME_RESOLUTION_STRICT  # 1
+
+
+class NormalizeMode(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf NormalizeMode.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    NFC = functions_normalize_mode_pb2.NFC  # 0
+    NFKC = functions_normalize_mode_pb2.NFKC  # 1
+    NFD = functions_normalize_mode_pb2.NFD  # 2
+    NFKD = functions_normalize_mode_pb2.NFKD  # 3
+
+
+class ParameterMode(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf ParameterMode.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    PARAMETER_NAMED = public_options_pb2.PARAMETER_NAMED  # 0
+    PARAMETER_POSITIONAL = public_options_pb2.PARAMETER_POSITIONAL  # 1
+    PARAMETER_NONE = public_options_pb2.PARAMETER_NONE  # 2
+
+
+class ParseLocationRecordType(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf ParseLocationRecordType.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    PARSE_LOCATION_RECORD_NONE = public_options_pb2.PARSE_LOCATION_RECORD_NONE  # 0
+    PARSE_LOCATION_RECORD_FULL_NODE_SCOPE = public_options_pb2.PARSE_LOCATION_RECORD_FULL_NODE_SCOPE  # 1
+    PARSE_LOCATION_RECORD_CODE_SEARCH = public_options_pb2.PARSE_LOCATION_RECORD_CODE_SEARCH  # 2
+
+
+class ProductMode(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf ProductMode.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    PRODUCT_INTERNAL = public_options_pb2.PRODUCT_INTERNAL  # 0
+    PRODUCT_EXTERNAL = public_options_pb2.PRODUCT_EXTERNAL  # 1
+
+
+class ResolvedASTRewrite(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf ResolvedASTRewrite.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    REWRITE_INVALID_DO_NOT_USE = public_options_pb2.REWRITE_INVALID_DO_NOT_USE  # 0
+    REWRITE_FLATTEN = public_options_pb2.REWRITE_FLATTEN  # 1
+    REWRITE_ANONYMIZATION = public_options_pb2.REWRITE_ANONYMIZATION  # 2
+    REWRITE_PROTO_MAP_FNS = public_options_pb2.REWRITE_PROTO_MAP_FNS  # 3
+    REWRITE_ARRAY_FILTER_TRANSFORM = public_options_pb2.REWRITE_ARRAY_FILTER_TRANSFORM  # 4
+    REWRITE_UNPIVOT = public_options_pb2.REWRITE_UNPIVOT  # 5
+    REWRITE_PIVOT = public_options_pb2.REWRITE_PIVOT  # 6
+    REWRITE_ARRAY_INCLUDES = public_options_pb2.REWRITE_ARRAY_INCLUDES  # 7
+    REWRITE_TYPEOF_FUNCTION = public_options_pb2.REWRITE_TYPEOF_FUNCTION  # 8
+    REWRITE_WITH_EXPR = public_options_pb2.REWRITE_WITH_EXPR  # 9
+    REWRITE_INLINE_SQL_FUNCTIONS = public_options_pb2.REWRITE_INLINE_SQL_FUNCTIONS  # 10
+    REWRITE_INLINE_SQL_TVFS = public_options_pb2.REWRITE_INLINE_SQL_TVFS  # 11
+    REWRITE_NULLIFERROR_FUNCTION = public_options_pb2.REWRITE_NULLIFERROR_FUNCTION  # 12
+    REWRITE_LIKE_ANY_ALL = public_options_pb2.REWRITE_LIKE_ANY_ALL  # 14
+    REWRITE_BUILTIN_FUNCTION_INLINER = public_options_pb2.REWRITE_BUILTIN_FUNCTION_INLINER  # 16
+    REWRITE_INLINE_SQL_VIEWS = public_options_pb2.REWRITE_INLINE_SQL_VIEWS  # 17
+    REWRITE_INLINE_SQL_UDAS = public_options_pb2.REWRITE_INLINE_SQL_UDAS  # 22
+    REWRITE_GROUPING_SET = public_options_pb2.REWRITE_GROUPING_SET  # 23
+    REWRITE_INSERT_DML_VALUES = public_options_pb2.REWRITE_INSERT_DML_VALUES  # 24
+    REWRITE_MULTIWAY_UNNEST = public_options_pb2.REWRITE_MULTIWAY_UNNEST  # 25
+    REWRITE_AGGREGATION_THRESHOLD = public_options_pb2.REWRITE_AGGREGATION_THRESHOLD  # 26
+    REWRITE_PIPE_ASSERT = public_options_pb2.REWRITE_PIPE_ASSERT  # 27
+    REWRITE_ORDER_BY_AND_LIMIT_IN_AGGREGATE = public_options_pb2.REWRITE_ORDER_BY_AND_LIMIT_IN_AGGREGATE  # 28
+    REWRITE_PIPE_IF = public_options_pb2.REWRITE_PIPE_IF  # 29
+    REWRITE_GENERALIZED_QUERY_STMT = public_options_pb2.REWRITE_GENERALIZED_QUERY_STMT  # 31
+    REWRITE_IS_FIRST_IS_LAST_FUNCTION = public_options_pb2.REWRITE_IS_FIRST_IS_LAST_FUNCTION  # 32
+    REWRITE_MEASURE_TYPE = public_options_pb2.REWRITE_MEASURE_TYPE  # 34
+    REWRITE_APPLY_ENABLED_REWRITES_TO_TEMPLATED_FUNCTION_CALLS = public_options_pb2.REWRITE_APPLY_ENABLED_REWRITES_TO_TEMPLATED_FUNCTION_CALLS  # 35
+    REWRITE_UPDATE_CONSTRUCTOR = public_options_pb2.REWRITE_UPDATE_CONSTRUCTOR  # 36
+    REWRITE_MATCH_RECOGNIZE_FUNCTION = public_options_pb2.REWRITE_MATCH_RECOGNIZE_FUNCTION  # 37
+    REWRITE_PIPE_DESCRIBE = public_options_pb2.REWRITE_PIPE_DESCRIBE  # 38
+    REWRITE_SUBPIPELINE_STMT = public_options_pb2.REWRITE_SUBPIPELINE_STMT  # 39
+    REWRITE_ROW_TYPE = public_options_pb2.REWRITE_ROW_TYPE  # 40
+    REWRITE_VARIADIC_FUNCTION_SIGNATURE_EXPANDER = public_options_pb2.REWRITE_VARIADIC_FUNCTION_SIGNATURE_EXPANDER  # 41
+    REWRITE_TEST_DEFAULT_DISABLED = public_options_pb2.REWRITE_TEST_DEFAULT_DISABLED  # 999991
+    REWRITE_TEST_DEFAULT_ENABLED = public_options_pb2.REWRITE_TEST_DEFAULT_ENABLED  # 999992
+    REWRITE_TEST_DEFAULT_DISABLED_AND_IN_DEVELOPMENT = public_options_pb2.REWRITE_TEST_DEFAULT_DISABLED_AND_IN_DEVELOPMENT  # 999993
+    REWRITE_TEST_DEFAULT_ENABLED_AND_IN_DEVELOPMENT = public_options_pb2.REWRITE_TEST_DEFAULT_ENABLED_AND_IN_DEVELOPMENT  # 999994
+
+
+class ResolvedNodeKind(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf ResolvedNodeKind.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    __ResolvedNodeKind__switch_must_have_default__ = resolved_ast_resolved_node_kind_pb2.__ResolvedNodeKind__switch_must_have_default__  # -1
+    RESOLVED_LITERAL = resolved_ast_resolved_node_kind_pb2.RESOLVED_LITERAL  # 3
+    RESOLVED_PARAMETER = resolved_ast_resolved_node_kind_pb2.RESOLVED_PARAMETER  # 4
+    RESOLVED_EXPRESSION_COLUMN = resolved_ast_resolved_node_kind_pb2.RESOLVED_EXPRESSION_COLUMN  # 5
+    RESOLVED_COLUMN_REF = resolved_ast_resolved_node_kind_pb2.RESOLVED_COLUMN_REF  # 6
+    RESOLVED_FUNCTION_CALL = resolved_ast_resolved_node_kind_pb2.RESOLVED_FUNCTION_CALL  # 8
+    RESOLVED_AGGREGATE_FUNCTION_CALL = resolved_ast_resolved_node_kind_pb2.RESOLVED_AGGREGATE_FUNCTION_CALL  # 9
+    RESOLVED_ANALYTIC_FUNCTION_CALL = resolved_ast_resolved_node_kind_pb2.RESOLVED_ANALYTIC_FUNCTION_CALL  # 10
+    RESOLVED_CAST = resolved_ast_resolved_node_kind_pb2.RESOLVED_CAST  # 11
+    RESOLVED_MAKE_STRUCT = resolved_ast_resolved_node_kind_pb2.RESOLVED_MAKE_STRUCT  # 12
+    RESOLVED_MAKE_PROTO = resolved_ast_resolved_node_kind_pb2.RESOLVED_MAKE_PROTO  # 13
+    RESOLVED_MAKE_PROTO_FIELD = resolved_ast_resolved_node_kind_pb2.RESOLVED_MAKE_PROTO_FIELD  # 14
+    RESOLVED_GET_STRUCT_FIELD = resolved_ast_resolved_node_kind_pb2.RESOLVED_GET_STRUCT_FIELD  # 15
+    RESOLVED_GET_PROTO_FIELD = resolved_ast_resolved_node_kind_pb2.RESOLVED_GET_PROTO_FIELD  # 16
+    RESOLVED_SUBQUERY_EXPR = resolved_ast_resolved_node_kind_pb2.RESOLVED_SUBQUERY_EXPR  # 17
+    RESOLVED_SINGLE_ROW_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_SINGLE_ROW_SCAN  # 19
+    RESOLVED_TABLE_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_TABLE_SCAN  # 20
+    RESOLVED_JOIN_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_JOIN_SCAN  # 21
+    RESOLVED_ARRAY_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_ARRAY_SCAN  # 22
+    RESOLVED_COLUMN_HOLDER = resolved_ast_resolved_node_kind_pb2.RESOLVED_COLUMN_HOLDER  # 23
+    RESOLVED_FILTER_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_FILTER_SCAN  # 24
+    RESOLVED_AGGREGATE_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_AGGREGATE_SCAN  # 25
+    RESOLVED_SET_OPERATION_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_SET_OPERATION_SCAN  # 26
+    RESOLVED_ORDER_BY_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_ORDER_BY_SCAN  # 27
+    RESOLVED_LIMIT_OFFSET_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_LIMIT_OFFSET_SCAN  # 28
+    RESOLVED_WITH_REF_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_WITH_REF_SCAN  # 29
+    RESOLVED_ANALYTIC_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_ANALYTIC_SCAN  # 30
+    RESOLVED_SAMPLE_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_SAMPLE_SCAN  # 31
+    RESOLVED_COMPUTED_COLUMN = resolved_ast_resolved_node_kind_pb2.RESOLVED_COMPUTED_COLUMN  # 32
+    RESOLVED_ORDER_BY_ITEM = resolved_ast_resolved_node_kind_pb2.RESOLVED_ORDER_BY_ITEM  # 33
+    RESOLVED_OUTPUT_COLUMN = resolved_ast_resolved_node_kind_pb2.RESOLVED_OUTPUT_COLUMN  # 34
+    RESOLVED_PROJECT_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_PROJECT_SCAN  # 35
+    RESOLVED_EXPLAIN_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_EXPLAIN_STMT  # 37
+    RESOLVED_QUERY_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_QUERY_STMT  # 38
+    RESOLVED_CREATE_TABLE_AS_SELECT_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_TABLE_AS_SELECT_STMT  # 40
+    RESOLVED_CREATE_VIEW_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_VIEW_STMT  # 41
+    RESOLVED_CREATE_EXTERNAL_TABLE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_EXTERNAL_TABLE_STMT  # 42
+    RESOLVED_EXPORT_DATA_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_EXPORT_DATA_STMT  # 43
+    RESOLVED_DEFINE_TABLE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_DEFINE_TABLE_STMT  # 44
+    RESOLVED_DESCRIBE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_DESCRIBE_STMT  # 45
+    RESOLVED_SHOW_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_SHOW_STMT  # 46
+    RESOLVED_BEGIN_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_BEGIN_STMT  # 47
+    RESOLVED_COMMIT_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_COMMIT_STMT  # 48
+    RESOLVED_ROLLBACK_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ROLLBACK_STMT  # 49
+    RESOLVED_DROP_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_DROP_STMT  # 50
+    RESOLVED_WITH_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_WITH_SCAN  # 51
+    RESOLVED_WITH_ENTRY = resolved_ast_resolved_node_kind_pb2.RESOLVED_WITH_ENTRY  # 52
+    RESOLVED_OPTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_OPTION  # 53
+    RESOLVED_WINDOW_PARTITIONING = resolved_ast_resolved_node_kind_pb2.RESOLVED_WINDOW_PARTITIONING  # 54
+    RESOLVED_WINDOW_ORDERING = resolved_ast_resolved_node_kind_pb2.RESOLVED_WINDOW_ORDERING  # 55
+    RESOLVED_WINDOW_FRAME = resolved_ast_resolved_node_kind_pb2.RESOLVED_WINDOW_FRAME  # 56
+    RESOLVED_ANALYTIC_FUNCTION_GROUP = resolved_ast_resolved_node_kind_pb2.RESOLVED_ANALYTIC_FUNCTION_GROUP  # 57
+    RESOLVED_WINDOW_FRAME_EXPR = resolved_ast_resolved_node_kind_pb2.RESOLVED_WINDOW_FRAME_EXPR  # 58
+    RESOLVED_DMLVALUE = resolved_ast_resolved_node_kind_pb2.RESOLVED_DMLVALUE  # 59
+    RESOLVED_DMLDEFAULT = resolved_ast_resolved_node_kind_pb2.RESOLVED_DMLDEFAULT  # 60
+    RESOLVED_ASSERT_ROWS_MODIFIED = resolved_ast_resolved_node_kind_pb2.RESOLVED_ASSERT_ROWS_MODIFIED  # 61
+    RESOLVED_INSERT_ROW = resolved_ast_resolved_node_kind_pb2.RESOLVED_INSERT_ROW  # 62
+    RESOLVED_INSERT_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_INSERT_STMT  # 63
+    RESOLVED_DELETE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_DELETE_STMT  # 64
+    RESOLVED_UPDATE_ITEM = resolved_ast_resolved_node_kind_pb2.RESOLVED_UPDATE_ITEM  # 65
+    RESOLVED_UPDATE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_UPDATE_STMT  # 66
+    RESOLVED_PRIVILEGE = resolved_ast_resolved_node_kind_pb2.RESOLVED_PRIVILEGE  # 67
+    RESOLVED_GRANT_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRANT_STMT  # 69
+    RESOLVED_REVOKE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_REVOKE_STMT  # 70
+    RESOLVED_ALTER_TABLE_SET_OPTIONS_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_TABLE_SET_OPTIONS_STMT  # 71
+    RESOLVED_RENAME_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_RENAME_STMT  # 72
+    RESOLVED_CREATE_ROW_ACCESS_POLICY_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_ROW_ACCESS_POLICY_STMT  # 73
+    RESOLVED_DROP_ROW_ACCESS_POLICY_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_DROP_ROW_ACCESS_POLICY_STMT  # 74
+    RESOLVED_ALTER_ROW_ACCESS_POLICY_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_ROW_ACCESS_POLICY_STMT  # 75
+    RESOLVED_CREATE_FUNCTION_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_FUNCTION_STMT  # 76
+    RESOLVED_ARGUMENT_DEF = resolved_ast_resolved_node_kind_pb2.RESOLVED_ARGUMENT_DEF  # 77
+    RESOLVED_ARGUMENT_REF = resolved_ast_resolved_node_kind_pb2.RESOLVED_ARGUMENT_REF  # 78
+    RESOLVED_ARGUMENT_LIST = resolved_ast_resolved_node_kind_pb2.RESOLVED_ARGUMENT_LIST  # 79
+    RESOLVED_DROP_FUNCTION_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_DROP_FUNCTION_STMT  # 80
+    RESOLVED_TVFSCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_TVFSCAN  # 81
+    RESOLVED_FUNCTION_ARGUMENT = resolved_ast_resolved_node_kind_pb2.RESOLVED_FUNCTION_ARGUMENT  # 82
+    RESOLVED_CALL_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CALL_STMT  # 83
+    RESOLVED_FUNCTION_SIGNATURE_HOLDER = resolved_ast_resolved_node_kind_pb2.RESOLVED_FUNCTION_SIGNATURE_HOLDER  # 84
+    RESOLVED_AGGREGATE_HAVING_MODIFIER = resolved_ast_resolved_node_kind_pb2.RESOLVED_AGGREGATE_HAVING_MODIFIER  # 85
+    RESOLVED_IMPORT_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_IMPORT_STMT  # 86
+    RESOLVED_MODULE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_MODULE_STMT  # 87
+    RESOLVED_CREATE_TABLE_FUNCTION_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_TABLE_FUNCTION_STMT  # 88
+    RESOLVED_RELATION_ARGUMENT_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_RELATION_ARGUMENT_SCAN  # 89
+    RESOLVED_CREATE_TABLE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_TABLE_STMT  # 90
+    RESOLVED_COLUMN_DEFINITION = resolved_ast_resolved_node_kind_pb2.RESOLVED_COLUMN_DEFINITION  # 91
+    RESOLVED_PRIMARY_KEY = resolved_ast_resolved_node_kind_pb2.RESOLVED_PRIMARY_KEY  # 92
+    RESOLVED_GROUPING_SET = resolved_ast_resolved_node_kind_pb2.RESOLVED_GROUPING_SET  # 93
+    RESOLVED_SET_OPERATION_ITEM = resolved_ast_resolved_node_kind_pb2.RESOLVED_SET_OPERATION_ITEM  # 94
+    RESOLVED_CREATE_DATABASE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_DATABASE_STMT  # 95
+    RESOLVED_INDEX_ITEM = resolved_ast_resolved_node_kind_pb2.RESOLVED_INDEX_ITEM  # 96
+    RESOLVED_CREATE_INDEX_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_INDEX_STMT  # 97
+    RESOLVED_ASSERT_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ASSERT_STMT  # 98
+    RESOLVED_CREATE_CONSTANT_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_CONSTANT_STMT  # 99
+    RESOLVED_MERGE_WHEN = resolved_ast_resolved_node_kind_pb2.RESOLVED_MERGE_WHEN  # 100
+    RESOLVED_MERGE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_MERGE_STMT  # 101
+    RESOLVED_UPDATE_ITEM_ELEMENT = resolved_ast_resolved_node_kind_pb2.RESOLVED_UPDATE_ITEM_ELEMENT  # 102
+    RESOLVED_CONSTANT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CONSTANT  # 103
+    RESOLVED_COLUMN_ANNOTATIONS = resolved_ast_resolved_node_kind_pb2.RESOLVED_COLUMN_ANNOTATIONS  # 104
+    RESOLVED_GENERATED_COLUMN_INFO = resolved_ast_resolved_node_kind_pb2.RESOLVED_GENERATED_COLUMN_INFO  # 105
+    RESOLVED_CREATE_MODEL_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_MODEL_STMT  # 107
+    RESOLVED_MODEL = resolved_ast_resolved_node_kind_pb2.RESOLVED_MODEL  # 109
+    RESOLVED_FOREIGN_KEY = resolved_ast_resolved_node_kind_pb2.RESOLVED_FOREIGN_KEY  # 110
+    RESOLVED_ANONYMIZED_AGGREGATE_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_ANONYMIZED_AGGREGATE_SCAN  # 112
+    RESOLVED_CHECK_CONSTRAINT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CHECK_CONSTRAINT  # 113
+    RESOLVED_ALTER_TABLE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_TABLE_STMT  # 115
+    RESOLVED_SET_OPTIONS_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_SET_OPTIONS_ACTION  # 117
+    RESOLVED_ALTER_VIEW_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_VIEW_STMT  # 118
+    RESOLVED_CREATE_MATERIALIZED_VIEW_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_MATERIALIZED_VIEW_STMT  # 119
+    RESOLVED_SET_TRANSACTION_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_SET_TRANSACTION_STMT  # 120
+    RESOLVED_DROP_MATERIALIZED_VIEW_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_DROP_MATERIALIZED_VIEW_STMT  # 121
+    RESOLVED_START_BATCH_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_START_BATCH_STMT  # 122
+    RESOLVED_RUN_BATCH_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_RUN_BATCH_STMT  # 123
+    RESOLVED_ABORT_BATCH_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ABORT_BATCH_STMT  # 124
+    RESOLVED_CREATE_PROCEDURE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_PROCEDURE_STMT  # 125
+    RESOLVED_UNNEST_ITEM = resolved_ast_resolved_node_kind_pb2.RESOLVED_UNNEST_ITEM  # 126
+    RESOLVED_ALTER_MATERIALIZED_VIEW_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_MATERIALIZED_VIEW_STMT  # 127
+    RESOLVED_REPLACE_FIELD_ITEM = resolved_ast_resolved_node_kind_pb2.RESOLVED_REPLACE_FIELD_ITEM  # 128
+    RESOLVED_REPLACE_FIELD = resolved_ast_resolved_node_kind_pb2.RESOLVED_REPLACE_FIELD  # 129
+    RESOLVED_GET_PROTO_ONEOF = resolved_ast_resolved_node_kind_pb2.RESOLVED_GET_PROTO_ONEOF  # 130
+    RESOLVED_ADD_COLUMN_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_ADD_COLUMN_ACTION  # 131
+    RESOLVED_DROP_COLUMN_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_DROP_COLUMN_ACTION  # 132
+    RESOLVED_TRUNCATE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_TRUNCATE_STMT  # 133
+    RESOLVED_ALTER_DATABASE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_DATABASE_STMT  # 134
+    RESOLVED_GRANT_TO_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRANT_TO_ACTION  # 135
+    RESOLVED_FILTER_USING_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_FILTER_USING_ACTION  # 136
+    RESOLVED_REVOKE_FROM_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_REVOKE_FROM_ACTION  # 137
+    RESOLVED_RENAME_TO_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_RENAME_TO_ACTION  # 138
+    RESOLVED_SYSTEM_VARIABLE = resolved_ast_resolved_node_kind_pb2.RESOLVED_SYSTEM_VARIABLE  # 139
+    RESOLVED_EXECUTE_IMMEDIATE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_EXECUTE_IMMEDIATE_STMT  # 140
+    RESOLVED_CONNECTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_CONNECTION  # 141
+    RESOLVED_ASSIGNMENT_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ASSIGNMENT_STMT  # 142
+    RESOLVED_EXECUTE_IMMEDIATE_ARGUMENT = resolved_ast_resolved_node_kind_pb2.RESOLVED_EXECUTE_IMMEDIATE_ARGUMENT  # 143
+    RESOLVED_DESCRIPTOR = resolved_ast_resolved_node_kind_pb2.RESOLVED_DESCRIPTOR  # 144
+    RESOLVED_ALTER_ALL_ROW_ACCESS_POLICIES_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_ALL_ROW_ACCESS_POLICIES_STMT  # 145
+    RESOLVED_RECURSIVE_REF_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_RECURSIVE_REF_SCAN  # 147
+    RESOLVED_RECURSIVE_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_RECURSIVE_SCAN  # 148
+    RESOLVED_FLATTEN = resolved_ast_resolved_node_kind_pb2.RESOLVED_FLATTEN  # 149
+    RESOLVED_FLATTENED_ARG = resolved_ast_resolved_node_kind_pb2.RESOLVED_FLATTENED_ARG  # 150
+    RESOLVED_EXTENDED_CAST_ELEMENT = resolved_ast_resolved_node_kind_pb2.RESOLVED_EXTENDED_CAST_ELEMENT  # 151
+    RESOLVED_EXPORT_MODEL_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_EXPORT_MODEL_STMT  # 152
+    RESOLVED_WITH_PARTITION_COLUMNS = resolved_ast_resolved_node_kind_pb2.RESOLVED_WITH_PARTITION_COLUMNS  # 153
+    RESOLVED_CREATE_ENTITY_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_ENTITY_STMT  # 154
+    RESOLVED_ALTER_ENTITY_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_ENTITY_STMT  # 155
+    RESOLVED_SET_AS_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_SET_AS_ACTION  # 156
+    RESOLVED_CREATE_SCHEMA_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_SCHEMA_STMT  # 157
+    RESOLVED_EXTENDED_CAST = resolved_ast_resolved_node_kind_pb2.RESOLVED_EXTENDED_CAST  # 158
+    RESOLVED_INLINE_LAMBDA = resolved_ast_resolved_node_kind_pb2.RESOLVED_INLINE_LAMBDA  # 159
+    RESOLVED_ALTER_SCHEMA_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_SCHEMA_STMT  # 160
+    RESOLVED_PIVOT_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_PIVOT_SCAN  # 161
+    RESOLVED_ADD_CONSTRAINT_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_ADD_CONSTRAINT_ACTION  # 163
+    RESOLVED_DROP_CONSTRAINT_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_DROP_CONSTRAINT_ACTION  # 164
+    RESOLVED_GET_JSON_FIELD = resolved_ast_resolved_node_kind_pb2.RESOLVED_GET_JSON_FIELD  # 165
+    RESOLVED_PIVOT_COLUMN = resolved_ast_resolved_node_kind_pb2.RESOLVED_PIVOT_COLUMN  # 166
+    RESOLVED_ALTER_COLUMN_OPTIONS_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_COLUMN_OPTIONS_ACTION  # 169
+    RESOLVED_RETURNING_CLAUSE = resolved_ast_resolved_node_kind_pb2.RESOLVED_RETURNING_CLAUSE  # 170
+    RESOLVED_UNPIVOT_ARG = resolved_ast_resolved_node_kind_pb2.RESOLVED_UNPIVOT_ARG  # 171
+    RESOLVED_UNPIVOT_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_UNPIVOT_SCAN  # 172
+    RESOLVED_FILTER_FIELD_ARG = resolved_ast_resolved_node_kind_pb2.RESOLVED_FILTER_FIELD_ARG  # 173
+    RESOLVED_FILTER_FIELD = resolved_ast_resolved_node_kind_pb2.RESOLVED_FILTER_FIELD  # 174
+    RESOLVED_DROP_TABLE_FUNCTION_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_DROP_TABLE_FUNCTION_STMT  # 175
+    RESOLVED_GROUP_ROWS_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_GROUP_ROWS_SCAN  # 176
+    RESOLVED_CLONE_DATA_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CLONE_DATA_STMT  # 177
+    RESOLVED_ALTER_COLUMN_DROP_NOT_NULL_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_COLUMN_DROP_NOT_NULL_ACTION  # 178
+    RESOLVED_TABLE_AND_COLUMN_INFO = resolved_ast_resolved_node_kind_pb2.RESOLVED_TABLE_AND_COLUMN_INFO  # 179
+    RESOLVED_ANALYZE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ANALYZE_STMT  # 180
+    RESOLVED_ALTER_COLUMN_SET_DATA_TYPE_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_COLUMN_SET_DATA_TYPE_ACTION  # 181
+    RESOLVED_CREATE_SNAPSHOT_TABLE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_SNAPSHOT_TABLE_STMT  # 182
+    RESOLVED_DROP_SNAPSHOT_TABLE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_DROP_SNAPSHOT_TABLE_STMT  # 183
+    RESOLVED_DROP_PRIMARY_KEY_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_DROP_PRIMARY_KEY_ACTION  # 184
+    RESOLVED_RENAME_COLUMN_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_RENAME_COLUMN_ACTION  # 185
+    RESOLVED_AUX_LOAD_DATA_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_AUX_LOAD_DATA_STMT  # 186
+    RESOLVED_SET_COLLATE_CLAUSE = resolved_ast_resolved_node_kind_pb2.RESOLVED_SET_COLLATE_CLAUSE  # 187
+    RESOLVED_COLUMN_DEFAULT_VALUE = resolved_ast_resolved_node_kind_pb2.RESOLVED_COLUMN_DEFAULT_VALUE  # 188
+    RESOLVED_CREATE_PRIVILEGE_RESTRICTION_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_PRIVILEGE_RESTRICTION_STMT  # 191
+    RESOLVED_DROP_PRIVILEGE_RESTRICTION_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_DROP_PRIVILEGE_RESTRICTION_STMT  # 192
+    RESOLVED_RESTRICT_TO_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_RESTRICT_TO_ACTION  # 193
+    RESOLVED_ADD_TO_RESTRICTEE_LIST_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_ADD_TO_RESTRICTEE_LIST_ACTION  # 194
+    RESOLVED_REMOVE_FROM_RESTRICTEE_LIST_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_REMOVE_FROM_RESTRICTEE_LIST_ACTION  # 195
+    RESOLVED_ALTER_PRIVILEGE_RESTRICTION_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_PRIVILEGE_RESTRICTION_STMT  # 196
+    RESOLVED_WITH_EXPR = resolved_ast_resolved_node_kind_pb2.RESOLVED_WITH_EXPR  # 197
+    RESOLVED_ALTER_COLUMN_SET_DEFAULT_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_COLUMN_SET_DEFAULT_ACTION  # 198
+    RESOLVED_ALTER_COLUMN_DROP_DEFAULT_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_COLUMN_DROP_DEFAULT_ACTION  # 199
+    RESOLVED_OBJECT_UNIT = resolved_ast_resolved_node_kind_pb2.RESOLVED_OBJECT_UNIT  # 200
+    RESOLVED_ALTER_SUB_ENTITY_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_SUB_ENTITY_ACTION  # 202
+    RESOLVED_ADD_SUB_ENTITY_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_ADD_SUB_ENTITY_ACTION  # 203
+    RESOLVED_DROP_SUB_ENTITY_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_DROP_SUB_ENTITY_ACTION  # 204
+    RESOLVED_ALTER_MODEL_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_MODEL_STMT  # 205
+    RESOLVED_CATALOG_COLUMN_REF = resolved_ast_resolved_node_kind_pb2.RESOLVED_CATALOG_COLUMN_REF  # 206
+    RESOLVED_EXECUTE_AS_ROLE_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_EXECUTE_AS_ROLE_SCAN  # 207
+    RESOLVED_GRAPH_TABLE_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_TABLE_SCAN  # 208
+    RESOLVED_GRAPH_NODE_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_NODE_SCAN  # 209
+    RESOLVED_GRAPH_GET_ELEMENT_PROPERTY = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_GET_ELEMENT_PROPERTY  # 210
+    RESOLVED_GRAPH_LABEL_NARY_EXPR = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_LABEL_NARY_EXPR  # 212
+    RESOLVED_GRAPH_LABEL = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_LABEL  # 213
+    RESOLVED_GRAPH_WILD_CARD_LABEL = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_WILD_CARD_LABEL  # 214
+    RESOLVED_GRAPH_EDGE_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_EDGE_SCAN  # 216
+    RESOLVED_GRAPH_ELEMENT_IDENTIFIER = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_ELEMENT_IDENTIFIER  # 217
+    RESOLVED_GRAPH_ELEMENT_PROPERTY = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_ELEMENT_PROPERTY  # 218
+    RESOLVED_GRAPH_MAKE_ELEMENT = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_MAKE_ELEMENT  # 219
+    RESOLVED_GRAPH_PATH_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_PATH_SCAN  # 220
+    RESOLVED_DIFFERENTIAL_PRIVACY_AGGREGATE_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_DIFFERENTIAL_PRIVACY_AGGREGATE_SCAN  # 221
+    RESOLVED_AUX_LOAD_DATA_PARTITION_FILTER = resolved_ast_resolved_node_kind_pb2.RESOLVED_AUX_LOAD_DATA_PARTITION_FILTER  # 222
+    RESOLVED_CREATE_PROPERTY_GRAPH_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_PROPERTY_GRAPH_STMT  # 223
+    RESOLVED_GRAPH_ELEMENT_TABLE = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_ELEMENT_TABLE  # 224
+    RESOLVED_GRAPH_NODE_TABLE_REFERENCE = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_NODE_TABLE_REFERENCE  # 225
+    RESOLVED_CREATE_MODEL_ALIASED_QUERY = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_MODEL_ALIASED_QUERY  # 226
+    RESOLVED_UNDROP_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_UNDROP_STMT  # 227
+    RESOLVED_AGGREGATION_THRESHOLD_AGGREGATE_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_AGGREGATION_THRESHOLD_AGGREGATE_SCAN  # 228
+    RESOLVED_GRAPH_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_SCAN  # 229
+    RESOLVED_GRAPH_ELEMENT_LABEL = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_ELEMENT_LABEL  # 230
+    RESOLVED_GRAPH_PROPERTY_DECLARATION = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_PROPERTY_DECLARATION  # 231
+    RESOLVED_GRAPH_PROPERTY_DEFINITION = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_PROPERTY_DEFINITION  # 232
+    RESOLVED_SEQUENCE = resolved_ast_resolved_node_kind_pb2.RESOLVED_SEQUENCE  # 233
+    RESOLVED_EXPORT_METADATA_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_EXPORT_METADATA_STMT  # 234
+    RESOLVED_CREATE_APPROX_VIEW_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_APPROX_VIEW_STMT  # 235
+    RESOLVED_ALTER_APPROX_VIEW_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_APPROX_VIEW_STMT  # 236
+    RESOLVED_GROUPING_SET_MULTI_COLUMN = resolved_ast_resolved_node_kind_pb2.RESOLVED_GROUPING_SET_MULTI_COLUMN  # 237
+    RESOLVED_ROLLUP = resolved_ast_resolved_node_kind_pb2.RESOLVED_ROLLUP  # 239
+    RESOLVED_CUBE = resolved_ast_resolved_node_kind_pb2.RESOLVED_CUBE  # 240
+    RESOLVED_GROUPING_CALL = resolved_ast_resolved_node_kind_pb2.RESOLVED_GROUPING_CALL  # 241
+    RESOLVED_DROP_INDEX_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_DROP_INDEX_STMT  # 242
+    RESOLVED_ALTER_COLUMN_DROP_GENERATED_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_COLUMN_DROP_GENERATED_ACTION  # 243
+    RESOLVED_IDENTITY_COLUMN_INFO = resolved_ast_resolved_node_kind_pb2.RESOLVED_IDENTITY_COLUMN_INFO  # 244
+    RESOLVED_GRAPH_PATH_PATTERN_QUANTIFIER = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_PATH_PATTERN_QUANTIFIER  # 245
+    RESOLVED_GRAPH_REF_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_REF_SCAN  # 246
+    RESOLVED_GRAPH_LINEAR_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_LINEAR_SCAN  # 247
+    RESOLVED_CREATE_EXTERNAL_SCHEMA_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_EXTERNAL_SCHEMA_STMT  # 249
+    RESOLVED_ALTER_EXTERNAL_SCHEMA_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_EXTERNAL_SCHEMA_STMT  # 250
+    RESOLVED_STATIC_DESCRIBE_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_STATIC_DESCRIBE_SCAN  # 251
+    RESOLVED_ASSERT_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_ASSERT_SCAN  # 252
+    RESOLVED_DEFERRED_COMPUTED_COLUMN = resolved_ast_resolved_node_kind_pb2.RESOLVED_DEFERRED_COMPUTED_COLUMN  # 255
+    RESOLVED_RECURSION_DEPTH_MODIFIER = resolved_ast_resolved_node_kind_pb2.RESOLVED_RECURSION_DEPTH_MODIFIER  # 256
+    RESOLVED_ARRAY_AGGREGATE = resolved_ast_resolved_node_kind_pb2.RESOLVED_ARRAY_AGGREGATE  # 257
+    RESOLVED_GRAPH_MAKE_ARRAY_VARIABLE = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_MAKE_ARRAY_VARIABLE  # 258
+    RESOLVED_GRAPH_PATH_MODE = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_PATH_MODE  # 259
+    RESOLVED_GRAPH_PATH_SEARCH_PREFIX = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_PATH_SEARCH_PREFIX  # 260
+    RESOLVED_BARRIER_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_BARRIER_SCAN  # 261
+    RESOLVED_GRAPH_IS_LABELED_PREDICATE = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_IS_LABELED_PREDICATE  # 262
+    RESOLVED_CREATE_CONNECTION_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_CONNECTION_STMT  # 263
+    RESOLVED_ALTER_CONNECTION_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_CONNECTION_STMT  # 264
+    RESOLVED_MATCH_RECOGNIZE_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_MATCH_RECOGNIZE_SCAN  # 265
+    RESOLVED_MATCH_RECOGNIZE_VARIABLE_DEFINITION = resolved_ast_resolved_node_kind_pb2.RESOLVED_MATCH_RECOGNIZE_VARIABLE_DEFINITION  # 266
+    RESOLVED_MATCH_RECOGNIZE_PATTERN_EMPTY = resolved_ast_resolved_node_kind_pb2.RESOLVED_MATCH_RECOGNIZE_PATTERN_EMPTY  # 268
+    RESOLVED_MATCH_RECOGNIZE_PATTERN_VARIABLE_REF = resolved_ast_resolved_node_kind_pb2.RESOLVED_MATCH_RECOGNIZE_PATTERN_VARIABLE_REF  # 269
+    RESOLVED_MATCH_RECOGNIZE_PATTERN_OPERATION = resolved_ast_resolved_node_kind_pb2.RESOLVED_MATCH_RECOGNIZE_PATTERN_OPERATION  # 270
+    RESOLVED_MATCH_RECOGNIZE_PATTERN_QUANTIFICATION = resolved_ast_resolved_node_kind_pb2.RESOLVED_MATCH_RECOGNIZE_PATTERN_QUANTIFICATION  # 271
+    RESOLVED_LOG_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_LOG_SCAN  # 272
+    RESOLVED_SUBPIPELINE = resolved_ast_resolved_node_kind_pb2.RESOLVED_SUBPIPELINE  # 273
+    RESOLVED_SUBPIPELINE_INPUT_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_SUBPIPELINE_INPUT_SCAN  # 274
+    RESOLVED_LOCK_MODE = resolved_ast_resolved_node_kind_pb2.RESOLVED_LOCK_MODE  # 275
+    RESOLVED_MATCH_RECOGNIZE_PATTERN_ANCHOR = resolved_ast_resolved_node_kind_pb2.RESOLVED_MATCH_RECOGNIZE_PATTERN_ANCHOR  # 276
+    RESOLVED_PIPE_IF_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_PIPE_IF_SCAN  # 277
+    RESOLVED_PIPE_IF_CASE = resolved_ast_resolved_node_kind_pb2.RESOLVED_PIPE_IF_CASE  # 278
+    RESOLVED_OUTPUT_SCHEMA = resolved_ast_resolved_node_kind_pb2.RESOLVED_OUTPUT_SCHEMA  # 279
+    RESOLVED_MEASURE_GROUP = resolved_ast_resolved_node_kind_pb2.RESOLVED_MEASURE_GROUP  # 280
+    RESOLVED_ON_CONFLICT_CLAUSE = resolved_ast_resolved_node_kind_pb2.RESOLVED_ON_CONFLICT_CLAUSE  # 281
+    RESOLVED_GENERALIZED_QUERY_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_GENERALIZED_QUERY_STMT  # 282
+    RESOLVED_PIPE_FORK_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_PIPE_FORK_SCAN  # 283
+    RESOLVED_GENERALIZED_QUERY_SUBPIPELINE = resolved_ast_resolved_node_kind_pb2.RESOLVED_GENERALIZED_QUERY_SUBPIPELINE  # 284
+    RESOLVED_PIPE_EXPORT_DATA_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_PIPE_EXPORT_DATA_SCAN  # 285
+    RESOLVED_PIPE_CREATE_TABLE_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_PIPE_CREATE_TABLE_SCAN  # 286
+    RESOLVED_MULTI_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_MULTI_STMT  # 287
+    RESOLVED_CREATE_WITH_ENTRY_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_WITH_ENTRY_STMT  # 288
+    RESOLVED_PIPE_TEE_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_PIPE_TEE_SCAN  # 289
+    RESOLVED_GRAPH_DYNAMIC_LABEL_SPECIFICATION = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_DYNAMIC_LABEL_SPECIFICATION  # 290
+    RESOLVED_GRAPH_DYNAMIC_PROPERTIES_SPECIFICATION = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_DYNAMIC_PROPERTIES_SPECIFICATION  # 291
+    RESOLVED_ALTER_INDEX_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_INDEX_STMT  # 292
+    RESOLVED_ADD_COLUMN_IDENTIFIER_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_ADD_COLUMN_IDENTIFIER_ACTION  # 293
+    RESOLVED_REBUILD_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_REBUILD_ACTION  # 294
+    RESOLVED_UPDATE_FIELD_ITEM = resolved_ast_resolved_node_kind_pb2.RESOLVED_UPDATE_FIELD_ITEM  # 295
+    RESOLVED_UPDATE_CONSTRUCTOR = resolved_ast_resolved_node_kind_pb2.RESOLVED_UPDATE_CONSTRUCTOR  # 296
+    RESOLVED_PIPE_INSERT_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_PIPE_INSERT_SCAN  # 297
+    RESOLVED_GRAPH_PATH_COST = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_PATH_COST  # 298
+    RESOLVED_GRAPH_CALL_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_GRAPH_CALL_SCAN  # 299
+    RESOLVED_DESCRIBE_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_DESCRIBE_SCAN  # 300
+    RESOLVED_UNSET_ARGUMENT_SCAN = resolved_ast_resolved_node_kind_pb2.RESOLVED_UNSET_ARGUMENT_SCAN  # 301
+    RESOLVED_GROUPING_SET_LIST = resolved_ast_resolved_node_kind_pb2.RESOLVED_GROUPING_SET_LIST  # 302
+    RESOLVED_GROUPING_SET_PRODUCT = resolved_ast_resolved_node_kind_pb2.RESOLVED_GROUPING_SET_PRODUCT  # 303
+    RESOLVED_ALTER_COLUMN_SET_GENERATED_ACTION = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_COLUMN_SET_GENERATED_ACTION  # 304
+    RESOLVED_CREATE_SEQUENCE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_CREATE_SEQUENCE_STMT  # 306
+    RESOLVED_ALTER_SEQUENCE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_ALTER_SEQUENCE_STMT  # 307
+    RESOLVED_SUBPIPELINE_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_SUBPIPELINE_STMT  # 308
+    RESOLVED_STATEMENT_WITH_PIPE_OPERATORS_STMT = resolved_ast_resolved_node_kind_pb2.RESOLVED_STATEMENT_WITH_PIPE_OPERATORS_STMT  # 310
+    RESOLVED_GET_ROW_FIELD = resolved_ast_resolved_node_kind_pb2.RESOLVED_GET_ROW_FIELD  # 314
+
+
+class RoundingMode(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf RoundingMode.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    ROUNDING_MODE_UNSPECIFIED = functions_rounding_mode_pb2.ROUNDING_MODE_UNSPECIFIED  # 0
+    ROUND_HALF_AWAY_FROM_ZERO = functions_rounding_mode_pb2.ROUND_HALF_AWAY_FROM_ZERO  # 1
+    ROUND_HALF_EVEN = functions_rounding_mode_pb2.ROUND_HALF_EVEN  # 2
+
+
+class SchemaObjectKind(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf SchemaObjectKind.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    __SchemaObjectKind__switch_must_have_a_default__ = parser_ast_enums_pb2.__SchemaObjectKind__switch_must_have_a_default__  # -1
+    kInvalidSchemaObjectKind = parser_ast_enums_pb2.kInvalidSchemaObjectKind  # 1
+    kAggregateFunction = parser_ast_enums_pb2.kAggregateFunction  # 2
+    kConstant = parser_ast_enums_pb2.kConstant  # 3
+    kDatabase = parser_ast_enums_pb2.kDatabase  # 4
+    kExternalTable = parser_ast_enums_pb2.kExternalTable  # 5
+    kFunction = parser_ast_enums_pb2.kFunction  # 6
+    kIndex = parser_ast_enums_pb2.kIndex  # 7
+    kMaterializedView = parser_ast_enums_pb2.kMaterializedView  # 8
+    kModel = parser_ast_enums_pb2.kModel  # 9
+    kProcedure = parser_ast_enums_pb2.kProcedure  # 10
+    kSchema = parser_ast_enums_pb2.kSchema  # 11
+    kTable = parser_ast_enums_pb2.kTable  # 12
+    kTableFunction = parser_ast_enums_pb2.kTableFunction  # 13
+    kView = parser_ast_enums_pb2.kView  # 14
+    kSnapshotTable = parser_ast_enums_pb2.kSnapshotTable  # 15
+    kPropertyGraph = parser_ast_enums_pb2.kPropertyGraph  # 16
+    kApproxView = parser_ast_enums_pb2.kApproxView  # 17
+    kExternalSchema = parser_ast_enums_pb2.kExternalSchema  # 18
+    kConnection = parser_ast_enums_pb2.kConnection  # 19
+    kSequence = parser_ast_enums_pb2.kSequence  # 20
+
+
+class SignatureArgumentKind(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf SignatureArgumentKind.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    __SignatureArgumentKind__switch_must_have_a_default__ = public_function_pb2.__SignatureArgumentKind__switch_must_have_a_default__  # -1
+    ARG_TYPE_FIXED = public_function_pb2.ARG_TYPE_FIXED  # 0
+    ARG_TYPE_ANY_1 = public_function_pb2.ARG_TYPE_ANY_1  # 1
+    ARG_TYPE_ANY_2 = public_function_pb2.ARG_TYPE_ANY_2  # 2
+    ARG_ARRAY_TYPE_ANY_1 = public_function_pb2.ARG_ARRAY_TYPE_ANY_1  # 3
+    ARG_ARRAY_TYPE_ANY_2 = public_function_pb2.ARG_ARRAY_TYPE_ANY_2  # 4
+    ARG_PROTO_ANY = public_function_pb2.ARG_PROTO_ANY  # 5
+    ARG_STRUCT_ANY = public_function_pb2.ARG_STRUCT_ANY  # 6
+    ARG_ENUM_ANY = public_function_pb2.ARG_ENUM_ANY  # 7
+    ARG_TYPE_ARBITRARY = public_function_pb2.ARG_TYPE_ARBITRARY  # 8
+    ARG_TYPE_RELATION = public_function_pb2.ARG_TYPE_RELATION  # 9
+    ARG_TYPE_VOID = public_function_pb2.ARG_TYPE_VOID  # 10
+    ARG_TYPE_MODEL = public_function_pb2.ARG_TYPE_MODEL  # 11
+    ARG_TYPE_CONNECTION = public_function_pb2.ARG_TYPE_CONNECTION  # 12
+    ARG_TYPE_DESCRIPTOR = public_function_pb2.ARG_TYPE_DESCRIPTOR  # 13
+    ARG_PROTO_MAP_ANY = public_function_pb2.ARG_PROTO_MAP_ANY  # 14
+    ARG_PROTO_MAP_KEY_ANY = public_function_pb2.ARG_PROTO_MAP_KEY_ANY  # 15
+    ARG_PROTO_MAP_VALUE_ANY = public_function_pb2.ARG_PROTO_MAP_VALUE_ANY  # 16
+    ARG_TYPE_LAMBDA = public_function_pb2.ARG_TYPE_LAMBDA  # 17
+    ARG_RANGE_TYPE_ANY_1 = public_function_pb2.ARG_RANGE_TYPE_ANY_1  # 18
+    ARG_TYPE_GRAPH_NODE = public_function_pb2.ARG_TYPE_GRAPH_NODE  # 19
+    ARG_TYPE_GRAPH_EDGE = public_function_pb2.ARG_TYPE_GRAPH_EDGE  # 20
+    ARG_TYPE_GRAPH_ELEMENT = public_function_pb2.ARG_TYPE_GRAPH_ELEMENT  # 21
+    ARG_TYPE_SEQUENCE = public_function_pb2.ARG_TYPE_SEQUENCE  # 22
+    ARG_TYPE_ANY_3 = public_function_pb2.ARG_TYPE_ANY_3  # 23
+    ARG_ARRAY_TYPE_ANY_3 = public_function_pb2.ARG_ARRAY_TYPE_ANY_3  # 24
+    ARG_TYPE_ANY_4 = public_function_pb2.ARG_TYPE_ANY_4  # 25
+    ARG_ARRAY_TYPE_ANY_4 = public_function_pb2.ARG_ARRAY_TYPE_ANY_4  # 26
+    ARG_TYPE_ANY_5 = public_function_pb2.ARG_TYPE_ANY_5  # 27
+    ARG_ARRAY_TYPE_ANY_5 = public_function_pb2.ARG_ARRAY_TYPE_ANY_5  # 28
+    ARG_MAP_TYPE_ANY_1_2 = public_function_pb2.ARG_MAP_TYPE_ANY_1_2  # 29
+    ARG_TYPE_GRAPH_PATH = public_function_pb2.ARG_TYPE_GRAPH_PATH  # 30
+    ARG_MEASURE_TYPE_ANY_1 = public_function_pb2.ARG_MEASURE_TYPE_ANY_1  # 31
+    ARG_TYPE_GRAPH = public_function_pb2.ARG_TYPE_GRAPH  # 32
+
+
+class StatementContext(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf StatementContext.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    CONTEXT_DEFAULT = public_options_pb2.CONTEXT_DEFAULT  # 0
+    CONTEXT_MODULE = public_options_pb2.CONTEXT_MODULE  # 1
+
+
+class TableType(IntEnum):
+    """
+    Auto-generated IntEnum for protobuf TableType.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    DEFAULT_TABLE_TYPE = proto_wire_format_annotation_pb2.DEFAULT_TABLE_TYPE  # 0
+    SQL_TABLE = proto_wire_format_annotation_pb2.SQL_TABLE  # 1
+    VALUE_TABLE = proto_wire_format_annotation_pb2.VALUE_TABLE  # 2
+
+
+class TypeKind(proto_model_mixins.TypeKindMixin, IntEnum):
+    """
+    Auto-generated IntEnum for protobuf TypeKind.
+    
+    Values are directly compatible with protobuf integer constants.
+    """
+
+    __TypeKind__switch_must_have_a_default__ = public_type_pb2.__TypeKind__switch_must_have_a_default__  # -1
+    TYPE_UNKNOWN = public_type_pb2.TYPE_UNKNOWN  # 0
+    TYPE_INT32 = public_type_pb2.TYPE_INT32  # 1
+    TYPE_INT64 = public_type_pb2.TYPE_INT64  # 2
+    TYPE_UINT32 = public_type_pb2.TYPE_UINT32  # 3
+    TYPE_UINT64 = public_type_pb2.TYPE_UINT64  # 4
+    TYPE_BOOL = public_type_pb2.TYPE_BOOL  # 5
+    TYPE_FLOAT = public_type_pb2.TYPE_FLOAT  # 6
+    TYPE_DOUBLE = public_type_pb2.TYPE_DOUBLE  # 7
+    TYPE_STRING = public_type_pb2.TYPE_STRING  # 8
+    TYPE_BYTES = public_type_pb2.TYPE_BYTES  # 9
+    TYPE_DATE = public_type_pb2.TYPE_DATE  # 10
+    TYPE_ENUM = public_type_pb2.TYPE_ENUM  # 15
+    TYPE_ARRAY = public_type_pb2.TYPE_ARRAY  # 16
+    TYPE_STRUCT = public_type_pb2.TYPE_STRUCT  # 17
+    TYPE_PROTO = public_type_pb2.TYPE_PROTO  # 18
+    TYPE_TIMESTAMP = public_type_pb2.TYPE_TIMESTAMP  # 19
+    TYPE_TIME = public_type_pb2.TYPE_TIME  # 20
+    TYPE_DATETIME = public_type_pb2.TYPE_DATETIME  # 21
+    TYPE_GEOGRAPHY = public_type_pb2.TYPE_GEOGRAPHY  # 22
+    TYPE_NUMERIC = public_type_pb2.TYPE_NUMERIC  # 23
+    TYPE_BIGNUMERIC = public_type_pb2.TYPE_BIGNUMERIC  # 24
+    TYPE_EXTENDED = public_type_pb2.TYPE_EXTENDED  # 25
+    TYPE_JSON = public_type_pb2.TYPE_JSON  # 26
+    TYPE_INTERVAL = public_type_pb2.TYPE_INTERVAL  # 27
+    TYPE_TOKENLIST = public_type_pb2.TYPE_TOKENLIST  # 28
+    TYPE_RANGE = public_type_pb2.TYPE_RANGE  # 29
+    TYPE_GRAPH_ELEMENT = public_type_pb2.TYPE_GRAPH_ELEMENT  # 30
+    TYPE_MAP = public_type_pb2.TYPE_MAP  # 31
+    TYPE_UUID = public_type_pb2.TYPE_UUID  # 32
+    TYPE_GRAPH_PATH = public_type_pb2.TYPE_GRAPH_PATH  # 33
+    TYPE_MEASURE = public_type_pb2.TYPE_MEASURE  # 34
+    TYPE_ROW = public_type_pb2.TYPE_ROW  # 36
+
+
+
+# ============================================================================
+# Proto Model Classes
+# ============================================================================
 
 @dataclass
 class ASTAfterMatchSkipClauseEnums(ProtoModel):
@@ -33158,10 +35481,30 @@ class ASTCreateViewStatement(ASTCreateViewStatementBase):
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
 
-# Export all generated proto model classes
+# Export all generated types
 __all__ = [
     'parse_proto',
     'ProtoModel',
+    'DateTimestampPart',
+    'ErrorMessageMode',
+    'ErrorMessageStability',
+    'FunctionSignatureId',
+    'KnownErrorMode',
+    'LanguageFeature',
+    'LanguageVersion',
+    'NameResolutionMode',
+    'NormalizeMode',
+    'ParameterMode',
+    'ParseLocationRecordType',
+    'ProductMode',
+    'ResolvedASTRewrite',
+    'ResolvedNodeKind',
+    'RoundingMode',
+    'SchemaObjectKind',
+    'SignatureArgumentKind',
+    'StatementContext',
+    'TableType',
+    'TypeKind',
     'ASTAfterMatchSkipClauseEnums',
     'ASTAlterIndexStatementEnums',
     'ASTAnySomeAllOpEnums',

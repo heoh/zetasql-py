@@ -16,8 +16,8 @@ Examples:
     >>> t.type_name()  # 'INT64'
 """
 
-# Import TypeKind enum
-from zetasql.types.type_kind import TypeKind
+# Import other enums from proto_models
+from zetasql.types.proto_models import NameResolutionMode, ProductMode, LanguageFeature
 
 # Import extended Type (overrides generated Type!)
 from zetasql.types.type_extensions import Type as ExtendedType
@@ -35,7 +35,6 @@ Type = ExtendedType
 # Update __all__ to include new exports and override Type
 __all__ = [
     # Type system core
-    'TypeKind',
     'Type',  # Extended version (overrides generated)
     # Base classes
     'ProtoModel',

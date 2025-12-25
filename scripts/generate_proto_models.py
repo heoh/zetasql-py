@@ -16,6 +16,7 @@ import sys
 import importlib.util
 from pathlib import Path
 from typing import Dict, List, Any, Set, Tuple
+from zetasql.types import proto_model_mixins
 import argparse
 
 
@@ -52,27 +53,38 @@ def get_message_classes(module) -> List[Tuple[str, Any]]:
     return classes
 
 
-def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
+def get_enum_types(module) -> List[Tuple[str, Any]]:
+    """Extract all proto enum types from a module"""
+    enums = []
+    for name in dir(module):
+        # Skip private/special attributes
+        if name.startswith('_'):
+            continue
+        
+        obj = getattr(module, name)
+        # Check if it's an enum type wrapper (EnumTypeWrapper with DESCRIPTOR)
+        if (hasattr(obj, 'DESCRIPTOR') and 
+            hasattr(obj.DESCRIPTOR, 'values') and
+            type(obj).__name__ == 'EnumTypeWrapper'):
+            enums.append((name, obj))
+    
+    return enums
+
+
+def extract_inheritance_graph(base_dir: Path) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """
-    Extract complete inheritance graph from all _pb2.py files
+    Extract complete inheritance graph and enums from all _pb2.py files
     
     Returns:
-        Dict mapping message names to their metadata:
-        {
-            'ResolvedLiteralProto': {
-                'parent': 'ResolvedExprProto',
-                'module': 'zetasql.wasi._pb2.zetasql.resolved_ast.resolved_ast_pb2',
-                'class': <class>,
-                'own_fields': [...],
-                'all_fields': [...],  # including inherited
-                'children': [...]
-            }
-        }
+        Tuple of (graph, enums):
+        - graph: Dict mapping message names to their metadata
+        - enums: Dict mapping enum names to their metadata
     """
     print(f"Scanning {base_dir} for _pb2.py files...")
     
-    # Stage 1: Collect all message classes (including nested)
+    # Stage 1: Collect all message classes (including nested) and enums
     all_messages = {}
+    all_enums = {}
     module_cache = {}
     
     def collect_nested_messages(descriptor, parent_cls, parent_name, module_name, parent_proto_path=""):
@@ -131,6 +143,7 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
             module = load_pb2_module(pb2_file, base_dir)
             module_cache[pb2_file] = module
             
+            # Collect message classes
             for name, cls in get_message_classes(module):
                 full_name = name
                 all_messages[full_name] = {
@@ -151,6 +164,20 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
                     name  # Parent proto path (e.g., "ScriptExecutorStateProto")
                 )
                 all_messages.update(nested)
+            
+            # Collect enum types
+            for enum_name, enum_cls in get_enum_types(module):
+                all_enums[enum_name] = {
+                    'name': enum_name,
+                    'class': enum_cls,
+                    'module': module.__name__,
+                    'file': pb2_file,
+                    'values': {}
+                }
+                
+                # Extract enum values from DESCRIPTOR
+                for value in enum_cls.DESCRIPTOR.values:
+                    all_enums[enum_name]['values'][value.name] = value.number
                 
         except Exception as e:
             print(f"  Warning: Failed to load {pb2_file}: {e}")
@@ -300,7 +327,9 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
         if graph[name]['all_fields'] is None:
             compute_depth_and_fields(name, set())
     
-    return graph
+    print(f"\nFound {len(all_enums)} enum types")
+    
+    return graph, all_enums
 
 
 def map_proto_type_to_python(field_info: Dict[str, Any], graph: Dict[str, Any] = None) -> str:
@@ -389,19 +418,17 @@ def get_field_default_value(field_info: Dict[str, Any]) -> str:
     """Get default value for a dataclass field based on proto field type"""
     from google.protobuf import descriptor
     
-    field_type = field_info['type']
-    is_repeated = field_info.get('is_repeated', False)
-    
-    # Repeated fields use default_factory
-    if is_repeated:
+    if field_info.get('is_repeated', False):
         return "field(default_factory=list)"
+    
+    field_type = field_info['type']
     
     # Message types default to None
     if field_type == descriptor.FieldDescriptor.TYPE_MESSAGE:
         return "None"
     
-    # Primitive types - use proto default values
-    type_defaults = {
+    # Primitive types have zero/empty defaults
+    default_map = {
         descriptor.FieldDescriptor.TYPE_STRING: '""',
         descriptor.FieldDescriptor.TYPE_INT64: '0',
         descriptor.FieldDescriptor.TYPE_INT32: '0',
@@ -414,7 +441,40 @@ def get_field_default_value(field_info: Dict[str, Any]) -> str:
         descriptor.FieldDescriptor.TYPE_ENUM: '0',
     }
     
-    return type_defaults.get(field_type, 'None')
+    return default_map.get(field_type, 'None')
+
+
+def generate_enum_class(enum_name: str, enum_info: Dict[str, Any], module_aliases: Dict[str, str]) -> str:
+    """Generate an IntEnum class for a protobuf enum"""
+    lines = []
+    
+    # Get module alias
+    module_path = enum_info['module']
+    module_alias = module_aliases.get(module_path, module_path.split('.')[-1])
+
+    bases = []
+    mixin_name = f'{enum_name}Mixin'
+    if hasattr(proto_model_mixins, mixin_name):
+        bases.append(f'proto_model_mixins.{mixin_name}')
+    bases.append('IntEnum')
+
+    # Class definition
+    lines.append(f"class {enum_name}({', '.join(bases)}):")
+    lines.append(f'    """')
+    lines.append(f'    Auto-generated IntEnum for protobuf {enum_name}.')
+    lines.append(f'    ')
+    lines.append(f'    Values are directly compatible with protobuf integer constants.')
+    lines.append(f'    """')
+    lines.append('')
+    
+    # Sort values by number for consistent ordering
+    sorted_values = sorted(enum_info['values'].items(), key=lambda x: x[1])
+    
+    # Generate enum members
+    for value_name, value_number in sorted_values:
+        lines.append(f"    {value_name} = {module_alias}.{value_name}  # {value_number}")
+    
+    return '\n'.join(lines)
 
 
 def generate_dataclass_fields(info: Dict[str, Any], graph: Dict[str, Any]) -> str:
@@ -589,13 +649,21 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], modul
     # Create indentation string
     indent_str = '    ' * indent
     
-    # Determine parent class
+    # Determine parent class with optional mixin
+    bases = []
+    mixin_name = f'{class_name}Mixin'
+    if hasattr(proto_model_mixins, mixin_name):
+        bases.append(f'proto_model_mixins.{mixin_name}')
+
     if parent_name and parent_name in graph:
         parent_model = parent_name.removesuffix('Proto')
-        class_decl = f"{indent_str}@dataclass\n{indent_str}class {class_name}({parent_model}):"
+        bases.append(parent_model)
     else:
         # Root classes inherit from ProtoModel
-        class_decl = f"{indent_str}@dataclass\n{indent_str}class {class_name}(ProtoModel):"
+        bases.append("ProtoModel")
+    
+    bases_str = ", ".join(bases)
+    class_decl = f"{indent_str}@dataclass\n{indent_str}class {class_name}({bases_str}):"
     
     # Generate docstring
     docstring = f'{indent_str}    """Generated model for {proto_name}"""'
@@ -655,8 +723,8 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], modul
     return '\n'.join(parts)
 
 
-def generate_model_file(graph: Dict[str, Any], output_path: Path) -> None:
-    """Generate complete proto models Python file"""
+def generate_model_file(graph: Dict[str, Any], enums: Dict[str, Any], output_path: Path) -> None:
+    """Generate complete proto models Python file with enum types"""
     print(f"\nGenerating proto models file: {output_path}")
     
     # Sort by depth (parents first)
@@ -677,6 +745,11 @@ def generate_model_file(graph: Dict[str, Any], output_path: Path) -> None:
         for field in info.get('all_fields', []):
             if field.get('is_external') and field.get('external_module'):
                 external_modules.add(field['external_module'])
+    
+    # Also collect enum modules
+    for enum_name, enum_info in enums.items():
+        module_name = enum_info['module']
+        proto_types_by_module[module_name].add(enum_name)
     
     # Generate header
     lines = [
@@ -749,11 +822,18 @@ def generate_model_file(graph: Dict[str, Any], output_path: Path) -> None:
     
     lines.extend(['', ''])
     
+    # Import IntEnum for enum types
+    lines.extend([
+        '# Import IntEnum for enum types',
+        'from enum import IntEnum',
+        '',
+    ])
+    
     # Import ProtoModel and parse_proto from proto_model
     lines.extend([
         '# Import utilities for proto model functionality',
         'from zetasql.types.proto_model import ProtoModel, parse_proto',
-        '',
+        'from zetasql.types import proto_model_mixins',
         '',
     ])
     
@@ -791,6 +871,29 @@ def generate_model_file(graph: Dict[str, Any], output_path: Path) -> None:
         
         return '\n'.join(lines)
     
+    # Generate enum types first (before classes, so they can be referenced)
+    enum_names = []
+    if enums:
+        lines.append('# ============================================================================')
+        lines.append('# Enum Types')
+        lines.append('# ============================================================================')
+        lines.append('')
+        
+        for enum_name in sorted(enums.keys()):
+            enum_info = enums[enum_name]
+            enum_code = generate_enum_class(enum_name, enum_info, module_aliases)
+            lines.append(enum_code)
+            lines.append('\n')
+            enum_names.append(enum_name)
+        
+        print(f"Generated {len(enum_names)} enum types")
+        
+        lines.append('')
+        lines.append('# ============================================================================')
+        lines.append('# Proto Model Classes')
+        lines.append('# ============================================================================')
+        lines.append('')
+    
     # Generate all top-level classes with their nested trees
     class_count = 0
     class_names = []
@@ -805,9 +908,9 @@ def generate_model_file(graph: Dict[str, Any], output_path: Path) -> None:
         if name in children_map:
             class_count += len(children_map[name])
     
-    # Generate __all__ for proper exports
-    export_names = ['parse_proto', 'ProtoModel'] + class_names
-    lines.append('# Export all generated proto model classes')
+    # Generate __all__ for proper exports (enums + classes)
+    export_names = ['parse_proto', 'ProtoModel'] + enum_names + class_names
+    lines.append('# Export all generated types')
     lines.append('__all__ = [')
     for name in export_names:
         lines.append(f"    '{name}',")
@@ -816,10 +919,11 @@ def generate_model_file(graph: Dict[str, Any], output_path: Path) -> None:
     
     # Write file
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text('\n'.join(lines))
+    output_content = '\n'.join(lines)
+    output_path.write_text(output_content)
     
-    print(f"Generated {class_count} wrapper classes")
-    print(f"Wrote {len('\n'.join(lines))} characters to {output_path}")
+    print(f"Generated {class_count} wrapper classes and {len(enum_names)} enum types")
+    print(f"Wrote {len(output_content)} characters to {output_path}")
 
 
 def main():
@@ -847,11 +951,11 @@ def main():
     print("ZetaSQL Python Proto Model Generator")
     print("=" * 70)
     
-    # Extract inheritance graph
-    graph = extract_inheritance_graph(args.base_dir)
+    # Extract inheritance graph and enums
+    graph, enums = extract_inheritance_graph(args.base_dir)
     
     # Generate proto models file
-    generate_model_file(graph, args.output)
+    generate_model_file(graph, enums, args.output)
     
     print("\n" + "=" * 70)
     print("Generation complete!")
@@ -859,6 +963,7 @@ def main():
     print(f"\nGenerated file: {args.output}")
     print("\nYou can now use:")
     print("  from zetasql.types import ResolvedLiteral, ASTNode, AnalyzeRequest")
+    print("  from zetasql.types import TypeKind, NameResolutionMode, ProductMode")
 
 
 if __name__ == '__main__':

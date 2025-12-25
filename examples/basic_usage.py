@@ -8,26 +8,24 @@ Simple examples demonstrating common ZetaSQL operations.
 
 from zetasql.local_service import ZetaSqlLocalService
 from zetasql.resolved_ast_wrapper import ResolvedQueryStmt
-from zetasql.types import proto_models
-from zetasql.types.type_kind import TypeKind
+from zetasql.types import proto_models, TypeKind, NameResolutionMode, ProductMode, LanguageFeature
 from zetasql.builders import TableBuilder, CatalogBuilder
-from zetasql.wasi._pb2.zetasql.public import options_pb2 as public_options_pb2
 
 
 def create_analyzer_options():
     """Create analyzer options with all language features enabled."""
     # Create language options
     language_options = proto_models.LanguageOptions()
-    language_options.name_resolution_mode = public_options_pb2.NAME_RESOLUTION_DEFAULT
-    language_options.product_mode = public_options_pb2.PRODUCT_INTERNAL
+    language_options.name_resolution_mode = NameResolutionMode.NAME_RESOLUTION_DEFAULT
+    language_options.product_mode = ProductMode.PRODUCT_INTERNAL
     
     # Enable all language features
-    for feature in dir(public_options_pb2):
-        if feature.startswith('FEATURE_'):
-            if feature == 'FEATURE_SPANNER_LEGACY_DDL':
+    for feature_name in dir(LanguageFeature):
+        if feature_name.startswith('FEATURE_'):
+            if feature_name == 'FEATURE_SPANNER_LEGACY_DDL':
                 continue
             try:
-                feature_value = getattr(public_options_pb2, feature)
+                feature_value = getattr(LanguageFeature, feature_name)
                 if isinstance(feature_value, int) and feature_value > 0:
                     language_options.enabled_language_features.append(feature_value)
             except:
