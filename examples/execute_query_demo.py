@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Execute Query Demo - LocalService and Wrapper Usage Examples
+Execute Query Demo - LocalService and ProtoModel Usage Examples
 
-This demo showcases the main capabilities of ZetaSQL's LocalService API and Wrapper classes
+This demo showcases the main capabilities of ZetaSQL's LocalService API and ProtoModel classes
 by implementing functionality similar to the execute_query tool's modes:
 - Parse: Convert SQL to AST (Abstract Syntax Tree)
 - Analyze: Perform semantic analysis with catalog resolution
@@ -11,7 +11,8 @@ by implementing functionality similar to the execute_query tool's modes:
 
 Demonstrates:
 - LocalService API usage (parse, analyze, prepare_query, evaluate_query, build_sql, format_sql)
-- Wrapper class usage for AST traversal (shallow and deep)
+- Concrete ProtoModel classes for type-safe AST traversal
+- Dataclass-based model with from_proto/to_proto conversion
 - Multi-table catalog setup with sample data
 - Query execution with table content
 - Error handling
@@ -20,6 +21,7 @@ Demonstrates:
 import sys
 from zetasql.local_service import ZetaSqlLocalService
 from zetasql.types import (
+    ProtoModel,
     ResolvedTableScan,
     ResolvedJoinScan,
     ResolvedFilterScan,
@@ -31,7 +33,6 @@ from zetasql.types import (
 from zetasql.wasi._pb2.zetasql.proto import simple_catalog_pb2, options_pb2
 from zetasql.wasi._pb2.zetasql.public import type_pb2, options_pb2 as public_options_pb2
 from zetasql.wasi._pb2.zetasql.local_service import local_service_pb2
-from zetasql.types import ProtoModel, parse_proto
 from google.protobuf import text_format
 
 
@@ -302,72 +303,66 @@ def setup_catalog_and_data(service):
     return catalog_id, analyzer_options, catalog, table_content
 
 def print_tree(node, depth=0, max_depth=None, prefix="", visited=None):
-    """Recursively traverse and print AST structure using wrapper types."""
+    """Recursively traverse and print AST structure using ProtoModel dataclasses."""
     if not node:
         return
     if max_depth and depth > max_depth:
         return
     
-    indent = "  " * (depth * 2)
-    wrapper_type = type(node).__name__
-    print(f"{indent}{prefix}{wrapper_type}")
+    indent = "  " * depth
+    model_type = type(node).__name__
+    print(f"{indent}{prefix}{model_type}")
     
-    # Get all public attributes (not starting with _ and not callable)
-    attrs = [attr for attr in dir(node) 
-            if not attr.startswith('_') 
-            and not callable(getattr(node, attr, None))
-            and attr not in ('parse_location_range', 'parenthesized', 'is_quoted', 
-                            'filename', 'start', 'end', 'is_nested', 'is_pivot_input',
-                            'distinct', 'natural', 'join_hint', 'join_type', 'join_location',
-                            'transformation_needed', 'unmatched_join_count', 'contains_comma_join',
-                            'null_handling_modifier', 'is_current_date_time_without_parentheses',
-                            'is_chained_call', 'is_not', 'op', 'and_order_by', 'image')]
-    
-    for attr_name in attrs:
-        attr_value = getattr(node, attr_name)
+    # For ProtoModel dataclasses, get fields from __dataclass_fields__
+    if isinstance(node, ProtoModel) and hasattr(node, '__dataclass_fields__'):
+        from dataclasses import fields
         
-        # Handle None
-        if attr_value is None:
-            continue
-        
-        # Handle lists
-        if isinstance(attr_value, list):
-            if attr_value:
-                print(f"{indent}  └─ {attr_name} [{len(attr_value)} items]")
-                for i, item in enumerate(attr_value):
-                    try:
-                        # Item is already resolved via property
-                        print_tree(item, depth + 1, max_depth, f"[{i}] ", visited)
-                    except:
-                        # Skip non-wrapper items
-                        pass
-        
-        # Handle wrapper objects
-        elif isinstance(attr_value, ProtoModel):
-            # attr_value is already resolved via property
-            print_tree(attr_value, depth + 1, max_depth, f"└─ {attr_name}: ", visited)
-        
-        # Handle other attributes (like id_string)
-        else:
-            print(f"{indent}  └─ {attr_name}: {repr(attr_value)}")
+        for field in fields(node):
+            field_name = field.name
+            field_value = getattr(node, field_name)
+            
+            # Skip None values
+            if field_value is None:
+                continue
+            
+            # Skip empty lists
+            if isinstance(field_value, list) and not field_value:
+                continue
+            
+            # Handle lists
+            if isinstance(field_value, list):
+                print(f"{indent}  └─ {field_name} [{len(field_value)} items]")
+                for i, item in enumerate(field_value):
+                    if isinstance(item, ProtoModel):
+                        print_tree(item, depth + 2, max_depth, f"[{i}] ")
+            
+            # Handle ProtoModel objects
+            elif isinstance(field_value, ProtoModel):
+                print_tree(field_value, depth + 1, max_depth, f"└─ {field_name}: ")
+            
+            # Handle primitive values (str, int, bool, etc.)
+            elif isinstance(field_value, (str, int, float, bool)):
+                # Only show non-default primitive values
+                if field_value not in ("", 0, 0.0, False):
+                    print(f"{indent}  └─ {field_name}: {repr(field_value)}")
 
 
 # ============================================================================
-# Example 1: Parse Mode - Shallow and Deep AST Traversal
+# Example 1: Parse Mode - AST Traversal with ProtoModel
 # ============================================================================
 
 def example_1_parse_mode(service: ZetaSqlLocalService, catalog_id, analyzer_options):
     """
-    Demonstrate parsing SQL to AST with Wrapper-based traversal.
+    Demonstrate parsing SQL to AST with ProtoModel-based traversal.
     
     Shows:
     - LocalService.parse() API usage
-    - AST Wrapper classes (ASTQueryStatement, ASTSelect, etc.)
+    - parse_proto() for converting protobuf responses to ProtoModel dataclasses
+    - AST ProtoModel classes (ASTQueryStatement, ASTSelect, etc.)
     - Using isinstance for type-safe AST navigation
-    - Shallow traversal (depth-limited) for overview
-    - Deep traversal with wrapper properties
+    - Shallow and deep traversal with dataclass fields
     """
-    print_section("Example 1: Parse Mode - AST Traversal with Wrappers")
+    print_section("Example 1: Parse Mode - AST Traversal with ProtoModel")
     
     sql = """
     SELECT 
@@ -386,48 +381,51 @@ def example_1_parse_mode(service: ZetaSqlLocalService, catalog_id, analyzer_opti
     
     # Parse the SQL
     parse_response = service.parse(sql_statement=sql)
-    parse_response = parse_proto(parse_response)
     
-    # Get the parsed statement (wrapped)
+    # parsed_statement is already a ProtoModel (concrete type)
+    # No need for parse_proto() - LocalService handles proto→ProtoModel conversion
     stmt = parse_response.parsed_statement
     
     print(f"Parsed successfully! Statement type: {type(stmt).__name__}")
+    print(f"  (ProtoModel dataclass - no proto manipulation needed)")
     
     # ========== Shallow AST Tree Traversal ==========
-    print_subsection("Shallow AST Wrapper Structure")
+    print_subsection("Shallow AST Structure")
     print("Shallow traversal (max depth = 3) of the AST structure:\n")
     
     print_tree(stmt, max_depth=3)
 
-    # ========== Clean AST Tree Traversal ==========
-    print_subsection("AST Wrapper Structure")
-    print("Clean view of the parsed query structure:\n")
+    # ========== Full AST Tree Traversal ==========
+    print_subsection("Full AST Structure")
+    print("Complete view of the parsed query structure:\n")
     
     print_tree(stmt)
     
-    print(f"\n💡 Clean AST Structure Benefits:")
-    print(f"  • Shows query structure without noise")
-    print(f"  • Wrapper types clearly visible")
-    print(f"  • Easy to understand query composition")
-    print(f"  • Perfect for learning AST navigation")
+    print(f"\n💡 ProtoModel Benefits:")
+    print(f"  • Concrete dataclass fields (not dynamic properties)")
+    print(f"  • Type-safe access with IDE autocompletion")
+    print(f"  • from_proto() creates instances from protobuf")
+    print(f"  • to_proto() converts back to protobuf for service calls")
+    print(f"  • isinstance() checks work naturally")
     
 
 # ============================================================================
-# Example 2: Analyze Mode - Semantic Analysis with Wrappers
+# Example 2: Analyze Mode - Semantic Analysis with ProtoModel
 # ============================================================================
 
 def example_2_analyze_mode(service, catalog_id, analyzer_options):
     """
-    Demonstrate semantic analysis with Wrapper classes.
+    Demonstrate semantic analysis with ProtoModel dataclasses.
     
     Shows:
     - LocalService.analyze() API usage
-    - ResolvedQueryStmt Wrapper for type-safe AST access
-    - Using wrapper classes for clean AST navigation
-    - Traversing scan tree with Wrapper properties
+    - parse_proto() for converting responses to ProtoModel
+    - ResolvedQueryStmt ProtoModel for type-safe AST access
+    - Using dataclass fields for clean AST navigation
+    - Traversing scan tree with concrete model instances
     - Extracting semantic information (tables, columns, joins, filters)
     """
-    print_section("Example 2: Analyze Mode - Semantic Analysis with Wrappers")
+    print_section("Example 2: Analyze Mode - Semantic Analysis with ProtoModel")
     
     sql = """
     SELECT 
@@ -451,23 +449,23 @@ def example_2_analyze_mode(service, catalog_id, analyzer_options):
         registered_catalog_id=catalog_id,
         options=analyzer_options
     )
-    analyze_response = parse_proto(analyze_response)
     
-    # Wrap in ResolvedQueryStmt for type-safe access
+    # resolved_statement is already a concrete ProtoModel (e.g., ResolvedQueryStmt)
+    # LocalService automatically handles union type resolution
     resolved_stmt = analyze_response.resolved_statement
 
-    print_subsection("Using Wrapper Classes for Clean Access")
-    print("Resolved AST analysis with high-level Wrapper API:\n")
+    print_subsection("Using ProtoModel Dataclasses for Clean Access")
+    print("Resolved AST analysis with concrete dataclass fields:\n")
     
     # Show output columns
     print(f"📊 Output Columns ({len(resolved_stmt.output_column_list)}):")
     for col in resolved_stmt.output_column_list:
         col_info = f"  • {col.name}"
-        if hasattr(col, 'column') and col.column:
+        if col.column:
             col_info += f" (table: {col.column.table_name}, id: {col.column.column_id})"
         print(col_info)
     
-    print(f"\n🌳 Scan Tree Traversal (using Wrapper properties):\n")
+    print(f"\n🌳 Scan Tree Traversal (using ProtoModel dataclass fields):\n")
     
     # Track what we find
     info = {
@@ -478,75 +476,73 @@ def example_2_analyze_mode(service, catalog_id, analyzer_options):
         'has_limit': False,
     }
     
-    def traverse_scan_with_wrapper(scan, depth=0, max_depth=10):
-        """Traverse scan tree using Wrapper classes and isinstance."""
+    def traverse_scan_with_model(scan, depth=0, max_depth=10):
+        """Traverse scan tree using ProtoModel dataclasses and isinstance."""
         if depth > max_depth or not scan:
             return
         
         indent = "   " * depth
         
-        # Union types auto-resolved by from_proto in properties
-        # scan is already the concrete type (e.g., ResolvedTableScan)
+        # scan is a concrete ProtoModel dataclass instance
         scan_type = type(scan).__name__
         
         print(f"{indent}└─ {scan_type}")
         info['scans'].append(scan_type)
         
-        # Check scan type using isinstance (more pythonic and type-safe)
+        # Check scan type using isinstance (type-safe)
         if isinstance(scan, ResolvedTableScan):
-            if hasattr(scan, 'table') and scan.table:
+            if scan.table:
                 table_name = scan.table.name if hasattr(scan.table, 'name') else 'Unknown'
                 info['tables'].add(table_name)
                 print(f"{indent}   📊 Table: {table_name}")
-                if hasattr(scan, 'column_list'):
+                if scan.column_list:
                     print(f"{indent}   📑 Columns accessed: {len(scan.column_list)}")
         
         elif isinstance(scan, ResolvedJoinScan):
             info['has_join'] = True
-            if hasattr(scan, 'join_type'):
-                print(f"{indent}   🔗 Join type: {scan.join_type}")
-            if hasattr(scan, 'join_expr') and scan.join_expr:
+            print(f"{indent}   🔗 Join type: {scan.join_type}")
+            if scan.join_expr:
                 print(f"{indent}   ✅ Has join condition")
         
         elif isinstance(scan, ResolvedFilterScan):
             info['has_filter'] = True
-            if hasattr(scan, 'filter_expr') and scan.filter_expr:
+            if scan.filter_expr:
                 print(f"{indent}   🔍 Has filter expression")
         
         elif isinstance(scan, ResolvedProjectScan):
-            if hasattr(scan, 'expr_list'):
+            if scan.expr_list:
                 print(f"{indent}   🎯 Expressions: {len(scan.expr_list)}")
         
         elif isinstance(scan, ResolvedAggregateScan):
-            if hasattr(scan, 'aggregate_list'):
+            if scan.aggregate_list:
                 print(f"{indent}   📊 Aggregates: {len(scan.aggregate_list)}")
-            if hasattr(scan, 'group_by_list'):
+            if scan.group_by_list:
                 print(f"{indent}   📁 Group by: {len(scan.group_by_list)} columns")
         
         elif isinstance(scan, ResolvedOrderByScan):
-            if hasattr(scan, 'order_by_item_list'):
+            if scan.order_by_item_list:
                 print(f"{indent}   🔽 Order by: {len(scan.order_by_item_list)} items")
         
         elif isinstance(scan, ResolvedLimitOffsetScan):
             info['has_limit'] = True
-            if hasattr(scan, 'limit') and scan.limit:
+            if scan.limit:
                 print(f"{indent}   🚫 Has LIMIT clause")
         
-        # Navigate to input scan using Wrapper property (not proto access)
+        # Navigate to input scan using dataclass field
         if hasattr(scan, 'input_scan') and scan.input_scan:
-            traverse_scan_with_wrapper(scan.input_scan, depth + 1, max_depth)
+            traverse_scan_with_model(scan.input_scan, depth + 1, max_depth)
         
         # For JoinScan, also traverse left and right
         if isinstance(scan, ResolvedJoinScan):
-            if hasattr(scan, 'left_scan') and scan.left_scan:
+            if scan.left_scan:
                 print(f"{indent}   │  Left side:")
-                traverse_scan_with_wrapper(scan.left_scan, depth + 1, max_depth)
-            if hasattr(scan, 'right_scan') and scan.right_scan:
+                traverse_scan_with_model(scan.left_scan, depth + 1, max_depth)
+            if scan.right_scan:
                 print(f"{indent}   │  Right side:")
-                traverse_scan_with_wrapper(scan.right_scan, depth + 1, max_depth)
+                traverse_scan_with_model(scan.right_scan, depth + 1, max_depth)
     
     # Start traversal from query root
-    traverse_scan_with_wrapper(resolved_stmt.query)
+    traverse_scan_with_model(resolved_stmt.query)
     
     # Print summary
     print_subsection("Analysis Summary")
@@ -558,11 +554,12 @@ def example_2_analyze_mode(service, catalog_id, analyzer_options):
     print(f"  • Has LIMIT: {'Yes' if info['has_limit'] else 'No'}")
     print(f"  • Output columns: {len(resolved_stmt.output_column_list)}")
     
-    print(f"\n💡 Benefits of using Wrappers:")
-    print(f"  • Type-safe access: isinstance(scan, ResolvedTableScan) for clear type checking")
-    print(f"  • Clean abstraction: from_proto() handles union types automatically")
-    print(f"  • Property access: scan.input_scan instead of proto field navigation")
-    print(f"  • IDE support: Full autocompletion and type hints for Wrapper classes")
+    print(f"\n💡 Benefits of ProtoModel dataclasses:")
+    print(f"  • Type-safe: isinstance(scan, ResolvedTableScan) for clear type checking")
+    print(f"  • Concrete: Direct field access (scan.input_scan, scan.table)")
+    print(f"  • Automatic: from_proto() handles union types and nested models")
+    print(f"  • IDE-friendly: Full autocompletion and type hints")
+    print(f"  • Bidirectional: to_proto() converts back for service calls")
 
 
 # ============================================================================
@@ -625,14 +622,18 @@ def example_3_execute_mode(service, catalog_id, analyzer_options, simple_catalog
     for row in evaluate_response.content.table_data.row:
         row_data = []
         for cell in row.cell:
-            # Check which field is set (cell is a ValueProto)
-            if cell.HasField('string_value'):
+            # cell is a ProtoModel - to check which oneof field is set,
+            # we can check the underlying proto or use field values
+            # Convert back to proto to use HasField for oneof checking
+            cell_proto = cell.to_proto()
+            
+            if cell_proto.HasField('string_value'):
                 row_data.append(cell.string_value)
-            elif cell.HasField('int64_value'):
+            elif cell_proto.HasField('int64_value'):
                 row_data.append(cell.int64_value)
-            elif cell.HasField('double_value'):
+            elif cell_proto.HasField('double_value'):
                 row_data.append(f"{cell.double_value:.2f}")
-            elif cell.HasField('bool_value'):
+            elif cell_proto.HasField('bool_value'):
                 row_data.append(cell.bool_value)
             else:
                 # No field set means NULL
@@ -776,7 +777,7 @@ def main():
 ╔════════════════════════════════════════════════════════════════════════════╗
 ║                                                                            ║
 ║                    Execute Query Demo - LocalService                       ║
-║                       and Wrapper Usage Examples                           ║
+║                      and ProtoModel Usage Examples                         ║
 ║                                                                            ║
 ║  This demo showcases ZetaSQL's capabilities through execute_query-style   ║
 ║  modes: Parse, Analyze, Execute, and Unanalyze                            ║
@@ -806,13 +807,14 @@ def main():
 All examples executed successfully!
 
 Key Takeaways:
-1. LocalService provides parse(), analyze(), prepare_query(), evaluate_query(), 
-   build_sql(), and format_sql() methods
-2. Wrapper classes enable type-safe AST traversal
-3. Multi-table catalogs with sample data support complex queries
-4. Query execution returns structured results ready for formatting
-5. Error handling catches catalog and type errors
-6. ResolvedAST can be converted back to clean SQL
+1. LocalService automatically returns ProtoModel instances - no proto manipulation needed
+2. ProtoModel provides concrete dataclass fields with full type safety
+3. Access AST nodes directly: stmt.query.query_expr.select_list
+4. Use isinstance() for type checking: isinstance(scan, ResolvedTableScan)
+5. Multi-table catalogs with sample data support complex queries
+6. Query execution returns ProtoModel results ready for inspection
+7. to_proto() available when you need to pass data back to service calls
+8. Error handling catches catalog and type errors naturally
 
 For more examples, see basic_usage.py
 For documentation, see EXECUTE_QUERY_DEMO.md
