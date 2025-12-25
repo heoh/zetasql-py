@@ -75,13 +75,20 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
     all_messages = {}
     module_cache = {}
     
-    def collect_nested_messages(descriptor, parent_cls, parent_name, module_name):
+    def collect_nested_messages(descriptor, parent_cls, parent_name, module_name, parent_proto_path=""):
         """Recursively collect nested message types"""
         nested_messages = {}
         for nested_type in descriptor.nested_types:
             # Nested wrapper class name: ParentName + NestedName (without 'Proto' suffix)
             nested_model_name = parent_name + nested_type.name.removesuffix('Proto')
-            nested_proto_full_path = f"{parent_cls.__name__}.{nested_type.name}"
+            
+            # Build full proto path for nested types
+            # parent_proto_path: "ScriptExecutorStateProto" or "ScriptExecutorStateProto.StackFrame"
+            # nested_type.name: "StackFrame" or "Parameters"
+            if parent_proto_path:
+                nested_proto_full_path = f"{parent_proto_path}.{nested_type.name}"
+            else:
+                nested_proto_full_path = f"{parent_cls.__name__}.{nested_type.name}"
             
             # Get the nested class from parent
             nested_cls = getattr(parent_cls, nested_type.name)
@@ -97,7 +104,14 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
             }
             
             # Recursively collect nested messages within this nested message
-            sub_nested = collect_nested_messages(nested_type, nested_cls, nested_model_name, module_name)
+            # Pass the full path so far
+            sub_nested = collect_nested_messages(
+                nested_type, 
+                nested_cls, 
+                nested_model_name, 
+                module_name,
+                nested_proto_full_path
+            )
             nested_messages.update(sub_nested)
         
         return nested_messages
@@ -122,8 +136,14 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
                     'is_nested': False
                 }
                 
-                # Collect nested messages
-                nested = collect_nested_messages(cls.DESCRIPTOR, cls, name.removesuffix('Proto'), module.__name__)
+                # Collect nested messages - pass parent proto full path
+                nested = collect_nested_messages(
+                    cls.DESCRIPTOR, 
+                    cls, 
+                    name.removesuffix('Proto'), 
+                    module.__name__,
+                    name  # Parent proto path (e.g., "ScriptExecutorStateProto")
+                )
                 all_messages.update(nested)
                 
         except Exception as e:
@@ -148,10 +168,14 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
             # Remove 'Proto' suffix to match graph keys
             parent_name = parent_msg_type.name.removesuffix('Proto')
         
-        # Extract own fields (excluding parent)
+        # Extract own fields (excluding parent and internal proto fields)
         own_fields = []
         for field in descriptor.fields:
             if field.name == 'parent':
+                continue
+            
+            # Skip internal proto fields (usually start with __)
+            if field.name.startswith('__') or field.name.startswith('_'):
                 continue
             
             field_info = {
@@ -272,7 +296,7 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
 
 
 def map_proto_type_to_python(field_info: Dict[str, Any], graph: Dict[str, Any] = None) -> str:
-    """Convert protobuf field type to Python type hint"""
+    """Convert protobuf field type to Python type hint for dataclass fields"""
     from google.protobuf import descriptor
     
     type_map = {
@@ -290,53 +314,33 @@ def map_proto_type_to_python(field_info: Dict[str, Any], graph: Dict[str, Any] =
     
     field_type = field_info['type']
     
-    # Message type - use Proto type with module prefix
+    # Message type
     if field_type == descriptor.FieldDescriptor.TYPE_MESSAGE:
-        # Check if this is an external type (e.g., google.protobuf)
         is_external = field_info.get('is_external', False)
         
         if is_external:
-            # Check if convertible to Python native type
             convert_info = field_info.get('convert_to_python')
             if convert_info:
-                # Use Python native type (e.g., datetime.datetime, datetime.timedelta)
                 py_module, py_type, _ = convert_info
-                base_type = f"'{py_module}.{py_type}'"
+                base_type = f"{py_module}.{py_type}"
             else:
-                # For external types, use the module reference
                 external_module = field_info.get('external_module', '')
                 external_type = field_info.get('external_type', '')
                 if external_module and external_type:
-                    # e.g., 'descriptor_pb2.FileDescriptorSet'
-                    module_alias = external_module.split('.')[-1]  # 'descriptor_pb2'
-                    base_type = f"'{module_alias}.{external_type}'"
+                    module_alias = external_module.split('.')[-1]
+                    base_type = f"{module_alias}.{external_type}"
                 else:
                     base_type = 'Any'
         else:
-            # Use model_name if available (handles nested types correctly)
             model_name = field_info.get('model_name')
-            proto_full_path = field_info.get('proto_full_path')
-            module_path = field_info.get('module_path', '')
-            
-            # Check if this is a oneof union type (starts with "Any")
-            # If so, try to use the base class instead for more accurate type hints
             if model_name and model_name.startswith('Any') and graph:
-                # Try to find base class (e.g., AnyResolvedExpr -> ResolvedExpr)
-                base_class_name = model_name[3:]  # Remove "Any" prefix
+                base_class_name = model_name[3:]
                 if base_class_name in graph:
-                    # Base class exists, use it for type hint
                     model_name = base_class_name
-                    # Also update proto_full_path for the base class
-                    if graph[base_class_name].get('proto_full_path'):
-                        proto_full_path = graph[base_class_name]['proto_full_path']
-                # else: base class doesn't exist, keep original Any* name (fallback)
             
             if model_name:
-                # Use the ProtoModel class name directly (without Proto suffix)
-                # This provides better type hints since parse_proto() returns ProtoModel instances
                 base_type = f"'{model_name}'"
             else:
-                # Last resort fallback
                 proto_type = field_info.get('message_type', 'Any')
                 model_type = proto_type.removesuffix('Proto')
                 base_type = f"'{model_type}'"
@@ -347,8 +351,116 @@ def map_proto_type_to_python(field_info: Dict[str, Any], graph: Dict[str, Any] =
     if field_info.get('is_repeated', False):
         return f"List[{base_type}]"
     
-    # Optional fields (proto3 all fields are optional)
-    return f"Optional[{base_type}]"
+    # Optional for message types, direct for primitives (with defaults)
+    if field_type == descriptor.FieldDescriptor.TYPE_MESSAGE:
+        return f"Optional[{base_type}]"
+    else:
+        return base_type
+
+
+def get_field_default_value(field_info: Dict[str, Any]) -> str:
+    """Get default value for a dataclass field based on proto field type"""
+    from google.protobuf import descriptor
+    
+    field_type = field_info['type']
+    is_repeated = field_info.get('is_repeated', False)
+    
+    # Repeated fields use default_factory
+    if is_repeated:
+        return "field(default_factory=list)"
+    
+    # Message types default to None
+    if field_type == descriptor.FieldDescriptor.TYPE_MESSAGE:
+        return "None"
+    
+    # Primitive types - use proto default values
+    type_defaults = {
+        descriptor.FieldDescriptor.TYPE_STRING: '""',
+        descriptor.FieldDescriptor.TYPE_INT64: '0',
+        descriptor.FieldDescriptor.TYPE_INT32: '0',
+        descriptor.FieldDescriptor.TYPE_UINT64: '0',
+        descriptor.FieldDescriptor.TYPE_UINT32: '0',
+        descriptor.FieldDescriptor.TYPE_BOOL: 'False',
+        descriptor.FieldDescriptor.TYPE_DOUBLE: '0.0',
+        descriptor.FieldDescriptor.TYPE_FLOAT: '0.0',
+        descriptor.FieldDescriptor.TYPE_BYTES: 'b""',
+        descriptor.FieldDescriptor.TYPE_ENUM: '0',
+    }
+    
+    return type_defaults.get(field_type, 'None')
+
+
+def generate_dataclass_fields(info: Dict[str, Any], graph: Dict[str, Any]) -> str:
+    """Generate dataclass field declarations (own fields only)"""
+    from google.protobuf import descriptor
+    
+    if not info['own_fields']:
+        return "    pass"
+    
+    lines = []
+    
+    for field_info in info['own_fields']:
+        field_name = field_info['name']
+        
+        # Escape reserved keywords
+        RESERVED_KEYWORDS = {
+            'and', 'as', 'assert', 'break', 'class', 'continue', 'def', 'del',
+            'elif', 'else', 'except', 'finally', 'for', 'from', 'global', 'if',
+            'import', 'in', 'is', 'lambda', 'nonlocal', 'not', 'or', 'pass',
+            'raise', 'return', 'try', 'while', 'with', 'yield'
+        }
+        
+        if field_name in RESERVED_KEYWORDS:
+            field_name = f"{field_name}_"
+        
+        type_hint = map_proto_type_to_python(field_info, graph)
+        default_value = get_field_default_value(field_info)
+        
+        # Check if we need to import field() for default_factory
+        if 'default_factory' in default_value:
+            lines.append(f"    {field_name}: {type_hint} = {default_value}")
+        else:
+            lines.append(f"    {field_name}: {type_hint} = {default_value}")
+    
+    return '\n'.join(lines)
+
+
+def generate_field_metadata(info: Dict[str, Any], graph: Dict[str, Any]) -> str:
+    """Generate _PROTO_FIELD_MAP metadata (own fields only)"""
+    if not info['own_fields']:
+        return ""
+    
+    lines = []
+    lines.append("    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {")
+    
+    for field_info in info['own_fields']:
+        field_name = field_info['name']
+        proto_field = field_name
+        
+        # Escape reserved keywords
+        RESERVED_KEYWORDS = {
+            'and', 'as', 'assert', 'break', 'class', 'continue', 'def', 'del',
+            'elif', 'else', 'except', 'finally', 'for', 'from', 'global', 'if',
+            'import', 'in', 'is', 'lambda', 'nonlocal', 'not', 'or', 'pass',
+            'raise', 'return', 'try', 'while', 'with', 'yield'
+        }
+        
+        if field_name in RESERVED_KEYWORDS:
+            field_name = f"{field_name}_"
+        
+        from google.protobuf import descriptor
+        is_message = field_info['type'] == descriptor.FieldDescriptor.TYPE_MESSAGE
+        is_repeated = field_info.get('is_repeated', False)
+        
+        lines.append(f"        '{field_name}': {{")
+        lines.append(f"            'proto_field': '{proto_field}',")
+        lines.append(f"            'is_message': {is_message},")
+        lines.append(f"            'is_repeated': {is_repeated},")
+        lines.append(f"        }},")
+    
+    lines.append("    }")
+    
+    return '\n'.join(lines)
 
 
 def generate_property(field_info: Dict[str, Any], parent_chain: List[str], graph: Dict[str, Any] = None) -> str:
@@ -437,67 +549,69 @@ def generate_property(field_info: Dict[str, Any], parent_chain: List[str], graph
         return {return_stmt}
 '''
 
-def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any]) -> str:
-    """Generate a single wrapper class"""
+def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], module_aliases: Dict[str, str] = None) -> str:
+    """Generate a dataclass-based wrapper class"""
     parent_name = info['parent']
     proto_name = info.get('proto_name', name)
-    proto_full_path = info.get('proto_full_path', proto_name)
+    module_name = info['module']
+    is_nested = info.get('is_nested', False)
     
     # Determine parent class
     if parent_name and parent_name in graph:
         parent_model = parent_name.removesuffix('Proto')
-        class_decl = f"class {name}({parent_model}):"
+        class_decl = f"@dataclass\nclass {name}({parent_model}):"
     else:
-        # All root classes inherit from ProtoModel
-        class_decl = f"class {name}(ProtoModel):"
+        # Root classes inherit from ProtoModel
+        class_decl = f"@dataclass\nclass {name}(ProtoModel):"
     
-    # Generate properties for ALL fields (own + inherited)
-    # Note: No __init__ method - instances are created via from_proto() classmethod
-    # Inherited fields need parent chain to access
-    properties = []
+    # Generate docstring
+    docstring = f'    """Generated model for {proto_name}"""'
     
-    # Build parent chain for inherited fields
-    parent_chain = []
-    if parent_name and parent_name in graph:
-        current = parent_name
-        while current and current in graph:
-            parent_chain.insert(0, 'parent')
-            current = graph[current]['parent']
+    # Generate dataclass fields (own fields only)
+    fields_code = generate_dataclass_fields(info, graph)
     
-    # First generate inherited fields with parent chain
-    if parent_name and parent_name in graph:
-        inherited_fields = graph[parent_name]['all_fields']
-        for field in inherited_fields:
-            # Calculate proper parent chain depth for this field
-            # Find which ancestor owns this field
-            ancestor = parent_name
-            chain = ['parent']
-            
-            while ancestor and ancestor in graph:
-                if field in graph[ancestor]['own_fields']:
-                    # Found the owner
-                    break
-                ancestor = graph[ancestor]['parent']
-                if ancestor and ancestor in graph:
-                    chain.insert(0, 'parent')
-            
-            prop = generate_property(field, chain, graph)
-            properties.append(prop)
+    # Generate proto class reference
+    proto_full_path = info.get('proto_full_path', proto_name)
     
-    # Then generate own fields (no parent chain)
-    for field in info['own_fields']:
-        prop = generate_property(field, [], graph)
-        properties.append(prop)
+    # Get the module alias from module_aliases map (if provided)
+    if module_aliases and module_name in module_aliases:
+        module_alias = module_aliases[module_name]
+    else:
+        # Fallback to last part of module name
+        module_alias = module_name.split('.')[-1]
+    
+    # For nested types, use getattr chain to navigate
+    if is_nested and '.' in proto_full_path:
+        # Build getattr chain: getattr(getattr(module, 'Parent'), 'Nested')
+        parts = proto_full_path.split('.')
+        proto_class_ref = module_alias
+        for part in parts:
+            proto_class_ref = f"getattr({proto_class_ref}, '{part}')"
+        proto_class_line = f"    _PROTO_CLASS: ClassVar[type] = {proto_class_ref}"
+    else:
+        # Direct attribute access for top-level types
+        proto_class_ref = f"{module_alias}.{proto_name}"
+        proto_class_line = f"    _PROTO_CLASS: ClassVar[type] = {proto_class_ref}"
+    
+    # Generate metadata
+    metadata_code = generate_field_metadata(info, graph)
     
     # Combine all parts
-    parts = [
-        class_decl,
-        f'    """Generated model for {proto_name}"""'
-    ]
+    parts = [class_decl, docstring]
     
-    if properties:
-        parts.append('')
-        parts.extend(properties)
+    # Add fields
+    if fields_code and fields_code != "    pass":
+        parts.append("")
+        parts.append(fields_code)
+    
+    # Add metadata
+    parts.append("")
+    parts.append(proto_class_line)
+    
+    if metadata_code:
+        parts.append(metadata_code)
+    else:
+        parts.append("    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}")
     
     return '\n'.join(parts)
 
@@ -530,39 +644,68 @@ def generate_model_file(graph: Dict[str, Any], output_path: Path) -> None:
         '"""',
         'ZetaSQL Proto Models',
         '',
-        'Auto-generated proto model classes for convenient proto field access.',
+        'Auto-generated dataclass-based proto model classes.',
         'DO NOT EDIT MANUALLY - regenerate with scripts/generate_proto_models.py',
         '',
+        'Features:',
+        '- Dataclass-based concrete models (not proto wrappers)',
+        '- Direct instance creation without proto',
+        '- Bidirectional proto conversion (from_proto/to_proto)',
+        '- MRO-based automatic parent chain tracking',
+        '',
         'Usage:',
-        '    from zetasql.types import ResolvedLiteral, ASTNode, AnalyzeRequest',
+        '    from zetasql.types import ResolvedLiteral, Type',
         '    ',
-        '    proto = resolved_ast_pb2.ResolvedLiteralProto()',
-        '    model = ResolvedLiteral.from_proto(proto)',
+        '    # Create instance directly',
+        '    literal = ResolvedLiteral(',
+        '        value=ValueWithType(...),',
+        '        type=Type(type_kind=2),',
+        '        has_explicit_type=True',
+        '    )',
         '    ',
-        '    # Convenient access with IDE autocompletion',
-        '    print(model.value)  # Instead of proto.value',
-        '    print(model.type)   # Instead of proto.parent.type',
+        '    # Convert to proto',
+        '    proto = literal.to_proto()',
+        '    ',
+        '    # Load from proto',
+        '    literal2 = ResolvedLiteral.from_proto(proto)',
         '"""',
         '',
         'from __future__ import annotations',
-        'from functools import cached_property',
-        'from typing import Optional, List, Any, TYPE_CHECKING',
+        'from dataclasses import dataclass, field',
+        'from typing import Optional, List, Any, ClassVar, Dict, TYPE_CHECKING',
         'import datetime',
         '',
-        'if TYPE_CHECKING:',
     ]
     
-    # Add proto module imports for TYPE_CHECKING
-    # Create short alias for each module (e.g., parse_tree_pb2, resolved_ast_pb2)
+    # Add proto module imports (NOT in TYPE_CHECKING - needed at runtime for _PROTO_CLASS)
+    # Create UNIQUE alias for each module by including more path context if needed
+    module_aliases = {}
     for module_path in sorted(proto_types_by_module.keys()):
-        # Extract the last part as alias (e.g., 'resolved_ast_pb2' from 'zetasql.wasi._pb2.zetasql.resolved_ast.resolved_ast_pb2')
-        module_alias = module_path.split('.')[-1]
-        lines.append(f'    import {module_path} as {module_alias}')
+        # Extract the last two parts for uniqueness (e.g., 'proto_options_pb2', 'public_options_pb2')
+        parts = module_path.split('.')
+        if len(parts) >= 2:
+            # Use last two parts: e.g., zetasql.proto.options_pb2 -> proto_options_pb2
+            alias = f"{parts[-2]}_{parts[-1]}"
+        else:
+            alias = parts[-1]
+        
+        # Handle potential collisions by adding more parts
+        original_alias = alias
+        counter = 1
+        while alias in module_aliases.values():
+            if len(parts) >= 3:
+                alias = f"{parts[-3]}_{parts[-2]}_{parts[-1]}"
+            else:
+                alias = f"{original_alias}_{counter}"
+                counter += 1
+        
+        module_aliases[module_path] = alias
+        lines.append(f'import {module_path} as {alias}')
     
-    # Add external module imports (e.g., google.protobuf)
+    # Add external module imports
     for external_module in sorted(external_modules):
-        module_alias = external_module.split('.')[-1]
-        lines.append(f'    from {external_module} import {module_alias}')
+        alias = external_module.replace('.', '_')
+        lines.append(f'import {external_module} as {alias}')
     
     lines.extend(['', ''])
     
@@ -574,12 +717,12 @@ def generate_model_file(graph: Dict[str, Any], output_path: Path) -> None:
         '',
     ])
     
-    # Generate classes
+    # Generate classes - pass module_aliases to generate_class
     class_count = 0
     class_names = []
     for name in sorted_names:
         info = graph[name]
-        class_code = generate_class(name, info, graph)
+        class_code = generate_class(name, info, graph, module_aliases)
         lines.append(class_code)
         lines.append('\n')
         class_count += 1

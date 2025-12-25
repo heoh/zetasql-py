@@ -5,36 +5,179 @@ Base classes and utilities for working with ZetaSQL proto models.
 """
 
 from google.protobuf import message as _message
-from typing import TypeVar, cast
+from typing import TypeVar, cast, ClassVar, Dict, Any, TYPE_CHECKING
+from dataclasses import fields as dataclass_fields, MISSING
 
 T = TypeVar("T", bound="ProtoModel")
 
 class ProtoModel:
-    """Base class for all ZetaSQL wrapper classes"""
+    """Base class for all ZetaSQL wrapper classes (dataclass-based concrete models)"""
+    
+    # Subclasses should define these as ClassVar
+    _PROTO_CLASS: ClassVar[type] = None
+    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
     
     @classmethod
     def from_proto(cls: type[T], proto: _message.Message) -> T:
         """
-        Create a proto model instance from a proto object (simple constructor).
+        Create a proto model instance from a proto object using MRO-based parent chain tracking.
         
-        This is a minimal constructor that directly wraps the proto without
-        any type resolution. For union types, use parse_proto() instead.
+        This dynamically traverses the class hierarchy (MRO) to determine parent depth
+        and extracts fields from the appropriate proto.parent levels.
         
         Args:
             proto: A proto message instance
             
         Returns:
-            Proto model instance of the calling class type
+            Proto model instance with all fields populated from proto
             
         Example:
-            >>> proto = resolved_ast_pb2.ResolvedFilterScanProto()
-            >>> scan = ResolvedFilterScan.from_proto(proto)
-            >>> # scan is ResolvedFilterScan instance
+            >>> proto = resolved_ast_pb2.ResolvedLiteralProto()
+            >>> proto.value.CopyFrom(...)
+            >>> proto.parent.type.type_kind = 2
+            >>> literal = ResolvedLiteral.from_proto(proto)
+            >>> # literal.value and literal.type are populated
         """
-        # Create instance without calling __init__
-        instance = object.__new__(cls)
-        instance._proto = proto
-        return instance
+        kwargs = {}
+        
+        # Get all ProtoModel classes in MRO (excluding ProtoModel itself)
+        proto_model_classes = [
+            c for c in cls.__mro__
+            if c != ProtoModel and issubclass(c, ProtoModel) and hasattr(c, '_PROTO_FIELD_MAP')
+        ]
+        
+        # Reverse to process from ancestor to descendant
+        proto_model_classes.reverse()
+        
+        # Calculate max depth (number of parent levels)
+        max_depth = len(proto_model_classes) - 1
+        
+        # Process each class level
+        for i, ancestor_cls in enumerate(proto_model_classes):
+            # Calculate parent depth for this class
+            # Most distant ancestor has highest depth
+            depth = max_depth - i
+            
+            # Navigate to the appropriate parent level
+            current_proto = proto
+            for _ in range(depth):
+                if not hasattr(current_proto, 'parent'):
+                    # Proto doesn't have parent field, skip this ancestor
+                    break
+                current_proto = current_proto.parent
+            
+            # Extract fields defined by this ancestor class
+            field_map = ancestor_cls._PROTO_FIELD_MAP
+            for field_name, field_meta in field_map.items():
+                proto_field = field_meta['proto_field']
+                
+                if not hasattr(current_proto, proto_field):
+                    continue
+                
+                value_obj = getattr(current_proto, proto_field)
+                
+                # Convert proto value to model value
+                if field_meta['is_message']:
+                    if field_meta.get('is_repeated', False):
+                        kwargs[field_name] = [parse_proto(item) for item in value_obj]
+                    else:
+                        # Check if message has content
+                        kwargs[field_name] = parse_proto(value_obj) if value_obj.ByteSize() > 0 else None
+                else:
+                    # Primitive type
+                    kwargs[field_name] = value_obj
+        
+        return cls(**kwargs)
+    
+    def to_proto(self) -> _message.Message:
+        """
+        Export proto model to protobuf message using MRO-based parent chain reconstruction.
+        
+        This dynamically constructs the proto message by placing fields at the appropriate
+        proto.parent levels based on the class hierarchy.
+        
+        Returns:
+            Protobuf message with all fields populated
+            
+        Example:
+            >>> literal = ResolvedLiteral(value=..., type=...)
+            >>> proto = literal.to_proto()
+            >>> # proto.value and proto.parent.type are populated
+        """
+        if self._PROTO_CLASS is None:
+            raise NotImplementedError(f"{type(self).__name__} does not define _PROTO_CLASS")
+        
+        proto = self._PROTO_CLASS()
+        
+        # Get all ProtoModel classes in MRO
+        proto_model_classes = [
+            c for c in type(self).__mro__
+            if c != ProtoModel and issubclass(c, ProtoModel) and hasattr(c, '_PROTO_FIELD_MAP')
+        ]
+        proto_model_classes.reverse()
+        max_depth = len(proto_model_classes) - 1
+        
+        # Process each class level
+        for i, ancestor_cls in enumerate(proto_model_classes):
+            depth = max_depth - i
+            
+            # Navigate to target proto level
+            current_proto = proto
+            for _ in range(depth):
+                if not hasattr(current_proto, 'parent'):
+                    break
+                current_proto = current_proto.parent
+            
+            # Set fields defined by this ancestor
+            field_map = ancestor_cls._PROTO_FIELD_MAP
+            for field_name, field_meta in field_map.items():
+                value = getattr(self, field_name, None)
+                
+                # Skip None values
+                if value is None:
+                    continue
+                
+                proto_field = field_meta['proto_field']
+                
+                if not hasattr(current_proto, proto_field):
+                    continue
+                
+                if field_meta['is_message']:
+                    if field_meta.get('is_repeated', False):
+                        # Repeated message field
+                        target_list = getattr(current_proto, proto_field)
+                        del target_list[:]  # Clear existing
+                        for item in value:
+                            if hasattr(item, 'to_proto'):
+                                target_list.add().CopyFrom(item.to_proto())
+                            else:
+                                target_list.append(item)
+                    else:
+                        # Singular message field
+                        if hasattr(value, 'to_proto'):
+                            getattr(current_proto, proto_field).CopyFrom(value.to_proto())
+                        else:
+                            getattr(current_proto, proto_field).CopyFrom(value)
+                else:
+                    # Primitive field - check if it's different from default
+                    # Get default value from dataclass field
+                    should_set = True
+                    if not field_meta.get('is_repeated', False):
+                        for dc_field in dataclass_fields(self):
+                            if dc_field.name == field_name:
+                                # Check if value differs from default
+                                if dc_field.default is not MISSING and value == dc_field.default:
+                                    should_set = False
+                                elif dc_field.default_factory is not MISSING:  # type: ignore
+                                    default_val = dc_field.default_factory()  # type: ignore
+                                    if value == default_val:
+                                        should_set = False
+                                break
+                    
+                    if should_set:
+                        setattr(current_proto, proto_field, value)
+        
+        return proto
     
     def as_type(self, model_type: type[T]) -> T:
         """
@@ -129,7 +272,7 @@ def _create_model_from_proto(proto: _message.Message) -> ProtoModel:
     
     Maps proto class name to model class name by removing 'Proto' suffix.
     For nested messages, uses the full proto path to construct the model name.
-    Uses object.__new__() to create instances without calling __init__.
+    Uses from_proto() classmethod to create instances (dataclass-based).
     """
     # Import the module at runtime to avoid circular imports
     import zetasql.types.proto_models as model_module
