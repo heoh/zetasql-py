@@ -1292,7 +1292,7 @@ All API Improvements (1-16)
 - [x] execute_query_demo.py ProtoModel 사용으로 업데이트
 
 ### Phase 1: Foundation
-- [ ] 1. Types Enum wrapper
+- [x] 1. Types Enum wrapper
 - [ ] 2. py.typed marker
 - [ ] 3. AnalyzerOptionsFactory  
 - [ ] 4. 에러 처리 테스트
