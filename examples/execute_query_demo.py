@@ -32,7 +32,7 @@ from zetasql.types import (
 )
 from zetasql.builders import TableBuilder, CatalogBuilder
 from zetasql.types import TypeKind, NameResolutionMode, ProductMode, LanguageFeature
-from zetasql.types.proto_models import ZetaSQLBuiltinFunctionOptions, TableContent, TableData, Value, LanguageOptions
+from zetasql.types.proto_models import ZetaSQLBuiltinFunctionOptions, TableContent, TableData, Value, LanguageOptions, AnalyzerOptions
 
 
 # ============================================================================
@@ -58,6 +58,8 @@ def create_analyzer_options():
             except:
                 pass
     
+    
+
     return language_options
 
 
@@ -444,7 +446,7 @@ def example_1_parse_mode(service: ZetaSqlLocalService, catalog_id, analyzer_opti
 # Example 2: Analyze Mode - Semantic Analysis with ProtoModel
 # ============================================================================
 
-def example_2_analyze_mode(service, catalog_id, analyzer_options):
+def example_2_analyze_mode(service: ZetaSqlLocalService, catalog_id, analyzer_options, simple_catalog):
     """
     Demonstrate semantic analysis with ProtoModel dataclasses.
     
@@ -477,8 +479,7 @@ def example_2_analyze_mode(service, catalog_id, analyzer_options):
     # Analyze the SQL
     analyze_response = service.analyze(
         sql_statement=sql,
-        registered_catalog_id=catalog_id,
-        options=analyzer_options
+        simple_catalog=simple_catalog,
     )
     
     # resolved_statement is already a concrete ProtoModel (e.g., ResolvedQueryStmt)
@@ -597,7 +598,7 @@ def example_2_analyze_mode(service, catalog_id, analyzer_options):
 # Example 3: Execute Mode - Query Execution with Sample Data
 # ============================================================================
 
-def example_3_execute_mode(service, catalog_id, analyzer_options, simple_catalog, table_content):
+def example_3_execute_mode(service: ZetaSqlLocalService, catalog_id, analyzer_options, simple_catalog, table_content):
     """
     Demonstrate query execution with sample data.
     
@@ -828,7 +829,7 @@ def main():
     # Run examples
     try:
         example_1_parse_mode(service, catalog_id, analyzer_options)
-        example_2_analyze_mode(service, catalog_id, analyzer_options)
+        example_2_analyze_mode(service, catalog_id, analyzer_options, simple_catalog)
         example_3_execute_mode(service, catalog_id, analyzer_options, simple_catalog, table_content)
         example_4_error_handling(service, catalog_id, analyzer_options, simple_catalog, table_content)
         example_5_unanalyze_mode(service, catalog_id, analyzer_options)
@@ -855,6 +856,7 @@ For documentation, see EXECUTE_QUERY_DEMO.md
         print(f"\n❌ Error running demo: {e}")
         import traceback
         traceback.print_exc()
+        raise
         return 1
     
     return 0

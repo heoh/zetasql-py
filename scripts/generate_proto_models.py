@@ -97,13 +97,9 @@ def extract_inheritance_graph(base_dir: Path) -> Tuple[Dict[str, Any], Dict[str,
             # Short class name for actual nested class: just NestedName without Proto suffix
             nested_class_name = nested_type.name.removesuffix('Proto')
             
-            # Build full proto path for nested types
-            # parent_proto_path: "ScriptExecutorStateProto" or "ScriptExecutorStateProto.StackFrame"
-            # nested_type.name: "StackFrame" or "Parameters"
-            if parent_proto_path:
-                nested_proto_full_path = f"{parent_proto_path}.{nested_type.name}"
-            else:
-                nested_proto_full_path = f"{parent_cls.__name__}.{nested_type.name}"
+            # Use the proto descriptor's full_name for accurate matching
+            # nested_type is a Descriptor, so it has full_name attribute
+            nested_proto_full_path = nested_type.full_name
             
             # Get the nested class from parent
             nested_cls = getattr(parent_cls, nested_type.name)
@@ -259,13 +255,24 @@ def extract_inheritance_graph(base_dir: Path) -> Tuple[Dict[str, Any], Dict[str,
                     module_path = None
                     proto_full_path = None
                     
-                    # Try to find exact match in all_messages
+                    # First, try to match by full proto path (for nested types)
+                    # This ensures we get the correct nested class from the parent
                     for msg_name, msg_info in all_messages.items():
-                        if msg_info.get('proto_name') == msg_type_name or msg_name == msg_type_name:
+                        if msg_info.get('proto_full_path') == msg_type_full:
                             model_name = msg_info['name'].removesuffix('Proto')
                             module_path = msg_info['module']
                             proto_full_path = msg_info.get('proto_full_path', msg_type_name)
                             break
+                    
+                    # If not found by full path, try exact match by proto_name
+                    # (for top-level types or backwards compatibility)
+                    if not model_name:
+                        for msg_name, msg_info in all_messages.items():
+                            if msg_info.get('proto_name') == msg_type_name or msg_name == msg_type_name:
+                                model_name = msg_info['name'].removesuffix('Proto')
+                                module_path = msg_info['module']
+                                proto_full_path = msg_info.get('proto_full_path', msg_type_name)
+                                break
                     
                     if model_name:
                         field_info['model_name'] = model_name
@@ -380,14 +387,19 @@ def map_proto_type_to_python(field_info: Dict[str, Any], graph: Dict[str, Any] =
                 if graph and model_name in graph:
                     model_info = graph[model_name]
                     if model_info.get('is_nested') and model_info.get('parent_model'):
-                        # Build full nested path (e.g., 'ScriptExecutorState.StackFrame')
-                        parent_model = model_info['parent_model']
-                        # Recursively build the path for deeply nested classes
-                        path_parts = [model_name]
+                        # Build full nested path using class_name for nested classes
+                        # class_name is the short name (e.g., 'TableContentEntry')
+                        # while name is the flat name (e.g., 'PrepareQueryRequestTableContentEntry')
+                        path_parts = [model_info.get('class_name') or model_name]
                         current = model_name
                         while graph[current].get('parent_model'):
                             parent = graph[current]['parent_model']
-                            path_parts.insert(0, parent)
+                            if parent in graph:
+                                # For top-level classes, class_name might be None, use the model name
+                                parent_class_name = graph[parent].get('class_name') or parent
+                                path_parts.insert(0, parent_class_name)
+                            else:
+                                path_parts.insert(0, parent)
                             if parent not in graph or not graph[parent].get('parent_model'):
                                 break
                             current = parent

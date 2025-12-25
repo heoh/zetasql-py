@@ -124,9 +124,7 @@ class ProtoModel:
             # Navigate to target proto level
             current_proto = proto
             for _ in range(depth):
-                if not hasattr(current_proto, 'parent'):
-                    break
-                current_proto = current_proto.parent
+                current_proto = getattr(current_proto, 'parent', current_proto)
             
             # Set fields defined by this ancestor
             field_map = ancestor_cls._PROTO_FIELD_MAP
@@ -149,7 +147,7 @@ class ProtoModel:
                         if not value:
                             continue
                         target_list = getattr(current_proto, proto_field)
-                        del target_list[:]  # Clear existing
+                        target_list.clear()
                         for item in value:
                             if isinstance(item, ProtoModel):
                                 target_list.add().CopyFrom(item.to_proto())
