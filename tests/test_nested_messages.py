@@ -4,7 +4,7 @@ import sys
 sys.path.insert(0, 'src')
 
 from zetasql.wasi._pb2.zetasql.proto import options_pb2
-from zetasql.types.proto_models import AllowedHintsAndOptions, AllowedHintsAndOptionsHint, AllowedHintsAndOptionsOption
+from zetasql.types.proto_models import AllowedHintsAndOptions
 
 
 def test_nested_messages():
@@ -24,18 +24,18 @@ def test_nested_messages():
     option.name = "test_option"
     
     # Wrap it using from_proto
-    wrapper = parse_proto(proto).as_type(AllowedHintsAndOptions)
+    wrapper = AllowedHintsAndOptions.from_proto(proto)
     
     # Test hint access
     assert len(wrapper.hint) == 1
-    assert isinstance(wrapper.hint[0], AllowedHintsAndOptionsHint)
+    assert isinstance(wrapper.hint[0], AllowedHintsAndOptions.Hint)
     assert wrapper.hint[0].name == "test_hint"
     assert wrapper.hint[0].qualifier == "test_qualifier"
     assert wrapper.hint[0].allow_unqualified == True
     
     # Test option access
     assert len(wrapper.option) == 1
-    assert isinstance(wrapper.option[0], AllowedHintsAndOptionsOption)
+    assert isinstance(wrapper.option[0], AllowedHintsAndOptions.Option)
     assert wrapper.option[0].name == "test_option"
 
 

@@ -492,10 +492,10 @@ class AllowedHintsAndOptions(ProtoModel):
 
     disallow_unknown_options: bool = False
     disallow_unknown_hints_with_qualifier: List[str] = field(default_factory=list)
-    hint: List['AllowedHintsAndOptionsHint'] = field(default_factory=list)
-    option: List['AllowedHintsAndOptionsOption'] = field(default_factory=list)
-    anonymization_option: List['AllowedHintsAndOptionsOption'] = field(default_factory=list)
-    differential_privacy_option: List['AllowedHintsAndOptionsOption'] = field(default_factory=list)
+    hint: List['AllowedHintsAndOptions.AllowedHintsAndOptionsHint'] = field(default_factory=list)
+    option: List['AllowedHintsAndOptions.AllowedHintsAndOptionsOption'] = field(default_factory=list)
+    anonymization_option: List['AllowedHintsAndOptions.AllowedHintsAndOptionsOption'] = field(default_factory=list)
+    differential_privacy_option: List['AllowedHintsAndOptions.AllowedHintsAndOptionsOption'] = field(default_factory=list)
     disallow_duplicate_option_names: bool = False
 
     _PROTO_CLASS: ClassVar[type] = proto_options_pb2.AllowedHintsAndOptionsProto
@@ -537,73 +537,71 @@ class AllowedHintsAndOptions(ProtoModel):
         },
     }
 
+    @dataclass
+    class Hint(ProtoModel):
+        """Generated model for HintProto"""
 
-@dataclass
-class AllowedHintsAndOptionsHint(ProtoModel):
-    """Generated model for HintProto"""
+        qualifier: str = ""
+        name: str = ""
+        type: Optional['Type'] = None
+        allow_unqualified: bool = False
 
-    qualifier: str = ""
-    name: str = ""
-    type: Optional['Type'] = None
-    allow_unqualified: bool = False
+        _PROTO_CLASS: ClassVar[type] = proto_options_pb2.AllowedHintsAndOptionsProto.HintProto
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'qualifier': {
+                'proto_field': 'qualifier',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'name': {
+                'proto_field': 'name',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'type': {
+                'proto_field': 'type',
+                'is_message': True,
+                'is_repeated': False,
+            },
+            'allow_unqualified': {
+                'proto_field': 'allow_unqualified',
+                'is_message': False,
+                'is_repeated': False,
+            },
+        }
 
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(proto_options_pb2, 'AllowedHintsAndOptionsProto'), 'HintProto')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'qualifier': {
-            'proto_field': 'qualifier',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'name': {
-            'proto_field': 'name',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'type': {
-            'proto_field': 'type',
-            'is_message': True,
-            'is_repeated': False,
-        },
-        'allow_unqualified': {
-            'proto_field': 'allow_unqualified',
-            'is_message': False,
-            'is_repeated': False,
-        },
-    }
+    @dataclass
+    class Option(ProtoModel):
+        """Generated model for OptionProto"""
 
+        name: str = ""
+        type: Optional['Type'] = None
+        resolving_kind: int = 0
+        allow_alter_array: bool = False
 
-@dataclass
-class AllowedHintsAndOptionsOption(ProtoModel):
-    """Generated model for OptionProto"""
-
-    name: str = ""
-    type: Optional['Type'] = None
-    resolving_kind: int = 0
-    allow_alter_array: bool = False
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(proto_options_pb2, 'AllowedHintsAndOptionsProto'), 'OptionProto')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'name': {
-            'proto_field': 'name',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'type': {
-            'proto_field': 'type',
-            'is_message': True,
-            'is_repeated': False,
-        },
-        'resolving_kind': {
-            'proto_field': 'resolving_kind',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'allow_alter_array': {
-            'proto_field': 'allow_alter_array',
-            'is_message': False,
-            'is_repeated': False,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = proto_options_pb2.AllowedHintsAndOptionsProto.OptionProto
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'name': {
+                'proto_field': 'name',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'type': {
+                'proto_field': 'type',
+                'is_message': True,
+                'is_repeated': False,
+            },
+            'resolving_kind': {
+                'proto_field': 'resolving_kind',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'allow_alter_array': {
+                'proto_field': 'allow_alter_array',
+                'is_message': False,
+                'is_repeated': False,
+            },
+        }
 
 
 @dataclass
@@ -692,7 +690,7 @@ class AnalyzerLogEntry(ProtoModel):
 
     num_lexical_tokens: int = 0
     overall_execution_stats: Optional['ExecutionStats'] = None
-    execution_stats_by_op: List['AnalyzerLogEntryExecutionStatsByOpEntry'] = field(default_factory=list)
+    execution_stats_by_op: List['AnalyzerLogEntry.AnalyzerLogEntryExecutionStatsByOpEntry'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = proto_logging_pb2.AnalyzerLogEntry
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -713,27 +711,26 @@ class AnalyzerLogEntry(ProtoModel):
         },
     }
 
+    @dataclass
+    class ExecutionStatsByOpEntry(ProtoModel):
+        """Generated model for ExecutionStatsByOpEntry"""
 
-@dataclass
-class AnalyzerLogEntryExecutionStatsByOpEntry(ProtoModel):
-    """Generated model for ExecutionStatsByOpEntry"""
+        key: int = 0
+        value: Optional['ExecutionStats'] = None
 
-    key: int = 0
-    value: Optional['ExecutionStats'] = None
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(proto_logging_pb2, 'AnalyzerLogEntry'), 'ExecutionStatsByOpEntry')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'key': {
-            'proto_field': 'key',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'value': {
-            'proto_field': 'value',
-            'is_message': True,
-            'is_repeated': False,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = proto_logging_pb2.AnalyzerLogEntry.ExecutionStatsByOpEntry
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'key': {
+                'proto_field': 'key',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'value': {
+                'proto_field': 'value',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
 
 
 @dataclass
@@ -741,11 +738,11 @@ class AnalyzerOptions(ProtoModel):
     """Generated model for AnalyzerOptionsProto"""
 
     language_options: Optional['LanguageOptions'] = None
-    query_parameters: List['AnalyzerOptionsQueryParameter'] = field(default_factory=list)
+    query_parameters: List['AnalyzerOptions.AnalyzerOptionsQueryParameter'] = field(default_factory=list)
     positional_query_parameters: List['Type'] = field(default_factory=list)
-    expression_columns: List['AnalyzerOptionsQueryParameter'] = field(default_factory=list)
-    in_scope_expression_column: Optional['AnalyzerOptionsQueryParameter'] = None
-    ddl_pseudo_columns: List['AnalyzerOptionsQueryParameter'] = field(default_factory=list)
+    expression_columns: List['AnalyzerOptions.AnalyzerOptionsQueryParameter'] = field(default_factory=list)
+    in_scope_expression_column: Optional['AnalyzerOptions.AnalyzerOptionsQueryParameter'] = None
+    ddl_pseudo_columns: List['AnalyzerOptions.AnalyzerOptionsQueryParameter'] = field(default_factory=list)
     error_message_mode: int = 0
     default_timezone: str = ""
     create_new_column_for_each_projected_output: bool = False
@@ -755,7 +752,7 @@ class AnalyzerOptions(ProtoModel):
     allowed_hints_and_options: Optional['AllowedHintsAndOptions'] = None
     statement_context: int = 0
     preserve_column_aliases: bool = False
-    system_variables: List['AnalyzerOptionsSystemVariable'] = field(default_factory=list)
+    system_variables: List['AnalyzerOptions.AnalyzerOptionsSystemVariable'] = field(default_factory=list)
     target_column_types: List['Type'] = field(default_factory=list)
     enabled_rewrites: List[int] = field(default_factory=list)
     parse_location_record_type: int = 0
@@ -895,27 +892,47 @@ class AnalyzerOptions(ProtoModel):
         },
     }
 
+    @dataclass
+    class QueryParameter(ProtoModel):
+        """Generated model for QueryParameterProto"""
 
-@dataclass
-class AnalyzerOptionsQueryParameter(ProtoModel):
-    """Generated model for QueryParameterProto"""
+        name: str = ""
+        type: Optional['Type'] = None
 
-    name: str = ""
-    type: Optional['Type'] = None
+        _PROTO_CLASS: ClassVar[type] = proto_options_pb2.AnalyzerOptionsProto.QueryParameterProto
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'name': {
+                'proto_field': 'name',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'type': {
+                'proto_field': 'type',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
 
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(proto_options_pb2, 'AnalyzerOptionsProto'), 'QueryParameterProto')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'name': {
-            'proto_field': 'name',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'type': {
-            'proto_field': 'type',
-            'is_message': True,
-            'is_repeated': False,
-        },
-    }
+    @dataclass
+    class SystemVariable(ProtoModel):
+        """Generated model for SystemVariableProto"""
+
+        name_path: List[str] = field(default_factory=list)
+        type: Optional['Type'] = None
+
+        _PROTO_CLASS: ClassVar[type] = proto_options_pb2.AnalyzerOptionsProto.SystemVariableProto
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'name_path': {
+                'proto_field': 'name_path',
+                'is_message': False,
+                'is_repeated': True,
+            },
+            'type': {
+                'proto_field': 'type',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
 
 
 @dataclass
@@ -924,28 +941,6 @@ class AnalyzerOptionsRequest(ProtoModel):
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.AnalyzerOptionsRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
-
-
-@dataclass
-class AnalyzerOptionsSystemVariable(ProtoModel):
-    """Generated model for SystemVariableProto"""
-
-    name_path: List[str] = field(default_factory=list)
-    type: Optional['Type'] = None
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(proto_options_pb2, 'AnalyzerOptionsProto'), 'SystemVariableProto')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'name_path': {
-            'proto_field': 'name_path',
-            'is_message': False,
-            'is_repeated': True,
-        },
-        'type': {
-            'proto_field': 'type',
-            'is_message': True,
-            'is_repeated': False,
-        },
-    }
 
 
 @dataclass
@@ -6998,11 +6993,11 @@ class ComplianceTestCaseLabels(ProtoModel):
 
     test_name: str = ""
     test_query: str = ""
-    param: List['ComplianceTestCaseLabelsParam'] = field(default_factory=list)
+    param: List['ComplianceTestCaseLabels.ComplianceTestCaseLabelsParam'] = field(default_factory=list)
     test_error_mode: int = 0
     compliance_labels: List[str] = field(default_factory=list)
     test_shard: int = 0
-    test_location: Optional['ComplianceTestCaseLabelsLocation'] = None
+    test_location: Optional['ComplianceTestCaseLabels.ComplianceTestCaseLabelsLocation'] = None
 
     _PROTO_CLASS: ClassVar[type] = compliance_compliance_label_pb2.ComplianceTestCaseLabels
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -7043,49 +7038,47 @@ class ComplianceTestCaseLabels(ProtoModel):
         },
     }
 
+    @dataclass
+    class Location(ProtoModel):
+        """Generated model for Location"""
 
-@dataclass
-class ComplianceTestCaseLabelsLocation(ProtoModel):
-    """Generated model for Location"""
+        file: str = ""
+        line: int = 0
 
-    file: str = ""
-    line: int = 0
+        _PROTO_CLASS: ClassVar[type] = compliance_compliance_label_pb2.ComplianceTestCaseLabels.Location
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'file': {
+                'proto_field': 'file',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'line': {
+                'proto_field': 'line',
+                'is_message': False,
+                'is_repeated': False,
+            },
+        }
 
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(compliance_compliance_label_pb2, 'ComplianceTestCaseLabels'), 'Location')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'file': {
-            'proto_field': 'file',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'line': {
-            'proto_field': 'line',
-            'is_message': False,
-            'is_repeated': False,
-        },
-    }
+    @dataclass
+    class Param(ProtoModel):
+        """Generated model for Param"""
 
+        param_name: str = ""
+        param_value_literal: str = ""
 
-@dataclass
-class ComplianceTestCaseLabelsParam(ProtoModel):
-    """Generated model for Param"""
-
-    param_name: str = ""
-    param_value_literal: str = ""
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(compliance_compliance_label_pb2, 'ComplianceTestCaseLabels'), 'Param')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'param_name': {
-            'proto_field': 'param_name',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'param_value_literal': {
-            'proto_field': 'param_value_literal',
-            'is_message': False,
-            'is_repeated': False,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = compliance_compliance_label_pb2.ComplianceTestCaseLabels.Param
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'param_name': {
+                'proto_field': 'param_name',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'param_value_literal': {
+                'proto_field': 'param_value_literal',
+                'is_message': False,
+                'is_repeated': False,
+            },
+        }
 
 
 @dataclass
@@ -7194,7 +7187,7 @@ class DescriptorPoolIdList(ProtoModel):
 class DescriptorPoolList(ProtoModel):
     """Generated model for DescriptorPoolListProto"""
 
-    definitions: List['DescriptorPoolListDefinition'] = field(default_factory=list)
+    definitions: List['DescriptorPoolList.DescriptorPoolListDefinition'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.DescriptorPoolListProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -7205,41 +7198,39 @@ class DescriptorPoolList(ProtoModel):
         },
     }
 
+    @dataclass
+    class Builtin(ProtoModel):
+        """Generated model for Builtin"""
 
-@dataclass
-class DescriptorPoolListBuiltin(ProtoModel):
-    """Generated model for Builtin"""
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.DescriptorPoolListProto.Builtin
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(local_service_local_service_pb2, 'DescriptorPoolListProto'), 'Builtin')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
+    @dataclass
+    class Definition(ProtoModel):
+        """Generated model for Definition"""
 
+        file_descriptor_set: Optional[descriptor_pb2.FileDescriptorSet] = None
+        registered_id: int = 0
+        builtin: Optional['DescriptorPoolList.DescriptorPoolListBuiltin'] = None
 
-@dataclass
-class DescriptorPoolListDefinition(ProtoModel):
-    """Generated model for Definition"""
-
-    file_descriptor_set: Optional[descriptor_pb2.FileDescriptorSet] = None
-    registered_id: int = 0
-    builtin: Optional['DescriptorPoolListBuiltin'] = None
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(local_service_local_service_pb2, 'DescriptorPoolListProto'), 'Definition')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'file_descriptor_set': {
-            'proto_field': 'file_descriptor_set',
-            'is_message': True,
-            'is_repeated': False,
-        },
-        'registered_id': {
-            'proto_field': 'registered_id',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'builtin': {
-            'proto_field': 'builtin',
-            'is_message': True,
-            'is_repeated': False,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.DescriptorPoolListProto.Definition
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'file_descriptor_set': {
+                'proto_field': 'file_descriptor_set',
+                'is_message': True,
+                'is_repeated': False,
+            },
+            'registered_id': {
+                'proto_field': 'registered_id',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'builtin': {
+                'proto_field': 'builtin',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
 
 
 @dataclass
@@ -7622,8 +7613,8 @@ class EvaluateModifyRequest(ProtoModel):
     simple_catalog: Optional['SimpleCatalog'] = None
     registered_catalog_id: int = 0
     prepared_modify_id: int = 0
-    table_content: List['EvaluateModifyRequestTableContentEntry'] = field(default_factory=list)
-    params: List['EvaluateRequestParameter'] = field(default_factory=list)
+    table_content: List['EvaluateModifyRequest.EvaluateModifyRequestTableContentEntry'] = field(default_factory=list)
+    params: List['EvaluateRequest.EvaluateRequestParameter'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.EvaluateModifyRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -7669,27 +7660,26 @@ class EvaluateModifyRequest(ProtoModel):
         },
     }
 
+    @dataclass
+    class TableContentEntry(ProtoModel):
+        """Generated model for TableContentEntry"""
 
-@dataclass
-class EvaluateModifyRequestTableContentEntry(ProtoModel):
-    """Generated model for TableContentEntry"""
+        key: str = ""
+        value: Optional['TableContent'] = None
 
-    key: str = ""
-    value: Optional['TableContent'] = None
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(local_service_local_service_pb2, 'EvaluateModifyRequest'), 'TableContentEntry')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'key': {
-            'proto_field': 'key',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'value': {
-            'proto_field': 'value',
-            'is_message': True,
-            'is_repeated': False,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.EvaluateModifyRequest.TableContentEntry
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'key': {
+                'proto_field': 'key',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'value': {
+                'proto_field': 'value',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
 
 
 @dataclass
@@ -7697,7 +7687,7 @@ class EvaluateModifyResponse(ProtoModel):
     """Generated model for EvaluateModifyResponse"""
 
     table_name: str = ""
-    content: List['EvaluateModifyResponseRow'] = field(default_factory=list)
+    content: List['EvaluateModifyResponse.EvaluateModifyResponseRow'] = field(default_factory=list)
     prepared: Optional['PreparedModifyState'] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.EvaluateModifyResponse
@@ -7719,33 +7709,32 @@ class EvaluateModifyResponse(ProtoModel):
         },
     }
 
+    @dataclass
+    class Row(ProtoModel):
+        """Generated model for Row"""
 
-@dataclass
-class EvaluateModifyResponseRow(ProtoModel):
-    """Generated model for Row"""
+        operation: int = 0
+        cell: List['Value'] = field(default_factory=list)
+        old_primary_key: List['Value'] = field(default_factory=list)
 
-    operation: int = 0
-    cell: List['Value'] = field(default_factory=list)
-    old_primary_key: List['Value'] = field(default_factory=list)
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(local_service_local_service_pb2, 'EvaluateModifyResponse'), 'Row')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'operation': {
-            'proto_field': 'operation',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'cell': {
-            'proto_field': 'cell',
-            'is_message': True,
-            'is_repeated': True,
-        },
-        'old_primary_key': {
-            'proto_field': 'old_primary_key',
-            'is_message': True,
-            'is_repeated': True,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.EvaluateModifyResponse.Row
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'operation': {
+                'proto_field': 'operation',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'cell': {
+                'proto_field': 'cell',
+                'is_message': True,
+                'is_repeated': True,
+            },
+            'old_primary_key': {
+                'proto_field': 'old_primary_key',
+                'is_message': True,
+                'is_repeated': True,
+            },
+        }
 
 
 @dataclass
@@ -7790,8 +7779,8 @@ class EvaluateQueryRequest(ProtoModel):
     simple_catalog: Optional['SimpleCatalog'] = None
     registered_catalog_id: int = 0
     prepared_query_id: int = 0
-    table_content: List['EvaluateModifyRequestTableContentEntry'] = field(default_factory=list)
-    params: List['EvaluateRequestParameter'] = field(default_factory=list)
+    table_content: List['EvaluateModifyRequest.EvaluateModifyRequestTableContentEntry'] = field(default_factory=list)
+    params: List['EvaluateRequest.EvaluateRequestParameter'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.EvaluateQueryRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -7837,27 +7826,26 @@ class EvaluateQueryRequest(ProtoModel):
         },
     }
 
+    @dataclass
+    class TableContentEntry(ProtoModel):
+        """Generated model for TableContentEntry"""
 
-@dataclass
-class EvaluateQueryRequestTableContentEntry(ProtoModel):
-    """Generated model for TableContentEntry"""
+        key: str = ""
+        value: Optional['TableContent'] = None
 
-    key: str = ""
-    value: Optional['TableContent'] = None
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(local_service_local_service_pb2, 'EvaluateQueryRequest'), 'TableContentEntry')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'key': {
-            'proto_field': 'key',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'value': {
-            'proto_field': 'value',
-            'is_message': True,
-            'is_repeated': False,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.EvaluateQueryRequest.TableContentEntry
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'key': {
+                'proto_field': 'key',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'value': {
+                'proto_field': 'value',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
 
 
 @dataclass
@@ -7887,8 +7875,8 @@ class EvaluateRequest(ProtoModel):
     """Generated model for EvaluateRequest"""
 
     sql: str = ""
-    columns: List['EvaluateRequestParameter'] = field(default_factory=list)
-    params: List['EvaluateRequestParameter'] = field(default_factory=list)
+    columns: List['EvaluateRequest.EvaluateRequestParameter'] = field(default_factory=list)
+    params: List['EvaluateRequest.EvaluateRequestParameter'] = field(default_factory=list)
     descriptor_pool_list: Optional['DescriptorPoolList'] = None
     prepared_expression_id: int = 0
     options: Optional['AnalyzerOptions'] = None
@@ -7927,6 +7915,27 @@ class EvaluateRequest(ProtoModel):
         },
     }
 
+    @dataclass
+    class Parameter(ProtoModel):
+        """Generated model for Parameter"""
+
+        name: str = ""
+        value: Optional['Value'] = None
+
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.EvaluateRequest.Parameter
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'name': {
+                'proto_field': 'name',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'value': {
+                'proto_field': 'value',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
+
 
 @dataclass
 class EvaluateRequestBatch(ProtoModel):
@@ -7940,28 +7949,6 @@ class EvaluateRequestBatch(ProtoModel):
             'proto_field': 'request',
             'is_message': True,
             'is_repeated': True,
-        },
-    }
-
-
-@dataclass
-class EvaluateRequestParameter(ProtoModel):
-    """Generated model for Parameter"""
-
-    name: str = ""
-    value: Optional['Value'] = None
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(local_service_local_service_pb2, 'EvaluateRequest'), 'Parameter')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'name': {
-            'proto_field': 'name',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'value': {
-            'proto_field': 'value',
-            'is_message': True,
-            'is_repeated': False,
         },
     }
 
@@ -8130,7 +8117,7 @@ class ExtractTableNamesFromNextStatementRequest(ProtoModel):
 class ExtractTableNamesFromNextStatementResponse(ProtoModel):
     """Generated model for ExtractTableNamesFromNextStatementResponse"""
 
-    table_name: List['ExtractTableNamesFromNextStatementResponseTableName'] = field(default_factory=list)
+    table_name: List['ExtractTableNamesFromNextStatementResponse.ExtractTableNamesFromNextStatementResponseTableName'] = field(default_factory=list)
     resume_byte_position: int = 0
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.ExtractTableNamesFromNextStatementResponse
@@ -8147,21 +8134,20 @@ class ExtractTableNamesFromNextStatementResponse(ProtoModel):
         },
     }
 
+    @dataclass
+    class TableName(ProtoModel):
+        """Generated model for TableName"""
 
-@dataclass
-class ExtractTableNamesFromNextStatementResponseTableName(ProtoModel):
-    """Generated model for TableName"""
+        table_name_segment: List[str] = field(default_factory=list)
 
-    table_name_segment: List[str] = field(default_factory=list)
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(local_service_local_service_pb2, 'ExtractTableNamesFromNextStatementResponse'), 'TableName')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'table_name_segment': {
-            'proto_field': 'table_name_segment',
-            'is_message': False,
-            'is_repeated': True,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.ExtractTableNamesFromNextStatementResponse.TableName
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'table_name_segment': {
+                'proto_field': 'table_name_segment',
+                'is_message': False,
+                'is_repeated': True,
+            },
+        }
 
 
 @dataclass
@@ -8196,7 +8182,7 @@ class ExtractTableNamesFromStatementRequest(ProtoModel):
 class ExtractTableNamesFromStatementResponse(ProtoModel):
     """Generated model for ExtractTableNamesFromStatementResponse"""
 
-    table_name: List['ExtractTableNamesFromNextStatementResponseTableName'] = field(default_factory=list)
+    table_name: List['ExtractTableNamesFromNextStatementResponse.ExtractTableNamesFromNextStatementResponseTableName'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.ExtractTableNamesFromStatementResponse
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -8207,29 +8193,28 @@ class ExtractTableNamesFromStatementResponse(ProtoModel):
         },
     }
 
+    @dataclass
+    class TableName(ProtoModel):
+        """Generated model for TableName"""
 
-@dataclass
-class ExtractTableNamesFromStatementResponseTableName(ProtoModel):
-    """Generated model for TableName"""
+        table_name_segment: List[str] = field(default_factory=list)
 
-    table_name_segment: List[str] = field(default_factory=list)
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(local_service_local_service_pb2, 'ExtractTableNamesFromStatementResponse'), 'TableName')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'table_name_segment': {
-            'proto_field': 'table_name_segment',
-            'is_message': False,
-            'is_repeated': True,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.ExtractTableNamesFromStatementResponse.TableName
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'table_name_segment': {
+                'proto_field': 'table_name_segment',
+                'is_message': False,
+                'is_repeated': True,
+            },
+        }
 
 
 @dataclass
 class FeatureLabelDictionary(ProtoModel):
     """Generated model for FeatureLabelDictionaryProto"""
 
-    label_mapping: List['FeatureLabelDictionaryLabelMappingEntry'] = field(default_factory=list)
-    encoded_labels: List['FeatureLabelDictionaryEncodedLabelsEntry'] = field(default_factory=list)
+    label_mapping: List['FeatureLabelDictionary.FeatureLabelDictionaryLabelMappingEntry'] = field(default_factory=list)
+    encoded_labels: List['FeatureLabelDictionary.FeatureLabelDictionaryEncodedLabelsEntry'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = public_feature_label_dictionary_pb2.FeatureLabelDictionaryProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -8245,65 +8230,62 @@ class FeatureLabelDictionary(ProtoModel):
         },
     }
 
+    @dataclass
+    class EncodedLabelsEntry(ProtoModel):
+        """Generated model for EncodedLabelsEntry"""
 
-@dataclass
-class FeatureLabelDictionaryEncodedLabelsEntry(ProtoModel):
-    """Generated model for EncodedLabelsEntry"""
+        key: int = 0
+        value: Optional['FeatureLabelDictionary.FeatureLabelDictionaryLabelSet'] = None
 
-    key: int = 0
-    value: Optional['FeatureLabelDictionaryLabelSet'] = None
+        _PROTO_CLASS: ClassVar[type] = public_feature_label_dictionary_pb2.FeatureLabelDictionaryProto.EncodedLabelsEntry
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'key': {
+                'proto_field': 'key',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'value': {
+                'proto_field': 'value',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
 
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(public_feature_label_dictionary_pb2, 'FeatureLabelDictionaryProto'), 'EncodedLabelsEntry')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'key': {
-            'proto_field': 'key',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'value': {
-            'proto_field': 'value',
-            'is_message': True,
-            'is_repeated': False,
-        },
-    }
+    @dataclass
+    class LabelMappingEntry(ProtoModel):
+        """Generated model for LabelMappingEntry"""
 
+        key: int = 0
+        value: str = ""
 
-@dataclass
-class FeatureLabelDictionaryLabelMappingEntry(ProtoModel):
-    """Generated model for LabelMappingEntry"""
+        _PROTO_CLASS: ClassVar[type] = public_feature_label_dictionary_pb2.FeatureLabelDictionaryProto.LabelMappingEntry
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'key': {
+                'proto_field': 'key',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'value': {
+                'proto_field': 'value',
+                'is_message': False,
+                'is_repeated': False,
+            },
+        }
 
-    key: int = 0
-    value: str = ""
+    @dataclass
+    class LabelSet(ProtoModel):
+        """Generated model for LabelSet"""
 
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(public_feature_label_dictionary_pb2, 'FeatureLabelDictionaryProto'), 'LabelMappingEntry')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'key': {
-            'proto_field': 'key',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'value': {
-            'proto_field': 'value',
-            'is_message': False,
-            'is_repeated': False,
-        },
-    }
+        label: List[int] = field(default_factory=list)
 
-
-@dataclass
-class FeatureLabelDictionaryLabelSet(ProtoModel):
-    """Generated model for LabelSet"""
-
-    label: List[int] = field(default_factory=list)
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(public_feature_label_dictionary_pb2, 'FeatureLabelDictionaryProto'), 'LabelSet')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'label': {
-            'proto_field': 'label',
-            'is_message': False,
-            'is_repeated': True,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = public_feature_label_dictionary_pb2.FeatureLabelDictionaryProto.LabelSet
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'label': {
+                'proto_field': 'label',
+                'is_message': False,
+                'is_repeated': True,
+            },
+        }
 
 
 @dataclass
@@ -9123,7 +9105,7 @@ class GetBuiltinFunctionsResponse(ProtoModel):
     """Generated model for GetBuiltinFunctionsResponse"""
 
     function: List['Function'] = field(default_factory=list)
-    types: List['GetBuiltinFunctionsResponseTypesEntry'] = field(default_factory=list)
+    types: List['GetBuiltinFunctionsResponse.GetBuiltinFunctionsResponseTypesEntry'] = field(default_factory=list)
     table_valued_function: List['TableValuedFunction'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.GetBuiltinFunctionsResponse
@@ -9145,27 +9127,26 @@ class GetBuiltinFunctionsResponse(ProtoModel):
         },
     }
 
+    @dataclass
+    class TypesEntry(ProtoModel):
+        """Generated model for TypesEntry"""
 
-@dataclass
-class GetBuiltinFunctionsResponseTypesEntry(ProtoModel):
-    """Generated model for TypesEntry"""
+        key: str = ""
+        value: Optional['Type'] = None
 
-    key: str = ""
-    value: Optional['Type'] = None
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(local_service_local_service_pb2, 'GetBuiltinFunctionsResponse'), 'TypesEntry')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'key': {
-            'proto_field': 'key',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'value': {
-            'proto_field': 'value',
-            'is_message': True,
-            'is_repeated': False,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.GetBuiltinFunctionsResponse.TypesEntry
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'key': {
+                'proto_field': 'key',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'value': {
+                'proto_field': 'value',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
 
 
 @dataclass
@@ -9321,7 +9302,7 @@ class GraphElementType(ProtoModel):
     """Generated model for GraphElementTypeProto"""
 
     kind: int = 0
-    property_type: List['GraphElementTypePropertyType'] = field(default_factory=list)
+    property_type: List['GraphElementType.GraphElementTypePropertyType'] = field(default_factory=list)
     graph_reference: List[str] = field(default_factory=list)
     is_dynamic: bool = False
 
@@ -9349,27 +9330,26 @@ class GraphElementType(ProtoModel):
         },
     }
 
+    @dataclass
+    class PropertyType(ProtoModel):
+        """Generated model for PropertyTypeProto"""
 
-@dataclass
-class GraphElementTypePropertyType(ProtoModel):
-    """Generated model for PropertyTypeProto"""
+        name: str = ""
+        value_type: Optional['Type'] = None
 
-    name: str = ""
-    value_type: Optional['Type'] = None
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(public_type_pb2, 'GraphElementTypeProto'), 'PropertyTypeProto')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'name': {
-            'proto_field': 'name',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'value_type': {
-            'proto_field': 'value_type',
-            'is_message': True,
-            'is_repeated': False,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = public_type_pb2.GraphElementTypeProto.PropertyTypeProto
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'name': {
+                'proto_field': 'name',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'value_type': {
+                'proto_field': 'value_type',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
 
 
 @dataclass
@@ -9909,7 +9889,7 @@ class ModuleOptions(ProtoModel):
     """Generated model for ModuleOptions"""
 
     global_options: Optional['PerModuleOptions'] = None
-    per_module_options: List['ModuleOptionsPerModuleOptionsEntry'] = field(default_factory=list)
+    per_module_options: List['ModuleOptions.ModuleOptionsPerModuleOptionsEntry'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = proto_module_options_pb2.ModuleOptions
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -9925,27 +9905,26 @@ class ModuleOptions(ProtoModel):
         },
     }
 
+    @dataclass
+    class PerModuleOptionsEntry(ProtoModel):
+        """Generated model for PerModuleOptionsEntry"""
 
-@dataclass
-class ModuleOptionsPerModuleOptionsEntry(ProtoModel):
-    """Generated model for PerModuleOptionsEntry"""
+        key: str = ""
+        value: Optional['PerModuleOptions'] = None
 
-    key: str = ""
-    value: Optional['PerModuleOptions'] = None
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(proto_module_options_pb2, 'ModuleOptions'), 'PerModuleOptionsEntry')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'key': {
-            'proto_field': 'key',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'value': {
-            'proto_field': 'value',
-            'is_message': True,
-            'is_repeated': False,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = proto_module_options_pb2.ModuleOptions.PerModuleOptionsEntry
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'key': {
+                'proto_field': 'key',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'value': {
+                'proto_field': 'value',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
 
 
 @dataclass
@@ -10279,7 +10258,7 @@ class PrepareModifyRequest(ProtoModel):
     descriptor_pool_list: Optional['DescriptorPoolList'] = None
     simple_catalog: Optional['SimpleCatalog'] = None
     registered_catalog_id: int = 0
-    table_content: List['EvaluateModifyRequestTableContentEntry'] = field(default_factory=list)
+    table_content: List['EvaluateModifyRequest.EvaluateModifyRequestTableContentEntry'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.PrepareModifyRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -10315,27 +10294,26 @@ class PrepareModifyRequest(ProtoModel):
         },
     }
 
+    @dataclass
+    class TableContentEntry(ProtoModel):
+        """Generated model for TableContentEntry"""
 
-@dataclass
-class PrepareModifyRequestTableContentEntry(ProtoModel):
-    """Generated model for TableContentEntry"""
+        key: str = ""
+        value: Optional['TableContent'] = None
 
-    key: str = ""
-    value: Optional['TableContent'] = None
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(local_service_local_service_pb2, 'PrepareModifyRequest'), 'TableContentEntry')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'key': {
-            'proto_field': 'key',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'value': {
-            'proto_field': 'value',
-            'is_message': True,
-            'is_repeated': False,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.PrepareModifyRequest.TableContentEntry
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'key': {
+                'proto_field': 'key',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'value': {
+                'proto_field': 'value',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
 
 
 @dataclass
@@ -10363,7 +10341,7 @@ class PrepareQueryRequest(ProtoModel):
     descriptor_pool_list: Optional['DescriptorPoolList'] = None
     simple_catalog: Optional['SimpleCatalog'] = None
     registered_catalog_id: int = 0
-    table_content: List['EvaluateModifyRequestTableContentEntry'] = field(default_factory=list)
+    table_content: List['EvaluateModifyRequest.EvaluateModifyRequestTableContentEntry'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.PrepareQueryRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -10399,27 +10377,26 @@ class PrepareQueryRequest(ProtoModel):
         },
     }
 
+    @dataclass
+    class TableContentEntry(ProtoModel):
+        """Generated model for TableContentEntry"""
 
-@dataclass
-class PrepareQueryRequestTableContentEntry(ProtoModel):
-    """Generated model for TableContentEntry"""
+        key: str = ""
+        value: Optional['TableContent'] = None
 
-    key: str = ""
-    value: Optional['TableContent'] = None
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(local_service_local_service_pb2, 'PrepareQueryRequest'), 'TableContentEntry')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'key': {
-            'proto_field': 'key',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'value': {
-            'proto_field': 'value',
-            'is_message': True,
-            'is_repeated': False,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.PrepareQueryRequest.TableContentEntry
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'key': {
+                'proto_field': 'key',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'value': {
+                'proto_field': 'value',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
 
 
 @dataclass
@@ -10800,7 +10777,7 @@ class RegisterCatalogRequest(ProtoModel):
 
     simple_catalog: Optional['SimpleCatalog'] = None
     descriptor_pool_list: Optional['DescriptorPoolList'] = None
-    table_content: List['EvaluateModifyRequestTableContentEntry'] = field(default_factory=list)
+    table_content: List['EvaluateModifyRequest.EvaluateModifyRequestTableContentEntry'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.RegisterCatalogRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -10821,27 +10798,26 @@ class RegisterCatalogRequest(ProtoModel):
         },
     }
 
+    @dataclass
+    class TableContentEntry(ProtoModel):
+        """Generated model for TableContentEntry"""
 
-@dataclass
-class RegisterCatalogRequestTableContentEntry(ProtoModel):
-    """Generated model for TableContentEntry"""
+        key: str = ""
+        value: Optional['TableContent'] = None
 
-    key: str = ""
-    value: Optional['TableContent'] = None
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(local_service_local_service_pb2, 'RegisterCatalogRequest'), 'TableContentEntry')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'key': {
-            'proto_field': 'key',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'value': {
-            'proto_field': 'value',
-            'is_message': True,
-            'is_repeated': False,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.RegisterCatalogRequest.TableContentEntry
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'key': {
+                'proto_field': 'key',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'value': {
+                'proto_field': 'value',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
 
 
 @dataclass
@@ -11321,7 +11297,7 @@ class ScriptException(ProtoModel):
     """Generated model for ScriptException"""
 
     message: str = ""
-    internal: Optional['ScriptExceptionInternal'] = None
+    internal: Optional['ScriptException.ScriptExceptionInternal'] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_script_exception_pb2.ScriptException
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -11337,74 +11313,72 @@ class ScriptException(ProtoModel):
         },
     }
 
+    @dataclass
+    class Internal(ProtoModel):
+        """Generated model for Internal"""
 
-@dataclass
-class ScriptExceptionInternal(ProtoModel):
-    """Generated model for Internal"""
+        statement_text: str = ""
+        stack_trace: List['ScriptException.ScriptExceptionStackTraceFrame'] = field(default_factory=list)
 
-    statement_text: str = ""
-    stack_trace: List['ScriptExceptionStackTraceFrame'] = field(default_factory=list)
+        _PROTO_CLASS: ClassVar[type] = proto_script_exception_pb2.ScriptException.Internal
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'statement_text': {
+                'proto_field': 'statement_text',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'stack_trace': {
+                'proto_field': 'stack_trace',
+                'is_message': True,
+                'is_repeated': True,
+            },
+        }
 
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(proto_script_exception_pb2, 'ScriptException'), 'Internal')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'statement_text': {
-            'proto_field': 'statement_text',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'stack_trace': {
-            'proto_field': 'stack_trace',
-            'is_message': True,
-            'is_repeated': True,
-        },
-    }
+    @dataclass
+    class StackTraceFrame(ProtoModel):
+        """Generated model for StackTraceFrame"""
 
+        line: int = 0
+        column: int = 0
+        filename: str = ""
+        location: str = ""
 
-@dataclass
-class ScriptExceptionStackTraceFrame(ProtoModel):
-    """Generated model for StackTraceFrame"""
-
-    line: int = 0
-    column: int = 0
-    filename: str = ""
-    location: str = ""
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(proto_script_exception_pb2, 'ScriptException'), 'StackTraceFrame')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'line': {
-            'proto_field': 'line',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'column': {
-            'proto_field': 'column',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'filename': {
-            'proto_field': 'filename',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'location': {
-            'proto_field': 'location',
-            'is_message': False,
-            'is_repeated': False,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = proto_script_exception_pb2.ScriptException.StackTraceFrame
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'line': {
+                'proto_field': 'line',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'column': {
+                'proto_field': 'column',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'filename': {
+                'proto_field': 'filename',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'location': {
+                'proto_field': 'location',
+                'is_message': False,
+                'is_repeated': False,
+            },
+        }
 
 
 @dataclass
 class ScriptExecutorState(ProtoModel):
     """Generated model for ScriptExecutorStateProto"""
 
-    callstack: List['ScriptExecutorStateStackFrame'] = field(default_factory=list)
+    callstack: List['ScriptExecutorState.ScriptExecutorStateStackFrame'] = field(default_factory=list)
     pending_exceptions: List['ScriptException'] = field(default_factory=list)
     triggered_features: List[int] = field(default_factory=list)
     timezone: str = ""
     case_stmt_true_branch_index: int = 0
     case_stmt_current_branch_index: int = 0
-    sql_feature_usage: Optional['ScriptExecutorStateScriptFeatureUsage'] = None
+    sql_feature_usage: Optional['ScriptExecutorState.ScriptExecutorStateScriptFeatureUsage'] = None
 
     _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.ScriptExecutorStateProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -11445,147 +11419,143 @@ class ScriptExecutorState(ProtoModel):
         },
     }
 
+    @dataclass
+    class ProcedureDefinition(ProtoModel):
+        """Generated model for ProcedureDefinition"""
 
-@dataclass
-class ScriptExecutorStateProcedureDefinition(ProtoModel):
-    """Generated model for ProcedureDefinition"""
+        name: str = ""
+        signature: Optional['FunctionSignature'] = None
+        argument_name_list: List[str] = field(default_factory=list)
+        body: str = ""
+        is_dynamic_sql: bool = False
+        extension: Optional['ProcedureExtension'] = None
 
-    name: str = ""
-    signature: Optional['FunctionSignature'] = None
-    argument_name_list: List[str] = field(default_factory=list)
-    body: str = ""
-    is_dynamic_sql: bool = False
-    extension: Optional['ProcedureExtension'] = None
+        _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.ScriptExecutorStateProto.ProcedureDefinition
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'name': {
+                'proto_field': 'name',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'signature': {
+                'proto_field': 'signature',
+                'is_message': True,
+                'is_repeated': False,
+            },
+            'argument_name_list': {
+                'proto_field': 'argument_name_list',
+                'is_message': False,
+                'is_repeated': True,
+            },
+            'body': {
+                'proto_field': 'body',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'is_dynamic_sql': {
+                'proto_field': 'is_dynamic_sql',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'extension': {
+                'proto_field': 'extension',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
 
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(scripting_script_executor_state_pb2, 'ScriptExecutorStateProto'), 'ProcedureDefinition')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'name': {
-            'proto_field': 'name',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'signature': {
-            'proto_field': 'signature',
-            'is_message': True,
-            'is_repeated': False,
-        },
-        'argument_name_list': {
-            'proto_field': 'argument_name_list',
-            'is_message': False,
-            'is_repeated': True,
-        },
-        'body': {
-            'proto_field': 'body',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'is_dynamic_sql': {
-            'proto_field': 'is_dynamic_sql',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'extension': {
-            'proto_field': 'extension',
-            'is_message': True,
-            'is_repeated': False,
-        },
-    }
+    @dataclass
+    class ScriptFeatureUsage(ProtoModel):
+        """Generated model for ScriptFeatureUsage"""
 
+        exception: int = 0
+        call_stmt: int = 0
+        execute_immediate_stmt: int = 0
 
-@dataclass
-class ScriptExecutorStateScriptFeatureUsage(ProtoModel):
-    """Generated model for ScriptFeatureUsage"""
+        _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.ScriptExecutorStateProto.ScriptFeatureUsage
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'exception': {
+                'proto_field': 'exception',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'call_stmt': {
+                'proto_field': 'call_stmt',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'execute_immediate_stmt': {
+                'proto_field': 'execute_immediate_stmt',
+                'is_message': False,
+                'is_repeated': False,
+            },
+        }
 
-    exception: int = 0
-    call_stmt: int = 0
-    execute_immediate_stmt: int = 0
+    @dataclass
+    class StackFrame(ProtoModel):
+        """Generated model for StackFrame"""
 
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(scripting_script_executor_state_pb2, 'ScriptExecutorStateProto'), 'ScriptFeatureUsage')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'exception': {
-            'proto_field': 'exception',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'call_stmt': {
-            'proto_field': 'call_stmt',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'execute_immediate_stmt': {
-            'proto_field': 'execute_immediate_stmt',
-            'is_message': False,
-            'is_repeated': False,
-        },
-    }
+        procedure_definition: Optional['ScriptExecutorState.ScriptExecutorStateProcedureDefinition'] = None
+        variables: List['Variable'] = field(default_factory=list)
+        current_location_byte_offset: int = 0
+        control_flow_node_kind: int = 0
+        parameters: Optional['ScriptExecutorState.ScriptExecutorStateStackFrame.ScriptExecutorStateStackFrameParameters'] = None
+        for_loop_stack: List[any_pb2.Any] = field(default_factory=list)
 
+        _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.ScriptExecutorStateProto.StackFrame
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'procedure_definition': {
+                'proto_field': 'procedure_definition',
+                'is_message': True,
+                'is_repeated': False,
+            },
+            'variables': {
+                'proto_field': 'variables',
+                'is_message': True,
+                'is_repeated': True,
+            },
+            'current_location_byte_offset': {
+                'proto_field': 'current_location_byte_offset',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'control_flow_node_kind': {
+                'proto_field': 'control_flow_node_kind',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'parameters': {
+                'proto_field': 'parameters',
+                'is_message': True,
+                'is_repeated': False,
+            },
+            'for_loop_stack': {
+                'proto_field': 'for_loop_stack',
+                'is_message': True,
+                'is_repeated': True,
+            },
+        }
 
-@dataclass
-class ScriptExecutorStateStackFrame(ProtoModel):
-    """Generated model for StackFrame"""
+        @dataclass
+        class Parameters(ProtoModel):
+            """Generated model for Parameters"""
 
-    procedure_definition: Optional['ScriptExecutorStateProcedureDefinition'] = None
-    variables: List['Variable'] = field(default_factory=list)
-    current_location_byte_offset: int = 0
-    control_flow_node_kind: int = 0
-    parameters: Optional['ScriptExecutorStateStackFrameParameters'] = None
-    for_loop_stack: List[any_pb2.Any] = field(default_factory=list)
+            mode: int = 0
+            variables: List['Variable'] = field(default_factory=list)
 
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(scripting_script_executor_state_pb2, 'ScriptExecutorStateProto'), 'StackFrame')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'procedure_definition': {
-            'proto_field': 'procedure_definition',
-            'is_message': True,
-            'is_repeated': False,
-        },
-        'variables': {
-            'proto_field': 'variables',
-            'is_message': True,
-            'is_repeated': True,
-        },
-        'current_location_byte_offset': {
-            'proto_field': 'current_location_byte_offset',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'control_flow_node_kind': {
-            'proto_field': 'control_flow_node_kind',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'parameters': {
-            'proto_field': 'parameters',
-            'is_message': True,
-            'is_repeated': False,
-        },
-        'for_loop_stack': {
-            'proto_field': 'for_loop_stack',
-            'is_message': True,
-            'is_repeated': True,
-        },
-    }
-
-
-@dataclass
-class ScriptExecutorStateStackFrameParameters(ProtoModel):
-    """Generated model for Parameters"""
-
-    mode: int = 0
-    variables: List['Variable'] = field(default_factory=list)
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(getattr(scripting_script_executor_state_pb2, 'ScriptExecutorStateProto'), 'StackFrame'), 'Parameters')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'mode': {
-            'proto_field': 'mode',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'variables': {
-            'proto_field': 'variables',
-            'is_message': True,
-            'is_repeated': True,
-        },
-    }
+            _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.ScriptExecutorStateProto.StackFrame.Parameters
+            _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+                'mode': {
+                    'proto_field': 'mode',
+                    'is_message': False,
+                    'is_repeated': False,
+                },
+                'variables': {
+                    'proto_field': 'variables',
+                    'is_message': True,
+                    'is_repeated': True,
+                },
+            }
 
 
 @dataclass
@@ -11632,7 +11602,7 @@ class SimpleCatalog(ProtoModel):
 
     name: str = ""
     table: List['SimpleTable'] = field(default_factory=list)
-    named_type: List['SimpleCatalogNamedType'] = field(default_factory=list)
+    named_type: List['SimpleCatalog.SimpleCatalogNamedType'] = field(default_factory=list)
     catalog: List['SimpleCatalog'] = field(default_factory=list)
     builtin_function_options: Optional['ZetaSQLBuiltinFunctionOptions'] = None
     custom_function: List['Function'] = field(default_factory=list)
@@ -11719,27 +11689,26 @@ class SimpleCatalog(ProtoModel):
         },
     }
 
+    @dataclass
+    class NamedType(ProtoModel):
+        """Generated model for NamedTypeProto"""
 
-@dataclass
-class SimpleCatalogNamedType(ProtoModel):
-    """Generated model for NamedTypeProto"""
+        name: str = ""
+        type: Optional['Type'] = None
 
-    name: str = ""
-    type: Optional['Type'] = None
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(proto_simple_catalog_pb2, 'SimpleCatalogProto'), 'NamedTypeProto')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'name': {
-            'proto_field': 'name',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'type': {
-            'proto_field': 'type',
-            'is_message': True,
-            'is_repeated': False,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = proto_simple_catalog_pb2.SimpleCatalogProto.NamedTypeProto
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'name': {
+                'proto_field': 'name',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'type': {
+                'proto_field': 'type',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
 
 
 @dataclass
@@ -12296,7 +12265,7 @@ class SimpleValue(ProtoModel):
 class StateMachine(ProtoModel):
     """Generated model for StateMachineProto"""
 
-    nfa: Optional['StateMachineCompiledNFA'] = None
+    nfa: Optional['StateMachine.StateMachineCompiledNFA'] = None
     after_match_skip_mode: int = 0
     longest_match_mode: bool = False
 
@@ -12319,89 +12288,86 @@ class StateMachine(ProtoModel):
         },
     }
 
+    @dataclass
+    class CompiledNFA(ProtoModel):
+        """Generated model for CompiledNFAProto"""
 
-@dataclass
-class StateMachineCompiledNFA(ProtoModel):
-    """Generated model for CompiledNFAProto"""
+        states: List['StateMachine.StateMachineCompiledNFA.StateMachineCompiledNFAState'] = field(default_factory=list)
+        start_state: int = 0
+        final_state: int = 0
+        num_pattern_variables: int = 0
 
-    states: List['StateMachineCompiledNFAState'] = field(default_factory=list)
-    start_state: int = 0
-    final_state: int = 0
-    num_pattern_variables: int = 0
+        _PROTO_CLASS: ClassVar[type] = match_recognize_compiled_pattern_pb2.StateMachineProto.CompiledNFAProto
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'states': {
+                'proto_field': 'states',
+                'is_message': True,
+                'is_repeated': True,
+            },
+            'start_state': {
+                'proto_field': 'start_state',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'final_state': {
+                'proto_field': 'final_state',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'num_pattern_variables': {
+                'proto_field': 'num_pattern_variables',
+                'is_message': False,
+                'is_repeated': False,
+            },
+        }
 
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(match_recognize_compiled_pattern_pb2, 'StateMachineProto'), 'CompiledNFAProto')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'states': {
-            'proto_field': 'states',
-            'is_message': True,
-            'is_repeated': True,
-        },
-        'start_state': {
-            'proto_field': 'start_state',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'final_state': {
-            'proto_field': 'final_state',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'num_pattern_variables': {
-            'proto_field': 'num_pattern_variables',
-            'is_message': False,
-            'is_repeated': False,
-        },
-    }
+        @dataclass
+        class Edge(ProtoModel):
+            """Generated model for EdgeProto"""
 
+            to_state: int = 0
+            pattern_variable: int = 0
+            is_head_anchored: bool = False
+            is_tail_anchored: bool = False
 
-@dataclass
-class StateMachineCompiledNFAEdge(ProtoModel):
-    """Generated model for EdgeProto"""
+            _PROTO_CLASS: ClassVar[type] = match_recognize_compiled_pattern_pb2.StateMachineProto.CompiledNFAProto.EdgeProto
+            _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+                'to_state': {
+                    'proto_field': 'to_state',
+                    'is_message': False,
+                    'is_repeated': False,
+                },
+                'pattern_variable': {
+                    'proto_field': 'pattern_variable',
+                    'is_message': False,
+                    'is_repeated': False,
+                },
+                'is_head_anchored': {
+                    'proto_field': 'is_head_anchored',
+                    'is_message': False,
+                    'is_repeated': False,
+                },
+                'is_tail_anchored': {
+                    'proto_field': 'is_tail_anchored',
+                    'is_message': False,
+                    'is_repeated': False,
+                },
+            }
 
-    to_state: int = 0
-    pattern_variable: int = 0
-    is_head_anchored: bool = False
-    is_tail_anchored: bool = False
+        @dataclass
+        class State(ProtoModel):
+            """Generated model for StateProto"""
 
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(getattr(match_recognize_compiled_pattern_pb2, 'StateMachineProto'), 'CompiledNFAProto'), 'EdgeProto')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'to_state': {
-            'proto_field': 'to_state',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'pattern_variable': {
-            'proto_field': 'pattern_variable',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'is_head_anchored': {
-            'proto_field': 'is_head_anchored',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'is_tail_anchored': {
-            'proto_field': 'is_tail_anchored',
-            'is_message': False,
-            'is_repeated': False,
-        },
-    }
+            edges: List['StateMachine.StateMachineCompiledNFA.StateMachineCompiledNFAEdge'] = field(default_factory=list)
 
-
-@dataclass
-class StateMachineCompiledNFAState(ProtoModel):
-    """Generated model for StateProto"""
-
-    edges: List['StateMachineCompiledNFAEdge'] = field(default_factory=list)
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(getattr(match_recognize_compiled_pattern_pb2, 'StateMachineProto'), 'CompiledNFAProto'), 'StateProto')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'edges': {
-            'proto_field': 'edges',
-            'is_message': True,
-            'is_repeated': True,
-        },
-    }
+            _PROTO_CLASS: ClassVar[type] = match_recognize_compiled_pattern_pb2.StateMachineProto.CompiledNFAProto.StateProto
+            _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+                'edges': {
+                    'proto_field': 'edges',
+                    'is_message': True,
+                    'is_repeated': True,
+                },
+            }
 
 
 @dataclass
@@ -12758,7 +12724,7 @@ class TableContent(ProtoModel):
 class TableData(ProtoModel):
     """Generated model for TableData"""
 
-    row: List['EvaluateModifyResponseRow'] = field(default_factory=list)
+    row: List['EvaluateModifyResponse.EvaluateModifyResponseRow'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.TableData
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12769,21 +12735,20 @@ class TableData(ProtoModel):
         },
     }
 
+    @dataclass
+    class Row(ProtoModel):
+        """Generated model for Row"""
 
-@dataclass
-class TableDataRow(ProtoModel):
-    """Generated model for Row"""
+        cell: List['Value'] = field(default_factory=list)
 
-    cell: List['Value'] = field(default_factory=list)
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(local_service_local_service_pb2, 'TableData'), 'Row')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'cell': {
-            'proto_field': 'cell',
-            'is_message': True,
-            'is_repeated': True,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.TableData.Row
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'cell': {
+                'proto_field': 'cell',
+                'is_message': True,
+                'is_repeated': True,
+            },
+        }
 
 
 @dataclass
@@ -13275,13 +13240,13 @@ class Value(ProtoModel):
     bytes_value: bytes = b""
     date_value: int = 0
     enum_value: int = 0
-    array_value: Optional['ValueArray'] = None
-    struct_value: Optional['ValueStruct'] = None
+    array_value: Optional['Value.ValueArray'] = None
+    struct_value: Optional['Value.ValueStruct'] = None
     proto_value: bytes = b""
     timestamp_value: Optional[datetime.datetime] = None
     timestamp_pico_value: bytes = b""
-    timestamp_picos_value: Optional['ValueTimestampPicos'] = None
-    datetime_value: Optional['ValueDatetime'] = None
+    timestamp_picos_value: Optional['Value.ValueTimestampPicos'] = None
+    datetime_value: Optional['Value.ValueDatetime'] = None
     time_value: int = 0
     geography_value: bytes = b""
     numeric_value: bytes = b""
@@ -13289,9 +13254,9 @@ class Value(ProtoModel):
     json_value: str = ""
     interval_value: bytes = b""
     tokenlist_value: bytes = b""
-    range_value: Optional['ValueRange'] = None
+    range_value: Optional['Value.ValueRange'] = None
     uuid_value: bytes = b""
-    map_value: Optional['ValueMap'] = None
+    map_value: Optional['Value.ValueMap'] = None
 
     _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -13437,141 +13402,134 @@ class Value(ProtoModel):
         },
     }
 
+    @dataclass
+    class Array(ProtoModel):
+        """Generated model for Array"""
 
-@dataclass
-class ValueArray(ProtoModel):
-    """Generated model for Array"""
+        element: List['Value'] = field(default_factory=list)
 
-    element: List['Value'] = field(default_factory=list)
+        _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto.Array
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'element': {
+                'proto_field': 'element',
+                'is_message': True,
+                'is_repeated': True,
+            },
+        }
 
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(public_value_pb2, 'ValueProto'), 'Array')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'element': {
-            'proto_field': 'element',
-            'is_message': True,
-            'is_repeated': True,
-        },
-    }
+    @dataclass
+    class Datetime(ProtoModel):
+        """Generated model for Datetime"""
 
+        bit_field_datetime_seconds: int = 0
+        nanos: int = 0
 
-@dataclass
-class ValueDatetime(ProtoModel):
-    """Generated model for Datetime"""
+        _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto.Datetime
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'bit_field_datetime_seconds': {
+                'proto_field': 'bit_field_datetime_seconds',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'nanos': {
+                'proto_field': 'nanos',
+                'is_message': False,
+                'is_repeated': False,
+            },
+        }
 
-    bit_field_datetime_seconds: int = 0
-    nanos: int = 0
+    @dataclass
+    class Map(ProtoModel):
+        """Generated model for Map"""
 
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(public_value_pb2, 'ValueProto'), 'Datetime')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'bit_field_datetime_seconds': {
-            'proto_field': 'bit_field_datetime_seconds',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'nanos': {
-            'proto_field': 'nanos',
-            'is_message': False,
-            'is_repeated': False,
-        },
-    }
+        entry: List['Value.ValueMapEntry'] = field(default_factory=list)
 
+        _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto.Map
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'entry': {
+                'proto_field': 'entry',
+                'is_message': True,
+                'is_repeated': True,
+            },
+        }
 
-@dataclass
-class ValueMap(ProtoModel):
-    """Generated model for Map"""
+    @dataclass
+    class MapEntry(ProtoModel):
+        """Generated model for MapEntry"""
 
-    entry: List['ValueMapEntry'] = field(default_factory=list)
+        key: Optional['Value'] = None
+        value: Optional['Value'] = None
 
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(public_value_pb2, 'ValueProto'), 'Map')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'entry': {
-            'proto_field': 'entry',
-            'is_message': True,
-            'is_repeated': True,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto.MapEntry
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'key': {
+                'proto_field': 'key',
+                'is_message': True,
+                'is_repeated': False,
+            },
+            'value': {
+                'proto_field': 'value',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
 
+    @dataclass
+    class Range(ProtoModel):
+        """Generated model for Range"""
 
-@dataclass
-class ValueMapEntry(ProtoModel):
-    """Generated model for MapEntry"""
+        start: Optional['Value'] = None
+        end: Optional['Value'] = None
 
-    key: Optional['Value'] = None
-    value: Optional['Value'] = None
+        _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto.Range
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'start': {
+                'proto_field': 'start',
+                'is_message': True,
+                'is_repeated': False,
+            },
+            'end': {
+                'proto_field': 'end',
+                'is_message': True,
+                'is_repeated': False,
+            },
+        }
 
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(public_value_pb2, 'ValueProto'), 'MapEntry')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'key': {
-            'proto_field': 'key',
-            'is_message': True,
-            'is_repeated': False,
-        },
-        'value': {
-            'proto_field': 'value',
-            'is_message': True,
-            'is_repeated': False,
-        },
-    }
+    @dataclass
+    class Struct(ProtoModel):
+        """Generated model for Struct"""
 
+        field: List['Value'] = field(default_factory=list)
 
-@dataclass
-class ValueRange(ProtoModel):
-    """Generated model for Range"""
+        _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto.Struct
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'field': {
+                'proto_field': 'field',
+                'is_message': True,
+                'is_repeated': True,
+            },
+        }
 
-    start: Optional['Value'] = None
-    end: Optional['Value'] = None
+    @dataclass
+    class TimestampPicos(ProtoModel):
+        """Generated model for TimestampPicos"""
 
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(public_value_pb2, 'ValueProto'), 'Range')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'start': {
-            'proto_field': 'start',
-            'is_message': True,
-            'is_repeated': False,
-        },
-        'end': {
-            'proto_field': 'end',
-            'is_message': True,
-            'is_repeated': False,
-        },
-    }
+        seconds: int = 0
+        picos: int = 0
 
-
-@dataclass
-class ValueStruct(ProtoModel):
-    """Generated model for Struct"""
-
-    field: List['Value'] = field(default_factory=list)
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(public_value_pb2, 'ValueProto'), 'Struct')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'field': {
-            'proto_field': 'field',
-            'is_message': True,
-            'is_repeated': True,
-        },
-    }
-
-
-@dataclass
-class ValueTimestampPicos(ProtoModel):
-    """Generated model for TimestampPicos"""
-
-    seconds: int = 0
-    picos: int = 0
-
-    _PROTO_CLASS: ClassVar[type] = getattr(getattr(public_value_pb2, 'ValueProto'), 'TimestampPicos')
-    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
-        'seconds': {
-            'proto_field': 'seconds',
-            'is_message': False,
-            'is_repeated': False,
-        },
-        'picos': {
-            'proto_field': 'picos',
-            'is_message': False,
-            'is_repeated': False,
-        },
-    }
+        _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto.TimestampPicos
+        _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
+            'seconds': {
+                'proto_field': 'seconds',
+                'is_message': False,
+                'is_repeated': False,
+            },
+            'picos': {
+                'proto_field': 'picos',
+                'is_message': False,
+                'is_repeated': False,
+            },
+        }
 
 
 @dataclass
@@ -33252,16 +33210,11 @@ __all__ = [
     'ASTWindowFrameEnums',
     'ASTWindowFrameExprEnums',
     'AllowedHintsAndOptions',
-    'AllowedHintsAndOptionsHint',
-    'AllowedHintsAndOptionsOption',
     'AnalyzeRequest',
     'AnalyzeResponse',
     'AnalyzerLogEntry',
-    'AnalyzerLogEntryExecutionStatsByOpEntry',
     'AnalyzerOptions',
-    'AnalyzerOptionsQueryParameter',
     'AnalyzerOptionsRequest',
-    'AnalyzerOptionsSystemVariable',
     'Annotation',
     'AnnotationMap',
     'AnonOutputValue',
@@ -33343,8 +33296,6 @@ __all__ = [
     'ColumnRef',
     'CompiledPattern',
     'ComplianceTestCaseLabels',
-    'ComplianceTestCaseLabelsLocation',
-    'ComplianceTestCaseLabelsParam',
     'ComplianceTestsLabels',
     'ConnectionRef',
     'ConstantRef',
@@ -33353,8 +33304,6 @@ __all__ = [
     'DeprecationWarning',
     'DescriptorPoolIdList',
     'DescriptorPoolList',
-    'DescriptorPoolListBuiltin',
-    'DescriptorPoolListDefinition',
     'DifferentialPrivacyBoundingReport',
     'DifferentialPrivacyEnums',
     'DifferentialPrivacyOutputValue',
@@ -33371,17 +33320,13 @@ __all__ = [
     'EvaluateModifyBatchRequest',
     'EvaluateModifyBatchResponse',
     'EvaluateModifyRequest',
-    'EvaluateModifyRequestTableContentEntry',
     'EvaluateModifyResponse',
-    'EvaluateModifyResponseRow',
     'EvaluateQueryBatchRequest',
     'EvaluateQueryBatchResponse',
     'EvaluateQueryRequest',
-    'EvaluateQueryRequestTableContentEntry',
     'EvaluateQueryResponse',
     'EvaluateRequest',
     'EvaluateRequestBatch',
-    'EvaluateRequestParameter',
     'EvaluateResponse',
     'EvaluateResponseBatch',
     'EvaluatorTableIterator',
@@ -33390,14 +33335,9 @@ __all__ = [
     'ExtendedTypeParameters',
     'ExtractTableNamesFromNextStatementRequest',
     'ExtractTableNamesFromNextStatementResponse',
-    'ExtractTableNamesFromNextStatementResponseTableName',
     'ExtractTableNamesFromStatementRequest',
     'ExtractTableNamesFromStatementResponse',
-    'ExtractTableNamesFromStatementResponseTableName',
     'FeatureLabelDictionary',
-    'FeatureLabelDictionaryEncodedLabelsEntry',
-    'FeatureLabelDictionaryLabelMappingEntry',
-    'FeatureLabelDictionaryLabelSet',
     'FieldDescriptorRef',
     'FieldFormat',
     'Fix',
@@ -33417,13 +33357,11 @@ __all__ = [
     'FunctionSignatureOptions',
     'FunctionSignatureRewriteOptions',
     'GetBuiltinFunctionsResponse',
-    'GetBuiltinFunctionsResponseTypesEntry',
     'GraphElementLabel',
     'GraphElementLabelRef',
     'GraphElementTable',
     'GraphElementTableRef',
     'GraphElementType',
-    'GraphElementTypePropertyType',
     'GraphNodeTableReference',
     'GraphPathType',
     'GraphPropertyDeclaration',
@@ -33447,7 +33385,6 @@ __all__ = [
     'MeasureType',
     'ModelRef',
     'ModuleOptions',
-    'ModuleOptionsPerModuleOptionsEntry',
     'NoiseConfidenceInterval',
     'NumericTypeParameters',
     'OneofDescriptorRef',
@@ -33462,10 +33399,8 @@ __all__ = [
     'PerModuleOptions',
     'PlaceholderDescriptor',
     'PrepareModifyRequest',
-    'PrepareModifyRequestTableContentEntry',
     'PrepareModifyResponse',
     'PrepareQueryRequest',
-    'PrepareQueryRequestTableContentEntry',
     'PrepareQueryResponse',
     'PrepareRequest',
     'PrepareResponse',
@@ -33482,7 +33417,6 @@ __all__ = [
     'RangeType',
     'RankTypeEnums',
     'RegisterCatalogRequest',
-    'RegisterCatalogRequestTableContentEntry',
     'RegisterResponse',
     'ResolvedASTRewriteOptions',
     'ResolvedAggregateHavingModifierEnums',
@@ -33527,17 +33461,10 @@ __all__ = [
     'ResultTable',
     'RewriteOptions',
     'ScriptException',
-    'ScriptExceptionInternal',
-    'ScriptExceptionStackTraceFrame',
     'ScriptExecutorState',
-    'ScriptExecutorStateProcedureDefinition',
-    'ScriptExecutorStateScriptFeatureUsage',
-    'ScriptExecutorStateStackFrame',
-    'ScriptExecutorStateStackFrameParameters',
     'SequenceRef',
     'SimpleAnonymizationInfo',
     'SimpleCatalog',
-    'SimpleCatalogNamedType',
     'SimpleColumn',
     'SimpleConnection',
     'SimpleConstant',
@@ -33555,9 +33482,6 @@ __all__ = [
     'SimpleTokenList',
     'SimpleValue',
     'StateMachine',
-    'StateMachineCompiledNFA',
-    'StateMachineCompiledNFAEdge',
-    'StateMachineCompiledNFAState',
     'StringTypeParameters',
     'StructField',
     'StructType',
@@ -33573,7 +33497,6 @@ __all__ = [
     'TableAlias',
     'TableContent',
     'TableData',
-    'TableDataRow',
     'TableFromProtoRequest',
     'TableRef',
     'TableValuedFunction',
@@ -33592,13 +33515,6 @@ __all__ = [
     'UnregisterRequest',
     'UnsupportedFieldsEnum',
     'Value',
-    'ValueArray',
-    'ValueDatetime',
-    'ValueMap',
-    'ValueMapEntry',
-    'ValueRange',
-    'ValueStruct',
-    'ValueTimestampPicos',
     'ValueWithType',
     'Variable',
     'WireFormatAnnotationEmptyMessage',

@@ -295,13 +295,25 @@ def _create_model_from_proto(proto: _message.Message) -> ProtoModel:
         pascal_parts = [part for part in parts if _is_pascal_case(part)]
         
         if pascal_parts:
-            # Join all PascalCase parts and remove Proto suffix
-            # Examples:
-            # - ["ParseResponse"] -> "ParseResponse"
-            # - ["ExtractTableNamesFromNextStatementResponse", "TableName"] 
-            #   -> "ExtractTableNamesFromNextStatementResponseTableName"
-            # - ["AllowedHintsAndOptionsProto", "HintProto"] -> "AllowedHintsAndOptionsHint"
-            model_class_name = ''.join(part.removesuffix('Proto') for part in pascal_parts)
+            # Remove Proto suffix from each part
+            class_parts = [part.removesuffix('Proto') for part in pascal_parts]
+            
+            # For nested classes, navigate through parent classes
+            # Example: ["AllowedHintsAndOptions", "Hint"] -> AllowedHintsAndOptions.Hint
+            if len(class_parts) > 1:
+                # Navigate through nested structure
+                current_class = getattr(model_module, class_parts[0], None)
+                if current_class:
+                    for nested_part in class_parts[1:]:
+                        current_class = getattr(current_class, nested_part, None)
+                        if not current_class:
+                            break
+                    if current_class and issubclass(current_class, ProtoModel):
+                        return current_class.from_proto(proto)
+            
+            # Fallback: try flat name (old style for compatibility)
+            # ["AllowedHintsAndOptions", "Hint"] -> "AllowedHintsAndOptionsHint"
+            model_class_name = ''.join(class_parts)
     else:
         # No DESCRIPTOR, use proto type name
         model_class_name = proto_type_name

@@ -79,8 +79,11 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
         """Recursively collect nested message types"""
         nested_messages = {}
         for nested_type in descriptor.nested_types:
-            # Nested wrapper class name: ParentName + NestedName (without 'Proto' suffix)
-            nested_model_name = parent_name + nested_type.name.removesuffix('Proto')
+            # Full model name for graph key (flat compatibility): ParentName + NestedName
+            nested_full_model_name = parent_name + nested_type.name.removesuffix('Proto')
+            
+            # Short class name for actual nested class: just NestedName without Proto suffix
+            nested_class_name = nested_type.name.removesuffix('Proto')
             
             # Build full proto path for nested types
             # parent_proto_path: "ScriptExecutorStateProto" or "ScriptExecutorStateProto.StackFrame"
@@ -93,10 +96,13 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
             # Get the nested class from parent
             nested_cls = getattr(parent_cls, nested_type.name)
             
-            nested_messages[nested_model_name] = {
+            # Use full name as key for graph (flat compatibility)
+            # but store the short class name for code generation
+            nested_messages[nested_full_model_name] = {
                 'class': nested_cls,
                 'module': module_name,
-                'name': nested_model_name,
+                'name': nested_full_model_name,  # Full name for graph key
+                'class_name': nested_class_name,  # Short name for class definition
                 'proto_name': nested_type.name,
                 'proto_full_path': nested_proto_full_path,
                 'parent_model': parent_name,
@@ -104,11 +110,11 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
             }
             
             # Recursively collect nested messages within this nested message
-            # Pass the full path so far
+            # Pass the full path so far, and use full name as parent
             sub_nested = collect_nested_messages(
                 nested_type, 
                 nested_cls, 
-                nested_model_name, 
+                nested_full_model_name,  # Use full name for next level's parent
                 module_name,
                 nested_proto_full_path
             )
@@ -245,6 +251,8 @@ def extract_inheritance_graph(base_dir: Path) -> Dict[str, Any]:
         
         graph[model_name] = {
             'parent': parent_name,
+            'parent_model': info.get('parent_model'),  # Nesting parent (not inheritance)
+            'class_name': info.get('class_name'),  # Short name for nested classes
             'module': info['module'],
             'class': cls,
             'proto_name': info.get('proto_name', info['name']),
@@ -339,7 +347,26 @@ def map_proto_type_to_python(field_info: Dict[str, Any], graph: Dict[str, Any] =
                     model_name = base_class_name
             
             if model_name:
-                base_type = f"'{model_name}'"
+                # Check if this is a nested class by looking at parent_model in graph
+                if graph and model_name in graph:
+                    model_info = graph[model_name]
+                    if model_info.get('is_nested') and model_info.get('parent_model'):
+                        # Build full nested path (e.g., 'ScriptExecutorState.StackFrame')
+                        parent_model = model_info['parent_model']
+                        # Recursively build the path for deeply nested classes
+                        path_parts = [model_name]
+                        current = model_name
+                        while graph[current].get('parent_model'):
+                            parent = graph[current]['parent_model']
+                            path_parts.insert(0, parent)
+                            if parent not in graph or not graph[parent].get('parent_model'):
+                                break
+                            current = parent
+                        base_type = f"'{'.'.join(path_parts)}'"
+                    else:
+                        base_type = f"'{model_name}'"
+                else:
+                    base_type = f"'{model_name}'"
             else:
                 proto_type = field_info.get('message_type', 'Any')
                 model_type = proto_type.removesuffix('Proto')
@@ -549,26 +576,36 @@ def generate_property(field_info: Dict[str, Any], parent_chain: List[str], graph
         return {return_stmt}
 '''
 
-def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], module_aliases: Dict[str, str] = None) -> str:
-    """Generate a dataclass-based wrapper class"""
+def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], module_aliases: Dict[str, str] = None, indent: int = 0) -> str:
+    """Generate a dataclass-based wrapper class with support for nested classes"""
     parent_name = info['parent']
     proto_name = info.get('proto_name', name)
     module_name = info['module']
     is_nested = info.get('is_nested', False)
     
+    # Use short class name for nested classes, full name for top-level
+    class_name = info.get('class_name', name) if is_nested else name
+    
+    # Create indentation string
+    indent_str = '    ' * indent
+    
     # Determine parent class
     if parent_name and parent_name in graph:
         parent_model = parent_name.removesuffix('Proto')
-        class_decl = f"@dataclass\nclass {name}({parent_model}):"
+        class_decl = f"{indent_str}@dataclass\n{indent_str}class {class_name}({parent_model}):"
     else:
         # Root classes inherit from ProtoModel
-        class_decl = f"@dataclass\nclass {name}(ProtoModel):"
+        class_decl = f"{indent_str}@dataclass\n{indent_str}class {class_name}(ProtoModel):"
     
     # Generate docstring
-    docstring = f'    """Generated model for {proto_name}"""'
+    docstring = f'{indent_str}    """Generated model for {proto_name}"""'
     
     # Generate dataclass fields (own fields only)
     fields_code = generate_dataclass_fields(info, graph)
+    # Apply indentation to fields
+    if fields_code:
+        fields_lines = fields_code.split('\n')
+        fields_code = '\n'.join(indent_str + line if line.strip() else line for line in fields_lines)
     
     # Generate proto class reference
     proto_full_path = info.get('proto_full_path', proto_name)
@@ -580,27 +617,29 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], modul
         # Fallback to last part of module name
         module_alias = module_name.split('.')[-1]
     
-    # For nested types, use getattr chain to navigate
+    # Direct attribute access for all types (including nested)
     if is_nested and '.' in proto_full_path:
-        # Build getattr chain: getattr(getattr(module, 'Parent'), 'Nested')
-        parts = proto_full_path.split('.')
-        proto_class_ref = module_alias
-        for part in parts:
-            proto_class_ref = f"getattr({proto_class_ref}, '{part}')"
-        proto_class_line = f"    _PROTO_CLASS: ClassVar[type] = {proto_class_ref}"
+        # Use dot notation: module.Parent.Nested
+        proto_class_ref = f"{module_alias}.{proto_full_path}"
     else:
         # Direct attribute access for top-level types
         proto_class_ref = f"{module_alias}.{proto_name}"
-        proto_class_line = f"    _PROTO_CLASS: ClassVar[type] = {proto_class_ref}"
+    
+    proto_class_line = f"{indent_str}    _PROTO_CLASS: ClassVar[type] = {proto_class_ref}"
     
     # Generate metadata
     metadata_code = generate_field_metadata(info, graph)
+    # Apply indentation to metadata
+    if metadata_code:
+        metadata_lines = metadata_code.split('\n')
+        metadata_code = '\n'.join(indent_str + line if line.strip() else line for line in metadata_lines)
     
     # Combine all parts
     parts = [class_decl, docstring]
     
     # Add fields
-    if fields_code and fields_code != "    pass":
+    indented_pass = f"{indent_str}    pass"
+    if fields_code and fields_code.strip() != indented_pass.strip():
         parts.append("")
         parts.append(fields_code)
     
@@ -611,7 +650,7 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], modul
     if metadata_code:
         parts.append(metadata_code)
     else:
-        parts.append("    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}")
+        parts.append(f"{indent_str}    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {{}}")
     
     return '\n'.join(parts)
 
@@ -718,15 +757,52 @@ def generate_model_file(graph: Dict[str, Any], output_path: Path) -> None:
     ])
     
     # Generate classes - pass module_aliases to generate_class
+    # Build tree structure for nested classes
+    root_messages = {}  # Top-level messages
+    children_map = {}   # Map parent -> list of children
+    
+    for name, info in graph.items():
+        parent_model = info.get('parent_model')
+        if parent_model:
+            # This is a nested class
+            if parent_model not in children_map:
+                children_map[parent_model] = []
+            children_map[parent_model].append(name)
+        else:
+            # This is a top-level class
+            root_messages[name] = info
+    
+    def generate_class_tree(name: str, indent: int = 0) -> str:
+        """Generate a class and its nested children recursively"""
+        info = graph[name]
+        lines = []
+        
+        # Generate the class itself
+        class_code = generate_class(name, info, graph, module_aliases, indent)
+        lines.append(class_code)
+        
+        # Generate nested children
+        if name in children_map:
+            for child_name in sorted(children_map[name]):
+                lines.append("")  # Blank line between nested classes
+                child_code = generate_class_tree(child_name, indent + 1)
+                lines.append(child_code)
+        
+        return '\n'.join(lines)
+    
+    # Generate all top-level classes with their nested trees
     class_count = 0
     class_names = []
-    for name in sorted_names:
-        info = graph[name]
-        class_code = generate_class(name, info, graph, module_aliases)
+    for name in sorted(root_messages.keys(), key=lambda n: (graph[n]['depth'], n)):
+        info = root_messages[name]
+        class_code = generate_class_tree(name, indent=0)
         lines.append(class_code)
         lines.append('\n')
         class_count += 1
         class_names.append(name)
+        # Count nested classes too
+        if name in children_map:
+            class_count += len(children_map[name])
     
     # Generate __all__ for proper exports
     export_names = ['parse_proto', 'ProtoModel'] + class_names
