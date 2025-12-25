@@ -32,10 +32,8 @@ from zetasql.types import (
 )
 from zetasql.builders import TableBuilder, CatalogBuilder
 from zetasql.types.type_kind import TypeKind
-from zetasql.types.proto_models import ZetaSQLBuiltinFunctionOptions
-from zetasql.wasi._pb2.zetasql.proto import options_pb2
+from zetasql.types.proto_models import ZetaSQLBuiltinFunctionOptions, TableContent, TableData, Value, LanguageOptions
 from zetasql.wasi._pb2.zetasql.public import options_pb2 as public_options_pb2
-from zetasql.wasi._pb2.zetasql.local_service import local_service_pb2
 from google.protobuf import text_format
 
 
@@ -45,9 +43,8 @@ from google.protobuf import text_format
 
 def create_analyzer_options():
     """Create analyzer options with all language features enabled."""
-    opts = options_pb2.AnalyzerOptionsProto()
-    
-    language_options = opts.language_options
+    # Create language options
+    language_options = LanguageOptions()
     language_options.name_resolution_mode = public_options_pb2.NAME_RESOLUTION_DEFAULT
     language_options.product_mode = public_options_pb2.PRODUCT_INTERNAL
     
@@ -63,44 +60,86 @@ def create_analyzer_options():
             except:
                 pass
     
-    return opts
+    return language_options
 
 
-def create_table_content(rows_data):
-    """
-    Create TableContent protobuf from row data.
+def create_table_content(rows_data: list[list]) -> TableContent:
+    """Create TableContent ProtoModel from row data.
     
-    This helper function demonstrates how to build table data for query execution.
-    It automatically detects Python types and converts them to appropriate protobuf values.
+    This helper function builds table data for query execution, automatically
+    detecting Python types and converting them to appropriate Value fields.
     
     Args:
-        rows_data: List of lists, where each inner list represents a row
-                   Example: [["Alice", 25, True], ["Bob", 30, False]]
+        rows_data: List of lists, where each inner list represents a row.
+                   Supported types: None, bool, int, float, str
+                   
+                   Example: [
+                       ["Alice", 25, True],
+                       ["Bob", 30, False]
+                   ]
     
     Returns:
-        TableContent protobuf message ready for evaluate_query
+        TableContent ProtoModel ready for use with LocalService
+    
+    Examples:
+        >>> # Simple table data
+        >>> customers = create_table_content([
+        ...     [1, "Alice", "alice@example.com"],
+        ...     [2, "Bob", "bob@example.com"]
+        ... ])
+        >>> 
+        >>> # With null values
+        >>> data = create_table_content([
+        ...     [1, "Alice", None],
+        ...     [2, None, "test@example.com"]
+        ... ])
+        >>> 
+        >>> # Use in query execution
+        >>> table_content = {
+        ...     "customers": create_table_content(customer_data),
+        ...     "products": create_table_content(product_data)
+        ... }
+        >>> response = service.prepare_query(
+        ...     sql="SELECT * FROM customers",
+        ...     simple_catalog=catalog,
+        ...     table_content=table_content
+        ... )
+    
+    Raises:
+        ValueError: If an unsupported value type is encountered
     """
-    table_content = local_service_pb2.TableContent()
-    table_data = table_content.table_data
+    rows = []
     
     for row_data in rows_data:
-        row = table_data.row.add()
+        cells = []
         for value in row_data:
-            cell = row.cell.add()
+            # Create Value ProtoModel for each cell
             if value is None:
-                cell.is_null = True
+                # Null value - no field set, but we could add a marker if needed
+                # For now, just create empty Value (will be treated as NULL)
+                cells.append(Value())
             elif isinstance(value, bool):
-                cell.bool_value = value
+                cells.append(Value(bool_value=value))
             elif isinstance(value, int):
-                cell.int64_value = value
+                cells.append(Value(int64_value=value))
             elif isinstance(value, float):
-                cell.double_value = value
+                cells.append(Value(double_value=value))
             elif isinstance(value, str):
-                cell.string_value = value
+                cells.append(Value(string_value=value))
             else:
-                raise ValueError(f"Unsupported value type: {type(value)}")
+                raise ValueError(
+                    f"Unsupported value type: {type(value).__name__}. "
+                    f"Supported types: None, bool, int, float, str"
+                )
+        
+        # Create Row with cells
+        rows.append(TableData.Row(cell=cells))
     
-    return table_content
+    # Create TableData with rows
+    table_data = TableData(row=rows)
+    
+    # Create and return TableContent
+    return TableContent(table_data=table_data)
 
 
 def print_table_result(columns, rows):
@@ -211,7 +250,7 @@ def setup_catalog_and_data(service):
     
     # Create builtin function options from analyzer options
     builtin_opts = ZetaSQLBuiltinFunctionOptions(
-        language_options=analyzer_options.language_options
+        language_options=analyzer_options
     )
     
     catalog = (CatalogBuilder("demo")

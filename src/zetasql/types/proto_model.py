@@ -145,6 +145,9 @@ class ProtoModel:
                 if field_meta['is_message']:
                     if field_meta.get('is_repeated', False):
                         # Repeated message field
+                        # Skip if value is empty list (default)
+                        if not value:
+                            continue
                         target_list = getattr(current_proto, proto_field)
                         del target_list[:]  # Clear existing
                         for item in value:
@@ -162,6 +165,9 @@ class ProtoModel:
                     # Primitive field
                     if field_meta.get('is_repeated', False):
                         # Repeated primitive field (e.g., List[int])
+                        # Skip if value is empty list (default)
+                        if not value:
+                            continue
                         target_list = getattr(current_proto, proto_field)
                         del target_list[:]  # Clear existing
                         for item in value:

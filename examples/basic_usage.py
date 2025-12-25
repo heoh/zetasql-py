@@ -8,15 +8,16 @@ Simple examples demonstrating common ZetaSQL operations.
 
 from zetasql.local_service import ZetaSqlLocalService
 from zetasql.resolved_ast_wrapper import ResolvedQueryStmt
-from zetasql.wasi._pb2.zetasql.proto import simple_catalog_pb2, options_pb2
-from zetasql.wasi._pb2.zetasql.public import type_pb2, options_pb2 as public_options_pb2
+from zetasql.types import proto_models
+from zetasql.types.type_kind import TypeKind
+from zetasql.builders import TableBuilder, CatalogBuilder
+from zetasql.wasi._pb2.zetasql.public import options_pb2 as public_options_pb2
 
 
 def create_analyzer_options():
     """Create analyzer options with all language features enabled."""
-    opts = options_pb2.AnalyzerOptionsProto()
-    
-    language_options = opts.language_options
+    # Create language options
+    language_options = proto_models.LanguageOptions()
     language_options.name_resolution_mode = public_options_pb2.NAME_RESOLUTION_DEFAULT
     language_options.product_mode = public_options_pb2.PRODUCT_INTERNAL
     
@@ -32,7 +33,7 @@ def create_analyzer_options():
             except:
                 pass
     
-    return opts
+    return language_options
 
 
 def create_sample_catalog(service):
@@ -40,33 +41,30 @@ def create_sample_catalog(service):
     # Create analyzer options first
     analyzer_options = create_analyzer_options()
     
-    catalog = simple_catalog_pb2.SimpleCatalogProto()
-    catalog.name = "demo"
+    # Create orders table using TableBuilder
+    orders = (TableBuilder("orders", serialization_id=1)
+        .add_column("order_id", TypeKind.TYPE_INT64)
+        .add_column("product_id", TypeKind.TYPE_INT64)
+        .add_column("customer_id", TypeKind.TYPE_INT64)
+        .add_column("quantity", TypeKind.TYPE_INT64)
+        .add_column("price", TypeKind.TYPE_DOUBLE)
+        .add_column("status", TypeKind.TYPE_STRING)
+        .build())
     
-    # Enable builtin functions
-    builtin_opts = catalog.builtin_function_options
-    builtin_opts.language_options.CopyFrom(analyzer_options.language_options)
+    # Create builtin function options
+    builtin_opts = proto_models.ZetaSQLBuiltinFunctionOptions(
+        language_options=analyzer_options
+    )
     
-    # Create orders table
-    orders = catalog.table.add()
-    orders.name = "orders"
-    orders.serialization_id = 1
-    
-    for col_name, type_kind in [
-        ("order_id", type_pb2.TYPE_INT64),
-        ("product_id", type_pb2.TYPE_INT64),
-        ("customer_id", type_pb2.TYPE_INT64),
-        ("quantity", type_pb2.TYPE_INT64),
-        ("price", type_pb2.TYPE_DOUBLE),
-        ("status", type_pb2.TYPE_STRING),
-    ]:
-        col = orders.column.add()
-        col.name = col_name
-        col.type.type_kind = type_kind
+    # Create catalog using CatalogBuilder
+    catalog = (CatalogBuilder("demo")
+        .add_table(orders)
+        .with_builtin_functions(builtin_opts)
+        .build())
     
     # Register catalog
     reg_response = service.register_catalog(simple_catalog=catalog)
-    return reg_response.registered_id, create_analyzer_options()
+    return reg_response.registered_id, proto_models.AnalyzerOptions(language_options=analyzer_options)
 
 
 def example_1_parse():

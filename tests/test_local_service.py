@@ -7,10 +7,9 @@ Tests for the high-level local service wrapper using ProtoModel API.
 import pytest
 from zetasql.local_service import ZetaSqlLocalService
 from zetasql.types import proto_models
-from zetasql.wasi._pb2.zetasql.proto import options_pb2, simple_catalog_pb2
-from zetasql.wasi._pb2.zetasql.public import type_pb2
+from zetasql.types.type_kind import TypeKind
+from zetasql.builders import TableBuilder, CatalogBuilder
 from zetasql.wasi._pb2.zetasql.public import options_pb2 as public_options_pb2
-from zetasql.wasi._pb2.zetasql.public import parse_resume_location_pb2
 
 
 @pytest.fixture(scope="session")
@@ -22,18 +21,14 @@ def service():
 @pytest.fixture(scope="session")
 def analyzer_options():
     """Create analyzer options with all language features enabled."""
-    opts = options_pb2.AnalyzerOptionsProto()
-    
-    # Enable all language features
-    language_options = opts.language_options
+    # Create language options with all features
+    language_options = proto_models.LanguageOptions()
     language_options.name_resolution_mode = public_options_pb2.NAME_RESOLUTION_DEFAULT
     language_options.product_mode = public_options_pb2.PRODUCT_INTERNAL
     
     # Enable all released language features
-    # This is equivalent to calling EnableMaximumLanguageFeatures() in C++
     for feature in dir(public_options_pb2):
         if feature.startswith('FEATURE_'):
-            # Skip Spanner-specific DDL feature that causes errors
             if feature == 'FEATURE_SPANNER_LEGACY_DDL':
                 continue
             try:
@@ -43,34 +38,31 @@ def analyzer_options():
             except:
                 pass
     
+    # Create analyzer options with language options
+    opts = proto_models.AnalyzerOptions(language_options=language_options)
     return opts
 
 
 @pytest.fixture
 def simple_catalog(analyzer_options):
     """Create a simple catalog with test table and builtin functions enabled."""
-    catalog = simple_catalog_pb2.SimpleCatalogProto()
+    # Create test table using TableBuilder
+    table = (TableBuilder("TestTable")
+        .add_column("id", TypeKind.TYPE_INT64)
+        .add_column("name", TypeKind.TYPE_STRING)
+        .add_column("value", TypeKind.TYPE_DOUBLE)
+        .build())
     
-    # Enable builtin functions
-    builtin_opts = catalog.builtin_function_options
-    builtin_opts.language_options.CopyFrom(analyzer_options.language_options)
+    # Create builtin function options
+    builtin_opts = proto_models.ZetaSQLBuiltinFunctionOptions(
+        language_options=analyzer_options.language_options
+    )
     
-    # Add a test table
-    table = catalog.table.add()
-    table.name = "TestTable"
-    
-    # Add columns
-    col1 = table.column.add()
-    col1.name = "id"
-    col1.type.type_kind = type_pb2.TYPE_INT64
-    
-    col2 = table.column.add()
-    col2.name = "name"
-    col2.type.type_kind = type_pb2.TYPE_STRING
-    
-    col3 = table.column.add()
-    col3.name = "value"
-    col3.type.type_kind = type_pb2.TYPE_DOUBLE
+    # Create catalog using CatalogBuilder
+    catalog = (CatalogBuilder("test")
+        .add_table(table)
+        .with_builtin_functions(builtin_opts)
+        .build())
     
     return catalog
 
@@ -322,9 +314,10 @@ class TestTableExtraction:
         sql = "SELECT * FROM table1; SELECT * FROM table2"
         
         # First statement
-        parse_resume = parse_resume_location_pb2.ParseResumeLocationProto()
-        parse_resume.input = sql
-        parse_resume.byte_position = 0
+        parse_resume = proto_models.ParseResumeLocation(
+            input=sql,
+            byte_position=0
+        )
         
         response = service.extract_table_names_from_next_statement(
             parse_resume_location=parse_resume
