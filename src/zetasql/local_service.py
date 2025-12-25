@@ -7,12 +7,16 @@ from zetasql.wasi import get_wasm_path
 from zetasql.wasi._pb2.zetasql.local_service import local_service_pb2
 from zetasql.wasi._pb2.zetasql.proto import options_pb2
 from zetasql.wasi._pb2.zetasql.public import simple_table_pb2
-from typing import TypeVar
+from typing import TypeVar, Any, Dict
 
 Message = TypeVar("Message", bound=_message.Message)
 
 class ZetaSqlLocalService:
-    """Client for ZetaSQL Local Service via WASM."""
+    """Client for ZetaSQL Local Service via WASM.
+    
+    Supports both protobuf messages and ProtoModel objects. ProtoModel objects
+    are automatically converted to protobuf via their to_proto() method.
+    """
 
     def __init__(self):
         """
@@ -23,11 +27,30 @@ class ZetaSqlLocalService:
         """
         self.wasm_client = WasmClient(wasm_path=get_wasm_path())
 
+    def _convert_proto_models(self, kwargs: Dict[str, Any]) -> Dict[str, Any]:
+        """Convert ProtoModel objects to protobuf in kwargs.
+        
+        Args:
+            kwargs: Dictionary of keyword arguments
+            
+        Returns:
+            New dictionary with ProtoModel objects converted to protobuf
+        """
+        converted = {}
+        for key, value in kwargs.items():
+            if hasattr(value, 'to_proto'):
+                # ProtoModel detected - convert to protobuf
+                converted[key] = value.to_proto()
+            else:
+                converted[key] = value
+        return converted
+
     def _call_grpc_method(self, method_name: str, request: _message.Message, response_type: type[Message]) -> Message:
         return call_grpc_func(self.wasm_client, method_name, request, response_type)
 
     @grpc_method(local_service_pb2.PrepareRequest)
     def prepare(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_Prepare",
             local_service_pb2.PrepareRequest(*args, **kwargs),
@@ -36,6 +59,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.EvaluateRequest)
     def evaluate(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_Evaluate",
             local_service_pb2.EvaluateRequest(*args, **kwargs),
@@ -44,6 +68,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.UnprepareRequest)
     def unprepare(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_Unprepare",
             local_service_pb2.UnprepareRequest(*args, **kwargs),
@@ -52,6 +77,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.PrepareQueryRequest)
     def prepare_query(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_PrepareQuery",
             local_service_pb2.PrepareQueryRequest(*args, **kwargs),
@@ -60,6 +86,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.EvaluateQueryRequest)
     def evaluate_query(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_EvaluateQuery",
             local_service_pb2.EvaluateQueryRequest(*args, **kwargs),
@@ -68,6 +95,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.UnprepareQueryRequest)
     def unprepare_query(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_UnprepareQuery",
             local_service_pb2.UnprepareQueryRequest(*args, **kwargs),
@@ -76,6 +104,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.PrepareModifyRequest)
     def prepare_modify(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_PrepareModify",
             local_service_pb2.PrepareModifyRequest(*args, **kwargs),
@@ -84,6 +113,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.EvaluateModifyRequest)
     def evaluate_modify(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_EvaluateModify",
             local_service_pb2.EvaluateModifyRequest(*args, **kwargs),
@@ -92,6 +122,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.UnprepareModifyRequest)
     def unprepare_modify(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_UnprepareModify",
             local_service_pb2.UnprepareModifyRequest(*args, **kwargs),
@@ -100,6 +131,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.AnalyzeRequest)
     def analyze(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_Analyze",
             local_service_pb2.AnalyzeRequest(*args, **kwargs),
@@ -108,6 +140,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.BuildSqlRequest)
     def build_sql(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_BuildSql",
             local_service_pb2.BuildSqlRequest(*args, **kwargs),
@@ -116,6 +149,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.ParseRequest)
     def parse(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_Parse",
             local_service_pb2.ParseRequest(*args, **kwargs),
@@ -124,6 +158,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.ExtractTableNamesFromStatementRequest)
     def extract_table_names_from_statement(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_ExtractTableNamesFromStatement",
             local_service_pb2.ExtractTableNamesFromStatementRequest(*args, **kwargs),
@@ -132,6 +167,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.ExtractTableNamesFromNextStatementRequest)
     def extract_table_names_from_next_statement(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_ExtractTableNamesFromNextStatement",
             local_service_pb2.ExtractTableNamesFromNextStatementRequest(*args, **kwargs),
@@ -140,6 +176,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.TableFromProtoRequest)
     def get_table_from_proto(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_GetTableFromProto",
             local_service_pb2.TableFromProtoRequest(*args, **kwargs),
@@ -148,6 +185,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.FormatSqlRequest)
     def format_sql(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_FormatSql",
             local_service_pb2.FormatSqlRequest(*args, **kwargs),
@@ -156,6 +194,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.FormatSqlRequest)
     def lenient_format_sql(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_LenientFormatSql",
             local_service_pb2.FormatSqlRequest(*args, **kwargs),
@@ -164,6 +203,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.RegisterCatalogRequest)
     def register_catalog(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_RegisterCatalog",
             local_service_pb2.RegisterCatalogRequest(*args, **kwargs),
@@ -172,6 +212,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.UnregisterRequest)
     def unregister_catalog(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_UnregisterCatalog",
             local_service_pb2.UnregisterRequest(*args, **kwargs),
@@ -180,6 +221,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(options_pb2.ZetaSQLBuiltinFunctionOptionsProto)
     def get_builtin_functions(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_GetBuiltinFunctions",
             options_pb2.ZetaSQLBuiltinFunctionOptionsProto(*args, **kwargs),
@@ -188,6 +230,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.LanguageOptionsRequest)
     def get_language_options(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_GetLanguageOptions",
             local_service_pb2.LanguageOptionsRequest(*args, **kwargs),
@@ -196,6 +239,7 @@ class ZetaSqlLocalService:
 
     @grpc_method(local_service_pb2.AnalyzerOptionsRequest)
     def get_analyzer_options(self, *args, **kwargs):
+        kwargs = self._convert_proto_models(kwargs)
         return parse_proto(self._call_grpc_method(
             "ZetaSqlLocalService_GetAnalyzerOptions",
             local_service_pb2.AnalyzerOptionsRequest(*args, **kwargs),

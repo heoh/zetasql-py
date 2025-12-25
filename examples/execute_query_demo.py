@@ -13,7 +13,7 @@ Demonstrates:
 - LocalService API usage (parse, analyze, prepare_query, evaluate_query, build_sql, format_sql)
 - Concrete ProtoModel classes for type-safe AST traversal
 - Dataclass-based model with from_proto/to_proto conversion
-- Multi-table catalog setup with sample data
+- Multi-table catalog setup with sample data using builders
 - Query execution with table content
 - Error handling
 """
@@ -30,8 +30,11 @@ from zetasql.types import (
     ResolvedOrderByScan,
     ResolvedLimitOffsetScan,
 )
-from zetasql.wasi._pb2.zetasql.proto import simple_catalog_pb2, options_pb2
-from zetasql.wasi._pb2.zetasql.public import type_pb2, options_pb2 as public_options_pb2
+from zetasql.builders import TableBuilder, CatalogBuilder
+from zetasql.types.type_kind import TypeKind
+from zetasql.types.proto_models import ZetaSQLBuiltinFunctionOptions
+from zetasql.wasi._pb2.zetasql.proto import options_pb2
+from zetasql.wasi._pb2.zetasql.public import options_pb2 as public_options_pb2
 from zetasql.wasi._pb2.zetasql.local_service import local_service_pb2
 from google.protobuf import text_format
 
@@ -160,7 +163,7 @@ def print_subsection(title):
 
 def setup_catalog_and_data(service):
     """
-    Set up a multi-table catalog with sample data.
+    Set up a multi-table catalog with sample data using fluent builder API.
     
     Creates three tables:
     - Customers: Customer information (customer_id, name, email, country)
@@ -171,32 +174,54 @@ def setup_catalog_and_data(service):
         service: ZetaSqlLocalService instance
     
     Returns:
-        tuple: (catalog_id, analyzer_options, table_content_dict)
+        tuple: (catalog_id, analyzer_options, catalog, table_content_dict)
     """
     # Create analyzer options first
     analyzer_options = create_analyzer_options()
     
-    catalog = simple_catalog_pb2.SimpleCatalogProto()
-    catalog.name = "demo"
+    # ========== Build Tables with Fluent API ==========
     
-    # Enable builtin functions
-    builtin_opts = catalog.builtin_function_options
-    builtin_opts.language_options.CopyFrom(analyzer_options.language_options)
+    # Customers Table
+    customers = (TableBuilder("Customers", serialization_id=1)
+        .add_column("customer_id", TypeKind.TYPE_INT64)
+        .add_column("name", TypeKind.TYPE_STRING)
+        .add_column("email", TypeKind.TYPE_STRING)
+        .add_column("country", TypeKind.TYPE_STRING)
+        .build())
     
-    # ========== Customers Table ==========
-    customers_table = catalog.table.add()
-    customers_table.name = "Customers"
-    customers_table.serialization_id = 1
+    # Products Table
+    products = (TableBuilder("Products", serialization_id=2)
+        .add_column("product_id", TypeKind.TYPE_INT64)
+        .add_column("name", TypeKind.TYPE_STRING)
+        .add_column("category", TypeKind.TYPE_STRING)
+        .add_column("unit_price", TypeKind.TYPE_DOUBLE)
+        .build())
     
-    for col_name, type_kind in [
-        ("customer_id", type_pb2.TYPE_INT64),
-        ("name", type_pb2.TYPE_STRING),
-        ("email", type_pb2.TYPE_STRING),
-        ("country", type_pb2.TYPE_STRING),
-    ]:
-        col = customers_table.column.add()
-        col.name = col_name
-        col.type.type_kind = type_kind
+    # Orders Table
+    orders = (TableBuilder("Orders", serialization_id=3)
+        .add_column("order_id", TypeKind.TYPE_INT64)
+        .add_column("customer_id", TypeKind.TYPE_INT64)
+        .add_column("product_id", TypeKind.TYPE_INT64)
+        .add_column("quantity", TypeKind.TYPE_INT64)
+        .add_column("price", TypeKind.TYPE_DOUBLE)
+        .add_column("status", TypeKind.TYPE_STRING)
+        .build())
+    
+    # ========== Build Catalog ==========
+    
+    # Create builtin function options from analyzer options
+    builtin_opts = ZetaSQLBuiltinFunctionOptions(
+        language_options=analyzer_options.language_options
+    )
+    
+    catalog = (CatalogBuilder("demo")
+        .add_table(customers)
+        .add_table(products)
+        .add_table(orders)
+        .with_builtin_functions(builtin_opts)
+        .build())
+    
+    # ========== Sample Data (unchanged) ==========
     
     # Sample customer data (15 customers)
     customers_data = [
@@ -217,21 +242,6 @@ def setup_catalog_and_data(service):
         [15, "Olivia Garcia", "olivia@example.com", "USA"],
     ]
     
-    # ========== Products Table ==========
-    products_table = catalog.table.add()
-    products_table.name = "Products"
-    products_table.serialization_id = 2
-    
-    for col_name, type_kind in [
-        ("product_id", type_pb2.TYPE_INT64),
-        ("name", type_pb2.TYPE_STRING),
-        ("category", type_pb2.TYPE_STRING),
-        ("unit_price", type_pb2.TYPE_DOUBLE),
-    ]:
-        col = products_table.column.add()
-        col.name = col_name
-        col.type.type_kind = type_kind
-    
     # Sample product data (12 products)
     products_data = [
         [101, "Laptop", "Electronics", 999.99],
@@ -247,23 +257,6 @@ def setup_catalog_and_data(service):
         [111, "Backpack", "Accessories", 59.99],
         [112, "Headphones", "Electronics", 149.99],
     ]
-    
-    # ========== Orders Table ==========
-    orders_table = catalog.table.add()
-    orders_table.name = "Orders"
-    orders_table.serialization_id = 3
-    
-    for col_name, type_kind in [
-        ("order_id", type_pb2.TYPE_INT64),
-        ("customer_id", type_pb2.TYPE_INT64),
-        ("product_id", type_pb2.TYPE_INT64),
-        ("quantity", type_pb2.TYPE_INT64),
-        ("price", type_pb2.TYPE_DOUBLE),
-        ("status", type_pb2.TYPE_STRING),
-    ]:
-        col = orders_table.column.add()
-        col.name = col_name
-        col.type.type_kind = type_kind
     
     # Sample order data (20 orders)
     orders_data = [
@@ -290,6 +283,7 @@ def setup_catalog_and_data(service):
     ]
     
     # Register catalog for analyze operations
+    # LocalService now accepts ProtoModel directly - no need for .to_proto()
     reg_response = service.register_catalog(simple_catalog=catalog)
     catalog_id = reg_response.registered_id
     

@@ -159,10 +159,16 @@ class ProtoModel:
                         else:
                             getattr(current_proto, proto_field).CopyFrom(value)
                 else:
-                    # Primitive field - check if it's different from default
-                    # Get default value from dataclass field
-                    should_set = True
-                    if not field_meta.get('is_repeated', False):
+                    # Primitive field
+                    if field_meta.get('is_repeated', False):
+                        # Repeated primitive field (e.g., List[int])
+                        target_list = getattr(current_proto, proto_field)
+                        del target_list[:]  # Clear existing
+                        for item in value:
+                            target_list.append(item)
+                    else:
+                        # Singular primitive field - check if it's different from default
+                        should_set = True
                         for dc_field in dataclass_fields(self):
                             if dc_field.name == field_name:
                                 # Check if value differs from default
@@ -173,9 +179,9 @@ class ProtoModel:
                                     if value == default_val:
                                         should_set = False
                                 break
-                    
-                    if should_set:
-                        setattr(current_proto, proto_field, value)
+                        
+                        if should_set:
+                            setattr(current_proto, proto_field, value)
         
         return proto
     
