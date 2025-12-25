@@ -222,6 +222,23 @@ def extract_inheritance_graph(base_dir: Path) -> Tuple[Dict[str, Any], Dict[str,
                 field_info['message_type'] = msg_type_name
                 field_info['message_type_full'] = msg_type_full
                 
+                # Check if this is a map field (proto map<K, V>)
+                # Map fields are repeated fields with a special map_entry message type
+                is_map_entry = field.message_type.GetOptions().map_entry if hasattr(field.message_type.GetOptions(), 'map_entry') else False
+                field_info['is_map_field'] = is_map_entry
+                
+                # If it's a map, extract key and value types
+                if is_map_entry:
+                    # Map entry messages have exactly 2 fields: 'key' and 'value'
+                    key_field = field.message_type.fields_by_name.get('key')
+                    value_field = field.message_type.fields_by_name.get('value')
+                    if key_field and value_field:
+                        field_info['map_key_type'] = key_field.type
+                        field_info['map_value_type'] = value_field.type
+                        if value_field.message_type:
+                            field_info['map_value_message_type'] = value_field.message_type.name
+                            field_info['map_value_message_full'] = value_field.message_type.full_name
+                
                 # Check if this is an external type (e.g., google.protobuf)
                 is_external = not msg_type_full.startswith('zetasql.')
                 field_info['is_external'] = is_external
@@ -358,6 +375,46 @@ def map_proto_type_to_python(field_info: Dict[str, Any], graph: Dict[str, Any] =
     
     field_type = field_info['type']
     
+    # Check if this is a map field first (proto map<K, V>)
+    if field_info.get('is_map_field', False):
+        # Map fields: Dict[key_type, value_type]
+        key_type = field_info.get('map_key_type')
+        value_type = field_info.get('map_value_type')
+        
+        # Get key type (usually string)
+        key_type_str = type_map.get(key_type, 'str')
+        
+        # Get value type
+        if value_type == descriptor.FieldDescriptor.TYPE_MESSAGE:
+            # Value is a message type - need to find the model name
+            value_msg_full = field_info.get('map_value_message_full', '')
+            value_msg_name = field_info.get('map_value_message_type', '')
+            
+            # Try to find the model name in all_messages
+            value_model_name = None
+            if graph:
+                for msg_name, msg_info in graph.items():
+                    if msg_info.get('proto_full_path') == value_msg_full:
+                        value_model_name = msg_info.get('class_name') or msg_name
+                        # Check if it's nested
+                        if msg_info.get('is_nested') and msg_info.get('parent_model'):
+                            parent_model = msg_info['parent_model']
+                            parent_class = graph[parent_model].get('class_name') or parent_model
+                            value_model_name = f"'{parent_class}.{value_model_name}'"
+                        else:
+                            value_model_name = f"'{value_model_name}'"
+                        break
+            
+            if not value_model_name:
+                cleaned_name = value_msg_name.removesuffix('Proto')
+                value_model_name = f"'{cleaned_name}'"
+            
+            value_type_str = value_model_name
+        else:
+            value_type_str = type_map.get(value_type, 'Any')
+        
+        return f"Dict[{key_type_str}, {value_type_str}]"
+    
     # Message type
     if field_type == descriptor.FieldDescriptor.TYPE_MESSAGE:
         is_external = field_info.get('is_external', False)
@@ -429,6 +486,10 @@ def map_proto_type_to_python(field_info: Dict[str, Any], graph: Dict[str, Any] =
 def get_field_default_value(field_info: Dict[str, Any]) -> str:
     """Get default value for a dataclass field based on proto field type"""
     from google.protobuf import descriptor
+    
+    # Map fields need dict factory
+    if field_info.get('is_map_field', False):
+        return "field(default_factory=dict)"
     
     if field_info.get('is_repeated', False):
         return "field(default_factory=list)"
