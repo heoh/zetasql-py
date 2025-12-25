@@ -9,16 +9,20 @@
 ## 📊 현황 요약
 
 ### 강점
-- ✅ **혁신적인 Proto Wrapper 시스템**: 34,000+ 줄의 자동 생성 래퍼로 parent chain 네비게이션 제거
+- ✅ **혁신적인 Concrete ProtoModel 시스템**: 34,000+ 줄의 자동 생성 dataclass로 타입 안전한 AST 조작
+  - Nested class 구조 (예: `AllowedHintsAndOptions.Hint`)
+  - MRO 기반 from_proto/to_proto 자동 변환
+  - LocalService가 자동으로 ProtoModel 반환 (proto 직접 조작 불필요)
 - ✅ 명확한 프로젝트 구조와 모듈 분리
 - ✅ WASM 기반으로 크로스 플랫폼 지원
 - ✅ 좋은 예제 코드 (basic_usage.py, execute_query_demo.py)
 
 ### 개선 필요 영역
+- ✅ **ProtoModel 시스템** (완료): Concrete dataclass 기반으로 타입 안전성 확보
 - ❌ 장황한 카탈로그 생성 (raw protobuf 직접 조작)
 - ❌ 타입 시스템이 매직 넘버 기반 (type_pb2.TYPE_INT64 = 2)
 - ❌ 빌더 패턴 부재
-- ❌ 테스트 커버리지 부족 (5개 파일, 37개 테스트)
+- ❌ 테스트 커버리지 부족 (5개 파일, 56개 테스트 - ProtoModel 테스트 19개 추가)
 - ❌ API 레퍼런스 문서 부재
 - ❌ 리소스 관리 개선 필요 (수동 cleanup)
 
@@ -234,10 +238,11 @@ col.type.type_kind = type_pb2.TYPE_INT64
 # 반복...
 ```
 
-**해결책**: 유창한 빌더 API
+**해결책**: ProtoModel과 통합된 유창한 빌더 API
 ```python
 # src/zetasql/builders.py
 from zetasql.types_enum import Types
+from zetasql.types import ProtoModel
 
 class TableBuilder:
     def __init__(self, name: str):
@@ -704,16 +709,35 @@ Check that:
 | Catalog Creation | Protobuf (verbose) | Fluent builders |
 | Type System | Numeric constants | Type-safe enums |
 | Resource Management | Manual/Context managers | Try-with-resources |
-| **Proto Access** | **✨ Wrapper system** | Direct proto |
+| **Proto Models** | **✨ Concrete dataclasses** | Direct proto |
 
-**Key Advantage:** Python's proto wrapper system eliminates parent chain navigation:
+**Key Advantages:** Python's ProtoModel system provides concrete dataclass benefits:
 ```python
-# Python: Clean access
-literal.type.type_kind  # Direct property access
-literal.parse_location_range  # Inherited automatically
+# Python: Concrete dataclass - clean instantiation
+from zetasql.types import ResolvedLiteral, Type
 
-# Java: Standard proto
-literal.getParent().getType().getTypeKind()  # Manual chain
+# Direct construction (dataclass fields)
+literal = ResolvedLiteral(
+    type=Type(type_kind=2),  # Still need enum improvement
+    value=Value(int64_value=42)
+)
+
+# Bidirectional conversion - automatic via MRO
+proto = literal.to_proto()  # Convert to proto when needed
+model = ResolvedLiteral.from_proto(proto)  # Parse proto back to model
+
+# LocalService returns ProtoModel automatically - no manual conversion!
+response = service.parse(sql_statement="SELECT 1")
+stmt = response.parsed_statement  # Already concrete ProtoModel, not proto!
+
+# Direct field access (dataclass)
+print(stmt.query.query_expr.select_list)  # Clean navigation
+
+# Java: Proto builder pattern
+ResolvedLiteralProto.Builder builder = ResolvedLiteralProto.newBuilder();
+builder.setType(typeProto);
+builder.setValue(valueProto);
+ResolvedLiteralProto proto = builder.build();
 ```
 
 ---
@@ -1110,28 +1134,32 @@ examples/notebooks/
 
 ### 코드 가독성
 ```python
-# Before (현재)
+# Before (현재 - proto 직접 조작)
 catalog = simple_catalog_pb2.SimpleCatalogProto()
 catalog.name = "demo"
 table = catalog.table.add()
 table.name = "orders"
 col = table.column.add()
 col.name = "order_id"
-col.type.type_kind = type_pb2.TYPE_INT64  # 2
+col.type.type_kind = type_pb2.TYPE_INT64  # 2 - 매직 넘버!
 # 20+ more lines...
 
-# After (Phase 2 완료 후)
+# After (Phase 2 완료 후 - Builder + ProtoModel)
 catalog = (CatalogBuilder("demo")
     .add_table(
         TableBuilder("orders")
-            .add_column("order_id", Types.INT64)
+            .add_column("order_id", Types.INT64)  # Type-safe enum
             .add_column("quantity", Types.INT64)
-            .build()
+            .build()  # Returns ProtoModel
     )
-    .build())
+    .build())  # Returns ProtoModel
+
+# LocalService automatically works with ProtoModel
+response = service.analyze(sql="SELECT * FROM orders", simple_catalog=catalog)
+resolved = response.resolved_statement  # Already a ProtoModel - no conversion needed!
 ```
 
-**개선**: 50+ 줄 → 10줄 (80% 감소)
+**개선**: 50+ 줄 → 10줄 (80% 감소) + 타입 안정성
 
 ---
 
@@ -1242,15 +1270,26 @@ All API Improvements (1-16)
 - `SimpleCatalogTest.java` - Catalog 생성 패턴
 
 ### 현재 Python 구현
-- [src/zetasql/local_service.py](src/zetasql/local_service.py) - 메인 서비스 API
-- [src/zetasql/types/proto_model.py](src/zetasql/types/proto_model.py) - Proto wrapper 시스템
-- [examples/execute_query_demo.py](examples/execute_query_demo.py) - 포괄적인 사용 예제
+- [src/zetasql/local_service.py](src/zetasql/local_service.py) - 메인 서비스 API (자동 ProtoModel 반환)
+- [src/zetasql/types/proto_model.py](src/zetasql/types/proto_model.py) - ProtoModel 기반 클래스 (MRO 기반 변환)
+- [src/zetasql/types/proto_models.py](src/zetasql/types/proto_models.py) - 1,238개 생성된 concrete dataclass (중첩 구조)
+- [scripts/generate_proto_models.py](scripts/generate_proto_models.py) - ProtoModel 생성기 (트리 기반)
+- [examples/execute_query_demo.py](examples/execute_query_demo.py) - ProtoModel 사용 예제
 
 ---
 
 ## 📝 작업 체크리스트
 
 작업을 시작할 때 이 섹션을 업데이트하세요:
+
+### Phase 0: ProtoModel System (✅ 완료 - 2025-12-25)
+- [x] Concrete dataclass 기반 ProtoModel 구현
+- [x] MRO 기반 from_proto/to_proto 자동 변환
+- [x] 중첩 클래스 구조 (예: AllowedHintsAndOptions.Hint)
+- [x] parse_proto() union type 해소
+- [x] LocalService 자동 ProtoModel 반환
+- [x] 56개 테스트 (ProtoModel 19개 포함) 통과
+- [x] execute_query_demo.py ProtoModel 사용으로 업데이트
 
 ### Phase 1: Foundation
 - [ ] 1. Types Enum wrapper
