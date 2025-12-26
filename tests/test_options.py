@@ -9,8 +9,7 @@ This test verifies the implementation of IMPROVEMENT_ROADMAP.md Phase 1, Task #3
 """
 
 import pytest
-from zetasql.options import LanguageOptions, AnalyzerOptions
-from zetasql.types import LanguageFeature, NameResolutionMode, ProductMode
+from zetasql.types import LanguageFeature, NameResolutionMode, ProductMode, LanguageOptions, AnalyzerOptions
 
 
 class TestLanguageOptionsMaximumFeatures:

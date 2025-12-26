@@ -29,11 +29,14 @@ from zetasql.types import (
     ResolvedAggregateScan,
     ResolvedOrderByScan,
     ResolvedLimitOffsetScan,
+    TypeKind,
+    AnalyzerOptions,
+    ZetaSQLBuiltinFunctionOptions,
+    TableContent,
+    TableData,
+    Value,
 )
 from zetasql.builders import TableBuilder, CatalogBuilder
-from zetasql.types import TypeKind, NameResolutionMode, ProductMode, LanguageFeature
-from zetasql.types.proto_models import ZetaSQLBuiltinFunctionOptions, TableContent, TableData, Value
-from zetasql.options import LanguageOptions, AnalyzerOptions
 
 
 # ============================================================================
@@ -618,7 +621,7 @@ def example_3_execute_mode(service: ZetaSqlLocalService, catalog_id, analyzer_op
     """
     
     print(f"SQL Query:\n{sql}\n")
-    
+
     # Prepare query (use simple_catalog directly and pass table_content)
     prepare_response = service.prepare_query(
         sql=sql,

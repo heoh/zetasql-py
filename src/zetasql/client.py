@@ -1,7 +1,12 @@
 import os
 import sys
+from google.protobuf import message, empty_pb2
 from wasmtime import Store, Module, Linker, WasiConfig
 from zetasql.exceptions import ZetaSQLError
+
+from typing import TypeVar
+
+Message = TypeVar("Message", bound=message.Message)
 
 # WASM constants
 WASM32_SIZE_T_BYTES = 4
@@ -122,22 +127,28 @@ class WasmClient:
         error_ptr = self.exports["wasm_get_last_error"](self.store)
         return self.read_bytes(error_ptr, error_size).decode("utf-8")
 
-    def call_rpc_method(self, method_name: str, request_data: bytes) -> bytes:
+    def call_grpc_func(self, func_name: str, request: message.Message, response_type: type[Message] = empty_pb2.Empty) -> Message:
+        request_data = request.SerializeToString()
+        response_data = self._call_grpc_method(func_name, request_data)
+        response = response_type.FromString(response_data)
+        return response
+
+    def _call_grpc_method(self, method_name: str, request_data: bytes) -> bytes:
         """
-        Call an RPC method with protobuf serialized request.
+        Call an gRPC method with protobuf serialized request.
 
         Args:
-            method_name: Name of the RPC method (e.g., "ZetaSqlLocalService_PrepareExpression")
+            method_name: Name of the gRPC method (e.g., "ZetaSqlLocalService_PrepareExpression")
             request_data: Serialized protobuf request
 
         Returns:
             Serialized protobuf response
 
         Raises:
-            RuntimeError: If the RPC call fails (returns nullptr)
+            RuntimeError: If the gRPC call fails (returns nullptr)
         """
         if method_name not in self.exports:
-            raise ValueError(f"RPC method not found: {method_name}")
+            raise ValueError(f"gRPC method not found: {method_name}")
 
         method = self.exports[method_name]
 
