@@ -128,10 +128,11 @@ class ProtoModel:
             
             # Set fields defined by this ancestor
             field_map = ancestor_cls._PROTO_FIELD_MAP
+            
             for field_name, field_meta in field_map.items():
                 value = getattr(self, field_name, None)
                 
-                # Skip None values
+                # Skip None values (not explicitly set by user)
                 if value is None:
                     continue
                 
@@ -182,21 +183,9 @@ class ProtoModel:
                         for item in value:
                             target_list.append(item)
                     else:
-                        # Singular primitive field - check if it's different from default
-                        should_set = True
-                        for dc_field in dataclass_fields(self):
-                            if dc_field.name == field_name:
-                                # Check if value differs from default
-                                if dc_field.default is not MISSING and value == dc_field.default:
-                                    should_set = False
-                                elif dc_field.default_factory is not MISSING:  # type: ignore
-                                    default_val = dc_field.default_factory()  # type: ignore
-                                    if value == default_val:
-                                        should_set = False
-                                break
-                        
-                        if should_set:
-                            setattr(current_proto, proto_field, value)
+                        # Singular primitive field
+                        # Value is not None, so user explicitly set it - always set in proto
+                        setattr(current_proto, proto_field, value)
         
         return proto
     

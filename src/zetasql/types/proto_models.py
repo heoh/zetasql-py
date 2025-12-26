@@ -2813,13 +2813,13 @@ class ASTWindowFrameExprEnums(ProtoModel):
 class AllowedHintsAndOptions(ProtoModel):
     """Generated model for AllowedHintsAndOptionsProto"""
 
-    disallow_unknown_options: bool = False
+    disallow_unknown_options: Optional[bool] = None
     disallow_unknown_hints_with_qualifier: List[str] = field(default_factory=list)
     hint: List['AllowedHintsAndOptions.Hint'] = field(default_factory=list)
     option: List['AllowedHintsAndOptions.Option'] = field(default_factory=list)
     anonymization_option: List['AllowedHintsAndOptions.Option'] = field(default_factory=list)
     differential_privacy_option: List['AllowedHintsAndOptions.Option'] = field(default_factory=list)
-    disallow_duplicate_option_names: bool = False
+    disallow_duplicate_option_names: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_options_pb2.AllowedHintsAndOptionsProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -2864,10 +2864,10 @@ class AllowedHintsAndOptions(ProtoModel):
     class Hint(ProtoModel):
         """Generated model for HintProto"""
 
-        qualifier: str = ""
-        name: str = ""
+        qualifier: Optional[str] = None
+        name: Optional[str] = None
         type: Optional['Type'] = None
-        allow_unqualified: bool = False
+        allow_unqualified: Optional[bool] = None
 
         _PROTO_CLASS: ClassVar[type] = proto_options_pb2.AllowedHintsAndOptionsProto.HintProto
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -2897,10 +2897,10 @@ class AllowedHintsAndOptions(ProtoModel):
     class Option(ProtoModel):
         """Generated model for OptionProto"""
 
-        name: str = ""
+        name: Optional[str] = None
         type: Optional['Type'] = None
-        resolving_kind: int = 0
-        allow_alter_array: bool = False
+        resolving_kind: Optional[int] = None
+        allow_alter_array: Optional[bool] = None
 
         _PROTO_CLASS: ClassVar[type] = proto_options_pb2.AllowedHintsAndOptionsProto.OptionProto
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -2934,10 +2934,10 @@ class AnalyzeRequest(ProtoModel):
     options: Optional['AnalyzerOptions'] = None
     simple_catalog: Optional['SimpleCatalog'] = None
     descriptor_pool_list: Optional['DescriptorPoolList'] = None
-    registered_catalog_id: int = 0
-    sql_statement: str = ""
+    registered_catalog_id: Optional[int] = None
+    sql_statement: Optional[str] = None
     parse_resume_location: Optional['ParseResumeLocation'] = None
-    sql_expression: str = ""
+    sql_expression: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.AnalyzeRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -2985,7 +2985,7 @@ class AnalyzeResponse(ProtoModel):
 
     resolved_statement: Optional['ResolvedStatement'] = None
     resolved_expression: Optional['ResolvedExpr'] = None
-    resume_byte_position: int = 0
+    resume_byte_position: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.AnalyzeResponse
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -3011,7 +3011,7 @@ class AnalyzeResponse(ProtoModel):
 class AnalyzerLogEntry(ProtoModel):
     """Generated model for AnalyzerLogEntry"""
 
-    num_lexical_tokens: int = 0
+    num_lexical_tokens: Optional[int] = None
     overall_execution_stats: Optional['ExecutionStats'] = None
     execution_stats_by_op: List['AnalyzerLogEntry.ExecutionStatsByOpEntry'] = field(default_factory=list)
 
@@ -3038,7 +3038,7 @@ class AnalyzerLogEntry(ProtoModel):
     class ExecutionStatsByOpEntry(ProtoModel):
         """Generated model for ExecutionStatsByOpEntry"""
 
-        key: int = 0
+        key: Optional[int] = None
         value: Optional['ExecutionStats'] = None
 
         _PROTO_CLASS: ClassVar[type] = proto_logging_pb2.AnalyzerLogEntry.ExecutionStatsByOpEntry
@@ -3066,25 +3066,25 @@ class AnalyzerOptions(ProtoModel):
     expression_columns: List['AnalyzerOptions.QueryParameter'] = field(default_factory=list)
     in_scope_expression_column: Optional['AnalyzerOptions.QueryParameter'] = None
     ddl_pseudo_columns: List['AnalyzerOptions.QueryParameter'] = field(default_factory=list)
-    error_message_mode: int = 0
-    default_timezone: str = ""
-    create_new_column_for_each_projected_output: bool = False
-    prune_unused_columns: bool = False
-    allow_undeclared_parameters: bool = False
-    parameter_mode: int = 0
+    error_message_mode: Optional[int] = None
+    default_timezone: Optional[str] = None
+    create_new_column_for_each_projected_output: Optional[bool] = None
+    prune_unused_columns: Optional[bool] = None
+    allow_undeclared_parameters: Optional[bool] = None
+    parameter_mode: Optional[int] = None
     allowed_hints_and_options: Optional['AllowedHintsAndOptions'] = None
-    statement_context: int = 0
-    preserve_column_aliases: bool = False
+    statement_context: Optional[int] = None
+    preserve_column_aliases: Optional[bool] = None
     system_variables: List['AnalyzerOptions.SystemVariable'] = field(default_factory=list)
     target_column_types: List['Type'] = field(default_factory=list)
     enabled_rewrites: List[int] = field(default_factory=list)
-    parse_location_record_type: int = 0
-    preserve_unnecessary_cast: bool = False
-    default_anon_function_report_format: str = ""
-    default_anon_kappa_value: int = 0
+    parse_location_record_type: Optional[int] = None
+    preserve_unnecessary_cast: Optional[bool] = None
+    default_anon_function_report_format: Optional[str] = None
+    default_anon_kappa_value: Optional[int] = None
     rewrite_options: Optional['RewriteOptions'] = None
-    replace_table_not_found_error_with_tvf_error_if_applicable: bool = False
-    log_impact_of_lateral_column_references: bool = False
+    replace_table_not_found_error_with_tvf_error_if_applicable: Optional[bool] = None
+    log_impact_of_lateral_column_references: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_options_pb2.AnalyzerOptionsProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -3219,7 +3219,7 @@ class AnalyzerOptions(ProtoModel):
     class QueryParameter(ProtoModel):
         """Generated model for QueryParameterProto"""
 
-        name: str = ""
+        name: Optional[str] = None
         type: Optional['Type'] = None
 
         _PROTO_CLASS: ClassVar[type] = proto_options_pb2.AnalyzerOptionsProto.QueryParameterProto
@@ -3270,7 +3270,7 @@ class AnalyzerOptionsRequest(ProtoModel):
 class Annotation(ProtoModel):
     """Generated model for AnnotationProto"""
 
-    id: int = 0
+    id: Optional[int] = None
     value: Optional['SimpleValue'] = None
 
     _PROTO_CLASS: ClassVar[type] = public_annotation_pb2.AnnotationProto
@@ -3292,7 +3292,7 @@ class Annotation(ProtoModel):
 class AnnotationMap(ProtoModel):
     """Generated model for AnnotationMapProto"""
 
-    is_null: bool = False
+    is_null: Optional[bool] = None
     annotations: List['Annotation'] = field(default_factory=list)
     array_element: Optional['AnnotationMap'] = None
     struct_fields: List['AnnotationMap'] = field(default_factory=list)
@@ -3326,9 +3326,9 @@ class AnnotationMap(ProtoModel):
 class AnonOutputValue(ProtoModel):
     """Generated model for AnonOutputValue"""
 
-    int_value: int = 0
-    float_value: float = 0.0
-    string_value: str = ""
+    int_value: Optional[int] = None
+    float_value: Optional[float] = None
+    string_value: Optional[str] = None
     noise_confidence_interval: Optional['NoiseConfidenceInterval'] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_anon_output_with_report_pb2.AnonOutputValue
@@ -9132,8 +9132,8 @@ class BoundingReport(ProtoModel):
 
     lower_bound: Optional['AnonOutputValue'] = None
     upper_bound: Optional['AnonOutputValue'] = None
-    num_inputs: float = 0.0
-    num_outside: float = 0.0
+    num_inputs: Optional[float] = None
+    num_outside: Optional[float] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_anon_output_with_report_pb2.BoundingReport
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -9166,7 +9166,7 @@ class BuildSqlRequest(ProtoModel):
 
     simple_catalog: Optional['SimpleCatalog'] = None
     descriptor_pool_list: Optional['DescriptorPoolList'] = None
-    registered_catalog_id: int = 0
+    registered_catalog_id: Optional[int] = None
     resolved_statement: Optional['ResolvedStatement'] = None
     resolved_expression: Optional['ResolvedExpr'] = None
 
@@ -9204,7 +9204,7 @@ class BuildSqlRequest(ProtoModel):
 class BuildSqlResponse(ProtoModel):
     """Generated model for BuildSqlResponse"""
 
-    sql: str = ""
+    sql: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.BuildSqlResponse
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -9220,7 +9220,7 @@ class BuildSqlResponse(ProtoModel):
 class Collation(ProtoModel):
     """Generated model for CollationProto"""
 
-    collation_name: str = ""
+    collation_name: Optional[str] = None
     child_list: List['Collation'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = public_collation_pb2.CollationProto
@@ -9242,10 +9242,10 @@ class Collation(ProtoModel):
 class Column(ProtoModel):
     """Generated model for Column"""
 
-    table_alias: str = ""
-    column_name: str = ""
-    type: str = ""
-    is_value_table_column: bool = False
+    table_alias: Optional[str] = None
+    column_name: Optional[str] = None
+    type: Optional[str] = None
+    is_value_table_column: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = common_reflection_pb2.Column
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -9277,7 +9277,7 @@ class ColumnRef(ProtoModel):
     """Generated model for ColumnRefProto"""
 
     table_ref: Optional['TableRef'] = None
-    name: str = ""
+    name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_serialization_pb2.ColumnRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -9314,12 +9314,12 @@ class CompiledPattern(ProtoModel):
 class ComplianceTestCaseLabels(ProtoModel):
     """Generated model for ComplianceTestCaseLabels"""
 
-    test_name: str = ""
-    test_query: str = ""
+    test_name: Optional[str] = None
+    test_query: Optional[str] = None
     param: List['ComplianceTestCaseLabels.Param'] = field(default_factory=list)
-    test_error_mode: int = 0
+    test_error_mode: Optional[int] = None
     compliance_labels: List[str] = field(default_factory=list)
-    test_shard: int = 0
+    test_shard: Optional[int] = None
     test_location: Optional['ComplianceTestCaseLabels.Location'] = None
 
     _PROTO_CLASS: ClassVar[type] = compliance_compliance_label_pb2.ComplianceTestCaseLabels
@@ -9365,8 +9365,8 @@ class ComplianceTestCaseLabels(ProtoModel):
     class Location(ProtoModel):
         """Generated model for Location"""
 
-        file: str = ""
-        line: int = 0
+        file: Optional[str] = None
+        line: Optional[int] = None
 
         _PROTO_CLASS: ClassVar[type] = compliance_compliance_label_pb2.ComplianceTestCaseLabels.Location
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -9386,8 +9386,8 @@ class ComplianceTestCaseLabels(ProtoModel):
     class Param(ProtoModel):
         """Generated model for Param"""
 
-        param_name: str = ""
-        param_value_literal: str = ""
+        param_name: Optional[str] = None
+        param_value_literal: Optional[str] = None
 
         _PROTO_CLASS: ClassVar[type] = compliance_compliance_label_pb2.ComplianceTestCaseLabels.Param
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -9424,8 +9424,8 @@ class ComplianceTestsLabels(ProtoModel):
 class ConnectionRef(ProtoModel):
     """Generated model for ConnectionRefProto"""
 
-    name: str = ""
-    full_name: str = ""
+    name: Optional[str] = None
+    full_name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_serialization_pb2.ConnectionRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -9446,7 +9446,7 @@ class ConnectionRef(ProtoModel):
 class ConstantRef(ProtoModel):
     """Generated model for ConstantRefProto"""
 
-    name: str = ""
+    name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_serialization_pb2.ConstantRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -9478,7 +9478,7 @@ class DeprecatedEncoding(ProtoModel):
 class DeprecationWarning(ProtoModel):
     """Generated model for DeprecationWarning"""
 
-    kind: int = 0
+    kind: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = public_deprecation_warning_pb2.DeprecationWarning
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -9533,7 +9533,7 @@ class DescriptorPoolList(ProtoModel):
         """Generated model for Definition"""
 
         file_descriptor_set: Optional[descriptor_pb2.FileDescriptorSet] = None
-        registered_id: int = 0
+        registered_id: Optional[int] = None
         builtin: Optional['DescriptorPoolList.Builtin'] = None
 
         _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.DescriptorPoolListProto.Definition
@@ -9562,8 +9562,8 @@ class DifferentialPrivacyBoundingReport(ProtoModel):
 
     lower_bound: Optional['DifferentialPrivacyOutputValue'] = None
     upper_bound: Optional['DifferentialPrivacyOutputValue'] = None
-    num_inputs: float = 0.0
-    num_outside: float = 0.0
+    num_inputs: Optional[float] = None
+    num_outside: Optional[float] = None
 
     _PROTO_CLASS: ClassVar[type] = functions_differential_privacy_pb2.DifferentialPrivacyBoundingReport
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -9602,9 +9602,9 @@ class DifferentialPrivacyEnums(ProtoModel):
 class DifferentialPrivacyOutputValue(ProtoModel):
     """Generated model for DifferentialPrivacyOutputValue"""
 
-    int_value: int = 0
-    float_value: float = 0.0
-    string_value: str = ""
+    int_value: Optional[int] = None
+    float_value: Optional[float] = None
+    string_value: Optional[str] = None
     noise_confidence_interval: Optional['NoiseConfidenceInterval'] = None
 
     _PROTO_CLASS: ClassVar[type] = functions_differential_privacy_pb2.DifferentialPrivacyOutputValue
@@ -9686,9 +9686,9 @@ class DifferentialPrivacyOutputWithReport(ProtoModel):
 class DifferentiallyPrivateCountDistinctBoundingReport(ProtoModel):
     """Generated model for DifferentiallyPrivateCountDistinctBoundingReport"""
 
-    contribution_bounding_strategy: int = 0
-    upper_bound: int = 0
-    num_inputs: float = 0.0
+    contribution_bounding_strategy: Optional[int] = None
+    upper_bound: Optional[int] = None
+    num_inputs: Optional[float] = None
 
     _PROTO_CLASS: ClassVar[type] = functions_differential_privacy_pb2.DifferentiallyPrivateCountDistinctBoundingReport
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -9730,8 +9730,8 @@ class Edits(ProtoModel):
 class EnabledRewrite(ProtoModel):
     """Generated model for EnabledRewriteProto"""
 
-    key: int = 0
-    value: bool = False
+    key: Optional[int] = None
+    value: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_options_pb2.EnabledRewriteProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -9752,11 +9752,11 @@ class EnabledRewrite(ProtoModel):
 class EnumType(ProtoModel):
     """Generated model for EnumTypeProto"""
 
-    enum_name: str = ""
-    enum_file_name: str = ""
-    file_descriptor_set_index: int = 0
+    enum_name: Optional[str] = None
+    enum_file_name: Optional[str] = None
+    file_descriptor_set_index: Optional[int] = None
     catalog_name_path: List[str] = field(default_factory=list)
-    is_opaque: bool = False
+    is_opaque: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = public_type_pb2.EnumTypeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -9808,11 +9808,11 @@ class ErrorFixSuggestions(ProtoModel):
 class ErrorLocation(ProtoModel):
     """Generated model for ErrorLocation"""
 
-    line: int = 0
-    column: int = 0
-    filename: str = ""
-    input_start_line_offset: int = 0
-    input_start_column_offset: int = 0
+    line: Optional[int] = None
+    column: Optional[int] = None
+    filename: Optional[str] = None
+    input_start_line_offset: Optional[int] = None
+    input_start_column_offset: Optional[int] = None
     error_source: List['ErrorSource'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = public_error_location_pb2.ErrorLocation
@@ -9854,7 +9854,7 @@ class ErrorLocation(ProtoModel):
 class ErrorMessageModeForPayload(ProtoModel):
     """Generated model for ErrorMessageModeForPayload"""
 
-    mode: int = 0
+    mode: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = public_options_pb2.ErrorMessageModeForPayload
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -9870,8 +9870,8 @@ class ErrorMessageModeForPayload(ProtoModel):
 class ErrorSource(ProtoModel):
     """Generated model for ErrorSource"""
 
-    error_message: str = ""
-    error_message_caret_string: str = ""
+    error_message: Optional[str] = None
+    error_message_caret_string: Optional[str] = None
     error_location: Optional['ErrorLocation'] = None
 
     _PROTO_CLASS: ClassVar[type] = public_error_location_pb2.ErrorSource
@@ -9930,12 +9930,12 @@ class EvaluateModifyBatchResponse(ProtoModel):
 class EvaluateModifyRequest(ProtoModel):
     """Generated model for EvaluateModifyRequest"""
 
-    sql: str = ""
+    sql: Optional[str] = None
     options: Optional['AnalyzerOptions'] = None
     descriptor_pool_list: Optional['DescriptorPoolList'] = None
     simple_catalog: Optional['SimpleCatalog'] = None
-    registered_catalog_id: int = 0
-    prepared_modify_id: int = 0
+    registered_catalog_id: Optional[int] = None
+    prepared_modify_id: Optional[int] = None
     table_content: Dict[str, 'TableContent'] = field(default_factory=dict)
     params: List['EvaluateRequest.Parameter'] = field(default_factory=list)
 
@@ -9987,7 +9987,7 @@ class EvaluateModifyRequest(ProtoModel):
     class TableContentEntry(ProtoModel):
         """Generated model for TableContentEntry"""
 
-        key: str = ""
+        key: Optional[str] = None
         value: Optional['TableContent'] = None
 
         _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.EvaluateModifyRequest.TableContentEntry
@@ -10009,7 +10009,7 @@ class EvaluateModifyRequest(ProtoModel):
 class EvaluateModifyResponse(ProtoModel):
     """Generated model for EvaluateModifyResponse"""
 
-    table_name: str = ""
+    table_name: Optional[str] = None
     content: List['EvaluateModifyResponse.Row'] = field(default_factory=list)
     prepared: Optional['PreparedModifyState'] = None
 
@@ -10036,7 +10036,7 @@ class EvaluateModifyResponse(ProtoModel):
     class Row(ProtoModel):
         """Generated model for Row"""
 
-        operation: int = 0
+        operation: Optional[int] = None
         cell: List['Value'] = field(default_factory=list)
         old_primary_key: List['Value'] = field(default_factory=list)
 
@@ -10096,12 +10096,12 @@ class EvaluateQueryBatchResponse(ProtoModel):
 class EvaluateQueryRequest(ProtoModel):
     """Generated model for EvaluateQueryRequest"""
 
-    sql: str = ""
+    sql: Optional[str] = None
     options: Optional['AnalyzerOptions'] = None
     descriptor_pool_list: Optional['DescriptorPoolList'] = None
     simple_catalog: Optional['SimpleCatalog'] = None
-    registered_catalog_id: int = 0
-    prepared_query_id: int = 0
+    registered_catalog_id: Optional[int] = None
+    prepared_query_id: Optional[int] = None
     table_content: Dict[str, 'TableContent'] = field(default_factory=dict)
     params: List['EvaluateRequest.Parameter'] = field(default_factory=list)
 
@@ -10153,7 +10153,7 @@ class EvaluateQueryRequest(ProtoModel):
     class TableContentEntry(ProtoModel):
         """Generated model for TableContentEntry"""
 
-        key: str = ""
+        key: Optional[str] = None
         value: Optional['TableContent'] = None
 
         _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.EvaluateQueryRequest.TableContentEntry
@@ -10197,11 +10197,11 @@ class EvaluateQueryResponse(ProtoModel):
 class EvaluateRequest(ProtoModel):
     """Generated model for EvaluateRequest"""
 
-    sql: str = ""
+    sql: Optional[str] = None
     columns: List['EvaluateRequest.Parameter'] = field(default_factory=list)
     params: List['EvaluateRequest.Parameter'] = field(default_factory=list)
     descriptor_pool_list: Optional['DescriptorPoolList'] = None
-    prepared_expression_id: int = 0
+    prepared_expression_id: Optional[int] = None
     options: Optional['AnalyzerOptions'] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.EvaluateRequest
@@ -10242,7 +10242,7 @@ class EvaluateRequest(ProtoModel):
     class Parameter(ProtoModel):
         """Generated model for Parameter"""
 
-        name: str = ""
+        name: Optional[str] = None
         value: Optional['Value'] = None
 
         _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.EvaluateRequest.Parameter
@@ -10318,8 +10318,8 @@ class EvaluateResponseBatch(ProtoModel):
 class EvaluatorTableIterator(ProtoModel):
     """Generated model for EvaluatorTableIteratorProto"""
 
-    location_byte_offset: int = 0
-    next_row_count: int = 0
+    location_byte_offset: Optional[int] = None
+    next_row_count: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = reference_impl_evaluator_table_iterator_pb2.EvaluatorTableIteratorProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -10342,8 +10342,8 @@ class ExecutionStats(ProtoModel):
 
     wall_time: Optional[datetime.timedelta] = None
     cpu_time: Optional[datetime.timedelta] = None
-    stack_available_bytes: int = 0
-    stack_peak_used_bytes: int = 0
+    stack_available_bytes: Optional[int] = None
+    stack_peak_used_bytes: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_logging_pb2.ExecutionStats
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -10374,8 +10374,8 @@ class ExecutionStats(ProtoModel):
 class ExpressionAttribute(ProtoModel):
     """Generated model for ExpressionAttributeProto"""
 
-    expression_string: str = ""
-    expression_kind: int = 0
+    expression_string: Optional[str] = None
+    expression_kind: Optional[int] = None
     row_identity_column_index: List[int] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = public_simple_table_pb2.ExpressionAttributeProto
@@ -10441,7 +10441,7 @@ class ExtractTableNamesFromNextStatementResponse(ProtoModel):
     """Generated model for ExtractTableNamesFromNextStatementResponse"""
 
     table_name: List['ExtractTableNamesFromNextStatementResponse.TableName'] = field(default_factory=list)
-    resume_byte_position: int = 0
+    resume_byte_position: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.ExtractTableNamesFromNextStatementResponse
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -10477,9 +10477,9 @@ class ExtractTableNamesFromNextStatementResponse(ProtoModel):
 class ExtractTableNamesFromStatementRequest(ProtoModel):
     """Generated model for ExtractTableNamesFromStatementRequest"""
 
-    sql_statement: str = ""
+    sql_statement: Optional[str] = None
     options: Optional['LanguageOptions'] = None
-    allow_script: bool = False
+    allow_script: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.ExtractTableNamesFromStatementRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -10557,7 +10557,7 @@ class FeatureLabelDictionary(ProtoModel):
     class EncodedLabelsEntry(ProtoModel):
         """Generated model for EncodedLabelsEntry"""
 
-        key: int = 0
+        key: Optional[int] = None
         value: Optional['FeatureLabelDictionary.LabelSet'] = None
 
         _PROTO_CLASS: ClassVar[type] = public_feature_label_dictionary_pb2.FeatureLabelDictionaryProto.EncodedLabelsEntry
@@ -10578,8 +10578,8 @@ class FeatureLabelDictionary(ProtoModel):
     class LabelMappingEntry(ProtoModel):
         """Generated model for LabelMappingEntry"""
 
-        key: int = 0
-        value: str = ""
+        key: Optional[int] = None
+        value: Optional[str] = None
 
         _PROTO_CLASS: ClassVar[type] = public_feature_label_dictionary_pb2.FeatureLabelDictionaryProto.LabelMappingEntry
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -10616,7 +10616,7 @@ class FieldDescriptorRef(ProtoModel):
     """Generated model for FieldDescriptorRefProto"""
 
     containing_proto: Optional['ProtoType'] = None
-    number: int = 0
+    number: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_serialization_pb2.FieldDescriptorRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -10645,7 +10645,7 @@ class FieldFormat(ProtoModel):
 class Fix(ProtoModel):
     """Generated model for Fix"""
 
-    title: str = ""
+    title: Optional[str] = None
     edits: Optional['Edits'] = None
 
     _PROTO_CLASS: ClassVar[type] = public_fix_suggestion_pb2.Fix
@@ -10668,7 +10668,7 @@ class FixRange(ProtoModel):
     """Generated model for FixRange"""
 
     start: Optional['ErrorLocation'] = None
-    length: int = 0
+    length: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = public_fix_suggestion_pb2.FixRange
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -10689,7 +10689,7 @@ class FixRange(ProtoModel):
 class FormatSqlRequest(ProtoModel):
     """Generated model for FormatSqlRequest"""
 
-    sql: str = ""
+    sql: Optional[str] = None
     options: Optional['FormatterOptions'] = None
     byte_ranges: List['FormatterRange'] = field(default_factory=list)
 
@@ -10717,7 +10717,7 @@ class FormatSqlRequest(ProtoModel):
 class FormatSqlResponse(ProtoModel):
     """Generated model for FormatSqlResponse"""
 
-    sql: str = ""
+    sql: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.FormatSqlResponse
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -10733,17 +10733,17 @@ class FormatSqlResponse(ProtoModel):
 class FormatterOptions(ProtoModel):
     """Generated model for FormatterOptionsProto"""
 
-    new_line_type: str = ""
-    line_length_limit: int = 0
-    indentation_spaces: int = 0
-    allow_invalid_tokens: bool = False
-    capitalize_keywords: bool = False
-    preserve_line_breaks: bool = False
-    expand_format_ranges: bool = False
-    enforce_single_quotes: bool = False
-    capitalize_functions: bool = False
-    format_structured_strings: bool = False
-    format_comments: bool = False
+    new_line_type: Optional[str] = None
+    line_length_limit: Optional[int] = None
+    indentation_spaces: Optional[int] = None
+    allow_invalid_tokens: Optional[bool] = None
+    capitalize_keywords: Optional[bool] = None
+    preserve_line_breaks: Optional[bool] = None
+    expand_format_ranges: Optional[bool] = None
+    enforce_single_quotes: Optional[bool] = None
+    capitalize_functions: Optional[bool] = None
+    format_structured_strings: Optional[bool] = None
+    format_comments: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = public_formatter_options_pb2.FormatterOptionsProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -10809,8 +10809,8 @@ class FormatterOptions(ProtoModel):
 class FormatterRange(ProtoModel):
     """Generated model for FormatterRangeProto"""
 
-    start: int = 0
-    end: int = 0
+    start: Optional[int] = None
+    end: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = public_formatter_options_pb2.FormatterRangeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -10831,8 +10831,8 @@ class FormatterRange(ProtoModel):
 class FreestandingDeprecationWarning(ProtoModel):
     """Generated model for FreestandingDeprecationWarning"""
 
-    message: str = ""
-    caret_string: str = ""
+    message: Optional[str] = None
+    caret_string: Optional[str] = None
     error_location: Optional['ErrorLocation'] = None
     deprecation_warning: Optional['DeprecationWarning'] = None
 
@@ -10866,14 +10866,14 @@ class Function(ProtoModel):
     """Generated model for FunctionProto"""
 
     name_path: List[str] = field(default_factory=list)
-    group: str = ""
-    mode: int = 0
+    group: Optional[str] = None
+    mode: Optional[int] = None
     signature: List['FunctionSignature'] = field(default_factory=list)
     options: Optional['FunctionOptions'] = None
     parse_resume_location: Optional['ParseResumeLocation'] = None
     templated_sql_function_argument_name: List[str] = field(default_factory=list)
-    sql_security: int = 0
-    statement_context: int = 0
+    sql_security: Optional[int] = None
+    statement_context: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_function_pb2.FunctionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -10929,9 +10929,9 @@ class Function(ProtoModel):
 class FunctionArgumentType(ProtoModel):
     """Generated model for FunctionArgumentTypeProto"""
 
-    kind: int = 0
+    kind: Optional[int] = None
     type: Optional['Type'] = None
-    num_occurrences: int = 0
+    num_occurrences: Optional[int] = None
     options: Optional['FunctionArgumentTypeOptions'] = None
     lambda_: Optional['ArgumentTypeLambda'] = None
 
@@ -10969,34 +10969,34 @@ class FunctionArgumentType(ProtoModel):
 class FunctionArgumentTypeOptions(ProtoModel):
     """Generated model for FunctionArgumentTypeOptionsProto"""
 
-    cardinality: int = 0
-    must_be_constant: bool = False
-    must_be_non_null: bool = False
-    is_not_aggregate: bool = False
-    must_support_equality: bool = False
-    must_support_ordering: bool = False
-    min_value: int = 0
-    max_value: int = 0
-    extra_relation_input_columns_allowed: bool = False
+    cardinality: Optional[int] = None
+    must_be_constant: Optional[bool] = None
+    must_be_non_null: Optional[bool] = None
+    is_not_aggregate: Optional[bool] = None
+    must_support_equality: Optional[bool] = None
+    must_support_ordering: Optional[bool] = None
+    min_value: Optional[int] = None
+    max_value: Optional[int] = None
+    extra_relation_input_columns_allowed: Optional[bool] = None
     relation_input_schema: Optional['TVFRelation'] = None
-    argument_name: str = ""
+    argument_name: Optional[str] = None
     argument_name_parse_location: Optional['ParseLocationRange'] = None
     argument_type_parse_location: Optional['ParseLocationRange'] = None
-    procedure_argument_mode: int = 0
-    argument_name_is_mandatory: bool = False
-    descriptor_resolution_table_offset: int = 0
+    procedure_argument_mode: Optional[int] = None
+    argument_name_is_mandatory: Optional[bool] = None
+    descriptor_resolution_table_offset: Optional[int] = None
     default_value: Optional['Value'] = None
     default_value_type: Optional['Type'] = None
-    argument_collation_mode: int = 0
-    uses_array_element_for_collation: bool = False
-    must_support_grouping: bool = False
-    array_element_must_support_equality: bool = False
-    array_element_must_support_ordering: bool = False
-    array_element_must_support_grouping: bool = False
-    named_argument_kind: int = 0
-    argument_alias_kind: int = 0
-    must_be_constant_expression: bool = False
-    constness_level: int = 0
+    argument_collation_mode: Optional[int] = None
+    uses_array_element_for_collation: Optional[bool] = None
+    must_support_grouping: Optional[bool] = None
+    array_element_must_support_equality: Optional[bool] = None
+    array_element_must_support_ordering: Optional[bool] = None
+    array_element_must_support_grouping: Optional[bool] = None
+    named_argument_kind: Optional[int] = None
+    argument_alias_kind: Optional[int] = None
+    must_be_constant_expression: Optional[bool] = None
+    constness_level: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_function_pb2.FunctionArgumentTypeOptionsProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -11155,24 +11155,24 @@ class FunctionEnums(ProtoModel):
 class FunctionOptions(ProtoModel):
     """Generated model for FunctionOptionsProto"""
 
-    supports_over_clause: bool = False
-    window_ordering_support: int = 0
-    supports_window_framing: bool = False
-    arguments_are_coercible: bool = False
-    is_deprecated: bool = False
-    alias_name: str = ""
-    sql_name: str = ""
-    allow_external_usage: bool = False
-    volatility: int = 0
-    supports_order_by: bool = False
+    supports_over_clause: Optional[bool] = None
+    window_ordering_support: Optional[int] = None
+    supports_window_framing: Optional[bool] = None
+    arguments_are_coercible: Optional[bool] = None
+    is_deprecated: Optional[bool] = None
+    alias_name: Optional[str] = None
+    sql_name: Optional[str] = None
+    allow_external_usage: Optional[bool] = None
+    volatility: Optional[int] = None
+    supports_order_by: Optional[bool] = None
     required_language_feature: List[int] = field(default_factory=list)
-    supports_limit: bool = False
-    supports_null_handling_modifier: bool = False
-    supports_safe_error_mode: bool = False
-    supports_having_modifier: bool = False
-    supports_clamped_between_modifier: bool = False
-    uses_upper_case_sql_name: bool = False
-    may_suppress_side_effects: bool = False
+    supports_limit: Optional[bool] = None
+    supports_null_handling_modifier: Optional[bool] = None
+    supports_safe_error_mode: Optional[bool] = None
+    supports_having_modifier: Optional[bool] = None
+    supports_clamped_between_modifier: Optional[bool] = None
+    uses_upper_case_sql_name: Optional[bool] = None
+    may_suppress_side_effects: Optional[bool] = None
     module_name_from_import: List[str] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = proto_function_pb2.FunctionOptionsProto
@@ -11279,7 +11279,7 @@ class FunctionOptions(ProtoModel):
 class FunctionRef(ProtoModel):
     """Generated model for FunctionRefProto"""
 
-    name: str = ""
+    name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_serialization_pb2.FunctionRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -11297,7 +11297,7 @@ class FunctionSignature(ProtoModel):
 
     argument: List['FunctionArgumentType'] = field(default_factory=list)
     return_type: Optional['FunctionArgumentType'] = None
-    context_id: int = 0
+    context_id: Optional[int] = None
     options: Optional['FunctionSignatureOptions'] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_function_pb2.FunctionSignatureProto
@@ -11329,13 +11329,13 @@ class FunctionSignature(ProtoModel):
 class FunctionSignatureOptions(ProtoModel):
     """Generated model for FunctionSignatureOptionsProto"""
 
-    is_deprecated: bool = False
+    is_deprecated: Optional[bool] = None
     additional_deprecation_warning: List['FreestandingDeprecationWarning'] = field(default_factory=list)
     required_language_feature: List[int] = field(default_factory=list)
-    is_aliased_signature: bool = False
-    propagates_collation: bool = False
-    uses_operation_collation: bool = False
-    rejects_collation: bool = False
+    is_aliased_signature: Optional[bool] = None
+    propagates_collation: Optional[bool] = None
+    uses_operation_collation: Optional[bool] = None
+    rejects_collation: Optional[bool] = None
     rewrite_options: Optional['FunctionSignatureRewriteOptions'] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_function_pb2.FunctionSignatureOptionsProto
@@ -11387,10 +11387,10 @@ class FunctionSignatureOptions(ProtoModel):
 class FunctionSignatureRewriteOptions(ProtoModel):
     """Generated model for FunctionSignatureRewriteOptionsProto"""
 
-    enabled: bool = False
-    rewriter: int = 0
-    sql: str = ""
-    allow_table_references: bool = False
+    enabled: Optional[bool] = None
+    rewriter: Optional[int] = None
+    sql: Optional[str] = None
+    allow_table_references: Optional[bool] = None
     allowed_function_groups: List[str] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = proto_function_pb2.FunctionSignatureRewriteOptionsProto
@@ -11454,7 +11454,7 @@ class GetBuiltinFunctionsResponse(ProtoModel):
     class TypesEntry(ProtoModel):
         """Generated model for TypesEntry"""
 
-        key: str = ""
+        key: Optional[str] = None
         value: Optional['Type'] = None
 
         _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.GetBuiltinFunctionsResponse.TypesEntry
@@ -11476,7 +11476,7 @@ class GetBuiltinFunctionsResponse(ProtoModel):
 class GraphElementLabel(ProtoModel):
     """Generated model for GraphElementLabelProto"""
 
-    name: str = ""
+    name: Optional[str] = None
     property_declaration_names: List[str] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = information_schema_property_graph_pb2.GraphElementLabelProto
@@ -11499,7 +11499,7 @@ class GraphElementLabelRef(ProtoModel):
     """Generated model for GraphElementLabelRefProto"""
 
     property_graph: Optional['PropertyGraphRef'] = None
-    name: str = ""
+    name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_serialization_pb2.GraphElementLabelRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -11520,16 +11520,16 @@ class GraphElementLabelRef(ProtoModel):
 class GraphElementTable(ProtoModel):
     """Generated model for GraphElementTableProto"""
 
-    name: str = ""
-    kind: int = 0
-    base_catalog_name: str = ""
-    base_schema_name: str = ""
-    base_table_name: str = ""
+    name: Optional[str] = None
+    kind: Optional[int] = None
+    base_catalog_name: Optional[str] = None
+    base_schema_name: Optional[str] = None
+    base_table_name: Optional[str] = None
     key_columns: List[str] = field(default_factory=list)
     label_names: List[str] = field(default_factory=list)
     property_definitions: List['GraphPropertyDefinition'] = field(default_factory=list)
-    dynamic_label_expr: str = ""
-    dynamic_property_expr: str = ""
+    dynamic_label_expr: Optional[str] = None
+    dynamic_property_expr: Optional[str] = None
     source_node_table: Optional['GraphNodeTableReference'] = None
     destination_node_table: Optional['GraphNodeTableReference'] = None
 
@@ -11603,7 +11603,7 @@ class GraphElementTableRef(ProtoModel):
     """Generated model for GraphElementTableRefProto"""
 
     property_graph: Optional['PropertyGraphRef'] = None
-    name: str = ""
+    name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_serialization_pb2.GraphElementTableRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -11624,10 +11624,10 @@ class GraphElementTableRef(ProtoModel):
 class GraphElementType(ProtoModel):
     """Generated model for GraphElementTypeProto"""
 
-    kind: int = 0
+    kind: Optional[int] = None
     property_type: List['GraphElementType.PropertyType'] = field(default_factory=list)
     graph_reference: List[str] = field(default_factory=list)
-    is_dynamic: bool = False
+    is_dynamic: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = public_type_pb2.GraphElementTypeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -11657,7 +11657,7 @@ class GraphElementType(ProtoModel):
     class PropertyType(ProtoModel):
         """Generated model for PropertyTypeProto"""
 
-        name: str = ""
+        name: Optional[str] = None
         value_type: Optional['Type'] = None
 
         _PROTO_CLASS: ClassVar[type] = public_type_pb2.GraphElementTypeProto.PropertyTypeProto
@@ -11679,7 +11679,7 @@ class GraphElementType(ProtoModel):
 class GraphNodeTableReference(ProtoModel):
     """Generated model for GraphNodeTableReferenceProto"""
 
-    node_table_name: str = ""
+    node_table_name: Optional[str] = None
     edge_table_columns: List[str] = field(default_factory=list)
     node_table_columns: List[str] = field(default_factory=list)
 
@@ -11729,8 +11729,8 @@ class GraphPathType(ProtoModel):
 class GraphPropertyDeclaration(ProtoModel):
     """Generated model for GraphPropertyDeclarationProto"""
 
-    name: str = ""
-    type: str = ""
+    name: Optional[str] = None
+    type: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = information_schema_property_graph_pb2.GraphPropertyDeclarationProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -11752,7 +11752,7 @@ class GraphPropertyDeclarationRef(ProtoModel):
     """Generated model for GraphPropertyDeclarationRefProto"""
 
     property_graph: Optional['PropertyGraphRef'] = None
-    name: str = ""
+    name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_serialization_pb2.GraphPropertyDeclarationRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -11773,8 +11773,8 @@ class GraphPropertyDeclarationRef(ProtoModel):
 class GraphPropertyDefinition(ProtoModel):
     """Generated model for GraphPropertyDefinitionProto"""
 
-    property_declaration_name: str = ""
-    value_expression_sql: str = ""
+    property_declaration_name: Optional[str] = None
+    value_expression_sql: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = information_schema_property_graph_pb2.GraphPropertyDefinitionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -11795,8 +11795,8 @@ class GraphPropertyDefinition(ProtoModel):
 class GroupingSetRewriteOptions(ProtoModel):
     """Generated model for GroupingSetRewriteOptions"""
 
-    max_grouping_sets: int = 0
-    max_columns_in_grouping_set: int = 0
+    max_grouping_sets: Optional[int] = None
+    max_columns_in_grouping_set: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = public_options_pb2.GroupingSetRewriteOptions
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -11849,8 +11849,8 @@ class InternalErrorFixSuggestions(ProtoModel):
 class InternalErrorLocation(ProtoModel):
     """Generated model for InternalErrorLocation"""
 
-    byte_offset: int = 0
-    filename: str = ""
+    byte_offset: Optional[int] = None
+    filename: Optional[str] = None
     error_source: List['ErrorSource'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = proto_internal_error_location_pb2.InternalErrorLocation
@@ -11877,7 +11877,7 @@ class InternalErrorLocation(ProtoModel):
 class InternalFix(ProtoModel):
     """Generated model for InternalFix"""
 
-    title: str = ""
+    title: Optional[str] = None
     edits: Optional['InternalEdits'] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_internal_fix_suggestion_pb2.InternalFix
@@ -11900,7 +11900,7 @@ class InternalFixRange(ProtoModel):
     """Generated model for InternalFixRange"""
 
     start: Optional['InternalErrorLocation'] = None
-    length: int = 0
+    length: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_internal_fix_suggestion_pb2.InternalFixRange
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -11922,7 +11922,7 @@ class InternalTextEdit(ProtoModel):
     """Generated model for InternalTextEdit"""
 
     range: Optional['InternalFixRange'] = None
-    new_text: str = ""
+    new_text: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_internal_fix_suggestion_pb2.InternalTextEdit
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -11943,8 +11943,8 @@ class InternalTextEdit(ProtoModel):
 class KnownErrorEntry(ProtoModel):
     """Generated model for KnownErrorEntry"""
 
-    mode: int = 0
-    reason: str = ""
+    mode: Optional[int] = None
+    reason: Optional[str] = None
     label: List[str] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = compliance_known_error_pb2.KnownErrorEntry
@@ -11993,9 +11993,9 @@ class KnownErrorFile(ProtoModel):
 class LanguageFeatureOptions(ProtoModel):
     """Generated model for LanguageFeatureOptions"""
 
-    ideally_enabled: bool = False
-    in_development: bool = False
-    language_version: int = 0
+    ideally_enabled: Optional[bool] = None
+    in_development: Optional[bool] = None
+    language_version: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = public_options_pb2.LanguageFeatureOptions
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12021,9 +12021,9 @@ class LanguageFeatureOptions(ProtoModel):
 class LanguageOptions(ProtoModel):
     """Generated model for LanguageOptionsProto"""
 
-    name_resolution_mode: int = 0
-    product_mode: int = 0
-    error_on_deprecated_syntax: bool = False
+    name_resolution_mode: Optional[int] = None
+    product_mode: Optional[int] = None
+    error_on_deprecated_syntax: Optional[bool] = None
     enabled_language_features: List[int] = field(default_factory=list)
     supported_statement_kinds: List[int] = field(default_factory=list)
     supported_generic_entity_types: List[str] = field(default_factory=list)
@@ -12079,8 +12079,8 @@ class LanguageOptions(ProtoModel):
 class LanguageOptionsRequest(ProtoModel):
     """Generated model for LanguageOptionsRequest"""
 
-    maximum_features: bool = False
-    language_version: int = 0
+    maximum_features: Optional[bool] = None
+    language_version: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.LanguageOptionsRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12146,7 +12146,7 @@ class MatchResult(ProtoModel):
     """Generated model for MatchResultProto"""
 
     match: List[str] = field(default_factory=list)
-    rep_count: int = 0
+    rep_count: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = match_recognize_match_test_result_pb2.MatchResultProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12183,9 +12183,9 @@ class MeasureType(ProtoModel):
 class ModelRef(ProtoModel):
     """Generated model for ModelRefProto"""
 
-    name: str = ""
-    serialization_id: int = 0
-    full_name: str = ""
+    name: Optional[str] = None
+    serialization_id: Optional[int] = None
+    full_name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_serialization_pb2.ModelRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12232,7 +12232,7 @@ class ModuleOptions(ProtoModel):
     class PerModuleOptionsEntry(ProtoModel):
         """Generated model for PerModuleOptionsEntry"""
 
-        key: str = ""
+        key: Optional[str] = None
         value: Optional['PerModuleOptions'] = None
 
         _PROTO_CLASS: ClassVar[type] = proto_module_options_pb2.ModuleOptions.PerModuleOptionsEntry
@@ -12254,9 +12254,9 @@ class ModuleOptions(ProtoModel):
 class NoiseConfidenceInterval(ProtoModel):
     """Generated model for NoiseConfidenceInterval"""
 
-    lower_bound: float = 0.0
-    upper_bound: float = 0.0
-    confidence_level: float = 0.0
+    lower_bound: Optional[float] = None
+    upper_bound: Optional[float] = None
+    confidence_level: Optional[float] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_anon_output_with_report_pb2.NoiseConfidenceInterval
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12282,9 +12282,9 @@ class NoiseConfidenceInterval(ProtoModel):
 class NumericTypeParameters(ProtoModel):
     """Generated model for NumericTypeParametersProto"""
 
-    precision: int = 0
-    is_max_precision: bool = False
-    scale: int = 0
+    precision: Optional[int] = None
+    is_max_precision: Optional[bool] = None
+    scale: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = public_type_parameters_pb2.NumericTypeParametersProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12311,7 +12311,7 @@ class OneofDescriptorRef(ProtoModel):
     """Generated model for OneofDescriptorRefProto"""
 
     containing_proto: Optional['ProtoType'] = None
-    index: int = 0
+    index: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_serialization_pb2.OneofDescriptorRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12332,7 +12332,7 @@ class OneofDescriptorRef(ProtoModel):
 class OpaqueEnumTypeOptions(ProtoModel):
     """Generated model for OpaqueEnumTypeOptions"""
 
-    sql_opaque_enum_name: str = ""
+    sql_opaque_enum_name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = public_type_pb2.OpaqueEnumTypeOptions
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12348,7 +12348,7 @@ class OpaqueEnumTypeOptions(ProtoModel):
 class OpaqueEnumValueOptions(ProtoModel):
     """Generated model for OpaqueEnumValueOptions"""
 
-    invalid_enum_value: bool = False
+    invalid_enum_value: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = public_type_pb2.OpaqueEnumValueOptions
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12364,7 +12364,7 @@ class OpaqueEnumValueOptions(ProtoModel):
 class Parameter(ProtoModel):
     """Generated model for Parameter"""
 
-    name: str = ""
+    name: Optional[str] = None
     value: Optional['Value'] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.Parameter
@@ -12386,9 +12386,9 @@ class Parameter(ProtoModel):
 class ParseLocationRange(ProtoModel):
     """Generated model for ParseLocationRangeProto"""
 
-    filename: str = ""
-    start: int = 0
-    end: int = 0
+    filename: Optional[str] = None
+    start: Optional[int] = None
+    end: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = public_parse_location_range_pb2.ParseLocationRangeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12414,10 +12414,10 @@ class ParseLocationRange(ProtoModel):
 class ParseRequest(ProtoModel):
     """Generated model for ParseRequest"""
 
-    sql_statement: str = ""
+    sql_statement: Optional[str] = None
     parse_resume_location: Optional['ParseResumeLocation'] = None
     options: Optional['LanguageOptions'] = None
-    allow_script: bool = False
+    allow_script: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.ParseRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12450,7 +12450,7 @@ class ParseResponse(ProtoModel):
 
     parsed_statement: Optional['ASTStatement'] = None
     parsed_script: Optional['ASTScript'] = None
-    resume_byte_position: int = 0
+    resume_byte_position: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.ParseResponse
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12476,10 +12476,10 @@ class ParseResponse(ProtoModel):
 class ParseResumeLocation(ProtoModel):
     """Generated model for ParseResumeLocationProto"""
 
-    filename: str = ""
-    input: str = ""
-    byte_position: int = 0
-    allow_resume: bool = False
+    filename: Optional[str] = None
+    input: Optional[str] = None
+    byte_position: Optional[int] = None
+    allow_resume: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = public_parse_resume_location_pb2.ParseResumeLocationProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12510,7 +12510,7 @@ class ParseResumeLocation(ProtoModel):
 class ParserErrorContext(ProtoModel):
     """Generated model for ParserErrorContext"""
 
-    text: str = ""
+    text: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = execute_query_execute_query_pb2.ParserErrorContext
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12526,10 +12526,10 @@ class ParserErrorContext(ProtoModel):
 class PerModuleOptions(ProtoModel):
     """Generated model for PerModuleOptions"""
 
-    udf_server_address: str = ""
-    udf_namespace: str = ""
-    udf_server_import_mode: int = 0
-    udf_scaling_factor: float = 0.0
+    udf_server_address: Optional[str] = None
+    udf_namespace: Optional[str] = None
+    udf_server_import_mode: Optional[int] = None
+    udf_scaling_factor: Optional[float] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_module_options_pb2.PerModuleOptions
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12560,7 +12560,7 @@ class PerModuleOptions(ProtoModel):
 class PlaceholderDescriptor(ProtoModel):
     """Generated model for PlaceholderDescriptorProto"""
 
-    is_placeholder: bool = False
+    is_placeholder: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_placeholder_descriptor_pb2.PlaceholderDescriptorProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12576,11 +12576,11 @@ class PlaceholderDescriptor(ProtoModel):
 class PrepareModifyRequest(ProtoModel):
     """Generated model for PrepareModifyRequest"""
 
-    sql: str = ""
+    sql: Optional[str] = None
     options: Optional['AnalyzerOptions'] = None
     descriptor_pool_list: Optional['DescriptorPoolList'] = None
     simple_catalog: Optional['SimpleCatalog'] = None
-    registered_catalog_id: int = 0
+    registered_catalog_id: Optional[int] = None
     table_content: Dict[str, 'TableContent'] = field(default_factory=dict)
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.PrepareModifyRequest
@@ -12621,7 +12621,7 @@ class PrepareModifyRequest(ProtoModel):
     class TableContentEntry(ProtoModel):
         """Generated model for TableContentEntry"""
 
-        key: str = ""
+        key: Optional[str] = None
         value: Optional['TableContent'] = None
 
         _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.PrepareModifyRequest.TableContentEntry
@@ -12659,11 +12659,11 @@ class PrepareModifyResponse(ProtoModel):
 class PrepareQueryRequest(ProtoModel):
     """Generated model for PrepareQueryRequest"""
 
-    sql: str = ""
+    sql: Optional[str] = None
     options: Optional['AnalyzerOptions'] = None
     descriptor_pool_list: Optional['DescriptorPoolList'] = None
     simple_catalog: Optional['SimpleCatalog'] = None
-    registered_catalog_id: int = 0
+    registered_catalog_id: Optional[int] = None
     table_content: Dict[str, 'TableContent'] = field(default_factory=dict)
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.PrepareQueryRequest
@@ -12704,7 +12704,7 @@ class PrepareQueryRequest(ProtoModel):
     class TableContentEntry(ProtoModel):
         """Generated model for TableContentEntry"""
 
-        key: str = ""
+        key: Optional[str] = None
         value: Optional['TableContent'] = None
 
         _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.PrepareQueryRequest.TableContentEntry
@@ -12742,11 +12742,11 @@ class PrepareQueryResponse(ProtoModel):
 class PrepareRequest(ProtoModel):
     """Generated model for PrepareRequest"""
 
-    sql: str = ""
+    sql: Optional[str] = None
     options: Optional['AnalyzerOptions'] = None
     descriptor_pool_list: Optional['DescriptorPoolList'] = None
     simple_catalog: Optional['SimpleCatalog'] = None
-    registered_catalog_id: int = 0
+    registered_catalog_id: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.PrepareRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12798,9 +12798,9 @@ class PrepareResponse(ProtoModel):
 class PreparedModifyState(ProtoModel):
     """Generated model for PreparedModifyState"""
 
-    prepared_modify_id: int = 0
+    prepared_modify_id: Optional[int] = None
     referenced_parameters: List[str] = field(default_factory=list)
-    positional_parameter_count: int = 0
+    positional_parameter_count: Optional[int] = None
     descriptor_pool_id_list: Optional['DescriptorPoolIdList'] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.PreparedModifyState
@@ -12832,9 +12832,9 @@ class PreparedModifyState(ProtoModel):
 class PreparedQueryState(ProtoModel):
     """Generated model for PreparedQueryState"""
 
-    prepared_query_id: int = 0
+    prepared_query_id: Optional[int] = None
     referenced_parameters: List[str] = field(default_factory=list)
-    positional_parameter_count: int = 0
+    positional_parameter_count: Optional[int] = None
     columns: List['SimpleColumn'] = field(default_factory=list)
     descriptor_pool_id_list: Optional['DescriptorPoolIdList'] = None
 
@@ -12872,11 +12872,11 @@ class PreparedQueryState(ProtoModel):
 class PreparedState(ProtoModel):
     """Generated model for PreparedState"""
 
-    prepared_expression_id: int = 0
+    prepared_expression_id: Optional[int] = None
     output_type: Optional['Type'] = None
     referenced_columns: List[str] = field(default_factory=list)
     referenced_parameters: List[str] = field(default_factory=list)
-    positional_parameter_count: int = 0
+    positional_parameter_count: Optional[int] = None
     descriptor_pool_id_list: Optional['DescriptorPoolIdList'] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.PreparedState
@@ -12948,7 +12948,7 @@ class ProcedureExtension(ProtoModel):
 class ProcedureRef(ProtoModel):
     """Generated model for ProcedureRefProto"""
 
-    name: str = ""
+    name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_serialization_pb2.ProcedureRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12964,9 +12964,9 @@ class ProcedureRef(ProtoModel):
 class PropertyGraph(ProtoModel):
     """Generated model for PropertyGraphProto"""
 
-    catalog: str = ""
-    schema: str = ""
-    name: str = ""
+    catalog: Optional[str] = None
+    schema: Optional[str] = None
+    name: Optional[str] = None
     node_tables: List['GraphElementTable'] = field(default_factory=list)
     edge_tables: List['GraphElementTable'] = field(default_factory=list)
     labels: List['GraphElementLabel'] = field(default_factory=list)
@@ -13016,7 +13016,7 @@ class PropertyGraph(ProtoModel):
 class PropertyGraphRef(ProtoModel):
     """Generated model for PropertyGraphRefProto"""
 
-    full_name: str = ""
+    full_name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_serialization_pb2.PropertyGraphRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -13032,9 +13032,9 @@ class PropertyGraphRef(ProtoModel):
 class ProtoType(ProtoModel):
     """Generated model for ProtoTypeProto"""
 
-    proto_name: str = ""
-    proto_file_name: str = ""
-    file_descriptor_set_index: int = 0
+    proto_name: Optional[str] = None
+    proto_file_name: Optional[str] = None
+    file_descriptor_set_index: Optional[int] = None
     catalog_name_path: List[str] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = public_type_pb2.ProtoTypeProto
@@ -13125,7 +13125,7 @@ class RegisterCatalogRequest(ProtoModel):
     class TableContentEntry(ProtoModel):
         """Generated model for TableContentEntry"""
 
-        key: str = ""
+        key: Optional[str] = None
         value: Optional['TableContent'] = None
 
         _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.RegisterCatalogRequest.TableContentEntry
@@ -13147,7 +13147,7 @@ class RegisterCatalogRequest(ProtoModel):
 class RegisterResponse(ProtoModel):
     """Generated model for RegisterResponse"""
 
-    registered_id: int = 0
+    registered_id: Optional[int] = None
     descriptor_pool_id_list: Optional['DescriptorPoolIdList'] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.RegisterResponse
@@ -13169,8 +13169,8 @@ class RegisterResponse(ProtoModel):
 class ResolvedASTRewriteOptions(ProtoModel):
     """Generated model for ResolvedASTRewriteOptions"""
 
-    default_enabled: bool = False
-    in_development: bool = False
+    default_enabled: Optional[bool] = None
+    in_development: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = public_options_pb2.ResolvedASTRewriteOptions
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -13231,7 +13231,7 @@ class ResolvedBeginStmtEnums(ProtoModel):
 class ResolvedCollation(ProtoModel):
     """Generated model for ResolvedCollationProto"""
 
-    collation_name: str = ""
+    collation_name: Optional[str] = None
     child_list: List['ResolvedCollation'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_serialization_pb2.ResolvedCollationProto
@@ -13253,9 +13253,9 @@ class ResolvedCollation(ProtoModel):
 class ResolvedColumn(ProtoModel):
     """Generated model for ResolvedColumnProto"""
 
-    column_id: int = 0
-    table_name: str = ""
-    name: str = ""
+    column_id: Optional[int] = None
+    table_name: Optional[str] = None
+    name: Optional[str] = None
     type: Optional['Type'] = None
     annotation_map: Optional['AnnotationMap'] = None
 
@@ -13561,8 +13561,8 @@ class ResultTable(ProtoModel):
     pseudo_column: List['Column'] = field(default_factory=list)
     table_alias: List['TableAlias'] = field(default_factory=list)
     common_table_expression: List['TableAlias'] = field(default_factory=list)
-    is_value_table: bool = False
-    is_ordered: bool = False
+    is_value_table: Optional[bool] = None
+    is_ordered: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = common_reflection_pb2.ResultTable
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -13619,7 +13619,7 @@ class RewriteOptions(ProtoModel):
 class ScriptException(ProtoModel):
     """Generated model for ScriptException"""
 
-    message: str = ""
+    message: Optional[str] = None
     internal: Optional['ScriptException.Internal'] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_script_exception_pb2.ScriptException
@@ -13640,7 +13640,7 @@ class ScriptException(ProtoModel):
     class Internal(ProtoModel):
         """Generated model for Internal"""
 
-        statement_text: str = ""
+        statement_text: Optional[str] = None
         stack_trace: List['ScriptException.StackTraceFrame'] = field(default_factory=list)
 
         _PROTO_CLASS: ClassVar[type] = proto_script_exception_pb2.ScriptException.Internal
@@ -13661,10 +13661,10 @@ class ScriptException(ProtoModel):
     class StackTraceFrame(ProtoModel):
         """Generated model for StackTraceFrame"""
 
-        line: int = 0
-        column: int = 0
-        filename: str = ""
-        location: str = ""
+        line: Optional[int] = None
+        column: Optional[int] = None
+        filename: Optional[str] = None
+        location: Optional[str] = None
 
         _PROTO_CLASS: ClassVar[type] = proto_script_exception_pb2.ScriptException.StackTraceFrame
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -13698,9 +13698,9 @@ class ScriptExecutorState(ProtoModel):
     callstack: List['ScriptExecutorState.StackFrame'] = field(default_factory=list)
     pending_exceptions: List['ScriptException'] = field(default_factory=list)
     triggered_features: List[int] = field(default_factory=list)
-    timezone: str = ""
-    case_stmt_true_branch_index: int = 0
-    case_stmt_current_branch_index: int = 0
+    timezone: Optional[str] = None
+    case_stmt_true_branch_index: Optional[int] = None
+    case_stmt_current_branch_index: Optional[int] = None
     sql_feature_usage: Optional['ScriptExecutorState.ScriptFeatureUsage'] = None
 
     _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.ScriptExecutorStateProto
@@ -13746,11 +13746,11 @@ class ScriptExecutorState(ProtoModel):
     class ProcedureDefinition(ProtoModel):
         """Generated model for ProcedureDefinition"""
 
-        name: str = ""
+        name: Optional[str] = None
         signature: Optional['FunctionSignature'] = None
         argument_name_list: List[str] = field(default_factory=list)
-        body: str = ""
-        is_dynamic_sql: bool = False
+        body: Optional[str] = None
+        is_dynamic_sql: Optional[bool] = None
         extension: Optional['ProcedureExtension'] = None
 
         _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.ScriptExecutorStateProto.ProcedureDefinition
@@ -13791,9 +13791,9 @@ class ScriptExecutorState(ProtoModel):
     class ScriptFeatureUsage(ProtoModel):
         """Generated model for ScriptFeatureUsage"""
 
-        exception: int = 0
-        call_stmt: int = 0
-        execute_immediate_stmt: int = 0
+        exception: Optional[int] = None
+        call_stmt: Optional[int] = None
+        execute_immediate_stmt: Optional[int] = None
 
         _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.ScriptExecutorStateProto.ScriptFeatureUsage
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -13820,8 +13820,8 @@ class ScriptExecutorState(ProtoModel):
 
         procedure_definition: Optional['ScriptExecutorState.ProcedureDefinition'] = None
         variables: List['Variable'] = field(default_factory=list)
-        current_location_byte_offset: int = 0
-        control_flow_node_kind: int = 0
+        current_location_byte_offset: Optional[int] = None
+        control_flow_node_kind: Optional[int] = None
         parameters: Optional['ScriptExecutorState.StackFrame.Parameters'] = None
         for_loop_stack: List[any_pb2.Any] = field(default_factory=list)
 
@@ -13863,7 +13863,7 @@ class ScriptExecutorState(ProtoModel):
         class Parameters(ProtoModel):
             """Generated model for Parameters"""
 
-            mode: int = 0
+            mode: Optional[int] = None
             variables: List['Variable'] = field(default_factory=list)
 
             _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.ScriptExecutorStateProto.StackFrame.Parameters
@@ -13885,8 +13885,8 @@ class ScriptExecutorState(ProtoModel):
 class SequenceRef(ProtoModel):
     """Generated model for SequenceRefProto"""
 
-    name: str = ""
-    full_name: str = ""
+    name: Optional[str] = None
+    full_name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_serialization_pb2.SequenceRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -13923,14 +13923,14 @@ class SimpleAnonymizationInfo(ProtoModel):
 class SimpleCatalog(ProtoModel):
     """Generated model for SimpleCatalogProto"""
 
-    name: str = ""
+    name: Optional[str] = None
     table: List['SimpleTable'] = field(default_factory=list)
     named_type: List['SimpleCatalog.NamedType'] = field(default_factory=list)
     catalog: List['SimpleCatalog'] = field(default_factory=list)
     builtin_function_options: Optional['ZetaSQLBuiltinFunctionOptions'] = None
     custom_function: List['Function'] = field(default_factory=list)
     custom_tvf: List['TableValuedFunction'] = field(default_factory=list)
-    file_descriptor_set_index: int = 0
+    file_descriptor_set_index: Optional[int] = None
     procedure: List['Procedure'] = field(default_factory=list)
     constant: List['SimpleConstant'] = field(default_factory=list)
     property_graph: List['SimplePropertyGraph'] = field(default_factory=list)
@@ -14016,7 +14016,7 @@ class SimpleCatalog(ProtoModel):
     class NamedType(ProtoModel):
         """Generated model for NamedTypeProto"""
 
-        name: str = ""
+        name: Optional[str] = None
         type: Optional['Type'] = None
 
         _PROTO_CLASS: ClassVar[type] = proto_simple_catalog_pb2.SimpleCatalogProto.NamedTypeProto
@@ -14038,13 +14038,13 @@ class SimpleCatalog(ProtoModel):
 class SimpleColumn(ProtoModel):
     """Generated model for SimpleColumnProto"""
 
-    name: str = ""
+    name: Optional[str] = None
     type: Optional['Type'] = None
-    is_pseudo_column: bool = False
-    is_writable_column: bool = False
-    can_update_unwritable_to_default: bool = False
+    is_pseudo_column: Optional[bool] = None
+    is_writable_column: Optional[bool] = None
+    can_update_unwritable_to_default: Optional[bool] = None
     annotation_map: Optional['AnnotationMap'] = None
-    has_default_value: bool = False
+    has_default_value: Optional[bool] = None
     column_expression: Optional['ExpressionAttribute'] = None
 
     _PROTO_CLASS: ClassVar[type] = public_simple_table_pb2.SimpleColumnProto
@@ -14096,7 +14096,7 @@ class SimpleColumn(ProtoModel):
 class SimpleConnection(ProtoModel):
     """Generated model for SimpleConnectionProto"""
 
-    name: str = ""
+    name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = public_simple_connection_pb2.SimpleConnectionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -14140,7 +14140,7 @@ class SimpleConstant(ProtoModel):
 class SimpleGraphElementDynamicLabel(ProtoModel):
     """Generated model for SimpleGraphElementDynamicLabelProto"""
 
-    label_expression: str = ""
+    label_expression: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_simple_property_graph_pb2.SimpleGraphElementDynamicLabelProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -14156,7 +14156,7 @@ class SimpleGraphElementDynamicLabel(ProtoModel):
 class SimpleGraphElementDynamicProperties(ProtoModel):
     """Generated model for SimpleGraphElementDynamicPropertiesProto"""
 
-    properties_expression: str = ""
+    properties_expression: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_simple_property_graph_pb2.SimpleGraphElementDynamicPropertiesProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -14172,7 +14172,7 @@ class SimpleGraphElementDynamicProperties(ProtoModel):
 class SimpleGraphElementLabel(ProtoModel):
     """Generated model for SimpleGraphElementLabelProto"""
 
-    name: str = ""
+    name: Optional[str] = None
     property_graph_name_path: List[str] = field(default_factory=list)
     property_declaration_names: List[str] = field(default_factory=list)
 
@@ -14200,10 +14200,10 @@ class SimpleGraphElementLabel(ProtoModel):
 class SimpleGraphElementTable(ProtoModel):
     """Generated model for SimpleGraphElementTableProto"""
 
-    name: str = ""
+    name: Optional[str] = None
     property_graph_name_path: List[str] = field(default_factory=list)
-    kind: int = 0
-    input_table_name: str = ""
+    kind: Optional[int] = None
+    input_table_name: Optional[str] = None
     key_columns: List[int] = field(default_factory=list)
     label_names: List[str] = field(default_factory=list)
     property_definitions: List['SimpleGraphPropertyDefinition'] = field(default_factory=list)
@@ -14276,7 +14276,7 @@ class SimpleGraphElementTable(ProtoModel):
 class SimpleGraphNodeTableReference(ProtoModel):
     """Generated model for SimpleGraphNodeTableReferenceProto"""
 
-    node_table_name: str = ""
+    node_table_name: Optional[str] = None
     edge_table_columns: List[int] = field(default_factory=list)
     node_table_columns: List[int] = field(default_factory=list)
 
@@ -14304,7 +14304,7 @@ class SimpleGraphNodeTableReference(ProtoModel):
 class SimpleGraphPropertyDeclaration(ProtoModel):
     """Generated model for SimpleGraphPropertyDeclarationProto"""
 
-    name: str = ""
+    name: Optional[str] = None
     property_graph_name_path: List[str] = field(default_factory=list)
     type: Optional['Type'] = None
 
@@ -14332,8 +14332,8 @@ class SimpleGraphPropertyDeclaration(ProtoModel):
 class SimpleGraphPropertyDefinition(ProtoModel):
     """Generated model for SimpleGraphPropertyDefinitionProto"""
 
-    property_declaration_name: str = ""
-    value_expression_sql: str = ""
+    property_declaration_name: Optional[str] = None
+    value_expression_sql: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_simple_property_graph_pb2.SimpleGraphPropertyDefinitionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -14354,8 +14354,8 @@ class SimpleGraphPropertyDefinition(ProtoModel):
 class SimpleModel(ProtoModel):
     """Generated model for SimpleModelProto"""
 
-    id: int = 0
-    name: str = ""
+    id: Optional[int] = None
+    name: Optional[str] = None
     input: List['SimpleColumn'] = field(default_factory=list)
     output: List['SimpleColumn'] = field(default_factory=list)
 
@@ -14388,7 +14388,7 @@ class SimpleModel(ProtoModel):
 class SimplePropertyGraph(ProtoModel):
     """Generated model for SimplePropertyGraphProto"""
 
-    name: str = ""
+    name: Optional[str] = None
     name_path: List[str] = field(default_factory=list)
     node_tables: List['SimpleGraphElementTable'] = field(default_factory=list)
     edge_tables: List['SimpleGraphElementTable'] = field(default_factory=list)
@@ -14434,8 +14434,8 @@ class SimplePropertyGraph(ProtoModel):
 class SimpleSequence(ProtoModel):
     """Generated model for SimpleSequenceProto"""
 
-    name: str = ""
-    full_name: str = ""
+    name: Optional[str] = None
+    full_name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = public_simple_sequence_pb2.SimpleSequenceProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -14456,17 +14456,17 @@ class SimpleSequence(ProtoModel):
 class SimpleTable(ProtoModel):
     """Generated model for SimpleTableProto"""
 
-    name: str = ""
-    serialization_id: int = 0
-    is_value_table: bool = False
+    name: Optional[str] = None
+    serialization_id: Optional[int] = None
+    is_value_table: Optional[bool] = None
     column: List['SimpleColumn'] = field(default_factory=list)
     primary_key_column_index: List[int] = field(default_factory=list)
     row_identity_column_index: List[int] = field(default_factory=list)
-    name_in_catalog: str = ""
-    allow_anonymous_column_name: bool = False
-    allow_duplicate_column_names: bool = False
+    name_in_catalog: Optional[str] = None
+    allow_anonymous_column_name: Optional[bool] = None
+    allow_duplicate_column_names: Optional[bool] = None
     anonymization_info: Optional['SimpleAnonymizationInfo'] = None
-    full_name: str = ""
+    full_name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = public_simple_table_pb2.SimpleTableProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -14548,11 +14548,11 @@ class SimpleTokenList(ProtoModel):
 class SimpleValue(ProtoModel):
     """Generated model for SimpleValueProto"""
 
-    int64_value: int = 0
-    string_value: str = ""
-    bool_value: bool = False
-    double_value: float = 0.0
-    bytes_value: bytes = b""
+    int64_value: Optional[int] = None
+    string_value: Optional[str] = None
+    bool_value: Optional[bool] = None
+    double_value: Optional[float] = None
+    bytes_value: Optional[bytes] = None
 
     _PROTO_CLASS: ClassVar[type] = public_simple_value_pb2.SimpleValueProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -14589,8 +14589,8 @@ class StateMachine(ProtoModel):
     """Generated model for StateMachineProto"""
 
     nfa: Optional['StateMachine.CompiledNFA'] = None
-    after_match_skip_mode: int = 0
-    longest_match_mode: bool = False
+    after_match_skip_mode: Optional[int] = None
+    longest_match_mode: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = match_recognize_compiled_pattern_pb2.StateMachineProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -14616,9 +14616,9 @@ class StateMachine(ProtoModel):
         """Generated model for CompiledNFAProto"""
 
         states: List['StateMachine.CompiledNFA.State'] = field(default_factory=list)
-        start_state: int = 0
-        final_state: int = 0
-        num_pattern_variables: int = 0
+        start_state: Optional[int] = None
+        final_state: Optional[int] = None
+        num_pattern_variables: Optional[int] = None
 
         _PROTO_CLASS: ClassVar[type] = match_recognize_compiled_pattern_pb2.StateMachineProto.CompiledNFAProto
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -14648,10 +14648,10 @@ class StateMachine(ProtoModel):
         class Edge(ProtoModel):
             """Generated model for EdgeProto"""
 
-            to_state: int = 0
-            pattern_variable: int = 0
-            is_head_anchored: bool = False
-            is_tail_anchored: bool = False
+            to_state: Optional[int] = None
+            pattern_variable: Optional[int] = None
+            is_head_anchored: Optional[bool] = None
+            is_tail_anchored: Optional[bool] = None
 
             _PROTO_CLASS: ClassVar[type] = match_recognize_compiled_pattern_pb2.StateMachineProto.CompiledNFAProto.EdgeProto
             _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -14697,8 +14697,8 @@ class StateMachine(ProtoModel):
 class StringTypeParameters(ProtoModel):
     """Generated model for StringTypeParametersProto"""
 
-    max_length: int = 0
-    is_max_length: bool = False
+    max_length: Optional[int] = None
+    is_max_length: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = public_type_parameters_pb2.StringTypeParametersProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -14719,7 +14719,7 @@ class StringTypeParameters(ProtoModel):
 class StructField(ProtoModel):
     """Generated model for StructFieldProto"""
 
-    field_name: str = ""
+    field_name: Optional[str] = None
     field_type: Optional['Type'] = None
 
     _PROTO_CLASS: ClassVar[type] = public_type_pb2.StructFieldProto
@@ -14803,8 +14803,8 @@ class TVFArgument(ProtoModel):
 class TVFConnection(ProtoModel):
     """Generated model for TVFConnectionProto"""
 
-    name: str = ""
-    full_name: str = ""
+    name: Optional[str] = None
+    full_name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_function_pb2.TVFConnectionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -14841,8 +14841,8 @@ class TVFDescriptor(ProtoModel):
 class TVFGraph(ProtoModel):
     """Generated model for TVFGraphProto"""
 
-    name: str = ""
-    full_name: str = ""
+    name: Optional[str] = None
+    full_name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_function_pb2.TVFGraphProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -14863,8 +14863,8 @@ class TVFGraph(ProtoModel):
 class TVFModel(ProtoModel):
     """Generated model for TVFModelProto"""
 
-    name: str = ""
-    full_name: str = ""
+    name: Optional[str] = None
+    full_name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_function_pb2.TVFModelProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -14886,7 +14886,7 @@ class TVFRelation(ProtoModel):
     """Generated model for TVFRelationProto"""
 
     column: List['TVFRelationColumn'] = field(default_factory=list)
-    is_value_table: bool = False
+    is_value_table: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_function_pb2.TVFRelationProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -14907,9 +14907,9 @@ class TVFRelation(ProtoModel):
 class TVFRelationColumn(ProtoModel):
     """Generated model for TVFRelationColumnProto"""
 
-    name: str = ""
+    name: Optional[str] = None
     type: Optional['Type'] = None
-    is_pseudo_column: bool = False
+    is_pseudo_column: Optional[bool] = None
     annotation_map: Optional['AnnotationMap'] = None
     name_parse_location_range: Optional['ParseLocationRange'] = None
     type_parse_location_range: Optional['ParseLocationRange'] = None
@@ -15003,7 +15003,7 @@ class TVFSignatureOptions(ProtoModel):
 class TableAlias(ProtoModel):
     """Generated model for TableAlias"""
 
-    name: str = ""
+    name: Optional[str] = None
     column_name: List[str] = field(default_factory=list)
     pseudo_column_name: List[str] = field(default_factory=list)
 
@@ -15100,9 +15100,9 @@ class TableFromProtoRequest(ProtoModel):
 class TableRef(ProtoModel):
     """Generated model for TableRefProto"""
 
-    name: str = ""
-    serialization_id: int = 0
-    full_name: str = ""
+    name: Optional[str] = None
+    serialization_id: Optional[int] = None
+    full_name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_serialization_pb2.TableRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -15132,14 +15132,14 @@ class TableValuedFunction(ProtoModel):
     signature: Optional['FunctionSignature'] = None
     signatures: List['FunctionSignature'] = field(default_factory=list)
     options: Optional['TableValuedFunctionOptions'] = None
-    type: int = 0
-    volatility: int = 0
+    type: Optional[int] = None
+    volatility: Optional[int] = None
     parse_resume_location: Optional['ParseResumeLocation'] = None
     argument_name: List[str] = field(default_factory=list)
-    custom_context: str = ""
+    custom_context: Optional[str] = None
     anonymization_info: Optional['SimpleAnonymizationInfo'] = None
-    statement_context: int = 0
-    group: str = ""
+    statement_context: Optional[int] = None
+    group: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_function_pb2.TableValuedFunctionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -15210,7 +15210,7 @@ class TableValuedFunction(ProtoModel):
 class TableValuedFunctionOptions(ProtoModel):
     """Generated model for TableValuedFunctionOptionsProto"""
 
-    uses_upper_case_sql_name: bool = False
+    uses_upper_case_sql_name: Optional[bool] = None
     required_language_feature: List[int] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = proto_function_pb2.TableValuedFunctionOptionsProto
@@ -15232,7 +15232,7 @@ class TableValuedFunctionOptions(ProtoModel):
 class TableValuedFunctionRef(ProtoModel):
     """Generated model for TableValuedFunctionRefProto"""
 
-    name: str = ""
+    name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_serialization_pb2.TableValuedFunctionRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -15249,7 +15249,7 @@ class TextEdit(ProtoModel):
     """Generated model for TextEdit"""
 
     range: Optional['FixRange'] = None
-    new_text: str = ""
+    new_text: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = public_fix_suggestion_pb2.TextEdit
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -15270,8 +15270,8 @@ class TextEdit(ProtoModel):
 class TextToken(ProtoModel):
     """Generated model for TextTokenProto"""
 
-    text: str = ""
-    attribute: int = 0
+    text: Optional[str] = None
+    attribute: Optional[int] = None
     index_token: List['Token'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = public_simple_token_list_pb2.TextTokenProto
@@ -15298,7 +15298,7 @@ class TextToken(ProtoModel):
 class TimestampTypeParameters(ProtoModel):
     """Generated model for TimestampTypeParametersProto"""
 
-    precision: int = 0
+    precision: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = public_type_parameters_pb2.TimestampTypeParametersProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -15314,8 +15314,8 @@ class TimestampTypeParameters(ProtoModel):
 class Token(ProtoModel):
     """Generated model for TokenProto"""
 
-    text: str = ""
-    attribute: int = 0
+    text: Optional[str] = None
+    attribute: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = public_simple_token_list_pb2.TokenProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -15336,7 +15336,7 @@ class Token(ProtoModel):
 class Type(ProtoModel):
     """Generated model for TypeProto"""
 
-    type_kind: int = 0
+    type_kind: Optional[int] = None
     array_type: Optional['ArrayType'] = None
     struct_type: Optional['StructType'] = None
     proto_type: Optional['ProtoType'] = None
@@ -15347,7 +15347,7 @@ class Type(ProtoModel):
     map_type: Optional['MapType'] = None
     measure_type: Optional['MeasureType'] = None
     file_descriptor_set: List[descriptor_pb2.FileDescriptorSet] = field(default_factory=list)
-    extended_type_name: str = ""
+    extended_type_name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = public_type_pb2.TypeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -15480,7 +15480,7 @@ class TypeParameters(ProtoModel):
 class UnprepareModifyRequest(ProtoModel):
     """Generated model for UnprepareModifyRequest"""
 
-    prepared_modify_id: int = 0
+    prepared_modify_id: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.UnprepareModifyRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -15496,7 +15496,7 @@ class UnprepareModifyRequest(ProtoModel):
 class UnprepareQueryRequest(ProtoModel):
     """Generated model for UnprepareQueryRequest"""
 
-    prepared_query_id: int = 0
+    prepared_query_id: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.UnprepareQueryRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -15512,7 +15512,7 @@ class UnprepareQueryRequest(ProtoModel):
 class UnprepareRequest(ProtoModel):
     """Generated model for UnprepareRequest"""
 
-    prepared_expression_id: int = 0
+    prepared_expression_id: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.UnprepareRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -15528,7 +15528,7 @@ class UnprepareRequest(ProtoModel):
 class UnregisterRequest(ProtoModel):
     """Generated model for UnregisterRequest"""
 
-    registered_id: int = 0
+    registered_id: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.UnregisterRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -15552,33 +15552,33 @@ class UnsupportedFieldsEnum(ProtoModel):
 class Value(ProtoModel):
     """Generated model for ValueProto"""
 
-    int32_value: int = 0
-    int64_value: int = 0
-    uint32_value: int = 0
-    uint64_value: int = 0
-    bool_value: bool = False
-    float_value: float = 0.0
-    double_value: float = 0.0
-    string_value: str = ""
-    bytes_value: bytes = b""
-    date_value: int = 0
-    enum_value: int = 0
+    int32_value: Optional[int] = None
+    int64_value: Optional[int] = None
+    uint32_value: Optional[int] = None
+    uint64_value: Optional[int] = None
+    bool_value: Optional[bool] = None
+    float_value: Optional[float] = None
+    double_value: Optional[float] = None
+    string_value: Optional[str] = None
+    bytes_value: Optional[bytes] = None
+    date_value: Optional[int] = None
+    enum_value: Optional[int] = None
     array_value: Optional['Value.Array'] = None
     struct_value: Optional['Value.Struct'] = None
-    proto_value: bytes = b""
+    proto_value: Optional[bytes] = None
     timestamp_value: Optional[datetime.datetime] = None
-    timestamp_pico_value: bytes = b""
+    timestamp_pico_value: Optional[bytes] = None
     timestamp_picos_value: Optional['Value.TimestampPicos'] = None
     datetime_value: Optional['Value.Datetime'] = None
-    time_value: int = 0
-    geography_value: bytes = b""
-    numeric_value: bytes = b""
-    bignumeric_value: bytes = b""
-    json_value: str = ""
-    interval_value: bytes = b""
-    tokenlist_value: bytes = b""
+    time_value: Optional[int] = None
+    geography_value: Optional[bytes] = None
+    numeric_value: Optional[bytes] = None
+    bignumeric_value: Optional[bytes] = None
+    json_value: Optional[str] = None
+    interval_value: Optional[bytes] = None
+    tokenlist_value: Optional[bytes] = None
     range_value: Optional['Value.Range'] = None
-    uuid_value: bytes = b""
+    uuid_value: Optional[bytes] = None
     map_value: Optional['Value.Map'] = None
 
     _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto
@@ -15744,8 +15744,8 @@ class Value(ProtoModel):
     class Datetime(ProtoModel):
         """Generated model for Datetime"""
 
-        bit_field_datetime_seconds: int = 0
-        nanos: int = 0
+        bit_field_datetime_seconds: Optional[int] = None
+        nanos: Optional[int] = None
 
         _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto.Datetime
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -15837,8 +15837,8 @@ class Value(ProtoModel):
     class TimestampPicos(ProtoModel):
         """Generated model for TimestampPicos"""
 
-        seconds: int = 0
-        picos: int = 0
+        seconds: Optional[int] = None
+        picos: Optional[int] = None
 
         _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto.TimestampPicos
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -15881,7 +15881,7 @@ class ValueWithType(ProtoModel):
 class Variable(ProtoModel):
     """Generated model for Variable"""
 
-    name: str = ""
+    name: Optional[str] = None
     type: Optional['Type'] = None
     value: Optional['Value'] = None
     type_params: Optional['TypeParameters'] = None
@@ -15957,7 +15957,7 @@ class ZetaSQLBuiltinFunctionOptions(ProtoModel):
 class ASTAfterMatchSkipClause(ASTNode):
     """Generated model for ASTAfterMatchSkipClauseProto"""
 
-    target_type: int = 0
+    target_type: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAfterMatchSkipClauseProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -16073,7 +16073,7 @@ class ASTAlterActionList(ASTNode):
 class ASTAnySomeAllOp(ASTNode):
     """Generated model for ASTAnySomeAllOpProto"""
 
-    op: int = 0
+    op: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAnySomeAllOpProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -16122,7 +16122,7 @@ class ASTAuxLoadDataPartitionsClause(ASTNode):
     """Generated model for ASTAuxLoadDataPartitionsClauseProto"""
 
     partition_filter: Optional['ASTExpression'] = None
-    is_overwrite: bool = False
+    is_overwrite: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAuxLoadDataPartitionsClauseProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -16144,7 +16144,7 @@ class ASTBracedConstructorField(ASTNode):
     """Generated model for ASTBracedConstructorFieldProto"""
 
     value: Optional['ASTBracedConstructorFieldValue'] = None
-    comma_separated: bool = False
+    comma_separated: Optional[bool] = None
     braced_constructor_lhs: Optional['ASTBracedConstructorLhs'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTBracedConstructorFieldProto
@@ -16172,7 +16172,7 @@ class ASTBracedConstructorFieldValue(ASTNode):
     """Generated model for ASTBracedConstructorFieldValueProto"""
 
     expression: Optional['ASTExpression'] = None
-    colon_prefixed: bool = False
+    colon_prefixed: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTBracedConstructorFieldValueProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -16320,7 +16320,7 @@ class ASTColumnPosition(ASTNode):
     """Generated model for ASTColumnPositionProto"""
 
     identifier: Optional['ASTIdentifier'] = None
-    type: int = 0
+    type: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTColumnPositionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -16629,7 +16629,7 @@ class ASTExecuteUsingClause(ASTNode):
 class ASTExpression(ASTNode):
     """Generated model for ASTExpressionProto"""
 
-    parenthesized: bool = False
+    parenthesized: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTExpressionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -16668,7 +16668,7 @@ class ASTFilterFieldsArg(ASTNode):
     """Generated model for ASTFilterFieldsArgProto"""
 
     path_expression: Optional['ASTGeneralizedPathExpression'] = None
-    filter_type: int = 0
+    filter_type: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTFilterFieldsArgProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -16705,8 +16705,8 @@ class ASTForSystemTime(ASTNode):
 class ASTForeignKeyActions(ASTNode):
     """Generated model for ASTForeignKeyActionsProto"""
 
-    update_action: int = 0
-    delete_action: int = 0
+    update_action: Optional[int] = None
+    delete_action: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTForeignKeyActionsProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -16730,8 +16730,8 @@ class ASTForeignKeyReference(ASTNode):
     table_name: Optional['ASTPathExpression'] = None
     column_list: Optional['ASTColumnList'] = None
     actions: Optional['ASTForeignKeyActions'] = None
-    match: int = 0
-    enforced: bool = False
+    match: Optional[int] = None
+    enforced: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTForeignKeyReferenceProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -16833,8 +16833,8 @@ class ASTFunctionParameter(ASTNode):
     tvf_schema: Optional['ASTTVFSchema'] = None
     alias: Optional['ASTAlias'] = None
     default_value: Optional['ASTExpression'] = None
-    procedure_parameter_mode: int = 0
-    is_not_aggregate: bool = False
+    procedure_parameter_mode: Optional[int] = None
+    is_not_aggregate: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTFunctionParameterProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -16918,8 +16918,8 @@ class ASTGeneratedColumnInfo(ASTNode):
     """Generated model for ASTGeneratedColumnInfoProto"""
 
     expression: Optional['ASTExpression'] = None
-    stored_mode: int = 0
-    generated_mode: int = 0
+    stored_mode: Optional[int] = None
+    generated_mode: Optional[int] = None
     identity_column_info: Optional['ASTIdentityColumnInfo'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTGeneratedColumnInfoProto
@@ -17307,7 +17307,7 @@ class ASTGraphElementTableList(ASTNode):
 class ASTGraphLabelExpression(ASTNode):
     """Generated model for ASTGraphLabelExpressionProto"""
 
-    parenthesized: bool = False
+    parenthesized: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTGraphLabelExpressionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -17358,7 +17358,7 @@ class ASTGraphNodeTableReference(ASTNode):
     node_table_identifier: Optional['ASTIdentifier'] = None
     edge_table_columns: Optional['ASTColumnList'] = None
     node_table_columns: Optional['ASTColumnList'] = None
-    node_reference_type: int = 0
+    node_reference_type: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTGraphNodeTableReferenceProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -17405,7 +17405,7 @@ class ASTGraphPathBase(ASTNode):
 class ASTGraphPathMode(ASTNode):
     """Generated model for ASTGraphPathModeProto"""
 
-    path_mode: int = 0
+    path_mode: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTGraphPathModeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -17421,7 +17421,7 @@ class ASTGraphPathMode(ASTNode):
 class ASTGraphPathSearchPrefix(ASTNode):
     """Generated model for ASTGraphPathSearchPrefixProto"""
 
-    type: int = 0
+    type: Optional[int] = None
     path_count: Optional['ASTGraphPathSearchPrefixCount'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTGraphPathSearchPrefixProto
@@ -17481,7 +17481,7 @@ class ASTGraphPattern(ASTNode):
 class ASTGraphProperties(ASTNode):
     """Generated model for ASTGraphPropertiesProto"""
 
-    no_properties: bool = False
+    no_properties: Optional[bool] = None
     derived_property_list: Optional['ASTGraphDerivedPropertyList'] = None
     all_except_columns: Optional['ASTColumnList'] = None
 
@@ -17566,7 +17566,7 @@ class ASTGroupBy(ASTNode):
     hint: Optional['ASTHint'] = None
     all: Optional['ASTGroupByAll'] = None
     grouping_items: List['ASTGroupingItem'] = field(default_factory=list)
-    and_order_by: bool = False
+    and_order_by: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTGroupByProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -17651,7 +17651,7 @@ class ASTGroupingItem(ASTNode):
 class ASTGroupingItemOrder(ASTNode):
     """Generated model for ASTGroupingItemOrderProto"""
 
-    ordering_spec: int = 0
+    ordering_spec: Optional[int] = None
     null_order: Optional['ASTNullOrder'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTGroupingItemOrderProto
@@ -17734,7 +17734,7 @@ class ASTHavingModifier(ASTNode):
     """Generated model for ASTHavingModifierProto"""
 
     expr: Optional['ASTExpression'] = None
-    modifier_kind: int = 0
+    modifier_kind: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTHavingModifierProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -17841,7 +17841,7 @@ class ASTIdentityColumnInfo(ASTNode):
     increment_by_value: Optional['ASTIdentityColumnIncrementBy'] = None
     max_value: Optional['ASTIdentityColumnMaxValue'] = None
     min_value: Optional['ASTIdentityColumnMinValue'] = None
-    cycling_enabled: bool = False
+    cycling_enabled: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTIdentityColumnInfoProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -18135,7 +18135,7 @@ class ASTLocation(ASTNode):
 class ASTLockMode(ASTNode):
     """Generated model for ASTLockModeProto"""
 
-    strength: int = 0
+    strength: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTLockModeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -18154,7 +18154,7 @@ class ASTMergeAction(ASTNode):
     insert_column_list: Optional['ASTColumnList'] = None
     insert_row: Optional['ASTInsertValuesRow'] = None
     update_item_list: Optional['ASTUpdateItemList'] = None
-    action_type: int = 0
+    action_type: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTMergeActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -18187,7 +18187,7 @@ class ASTMergeWhenClause(ASTNode):
 
     search_condition: Optional['ASTExpression'] = None
     action: Optional['ASTMergeAction'] = None
-    match_type: int = 0
+    match_type: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTMergeWhenClauseProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -18273,7 +18273,7 @@ class ASTNewConstructorArg(ASTNode):
 class ASTNullOrder(ASTNode):
     """Generated model for ASTNullOrderProto"""
 
-    nulls_first: bool = False
+    nulls_first: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTNullOrderProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -18305,7 +18305,7 @@ class ASTOnClause(ASTNode):
 class ASTOnConflictClause(ASTNode):
     """Generated model for ASTOnConflictClauseProto"""
 
-    conflict_action: int = 0
+    conflict_action: Optional[int] = None
     conflict_target: Optional['ASTColumnList'] = None
     unique_constraint_name: Optional['ASTIdentifier'] = None
     update_item_list: Optional['ASTUpdateItemList'] = None
@@ -18363,7 +18363,7 @@ class ASTOptionsEntry(ASTNode):
 
     name: Optional['ASTIdentifier'] = None
     value: Optional['ASTExpression'] = None
-    assignment_op: int = 0
+    assignment_op: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTOptionsEntryProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -18430,7 +18430,7 @@ class ASTOrderingExpression(ASTNode):
     expression: Optional['ASTExpression'] = None
     collate: Optional['ASTCollate'] = None
     null_order: Optional['ASTNullOrder'] = None
-    ordering_spec: int = 0
+    ordering_spec: Optional[int] = None
     option_list: Optional['ASTOptionsList'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTOrderingExpressionProto
@@ -18620,7 +18620,7 @@ class ASTPrimaryKeyElement(ASTNode):
     """Generated model for ASTPrimaryKeyElementProto"""
 
     column: Optional['ASTIdentifier'] = None
-    ordering_spec: int = 0
+    ordering_spec: Optional[int] = None
     null_order: Optional['ASTNullOrder'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTPrimaryKeyElementProto
@@ -18717,7 +18717,7 @@ class ASTQualify(ASTNode):
 class ASTQuantifier(ASTNode):
     """Generated model for ASTQuantifierProto"""
 
-    is_reluctant: bool = False
+    is_reluctant: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTQuantifierProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -18749,7 +18749,7 @@ class ASTQuantifierBound(ASTNode):
 class ASTQueryExpression(ASTNode):
     """Generated model for ASTQueryExpressionProto"""
 
-    parenthesized: bool = False
+    parenthesized: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTQueryExpressionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -18869,7 +18869,7 @@ class ASTRollup(ASTNode):
 class ASTRowPatternExpression(ASTNode):
     """Generated model for ASTRowPatternExpressionProto"""
 
-    parenthesized: bool = False
+    parenthesized: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTRowPatternExpressionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -18887,7 +18887,7 @@ class ASTSampleSize(ASTNode):
 
     size: Optional['ASTExpression'] = None
     partition_by: Optional['ASTPartitionBy'] = None
-    unit: int = 0
+    unit: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSampleSizeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -18952,7 +18952,7 @@ class ASTSelectAs(ASTNode):
     """Generated model for ASTSelectAsProto"""
 
     type_name: Optional['ASTPathExpression'] = None
-    as_mode: int = 0
+    as_mode: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSelectAsProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -19039,7 +19039,7 @@ class ASTSelectWith(ASTNode):
 class ASTSetOperationAllOrDistinct(ASTNode):
     """Generated model for ASTSetOperationAllOrDistinctProto"""
 
-    value: int = 0
+    value: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSetOperationAllOrDistinctProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -19055,7 +19055,7 @@ class ASTSetOperationAllOrDistinct(ASTNode):
 class ASTSetOperationColumnMatchMode(ASTNode):
     """Generated model for ASTSetOperationColumnMatchModeProto"""
 
-    value: int = 0
+    value: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSetOperationColumnMatchModeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -19071,7 +19071,7 @@ class ASTSetOperationColumnMatchMode(ASTNode):
 class ASTSetOperationColumnPropagationMode(ASTNode):
     """Generated model for ASTSetOperationColumnPropagationModeProto"""
 
-    value: int = 0
+    value: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSetOperationColumnPropagationModeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -19149,7 +19149,7 @@ class ASTSetOperationMetadataList(ASTNode):
 class ASTSetOperationType(ASTNode):
     """Generated model for ASTSetOperationTypeProto"""
 
-    value: int = 0
+    value: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSetOperationTypeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -19166,8 +19166,8 @@ class ASTSpannerInterleaveClause(ASTNode):
     """Generated model for ASTSpannerInterleaveClauseProto"""
 
     table_name: Optional['ASTPathExpression'] = None
-    type: int = 0
-    action: int = 0
+    type: Optional[int] = None
+    action: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSpannerInterleaveClauseProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -19300,7 +19300,7 @@ class ASTStatementList(ASTNode):
     """Generated model for ASTStatementListProto"""
 
     statement_list: List['ASTStatement'] = field(default_factory=list)
-    variable_declarations_allowed: bool = False
+    variable_declarations_allowed: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTStatementListProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -19388,7 +19388,7 @@ class ASTSubpipeline(ASTNode):
     """Generated model for ASTSubpipelineProto"""
 
     pipe_operator_list: List['ASTPipeOperator'] = field(default_factory=list)
-    parenthesized: bool = False
+    parenthesized: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSubpipelineProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -19565,7 +19565,7 @@ class ASTTableExpression(ASTNode):
 class ASTTemplatedParameterType(ASTNode):
     """Generated model for ASTTemplatedParameterTypeProto"""
 
-    kind: int = 0
+    kind: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTTemplatedParameterTypeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -19969,7 +19969,7 @@ class ASTWindowFrame(ASTNode):
 
     start_expr: Optional['ASTWindowFrameExpr'] = None
     end_expr: Optional['ASTWindowFrameExpr'] = None
-    frame_unit: int = 0
+    frame_unit: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTWindowFrameProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -19996,7 +19996,7 @@ class ASTWindowFrameExpr(ASTNode):
     """Generated model for ASTWindowFrameExprProto"""
 
     expression: Optional['ASTExpression'] = None
-    boundary_type: int = 0
+    boundary_type: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTWindowFrameExprProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20052,7 +20052,7 @@ class ASTWithClause(ASTNode):
     """Generated model for ASTWithClauseProto"""
 
     with_: List['ASTAliasedQuery'] = field(default_factory=list)
-    recursive: bool = False
+    recursive: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTWithClauseProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20201,8 +20201,8 @@ class ResolvedScan(ResolvedNode):
 
     column_list: List['ResolvedColumn'] = field(default_factory=list)
     hint_list: List['ResolvedOption'] = field(default_factory=list)
-    is_ordered: bool = False
-    node_source: str = ""
+    is_ordered: Optional[bool] = None
+    node_source: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedScanProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20260,7 +20260,7 @@ class ASTAddColumnAction(ASTAlterAction):
     column_definition: Optional['ASTColumnDefinition'] = None
     column_position: Optional['ASTColumnPosition'] = None
     fill_expression: Optional['ASTExpression'] = None
-    is_if_not_exists: bool = False
+    is_if_not_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAddColumnActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20293,7 +20293,7 @@ class ASTAddColumnIdentifierAction(ASTAlterAction):
 
     column_name: Optional['ASTIdentifier'] = None
     options_list: Optional['ASTOptionsList'] = None
-    is_if_not_exists: bool = False
+    is_if_not_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAddColumnIdentifierActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20320,7 +20320,7 @@ class ASTAddConstraintAction(ASTAlterAction):
     """Generated model for ASTAddConstraintActionProto"""
 
     constraint: Optional['ASTTableConstraint'] = None
-    is_if_not_exists: bool = False
+    is_if_not_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAddConstraintActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20344,7 +20344,7 @@ class ASTAddSubEntityAction(ASTAlterAction):
     type: Optional['ASTIdentifier'] = None
     name: Optional['ASTIdentifier'] = None
     options_list: Optional['ASTOptionsList'] = None
-    is_if_not_exists: bool = False
+    is_if_not_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAddSubEntityActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20375,7 +20375,7 @@ class ASTAddSubEntityAction(ASTAlterAction):
 class ASTAddToRestricteeListClause(ASTAlterAction):
     """Generated model for ASTAddToRestricteeListClauseProto"""
 
-    is_if_not_exists: bool = False
+    is_if_not_exists: Optional[bool] = None
     restrictee_list: Optional['ASTGranteeList'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAddToRestricteeListClauseProto
@@ -20398,7 +20398,7 @@ class ASTAddTtlAction(ASTAlterAction):
     """Generated model for ASTAddTtlActionProto"""
 
     expression: Optional['ASTExpression'] = None
-    is_if_not_exists: bool = False
+    is_if_not_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAddTtlActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20464,7 +20464,7 @@ class ASTAlterColumnDropDefaultAction(ASTAlterAction):
     """Generated model for ASTAlterColumnDropDefaultActionProto"""
 
     column_name: Optional['ASTIdentifier'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAlterColumnDropDefaultActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20486,7 +20486,7 @@ class ASTAlterColumnDropGeneratedAction(ASTAlterAction):
     """Generated model for ASTAlterColumnDropGeneratedActionProto"""
 
     column_name: Optional['ASTIdentifier'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAlterColumnDropGeneratedActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20508,7 +20508,7 @@ class ASTAlterColumnDropNotNullAction(ASTAlterAction):
     """Generated model for ASTAlterColumnDropNotNullActionProto"""
 
     column_name: Optional['ASTIdentifier'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAlterColumnDropNotNullActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20531,7 +20531,7 @@ class ASTAlterColumnOptionsAction(ASTAlterAction):
 
     column_name: Optional['ASTIdentifier'] = None
     options_list: Optional['ASTOptionsList'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAlterColumnOptionsActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20559,7 +20559,7 @@ class ASTAlterColumnSetDefaultAction(ASTAlterAction):
 
     column_name: Optional['ASTIdentifier'] = None
     default_expression: Optional['ASTExpression'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAlterColumnSetDefaultActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20587,7 +20587,7 @@ class ASTAlterColumnSetGeneratedAction(ASTAlterAction):
 
     column_name: Optional['ASTIdentifier'] = None
     generated_column_info: Optional['ASTGeneratedColumnInfo'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAlterColumnSetGeneratedActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20616,7 +20616,7 @@ class ASTAlterColumnTypeAction(ASTAlterAction):
     column_name: Optional['ASTIdentifier'] = None
     schema: Optional['ASTColumnSchema'] = None
     collate: Optional['ASTCollate'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAlterColumnTypeActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20648,8 +20648,8 @@ class ASTAlterConstraintEnforcementAction(ASTAlterAction):
     """Generated model for ASTAlterConstraintEnforcementActionProto"""
 
     constraint_name: Optional['ASTIdentifier'] = None
-    is_if_exists: bool = False
-    is_enforced: bool = False
+    is_if_exists: Optional[bool] = None
+    is_enforced: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAlterConstraintEnforcementActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20677,7 +20677,7 @@ class ASTAlterConstraintSetOptionsAction(ASTAlterAction):
 
     constraint_name: Optional['ASTIdentifier'] = None
     options_list: Optional['ASTOptionsList'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAlterConstraintSetOptionsActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20706,7 +20706,7 @@ class ASTAlterSubEntityAction(ASTAlterAction):
     type: Optional['ASTIdentifier'] = None
     name: Optional['ASTIdentifier'] = None
     action: Optional['ASTAlterAction'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAlterSubEntityActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20888,7 +20888,7 @@ class ASTBetweenExpression(ASTExpression):
     lhs: Optional['ASTExpression'] = None
     low: Optional['ASTExpression'] = None
     high: Optional['ASTExpression'] = None
-    is_not: bool = False
+    is_not: Optional[bool] = None
     between_location: Optional['ASTLocation'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTBetweenExpressionProto
@@ -20925,8 +20925,8 @@ class ASTBetweenExpression(ASTExpression):
 class ASTBinaryExpression(ASTExpression):
     """Generated model for ASTBinaryExpressionProto"""
 
-    op: int = 0
-    is_not: bool = False
+    op: Optional[int] = None
+    is_not: Optional[bool] = None
     lhs: Optional['ASTExpression'] = None
     rhs: Optional['ASTExpression'] = None
 
@@ -20961,7 +20961,7 @@ class ASTBitwiseShiftExpression(ASTExpression):
 
     lhs: Optional['ASTExpression'] = None
     rhs: Optional['ASTExpression'] = None
-    is_left_shift: bool = False
+    is_left_shift: Optional[bool] = None
     operator_location: Optional['ASTLocation'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTBitwiseShiftExpressionProto
@@ -21032,7 +21032,7 @@ class ASTBracedConstructorLhs(ASTExpression):
     """Generated model for ASTBracedConstructorLhsProto"""
 
     extended_path_expr: Optional['ASTGeneralizedPathExpression'] = None
-    operation: int = 0
+    operation: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTBracedConstructorLhsProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -21132,7 +21132,7 @@ class ASTCastExpression(ASTExpression):
     expr: Optional['ASTExpression'] = None
     type: Optional['ASTType'] = None
     format: Optional['ASTFormatClause'] = None
-    is_safe_cast: bool = False
+    is_safe_cast: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTCastExpressionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -21276,7 +21276,7 @@ class ASTDateOrTimeLiteral(ASTExpression):
     """Generated model for ASTDateOrTimeLiteralProto"""
 
     string_literal: Optional['ASTStringLiteral'] = None
-    type_kind: int = 0
+    type_kind: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTDateOrTimeLiteralProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -21476,7 +21476,7 @@ class ASTDropAllRowAccessPoliciesStatement(ASTStatement):
     """Generated model for ASTDropAllRowAccessPoliciesStatementProto"""
 
     table_name: Optional['ASTPathExpression'] = None
-    has_access_keyword: bool = False
+    has_access_keyword: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTDropAllRowAccessPoliciesStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -21498,7 +21498,7 @@ class ASTDropColumnAction(ASTAlterAction):
     """Generated model for ASTDropColumnActionProto"""
 
     column_name: Optional['ASTIdentifier'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTDropColumnActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -21520,7 +21520,7 @@ class ASTDropConstraintAction(ASTAlterAction):
     """Generated model for ASTDropConstraintActionProto"""
 
     constraint_name: Optional['ASTIdentifier'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTDropConstraintActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -21541,7 +21541,7 @@ class ASTDropConstraintAction(ASTAlterAction):
 class ASTDropPrimaryKeyAction(ASTAlterAction):
     """Generated model for ASTDropPrimaryKeyActionProto"""
 
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTDropPrimaryKeyActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -21559,7 +21559,7 @@ class ASTDropSubEntityAction(ASTAlterAction):
 
     type: Optional['ASTIdentifier'] = None
     name: Optional['ASTIdentifier'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTDropSubEntityActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -21585,7 +21585,7 @@ class ASTDropSubEntityAction(ASTAlterAction):
 class ASTDropTtlAction(ASTAlterAction):
     """Generated model for ASTDropTtlActionProto"""
 
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTDropTtlActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -21697,7 +21697,7 @@ class ASTExportDataStatement(ASTStatement):
 class ASTExportMetadataStatement(ASTStatement):
     """Generated model for ASTExportMetadataStatementProto"""
 
-    schema_object_kind: int = 0
+    schema_object_kind: Optional[int] = None
     name_path: Optional['ASTPathExpression'] = None
     with_connection_clause: Optional['ASTWithConnectionClause'] = None
     options_list: Optional['ASTOptionsList'] = None
@@ -21761,7 +21761,7 @@ class ASTExpressionSubquery(ASTExpression):
 
     hint: Optional['ASTHint'] = None
     query: Optional['ASTQuery'] = None
-    modifier: int = 0
+    modifier: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTExpressionSubqueryProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -21838,7 +21838,7 @@ class ASTFilterUsingClause(ASTAlterAction):
     """Generated model for ASTFilterUsingClauseProto"""
 
     predicate: Optional['ASTExpression'] = None
-    has_filter_keyword: bool = False
+    has_filter_keyword: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTFilterUsingClauseProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -21920,14 +21920,14 @@ class ASTFunctionCall(ASTExpression):
     order_by: Optional['ASTOrderBy'] = None
     limit_offset: Optional['ASTLimitOffset'] = None
     hint: Optional['ASTHint'] = None
-    null_handling_modifier: int = 0
-    distinct: bool = False
-    is_current_date_time_without_parentheses: bool = False
+    null_handling_modifier: Optional[int] = None
+    distinct: Optional[bool] = None
+    is_current_date_time_without_parentheses: Optional[bool] = None
     with_report_modifier: Optional['ASTWithReportModifier'] = None
     group_by: Optional['ASTGroupBy'] = None
     where_expr: Optional['ASTWhereClause'] = None
     having_expr: Optional['ASTHaving'] = None
-    is_chained_call: bool = False
+    is_chained_call: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTFunctionCallProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -22055,8 +22055,8 @@ class ASTGeneralizedPathExpression(ASTExpression):
 class ASTGqlCallBase(ASTGqlOperator):
     """Generated model for ASTGqlCallBaseProto"""
 
-    optional: bool = False
-    is_partitioning: bool = False
+    optional: Optional[bool] = None
+    is_partitioning: Optional[bool] = None
     name_capture_list: Optional['ASTIdentifierList'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTGqlCallBaseProto
@@ -22188,7 +22188,7 @@ class ASTGqlMatch(ASTGqlOperator):
     """Generated model for ASTGqlMatchProto"""
 
     graph_pattern: Optional['ASTGraphPattern'] = None
-    optional: bool = False
+    optional: Optional[bool] = None
     hint: Optional['ASTHint'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTGqlMatchProto
@@ -22380,7 +22380,7 @@ class ASTGrantToClause(ASTAlterAction):
     """Generated model for ASTGrantToClauseProto"""
 
     grantee_list: Optional['ASTGranteeList'] = None
-    has_grant_keyword_and_parens: bool = False
+    has_grant_keyword_and_parens: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTGrantToClauseProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -22433,7 +22433,7 @@ class ASTGraphElementPattern(ASTGraphPathBase):
 class ASTGraphIsLabeledPredicate(ASTExpression):
     """Generated model for ASTGraphIsLabeledPredicateProto"""
 
-    is_not: bool = False
+    is_not: Optional[bool] = None
     operand: Optional['ASTExpression'] = None
     label_expression: Optional['ASTGraphLabelExpression'] = None
 
@@ -22461,7 +22461,7 @@ class ASTGraphIsLabeledPredicate(ASTExpression):
 class ASTGraphLabelOperation(ASTGraphLabelExpression):
     """Generated model for ASTGraphLabelOperationProto"""
 
-    op_type: int = 0
+    op_type: Optional[int] = None
     inputs: List['ASTGraphLabelExpression'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTGraphLabelOperationProto
@@ -22487,7 +22487,7 @@ class ASTGraphPathPattern(ASTGraphPathBase):
     where_clause: Optional['ASTWhereClause'] = None
     path_mode: Optional['ASTGraphPathMode'] = None
     input_pattern_list: List['ASTGraphPathBase'] = field(default_factory=list)
-    parenthesized: bool = False
+    parenthesized: Optional[bool] = None
     search_prefix: Optional['ASTGraphPathSearchPrefix'] = None
     path_name: Optional['ASTIdentifier'] = None
 
@@ -22607,8 +22607,8 @@ class ASTHintedStatement(ASTStatement):
 class ASTIdentifier(ASTExpression):
     """Generated model for ASTIdentifierProto"""
 
-    id_string: str = ""
-    is_quoted: bool = False
+    id_string: Optional[str] = None
+    is_quoted: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTIdentifierProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -22634,7 +22634,7 @@ class ASTImportStatement(ASTStatement):
     alias: Optional['ASTAlias'] = None
     into_alias: Optional['ASTIntoAlias'] = None
     options_list: Optional['ASTOptionsList'] = None
-    import_kind: int = 0
+    import_kind: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTImportStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -22680,7 +22680,7 @@ class ASTInExpression(ASTExpression):
     in_list: Optional['ASTInList'] = None
     query: Optional['ASTQuery'] = None
     unnest_expr: Optional['ASTUnnestExpression'] = None
-    is_not: bool = False
+    is_not: Optional[bool] = None
     in_location: Optional['ASTLocation'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTInExpressionProto
@@ -22749,8 +22749,8 @@ class ASTInsertStatement(ASTStatement):
     query: Optional['ASTQuery'] = None
     assert_rows_modified: Optional['ASTAssertRowsModified'] = None
     returning: Optional['ASTReturningClause'] = None
-    deprecated_parse_progress: int = 0
-    insert_mode: int = 0
+    deprecated_parse_progress: Optional[int] = None
+    insert_mode: Optional[int] = None
     hint: Optional['ASTHint'] = None
     on_conflict: Optional['ASTOnConflictClause'] = None
 
@@ -22863,12 +22863,12 @@ class ASTJoin(ASTTableExpression):
     on_clause: Optional['ASTOnClause'] = None
     using_clause: Optional['ASTUsingClause'] = None
     clause_list: Optional['ASTOnOrUsingClauseList'] = None
-    join_type: int = 0
-    join_hint: int = 0
-    natural: bool = False
-    unmatched_join_count: int = 0
-    transformation_needed: bool = False
-    contains_comma_join: bool = False
+    join_type: Optional[int] = None
+    join_hint: Optional[int] = None
+    natural: Optional[bool] = None
+    unmatched_join_count: Optional[int] = None
+    transformation_needed: Optional[bool] = None
+    contains_comma_join: Optional[bool] = None
     join_location: Optional['ASTLocation'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTJoinProto
@@ -22981,7 +22981,7 @@ class ASTLikeExpression(ASTExpression):
     in_list: Optional['ASTInList'] = None
     query: Optional['ASTQuery'] = None
     unnest_expr: Optional['ASTUnnestExpression'] = None
-    is_not: bool = False
+    is_not: Optional[bool] = None
     like_location: Optional['ASTLocation'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTLikeExpressionProto
@@ -23931,7 +23931,7 @@ class ASTPivotClause(ASTPostfixTableOperator):
 class ASTPrimaryKeyColumnAttribute(ASTColumnAttribute):
     """Generated model for ASTPrimaryKeyColumnAttributeProto"""
 
-    enforced: bool = False
+    enforced: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTPrimaryKeyColumnAttributeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -23951,8 +23951,8 @@ class ASTQuery(ASTQueryExpression):
     query_expr: Optional['ASTQueryExpression'] = None
     order_by: Optional['ASTOrderBy'] = None
     limit_offset: Optional['ASTLimitOffset'] = None
-    is_nested: bool = False
-    is_pivot_input: bool = False
+    is_nested: Optional[bool] = None
+    is_pivot_input: Optional[bool] = None
     pipe_operator_list: List['ASTPipeOperator'] = field(default_factory=list)
     lock_mode: Optional['ASTLockMode'] = None
 
@@ -24079,7 +24079,7 @@ class ASTRebuildAction(ASTAlterAction):
 class ASTRemoveFromRestricteeListClause(ASTAlterAction):
     """Generated model for ASTRemoveFromRestricteeListClauseProto"""
 
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
     restrictee_list: Optional['ASTGranteeList'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTRemoveFromRestricteeListClauseProto
@@ -24103,7 +24103,7 @@ class ASTRenameColumnAction(ASTAlterAction):
 
     column_name: Optional['ASTIdentifier'] = None
     new_column_name: Optional['ASTIdentifier'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTRenameColumnActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -24196,7 +24196,7 @@ class ASTReplaceTtlAction(ASTAlterAction):
     """Generated model for ASTReplaceTtlActionProto"""
 
     expression: Optional['ASTExpression'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTReplaceTtlActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -24234,7 +24234,7 @@ class ASTRevokeFromClause(ASTAlterAction):
     """Generated model for ASTRevokeFromClauseProto"""
 
     revoke_from_list: Optional['ASTGranteeList'] = None
-    is_revoke_from_all: bool = False
+    is_revoke_from_all: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTRevokeFromClauseProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -24297,7 +24297,7 @@ class ASTRollbackStatement(ASTStatement):
 class ASTRowPatternAnchor(ASTRowPatternExpression):
     """Generated model for ASTRowPatternAnchorProto"""
 
-    anchor: int = 0
+    anchor: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTRowPatternAnchorProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -24313,7 +24313,7 @@ class ASTRowPatternAnchor(ASTRowPatternExpression):
 class ASTRowPatternOperation(ASTRowPatternExpression):
     """Generated model for ASTRowPatternOperationProto"""
 
-    op_type: int = 0
+    op_type: Optional[int] = None
     inputs: List['ASTRowPatternExpression'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTRowPatternOperationProto
@@ -24447,7 +24447,7 @@ class ASTSelect(ASTQueryExpression):
 
     hint: Optional['ASTHint'] = None
     select_with: Optional['ASTSelectWith'] = None
-    distinct: bool = False
+    distinct: Optional[bool] = None
     select_as: Optional['ASTSelectAs'] = None
     select_list: Optional['ASTSelectList'] = None
     from_clause: Optional['ASTFromClause'] = None
@@ -24717,7 +24717,7 @@ class ASTSpannerAlterColumnAction(ASTAlterAction):
 class ASTSpannerSetOnDeleteAction(ASTAlterAction):
     """Generated model for ASTSpannerSetOnDeleteActionProto"""
 
-    action: int = 0
+    action: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSpannerSetOnDeleteActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -24907,7 +24907,7 @@ class ASTSubpipelineStatement(ASTStatement):
 class ASTSymbolQuantifier(ASTQuantifier):
     """Generated model for ASTSymbolQuantifierProto"""
 
-    symbol: int = 0
+    symbol: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSymbolQuantifierProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -24949,7 +24949,7 @@ class ASTTVF(ASTTableExpression):
     argument_entries: List['ASTTVFArgument'] = field(default_factory=list)
     hint: Optional['ASTHint'] = None
     alias: Optional['ASTAlias'] = None
-    is_lateral: bool = False
+    is_lateral: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTTVFProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -25097,7 +25097,7 @@ class ASTTableSubquery(ASTTableExpression):
 
     subquery: Optional['ASTQuery'] = None
     alias: Optional['ASTAlias'] = None
-    is_lateral: bool = False
+    is_lateral: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTTableSubqueryProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -25145,7 +25145,7 @@ class ASTTransactionIsolationLevel(ASTTransactionMode):
 class ASTTransactionReadWriteMode(ASTTransactionMode):
     """Generated model for ASTTransactionReadWriteModeProto"""
 
-    mode: int = 0
+    mode: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTTransactionReadWriteModeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -25184,7 +25184,7 @@ class ASTUnaryExpression(ASTExpression):
     """Generated model for ASTUnaryExpressionProto"""
 
     operand: Optional['ASTExpression'] = None
-    op: int = 0
+    op: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTUnaryExpressionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -25209,7 +25209,7 @@ class ASTUnpivotClause(ASTPostfixTableOperator):
     unpivot_output_name_column: Optional['ASTPathExpression'] = None
     unpivot_in_items: Optional['ASTUnpivotInItemList'] = None
     output_alias: Optional['ASTAlias'] = None
-    null_filter: int = 0
+    null_filter: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTUnpivotClauseProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -25361,7 +25361,7 @@ class ResolvedAbortBatchStmt(ResolvedStatement):
 class ResolvedAggregateHavingModifier(ResolvedArgument):
     """Generated model for ResolvedAggregateHavingModifierProto"""
 
-    kind: int = 0
+    kind: Optional[int] = None
     having_expr: Optional['ResolvedExpr'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedAggregateHavingModifierProto
@@ -25445,7 +25445,7 @@ class ResolvedAlterObjectStmt(ResolvedStatement):
 
     name_path: List[str] = field(default_factory=list)
     alter_action_list: List['ResolvedAlterAction'] = field(default_factory=list)
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedAlterObjectStmtProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -25473,7 +25473,7 @@ class ResolvedAlterTableSetOptionsStmt(ResolvedStatement):
 
     name_path: List[str] = field(default_factory=list)
     option_list: List['ResolvedOption'] = field(default_factory=list)
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedAlterTableSetOptionsStmtProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -25571,9 +25571,9 @@ class ResolvedAnalyzeStmt(ResolvedStatement):
 class ResolvedArgumentDef(ResolvedArgument):
     """Generated model for ResolvedArgumentDefProto"""
 
-    name: str = ""
+    name: Optional[str] = None
     type: Optional['Type'] = None
-    argument_kind: int = 0
+    argument_kind: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedArgumentDefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -25615,8 +25615,8 @@ class ResolvedArgumentList(ResolvedArgument):
 class ResolvedArgumentRef(ResolvedExpr):
     """Generated model for ResolvedArgumentRefProto"""
 
-    name: str = ""
-    argument_kind: int = 0
+    name: Optional[str] = None
+    argument_kind: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedArgumentRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -25676,7 +25676,7 @@ class ResolvedArrayScan(ResolvedScan):
     element_column_list: List['ResolvedColumn'] = field(default_factory=list)
     array_offset_column: Optional['ResolvedColumnHolder'] = None
     join_expr: Optional['ResolvedExpr'] = None
-    is_outer: bool = False
+    is_outer: Optional[bool] = None
     array_zip_mode: Optional['ResolvedExpr'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedArrayScanProto
@@ -25768,7 +25768,7 @@ class ResolvedAssertStmt(ResolvedStatement):
     """Generated model for ResolvedAssertStmtProto"""
 
     expression: Optional['ResolvedExpr'] = None
-    description: str = ""
+    description: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedAssertStmtProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -25812,7 +25812,7 @@ class ResolvedAuxLoadDataPartitionFilter(ResolvedArgument):
     """Generated model for ResolvedAuxLoadDataPartitionFilterProto"""
 
     filter: Optional['ResolvedExpr'] = None
-    is_overwrite: bool = False
+    is_overwrite: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedAuxLoadDataPartitionFilterProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -25833,8 +25833,8 @@ class ResolvedAuxLoadDataPartitionFilter(ResolvedArgument):
 class ResolvedAuxLoadDataStmt(ResolvedStatement):
     """Generated model for ResolvedAuxLoadDataStmtProto"""
 
-    insertion_mode: int = 0
-    is_temp_table: bool = False
+    insertion_mode: Optional[int] = None
+    is_temp_table: Optional[bool] = None
     name_path: List[str] = field(default_factory=list)
     partition_filter: Optional['ResolvedAuxLoadDataPartitionFilter'] = None
     output_column_list: List['ResolvedOutputColumn'] = field(default_factory=list)
@@ -25955,7 +25955,7 @@ class ResolvedBarrierScan(ResolvedScan):
 class ResolvedBeginStmt(ResolvedStatement):
     """Generated model for ResolvedBeginStmtProto"""
 
-    read_write_mode: int = 0
+    read_write_mode: Optional[int] = None
     isolation_level_list: List[str] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedBeginStmtProto
@@ -26006,7 +26006,7 @@ class ResolvedCast(ResolvedExpr):
     """Generated model for ResolvedCastProto"""
 
     expr: Optional['ResolvedExpr'] = None
-    return_null_on_error: bool = False
+    return_null_on_error: Optional[bool] = None
     extended_cast: Optional['ResolvedExtendedCast'] = None
     format: Optional['ResolvedExpr'] = None
     time_zone: Optional['ResolvedExpr'] = None
@@ -26090,7 +26090,7 @@ class ResolvedColumnAnnotations(ResolvedArgument):
     """Generated model for ResolvedColumnAnnotationsProto"""
 
     collation_name: Optional['ResolvedExpr'] = None
-    not_null: bool = False
+    not_null: Optional[bool] = None
     option_list: List['ResolvedOption'] = field(default_factory=list)
     child_list: List['ResolvedColumnAnnotations'] = field(default_factory=list)
     type_parameters: Optional['TypeParameters'] = None
@@ -26130,7 +26130,7 @@ class ResolvedColumnDefaultValue(ResolvedArgument):
     """Generated model for ResolvedColumnDefaultValueProto"""
 
     expression: Optional['ResolvedExpr'] = None
-    sql: str = ""
+    sql: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedColumnDefaultValueProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -26151,10 +26151,10 @@ class ResolvedColumnDefaultValue(ResolvedArgument):
 class ResolvedColumnDefinition(ResolvedArgument):
     """Generated model for ResolvedColumnDefinitionProto"""
 
-    name: str = ""
+    name: Optional[str] = None
     type: Optional['Type'] = None
     annotations: Optional['ResolvedColumnAnnotations'] = None
-    is_hidden: bool = False
+    is_hidden: Optional[bool] = None
     column: Optional['ResolvedColumn'] = None
     generated_column_info: Optional['ResolvedGeneratedColumnInfo'] = None
     default_value: Optional['ResolvedColumnDefaultValue'] = None
@@ -26220,7 +26220,7 @@ class ResolvedColumnRef(ResolvedExpr):
     """Generated model for ResolvedColumnRefProto"""
 
     column: Optional['ResolvedColumn'] = None
-    is_correlated: bool = False
+    is_correlated: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedColumnRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -26319,7 +26319,7 @@ class ResolvedCreateDatabaseStmt(ResolvedStatement):
 class ResolvedCreateModelAliasedQuery(ResolvedArgument):
     """Generated model for ResolvedCreateModelAliasedQueryProto"""
 
-    alias: str = ""
+    alias: Optional[str] = None
     query: Optional['ResolvedScan'] = None
     output_column_list: List['ResolvedOutputColumn'] = field(default_factory=list)
 
@@ -26347,14 +26347,14 @@ class ResolvedCreateModelAliasedQuery(ResolvedArgument):
 class ResolvedCreateRowAccessPolicyStmt(ResolvedStatement):
     """Generated model for ResolvedCreateRowAccessPolicyStmtProto"""
 
-    create_mode: int = 0
-    name: str = ""
+    create_mode: Optional[int] = None
+    name: Optional[str] = None
     target_name_path: List[str] = field(default_factory=list)
     grantee_list: List[str] = field(default_factory=list)
     grantee_expr_list: List['ResolvedExpr'] = field(default_factory=list)
     table_scan: Optional['ResolvedTableScan'] = None
     predicate: Optional['ResolvedExpr'] = None
-    predicate_str: str = ""
+    predicate_str: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedCreateRowAccessPolicyStmtProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -26406,8 +26406,8 @@ class ResolvedCreateStatement(ResolvedStatement):
     """Generated model for ResolvedCreateStatementProto"""
 
     name_path: List[str] = field(default_factory=list)
-    create_scope: int = 0
-    create_mode: int = 0
+    create_scope: Optional[int] = None
+    create_mode: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedCreateStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -26563,7 +26563,7 @@ class ResolvedDescribeScan(ResolvedScan):
 class ResolvedDescribeStmt(ResolvedStatement):
     """Generated model for ResolvedDescribeStmtProto"""
 
-    object_type: str = ""
+    object_type: Optional[str] = None
     name_path: List[str] = field(default_factory=list)
     from_name_path: List[str] = field(default_factory=list)
 
@@ -26613,7 +26613,7 @@ class ResolvedDescriptor(ResolvedArgument):
 class ResolvedDropFunctionStmt(ResolvedStatement):
     """Generated model for ResolvedDropFunctionStmtProto"""
 
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
     name_path: List[str] = field(default_factory=list)
     arguments: Optional['ResolvedArgumentList'] = None
     signature: Optional['ResolvedFunctionSignatureHolder'] = None
@@ -26647,10 +26647,10 @@ class ResolvedDropFunctionStmt(ResolvedStatement):
 class ResolvedDropIndexStmt(ResolvedStatement):
     """Generated model for ResolvedDropIndexStmtProto"""
 
-    is_if_exists: bool = False
-    name: str = ""
+    is_if_exists: Optional[bool] = None
+    name: Optional[str] = None
     table_name_path: List[str] = field(default_factory=list)
-    index_type: int = 0
+    index_type: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedDropIndexStmtProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -26681,7 +26681,7 @@ class ResolvedDropIndexStmt(ResolvedStatement):
 class ResolvedDropMaterializedViewStmt(ResolvedStatement):
     """Generated model for ResolvedDropMaterializedViewStmtProto"""
 
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
     name_path: List[str] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedDropMaterializedViewStmtProto
@@ -26703,8 +26703,8 @@ class ResolvedDropMaterializedViewStmt(ResolvedStatement):
 class ResolvedDropPrivilegeRestrictionStmt(ResolvedStatement):
     """Generated model for ResolvedDropPrivilegeRestrictionStmtProto"""
 
-    object_type: str = ""
-    is_if_exists: bool = False
+    object_type: Optional[str] = None
+    is_if_exists: Optional[bool] = None
     name_path: List[str] = field(default_factory=list)
     column_privilege_list: List['ResolvedPrivilege'] = field(default_factory=list)
 
@@ -26737,9 +26737,9 @@ class ResolvedDropPrivilegeRestrictionStmt(ResolvedStatement):
 class ResolvedDropRowAccessPolicyStmt(ResolvedStatement):
     """Generated model for ResolvedDropRowAccessPolicyStmtProto"""
 
-    is_drop_all: bool = False
-    is_if_exists: bool = False
-    name: str = ""
+    is_drop_all: Optional[bool] = None
+    is_if_exists: Optional[bool] = None
+    name: Optional[str] = None
     target_name_path: List[str] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedDropRowAccessPolicyStmtProto
@@ -26771,7 +26771,7 @@ class ResolvedDropRowAccessPolicyStmt(ResolvedStatement):
 class ResolvedDropSnapshotTableStmt(ResolvedStatement):
     """Generated model for ResolvedDropSnapshotTableStmtProto"""
 
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
     name_path: List[str] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedDropSnapshotTableStmtProto
@@ -26793,10 +26793,10 @@ class ResolvedDropSnapshotTableStmt(ResolvedStatement):
 class ResolvedDropStmt(ResolvedStatement):
     """Generated model for ResolvedDropStmtProto"""
 
-    object_type: str = ""
-    is_if_exists: bool = False
+    object_type: Optional[str] = None
+    is_if_exists: Optional[bool] = None
     name_path: List[str] = field(default_factory=list)
-    drop_mode: int = 0
+    drop_mode: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedDropStmtProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -26827,7 +26827,7 @@ class ResolvedDropStmt(ResolvedStatement):
 class ResolvedDropTableFunctionStmt(ResolvedStatement):
     """Generated model for ResolvedDropTableFunctionStmtProto"""
 
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
     name_path: List[str] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedDropTableFunctionStmtProto
@@ -26877,7 +26877,7 @@ class ResolvedExecuteAsRoleScan(ResolvedScan):
 class ResolvedExecuteImmediateArgument(ResolvedArgument):
     """Generated model for ResolvedExecuteImmediateArgumentProto"""
 
-    name: str = ""
+    name: Optional[str] = None
     expression: Optional['ResolvedExpr'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedExecuteImmediateArgumentProto
@@ -26946,7 +26946,7 @@ class ResolvedExportDataStmt(ResolvedStatement):
     connection: Optional['ResolvedConnection'] = None
     option_list: List['ResolvedOption'] = field(default_factory=list)
     output_column_list: List['ResolvedOutputColumn'] = field(default_factory=list)
-    is_value_table: bool = False
+    is_value_table: Optional[bool] = None
     query: Optional['ResolvedScan'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedExportDataStmtProto
@@ -26983,7 +26983,7 @@ class ResolvedExportDataStmt(ResolvedStatement):
 class ResolvedExportMetadataStmt(ResolvedStatement):
     """Generated model for ResolvedExportMetadataStmtProto"""
 
-    schema_object_kind: str = ""
+    schema_object_kind: Optional[str] = None
     name_path: List[str] = field(default_factory=list)
     connection: Optional['ResolvedConnection'] = None
     option_list: List['ResolvedOption'] = field(default_factory=list)
@@ -27045,7 +27045,7 @@ class ResolvedExportModelStmt(ResolvedStatement):
 class ResolvedExpressionColumn(ResolvedExpr):
     """Generated model for ResolvedExpressionColumnProto"""
 
-    name: str = ""
+    name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedExpressionColumnProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -27107,7 +27107,7 @@ class ResolvedFilterField(ResolvedExpr):
 
     expr: Optional['ResolvedExpr'] = None
     filter_field_arg_list: List['ResolvedFilterFieldArg'] = field(default_factory=list)
-    reset_cleared_required_fields: bool = False
+    reset_cleared_required_fields: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedFilterFieldProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -27133,7 +27133,7 @@ class ResolvedFilterField(ResolvedExpr):
 class ResolvedFilterFieldArg(ResolvedArgument):
     """Generated model for ResolvedFilterFieldArgProto"""
 
-    include: bool = False
+    include: Optional[bool] = None
     field_descriptor_path: List['FieldDescriptorRef'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedFilterFieldArgProto
@@ -27216,7 +27216,7 @@ class ResolvedFunctionArgument(ResolvedArgument):
     inline_lambda: Optional['ResolvedInlineLambda'] = None
     sequence: Optional['ResolvedSequence'] = None
     graph: Optional['PropertyGraphRef'] = None
-    argument_alias: str = ""
+    argument_alias: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedFunctionArgumentProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -27281,7 +27281,7 @@ class ResolvedFunctionCallBase(ResolvedExpr):
     signature: Optional['FunctionSignature'] = None
     argument_list: List['ResolvedExpr'] = field(default_factory=list)
     generic_argument_list: List['ResolvedFunctionArgument'] = field(default_factory=list)
-    error_mode: int = 0
+    error_mode: Optional[int] = None
     hint_list: List['ResolvedOption'] = field(default_factory=list)
     collation_list: List['ResolvedCollation'] = field(default_factory=list)
 
@@ -27390,8 +27390,8 @@ class ResolvedGeneratedColumnInfo(ResolvedArgument):
     """Generated model for ResolvedGeneratedColumnInfoProto"""
 
     expression: Optional['ResolvedExpr'] = None
-    stored_mode: int = 0
-    generated_mode: int = 0
+    stored_mode: Optional[int] = None
+    generated_mode: Optional[int] = None
     identity_column_info: Optional['ResolvedIdentityColumnInfo'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedGeneratedColumnInfoProto
@@ -27424,7 +27424,7 @@ class ResolvedGetJsonField(ResolvedExpr):
     """Generated model for ResolvedGetJsonFieldProto"""
 
     expr: Optional['ResolvedExpr'] = None
-    field_name: str = ""
+    field_name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedGetJsonFieldProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -27448,9 +27448,9 @@ class ResolvedGetProtoField(ResolvedExpr):
     expr: Optional['ResolvedExpr'] = None
     field_descriptor: Optional['FieldDescriptorRef'] = None
     default_value: Optional['ValueWithType'] = None
-    get_has_bit: bool = False
-    format: int = 0
-    return_default_value_when_unset: bool = False
+    get_has_bit: Optional[bool] = None
+    format: Optional[int] = None
+    return_default_value_when_unset: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedGetProtoFieldProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -27536,8 +27536,8 @@ class ResolvedGetStructField(ResolvedExpr):
     """Generated model for ResolvedGetStructFieldProto"""
 
     expr: Optional['ResolvedExpr'] = None
-    field_idx: int = 0
-    field_expr_is_positional: bool = False
+    field_idx: Optional[int] = None
+    field_expr_is_positional: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedGetStructFieldProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -27603,7 +27603,7 @@ class ResolvedGrantOrRevokeStmt(ResolvedStatement):
 class ResolvedGraphCallScan(ResolvedScan):
     """Generated model for ResolvedGraphCallScanProto"""
 
-    optional: bool = False
+    optional: Optional[bool] = None
     subquery: Optional['ResolvedScan'] = None
     input_scan: Optional['ResolvedScan'] = None
     parameter_list: List['ResolvedColumnRef'] = field(default_factory=list)
@@ -27703,7 +27703,7 @@ class ResolvedGraphElementIdentifier(ResolvedArgument):
 class ResolvedGraphElementLabel(ResolvedArgument):
     """Generated model for ResolvedGraphElementLabelProto"""
 
-    name: str = ""
+    name: Optional[str] = None
     property_declaration_name_list: List[str] = field(default_factory=list)
     options_list: List['ResolvedOption'] = field(default_factory=list)
 
@@ -27753,7 +27753,7 @@ class ResolvedGraphElementProperty(ResolvedArgument):
 class ResolvedGraphElementTable(ResolvedArgument):
     """Generated model for ResolvedGraphElementTableProto"""
 
-    alias: str = ""
+    alias: Optional[str] = None
     input_scan: Optional['ResolvedScan'] = None
     key_list: List['ResolvedExpr'] = field(default_factory=list)
     source_node_reference: Optional['ResolvedGraphNodeTableReference'] = None
@@ -27845,7 +27845,7 @@ class ResolvedGraphGetElementProperty(ResolvedExpr):
 class ResolvedGraphIsLabeledPredicate(ResolvedExpr):
     """Generated model for ResolvedGraphIsLabeledPredicateProto"""
 
-    is_not: bool = False
+    is_not: Optional[bool] = None
     expr: Optional['ResolvedExpr'] = None
     label_expr: Optional['ResolvedGraphLabelExpr'] = None
 
@@ -27943,7 +27943,7 @@ class ResolvedGraphMakeElement(ResolvedExpr):
 class ResolvedGraphNodeTableReference(ResolvedArgument):
     """Generated model for ResolvedGraphNodeTableReferenceProto"""
 
-    node_table_identifier: str = ""
+    node_table_identifier: Optional[str] = None
     edge_table_column_list: List['ResolvedExpr'] = field(default_factory=list)
     node_table_column_list: List['ResolvedExpr'] = field(default_factory=list)
 
@@ -27987,7 +27987,7 @@ class ResolvedGraphPathCost(ResolvedArgument):
 class ResolvedGraphPathMode(ResolvedArgument):
     """Generated model for ResolvedGraphPathModeProto"""
 
-    path_mode: int = 0
+    path_mode: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedGraphPathModeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -28033,7 +28033,7 @@ class ResolvedGraphPathScanBase(ResolvedScan):
 class ResolvedGraphPathSearchPrefix(ResolvedArgument):
     """Generated model for ResolvedGraphPathSearchPrefixProto"""
 
-    type: int = 0
+    type: Optional[int] = None
     path_count: Optional['ResolvedExpr'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedGraphPathSearchPrefixProto
@@ -28055,7 +28055,7 @@ class ResolvedGraphPathSearchPrefix(ResolvedArgument):
 class ResolvedGraphPropertyDeclaration(ResolvedArgument):
     """Generated model for ResolvedGraphPropertyDeclarationProto"""
 
-    name: str = ""
+    name: Optional[str] = None
     type: Optional['Type'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedGraphPropertyDeclarationProto
@@ -28078,8 +28078,8 @@ class ResolvedGraphPropertyDefinition(ResolvedArgument):
     """Generated model for ResolvedGraphPropertyDefinitionProto"""
 
     expr: Optional['ResolvedExpr'] = None
-    sql: str = ""
-    property_declaration_name: str = ""
+    sql: Optional[str] = None
+    property_declaration_name: Optional[str] = None
     options_list: List['ResolvedOption'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedGraphPropertyDefinitionProto
@@ -28156,7 +28156,7 @@ class ResolvedGroupRowsScan(ResolvedScan):
     """Generated model for ResolvedGroupRowsScanProto"""
 
     input_column_list: List['ResolvedComputedColumn'] = field(default_factory=list)
-    alias: str = ""
+    alias: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedGroupRowsScanProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -28227,7 +28227,7 @@ class ResolvedIdentityColumnInfo(ResolvedArgument):
     increment_by_value: Optional['ValueWithType'] = None
     max_value: Optional['ValueWithType'] = None
     min_value: Optional['ValueWithType'] = None
-    cycling_enabled: bool = False
+    cycling_enabled: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedIdentityColumnInfoProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -28263,9 +28263,9 @@ class ResolvedIdentityColumnInfo(ResolvedArgument):
 class ResolvedImportStmt(ResolvedStatement):
     """Generated model for ResolvedImportStmtProto"""
 
-    import_kind: int = 0
+    import_kind: Optional[int] = None
     name_path: List[str] = field(default_factory=list)
-    file_path: str = ""
+    file_path: Optional[str] = None
     alias_path: List[str] = field(default_factory=list)
     into_alias_path: List[str] = field(default_factory=list)
     option_list: List['ResolvedOption'] = field(default_factory=list)
@@ -28310,7 +28310,7 @@ class ResolvedIndexItem(ResolvedArgument):
     """Generated model for ResolvedIndexItemProto"""
 
     column_ref: Optional['ResolvedColumnRef'] = None
-    descending: bool = False
+    descending: Optional[bool] = None
     option_list: List['ResolvedOption'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedIndexItemProto
@@ -28382,7 +28382,7 @@ class ResolvedInsertStmt(ResolvedStatement):
     """Generated model for ResolvedInsertStmtProto"""
 
     table_scan: Optional['ResolvedTableScan'] = None
-    insert_mode: int = 0
+    insert_mode: Optional[int] = None
     assert_rows_modified: Optional['ResolvedAssertRowsModified'] = None
     returning: Optional['ResolvedReturningClause'] = None
     insert_column_list: List['ResolvedColumn'] = field(default_factory=list)
@@ -28469,12 +28469,12 @@ class ResolvedInsertStmt(ResolvedStatement):
 class ResolvedJoinScan(ResolvedScan):
     """Generated model for ResolvedJoinScanProto"""
 
-    join_type: int = 0
+    join_type: Optional[int] = None
     left_scan: Optional['ResolvedScan'] = None
     right_scan: Optional['ResolvedScan'] = None
     join_expr: Optional['ResolvedExpr'] = None
-    has_using: bool = False
-    is_lateral: bool = False
+    has_using: Optional[bool] = None
+    is_lateral: Optional[bool] = None
     parameter_list: List['ResolvedColumnRef'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedJoinScanProto
@@ -28550,9 +28550,9 @@ class ResolvedLiteral(ResolvedExpr):
     """Generated model for ResolvedLiteralProto"""
 
     value: Optional['ValueWithType'] = None
-    has_explicit_type: bool = False
-    float_literal_id: int = 0
-    preserve_in_literal_remover: bool = False
+    has_explicit_type: Optional[bool] = None
+    float_literal_id: Optional[int] = None
+    preserve_in_literal_remover: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedLiteralProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -28583,7 +28583,7 @@ class ResolvedLiteral(ResolvedExpr):
 class ResolvedLockMode(ResolvedArgument):
     """Generated model for ResolvedLockModeProto"""
 
-    strength: int = 0
+    strength: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedLockModeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -28644,7 +28644,7 @@ class ResolvedMakeProtoField(ResolvedArgument):
     """Generated model for ResolvedMakeProtoFieldProto"""
 
     field_descriptor: Optional['FieldDescriptorRef'] = None
-    format: int = 0
+    format: Optional[int] = None
     expr: Optional['ResolvedExpr'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedMakeProtoFieldProto
@@ -28700,7 +28700,7 @@ class ResolvedMatchRecognizeScan(ResolvedScan):
     analytic_function_group_list: List['ResolvedAnalyticFunctionGroup'] = field(default_factory=list)
     pattern_variable_definition_list: List['ResolvedMatchRecognizeVariableDefinition'] = field(default_factory=list)
     pattern: Optional['ResolvedMatchRecognizePatternExpr'] = None
-    after_match_skip_mode: int = 0
+    after_match_skip_mode: Optional[int] = None
     measure_group_list: List['ResolvedMeasureGroup'] = field(default_factory=list)
     match_number_column: Optional['ResolvedColumn'] = None
     match_row_number_column: Optional['ResolvedColumn'] = None
@@ -28765,7 +28765,7 @@ class ResolvedMatchRecognizeScan(ResolvedScan):
 class ResolvedMatchRecognizeVariableDefinition(ResolvedArgument):
     """Generated model for ResolvedMatchRecognizeVariableDefinitionProto"""
 
-    name: str = ""
+    name: Optional[str] = None
     predicate: Optional['ResolvedExpr'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedMatchRecognizeVariableDefinitionProto
@@ -28849,9 +28849,9 @@ class ResolvedMergeStmt(ResolvedStatement):
 class ResolvedMergeWhen(ResolvedArgument):
     """Generated model for ResolvedMergeWhenProto"""
 
-    match_type: int = 0
+    match_type: Optional[int] = None
     match_expr: Optional['ResolvedExpr'] = None
-    action_type: int = 0
+    action_type: Optional[int] = None
     insert_column_list: List['ResolvedColumn'] = field(default_factory=list)
     insert_row: Optional['ResolvedInsertRow'] = None
     update_item_list: List['ResolvedUpdateItem'] = field(default_factory=list)
@@ -28965,9 +28965,9 @@ class ResolvedObjectUnit(ResolvedArgument):
 class ResolvedOnConflictClause(ResolvedArgument):
     """Generated model for ResolvedOnConflictClauseProto"""
 
-    conflict_action: int = 0
+    conflict_action: Optional[int] = None
     conflict_target_column_list: List['ResolvedColumn'] = field(default_factory=list)
-    unique_constraint_name: str = ""
+    unique_constraint_name: Optional[str] = None
     insert_row_scan: Optional['ResolvedTableScan'] = None
     update_item_list: List['ResolvedUpdateItem'] = field(default_factory=list)
     update_where_expression: Optional['ResolvedExpr'] = None
@@ -29011,10 +29011,10 @@ class ResolvedOnConflictClause(ResolvedArgument):
 class ResolvedOption(ResolvedArgument):
     """Generated model for ResolvedOptionProto"""
 
-    qualifier: str = ""
-    name: str = ""
+    qualifier: Optional[str] = None
+    name: Optional[str] = None
     value: Optional['ResolvedExpr'] = None
-    assignment_op: int = 0
+    assignment_op: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedOptionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -29047,8 +29047,8 @@ class ResolvedOrderByItem(ResolvedArgument):
 
     column_ref: Optional['ResolvedColumnRef'] = None
     collation_name: Optional['ResolvedExpr'] = None
-    is_descending: bool = False
-    null_order: int = 0
+    is_descending: Optional[bool] = None
+    null_order: Optional[int] = None
     collation: Optional['ResolvedCollation'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedOrderByItemProto
@@ -29107,7 +29107,7 @@ class ResolvedOrderByScan(ResolvedScan):
 class ResolvedOutputColumn(ResolvedArgument):
     """Generated model for ResolvedOutputColumnProto"""
 
-    name: str = ""
+    name: Optional[str] = None
     column: Optional['ResolvedColumn'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedOutputColumnProto
@@ -29130,7 +29130,7 @@ class ResolvedOutputSchema(ResolvedArgument):
     """Generated model for ResolvedOutputSchemaProto"""
 
     output_column_list: List['ResolvedOutputColumn'] = field(default_factory=list)
-    is_value_table: bool = False
+    is_value_table: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedOutputSchemaProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -29151,9 +29151,9 @@ class ResolvedOutputSchema(ResolvedArgument):
 class ResolvedParameter(ResolvedExpr):
     """Generated model for ResolvedParameterProto"""
 
-    name: str = ""
-    position: int = 0
-    is_untyped: bool = False
+    name: Optional[str] = None
+    position: Optional[int] = None
+    is_untyped: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedParameterProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -29234,7 +29234,7 @@ class ResolvedPipeIfCase(ResolvedArgument):
     """Generated model for ResolvedPipeIfCaseProto"""
 
     condition: Optional['ResolvedExpr'] = None
-    subpipeline_sql: str = ""
+    subpipeline_sql: Optional[str] = None
     subpipeline: Optional['ResolvedSubpipeline'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedPipeIfCaseProto
@@ -29262,7 +29262,7 @@ class ResolvedPipeIfScan(ResolvedScan):
     """Generated model for ResolvedPipeIfScanProto"""
 
     input_scan: Optional['ResolvedScan'] = None
-    selected_case: int = 0
+    selected_case: Optional[int] = None
     if_case_list: List['ResolvedPipeIfCase'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedPipeIfScanProto
@@ -29328,8 +29328,8 @@ class ResolvedPivotColumn(ResolvedArgument):
     """Generated model for ResolvedPivotColumnProto"""
 
     column: Optional['ResolvedColumn'] = None
-    pivot_expr_index: int = 0
-    pivot_value_index: int = 0
+    pivot_expr_index: Optional[int] = None
+    pivot_value_index: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedPivotColumnProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -29401,7 +29401,7 @@ class ResolvedPivotScan(ResolvedScan):
 class ResolvedPrivilege(ResolvedArgument):
     """Generated model for ResolvedPrivilegeProto"""
 
-    action_type: str = ""
+    action_type: Optional[str] = None
     unit_list: List['ResolvedObjectUnit'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedPrivilegeProto
@@ -29446,7 +29446,7 @@ class ResolvedQueryStmt(ResolvedStatement):
     """Generated model for ResolvedQueryStmtProto"""
 
     output_column_list: List['ResolvedOutputColumn'] = field(default_factory=list)
-    is_value_table: bool = False
+    is_value_table: Optional[bool] = None
     query: Optional['ResolvedScan'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedQueryStmtProto
@@ -29509,7 +29509,7 @@ class ResolvedRecursiveRefScan(ResolvedScan):
 class ResolvedRecursiveScan(ResolvedScan):
     """Generated model for ResolvedRecursiveScanProto"""
 
-    op_type: int = 0
+    op_type: Optional[int] = None
     non_recursive_term: Optional['ResolvedSetOperationItem'] = None
     recursive_term: Optional['ResolvedSetOperationItem'] = None
     recursion_depth_modifier: Optional['ResolvedRecursionDepthModifier'] = None
@@ -29543,8 +29543,8 @@ class ResolvedRecursiveScan(ResolvedScan):
 class ResolvedRelationArgumentScan(ResolvedScan):
     """Generated model for ResolvedRelationArgumentScanProto"""
 
-    name: str = ""
-    is_value_table: bool = False
+    name: Optional[str] = None
+    is_value_table: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedRelationArgumentScanProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -29565,7 +29565,7 @@ class ResolvedRelationArgumentScan(ResolvedScan):
 class ResolvedRenameStmt(ResolvedStatement):
     """Generated model for ResolvedRenameStmtProto"""
 
-    object_type: str = ""
+    object_type: Optional[str] = None
     old_name_path: List[str] = field(default_factory=list)
     new_name_path: List[str] = field(default_factory=list)
 
@@ -29688,9 +29688,9 @@ class ResolvedSampleScan(ResolvedScan):
     """Generated model for ResolvedSampleScanProto"""
 
     input_scan: Optional['ResolvedScan'] = None
-    method: str = ""
+    method: Optional[str] = None
     size: Optional['ResolvedExpr'] = None
-    unit: int = 0
+    unit: Optional[int] = None
     repeatable_argument: Optional['ResolvedExpr'] = None
     weight_column: Optional['ResolvedColumnHolder'] = None
     partition_by_list: List['ResolvedExpr'] = field(default_factory=list)
@@ -29777,10 +29777,10 @@ class ResolvedSetOperationItem(ResolvedArgument):
 class ResolvedSetOperationScan(ResolvedScan):
     """Generated model for ResolvedSetOperationScanProto"""
 
-    op_type: int = 0
+    op_type: Optional[int] = None
     input_item_list: List['ResolvedSetOperationItem'] = field(default_factory=list)
-    column_match_mode: int = 0
-    column_propagation_mode: int = 0
+    column_match_mode: Optional[int] = None
+    column_propagation_mode: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedSetOperationScanProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -29811,7 +29811,7 @@ class ResolvedSetOperationScan(ResolvedScan):
 class ResolvedSetTransactionStmt(ResolvedStatement):
     """Generated model for ResolvedSetTransactionStmtProto"""
 
-    read_write_mode: int = 0
+    read_write_mode: Optional[int] = None
     isolation_level_list: List[str] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedSetTransactionStmtProto
@@ -29833,7 +29833,7 @@ class ResolvedSetTransactionStmt(ResolvedStatement):
 class ResolvedShowStmt(ResolvedStatement):
     """Generated model for ResolvedShowStmtProto"""
 
-    identifier: str = ""
+    identifier: Optional[str] = None
     name_path: List[str] = field(default_factory=list)
     like_expr: Optional['ResolvedLiteral'] = None
 
@@ -29869,7 +29869,7 @@ class ResolvedSingleRowScan(ResolvedScan):
 class ResolvedStartBatchStmt(ResolvedStatement):
     """Generated model for ResolvedStartBatchStmtProto"""
 
-    batch_type: str = ""
+    batch_type: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedStartBatchStmtProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -29886,7 +29886,7 @@ class ResolvedStatementWithPipeOperatorsStmt(ResolvedStatement):
     """Generated model for ResolvedStatementWithPipeOperatorsStmtProto"""
 
     statement: Optional['ResolvedStatement'] = None
-    suffix_subpipeline_sql: str = ""
+    suffix_subpipeline_sql: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedStatementWithPipeOperatorsStmtProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -29908,7 +29908,7 @@ class ResolvedStaticDescribeScan(ResolvedScan):
     """Generated model for ResolvedStaticDescribeScanProto"""
 
     input_scan: Optional['ResolvedScan'] = None
-    describe_text: str = ""
+    describe_text: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedStaticDescribeScanProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -29981,7 +29981,7 @@ class ResolvedSubpipelineStmt(ResolvedStatement):
 class ResolvedSubqueryExpr(ResolvedExpr):
     """Generated model for ResolvedSubqueryExprProto"""
 
-    subquery_type: int = 0
+    subquery_type: Optional[int] = None
     parameter_list: List['ResolvedColumnRef'] = field(default_factory=list)
     in_expr: Optional['ResolvedExpr'] = None
     in_collation: Optional['ResolvedCollation'] = None
@@ -30047,7 +30047,7 @@ class ResolvedTVFScan(ResolvedScan):
     signature: Optional['TVFSignature'] = None
     argument_list: List['ResolvedFunctionArgument'] = field(default_factory=list)
     column_index_list: List[int] = field(default_factory=list)
-    alias: str = ""
+    alias: Optional[str] = None
     function_call_signature: Optional['FunctionSignature'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedTVFScanProto
@@ -30114,9 +30114,9 @@ class ResolvedTableScan(ResolvedScan):
     table: Optional['TableRef'] = None
     for_system_time_expr: Optional['ResolvedExpr'] = None
     column_index_list: List[int] = field(default_factory=list)
-    alias: str = ""
+    alias: Optional[str] = None
     lock_mode: Optional['ResolvedLockMode'] = None
-    read_as_row_type: bool = False
+    read_as_row_type: Optional[bool] = None
     table_column_list: List['ColumnRef'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedTableScanProto
@@ -30185,8 +30185,8 @@ class ResolvedTruncateStmt(ResolvedStatement):
 class ResolvedUndropStmt(ResolvedStatement):
     """Generated model for ResolvedUndropStmtProto"""
 
-    schema_object_kind: str = ""
-    is_if_not_exists: bool = False
+    schema_object_kind: Optional[str] = None
+    is_if_not_exists: Optional[bool] = None
     name_path: List[str] = field(default_factory=list)
     for_system_time_expr: Optional['ResolvedExpr'] = None
     option_list: List['ResolvedOption'] = field(default_factory=list)
@@ -30275,7 +30275,7 @@ class ResolvedUnpivotScan(ResolvedScan):
     label_list: List['ResolvedLiteral'] = field(default_factory=list)
     unpivot_arg_list: List['ResolvedUnpivotArg'] = field(default_factory=list)
     projected_input_column_list: List['ResolvedComputedColumn'] = field(default_factory=list)
-    include_nulls: bool = False
+    include_nulls: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedUnpivotScanProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -30330,7 +30330,7 @@ class ResolvedUpdateConstructor(ResolvedExpr):
     """Generated model for ResolvedUpdateConstructorProto"""
 
     expr: Optional['ResolvedExpr'] = None
-    alias: str = ""
+    alias: Optional[str] = None
     update_field_item_list: List['ResolvedUpdateFieldItem'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedUpdateConstructorProto
@@ -30359,7 +30359,7 @@ class ResolvedUpdateFieldItem(ResolvedArgument):
 
     expr: Optional['ResolvedExpr'] = None
     proto_field_path: List['FieldDescriptorRef'] = field(default_factory=list)
-    operation: int = 0
+    operation: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedUpdateFieldItemProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -30529,7 +30529,7 @@ class ResolvedUpdateStmt(ResolvedStatement):
 class ResolvedWindowFrame(ResolvedArgument):
     """Generated model for ResolvedWindowFrameProto"""
 
-    frame_unit: int = 0
+    frame_unit: Optional[int] = None
     start_expr: Optional['ResolvedWindowFrameExpr'] = None
     end_expr: Optional['ResolvedWindowFrameExpr'] = None
 
@@ -30557,7 +30557,7 @@ class ResolvedWindowFrame(ResolvedArgument):
 class ResolvedWindowFrameExpr(ResolvedArgument):
     """Generated model for ResolvedWindowFrameExprProto"""
 
-    boundary_type: int = 0
+    boundary_type: Optional[int] = None
     expression: Optional['ResolvedExpr'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedWindowFrameExprProto
@@ -30629,7 +30629,7 @@ class ResolvedWindowPartitioning(ResolvedArgument):
 class ResolvedWithEntry(ResolvedArgument):
     """Generated model for ResolvedWithEntryProto"""
 
-    with_query_name: str = ""
+    with_query_name: Optional[str] = None
     with_subquery: Optional['ResolvedScan'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedWithEntryProto
@@ -30689,7 +30689,7 @@ class ResolvedWithPartitionColumns(ResolvedArgument):
 class ResolvedWithRefScan(ResolvedScan):
     """Generated model for ResolvedWithRefScanProto"""
 
-    with_query_name: str = ""
+    with_query_name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedWithRefScanProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -30707,7 +30707,7 @@ class ResolvedWithScan(ResolvedScan):
 
     with_entry_list: List['ResolvedWithEntry'] = field(default_factory=list)
     query: Optional['ResolvedScan'] = None
-    recursive: bool = False
+    recursive: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedWithScanProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -30735,7 +30735,7 @@ class ASTAlterStatementBase(ASTDdlStatement):
 
     path: Optional['ASTPathExpression'] = None
     action_list: Optional['ASTAlterActionList'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAlterStatementBaseProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -30880,7 +30880,7 @@ class ASTBytesLiteral(ASTLeaf):
     """Generated model for ASTBytesLiteralProto"""
 
     components: List['ASTBytesLiteralComponent'] = field(default_factory=list)
-    bytes_value: str = ""
+    bytes_value: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTBytesLiteralProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -30932,7 +30932,7 @@ class ASTCheckConstraint(ASTTableConstraint):
     expression: Optional['ASTExpression'] = None
     options_list: Optional['ASTOptionsList'] = None
     constraint_name: Optional['ASTIdentifier'] = None
-    is_enforced: bool = False
+    is_enforced: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTCheckConstraintProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -30979,9 +30979,9 @@ class ASTCopyDataSource(ASTTableDataSource):
 class ASTCreateStatement(ASTDdlStatement):
     """Generated model for ASTCreateStatementProto"""
 
-    scope: int = 0
-    is_or_replace: bool = False
-    is_if_not_exists: bool = False
+    scope: Optional[int] = None
+    is_or_replace: Optional[bool] = None
+    is_if_not_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTCreateStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -31053,7 +31053,7 @@ class ASTDropEntityStatement(ASTDdlStatement):
 
     entity_type: Optional['ASTIdentifier'] = None
     name: Optional['ASTPathExpression'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTDropEntityStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -31081,7 +31081,7 @@ class ASTDropFunctionStatement(ASTDdlStatement):
 
     name: Optional['ASTPathExpression'] = None
     parameters: Optional['ASTFunctionParameters'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTDropFunctionStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -31109,7 +31109,7 @@ class ASTDropIndexStatement(ASTDdlStatement):
 
     name: Optional['ASTPathExpression'] = None
     table_name: Optional['ASTPathExpression'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTDropIndexStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -31136,7 +31136,7 @@ class ASTDropMaterializedViewStatement(ASTDdlStatement):
     """Generated model for ASTDropMaterializedViewStatementProto"""
 
     name: Optional['ASTPathExpression'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTDropMaterializedViewStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -31157,7 +31157,7 @@ class ASTDropMaterializedViewStatement(ASTDdlStatement):
 class ASTDropPrivilegeRestrictionStatement(ASTDdlStatement):
     """Generated model for ASTDropPrivilegeRestrictionStatementProto"""
 
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
     privileges: Optional['ASTPrivileges'] = None
     object_type: Optional['ASTIdentifier'] = None
     name_path: Optional['ASTPathExpression'] = None
@@ -31193,7 +31193,7 @@ class ASTDropRowAccessPolicyStatement(ASTDdlStatement):
 
     name: Optional['ASTPathExpression'] = None
     table_name: Optional['ASTPathExpression'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTDropRowAccessPolicyStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -31220,7 +31220,7 @@ class ASTDropSnapshotTableStatement(ASTDdlStatement):
     """Generated model for ASTDropSnapshotTableStatementProto"""
 
     name: Optional['ASTPathExpression'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTDropSnapshotTableStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -31242,9 +31242,9 @@ class ASTDropStatement(ASTDdlStatement):
     """Generated model for ASTDropStatementProto"""
 
     name: Optional['ASTPathExpression'] = None
-    drop_mode: int = 0
-    is_if_exists: bool = False
-    schema_object_kind: int = 0
+    drop_mode: Optional[int] = None
+    is_if_exists: Optional[bool] = None
+    schema_object_kind: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTDropStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -31276,7 +31276,7 @@ class ASTDropTableFunctionStatement(ASTDdlStatement):
     """Generated model for ASTDropTableFunctionStatementProto"""
 
     name: Optional['ASTPathExpression'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTDropTableFunctionStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -31391,7 +31391,7 @@ class ASTGqlNamedCall(ASTGqlCallBase):
 class ASTGraphEdgePattern(ASTGraphElementPattern):
     """Generated model for ASTGraphEdgePatternProto"""
 
-    orientation: int = 0
+    orientation: Optional[int] = None
     lhs_hint: Optional['ASTGraphLhsHint'] = None
     rhs_hint: Optional['ASTGraphRhsHint'] = None
 
@@ -31516,7 +31516,7 @@ class ASTParameterExpr(ASTParameterExprBase):
     """Generated model for ASTParameterExprProto"""
 
     name: Optional['ASTIdentifier'] = None
-    position: int = 0
+    position: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTParameterExprProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -31556,7 +31556,7 @@ class ASTPrimaryKey(ASTTableConstraint):
     element_list: Optional['ASTPrimaryKeyElementList'] = None
     options_list: Optional['ASTOptionsList'] = None
     constraint_name: Optional['ASTIdentifier'] = None
-    enforced: bool = False
+    enforced: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTPrimaryKeyProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -31587,7 +31587,7 @@ class ASTPrimaryKey(ASTTableConstraint):
 class ASTPrintableLeaf(ASTLeaf):
     """Generated model for ASTPrintableLeafProto"""
 
-    image: str = ""
+    image: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTPrintableLeafProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -31658,7 +31658,7 @@ class ASTStringLiteral(ASTLeaf):
     """Generated model for ASTStringLiteralProto"""
 
     components: List['ASTStringLiteralComponent'] = field(default_factory=list)
-    string_value: str = ""
+    string_value: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTStringLiteralProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -31695,9 +31695,9 @@ class ASTSystemVariableExpr(ASTParameterExprBase):
 class ASTUndropStatement(ASTDdlStatement):
     """Generated model for ASTUndropStatementProto"""
 
-    schema_object_kind: int = 0
+    schema_object_kind: Optional[int] = None
     name: Optional['ASTPathExpression'] = None
-    is_if_not_exists: bool = False
+    is_if_not_exists: Optional[bool] = None
     for_system_time: Optional['ASTForSystemTime'] = None
     options_list: Optional['ASTOptionsList'] = None
 
@@ -31763,7 +31763,7 @@ class ASTVariableDeclaration(ASTScriptStatement):
 class ResolvedAddColumnAction(ResolvedAlterAction):
     """Generated model for ResolvedAddColumnActionProto"""
 
-    is_if_not_exists: bool = False
+    is_if_not_exists: Optional[bool] = None
     column_definition: Optional['ResolvedColumnDefinition'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedAddColumnActionProto
@@ -31785,9 +31785,9 @@ class ResolvedAddColumnAction(ResolvedAlterAction):
 class ResolvedAddColumnIdentifierAction(ResolvedAlterAction):
     """Generated model for ResolvedAddColumnIdentifierActionProto"""
 
-    name: str = ""
+    name: Optional[str] = None
     options_list: List['ResolvedOption'] = field(default_factory=list)
-    is_if_not_exists: bool = False
+    is_if_not_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedAddColumnIdentifierActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -31813,7 +31813,7 @@ class ResolvedAddColumnIdentifierAction(ResolvedAlterAction):
 class ResolvedAddConstraintAction(ResolvedAlterAction):
     """Generated model for ResolvedAddConstraintActionProto"""
 
-    is_if_not_exists: bool = False
+    is_if_not_exists: Optional[bool] = None
     constraint: Optional['ResolvedConstraint'] = None
     table: Optional['TableRef'] = None
 
@@ -31841,10 +31841,10 @@ class ResolvedAddConstraintAction(ResolvedAlterAction):
 class ResolvedAddSubEntityAction(ResolvedAlterAction):
     """Generated model for ResolvedAddSubEntityActionProto"""
 
-    entity_type: str = ""
-    name: str = ""
+    entity_type: Optional[str] = None
+    name: Optional[str] = None
     options_list: List['ResolvedOption'] = field(default_factory=list)
-    is_if_not_exists: bool = False
+    is_if_not_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedAddSubEntityActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -31875,7 +31875,7 @@ class ResolvedAddSubEntityAction(ResolvedAlterAction):
 class ResolvedAddToRestricteeListAction(ResolvedAlterAction):
     """Generated model for ResolvedAddToRestricteeListActionProto"""
 
-    is_if_not_exists: bool = False
+    is_if_not_exists: Optional[bool] = None
     restrictee_list: List['ResolvedExpr'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedAddToRestricteeListActionProto
@@ -31945,8 +31945,8 @@ class ResolvedAlterApproxViewStmt(ResolvedAlterObjectStmt):
 class ResolvedAlterColumnAction(ResolvedAlterAction):
     """Generated model for ResolvedAlterColumnActionProto"""
 
-    is_if_exists: bool = False
-    column: str = ""
+    is_if_exists: Optional[bool] = None
+    column: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedAlterColumnActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -31983,7 +31983,7 @@ class ResolvedAlterDatabaseStmt(ResolvedAlterObjectStmt):
 class ResolvedAlterEntityStmt(ResolvedAlterObjectStmt):
     """Generated model for ResolvedAlterEntityStmtProto"""
 
-    entity_type: str = ""
+    entity_type: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedAlterEntityStmtProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -32008,7 +32008,7 @@ class ResolvedAlterIndexStmt(ResolvedAlterObjectStmt):
     """Generated model for ResolvedAlterIndexStmtProto"""
 
     table_name_path: List[str] = field(default_factory=list)
-    index_type: int = 0
+    index_type: Optional[int] = None
     table_scan: Optional['ResolvedTableScan'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedAlterIndexStmtProto
@@ -32052,7 +32052,7 @@ class ResolvedAlterPrivilegeRestrictionStmt(ResolvedAlterObjectStmt):
     """Generated model for ResolvedAlterPrivilegeRestrictionStmtProto"""
 
     column_privilege_list: List['ResolvedPrivilege'] = field(default_factory=list)
-    object_type: str = ""
+    object_type: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedAlterPrivilegeRestrictionStmtProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -32073,7 +32073,7 @@ class ResolvedAlterPrivilegeRestrictionStmt(ResolvedAlterObjectStmt):
 class ResolvedAlterRowAccessPolicyStmt(ResolvedAlterObjectStmt):
     """Generated model for ResolvedAlterRowAccessPolicyStmtProto"""
 
-    name: str = ""
+    name: Optional[str] = None
     table_scan: Optional['ResolvedTableScan'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedAlterRowAccessPolicyStmtProto
@@ -32111,10 +32111,10 @@ class ResolvedAlterSequenceStmt(ResolvedAlterObjectStmt):
 class ResolvedAlterSubEntityAction(ResolvedAlterAction):
     """Generated model for ResolvedAlterSubEntityActionProto"""
 
-    entity_type: str = ""
-    name: str = ""
+    entity_type: Optional[str] = None
+    name: Optional[str] = None
     alter_action: Optional['ResolvedAlterAction'] = None
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedAlterSubEntityActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -32183,9 +32183,9 @@ class ResolvedAnonymizedAggregateScan(ResolvedAggregateScanBase):
 class ResolvedCheckConstraint(ResolvedConstraint):
     """Generated model for ResolvedCheckConstraintProto"""
 
-    constraint_name: str = ""
+    constraint_name: Optional[str] = None
     expression: Optional['ResolvedExpr'] = None
-    enforced: bool = False
+    enforced: Optional[bool] = None
     option_list: List['ResolvedOption'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedCheckConstraintProto
@@ -32257,9 +32257,9 @@ class ResolvedCreateConstantStmt(ResolvedCreateStatement):
 class ResolvedCreateEntityStmt(ResolvedCreateStatement):
     """Generated model for ResolvedCreateEntityStmtProto"""
 
-    entity_type: str = ""
-    entity_body_json: str = ""
-    entity_body_text: str = ""
+    entity_type: Optional[str] = None
+    entity_body_json: Optional[str] = None
+    entity_body_text: Optional[str] = None
     option_list: List['ResolvedOption'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedCreateEntityStmtProto
@@ -32291,19 +32291,19 @@ class ResolvedCreateEntityStmt(ResolvedCreateStatement):
 class ResolvedCreateFunctionStmt(ResolvedCreateStatement):
     """Generated model for ResolvedCreateFunctionStmtProto"""
 
-    has_explicit_return_type: bool = False
+    has_explicit_return_type: Optional[bool] = None
     return_type: Optional['Type'] = None
     argument_name_list: List[str] = field(default_factory=list)
     signature: Optional['FunctionSignature'] = None
-    is_aggregate: bool = False
-    language: str = ""
-    code: str = ""
+    is_aggregate: Optional[bool] = None
+    language: Optional[str] = None
+    code: Optional[str] = None
     aggregate_expression_list: List['ResolvedComputedColumn'] = field(default_factory=list)
     function_expression: Optional['ResolvedExpr'] = None
     option_list: List['ResolvedOption'] = field(default_factory=list)
-    sql_security: int = 0
-    determinism_level: int = 0
-    is_remote: bool = False
+    sql_security: Optional[int] = None
+    determinism_level: Optional[int] = None
+    is_remote: Optional[bool] = None
     connection: Optional['ResolvedConnection'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedCreateFunctionStmtProto
@@ -32387,10 +32387,10 @@ class ResolvedCreateIndexStmt(ResolvedCreateStatement):
 
     table_name_path: List[str] = field(default_factory=list)
     table_scan: Optional['ResolvedTableScan'] = None
-    is_unique: bool = False
-    is_search: bool = False
-    is_vector: bool = False
-    index_all_columns: bool = False
+    is_unique: Optional[bool] = None
+    is_search: Optional[bool] = None
+    is_vector: Optional[bool] = None
+    index_all_columns: Optional[bool] = None
     index_item_list: List['ResolvedIndexItem'] = field(default_factory=list)
     storing_expression_list: List['ResolvedExpr'] = field(default_factory=list)
     partition_by_list: List['ResolvedExpr'] = field(default_factory=list)
@@ -32477,7 +32477,7 @@ class ResolvedCreateModelStmt(ResolvedCreateStatement):
     transform_analytic_function_group_list: List['ResolvedAnalyticFunctionGroup'] = field(default_factory=list)
     input_column_definition_list: List['ResolvedColumnDefinition'] = field(default_factory=list)
     output_column_definition_list: List['ResolvedColumnDefinition'] = field(default_factory=list)
-    is_remote: bool = False
+    is_remote: Optional[bool] = None
     connection: Optional['ResolvedConnection'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedCreateModelStmtProto
@@ -32550,7 +32550,7 @@ class ResolvedCreatePrivilegeRestrictionStmt(ResolvedCreateStatement):
     """Generated model for ResolvedCreatePrivilegeRestrictionStmtProto"""
 
     column_privilege_list: List['ResolvedPrivilege'] = field(default_factory=list)
-    object_type: str = ""
+    object_type: Optional[str] = None
     restrictee_list: List['ResolvedExpr'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedCreatePrivilegeRestrictionStmtProto
@@ -32580,11 +32580,11 @@ class ResolvedCreateProcedureStmt(ResolvedCreateStatement):
     argument_name_list: List[str] = field(default_factory=list)
     signature: Optional['FunctionSignature'] = None
     option_list: List['ResolvedOption'] = field(default_factory=list)
-    procedure_body: str = ""
+    procedure_body: Optional[str] = None
     connection: Optional['ResolvedConnection'] = None
-    language: str = ""
-    code: str = ""
-    external_security: int = 0
+    language: Optional[str] = None
+    code: Optional[str] = None
+    external_security: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedCreateProcedureStmtProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -32731,14 +32731,14 @@ class ResolvedCreateTableFunctionStmt(ResolvedCreateStatement):
 
     argument_name_list: List[str] = field(default_factory=list)
     signature: Optional['FunctionSignature'] = None
-    has_explicit_return_schema: bool = False
+    has_explicit_return_schema: Optional[bool] = None
     option_list: List['ResolvedOption'] = field(default_factory=list)
-    language: str = ""
-    code: str = ""
+    language: Optional[str] = None
+    code: Optional[str] = None
     query: Optional['ResolvedScan'] = None
     output_column_list: List['ResolvedOutputColumn'] = field(default_factory=list)
-    is_value_table: bool = False
-    sql_security: int = 0
+    is_value_table: Optional[bool] = None
+    sql_security: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedCreateTableFunctionStmtProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -32805,7 +32805,7 @@ class ResolvedCreateTableStmtBase(ResolvedCreateStatement):
     primary_key: Optional['ResolvedPrimaryKey'] = None
     foreign_key_list: List['ResolvedForeignKey'] = field(default_factory=list)
     check_constraint_list: List['ResolvedCheckConstraint'] = field(default_factory=list)
-    is_value_table: bool = False
+    is_value_table: Optional[bool] = None
     like_table: Optional['TableRef'] = None
     collation_name: Optional['ResolvedExpr'] = None
     connection: Optional['ResolvedConnection'] = None
@@ -32871,12 +32871,12 @@ class ResolvedCreateViewBase(ResolvedCreateStatement):
 
     option_list: List['ResolvedOption'] = field(default_factory=list)
     output_column_list: List['ResolvedOutputColumn'] = field(default_factory=list)
-    has_explicit_columns: bool = False
+    has_explicit_columns: Optional[bool] = None
     query: Optional['ResolvedScan'] = None
-    sql: str = ""
-    sql_security: int = 0
-    is_value_table: bool = False
-    recursive: bool = False
+    sql: Optional[str] = None
+    sql_security: Optional[int] = None
+    is_value_table: Optional[bool] = None
+    recursive: Optional[bool] = None
     column_definition_list: List['ResolvedColumnDefinition'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedCreateViewBaseProto
@@ -32971,8 +32971,8 @@ class ResolvedDifferentialPrivacyAggregateScan(ResolvedAggregateScanBase):
 class ResolvedDropColumnAction(ResolvedAlterAction):
     """Generated model for ResolvedDropColumnActionProto"""
 
-    is_if_exists: bool = False
-    name: str = ""
+    is_if_exists: Optional[bool] = None
+    name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedDropColumnActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -32993,8 +32993,8 @@ class ResolvedDropColumnAction(ResolvedAlterAction):
 class ResolvedDropConstraintAction(ResolvedAlterAction):
     """Generated model for ResolvedDropConstraintActionProto"""
 
-    is_if_exists: bool = False
-    name: str = ""
+    is_if_exists: Optional[bool] = None
+    name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedDropConstraintActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -33015,7 +33015,7 @@ class ResolvedDropConstraintAction(ResolvedAlterAction):
 class ResolvedDropPrimaryKeyAction(ResolvedAlterAction):
     """Generated model for ResolvedDropPrimaryKeyActionProto"""
 
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedDropPrimaryKeyActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -33031,9 +33031,9 @@ class ResolvedDropPrimaryKeyAction(ResolvedAlterAction):
 class ResolvedDropSubEntityAction(ResolvedAlterAction):
     """Generated model for ResolvedDropSubEntityActionProto"""
 
-    entity_type: str = ""
-    name: str = ""
-    is_if_exists: bool = False
+    entity_type: Optional[str] = None
+    name: Optional[str] = None
+    is_if_exists: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedDropSubEntityActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -33060,7 +33060,7 @@ class ResolvedFilterUsingAction(ResolvedAlterAction):
     """Generated model for ResolvedFilterUsingActionProto"""
 
     predicate: Optional['ResolvedExpr'] = None
-    predicate_str: str = ""
+    predicate_str: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedFilterUsingActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -33081,14 +33081,14 @@ class ResolvedFilterUsingAction(ResolvedAlterAction):
 class ResolvedForeignKey(ResolvedConstraint):
     """Generated model for ResolvedForeignKeyProto"""
 
-    constraint_name: str = ""
+    constraint_name: Optional[str] = None
     referencing_column_offset_list: List[int] = field(default_factory=list)
     referenced_table: Optional['TableRef'] = None
     referenced_column_offset_list: List[int] = field(default_factory=list)
-    match_mode: int = 0
-    update_action: int = 0
-    delete_action: int = 0
-    enforced: bool = False
+    match_mode: Optional[int] = None
+    update_action: Optional[int] = None
+    delete_action: Optional[int] = None
+    enforced: Optional[bool] = None
     option_list: List['ResolvedOption'] = field(default_factory=list)
     referencing_column_list: List[str] = field(default_factory=list)
 
@@ -33241,7 +33241,7 @@ class ResolvedGraphLabel(ResolvedGraphLabelExpr):
 class ResolvedGraphLabelNaryExpr(ResolvedGraphLabelExpr):
     """Generated model for ResolvedGraphLabelNaryExprProto"""
 
-    op: int = 0
+    op: Optional[int] = None
     operand_list: List['ResolvedGraphLabelExpr'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedGraphLabelNaryExprProto
@@ -33358,7 +33358,7 @@ class ResolvedGraphScan(ResolvedGraphScanBase):
     input_scan_list: List['ResolvedGraphPathScan'] = field(default_factory=list)
     filter_expr: Optional['ResolvedExpr'] = None
     input_scan: Optional['ResolvedScan'] = None
-    optional: bool = False
+    optional: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedGraphScanProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -33445,7 +33445,7 @@ class ResolvedGroupingSetProduct(ResolvedGroupingSetBase):
 class ResolvedMatchRecognizePatternAnchor(ResolvedMatchRecognizePatternExpr):
     """Generated model for ResolvedMatchRecognizePatternAnchorProto"""
 
-    mode: int = 0
+    mode: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedMatchRecognizePatternAnchorProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -33469,7 +33469,7 @@ class ResolvedMatchRecognizePatternEmpty(ResolvedMatchRecognizePatternExpr):
 class ResolvedMatchRecognizePatternOperation(ResolvedMatchRecognizePatternExpr):
     """Generated model for ResolvedMatchRecognizePatternOperationProto"""
 
-    op_type: int = 0
+    op_type: Optional[int] = None
     operand_list: List['ResolvedMatchRecognizePatternExpr'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedMatchRecognizePatternOperationProto
@@ -33494,7 +33494,7 @@ class ResolvedMatchRecognizePatternQuantification(ResolvedMatchRecognizePatternE
     operand: Optional['ResolvedMatchRecognizePatternExpr'] = None
     lower_bound: Optional['ResolvedExpr'] = None
     upper_bound: Optional['ResolvedExpr'] = None
-    is_reluctant: bool = False
+    is_reluctant: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedMatchRecognizePatternQuantificationProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -33525,7 +33525,7 @@ class ResolvedMatchRecognizePatternQuantification(ResolvedMatchRecognizePatternE
 class ResolvedMatchRecognizePatternVariableRef(ResolvedMatchRecognizePatternExpr):
     """Generated model for ResolvedMatchRecognizePatternVariableRefProto"""
 
-    name: str = ""
+    name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedMatchRecognizePatternVariableRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -33541,8 +33541,8 @@ class ResolvedMatchRecognizePatternVariableRef(ResolvedMatchRecognizePatternExpr
 class ResolvedNonScalarFunctionCallBase(ResolvedFunctionCallBase):
     """Generated model for ResolvedNonScalarFunctionCallBaseProto"""
 
-    distinct: bool = False
-    null_handling_modifier: int = 0
+    distinct: Optional[bool] = None
+    null_handling_modifier: Optional[int] = None
     where_expr: Optional['ResolvedExpr'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedNonScalarFunctionCallBaseProto
@@ -33571,8 +33571,8 @@ class ResolvedPrimaryKey(ResolvedConstraint):
 
     column_offset_list: List[int] = field(default_factory=list)
     option_list: List['ResolvedOption'] = field(default_factory=list)
-    unenforced: bool = False
-    constraint_name: str = ""
+    unenforced: Optional[bool] = None
+    constraint_name: Optional[str] = None
     column_name_list: List[str] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedPrimaryKeyProto
@@ -33617,7 +33617,7 @@ class ResolvedRebuildAction(ResolvedAlterAction):
 class ResolvedRemoveFromRestricteeListAction(ResolvedAlterAction):
     """Generated model for ResolvedRemoveFromRestricteeListActionProto"""
 
-    is_if_exists: bool = False
+    is_if_exists: Optional[bool] = None
     restrictee_list: List['ResolvedExpr'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedRemoveFromRestricteeListActionProto
@@ -33639,9 +33639,9 @@ class ResolvedRemoveFromRestricteeListAction(ResolvedAlterAction):
 class ResolvedRenameColumnAction(ResolvedAlterAction):
     """Generated model for ResolvedRenameColumnActionProto"""
 
-    is_if_exists: bool = False
-    name: str = ""
-    new_name: str = ""
+    is_if_exists: Optional[bool] = None
+    name: Optional[str] = None
+    new_name: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedRenameColumnActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -33700,7 +33700,7 @@ class ResolvedRevokeFromAction(ResolvedAlterAction):
     """Generated model for ResolvedRevokeFromActionProto"""
 
     revokee_expr_list: List['ResolvedExpr'] = field(default_factory=list)
-    is_revoke_from_all: bool = False
+    is_revoke_from_all: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedRevokeFromActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -33745,8 +33745,8 @@ class ResolvedRollup(ResolvedGroupingSetBase):
 class ResolvedSetAsAction(ResolvedAlterAction):
     """Generated model for ResolvedSetAsActionProto"""
 
-    entity_body_json: str = ""
-    entity_body_text: str = ""
+    entity_body_json: Optional[str] = None
+    entity_body_text: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedSetAsActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -33848,7 +33848,7 @@ class ASTAlterIndexStatement(ASTAlterStatementBase):
     """Generated model for ASTAlterIndexStatementProto"""
 
     table_name: Optional['ASTPathExpression'] = None
-    index_type: int = 0
+    index_type: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAlterIndexStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -33955,7 +33955,7 @@ class ASTAlterViewStatement(ASTAlterStatementBase):
 class ASTBooleanLiteral(ASTPrintableLeaf):
     """Generated model for ASTBooleanLiteralProto"""
 
-    value: bool = False
+    value: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTBooleanLiteralProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -33971,7 +33971,7 @@ class ASTBooleanLiteral(ASTPrintableLeaf):
 class ASTBreakStatement(ASTBreakContinueStatement):
     """Generated model for ASTBreakStatementProto"""
 
-    keyword: int = 0
+    keyword: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTBreakStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -33995,7 +33995,7 @@ class ASTBytesLiteralComponent(ASTPrintableLeaf):
 class ASTContinueStatement(ASTBreakContinueStatement):
     """Generated model for ASTContinueStatementProto"""
 
-    keyword: int = 0
+    keyword: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTContinueStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -34099,8 +34099,8 @@ class ASTCreateFunctionStmtBase(ASTCreateStatement):
     language: Optional['ASTIdentifier'] = None
     code: Optional['ASTStringLiteral'] = None
     options_list: Optional['ASTOptionsList'] = None
-    determinism_level: int = 0
-    sql_security: int = 0
+    determinism_level: Optional[int] = None
+    sql_security: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTCreateFunctionStmtBaseProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -34149,11 +34149,11 @@ class ASTCreateIndexStatement(ASTCreateStatement):
     optional_index_storing_expressions: Optional['ASTIndexStoringExpressionList'] = None
     optional_partition_by: Optional['ASTPartitionBy'] = None
     options_list: Optional['ASTOptionsList'] = None
-    is_unique: bool = False
-    is_search: bool = False
+    is_unique: Optional[bool] = None
+    is_search: Optional[bool] = None
     spanner_interleave_clause: Optional['ASTSpannerInterleaveClause'] = None
-    spanner_is_null_filtered: bool = False
-    is_vector: bool = False
+    spanner_is_null_filtered: Optional[bool] = None
+    is_vector: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTCreateIndexStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -34234,7 +34234,7 @@ class ASTCreateModelStatement(ASTCreateStatement):
     options_list: Optional['ASTOptionsList'] = None
     query: Optional['ASTQuery'] = None
     input_output_clause: Optional['ASTInputOutputClause'] = None
-    is_remote: bool = False
+    is_remote: Optional[bool] = None
     with_connection_clause: Optional['ASTWithConnectionClause'] = None
     aliased_query_list: Optional['ASTAliasedQueryList'] = None
 
@@ -34328,7 +34328,7 @@ class ASTCreateProcedureStatement(ASTCreateStatement):
     with_connection_clause: Optional['ASTWithConnectionClause'] = None
     language: Optional['ASTIdentifier'] = None
     code: Optional['ASTStringLiteral'] = None
-    external_security: int = 0
+    external_security: Optional[int] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTCreateProcedureStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -34417,7 +34417,7 @@ class ASTCreateRowAccessPolicyStatement(ASTCreateStatement):
     grant_to: Optional['ASTGrantToClause'] = None
     filter_using: Optional['ASTFilterUsingClause'] = None
     name: Optional['ASTPathExpression'] = None
-    has_access_keyword: bool = False
+    has_access_keyword: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTCreateRowAccessPolicyStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -34497,7 +34497,7 @@ class ASTCreateSequenceStatement(ASTCreateStatement):
 class ASTCreateSnapshotStatement(ASTCreateStatement):
     """Generated model for ASTCreateSnapshotStatementProto"""
 
-    schema_object_kind: int = 0
+    schema_object_kind: Optional[int] = None
     name: Optional['ASTPathExpression'] = None
     clone_data_source: Optional['ASTCloneDataSource'] = None
     options_list: Optional['ASTOptionsList'] = None
@@ -34609,8 +34609,8 @@ class ASTCreateViewStatementBase(ASTCreateStatement):
     column_with_options_list: Optional['ASTColumnWithOptionsList'] = None
     options_list: Optional['ASTOptionsList'] = None
     query: Optional['ASTQuery'] = None
-    sql_security: int = 0
-    recursive: bool = False
+    sql_security: Optional[int] = None
+    recursive: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTCreateViewStatementBaseProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -34769,7 +34769,7 @@ class ASTStar(ASTPrintableLeaf):
 class ASTStringLiteralComponent(ASTPrintableLeaf):
     """Generated model for ASTStringLiteralComponentProto"""
 
-    string_value: str = ""
+    string_value: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTStringLiteralComponentProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -35185,7 +35185,7 @@ class ResolvedDeferredComputedColumn(ResolvedComputedColumnImpl):
 class ResolvedGraphEdgeScan(ResolvedGraphElementScan):
     """Generated model for ResolvedGraphEdgeScanProto"""
 
-    orientation: int = 0
+    orientation: Optional[int] = None
     lhs_hint_list: List['ResolvedOption'] = field(default_factory=list)
     rhs_hint_list: List['ResolvedOption'] = field(default_factory=list)
     cost_expr: Optional['ResolvedExpr'] = None
@@ -35227,13 +35227,13 @@ class ResolvedGraphNodeScan(ResolvedGraphElementScan):
 class ASTAuxLoadDataStatement(ASTCreateTableStmtBase):
     """Generated model for ASTAuxLoadDataStatementProto"""
 
-    insertion_mode: int = 0
+    insertion_mode: Optional[int] = None
     partition_by: Optional['ASTPartitionBy'] = None
     cluster_by: Optional['ASTClusterBy'] = None
     from_files: Optional['ASTAuxLoadDataFromFilesOptionsList'] = None
     with_partition_columns_clause: Optional['ASTWithPartitionColumnsClause'] = None
     load_data_partitions_clause: Optional['ASTAuxLoadDataPartitionsClause'] = None
-    is_temp_table: bool = False
+    is_temp_table: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAuxLoadDataStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -35321,8 +35321,8 @@ class ASTCreateFunctionStatement(ASTCreateFunctionStmtBase):
 
     return_type: Optional['ASTType'] = None
     sql_function_body: Optional['ASTSqlFunctionBody'] = None
-    is_aggregate: bool = False
-    is_remote: bool = False
+    is_aggregate: Optional[bool] = None
+    is_remote: Optional[bool] = None
     with_connection_clause: Optional['ASTWithConnectionClause'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTCreateFunctionStatementProto

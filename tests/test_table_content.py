@@ -92,9 +92,9 @@ class TestCreateTableContent:
         ]
         content = create_table_content(data)
         
-        # None values create empty Value objects
-        assert content.table_data.row[0].cell[1].string_value == ""
-        assert content.table_data.row[0].cell[1].int64_value == 0
+        # None values create empty Value objects (all fields None by default)
+        assert content.table_data.row[0].cell[1].string_value is None
+        assert content.table_data.row[0].cell[1].int64_value is None
     
     def test_unsupported_type_raises_error(self):
         """Test that unsupported types raise ValueError."""

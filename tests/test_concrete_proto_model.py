@@ -54,13 +54,13 @@ class TestConcreteProtoModelBasics:
     
     def test_field_defaults(self):
         """Test that all fields have proper defaults"""
-        # Create with no args - should use defaults
+        # Create with no args - should use defaults (now all None)
         literal = ResolvedLiteral()
         
         assert literal.value is None
-        assert literal.has_explicit_type is False
-        assert literal.float_literal_id == 0
-        assert literal.preserve_in_literal_remover is False
+        assert literal.has_explicit_type is None  # Changed: now Optional
+        assert literal.float_literal_id is None  # Changed: now Optional
+        assert literal.preserve_in_literal_remover is None  # Changed: now Optional
         
         # Inherited fields should also have defaults
         assert literal.type is None

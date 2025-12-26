@@ -475,11 +475,8 @@ def map_proto_type_to_python(field_info: Dict[str, Any], graph: Dict[str, Any] =
     if field_info.get('is_repeated', False):
         return f"List[{base_type}]"
     
-    # Optional for message types, direct for primitives (with defaults)
-    if field_type == descriptor.FieldDescriptor.TYPE_MESSAGE:
-        return f"Optional[{base_type}]"
-    else:
-        return base_type
+    # All singular fields are Optional (for explicit input detection)
+    return f"Optional[{base_type}]"
 
 
 def get_field_default_value(field_info: Dict[str, Any]) -> str:
@@ -493,27 +490,8 @@ def get_field_default_value(field_info: Dict[str, Any]) -> str:
     if field_info.get('is_repeated', False):
         return "field(default_factory=list)"
     
-    field_type = field_info['type']
-    
-    # Message types default to None
-    if field_type == descriptor.FieldDescriptor.TYPE_MESSAGE:
-        return "None"
-    
-    # Primitive types have zero/empty defaults
-    default_map = {
-        descriptor.FieldDescriptor.TYPE_STRING: '""',
-        descriptor.FieldDescriptor.TYPE_INT64: '0',
-        descriptor.FieldDescriptor.TYPE_INT32: '0',
-        descriptor.FieldDescriptor.TYPE_UINT64: '0',
-        descriptor.FieldDescriptor.TYPE_UINT32: '0',
-        descriptor.FieldDescriptor.TYPE_BOOL: 'False',
-        descriptor.FieldDescriptor.TYPE_DOUBLE: '0.0',
-        descriptor.FieldDescriptor.TYPE_FLOAT: '0.0',
-        descriptor.FieldDescriptor.TYPE_BYTES: 'b""',
-        descriptor.FieldDescriptor.TYPE_ENUM: '0',
-    }
-    
-    return default_map.get(field_type, 'None')
+    # All singular fields default to None (for explicit input detection)
+    return "None"
 
 
 def generate_enum_class(enum_name: str, enum_info: Dict[str, Any], module_aliases: Dict[str, str]) -> str:

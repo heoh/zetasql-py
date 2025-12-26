@@ -31,7 +31,7 @@ from zetasql.types import (
     ResolvedLimitOffsetScan,
 )
 from zetasql.builders import TableBuilder, CatalogBuilder
-from zetasql.types import TypeKind, NameResolutionMode, ProductMode, LanguageFeature
+from zetasql.types import TypeKind, NameResolutionMode, ProductMode, LanguageFeature, AnalyzerOptions
 from zetasql.types.proto_models import ZetaSQLBuiltinFunctionOptions, TableContent, TableData, Value, LanguageOptions, AnalyzerOptions
 
 
@@ -58,9 +58,11 @@ def create_analyzer_options():
             except:
                 pass
     
-    
+    # Create analyzer options with language options
+    analyzer_options = AnalyzerOptions()
+    analyzer_options.language = language_options
 
-    return language_options
+    return analyzer_options
 
 
 def create_table_content(rows_data: list[list]) -> TableContent:
@@ -248,9 +250,9 @@ def setup_catalog_and_data(service):
     
     # ========== Build Catalog ==========
     
-    # Create builtin function options from analyzer options
+    # Create builtin function options from language options (not analyzer options)
     builtin_opts = ZetaSQLBuiltinFunctionOptions(
-        language_options=analyzer_options
+        language_options=analyzer_options.language
     )
     
     catalog = (CatalogBuilder("demo")
