@@ -1,9 +1,3 @@
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from zetasql.types.proto_models import TypeKind
-
-
 class TypeKindMixin:
     """Mixin class providing helper methods for TypeKind enum.
     

@@ -16,7 +16,6 @@ import sys
 import importlib.util
 from pathlib import Path
 from typing import Dict, List, Any, Set, Tuple
-from zetasql.types import proto_model_mixins
 import argparse
 
 
@@ -519,6 +518,13 @@ def get_field_default_value(field_info: Dict[str, Any]) -> str:
 
 def generate_enum_class(enum_name: str, enum_info: Dict[str, Any], module_aliases: Dict[str, str]) -> str:
     """Generate an IntEnum class for a protobuf enum"""
+    try:
+        from zetasql.types import proto_model_mixins
+        has_mixins = True
+    except (ImportError, ModuleNotFoundError, AttributeError):
+        has_mixins = False
+        proto_model_mixins = None
+    
     lines = []
     
     # Get module alias
@@ -527,7 +533,7 @@ def generate_enum_class(enum_name: str, enum_info: Dict[str, Any], module_aliase
 
     bases = []
     mixin_name = f'{enum_name}Mixin'
-    if hasattr(proto_model_mixins, mixin_name):
+    if has_mixins and proto_model_mixins and hasattr(proto_model_mixins, mixin_name):
         bases.append(f'proto_model_mixins.{mixin_name}')
     bases.append('IntEnum')
 
@@ -711,6 +717,13 @@ def generate_property(field_info: Dict[str, Any], parent_chain: List[str], graph
 
 def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], module_aliases: Dict[str, str] = None, indent: int = 0) -> str:
     """Generate a dataclass-based wrapper class with support for nested classes"""
+    try:
+        from zetasql.types import proto_model_mixins
+        has_mixins = True
+    except (ImportError, ModuleNotFoundError, AttributeError):
+        has_mixins = False
+        proto_model_mixins = None
+        
     parent_name = info['parent']
     proto_name = info.get('proto_name', name)
     module_name = info['module']
@@ -725,7 +738,7 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], modul
     # Determine parent class with optional mixin
     bases = []
     mixin_name = f'{class_name}Mixin'
-    if hasattr(proto_model_mixins, mixin_name):
+    if has_mixins and proto_model_mixins and hasattr(proto_model_mixins, mixin_name):
         bases.append(f'proto_model_mixins.{mixin_name}')
 
     if parent_name and parent_name in graph:
@@ -760,8 +773,48 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], modul
     
     # Direct attribute access for all types (including nested)
     if is_nested and '.' in proto_full_path:
-        # Use dot notation: module.Parent.Nested
-        proto_class_ref = f"{module_alias}.{proto_full_path}"
+        # For nested types, proto_full_path is like "zetasql.local_service.PrepareQueryRequest.TableContentEntry"
+        # We need to extract just the class path after the package
+        # The proto_full_path from descriptor includes package, but we only need the class hierarchy
+        
+        # proto_full_path: "zetasql.local_service.PrepareQueryRequest.TableContentEntry"
+        # We need: "PrepareQueryRequest.TableContentEntry"
+        # Strategy: find where the actual message hierarchy starts
+        
+        # Since proto_name is just the immediate class name (e.g., "TableContentEntry")
+        # and we know the parent, we can reconstruct the Python path
+        parts = proto_full_path.split('.')
+        
+        # Find where the actual message hierarchy starts (after package name)
+        # Typically after "zetasql.xxx" we have the proto file name, then message names
+        # For nested messages, we want everything starting from the top-level message
+        
+        # Get parent model to construct the path
+        if info.get('parent_model'):
+            # Build the full path from root to this nested class
+            # by recursively traversing up the parent chain
+            path_parts = [proto_name]
+            current_model = info['parent_model']
+            
+            while current_model:
+                if current_model in graph:
+                    parent_info = graph[current_model]
+                    parent_proto_name = parent_info.get('proto_name', current_model)
+                    # Remove package prefix if present
+                    if '.' in parent_proto_name:
+                        parent_proto_name = parent_proto_name.split('.')[-1]
+                    path_parts.insert(0, parent_proto_name)
+                    
+                    # Continue up the chain if this parent also has a parent (nested within nested)
+                    current_model = parent_info.get('parent_model')
+                else:
+                    # Parent not in graph, stop
+                    break
+            
+            proto_class_ref = f"{module_alias}.{'.'.join(path_parts)}"
+        else:
+            # Fallback: just use the proto_name
+            proto_class_ref = f"{module_alias}.{proto_name}"
     else:
         # Direct attribute access for top-level types
         proto_class_ref = f"{module_alias}.{proto_name}"

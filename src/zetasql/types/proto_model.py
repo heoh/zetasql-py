@@ -142,17 +142,28 @@ class ProtoModel:
                 
                 if field_meta['is_message']:
                     if field_meta.get('is_repeated', False):
-                        # Repeated message field
-                        # Skip if value is empty list (default)
-                        if not value:
-                            continue
-                        target_list = getattr(current_proto, proto_field)
-                        target_list.clear()
-                        for item in value:
-                            if isinstance(item, ProtoModel):
-                                target_list.add().CopyFrom(item.to_proto())
-                            else:
-                                target_list.append(item)
+                        # Check if it's a map field (dict in Python)
+                        if isinstance(value, dict):
+                            # Map field: Dict[K, V] -> protobuf map
+                            target_map = getattr(current_proto, proto_field)
+                            target_map.clear()
+                            for key, val in value.items():
+                                if isinstance(val, ProtoModel):
+                                    target_map[key].CopyFrom(val.to_proto())
+                                else:
+                                    target_map[key].CopyFrom(val)
+                        else:
+                            # Regular repeated message field
+                            # Skip if value is empty list (default)
+                            if not value:
+                                continue
+                            target_list = getattr(current_proto, proto_field)
+                            target_list.clear()
+                            for item in value:
+                                if isinstance(item, ProtoModel):
+                                    target_list.add().CopyFrom(item.to_proto())
+                                else:
+                                    target_list.append(item)
                     else:
                         # Singular message field
                         if isinstance(value, ProtoModel):

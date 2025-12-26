@@ -2869,7 +2869,7 @@ class AllowedHintsAndOptions(ProtoModel):
         type: Optional['Type'] = None
         allow_unqualified: bool = False
 
-        _PROTO_CLASS: ClassVar[type] = proto_options_pb2.zetasql.AllowedHintsAndOptionsProto.HintProto
+        _PROTO_CLASS: ClassVar[type] = proto_options_pb2.AllowedHintsAndOptionsProto.HintProto
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'qualifier': {
                 'proto_field': 'qualifier',
@@ -2902,7 +2902,7 @@ class AllowedHintsAndOptions(ProtoModel):
         resolving_kind: int = 0
         allow_alter_array: bool = False
 
-        _PROTO_CLASS: ClassVar[type] = proto_options_pb2.zetasql.AllowedHintsAndOptionsProto.OptionProto
+        _PROTO_CLASS: ClassVar[type] = proto_options_pb2.AllowedHintsAndOptionsProto.OptionProto
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'name': {
                 'proto_field': 'name',
@@ -3041,7 +3041,7 @@ class AnalyzerLogEntry(ProtoModel):
         key: int = 0
         value: Optional['ExecutionStats'] = None
 
-        _PROTO_CLASS: ClassVar[type] = proto_logging_pb2.zetasql.AnalyzerLogEntry.ExecutionStatsByOpEntry
+        _PROTO_CLASS: ClassVar[type] = proto_logging_pb2.AnalyzerLogEntry.ExecutionStatsByOpEntry
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'key': {
                 'proto_field': 'key',
@@ -3222,7 +3222,7 @@ class AnalyzerOptions(ProtoModel):
         name: str = ""
         type: Optional['Type'] = None
 
-        _PROTO_CLASS: ClassVar[type] = proto_options_pb2.zetasql.AnalyzerOptionsProto.QueryParameterProto
+        _PROTO_CLASS: ClassVar[type] = proto_options_pb2.AnalyzerOptionsProto.QueryParameterProto
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'name': {
                 'proto_field': 'name',
@@ -3243,7 +3243,7 @@ class AnalyzerOptions(ProtoModel):
         name_path: List[str] = field(default_factory=list)
         type: Optional['Type'] = None
 
-        _PROTO_CLASS: ClassVar[type] = proto_options_pb2.zetasql.AnalyzerOptionsProto.SystemVariableProto
+        _PROTO_CLASS: ClassVar[type] = proto_options_pb2.AnalyzerOptionsProto.SystemVariableProto
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'name_path': {
                 'proto_field': 'name_path',
@@ -9368,7 +9368,7 @@ class ComplianceTestCaseLabels(ProtoModel):
         file: str = ""
         line: int = 0
 
-        _PROTO_CLASS: ClassVar[type] = compliance_compliance_label_pb2.zetasql.ComplianceTestCaseLabels.Location
+        _PROTO_CLASS: ClassVar[type] = compliance_compliance_label_pb2.ComplianceTestCaseLabels.Location
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'file': {
                 'proto_field': 'file',
@@ -9389,7 +9389,7 @@ class ComplianceTestCaseLabels(ProtoModel):
         param_name: str = ""
         param_value_literal: str = ""
 
-        _PROTO_CLASS: ClassVar[type] = compliance_compliance_label_pb2.zetasql.ComplianceTestCaseLabels.Param
+        _PROTO_CLASS: ClassVar[type] = compliance_compliance_label_pb2.ComplianceTestCaseLabels.Param
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'param_name': {
                 'proto_field': 'param_name',
@@ -9525,7 +9525,7 @@ class DescriptorPoolList(ProtoModel):
     class Builtin(ProtoModel):
         """Generated model for Builtin"""
 
-        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.zetasql.local_service.DescriptorPoolListProto.Builtin
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.DescriptorPoolListProto.Builtin
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
     @dataclass
@@ -9536,7 +9536,7 @@ class DescriptorPoolList(ProtoModel):
         registered_id: int = 0
         builtin: Optional['DescriptorPoolList.Builtin'] = None
 
-        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.zetasql.local_service.DescriptorPoolListProto.Definition
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.DescriptorPoolListProto.Definition
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'file_descriptor_set': {
                 'proto_field': 'file_descriptor_set',
@@ -9936,7 +9936,7 @@ class EvaluateModifyRequest(ProtoModel):
     simple_catalog: Optional['SimpleCatalog'] = None
     registered_catalog_id: int = 0
     prepared_modify_id: int = 0
-    table_content: List['EvaluateModifyRequest.TableContentEntry'] = field(default_factory=list)
+    table_content: Dict[str, 'TableContent'] = field(default_factory=dict)
     params: List['EvaluateRequest.Parameter'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.EvaluateModifyRequest
@@ -9990,7 +9990,7 @@ class EvaluateModifyRequest(ProtoModel):
         key: str = ""
         value: Optional['TableContent'] = None
 
-        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.zetasql.local_service.EvaluateModifyRequest.TableContentEntry
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.EvaluateModifyRequest.TableContentEntry
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'key': {
                 'proto_field': 'key',
@@ -10040,7 +10040,7 @@ class EvaluateModifyResponse(ProtoModel):
         cell: List['Value'] = field(default_factory=list)
         old_primary_key: List['Value'] = field(default_factory=list)
 
-        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.zetasql.local_service.EvaluateModifyResponse.Row
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.EvaluateModifyResponse.Row
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'operation': {
                 'proto_field': 'operation',
@@ -10102,7 +10102,7 @@ class EvaluateQueryRequest(ProtoModel):
     simple_catalog: Optional['SimpleCatalog'] = None
     registered_catalog_id: int = 0
     prepared_query_id: int = 0
-    table_content: List['EvaluateQueryRequest.TableContentEntry'] = field(default_factory=list)
+    table_content: Dict[str, 'TableContent'] = field(default_factory=dict)
     params: List['EvaluateRequest.Parameter'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.EvaluateQueryRequest
@@ -10156,7 +10156,7 @@ class EvaluateQueryRequest(ProtoModel):
         key: str = ""
         value: Optional['TableContent'] = None
 
-        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.zetasql.local_service.EvaluateQueryRequest.TableContentEntry
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.EvaluateQueryRequest.TableContentEntry
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'key': {
                 'proto_field': 'key',
@@ -10245,7 +10245,7 @@ class EvaluateRequest(ProtoModel):
         name: str = ""
         value: Optional['Value'] = None
 
-        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.zetasql.local_service.EvaluateRequest.Parameter
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.EvaluateRequest.Parameter
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'name': {
                 'proto_field': 'name',
@@ -10463,7 +10463,7 @@ class ExtractTableNamesFromNextStatementResponse(ProtoModel):
 
         table_name_segment: List[str] = field(default_factory=list)
 
-        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.zetasql.local_service.ExtractTableNamesFromNextStatementResponse.TableName
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.ExtractTableNamesFromNextStatementResponse.TableName
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'table_name_segment': {
                 'proto_field': 'table_name_segment',
@@ -10522,7 +10522,7 @@ class ExtractTableNamesFromStatementResponse(ProtoModel):
 
         table_name_segment: List[str] = field(default_factory=list)
 
-        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.zetasql.local_service.ExtractTableNamesFromStatementResponse.TableName
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.ExtractTableNamesFromStatementResponse.TableName
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'table_name_segment': {
                 'proto_field': 'table_name_segment',
@@ -10536,8 +10536,8 @@ class ExtractTableNamesFromStatementResponse(ProtoModel):
 class FeatureLabelDictionary(ProtoModel):
     """Generated model for FeatureLabelDictionaryProto"""
 
-    label_mapping: List['FeatureLabelDictionary.LabelMappingEntry'] = field(default_factory=list)
-    encoded_labels: List['FeatureLabelDictionary.EncodedLabelsEntry'] = field(default_factory=list)
+    label_mapping: Dict[int, str] = field(default_factory=dict)
+    encoded_labels: Dict[int, 'FeatureLabelDictionary.LabelSet'] = field(default_factory=dict)
 
     _PROTO_CLASS: ClassVar[type] = public_feature_label_dictionary_pb2.FeatureLabelDictionaryProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -10560,7 +10560,7 @@ class FeatureLabelDictionary(ProtoModel):
         key: int = 0
         value: Optional['FeatureLabelDictionary.LabelSet'] = None
 
-        _PROTO_CLASS: ClassVar[type] = public_feature_label_dictionary_pb2.zetasql.FeatureLabelDictionaryProto.EncodedLabelsEntry
+        _PROTO_CLASS: ClassVar[type] = public_feature_label_dictionary_pb2.FeatureLabelDictionaryProto.EncodedLabelsEntry
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'key': {
                 'proto_field': 'key',
@@ -10581,7 +10581,7 @@ class FeatureLabelDictionary(ProtoModel):
         key: int = 0
         value: str = ""
 
-        _PROTO_CLASS: ClassVar[type] = public_feature_label_dictionary_pb2.zetasql.FeatureLabelDictionaryProto.LabelMappingEntry
+        _PROTO_CLASS: ClassVar[type] = public_feature_label_dictionary_pb2.FeatureLabelDictionaryProto.LabelMappingEntry
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'key': {
                 'proto_field': 'key',
@@ -10601,7 +10601,7 @@ class FeatureLabelDictionary(ProtoModel):
 
         label: List[int] = field(default_factory=list)
 
-        _PROTO_CLASS: ClassVar[type] = public_feature_label_dictionary_pb2.zetasql.FeatureLabelDictionaryProto.LabelSet
+        _PROTO_CLASS: ClassVar[type] = public_feature_label_dictionary_pb2.FeatureLabelDictionaryProto.LabelSet
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'label': {
                 'proto_field': 'label',
@@ -11428,7 +11428,7 @@ class GetBuiltinFunctionsResponse(ProtoModel):
     """Generated model for GetBuiltinFunctionsResponse"""
 
     function: List['Function'] = field(default_factory=list)
-    types: List['GetBuiltinFunctionsResponse.TypesEntry'] = field(default_factory=list)
+    types: Dict[str, 'Type'] = field(default_factory=dict)
     table_valued_function: List['TableValuedFunction'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.GetBuiltinFunctionsResponse
@@ -11457,7 +11457,7 @@ class GetBuiltinFunctionsResponse(ProtoModel):
         key: str = ""
         value: Optional['Type'] = None
 
-        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.zetasql.local_service.GetBuiltinFunctionsResponse.TypesEntry
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.GetBuiltinFunctionsResponse.TypesEntry
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'key': {
                 'proto_field': 'key',
@@ -11660,7 +11660,7 @@ class GraphElementType(ProtoModel):
         name: str = ""
         value_type: Optional['Type'] = None
 
-        _PROTO_CLASS: ClassVar[type] = public_type_pb2.zetasql.GraphElementTypeProto.PropertyTypeProto
+        _PROTO_CLASS: ClassVar[type] = public_type_pb2.GraphElementTypeProto.PropertyTypeProto
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'name': {
                 'proto_field': 'name',
@@ -12212,7 +12212,7 @@ class ModuleOptions(ProtoModel):
     """Generated model for ModuleOptions"""
 
     global_options: Optional['PerModuleOptions'] = None
-    per_module_options: List['ModuleOptions.PerModuleOptionsEntry'] = field(default_factory=list)
+    per_module_options: Dict[str, 'PerModuleOptions'] = field(default_factory=dict)
 
     _PROTO_CLASS: ClassVar[type] = proto_module_options_pb2.ModuleOptions
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12235,7 +12235,7 @@ class ModuleOptions(ProtoModel):
         key: str = ""
         value: Optional['PerModuleOptions'] = None
 
-        _PROTO_CLASS: ClassVar[type] = proto_module_options_pb2.zetasql.ModuleOptions.PerModuleOptionsEntry
+        _PROTO_CLASS: ClassVar[type] = proto_module_options_pb2.ModuleOptions.PerModuleOptionsEntry
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'key': {
                 'proto_field': 'key',
@@ -12581,7 +12581,7 @@ class PrepareModifyRequest(ProtoModel):
     descriptor_pool_list: Optional['DescriptorPoolList'] = None
     simple_catalog: Optional['SimpleCatalog'] = None
     registered_catalog_id: int = 0
-    table_content: List['PrepareModifyRequest.TableContentEntry'] = field(default_factory=list)
+    table_content: Dict[str, 'TableContent'] = field(default_factory=dict)
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.PrepareModifyRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12624,7 +12624,7 @@ class PrepareModifyRequest(ProtoModel):
         key: str = ""
         value: Optional['TableContent'] = None
 
-        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.zetasql.local_service.PrepareModifyRequest.TableContentEntry
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.PrepareModifyRequest.TableContentEntry
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'key': {
                 'proto_field': 'key',
@@ -12664,7 +12664,7 @@ class PrepareQueryRequest(ProtoModel):
     descriptor_pool_list: Optional['DescriptorPoolList'] = None
     simple_catalog: Optional['SimpleCatalog'] = None
     registered_catalog_id: int = 0
-    table_content: List['PrepareQueryRequest.TableContentEntry'] = field(default_factory=list)
+    table_content: Dict[str, 'TableContent'] = field(default_factory=dict)
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.PrepareQueryRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12707,7 +12707,7 @@ class PrepareQueryRequest(ProtoModel):
         key: str = ""
         value: Optional['TableContent'] = None
 
-        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.zetasql.local_service.PrepareQueryRequest.TableContentEntry
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.PrepareQueryRequest.TableContentEntry
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'key': {
                 'proto_field': 'key',
@@ -13100,7 +13100,7 @@ class RegisterCatalogRequest(ProtoModel):
 
     simple_catalog: Optional['SimpleCatalog'] = None
     descriptor_pool_list: Optional['DescriptorPoolList'] = None
-    table_content: List['RegisterCatalogRequest.TableContentEntry'] = field(default_factory=list)
+    table_content: Dict[str, 'TableContent'] = field(default_factory=dict)
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.RegisterCatalogRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -13128,7 +13128,7 @@ class RegisterCatalogRequest(ProtoModel):
         key: str = ""
         value: Optional['TableContent'] = None
 
-        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.zetasql.local_service.RegisterCatalogRequest.TableContentEntry
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.RegisterCatalogRequest.TableContentEntry
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'key': {
                 'proto_field': 'key',
@@ -13643,7 +13643,7 @@ class ScriptException(ProtoModel):
         statement_text: str = ""
         stack_trace: List['ScriptException.StackTraceFrame'] = field(default_factory=list)
 
-        _PROTO_CLASS: ClassVar[type] = proto_script_exception_pb2.zetasql.ScriptException.Internal
+        _PROTO_CLASS: ClassVar[type] = proto_script_exception_pb2.ScriptException.Internal
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'statement_text': {
                 'proto_field': 'statement_text',
@@ -13666,7 +13666,7 @@ class ScriptException(ProtoModel):
         filename: str = ""
         location: str = ""
 
-        _PROTO_CLASS: ClassVar[type] = proto_script_exception_pb2.zetasql.ScriptException.StackTraceFrame
+        _PROTO_CLASS: ClassVar[type] = proto_script_exception_pb2.ScriptException.StackTraceFrame
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'line': {
                 'proto_field': 'line',
@@ -13753,7 +13753,7 @@ class ScriptExecutorState(ProtoModel):
         is_dynamic_sql: bool = False
         extension: Optional['ProcedureExtension'] = None
 
-        _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.zetasql.ScriptExecutorStateProto.ProcedureDefinition
+        _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.ScriptExecutorStateProto.ProcedureDefinition
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'name': {
                 'proto_field': 'name',
@@ -13795,7 +13795,7 @@ class ScriptExecutorState(ProtoModel):
         call_stmt: int = 0
         execute_immediate_stmt: int = 0
 
-        _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.zetasql.ScriptExecutorStateProto.ScriptFeatureUsage
+        _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.ScriptExecutorStateProto.ScriptFeatureUsage
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'exception': {
                 'proto_field': 'exception',
@@ -13825,7 +13825,7 @@ class ScriptExecutorState(ProtoModel):
         parameters: Optional['ScriptExecutorState.StackFrame.Parameters'] = None
         for_loop_stack: List[any_pb2.Any] = field(default_factory=list)
 
-        _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.zetasql.ScriptExecutorStateProto.StackFrame
+        _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.ScriptExecutorStateProto.StackFrame
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'procedure_definition': {
                 'proto_field': 'procedure_definition',
@@ -13866,7 +13866,7 @@ class ScriptExecutorState(ProtoModel):
             mode: int = 0
             variables: List['Variable'] = field(default_factory=list)
 
-            _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.zetasql.ScriptExecutorStateProto.StackFrame.Parameters
+            _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.ScriptExecutorStateProto.StackFrame.Parameters
             _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
                 'mode': {
                     'proto_field': 'mode',
@@ -14019,7 +14019,7 @@ class SimpleCatalog(ProtoModel):
         name: str = ""
         type: Optional['Type'] = None
 
-        _PROTO_CLASS: ClassVar[type] = proto_simple_catalog_pb2.zetasql.SimpleCatalogProto.NamedTypeProto
+        _PROTO_CLASS: ClassVar[type] = proto_simple_catalog_pb2.SimpleCatalogProto.NamedTypeProto
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'name': {
                 'proto_field': 'name',
@@ -14620,7 +14620,7 @@ class StateMachine(ProtoModel):
         final_state: int = 0
         num_pattern_variables: int = 0
 
-        _PROTO_CLASS: ClassVar[type] = match_recognize_compiled_pattern_pb2.zetasql.functions.match_recognize.StateMachineProto.CompiledNFAProto
+        _PROTO_CLASS: ClassVar[type] = match_recognize_compiled_pattern_pb2.StateMachineProto.CompiledNFAProto
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'states': {
                 'proto_field': 'states',
@@ -14653,7 +14653,7 @@ class StateMachine(ProtoModel):
             is_head_anchored: bool = False
             is_tail_anchored: bool = False
 
-            _PROTO_CLASS: ClassVar[type] = match_recognize_compiled_pattern_pb2.zetasql.functions.match_recognize.StateMachineProto.CompiledNFAProto.EdgeProto
+            _PROTO_CLASS: ClassVar[type] = match_recognize_compiled_pattern_pb2.StateMachineProto.CompiledNFAProto.EdgeProto
             _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
                 'to_state': {
                     'proto_field': 'to_state',
@@ -14683,7 +14683,7 @@ class StateMachine(ProtoModel):
 
             edges: List['StateMachine.CompiledNFA.Edge'] = field(default_factory=list)
 
-            _PROTO_CLASS: ClassVar[type] = match_recognize_compiled_pattern_pb2.zetasql.functions.match_recognize.StateMachineProto.CompiledNFAProto.StateProto
+            _PROTO_CLASS: ClassVar[type] = match_recognize_compiled_pattern_pb2.StateMachineProto.CompiledNFAProto.StateProto
             _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
                 'edges': {
                     'proto_field': 'edges',
@@ -15064,7 +15064,7 @@ class TableData(ProtoModel):
 
         cell: List['Value'] = field(default_factory=list)
 
-        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.zetasql.local_service.TableData.Row
+        _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.TableData.Row
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'cell': {
                 'proto_field': 'cell',
@@ -15731,7 +15731,7 @@ class Value(ProtoModel):
 
         element: List['Value'] = field(default_factory=list)
 
-        _PROTO_CLASS: ClassVar[type] = public_value_pb2.zetasql.ValueProto.Array
+        _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto.Array
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'element': {
                 'proto_field': 'element',
@@ -15747,7 +15747,7 @@ class Value(ProtoModel):
         bit_field_datetime_seconds: int = 0
         nanos: int = 0
 
-        _PROTO_CLASS: ClassVar[type] = public_value_pb2.zetasql.ValueProto.Datetime
+        _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto.Datetime
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'bit_field_datetime_seconds': {
                 'proto_field': 'bit_field_datetime_seconds',
@@ -15767,7 +15767,7 @@ class Value(ProtoModel):
 
         entry: List['Value.MapEntry'] = field(default_factory=list)
 
-        _PROTO_CLASS: ClassVar[type] = public_value_pb2.zetasql.ValueProto.Map
+        _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto.Map
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'entry': {
                 'proto_field': 'entry',
@@ -15783,7 +15783,7 @@ class Value(ProtoModel):
         key: Optional['Value'] = None
         value: Optional['Value'] = None
 
-        _PROTO_CLASS: ClassVar[type] = public_value_pb2.zetasql.ValueProto.MapEntry
+        _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto.MapEntry
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'key': {
                 'proto_field': 'key',
@@ -15804,7 +15804,7 @@ class Value(ProtoModel):
         start: Optional['Value'] = None
         end: Optional['Value'] = None
 
-        _PROTO_CLASS: ClassVar[type] = public_value_pb2.zetasql.ValueProto.Range
+        _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto.Range
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'start': {
                 'proto_field': 'start',
@@ -15824,7 +15824,7 @@ class Value(ProtoModel):
 
         field: List['Value'] = field(default_factory=list)
 
-        _PROTO_CLASS: ClassVar[type] = public_value_pb2.zetasql.ValueProto.Struct
+        _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto.Struct
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'field': {
                 'proto_field': 'field',
@@ -15840,7 +15840,7 @@ class Value(ProtoModel):
         seconds: int = 0
         picos: int = 0
 
-        _PROTO_CLASS: ClassVar[type] = public_value_pb2.zetasql.ValueProto.TimestampPicos
+        _PROTO_CLASS: ClassVar[type] = public_value_pb2.ValueProto.TimestampPicos
         _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
             'seconds': {
                 'proto_field': 'seconds',
