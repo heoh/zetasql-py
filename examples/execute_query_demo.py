@@ -31,8 +31,9 @@ from zetasql.types import (
     ResolvedLimitOffsetScan,
 )
 from zetasql.builders import TableBuilder, CatalogBuilder
-from zetasql.types import TypeKind, NameResolutionMode, ProductMode, LanguageFeature, AnalyzerOptions
-from zetasql.types.proto_models import ZetaSQLBuiltinFunctionOptions, TableContent, TableData, Value, LanguageOptions, AnalyzerOptions
+from zetasql.types import TypeKind, NameResolutionMode, ProductMode, LanguageFeature
+from zetasql.types.proto_models import ZetaSQLBuiltinFunctionOptions, TableContent, TableData, Value
+from zetasql.options import LanguageOptions, AnalyzerOptions
 
 
 # ============================================================================
@@ -40,29 +41,14 @@ from zetasql.types.proto_models import ZetaSQLBuiltinFunctionOptions, TableConte
 # ============================================================================
 
 def create_analyzer_options():
-    """Create analyzer options with all language features enabled."""
-    # Create language options
-    language_options = LanguageOptions()
-    language_options.name_resolution_mode = NameResolutionMode.NAME_RESOLUTION_DEFAULT
-    language_options.product_mode = ProductMode.PRODUCT_INTERNAL
+    """Create analyzer options with all language features enabled.
     
-    # Enable all language features
-    for feature_name in dir(LanguageFeature):
-        if feature_name.startswith('FEATURE_'):
-            if feature_name == 'FEATURE_SPANNER_LEGACY_DDL':
-                continue
-            try:
-                feature_value = getattr(LanguageFeature, feature_name)
-                if isinstance(feature_value, int) and feature_value > 0:
-                    language_options.enabled_language_features.append(feature_value)
-            except:
-                pass
-    
-    # Create analyzer options with language options
-    analyzer_options = AnalyzerOptions()
-    analyzer_options.language = language_options
-
-    return analyzer_options
+    Uses the new AnalyzerOptions.with_maximum_features() factory method which:
+    - Enables all released language features (ideally_enabled=true)
+    - Automatically excludes FEATURE_SPANNER_LEGACY_DDL (ideally_enabled=false)
+    - Matches Java/C++ API behavior
+    """
+    return AnalyzerOptions.with_maximum_features()
 
 
 def create_table_content(rows_data: list[list]) -> TableContent:
@@ -218,7 +204,9 @@ def setup_catalog_and_data(service):
         tuple: (catalog_id, analyzer_options, catalog, table_content_dict)
     """
     # Create analyzer options first
-    analyzer_options = create_analyzer_options()
+    analyzer_options = AnalyzerOptions(
+        language_options=service.get_language_options(maximum_features=True),
+    )
     
     # ========== Build Tables with Fluent API ==========
     
@@ -252,7 +240,7 @@ def setup_catalog_and_data(service):
     
     # Create builtin function options from language options (not analyzer options)
     builtin_opts = ZetaSQLBuiltinFunctionOptions(
-        language_options=analyzer_options.language
+        language_options=analyzer_options.language_options
     )
     
     catalog = (CatalogBuilder("demo")

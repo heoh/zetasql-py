@@ -87,7 +87,7 @@ def extract_inheritance_graph(base_dir: Path) -> Tuple[Dict[str, Any], Dict[str,
     module_cache = {}
     
     def collect_nested_messages(descriptor, parent_cls, parent_name, module_name, parent_proto_path=""):
-        """Recursively collect nested message types"""
+        """Recursively collect nested message types and enums"""
         nested_messages = {}
         for nested_type in descriptor.nested_types:
             # Full model name for graph key (flat compatibility): ParentName + NestedName
@@ -116,14 +116,51 @@ def extract_inheritance_graph(base_dir: Path) -> Tuple[Dict[str, Any], Dict[str,
                 'is_nested': True
             }
             
+            # Collect nested enums within this message
+            for enum_type in nested_type.enum_types:
+                enum_name = enum_type.name
+                enum_full_name = f"{nested_class_name}.{enum_name}"
+                
+                # Build the full proto class path for the parent
+                # If parent_proto_path is empty (top-level), just use nested_type.name
+                # Otherwise, append nested_type.name to the path
+                if parent_proto_path:
+                    full_proto_class_path = f"{parent_proto_path}.{nested_type.name}"
+                else:
+                    full_proto_class_path = nested_type.name
+                
+                # Get the enum wrapper from the nested class
+                enum_wrapper = getattr(nested_cls, enum_name, None)
+                if enum_wrapper:
+                    # Store with both the short name (for top-level) and full path (for reference)
+                    all_enums[enum_name] = {
+                        'name': enum_name,
+                        'class': enum_wrapper,
+                        'module': module_name,
+                        'file': None,  # Will be set later
+                        'parent_message': nested_class_name,  # Store parent for nested enum generation
+                        'parent_proto_class': full_proto_class_path,  # Full proto class path
+                        'values': {}
+                    }
+                    
+                    # Extract enum values
+                    for value in enum_type.values:
+                        all_enums[enum_name]['values'][value.name] = value.number
+            
             # Recursively collect nested messages within this nested message
             # Pass the full path so far, and use full name as parent
+            # Build the proto class path: parent_proto_path + current nested_type.name
+            if parent_proto_path:
+                current_proto_class_path = f"{parent_proto_path}.{nested_type.name}"
+            else:
+                current_proto_class_path = nested_type.name
+            
             sub_nested = collect_nested_messages(
                 nested_type, 
                 nested_cls, 
                 nested_full_model_name,  # Use full name for next level's parent
                 module_name,
-                nested_proto_full_path
+                current_proto_class_path
             )
             nested_messages.update(sub_nested)
         
@@ -149,6 +186,29 @@ def extract_inheritance_graph(base_dir: Path) -> Tuple[Dict[str, Any], Dict[str,
                     'file': pb2_file,
                     'is_nested': False
                 }
+                
+                # Collect enums within this top-level message
+                descriptor = cls.DESCRIPTOR
+                for enum_type in descriptor.enum_types:
+                    enum_name = enum_type.name
+                    parent_class_name = name.removesuffix('Proto')
+                    
+                    # Get the enum wrapper from the message class
+                    enum_wrapper = getattr(cls, enum_name, None)
+                    if enum_wrapper:
+                        all_enums[enum_name] = {
+                            'name': enum_name,
+                            'class': enum_wrapper,
+                            'module': module.__name__,
+                            'file': pb2_file,
+                            'parent_message': parent_class_name,
+                            'parent_proto_class': name,  # Actual proto class name (with Proto suffix)
+                            'values': {}
+                        }
+                        
+                        # Extract enum values
+                        for value in enum_type.values:
+                            all_enums[enum_name]['values'][value.name] = value.number
                 
                 # Collect nested messages - pass parent proto full path
                 nested = collect_nested_messages(
@@ -212,6 +272,24 @@ def extract_inheritance_graph(base_dir: Path) -> Tuple[Dict[str, Any], Dict[str,
                 'is_repeated': field.is_repeated,
                 'number': field.number,
             }
+            
+            # Add enum type info if applicable
+            if field.enum_type:
+                enum_type_name = field.enum_type.name
+                enum_type_full = field.enum_type.full_name
+                
+                field_info['enum_type_name'] = enum_type_name
+                field_info['enum_type_full'] = enum_type_full
+                
+                # Check if this is a nested enum (contains '.' after package name)
+                # Format: zetasql.ResolvedJoinScanEnums.JoinType
+                if '.' in enum_type_full.split('zetasql.')[-1]:
+                    # Extract parent message name from full path
+                    # e.g., 'zetasql.ResolvedJoinScanEnums.JoinType' -> 'ResolvedJoinScanEnums'
+                    parts = enum_type_full.split('.')
+                    if len(parts) >= 2:
+                        parent_msg_name = parts[-2]  # Get parent message name
+                        field_info['enum_parent_message'] = parent_msg_name
             
             # Add message type info if applicable
             if field.message_type:
@@ -369,10 +447,36 @@ def map_proto_type_to_python(field_info: Dict[str, Any], graph: Dict[str, Any] =
         descriptor.FieldDescriptor.TYPE_DOUBLE: 'float',
         descriptor.FieldDescriptor.TYPE_FLOAT: 'float',
         descriptor.FieldDescriptor.TYPE_BYTES: 'bytes',
-        descriptor.FieldDescriptor.TYPE_ENUM: 'int',
+        # Note: TYPE_ENUM is handled separately below
     }
     
     field_type = field_info['type']
+    
+    # Handle enum types - convert to IntEnum class name
+    if field_type == descriptor.FieldDescriptor.TYPE_ENUM:
+        enum_type_name = field_info.get('enum_type_name')
+        enum_parent_msg = field_info.get('enum_parent_message')
+        
+        if enum_type_name:
+            # Check if this is a nested enum
+            if enum_parent_msg:
+                # Nested enum: Use 'ParentClass.EnumName' format
+                # Remove 'Proto' suffix from parent if present
+                parent_clean = enum_parent_msg.removesuffix('Proto')
+                base_type = f"'{parent_clean}.{enum_type_name}'"
+            else:
+                # Top-level enum: Use just 'EnumName'
+                base_type = f"'{enum_type_name}'"
+        else:
+            # Fallback to int if enum info is missing
+            base_type = 'int'
+        
+        # Handle repeated enum fields
+        if field_info.get('is_repeated', False):
+            return f"List[{base_type}]"
+        
+        # Singular enum fields are Optional
+        return f"Optional[{base_type}]"
     
     # Check if this is a map field first (proto map<K, V>)
     if field_info.get('is_map_field', False):
@@ -494,7 +598,7 @@ def get_field_default_value(field_info: Dict[str, Any]) -> str:
     return "None"
 
 
-def generate_enum_class(enum_name: str, enum_info: Dict[str, Any], module_aliases: Dict[str, str]) -> str:
+def generate_enum_class(enum_name: str, enum_info: Dict[str, Any], module_aliases: Dict[str, str], indent: int = 0) -> str:
     """Generate an IntEnum class for a protobuf enum"""
     try:
         from zetasql.types import proto_model_mixins
@@ -504,6 +608,7 @@ def generate_enum_class(enum_name: str, enum_info: Dict[str, Any], module_aliase
         proto_model_mixins = None
     
     lines = []
+    indent_str = '    ' * indent
     
     # Get module alias
     module_path = enum_info['module']
@@ -516,20 +621,29 @@ def generate_enum_class(enum_name: str, enum_info: Dict[str, Any], module_aliase
     bases.append('IntEnum')
 
     # Class definition
-    lines.append(f"class {enum_name}({', '.join(bases)}):")
-    lines.append(f'    """')
-    lines.append(f'    Auto-generated IntEnum for protobuf {enum_name}.')
-    lines.append(f'    ')
-    lines.append(f'    Values are directly compatible with protobuf integer constants.')
-    lines.append(f'    """')
+    lines.append(f"{indent_str}class {enum_name}({', '.join(bases)}):")
+    lines.append(f'{indent_str}    """')
+    lines.append(f'{indent_str}    Auto-generated IntEnum for protobuf {enum_name}.')
+    lines.append(f'{indent_str}    ')
+    lines.append(f'{indent_str}    Values are directly compatible with protobuf integer constants.')
+    lines.append(f'{indent_str}    """')
     lines.append('')
     
     # Sort values by number for consistent ordering
     sorted_values = sorted(enum_info['values'].items(), key=lambda x: x[1])
     
     # Generate enum members
-    for value_name, value_number in sorted_values:
-        lines.append(f"    {value_name} = {module_alias}.{value_name}  # {value_number}")
+    # For nested enums, we need to reference them via the parent class
+    parent_msg = enum_info.get('parent_message')
+    parent_proto_class = enum_info.get('parent_proto_class')
+    if parent_msg and parent_proto_class:
+        # Nested enum - reference via parent proto class
+        for value_name, value_number in sorted_values:
+            lines.append(f"{indent_str}    {value_name} = {module_alias}.{parent_proto_class}.{value_name}  # {value_number}")
+    else:
+        # Top-level enum - direct reference
+        for value_name, value_number in sorted_values:
+            lines.append(f"{indent_str}    {value_name} = {module_alias}.{value_name}  # {value_number}")
     
     return '\n'.join(lines)
 
@@ -595,11 +709,23 @@ def generate_field_metadata(info: Dict[str, Any], graph: Dict[str, Any]) -> str:
         from google.protobuf import descriptor
         is_message = field_info['type'] == descriptor.FieldDescriptor.TYPE_MESSAGE
         is_repeated = field_info.get('is_repeated', False)
+        is_enum = field_info['type'] == descriptor.FieldDescriptor.TYPE_ENUM
         
         lines.append(f"        '{field_name}': {{")
         lines.append(f"            'proto_field': '{proto_field}',")
         lines.append(f"            'is_message': {is_message},")
         lines.append(f"            'is_repeated': {is_repeated},")
+        
+        # Add enum type information if this is an enum field
+        if is_enum:
+            enum_type_name = field_info.get('enum_type_name')
+            enum_parent_msg = field_info.get('enum_parent_message')
+            lines.append(f"            'is_enum': True,")
+            if enum_type_name:
+                lines.append(f"            'enum_type_name': '{enum_type_name}',")
+            if enum_parent_msg:
+                lines.append(f"            'enum_parent_message': '{enum_parent_msg}',")
+        
         lines.append(f"        }},")
     
     lines.append("    }")
@@ -693,8 +819,8 @@ def generate_property(field_info: Dict[str, Any], parent_chain: List[str], graph
         return {return_stmt}
 '''
 
-def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], module_aliases: Dict[str, str] = None, indent: int = 0) -> str:
-    """Generate a dataclass-based wrapper class with support for nested classes"""
+def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], module_aliases: Dict[str, str] = None, indent: int = 0, nested_enums: Dict[str, list] = None) -> str:
+    """Generate a dataclass-based wrapper class with support for nested classes and enums"""
     try:
         from zetasql.types import proto_model_mixins
         has_mixins = True
@@ -732,6 +858,18 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], modul
     # Generate docstring
     docstring = f'{indent_str}    """Generated model for {proto_name}"""'
     
+    # Combine parts with nested enums added first (before fields)
+    parts = [class_decl, docstring]
+    
+    # Add nested enums for this class (if any)
+    if nested_enums and class_name in nested_enums:
+        parts.append("")
+        parts.append(f"{indent_str}    # Nested Enums")
+        for enum_name, enum_info in nested_enums[class_name]:
+            enum_code = generate_enum_class(enum_name, enum_info, module_aliases, indent=indent + 1)
+            parts.append(enum_code)
+            parts.append("")
+    
     # Generate dataclass fields (own fields only)
     fields_code = generate_dataclass_fields(info, graph)
     # Apply indentation to fields
@@ -761,7 +899,7 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], modul
         
         # Since proto_name is just the immediate class name (e.g., "TableContentEntry")
         # and we know the parent, we can reconstruct the Python path
-        parts = proto_full_path.split('.')
+        path_components = proto_full_path.split('.')
         
         # Find where the actual message hierarchy starts (after package name)
         # Typically after "zetasql.xxx" we have the proto file name, then message names
@@ -805,9 +943,6 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], modul
     if metadata_code:
         metadata_lines = metadata_code.split('\n')
         metadata_code = '\n'.join(indent_str + line if line.strip() else line for line in metadata_lines)
-    
-    # Combine all parts
-    parts = [class_decl, docstring]
     
     # Add fields
     indented_pass = f"{indent_str}    pass"
@@ -962,8 +1097,8 @@ def generate_model_file(graph: Dict[str, Any], enums: Dict[str, Any], output_pat
         info = graph[name]
         lines = []
         
-        # Generate the class itself
-        class_code = generate_class(name, info, graph, module_aliases, indent)
+        # Generate the class itself (passing nested_enums)
+        class_code = generate_class(name, info, graph, module_aliases, indent, nested_enums)
         lines.append(class_code)
         
         # Generate nested children
@@ -976,21 +1111,41 @@ def generate_model_file(graph: Dict[str, Any], enums: Dict[str, Any], output_pat
         return '\n'.join(lines)
     
     # Generate enum types first (before classes, so they can be referenced)
+    # But only generate top-level enums here; nested enums will be generated within their parent classes
     enum_names = []
+    top_level_enums = {}
+    nested_enums = {}
+    
     if enums:
-        lines.append('# ============================================================================')
-        lines.append('# Enum Types')
-        lines.append('# ============================================================================')
-        lines.append('')
+        # Separate top-level and nested enums
+        for enum_name, enum_info in enums.items():
+            if enum_info.get('parent_message'):
+                # This is a nested enum - will be generated inside parent class
+                parent_msg = enum_info['parent_message']
+                if parent_msg not in nested_enums:
+                    nested_enums[parent_msg] = []
+                nested_enums[parent_msg].append((enum_name, enum_info))
+            else:
+                # This is a top-level enum
+                top_level_enums[enum_name] = enum_info
         
-        for enum_name in sorted(enums.keys()):
-            enum_info = enums[enum_name]
-            enum_code = generate_enum_class(enum_name, enum_info, module_aliases)
-            lines.append(enum_code)
-            lines.append('\n')
-            enum_names.append(enum_name)
+        if top_level_enums:
+            lines.append('# ============================================================================')
+            lines.append('# Top-Level Enum Types')
+            lines.append('# ============================================================================')
+            lines.append('')
+            
+            for enum_name in sorted(top_level_enums.keys()):
+                enum_info = top_level_enums[enum_name]
+                enum_code = generate_enum_class(enum_name, enum_info, module_aliases)
+                lines.append(enum_code)
+                lines.append('\n')
+                enum_names.append(enum_name)
+            
+            print(f"Generated {len(enum_names)} top-level enum types")
         
-        print(f"Generated {len(enum_names)} enum types")
+        if nested_enums:
+            print(f"Found {sum(len(v) for v in nested_enums.values())} nested enum types (will be generated inside parent classes)")
         
         lines.append('')
         lines.append('# ============================================================================')

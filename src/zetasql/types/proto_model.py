@@ -7,8 +7,65 @@ Base classes and utilities for working with ZetaSQL proto models.
 from google.protobuf import message as _message
 from typing import TypeVar, cast, ClassVar, Dict, Any, TYPE_CHECKING
 from dataclasses import fields as dataclass_fields, MISSING
+from enum import IntEnum
 
 T = TypeVar("T", bound="ProtoModel")
+
+
+def _convert_to_enum(value: int, field_meta: Dict[str, Any], model_cls: type) -> Any:
+    """
+    Convert an integer enum value to its IntEnum representation.
+    
+    Args:
+        value: The integer value from proto
+        field_meta: Field metadata containing enum type information
+        model_cls: The model class that contains this field
+        
+    Returns:
+        IntEnum instance if conversion is possible, otherwise the original int value
+    """
+    if value == 0:
+        # Proto default value - might not be set, so just return as-is
+        # IntEnum will handle it if needed
+        pass
+    
+    enum_type_name = field_meta.get('enum_type_name')
+    enum_parent_msg = field_meta.get('enum_parent_message')
+    
+    if not enum_type_name:
+        return value
+    
+    # Try to find the enum class
+    enum_cls = None
+    
+    # First check if it's a nested enum in the model class
+    if enum_parent_msg:
+        # Look for ParentClass.EnumType
+        # Need to search in the module where model_cls is defined
+        import sys
+        module = sys.modules.get(model_cls.__module__)
+        if module:
+            parent_cls = getattr(module, enum_parent_msg, None)
+            if parent_cls:
+                enum_cls = getattr(parent_cls, enum_type_name, None)
+    
+    # If not found as nested, try as top-level in the same module
+    if not enum_cls:
+        import sys
+        module = sys.modules.get(model_cls.__module__)
+        if module:
+            enum_cls = getattr(module, enum_type_name, None)
+    
+    # Convert to IntEnum if class was found
+    if enum_cls and isinstance(enum_cls, type) and issubclass(enum_cls, IntEnum):
+        try:
+            return enum_cls(value)
+        except ValueError:
+            # Value not in enum, return as int
+            return value
+    
+    return value
+
 
 class ProtoModel:
     """Base class for all ZetaSQL wrapper classes (dataclass-based concrete models)"""
@@ -83,6 +140,19 @@ class ProtoModel:
                     else:
                         # Check if message has content
                         kwargs[field_name] = parse_proto(value_obj) if value_obj.ByteSize() > 0 else None
+                elif field_meta.get('is_enum', False):
+                    # Enum type - convert int to IntEnum if possible
+                    if field_meta.get('is_repeated', False):
+                        # Repeated enum field
+                        enum_values = []
+                        for enum_val in value_obj:
+                            converted = _convert_to_enum(enum_val, field_meta, cls)
+                            if converted is not None:
+                                enum_values.append(converted)
+                        kwargs[field_name] = enum_values
+                    else:
+                        # Singular enum field
+                        kwargs[field_name] = _convert_to_enum(value_obj, field_meta, cls)
                 else:
                     # Primitive type
                     kwargs[field_name] = value_obj

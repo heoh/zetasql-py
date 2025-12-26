@@ -111,7 +111,7 @@ from zetasql.types.proto_model import ProtoModel, parse_proto
 from zetasql.types import proto_model_mixins
 
 # ============================================================================
-# Enum Types
+# Top-Level Enum Types
 # ============================================================================
 
 class DateTimestampPart(IntEnum):
@@ -1895,18 +1895,6 @@ class NormalizeMode(IntEnum):
     NFKD = functions_normalize_mode_pb2.NFKD  # 3
 
 
-class ParameterMode(IntEnum):
-    """
-    Auto-generated IntEnum for protobuf ParameterMode.
-    
-    Values are directly compatible with protobuf integer constants.
-    """
-
-    PARAMETER_NAMED = public_options_pb2.PARAMETER_NAMED  # 0
-    PARAMETER_POSITIONAL = public_options_pb2.PARAMETER_POSITIONAL  # 1
-    PARAMETER_NONE = public_options_pb2.PARAMETER_NONE  # 2
-
-
 class ParseLocationRecordType(IntEnum):
     """
     Auto-generated IntEnum for protobuf ParseLocationRecordType.
@@ -2429,6 +2417,19 @@ class TypeKind(proto_model_mixins.TypeKindMixin, IntEnum):
 class ASTAfterMatchSkipClauseEnums(ProtoModel):
     """Generated model for ASTAfterMatchSkipClauseEnums"""
 
+    # Nested Enums
+    class AfterMatchSkipTargetType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf AfterMatchSkipTargetType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        AFTER_MATCH_SKIP_TARGET_UNSPECIFIED = parser_ast_enums_pb2.ASTAfterMatchSkipClauseEnums.AFTER_MATCH_SKIP_TARGET_UNSPECIFIED  # 0
+        PAST_LAST_ROW = parser_ast_enums_pb2.ASTAfterMatchSkipClauseEnums.PAST_LAST_ROW  # 1
+        TO_NEXT_ROW = parser_ast_enums_pb2.ASTAfterMatchSkipClauseEnums.TO_NEXT_ROW  # 2
+
+
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTAfterMatchSkipClauseEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -2477,6 +2478,20 @@ class ASTBracedConstructorLhsEnums(ProtoModel):
 class ASTBreakContinueStatementEnums(ProtoModel):
     """Generated model for ASTBreakContinueStatementEnums"""
 
+    # Nested Enums
+    class BreakContinueKeyword(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf BreakContinueKeyword.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        BREAK = parser_ast_enums_pb2.ASTBreakContinueStatementEnums.BREAK  # 1
+        LEAVE = parser_ast_enums_pb2.ASTBreakContinueStatementEnums.LEAVE  # 2
+        CONTINUE = parser_ast_enums_pb2.ASTBreakContinueStatementEnums.CONTINUE  # 3
+        ITERATE = parser_ast_enums_pb2.ASTBreakContinueStatementEnums.ITERATE  # 4
+
+
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTBreakContinueStatementEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -2484,6 +2499,18 @@ class ASTBreakContinueStatementEnums(ProtoModel):
 @dataclass
 class ASTColumnPositionEnums(ProtoModel):
     """Generated model for ASTColumnPositionEnums"""
+
+    # Nested Enums
+    class RelativePositionType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf RelativePositionType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        PRECEDING = parser_ast_enums_pb2.ASTColumnPositionEnums.PRECEDING  # 1
+        FOLLOWING = parser_ast_enums_pb2.ASTColumnPositionEnums.FOLLOWING  # 2
+
 
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTColumnPositionEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -2501,6 +2528,20 @@ class ASTCreateFunctionStmtBaseEnums(ProtoModel):
 class ASTCreateStatementEnums(ProtoModel):
     """Generated model for ASTCreateStatementEnums"""
 
+    # Nested Enums
+    class Scope(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf Scope.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        DEFAULT_SCOPE = parser_ast_enums_pb2.ASTCreateStatementEnums.DEFAULT_SCOPE  # 0
+        PRIVATE = parser_ast_enums_pb2.ASTCreateStatementEnums.PRIVATE  # 1
+        PUBLIC = parser_ast_enums_pb2.ASTCreateStatementEnums.PUBLIC  # 2
+        TEMPORARY = parser_ast_enums_pb2.ASTCreateStatementEnums.TEMPORARY  # 3
+
+
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTCreateStatementEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -2517,6 +2558,20 @@ class ASTDropStatementEnums(ProtoModel):
 class ASTExpressionSubqueryEnums(ProtoModel):
     """Generated model for ASTExpressionSubqueryEnums"""
 
+    # Nested Enums
+    class Modifier(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf Modifier.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NONE = parser_ast_enums_pb2.ASTExpressionSubqueryEnums.NONE  # 0
+        ARRAY = parser_ast_enums_pb2.ASTExpressionSubqueryEnums.ARRAY  # 1
+        EXISTS = parser_ast_enums_pb2.ASTExpressionSubqueryEnums.EXISTS  # 2
+        VALUE = parser_ast_enums_pb2.ASTExpressionSubqueryEnums.VALUE  # 3
+
+
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTExpressionSubqueryEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -2524,6 +2579,19 @@ class ASTExpressionSubqueryEnums(ProtoModel):
 @dataclass
 class ASTFilterFieldsArgEnums(ProtoModel):
     """Generated model for ASTFilterFieldsArgEnums"""
+
+    # Nested Enums
+    class FilterType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf FilterType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NOT_SET = parser_ast_enums_pb2.ASTFilterFieldsArgEnums.NOT_SET  # 0
+        INCLUDE = parser_ast_enums_pb2.ASTFilterFieldsArgEnums.INCLUDE  # 1
+        EXCLUDE = parser_ast_enums_pb2.ASTFilterFieldsArgEnums.EXCLUDE  # 2
+
 
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTFilterFieldsArgEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -2533,6 +2601,20 @@ class ASTFilterFieldsArgEnums(ProtoModel):
 class ASTForeignKeyActionsEnums(ProtoModel):
     """Generated model for ASTForeignKeyActionsEnums"""
 
+    # Nested Enums
+    class Action(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf Action.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NO_ACTION = parser_ast_enums_pb2.ASTForeignKeyActionsEnums.NO_ACTION  # 0
+        RESTRICT = parser_ast_enums_pb2.ASTForeignKeyActionsEnums.RESTRICT  # 1
+        CASCADE = parser_ast_enums_pb2.ASTForeignKeyActionsEnums.CASCADE  # 2
+        SET_NULL = parser_ast_enums_pb2.ASTForeignKeyActionsEnums.SET_NULL  # 3
+
+
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTForeignKeyActionsEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -2540,6 +2622,19 @@ class ASTForeignKeyActionsEnums(ProtoModel):
 @dataclass
 class ASTForeignKeyReferenceEnums(ProtoModel):
     """Generated model for ASTForeignKeyReferenceEnums"""
+
+    # Nested Enums
+    class Match(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf Match.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        SIMPLE = parser_ast_enums_pb2.ASTForeignKeyReferenceEnums.SIMPLE  # 1
+        FULL = parser_ast_enums_pb2.ASTForeignKeyReferenceEnums.FULL  # 2
+        NOT_DISTINCT = parser_ast_enums_pb2.ASTForeignKeyReferenceEnums.NOT_DISTINCT  # 3
+
 
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTForeignKeyReferenceEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -2556,6 +2651,20 @@ class ASTFunctionCallEnums(ProtoModel):
 @dataclass
 class ASTFunctionParameterEnums(ProtoModel):
     """Generated model for ASTFunctionParameterEnums"""
+
+    # Nested Enums
+    class ProcedureParameterMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ProcedureParameterMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NOT_SET = parser_ast_enums_pb2.ASTFunctionParameterEnums.NOT_SET  # 0
+        IN = parser_ast_enums_pb2.ASTFunctionParameterEnums.IN  # 1
+        OUT = parser_ast_enums_pb2.ASTFunctionParameterEnums.OUT  # 2
+        INOUT = parser_ast_enums_pb2.ASTFunctionParameterEnums.INOUT  # 3
+
 
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTFunctionParameterEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -2589,6 +2698,19 @@ class ASTGraphLabelOperationEnums(ProtoModel):
 class ASTGraphNodeTableReferenceEnums(ProtoModel):
     """Generated model for ASTGraphNodeTableReferenceEnums"""
 
+    # Nested Enums
+    class NodeReferenceType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf NodeReferenceType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NODE_REFERENCE_TYPE_UNSPECIFIED = parser_ast_enums_pb2.ASTGraphNodeTableReferenceEnums.NODE_REFERENCE_TYPE_UNSPECIFIED  # 0
+        SOURCE = parser_ast_enums_pb2.ASTGraphNodeTableReferenceEnums.SOURCE  # 1
+        DESTINATION = parser_ast_enums_pb2.ASTGraphNodeTableReferenceEnums.DESTINATION  # 2
+
+
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTGraphNodeTableReferenceEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -2613,6 +2735,19 @@ class ASTGraphPathSearchPrefixEnums(ProtoModel):
 class ASTHavingModifierEnums(ProtoModel):
     """Generated model for ASTHavingModifierEnums"""
 
+    # Nested Enums
+    class ModifierKind(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ModifierKind.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NOT_SET = parser_ast_enums_pb2.ASTHavingModifierEnums.NOT_SET  # 0
+        MIN = parser_ast_enums_pb2.ASTHavingModifierEnums.MIN  # 1
+        MAX = parser_ast_enums_pb2.ASTHavingModifierEnums.MAX  # 2
+
+
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTHavingModifierEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -2629,6 +2764,21 @@ class ASTImportStatementEnums(ProtoModel):
 class ASTInsertStatementEnums(ProtoModel):
     """Generated model for ASTInsertStatementEnums"""
 
+    # Nested Enums
+    class ParseProgress(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ParseProgress.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        kInitial = parser_ast_enums_pb2.ASTInsertStatementEnums.kInitial  # 1
+        kSeenOrIgnoreReplaceUpdate = parser_ast_enums_pb2.ASTInsertStatementEnums.kSeenOrIgnoreReplaceUpdate  # 2
+        kSeenTargetPath = parser_ast_enums_pb2.ASTInsertStatementEnums.kSeenTargetPath  # 3
+        kSeenColumnList = parser_ast_enums_pb2.ASTInsertStatementEnums.kSeenColumnList  # 4
+        kSeenValuesList = parser_ast_enums_pb2.ASTInsertStatementEnums.kSeenValuesList  # 5
+
+
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTInsertStatementEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -2637,6 +2787,19 @@ class ASTInsertStatementEnums(ProtoModel):
 class ASTJoinEnums(ProtoModel):
     """Generated model for ASTJoinEnums"""
 
+    # Nested Enums
+    class JoinHint(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf JoinHint.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NO_JOIN_HINT = parser_ast_enums_pb2.ASTJoinEnums.NO_JOIN_HINT  # 0
+        HASH = parser_ast_enums_pb2.ASTJoinEnums.HASH  # 1
+        LOOKUP = parser_ast_enums_pb2.ASTJoinEnums.LOOKUP  # 2
+
+
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTJoinEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -2644,6 +2807,18 @@ class ASTJoinEnums(ProtoModel):
 @dataclass
 class ASTLockModeEnums(ProtoModel):
     """Generated model for ASTLockModeEnums"""
+
+    # Nested Enums
+    class LockStrengthSpec(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf LockStrengthSpec.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NOT_SET = parser_ast_enums_pb2.ASTLockModeEnums.NOT_SET  # 0
+        UPDATE = parser_ast_enums_pb2.ASTLockModeEnums.UPDATE  # 1
+
 
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTLockModeEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -2701,6 +2876,20 @@ class ASTOptionsEntryEnums(ProtoModel):
 class ASTOrderingExpressionEnums(ProtoModel):
     """Generated model for ASTOrderingExpressionEnums"""
 
+    # Nested Enums
+    class OrderingSpec(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf OrderingSpec.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NOT_SET = parser_ast_enums_pb2.ASTOrderingExpressionEnums.NOT_SET  # 0
+        ASC = parser_ast_enums_pb2.ASTOrderingExpressionEnums.ASC  # 1
+        DESC = parser_ast_enums_pb2.ASTOrderingExpressionEnums.DESC  # 2
+        UNSPECIFIED = parser_ast_enums_pb2.ASTOrderingExpressionEnums.UNSPECIFIED  # 3
+
+
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTOrderingExpressionEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -2708,6 +2897,19 @@ class ASTOrderingExpressionEnums(ProtoModel):
 @dataclass
 class ASTRowPatternAnchorEnums(ProtoModel):
     """Generated model for ASTRowPatternAnchorEnums"""
+
+    # Nested Enums
+    class Anchor(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf Anchor.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        ANCHOR_UNSPECIFIED = parser_ast_enums_pb2.ASTRowPatternAnchorEnums.ANCHOR_UNSPECIFIED  # 0
+        START = parser_ast_enums_pb2.ASTRowPatternAnchorEnums.START  # 1
+        END = parser_ast_enums_pb2.ASTRowPatternAnchorEnums.END  # 2
+
 
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTRowPatternAnchorEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -2725,6 +2927,19 @@ class ASTRowPatternOperationEnums(ProtoModel):
 class ASTSampleSizeEnums(ProtoModel):
     """Generated model for ASTSampleSizeEnums"""
 
+    # Nested Enums
+    class Unit(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf Unit.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NOT_SET = parser_ast_enums_pb2.ASTSampleSizeEnums.NOT_SET  # 0
+        ROWS = parser_ast_enums_pb2.ASTSampleSizeEnums.ROWS  # 1
+        PERCENT = parser_ast_enums_pb2.ASTSampleSizeEnums.PERCENT  # 2
+
+
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTSampleSizeEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -2732,6 +2947,20 @@ class ASTSampleSizeEnums(ProtoModel):
 @dataclass
 class ASTSelectAsEnums(ProtoModel):
     """Generated model for ASTSelectAsEnums"""
+
+    # Nested Enums
+    class AsMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf AsMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NOT_SET = parser_ast_enums_pb2.ASTSelectAsEnums.NOT_SET  # 0
+        STRUCT = parser_ast_enums_pb2.ASTSelectAsEnums.STRUCT  # 1
+        VALUE = parser_ast_enums_pb2.ASTSelectAsEnums.VALUE  # 2
+        TYPE_NAME = parser_ast_enums_pb2.ASTSelectAsEnums.TYPE_NAME  # 3
+
 
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTSelectAsEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -2741,6 +2970,56 @@ class ASTSelectAsEnums(ProtoModel):
 class ASTSetOperationEnums(ProtoModel):
     """Generated model for ASTSetOperationEnums"""
 
+    # Nested Enums
+    class OperationType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf OperationType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NOT_SET = parser_ast_enums_pb2.ASTSetOperationEnums.NOT_SET  # 0
+        UNION = parser_ast_enums_pb2.ASTSetOperationEnums.UNION  # 1
+        EXCEPT = parser_ast_enums_pb2.ASTSetOperationEnums.EXCEPT  # 2
+        INTERSECT = parser_ast_enums_pb2.ASTSetOperationEnums.INTERSECT  # 4
+
+    class AllOrDistinct(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf AllOrDistinct.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        ALL_OR_DISTINCT_NOT_SET = parser_ast_enums_pb2.ASTSetOperationEnums.ALL_OR_DISTINCT_NOT_SET  # 0
+        ALL = parser_ast_enums_pb2.ASTSetOperationEnums.ALL  # 1
+        DISTINCT = parser_ast_enums_pb2.ASTSetOperationEnums.DISTINCT  # 2
+
+    class ColumnMatchMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ColumnMatchMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        BY_POSITION = parser_ast_enums_pb2.ASTSetOperationEnums.BY_POSITION  # 1
+        CORRESPONDING = parser_ast_enums_pb2.ASTSetOperationEnums.CORRESPONDING  # 2
+        CORRESPONDING_BY = parser_ast_enums_pb2.ASTSetOperationEnums.CORRESPONDING_BY  # 3
+        BY_NAME = parser_ast_enums_pb2.ASTSetOperationEnums.BY_NAME  # 4
+        BY_NAME_ON = parser_ast_enums_pb2.ASTSetOperationEnums.BY_NAME_ON  # 5
+
+    class ColumnPropagationMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ColumnPropagationMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        STRICT = parser_ast_enums_pb2.ASTSetOperationEnums.STRICT  # 1
+        INNER = parser_ast_enums_pb2.ASTSetOperationEnums.INNER  # 2
+        LEFT = parser_ast_enums_pb2.ASTSetOperationEnums.LEFT  # 3
+        FULL = parser_ast_enums_pb2.ASTSetOperationEnums.FULL  # 4
+
+
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTSetOperationEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -2748,6 +3027,19 @@ class ASTSetOperationEnums(ProtoModel):
 @dataclass
 class ASTSpannerInterleaveClauseEnums(ProtoModel):
     """Generated model for ASTSpannerInterleaveClauseEnums"""
+
+    # Nested Enums
+    class Type(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf Type.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NOT_SET = parser_ast_enums_pb2.ASTSpannerInterleaveClauseEnums.NOT_SET  # 0
+        IN = parser_ast_enums_pb2.ASTSpannerInterleaveClauseEnums.IN  # 1
+        IN_PARENT = parser_ast_enums_pb2.ASTSpannerInterleaveClauseEnums.IN_PARENT  # 2
+
 
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTSpannerInterleaveClauseEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -2757,6 +3049,20 @@ class ASTSpannerInterleaveClauseEnums(ProtoModel):
 class ASTSymbolQuantifierEnums(ProtoModel):
     """Generated model for ASTSymbolQuantifierEnums"""
 
+    # Nested Enums
+    class Symbol(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf Symbol.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        SYMBOL_UNSPECIFIED = parser_ast_enums_pb2.ASTSymbolQuantifierEnums.SYMBOL_UNSPECIFIED  # 0
+        QUESTION_MARK = parser_ast_enums_pb2.ASTSymbolQuantifierEnums.QUESTION_MARK  # 1
+        PLUS = parser_ast_enums_pb2.ASTSymbolQuantifierEnums.PLUS  # 2
+        STAR = parser_ast_enums_pb2.ASTSymbolQuantifierEnums.STAR  # 3
+
+
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTSymbolQuantifierEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -2764,6 +3070,23 @@ class ASTSymbolQuantifierEnums(ProtoModel):
 @dataclass
 class ASTTemplatedParameterTypeEnums(ProtoModel):
     """Generated model for ASTTemplatedParameterTypeEnums"""
+
+    # Nested Enums
+    class TemplatedTypeKind(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf TemplatedTypeKind.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        UNINITIALIZED = parser_ast_enums_pb2.ASTTemplatedParameterTypeEnums.UNINITIALIZED  # 1
+        ANY_TYPE = parser_ast_enums_pb2.ASTTemplatedParameterTypeEnums.ANY_TYPE  # 2
+        ANY_PROTO = parser_ast_enums_pb2.ASTTemplatedParameterTypeEnums.ANY_PROTO  # 3
+        ANY_ENUM = parser_ast_enums_pb2.ASTTemplatedParameterTypeEnums.ANY_ENUM  # 4
+        ANY_STRUCT = parser_ast_enums_pb2.ASTTemplatedParameterTypeEnums.ANY_STRUCT  # 5
+        ANY_ARRAY = parser_ast_enums_pb2.ASTTemplatedParameterTypeEnums.ANY_ARRAY  # 6
+        ANY_TABLE = parser_ast_enums_pb2.ASTTemplatedParameterTypeEnums.ANY_TABLE  # 7
+
 
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTTemplatedParameterTypeEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -2781,6 +3104,23 @@ class ASTTransactionReadWriteModeEnums(ProtoModel):
 class ASTUnaryExpressionEnums(ProtoModel):
     """Generated model for ASTUnaryExpressionEnums"""
 
+    # Nested Enums
+    class Op(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf Op.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NOT_SET = parser_ast_enums_pb2.ASTUnaryExpressionEnums.NOT_SET  # 0
+        NOT = parser_ast_enums_pb2.ASTUnaryExpressionEnums.NOT  # 1
+        BITWISE_NOT = parser_ast_enums_pb2.ASTUnaryExpressionEnums.BITWISE_NOT  # 2
+        MINUS = parser_ast_enums_pb2.ASTUnaryExpressionEnums.MINUS  # 3
+        PLUS = parser_ast_enums_pb2.ASTUnaryExpressionEnums.PLUS  # 4
+        IS_UNKNOWN = parser_ast_enums_pb2.ASTUnaryExpressionEnums.IS_UNKNOWN  # 5
+        IS_NOT_UNKNOWN = parser_ast_enums_pb2.ASTUnaryExpressionEnums.IS_NOT_UNKNOWN  # 6
+
+
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTUnaryExpressionEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -2788,6 +3128,19 @@ class ASTUnaryExpressionEnums(ProtoModel):
 @dataclass
 class ASTUnpivotClauseEnums(ProtoModel):
     """Generated model for ASTUnpivotClauseEnums"""
+
+    # Nested Enums
+    class NullFilter(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf NullFilter.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        kUnspecified = parser_ast_enums_pb2.ASTUnpivotClauseEnums.kUnspecified  # 1
+        kInclude = parser_ast_enums_pb2.ASTUnpivotClauseEnums.kInclude  # 2
+        kExclude = parser_ast_enums_pb2.ASTUnpivotClauseEnums.kExclude  # 3
+
 
     _PROTO_CLASS: ClassVar[type] = parser_ast_enums_pb2.ASTUnpivotClauseEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -2897,9 +3250,21 @@ class AllowedHintsAndOptions(ProtoModel):
     class Option(ProtoModel):
         """Generated model for OptionProto"""
 
+        # Nested Enums
+        class ResolvingKind(IntEnum):
+            """
+            Auto-generated IntEnum for protobuf ResolvingKind.
+            
+            Values are directly compatible with protobuf integer constants.
+            """
+
+            CONSTANT_OR_EMPTY_NAME_SCOPE_IDENTIFIER = proto_options_pb2.AllowedHintsAndOptionsProto.OptionProto.CONSTANT_OR_EMPTY_NAME_SCOPE_IDENTIFIER  # 0
+            FROM_NAME_SCOPE_IDENTIFIER = proto_options_pb2.AllowedHintsAndOptionsProto.OptionProto.FROM_NAME_SCOPE_IDENTIFIER  # 1
+
+
         name: Optional[str] = None
         type: Optional['Type'] = None
-        resolving_kind: Optional[int] = None
+        resolving_kind: Optional['Option.ResolvingKind'] = None
         allow_alter_array: Optional[bool] = None
 
         _PROTO_CLASS: ClassVar[type] = proto_options_pb2.AllowedHintsAndOptionsProto.OptionProto
@@ -2918,6 +3283,9 @@ class AllowedHintsAndOptions(ProtoModel):
                 'proto_field': 'resolving_kind',
                 'is_message': False,
                 'is_repeated': False,
+                'is_enum': True,
+                'enum_type_name': 'ResolvingKind',
+                'enum_parent_message': 'OptionProto',
             },
             'allow_alter_array': {
                 'proto_field': 'allow_alter_array',
@@ -3011,6 +3379,22 @@ class AnalyzeResponse(ProtoModel):
 class AnalyzerLogEntry(ProtoModel):
     """Generated model for AnalyzerLogEntry"""
 
+    # Nested Enums
+    class LoggedOperationCategory(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf LoggedOperationCategory.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        UNKNOWN_LOGGED_OPERATION_CATEGORY = proto_logging_pb2.AnalyzerLogEntry.UNKNOWN_LOGGED_OPERATION_CATEGORY  # 0
+        PARSER = proto_logging_pb2.AnalyzerLogEntry.PARSER  # 1
+        RESOLVER = proto_logging_pb2.AnalyzerLogEntry.RESOLVER  # 2
+        REWRITER = proto_logging_pb2.AnalyzerLogEntry.REWRITER  # 3
+        CATALOG_RESOLVER = proto_logging_pb2.AnalyzerLogEntry.CATALOG_RESOLVER  # 4
+        VALIDATOR = proto_logging_pb2.AnalyzerLogEntry.VALIDATOR  # 5
+
+
     num_lexical_tokens: Optional[int] = None
     overall_execution_stats: Optional['ExecutionStats'] = None
     execution_stats_by_op: List['AnalyzerLogEntry.ExecutionStatsByOpEntry'] = field(default_factory=list)
@@ -3038,7 +3422,7 @@ class AnalyzerLogEntry(ProtoModel):
     class ExecutionStatsByOpEntry(ProtoModel):
         """Generated model for ExecutionStatsByOpEntry"""
 
-        key: Optional[int] = None
+        key: Optional['AnalyzerLogEntry.LoggedOperationCategory'] = None
         value: Optional['ExecutionStats'] = None
 
         _PROTO_CLASS: ClassVar[type] = proto_logging_pb2.AnalyzerLogEntry.ExecutionStatsByOpEntry
@@ -3047,6 +3431,9 @@ class AnalyzerLogEntry(ProtoModel):
                 'proto_field': 'key',
                 'is_message': False,
                 'is_repeated': False,
+                'is_enum': True,
+                'enum_type_name': 'LoggedOperationCategory',
+                'enum_parent_message': 'AnalyzerLogEntry',
             },
             'value': {
                 'proto_field': 'value',
@@ -3057,7 +3444,7 @@ class AnalyzerLogEntry(ProtoModel):
 
 
 @dataclass
-class AnalyzerOptions(ProtoModel):
+class AnalyzerOptions(proto_model_mixins.AnalyzerOptionsMixin, ProtoModel):
     """Generated model for AnalyzerOptionsProto"""
 
     language_options: Optional['LanguageOptions'] = None
@@ -3066,19 +3453,19 @@ class AnalyzerOptions(ProtoModel):
     expression_columns: List['AnalyzerOptions.QueryParameter'] = field(default_factory=list)
     in_scope_expression_column: Optional['AnalyzerOptions.QueryParameter'] = None
     ddl_pseudo_columns: List['AnalyzerOptions.QueryParameter'] = field(default_factory=list)
-    error_message_mode: Optional[int] = None
+    error_message_mode: Optional['ErrorMessageMode'] = None
     default_timezone: Optional[str] = None
     create_new_column_for_each_projected_output: Optional[bool] = None
     prune_unused_columns: Optional[bool] = None
     allow_undeclared_parameters: Optional[bool] = None
-    parameter_mode: Optional[int] = None
+    parameter_mode: Optional['ParameterMode'] = None
     allowed_hints_and_options: Optional['AllowedHintsAndOptions'] = None
-    statement_context: Optional[int] = None
+    statement_context: Optional['StatementContext'] = None
     preserve_column_aliases: Optional[bool] = None
     system_variables: List['AnalyzerOptions.SystemVariable'] = field(default_factory=list)
     target_column_types: List['Type'] = field(default_factory=list)
-    enabled_rewrites: List[int] = field(default_factory=list)
-    parse_location_record_type: Optional[int] = None
+    enabled_rewrites: List['ResolvedASTRewrite'] = field(default_factory=list)
+    parse_location_record_type: Optional['ParseLocationRecordType'] = None
     preserve_unnecessary_cast: Optional[bool] = None
     default_anon_function_report_format: Optional[str] = None
     default_anon_kappa_value: Optional[int] = None
@@ -3122,6 +3509,8 @@ class AnalyzerOptions(ProtoModel):
             'proto_field': 'error_message_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ErrorMessageMode',
         },
         'default_timezone': {
             'proto_field': 'default_timezone',
@@ -3147,6 +3536,8 @@ class AnalyzerOptions(ProtoModel):
             'proto_field': 'parameter_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ParameterMode',
         },
         'allowed_hints_and_options': {
             'proto_field': 'allowed_hints_and_options',
@@ -3157,6 +3548,8 @@ class AnalyzerOptions(ProtoModel):
             'proto_field': 'statement_context',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'StatementContext',
         },
         'preserve_column_aliases': {
             'proto_field': 'preserve_column_aliases',
@@ -3177,11 +3570,15 @@ class AnalyzerOptions(ProtoModel):
             'proto_field': 'enabled_rewrites',
             'is_message': False,
             'is_repeated': True,
+            'is_enum': True,
+            'enum_type_name': 'ResolvedASTRewrite',
         },
         'parse_location_record_type': {
             'proto_field': 'parse_location_record_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ParseLocationRecordType',
         },
         'preserve_unnecessary_cast': {
             'proto_field': 'preserve_unnecessary_cast',
@@ -9090,6 +9487,19 @@ class ArgumentTypeLambda(ProtoModel):
 class ArrayFindEnums(ProtoModel):
     """Generated model for ArrayFindEnums"""
 
+    # Nested Enums
+    class ArrayFindMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ArrayFindMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        ARRAY_FIND_MODE_INVALID = functions_array_find_mode_pb2.ArrayFindEnums.ARRAY_FIND_MODE_INVALID  # 0
+        FIRST = functions_array_find_mode_pb2.ArrayFindEnums.FIRST  # 1
+        LAST = functions_array_find_mode_pb2.ArrayFindEnums.LAST  # 2
+
+
     _PROTO_CLASS: ClassVar[type] = functions_array_find_mode_pb2.ArrayFindEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -9114,6 +9524,20 @@ class ArrayType(ProtoModel):
 class ArrayZipEnums(ProtoModel):
     """Generated model for ArrayZipEnums"""
 
+    # Nested Enums
+    class ArrayZipMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ArrayZipMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        ARRAY_ZIP_MODE_INVALID = functions_array_zip_mode_pb2.ArrayZipEnums.ARRAY_ZIP_MODE_INVALID  # 0
+        PAD = functions_array_zip_mode_pb2.ArrayZipEnums.PAD  # 1
+        TRUNCATE = functions_array_zip_mode_pb2.ArrayZipEnums.TRUNCATE  # 2
+        STRICT = functions_array_zip_mode_pb2.ArrayZipEnums.STRICT  # 3
+
+
     _PROTO_CLASS: ClassVar[type] = functions_array_zip_mode_pb2.ArrayZipEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -9121,6 +9545,19 @@ class ArrayZipEnums(ProtoModel):
 @dataclass
 class BitwiseAggEnums(ProtoModel):
     """Generated model for BitwiseAggEnums"""
+
+    # Nested Enums
+    class BitwiseAggMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf BitwiseAggMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        BITWISE_AGG_MODE_INVALID = functions_bitwise_agg_mode_pb2.BitwiseAggEnums.BITWISE_AGG_MODE_INVALID  # 0
+        STRICT = functions_bitwise_agg_mode_pb2.BitwiseAggEnums.STRICT  # 1
+        PAD = functions_bitwise_agg_mode_pb2.BitwiseAggEnums.PAD  # 2
+
 
     _PROTO_CLASS: ClassVar[type] = functions_bitwise_agg_mode_pb2.BitwiseAggEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -9317,7 +9754,7 @@ class ComplianceTestCaseLabels(ProtoModel):
     test_name: Optional[str] = None
     test_query: Optional[str] = None
     param: List['ComplianceTestCaseLabels.Param'] = field(default_factory=list)
-    test_error_mode: Optional[int] = None
+    test_error_mode: Optional['KnownErrorMode'] = None
     compliance_labels: List[str] = field(default_factory=list)
     test_shard: Optional[int] = None
     test_location: Optional['ComplianceTestCaseLabels.Location'] = None
@@ -9343,6 +9780,8 @@ class ComplianceTestCaseLabels(ProtoModel):
             'proto_field': 'test_error_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'KnownErrorMode',
         },
         'compliance_labels': {
             'proto_field': 'compliance_labels',
@@ -9462,6 +9901,21 @@ class ConstantRef(ProtoModel):
 class ConstnessLevel(ProtoModel):
     """Generated model for ConstnessLevelProto"""
 
+    # Nested Enums
+    class Level(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf Level.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        CONSTNESS_UNSPECIFIED = public_constness_level_pb2.ConstnessLevelProto.CONSTNESS_UNSPECIFIED  # 0
+        FOREVER_CONST = public_constness_level_pb2.ConstnessLevelProto.FOREVER_CONST  # 1
+        ANALYSIS_CONST = public_constness_level_pb2.ConstnessLevelProto.ANALYSIS_CONST  # 2
+        LEGACY_LITERAL_OR_PARAMETER = public_constness_level_pb2.ConstnessLevelProto.LEGACY_LITERAL_OR_PARAMETER  # 1000
+        LEGACY_CONSTANT_EXPRESSION = public_constness_level_pb2.ConstnessLevelProto.LEGACY_CONSTANT_EXPRESSION  # 1001
+
+
     _PROTO_CLASS: ClassVar[type] = public_constness_level_pb2.ConstnessLevelProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -9469,6 +9923,20 @@ class ConstnessLevel(ProtoModel):
 @dataclass
 class DeprecatedEncoding(ProtoModel):
     """Generated model for DeprecatedEncoding"""
+
+    # Nested Enums
+    class Encoding(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf Encoding.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        __FieldFormat_Encoding__switch_must_have_a_default__ = proto_type_annotation_pb2.DeprecatedEncoding.__FieldFormat_Encoding__switch_must_have_a_default__  # -1
+        DEFAULT_ENCODING = proto_type_annotation_pb2.DeprecatedEncoding.DEFAULT_ENCODING  # 0
+        DATE_DECIMAL = proto_type_annotation_pb2.DeprecatedEncoding.DATE_DECIMAL  # 1
+        DATE_PACKED32 = proto_type_annotation_pb2.DeprecatedEncoding.DATE_PACKED32  # 1
+
 
     _PROTO_CLASS: ClassVar[type] = proto_type_annotation_pb2.DeprecatedEncoding
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -9478,7 +9946,7 @@ class DeprecatedEncoding(ProtoModel):
 class DeprecationWarning(ProtoModel):
     """Generated model for DeprecationWarning"""
 
-    kind: Optional[int] = None
+    kind: Optional['DeprecationWarning.Kind'] = None
 
     _PROTO_CLASS: ClassVar[type] = public_deprecation_warning_pb2.DeprecationWarning
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -9486,6 +9954,9 @@ class DeprecationWarning(ProtoModel):
             'proto_field': 'kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Kind',
+            'enum_parent_message': 'DeprecationWarning',
         },
     }
 
@@ -9594,6 +10065,43 @@ class DifferentialPrivacyBoundingReport(ProtoModel):
 class DifferentialPrivacyEnums(ProtoModel):
     """Generated model for DifferentialPrivacyEnums"""
 
+    # Nested Enums
+    class ReportFormat(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ReportFormat.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        DIFFERENTIAL_PRIVACY_REPORT_FORMAT_INVALID = functions_differential_privacy_pb2.DifferentialPrivacyEnums.DIFFERENTIAL_PRIVACY_REPORT_FORMAT_INVALID  # 0
+        JSON = functions_differential_privacy_pb2.DifferentialPrivacyEnums.JSON  # 1
+        PROTO = functions_differential_privacy_pb2.DifferentialPrivacyEnums.PROTO  # 2
+
+    class GroupSelectionStrategy(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf GroupSelectionStrategy.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        DIFFERENTIAL_PRIVACY_GROUP_SELECTION_STRATEGY_INVALID = functions_differential_privacy_pb2.DifferentialPrivacyEnums.DIFFERENTIAL_PRIVACY_GROUP_SELECTION_STRATEGY_INVALID  # 0
+        LAPLACE_THRESHOLD = functions_differential_privacy_pb2.DifferentialPrivacyEnums.LAPLACE_THRESHOLD  # 1
+        PUBLIC_GROUPS = functions_differential_privacy_pb2.DifferentialPrivacyEnums.PUBLIC_GROUPS  # 2
+
+    class CountDistinctContributionBoundingStrategy(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf CountDistinctContributionBoundingStrategy.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        DIFFERENTIAL_PRIVACY_COUNT_DISTINCT_CONTRIBUTION_BOUNDING_STRATEGY_INVALID = functions_differential_privacy_pb2.DifferentialPrivacyEnums.DIFFERENTIAL_PRIVACY_COUNT_DISTINCT_CONTRIBUTION_BOUNDING_STRATEGY_INVALID  # 0
+        AUTO = functions_differential_privacy_pb2.DifferentialPrivacyEnums.AUTO  # 1
+        SAMPLING = functions_differential_privacy_pb2.DifferentialPrivacyEnums.SAMPLING  # 2
+        GREEDY = functions_differential_privacy_pb2.DifferentialPrivacyEnums.GREEDY  # 3
+        MATCHING = functions_differential_privacy_pb2.DifferentialPrivacyEnums.MATCHING  # 4
+
+
     _PROTO_CLASS: ClassVar[type] = functions_differential_privacy_pb2.DifferentialPrivacyEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -9686,7 +10194,7 @@ class DifferentialPrivacyOutputWithReport(ProtoModel):
 class DifferentiallyPrivateCountDistinctBoundingReport(ProtoModel):
     """Generated model for DifferentiallyPrivateCountDistinctBoundingReport"""
 
-    contribution_bounding_strategy: Optional[int] = None
+    contribution_bounding_strategy: Optional['DifferentialPrivacyEnums.CountDistinctContributionBoundingStrategy'] = None
     upper_bound: Optional[int] = None
     num_inputs: Optional[float] = None
 
@@ -9696,6 +10204,9 @@ class DifferentiallyPrivateCountDistinctBoundingReport(ProtoModel):
             'proto_field': 'contribution_bounding_strategy',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'CountDistinctContributionBoundingStrategy',
+            'enum_parent_message': 'DifferentialPrivacyEnums',
         },
         'upper_bound': {
             'proto_field': 'upper_bound',
@@ -9730,7 +10241,7 @@ class Edits(ProtoModel):
 class EnabledRewrite(ProtoModel):
     """Generated model for EnabledRewriteProto"""
 
-    key: Optional[int] = None
+    key: Optional['FunctionSignatureId'] = None
     value: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_options_pb2.EnabledRewriteProto
@@ -9739,6 +10250,8 @@ class EnabledRewrite(ProtoModel):
             'proto_field': 'key',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'FunctionSignatureId',
         },
         'value': {
             'proto_field': 'value',
@@ -9854,7 +10367,7 @@ class ErrorLocation(ProtoModel):
 class ErrorMessageModeForPayload(ProtoModel):
     """Generated model for ErrorMessageModeForPayload"""
 
-    mode: Optional[int] = None
+    mode: Optional['ErrorMessageMode'] = None
 
     _PROTO_CLASS: ClassVar[type] = public_options_pb2.ErrorMessageModeForPayload
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -9862,6 +10375,8 @@ class ErrorMessageModeForPayload(ProtoModel):
             'proto_field': 'mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ErrorMessageMode',
         },
     }
 
@@ -10036,7 +10551,7 @@ class EvaluateModifyResponse(ProtoModel):
     class Row(ProtoModel):
         """Generated model for Row"""
 
-        operation: Optional[int] = None
+        operation: Optional['Row.Operation'] = None
         cell: List['Value'] = field(default_factory=list)
         old_primary_key: List['Value'] = field(default_factory=list)
 
@@ -10046,6 +10561,9 @@ class EvaluateModifyResponse(ProtoModel):
                 'proto_field': 'operation',
                 'is_message': False,
                 'is_repeated': False,
+                'is_enum': True,
+                'enum_type_name': 'Operation',
+                'enum_parent_message': 'Row',
             },
             'cell': {
                 'proto_field': 'cell',
@@ -10340,6 +10858,19 @@ class EvaluatorTableIterator(ProtoModel):
 class ExecutionStats(ProtoModel):
     """Generated model for ExecutionStats"""
 
+    # Nested Enums
+    class ParserVariant(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ParserVariant.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        PARSER_UNSPECIFIED = proto_logging_pb2.ExecutionStats.PARSER_UNSPECIFIED  # 0
+        PARSER_BISON = proto_logging_pb2.ExecutionStats.PARSER_BISON  # 1
+        PARSER_TEXTMAPPER = proto_logging_pb2.ExecutionStats.PARSER_TEXTMAPPER  # 2
+
+
     wall_time: Optional[datetime.timedelta] = None
     cpu_time: Optional[datetime.timedelta] = None
     stack_available_bytes: Optional[int] = None
@@ -10374,8 +10905,21 @@ class ExecutionStats(ProtoModel):
 class ExpressionAttribute(ProtoModel):
     """Generated model for ExpressionAttributeProto"""
 
+    # Nested Enums
+    class ExpressionKind(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ExpressionKind.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        DEFAULT = public_simple_table_pb2.ExpressionAttributeProto.DEFAULT  # 0
+        GENERATED = public_simple_table_pb2.ExpressionAttributeProto.GENERATED  # 1
+        MEASURE_EXPRESSION = public_simple_table_pb2.ExpressionAttributeProto.MEASURE_EXPRESSION  # 2
+
+
     expression_string: Optional[str] = None
-    expression_kind: Optional[int] = None
+    expression_kind: Optional['ExpressionAttribute.ExpressionKind'] = None
     row_identity_column_index: List[int] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = public_simple_table_pb2.ExpressionAttributeProto
@@ -10389,6 +10933,9 @@ class ExpressionAttribute(ProtoModel):
             'proto_field': 'expression_kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ExpressionKind',
+            'enum_parent_message': 'ExpressionAttributeProto',
         },
         'row_identity_column_index': {
             'proto_field': 'row_identity_column_index',
@@ -10637,6 +11184,38 @@ class FieldDescriptorRef(ProtoModel):
 class FieldFormat(ProtoModel):
     """Generated model for FieldFormat"""
 
+    # Nested Enums
+    class Format(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf Format.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        __FieldFormat_Type__switch_must_have_a_default__ = proto_type_annotation_pb2.FieldFormat.__FieldFormat_Type__switch_must_have_a_default__  # -1
+        DEFAULT_FORMAT = proto_type_annotation_pb2.FieldFormat.DEFAULT_FORMAT  # 0
+        DATE = proto_type_annotation_pb2.FieldFormat.DATE  # 1
+        TIMESTAMP_SECONDS = proto_type_annotation_pb2.FieldFormat.TIMESTAMP_SECONDS  # 2
+        TIMESTAMP_MILLIS = proto_type_annotation_pb2.FieldFormat.TIMESTAMP_MILLIS  # 3
+        TIMESTAMP_MICROS = proto_type_annotation_pb2.FieldFormat.TIMESTAMP_MICROS  # 4
+        TIMESTAMP_NANOS = proto_type_annotation_pb2.FieldFormat.TIMESTAMP_NANOS  # 5
+        DATE_DECIMAL = proto_type_annotation_pb2.FieldFormat.DATE_DECIMAL  # 6
+        TIME_MICROS = proto_type_annotation_pb2.FieldFormat.TIME_MICROS  # 7
+        DATETIME_MICROS = proto_type_annotation_pb2.FieldFormat.DATETIME_MICROS  # 8
+        ST_GEOGRAPHY_ENCODED = proto_type_annotation_pb2.FieldFormat.ST_GEOGRAPHY_ENCODED  # 9
+        NUMERIC = proto_type_annotation_pb2.FieldFormat.NUMERIC  # 10
+        BIGNUMERIC = proto_type_annotation_pb2.FieldFormat.BIGNUMERIC  # 11
+        JSON = proto_type_annotation_pb2.FieldFormat.JSON  # 12
+        INTERVAL = proto_type_annotation_pb2.FieldFormat.INTERVAL  # 14
+        TOKENLIST = proto_type_annotation_pb2.FieldFormat.TOKENLIST  # 15
+        RANGE_DATES_ENCODED = proto_type_annotation_pb2.FieldFormat.RANGE_DATES_ENCODED  # 16
+        RANGE_DATETIMES_ENCODED = proto_type_annotation_pb2.FieldFormat.RANGE_DATETIMES_ENCODED  # 17
+        RANGE_TIMESTAMPS_ENCODED = proto_type_annotation_pb2.FieldFormat.RANGE_TIMESTAMPS_ENCODED  # 18
+        UUID = proto_type_annotation_pb2.FieldFormat.UUID  # 19
+        TIMESTAMP_PICOS = proto_type_annotation_pb2.FieldFormat.TIMESTAMP_PICOS  # 20
+        TIMESTAMP = proto_type_annotation_pb2.FieldFormat.TIMESTAMP  # 21
+
+
     _PROTO_CLASS: ClassVar[type] = proto_type_annotation_pb2.FieldFormat
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -10867,13 +11446,13 @@ class Function(ProtoModel):
 
     name_path: List[str] = field(default_factory=list)
     group: Optional[str] = None
-    mode: Optional[int] = None
+    mode: Optional['FunctionEnums.Mode'] = None
     signature: List['FunctionSignature'] = field(default_factory=list)
     options: Optional['FunctionOptions'] = None
     parse_resume_location: Optional['ParseResumeLocation'] = None
     templated_sql_function_argument_name: List[str] = field(default_factory=list)
-    sql_security: Optional[int] = None
-    statement_context: Optional[int] = None
+    sql_security: Optional['ResolvedCreateStatementEnums.SqlSecurity'] = None
+    statement_context: Optional['StatementContext'] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_function_pb2.FunctionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -10891,6 +11470,9 @@ class Function(ProtoModel):
             'proto_field': 'mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Mode',
+            'enum_parent_message': 'FunctionEnums',
         },
         'signature': {
             'proto_field': 'signature',
@@ -10916,11 +11498,16 @@ class Function(ProtoModel):
             'proto_field': 'sql_security',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SqlSecurity',
+            'enum_parent_message': 'ResolvedCreateStatementEnums',
         },
         'statement_context': {
             'proto_field': 'statement_context',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'StatementContext',
         },
     }
 
@@ -10929,7 +11516,7 @@ class Function(ProtoModel):
 class FunctionArgumentType(ProtoModel):
     """Generated model for FunctionArgumentTypeProto"""
 
-    kind: Optional[int] = None
+    kind: Optional['SignatureArgumentKind'] = None
     type: Optional['Type'] = None
     num_occurrences: Optional[int] = None
     options: Optional['FunctionArgumentTypeOptions'] = None
@@ -10941,6 +11528,8 @@ class FunctionArgumentType(ProtoModel):
             'proto_field': 'kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SignatureArgumentKind',
         },
         'type': {
             'proto_field': 'type',
@@ -10969,7 +11558,7 @@ class FunctionArgumentType(ProtoModel):
 class FunctionArgumentTypeOptions(ProtoModel):
     """Generated model for FunctionArgumentTypeOptionsProto"""
 
-    cardinality: Optional[int] = None
+    cardinality: Optional['FunctionEnums.ArgumentCardinality'] = None
     must_be_constant: Optional[bool] = None
     must_be_non_null: Optional[bool] = None
     is_not_aggregate: Optional[bool] = None
@@ -10982,21 +11571,21 @@ class FunctionArgumentTypeOptions(ProtoModel):
     argument_name: Optional[str] = None
     argument_name_parse_location: Optional['ParseLocationRange'] = None
     argument_type_parse_location: Optional['ParseLocationRange'] = None
-    procedure_argument_mode: Optional[int] = None
+    procedure_argument_mode: Optional['FunctionEnums.ProcedureArgumentMode'] = None
     argument_name_is_mandatory: Optional[bool] = None
     descriptor_resolution_table_offset: Optional[int] = None
     default_value: Optional['Value'] = None
     default_value_type: Optional['Type'] = None
-    argument_collation_mode: Optional[int] = None
+    argument_collation_mode: Optional['FunctionEnums.ArgumentCollationMode'] = None
     uses_array_element_for_collation: Optional[bool] = None
     must_support_grouping: Optional[bool] = None
     array_element_must_support_equality: Optional[bool] = None
     array_element_must_support_ordering: Optional[bool] = None
     array_element_must_support_grouping: Optional[bool] = None
-    named_argument_kind: Optional[int] = None
-    argument_alias_kind: Optional[int] = None
+    named_argument_kind: Optional['FunctionEnums.NamedArgumentKind'] = None
+    argument_alias_kind: Optional['FunctionEnums.ArgumentAliasKind'] = None
     must_be_constant_expression: Optional[bool] = None
-    constness_level: Optional[int] = None
+    constness_level: Optional['ConstnessLevel.Level'] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_function_pb2.FunctionArgumentTypeOptionsProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -11004,6 +11593,9 @@ class FunctionArgumentTypeOptions(ProtoModel):
             'proto_field': 'cardinality',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ArgumentCardinality',
+            'enum_parent_message': 'FunctionEnums',
         },
         'must_be_constant': {
             'proto_field': 'must_be_constant',
@@ -11069,6 +11661,9 @@ class FunctionArgumentTypeOptions(ProtoModel):
             'proto_field': 'procedure_argument_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ProcedureArgumentMode',
+            'enum_parent_message': 'FunctionEnums',
         },
         'argument_name_is_mandatory': {
             'proto_field': 'argument_name_is_mandatory',
@@ -11094,6 +11689,9 @@ class FunctionArgumentTypeOptions(ProtoModel):
             'proto_field': 'argument_collation_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ArgumentCollationMode',
+            'enum_parent_message': 'FunctionEnums',
         },
         'uses_array_element_for_collation': {
             'proto_field': 'uses_array_element_for_collation',
@@ -11124,11 +11722,17 @@ class FunctionArgumentTypeOptions(ProtoModel):
             'proto_field': 'named_argument_kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'NamedArgumentKind',
+            'enum_parent_message': 'FunctionEnums',
         },
         'argument_alias_kind': {
             'proto_field': 'argument_alias_kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ArgumentAliasKind',
+            'enum_parent_message': 'FunctionEnums',
         },
         'must_be_constant_expression': {
             'proto_field': 'must_be_constant_expression',
@@ -11139,6 +11743,9 @@ class FunctionArgumentTypeOptions(ProtoModel):
             'proto_field': 'constness_level',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Level',
+            'enum_parent_message': 'ConstnessLevelProto',
         },
     }
 
@@ -11146,6 +11753,113 @@ class FunctionArgumentTypeOptions(ProtoModel):
 @dataclass
 class FunctionEnums(ProtoModel):
     """Generated model for FunctionEnums"""
+
+    # Nested Enums
+    class ArgumentCardinality(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ArgumentCardinality.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        REQUIRED = public_function_pb2.FunctionEnums.REQUIRED  # 0
+        REPEATED = public_function_pb2.FunctionEnums.REPEATED  # 1
+        OPTIONAL = public_function_pb2.FunctionEnums.OPTIONAL  # 2
+
+    class ProcedureArgumentMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ProcedureArgumentMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NOT_SET = public_function_pb2.FunctionEnums.NOT_SET  # 0
+        IN = public_function_pb2.FunctionEnums.IN  # 1
+        OUT = public_function_pb2.FunctionEnums.OUT  # 2
+        INOUT = public_function_pb2.FunctionEnums.INOUT  # 3
+
+    class WindowOrderSupport(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf WindowOrderSupport.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        ORDER_UNSUPPORTED = public_function_pb2.FunctionEnums.ORDER_UNSUPPORTED  # 0
+        ORDER_OPTIONAL = public_function_pb2.FunctionEnums.ORDER_OPTIONAL  # 1
+        ORDER_REQUIRED = public_function_pb2.FunctionEnums.ORDER_REQUIRED  # 2
+
+    class Volatility(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf Volatility.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        IMMUTABLE = public_function_pb2.FunctionEnums.IMMUTABLE  # 0
+        STABLE = public_function_pb2.FunctionEnums.STABLE  # 1
+        VOLATILE = public_function_pb2.FunctionEnums.VOLATILE  # 2
+
+    class TableValuedFunctionType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf TableValuedFunctionType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        INVALID = public_function_pb2.FunctionEnums.INVALID  # 0
+        FIXED_OUTPUT_SCHEMA_TVF = public_function_pb2.FunctionEnums.FIXED_OUTPUT_SCHEMA_TVF  # 1
+        FORWARD_INPUT_SCHEMA_TO_OUTPUT_SCHEMA_TVF = public_function_pb2.FunctionEnums.FORWARD_INPUT_SCHEMA_TO_OUTPUT_SCHEMA_TVF  # 2
+        TEMPLATED_SQL_TVF = public_function_pb2.FunctionEnums.TEMPLATED_SQL_TVF  # 3
+        FORWARD_INPUT_SCHEMA_TO_OUTPUT_SCHEMA_WITH_APPENDED_COLUMNS = public_function_pb2.FunctionEnums.FORWARD_INPUT_SCHEMA_TO_OUTPUT_SCHEMA_WITH_APPENDED_COLUMNS  # 7
+        BASIS_TVF = public_function_pb2.FunctionEnums.BASIS_TVF  # 8
+
+    class ArgumentCollationMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ArgumentCollationMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        AFFECTS_NONE = public_function_pb2.FunctionEnums.AFFECTS_NONE  # 0
+        AFFECTS_OPERATION = public_function_pb2.FunctionEnums.AFFECTS_OPERATION  # 1
+        AFFECTS_PROPAGATION = public_function_pb2.FunctionEnums.AFFECTS_PROPAGATION  # 2
+        AFFECTS_OPERATION_AND_PROPAGATION = public_function_pb2.FunctionEnums.AFFECTS_OPERATION_AND_PROPAGATION  # 3
+
+    class NamedArgumentKind(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf NamedArgumentKind.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NAMED_ARGUMENT_KIND_UNSPECIFIED = public_function_pb2.FunctionEnums.NAMED_ARGUMENT_KIND_UNSPECIFIED  # 0
+        POSITIONAL_ONLY = public_function_pb2.FunctionEnums.POSITIONAL_ONLY  # 1
+        POSITIONAL_OR_NAMED = public_function_pb2.FunctionEnums.POSITIONAL_OR_NAMED  # 2
+        NAMED_ONLY = public_function_pb2.FunctionEnums.NAMED_ONLY  # 3
+
+    class ArgumentAliasKind(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ArgumentAliasKind.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        ARGUMENT_ALIAS_KIND_UNSPECIFIED = public_function_pb2.FunctionEnums.ARGUMENT_ALIAS_KIND_UNSPECIFIED  # 0
+        ARGUMENT_NON_ALIASED = public_function_pb2.FunctionEnums.ARGUMENT_NON_ALIASED  # 1
+        ARGUMENT_ALIASED = public_function_pb2.FunctionEnums.ARGUMENT_ALIASED  # 2
+
+    class DefaultNullHandling(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf DefaultNullHandling.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        DEFAULT_NULL_HANDLING_UNSPECIFIED = public_function_pb2.FunctionEnums.DEFAULT_NULL_HANDLING_UNSPECIFIED  # 0
+        DEFAULT_NULL_HANDLING_IGNORE_NULLS = public_function_pb2.FunctionEnums.DEFAULT_NULL_HANDLING_IGNORE_NULLS  # 1
+        DEFAULT_NULL_HANDLING_RESPECT_NULLS = public_function_pb2.FunctionEnums.DEFAULT_NULL_HANDLING_RESPECT_NULLS  # 2
+
 
     _PROTO_CLASS: ClassVar[type] = public_function_pb2.FunctionEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -11156,16 +11870,16 @@ class FunctionOptions(ProtoModel):
     """Generated model for FunctionOptionsProto"""
 
     supports_over_clause: Optional[bool] = None
-    window_ordering_support: Optional[int] = None
+    window_ordering_support: Optional['FunctionEnums.WindowOrderSupport'] = None
     supports_window_framing: Optional[bool] = None
     arguments_are_coercible: Optional[bool] = None
     is_deprecated: Optional[bool] = None
     alias_name: Optional[str] = None
     sql_name: Optional[str] = None
     allow_external_usage: Optional[bool] = None
-    volatility: Optional[int] = None
+    volatility: Optional['FunctionEnums.Volatility'] = None
     supports_order_by: Optional[bool] = None
-    required_language_feature: List[int] = field(default_factory=list)
+    required_language_feature: List['LanguageFeature'] = field(default_factory=list)
     supports_limit: Optional[bool] = None
     supports_null_handling_modifier: Optional[bool] = None
     supports_safe_error_mode: Optional[bool] = None
@@ -11186,6 +11900,9 @@ class FunctionOptions(ProtoModel):
             'proto_field': 'window_ordering_support',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'WindowOrderSupport',
+            'enum_parent_message': 'FunctionEnums',
         },
         'supports_window_framing': {
             'proto_field': 'supports_window_framing',
@@ -11221,6 +11938,9 @@ class FunctionOptions(ProtoModel):
             'proto_field': 'volatility',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Volatility',
+            'enum_parent_message': 'FunctionEnums',
         },
         'supports_order_by': {
             'proto_field': 'supports_order_by',
@@ -11231,6 +11951,8 @@ class FunctionOptions(ProtoModel):
             'proto_field': 'required_language_feature',
             'is_message': False,
             'is_repeated': True,
+            'is_enum': True,
+            'enum_type_name': 'LanguageFeature',
         },
         'supports_limit': {
             'proto_field': 'supports_limit',
@@ -11331,7 +12053,7 @@ class FunctionSignatureOptions(ProtoModel):
 
     is_deprecated: Optional[bool] = None
     additional_deprecation_warning: List['FreestandingDeprecationWarning'] = field(default_factory=list)
-    required_language_feature: List[int] = field(default_factory=list)
+    required_language_feature: List['LanguageFeature'] = field(default_factory=list)
     is_aliased_signature: Optional[bool] = None
     propagates_collation: Optional[bool] = None
     uses_operation_collation: Optional[bool] = None
@@ -11354,6 +12076,8 @@ class FunctionSignatureOptions(ProtoModel):
             'proto_field': 'required_language_feature',
             'is_message': False,
             'is_repeated': True,
+            'is_enum': True,
+            'enum_type_name': 'LanguageFeature',
         },
         'is_aliased_signature': {
             'proto_field': 'is_aliased_signature',
@@ -11388,7 +12112,7 @@ class FunctionSignatureRewriteOptions(ProtoModel):
     """Generated model for FunctionSignatureRewriteOptionsProto"""
 
     enabled: Optional[bool] = None
-    rewriter: Optional[int] = None
+    rewriter: Optional['ResolvedASTRewrite'] = None
     sql: Optional[str] = None
     allow_table_references: Optional[bool] = None
     allowed_function_groups: List[str] = field(default_factory=list)
@@ -11404,6 +12128,8 @@ class FunctionSignatureRewriteOptions(ProtoModel):
             'proto_field': 'rewriter',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ResolvedASTRewrite',
         },
         'sql': {
             'proto_field': 'sql',
@@ -11520,8 +12246,21 @@ class GraphElementLabelRef(ProtoModel):
 class GraphElementTable(ProtoModel):
     """Generated model for GraphElementTableProto"""
 
+    # Nested Enums
+    class Kind(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf Kind.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        KIND_UNSPECIFIED = information_schema_property_graph_pb2.GraphElementTableProto.KIND_UNSPECIFIED  # 0
+        NODE = information_schema_property_graph_pb2.GraphElementTableProto.NODE  # 1
+        EDGE = information_schema_property_graph_pb2.GraphElementTableProto.EDGE  # 2
+
+
     name: Optional[str] = None
-    kind: Optional[int] = None
+    kind: Optional['GraphElementTable.Kind'] = None
     base_catalog_name: Optional[str] = None
     base_schema_name: Optional[str] = None
     base_table_name: Optional[str] = None
@@ -11544,6 +12283,9 @@ class GraphElementTable(ProtoModel):
             'proto_field': 'kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Kind',
+            'enum_parent_message': 'GraphElementTableProto',
         },
         'base_catalog_name': {
             'proto_field': 'base_catalog_name',
@@ -11624,7 +12366,20 @@ class GraphElementTableRef(ProtoModel):
 class GraphElementType(ProtoModel):
     """Generated model for GraphElementTypeProto"""
 
-    kind: Optional[int] = None
+    # Nested Enums
+    class ElementKind(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ElementKind.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        KIND_INVALID = public_type_pb2.GraphElementTypeProto.KIND_INVALID  # 0
+        KIND_NODE = public_type_pb2.GraphElementTypeProto.KIND_NODE  # 1
+        KIND_EDGE = public_type_pb2.GraphElementTypeProto.KIND_EDGE  # 2
+
+
+    kind: Optional['GraphElementType.ElementKind'] = None
     property_type: List['GraphElementType.PropertyType'] = field(default_factory=list)
     graph_reference: List[str] = field(default_factory=list)
     is_dynamic: Optional[bool] = None
@@ -11635,6 +12390,9 @@ class GraphElementType(ProtoModel):
             'proto_field': 'kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ElementKind',
+            'enum_parent_message': 'GraphElementTypeProto',
         },
         'property_type': {
             'proto_field': 'property_type',
@@ -11943,7 +12701,7 @@ class InternalTextEdit(ProtoModel):
 class KnownErrorEntry(ProtoModel):
     """Generated model for KnownErrorEntry"""
 
-    mode: Optional[int] = None
+    mode: Optional['KnownErrorMode'] = None
     reason: Optional[str] = None
     label: List[str] = field(default_factory=list)
 
@@ -11953,6 +12711,8 @@ class KnownErrorEntry(ProtoModel):
             'proto_field': 'mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'KnownErrorMode',
         },
         'reason': {
             'proto_field': 'reason',
@@ -11995,7 +12755,7 @@ class LanguageFeatureOptions(ProtoModel):
 
     ideally_enabled: Optional[bool] = None
     in_development: Optional[bool] = None
-    language_version: Optional[int] = None
+    language_version: Optional['LanguageVersion'] = None
 
     _PROTO_CLASS: ClassVar[type] = public_options_pb2.LanguageFeatureOptions
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12013,19 +12773,21 @@ class LanguageFeatureOptions(ProtoModel):
             'proto_field': 'language_version',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'LanguageVersion',
         },
     }
 
 
 @dataclass
-class LanguageOptions(ProtoModel):
+class LanguageOptions(proto_model_mixins.LanguageOptionsMixin, ProtoModel):
     """Generated model for LanguageOptionsProto"""
 
-    name_resolution_mode: Optional[int] = None
-    product_mode: Optional[int] = None
+    name_resolution_mode: Optional['NameResolutionMode'] = None
+    product_mode: Optional['ProductMode'] = None
     error_on_deprecated_syntax: Optional[bool] = None
-    enabled_language_features: List[int] = field(default_factory=list)
-    supported_statement_kinds: List[int] = field(default_factory=list)
+    enabled_language_features: List['LanguageFeature'] = field(default_factory=list)
+    supported_statement_kinds: List['ResolvedNodeKind'] = field(default_factory=list)
     supported_generic_entity_types: List[str] = field(default_factory=list)
     reserved_keywords: List[str] = field(default_factory=list)
     supported_generic_sub_entity_types: List[str] = field(default_factory=list)
@@ -12036,11 +12798,15 @@ class LanguageOptions(ProtoModel):
             'proto_field': 'name_resolution_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'NameResolutionMode',
         },
         'product_mode': {
             'proto_field': 'product_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ProductMode',
         },
         'error_on_deprecated_syntax': {
             'proto_field': 'error_on_deprecated_syntax',
@@ -12051,11 +12817,15 @@ class LanguageOptions(ProtoModel):
             'proto_field': 'enabled_language_features',
             'is_message': False,
             'is_repeated': True,
+            'is_enum': True,
+            'enum_type_name': 'LanguageFeature',
         },
         'supported_statement_kinds': {
             'proto_field': 'supported_statement_kinds',
             'is_message': False,
             'is_repeated': True,
+            'is_enum': True,
+            'enum_type_name': 'ResolvedNodeKind',
         },
         'supported_generic_entity_types': {
             'proto_field': 'supported_generic_entity_types',
@@ -12080,7 +12850,7 @@ class LanguageOptionsRequest(ProtoModel):
     """Generated model for LanguageOptionsRequest"""
 
     maximum_features: Optional[bool] = None
-    language_version: Optional[int] = None
+    language_version: Optional['LanguageVersion'] = None
 
     _PROTO_CLASS: ClassVar[type] = local_service_local_service_pb2.LanguageOptionsRequest
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -12093,6 +12863,8 @@ class LanguageOptionsRequest(ProtoModel):
             'proto_field': 'language_version',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'LanguageVersion',
         },
     }
 
@@ -12526,9 +13298,23 @@ class ParserErrorContext(ProtoModel):
 class PerModuleOptions(ProtoModel):
     """Generated model for PerModuleOptions"""
 
+    # Nested Enums
+    class UdfServerImportMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf UdfServerImportMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        UNKNOWN = proto_module_options_pb2.PerModuleOptions.UNKNOWN  # 0
+        SERVER_ADDRESS_FROM_MODULE = proto_module_options_pb2.PerModuleOptions.SERVER_ADDRESS_FROM_MODULE  # 1
+        CALLER_PROVIDED = proto_module_options_pb2.PerModuleOptions.CALLER_PROVIDED  # 2
+        MANUAL = proto_module_options_pb2.PerModuleOptions.MANUAL  # 3
+
+
     udf_server_address: Optional[str] = None
     udf_namespace: Optional[str] = None
-    udf_server_import_mode: Optional[int] = None
+    udf_server_import_mode: Optional['PerModuleOptions.UdfServerImportMode'] = None
     udf_scaling_factor: Optional[float] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_module_options_pb2.PerModuleOptions
@@ -12547,6 +13333,9 @@ class PerModuleOptions(ProtoModel):
             'proto_field': 'udf_server_import_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'UdfServerImportMode',
+            'enum_parent_message': 'PerModuleOptions',
         },
         'udf_scaling_factor': {
             'proto_field': 'udf_scaling_factor',
@@ -13066,6 +13855,19 @@ class ProtoType(ProtoModel):
 class RangeSessionizeEnums(ProtoModel):
     """Generated model for RangeSessionizeEnums"""
 
+    # Nested Enums
+    class RangeSessionizeMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf RangeSessionizeMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        RANGE_SESSIONIZE_MODE_INVALID = functions_range_sessionize_mode_pb2.RangeSessionizeEnums.RANGE_SESSIONIZE_MODE_INVALID  # 0
+        OVERLAPS = functions_range_sessionize_mode_pb2.RangeSessionizeEnums.OVERLAPS  # 1
+        MEETS = functions_range_sessionize_mode_pb2.RangeSessionizeEnums.MEETS  # 2
+
+
     _PROTO_CLASS: ClassVar[type] = functions_range_sessionize_mode_pb2.RangeSessionizeEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13089,6 +13891,20 @@ class RangeType(ProtoModel):
 @dataclass
 class RankTypeEnums(ProtoModel):
     """Generated model for RankTypeEnums"""
+
+    # Nested Enums
+    class RankType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf RankType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        RANK_TYPE_UNKNOWN = functions_rank_type_pb2.RankTypeEnums.RANK_TYPE_UNKNOWN  # 0
+        FRACTION_LESS_THAN_OR_EQUAL = functions_rank_type_pb2.RankTypeEnums.FRACTION_LESS_THAN_OR_EQUAL  # 1
+        MIDPOINT = functions_rank_type_pb2.RankTypeEnums.MIDPOINT  # 2
+        FRACTION_LESS_THAN = functions_rank_type_pb2.RankTypeEnums.FRACTION_LESS_THAN  # 3
+
 
     _PROTO_CLASS: ClassVar[type] = functions_rank_type_pb2.RankTypeEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -13191,6 +14007,19 @@ class ResolvedASTRewriteOptions(ProtoModel):
 class ResolvedAggregateHavingModifierEnums(ProtoModel):
     """Generated model for ResolvedAggregateHavingModifierEnums"""
 
+    # Nested Enums
+    class HavingModifierKind(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf HavingModifierKind.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        INVALID = resolved_ast_resolved_ast_enums_pb2.ResolvedAggregateHavingModifierEnums.INVALID  # 0
+        MAX = resolved_ast_resolved_ast_enums_pb2.ResolvedAggregateHavingModifierEnums.MAX  # 1
+        MIN = resolved_ast_resolved_ast_enums_pb2.ResolvedAggregateHavingModifierEnums.MIN  # 2
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedAggregateHavingModifierEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13198,6 +14027,19 @@ class ResolvedAggregateHavingModifierEnums(ProtoModel):
 @dataclass
 class ResolvedAlterIndexStmtEnums(ProtoModel):
     """Generated model for ResolvedAlterIndexStmtEnums"""
+
+    # Nested Enums
+    class AlterIndexType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf AlterIndexType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        INDEX_DEFAULT = resolved_ast_resolved_ast_enums_pb2.ResolvedAlterIndexStmtEnums.INDEX_DEFAULT  # 0
+        INDEX_SEARCH = resolved_ast_resolved_ast_enums_pb2.ResolvedAlterIndexStmtEnums.INDEX_SEARCH  # 1
+        INDEX_VECTOR = resolved_ast_resolved_ast_enums_pb2.ResolvedAlterIndexStmtEnums.INDEX_VECTOR  # 2
+
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedAlterIndexStmtEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -13207,6 +14049,19 @@ class ResolvedAlterIndexStmtEnums(ProtoModel):
 class ResolvedArgumentDefEnums(ProtoModel):
     """Generated model for ResolvedArgumentDefEnums"""
 
+    # Nested Enums
+    class ArgumentKind(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ArgumentKind.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        SCALAR = resolved_ast_resolved_ast_enums_pb2.ResolvedArgumentDefEnums.SCALAR  # 0
+        AGGREGATE = resolved_ast_resolved_ast_enums_pb2.ResolvedArgumentDefEnums.AGGREGATE  # 1
+        NOT_AGGREGATE = resolved_ast_resolved_ast_enums_pb2.ResolvedArgumentDefEnums.NOT_AGGREGATE  # 2
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedArgumentDefEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13215,6 +14070,19 @@ class ResolvedArgumentDefEnums(ProtoModel):
 class ResolvedAuxLoadDataStmtEnums(ProtoModel):
     """Generated model for ResolvedAuxLoadDataStmtEnums"""
 
+    # Nested Enums
+    class InsertionMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf InsertionMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NONE = resolved_ast_resolved_ast_enums_pb2.ResolvedAuxLoadDataStmtEnums.NONE  # 0
+        APPEND = resolved_ast_resolved_ast_enums_pb2.ResolvedAuxLoadDataStmtEnums.APPEND  # 1
+        OVERWRITE = resolved_ast_resolved_ast_enums_pb2.ResolvedAuxLoadDataStmtEnums.OVERWRITE  # 2
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedAuxLoadDataStmtEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13222,6 +14090,19 @@ class ResolvedAuxLoadDataStmtEnums(ProtoModel):
 @dataclass
 class ResolvedBeginStmtEnums(ProtoModel):
     """Generated model for ResolvedBeginStmtEnums"""
+
+    # Nested Enums
+    class ReadWriteMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ReadWriteMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        MODE_UNSPECIFIED = resolved_ast_resolved_ast_enums_pb2.ResolvedBeginStmtEnums.MODE_UNSPECIFIED  # 0
+        MODE_READ_ONLY = resolved_ast_resolved_ast_enums_pb2.ResolvedBeginStmtEnums.MODE_READ_ONLY  # 1
+        MODE_READ_WRITE = resolved_ast_resolved_ast_enums_pb2.ResolvedBeginStmtEnums.MODE_READ_WRITE  # 2
+
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedBeginStmtEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -13293,6 +14174,56 @@ class ResolvedColumn(ProtoModel):
 class ResolvedCreateStatementEnums(ProtoModel):
     """Generated model for ResolvedCreateStatementEnums"""
 
+    # Nested Enums
+    class DeterminismLevel(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf DeterminismLevel.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        DETERMINISM_UNSPECIFIED = resolved_ast_resolved_ast_enums_pb2.ResolvedCreateStatementEnums.DETERMINISM_UNSPECIFIED  # 0
+        DETERMINISM_DETERMINISTIC = resolved_ast_resolved_ast_enums_pb2.ResolvedCreateStatementEnums.DETERMINISM_DETERMINISTIC  # 1
+        DETERMINISM_NOT_DETERMINISTIC = resolved_ast_resolved_ast_enums_pb2.ResolvedCreateStatementEnums.DETERMINISM_NOT_DETERMINISTIC  # 2
+        DETERMINISM_IMMUTABLE = resolved_ast_resolved_ast_enums_pb2.ResolvedCreateStatementEnums.DETERMINISM_IMMUTABLE  # 3
+        DETERMINISM_STABLE = resolved_ast_resolved_ast_enums_pb2.ResolvedCreateStatementEnums.DETERMINISM_STABLE  # 4
+        DETERMINISM_VOLATILE = resolved_ast_resolved_ast_enums_pb2.ResolvedCreateStatementEnums.DETERMINISM_VOLATILE  # 5
+
+    class SqlSecurity(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf SqlSecurity.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        SQL_SECURITY_UNSPECIFIED = resolved_ast_resolved_ast_enums_pb2.ResolvedCreateStatementEnums.SQL_SECURITY_UNSPECIFIED  # 0
+        SQL_SECURITY_DEFINER = resolved_ast_resolved_ast_enums_pb2.ResolvedCreateStatementEnums.SQL_SECURITY_DEFINER  # 1
+        SQL_SECURITY_INVOKER = resolved_ast_resolved_ast_enums_pb2.ResolvedCreateStatementEnums.SQL_SECURITY_INVOKER  # 2
+
+    class CreateScope(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf CreateScope.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        CREATE_DEFAULT_SCOPE = resolved_ast_resolved_ast_enums_pb2.ResolvedCreateStatementEnums.CREATE_DEFAULT_SCOPE  # 0
+        CREATE_PRIVATE = resolved_ast_resolved_ast_enums_pb2.ResolvedCreateStatementEnums.CREATE_PRIVATE  # 1
+        CREATE_PUBLIC = resolved_ast_resolved_ast_enums_pb2.ResolvedCreateStatementEnums.CREATE_PUBLIC  # 2
+        CREATE_TEMP = resolved_ast_resolved_ast_enums_pb2.ResolvedCreateStatementEnums.CREATE_TEMP  # 3
+
+    class CreateMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf CreateMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        CREATE_DEFAULT = resolved_ast_resolved_ast_enums_pb2.ResolvedCreateStatementEnums.CREATE_DEFAULT  # 0
+        CREATE_OR_REPLACE = resolved_ast_resolved_ast_enums_pb2.ResolvedCreateStatementEnums.CREATE_OR_REPLACE  # 1
+        CREATE_IF_NOT_EXISTS = resolved_ast_resolved_ast_enums_pb2.ResolvedCreateStatementEnums.CREATE_IF_NOT_EXISTS  # 2
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedCreateStatementEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13300,6 +14231,19 @@ class ResolvedCreateStatementEnums(ProtoModel):
 @dataclass
 class ResolvedDropIndexStmtEnums(ProtoModel):
     """Generated model for ResolvedDropIndexStmtEnums"""
+
+    # Nested Enums
+    class IndexType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf IndexType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        INDEX_DEFAULT = resolved_ast_resolved_ast_enums_pb2.ResolvedDropIndexStmtEnums.INDEX_DEFAULT  # 0
+        INDEX_SEARCH = resolved_ast_resolved_ast_enums_pb2.ResolvedDropIndexStmtEnums.INDEX_SEARCH  # 1
+        INDEX_VECTOR = resolved_ast_resolved_ast_enums_pb2.ResolvedDropIndexStmtEnums.INDEX_VECTOR  # 2
+
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedDropIndexStmtEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -13309,6 +14253,19 @@ class ResolvedDropIndexStmtEnums(ProtoModel):
 class ResolvedDropStmtEnums(ProtoModel):
     """Generated model for ResolvedDropStmtEnums"""
 
+    # Nested Enums
+    class DropMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf DropMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        DROP_MODE_UNSPECIFIED = resolved_ast_resolved_ast_enums_pb2.ResolvedDropStmtEnums.DROP_MODE_UNSPECIFIED  # 0
+        RESTRICT = resolved_ast_resolved_ast_enums_pb2.ResolvedDropStmtEnums.RESTRICT  # 1
+        CASCADE = resolved_ast_resolved_ast_enums_pb2.ResolvedDropStmtEnums.CASCADE  # 2
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedDropStmtEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13317,6 +14274,31 @@ class ResolvedDropStmtEnums(ProtoModel):
 class ResolvedForeignKeyEnums(ProtoModel):
     """Generated model for ResolvedForeignKeyEnums"""
 
+    # Nested Enums
+    class MatchMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf MatchMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        SIMPLE = resolved_ast_resolved_ast_enums_pb2.ResolvedForeignKeyEnums.SIMPLE  # 0
+        FULL = resolved_ast_resolved_ast_enums_pb2.ResolvedForeignKeyEnums.FULL  # 1
+        NOT_DISTINCT = resolved_ast_resolved_ast_enums_pb2.ResolvedForeignKeyEnums.NOT_DISTINCT  # 2
+
+    class ActionOperation(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ActionOperation.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NO_ACTION = resolved_ast_resolved_ast_enums_pb2.ResolvedForeignKeyEnums.NO_ACTION  # 0
+        RESTRICT = resolved_ast_resolved_ast_enums_pb2.ResolvedForeignKeyEnums.RESTRICT  # 1
+        CASCADE = resolved_ast_resolved_ast_enums_pb2.ResolvedForeignKeyEnums.CASCADE  # 2
+        SET_NULL = resolved_ast_resolved_ast_enums_pb2.ResolvedForeignKeyEnums.SET_NULL  # 3
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedForeignKeyEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13324,6 +14306,18 @@ class ResolvedForeignKeyEnums(ProtoModel):
 @dataclass
 class ResolvedFunctionCallBaseEnums(ProtoModel):
     """Generated model for ResolvedFunctionCallBaseEnums"""
+
+    # Nested Enums
+    class ErrorMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ErrorMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        DEFAULT_ERROR_MODE = resolved_ast_resolved_ast_enums_pb2.ResolvedFunctionCallBaseEnums.DEFAULT_ERROR_MODE  # 0
+        SAFE_ERROR_MODE = resolved_ast_resolved_ast_enums_pb2.ResolvedFunctionCallBaseEnums.SAFE_ERROR_MODE  # 1
+
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedFunctionCallBaseEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -13341,6 +14335,29 @@ class ResolvedFunctionCallInfo(ProtoModel):
 class ResolvedGeneratedColumnInfoEnums(ProtoModel):
     """Generated model for ResolvedGeneratedColumnInfoEnums"""
 
+    # Nested Enums
+    class StoredMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf StoredMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NON_STORED = resolved_ast_resolved_ast_enums_pb2.ResolvedGeneratedColumnInfoEnums.NON_STORED  # 0
+        STORED = resolved_ast_resolved_ast_enums_pb2.ResolvedGeneratedColumnInfoEnums.STORED  # 1
+        STORED_VOLATILE = resolved_ast_resolved_ast_enums_pb2.ResolvedGeneratedColumnInfoEnums.STORED_VOLATILE  # 2
+
+    class GeneratedMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf GeneratedMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        ALWAYS = resolved_ast_resolved_ast_enums_pb2.ResolvedGeneratedColumnInfoEnums.ALWAYS  # 0
+        BY_DEFAULT = resolved_ast_resolved_ast_enums_pb2.ResolvedGeneratedColumnInfoEnums.BY_DEFAULT  # 1
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedGeneratedColumnInfoEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13348,6 +14365,19 @@ class ResolvedGeneratedColumnInfoEnums(ProtoModel):
 @dataclass
 class ResolvedGraphEdgeScanEnums(ProtoModel):
     """Generated model for ResolvedGraphEdgeScanEnums"""
+
+    # Nested Enums
+    class EdgeOrientation(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf EdgeOrientation.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        ANY = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphEdgeScanEnums.ANY  # 0
+        LEFT = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphEdgeScanEnums.LEFT  # 1
+        RIGHT = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphEdgeScanEnums.RIGHT  # 2
+
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphEdgeScanEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -13357,6 +14387,20 @@ class ResolvedGraphEdgeScanEnums(ProtoModel):
 class ResolvedGraphLabelNaryExprEnums(ProtoModel):
     """Generated model for ResolvedGraphLabelNaryExprEnums"""
 
+    # Nested Enums
+    class GraphLogicalOpType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf GraphLogicalOpType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        OPERATION_TYPE_UNSPECIFIED = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphLabelNaryExprEnums.OPERATION_TYPE_UNSPECIFIED  # 0
+        NOT = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphLabelNaryExprEnums.NOT  # 1
+        AND = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphLabelNaryExprEnums.AND  # 2
+        OR = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphLabelNaryExprEnums.OR  # 3
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphLabelNaryExprEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13364,6 +14408,21 @@ class ResolvedGraphLabelNaryExprEnums(ProtoModel):
 @dataclass
 class ResolvedGraphPathModeEnums(ProtoModel):
     """Generated model for ResolvedGraphPathModeEnums"""
+
+    # Nested Enums
+    class PathMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf PathMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        PATH_MODE_UNSPECIFIED = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphPathModeEnums.PATH_MODE_UNSPECIFIED  # 0
+        WALK = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphPathModeEnums.WALK  # 1
+        TRAIL = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphPathModeEnums.TRAIL  # 2
+        SIMPLE = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphPathModeEnums.SIMPLE  # 3
+        ACYCLIC = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphPathModeEnums.ACYCLIC  # 4
+
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphPathModeEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -13373,6 +14432,20 @@ class ResolvedGraphPathModeEnums(ProtoModel):
 class ResolvedGraphPathSearchPrefixEnums(ProtoModel):
     """Generated model for ResolvedGraphPathSearchPrefixEnums"""
 
+    # Nested Enums
+    class PathSearchPrefixType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf PathSearchPrefixType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        PATH_SEARCH_PREFIX_TYPE_UNSPECIFIED = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphPathSearchPrefixEnums.PATH_SEARCH_PREFIX_TYPE_UNSPECIFIED  # 0
+        ANY = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphPathSearchPrefixEnums.ANY  # 1
+        SHORTEST = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphPathSearchPrefixEnums.SHORTEST  # 2
+        CHEAPEST = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphPathSearchPrefixEnums.CHEAPEST  # 3
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedGraphPathSearchPrefixEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13380,6 +14453,19 @@ class ResolvedGraphPathSearchPrefixEnums(ProtoModel):
 @dataclass
 class ResolvedImportStmtEnums(ProtoModel):
     """Generated model for ResolvedImportStmtEnums"""
+
+    # Nested Enums
+    class ImportKind(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ImportKind.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        __ImportKind__switch_must_have_a_default__ = resolved_ast_resolved_ast_enums_pb2.ResolvedImportStmtEnums.__ImportKind__switch_must_have_a_default__  # -1
+        MODULE = resolved_ast_resolved_ast_enums_pb2.ResolvedImportStmtEnums.MODULE  # 0
+        PROTO = resolved_ast_resolved_ast_enums_pb2.ResolvedImportStmtEnums.PROTO  # 1
+
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedImportStmtEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -13389,6 +14475,20 @@ class ResolvedImportStmtEnums(ProtoModel):
 class ResolvedInsertStmtEnums(ProtoModel):
     """Generated model for ResolvedInsertStmtEnums"""
 
+    # Nested Enums
+    class InsertMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf InsertMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        OR_ERROR = resolved_ast_resolved_ast_enums_pb2.ResolvedInsertStmtEnums.OR_ERROR  # 0
+        OR_IGNORE = resolved_ast_resolved_ast_enums_pb2.ResolvedInsertStmtEnums.OR_IGNORE  # 1
+        OR_REPLACE = resolved_ast_resolved_ast_enums_pb2.ResolvedInsertStmtEnums.OR_REPLACE  # 2
+        OR_UPDATE = resolved_ast_resolved_ast_enums_pb2.ResolvedInsertStmtEnums.OR_UPDATE  # 3
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedInsertStmtEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13396,6 +14496,20 @@ class ResolvedInsertStmtEnums(ProtoModel):
 @dataclass
 class ResolvedJoinScanEnums(ProtoModel):
     """Generated model for ResolvedJoinScanEnums"""
+
+    # Nested Enums
+    class JoinType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf JoinType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        INNER = resolved_ast_resolved_ast_enums_pb2.ResolvedJoinScanEnums.INNER  # 0
+        LEFT = resolved_ast_resolved_ast_enums_pb2.ResolvedJoinScanEnums.LEFT  # 1
+        RIGHT = resolved_ast_resolved_ast_enums_pb2.ResolvedJoinScanEnums.RIGHT  # 2
+        FULL = resolved_ast_resolved_ast_enums_pb2.ResolvedJoinScanEnums.FULL  # 3
+
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedJoinScanEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -13405,6 +14519,17 @@ class ResolvedJoinScanEnums(ProtoModel):
 class ResolvedLockModeEnums(ProtoModel):
     """Generated model for ResolvedLockModeEnums"""
 
+    # Nested Enums
+    class LockStrengthType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf LockStrengthType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        UPDATE = resolved_ast_resolved_ast_enums_pb2.ResolvedLockModeEnums.UPDATE  # 0
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedLockModeEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13412,6 +14537,19 @@ class ResolvedLockModeEnums(ProtoModel):
 @dataclass
 class ResolvedMatchRecognizePatternAnchorEnums(ProtoModel):
     """Generated model for ResolvedMatchRecognizePatternAnchorEnums"""
+
+    # Nested Enums
+    class Mode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf Mode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        MODE_UNSPECIFIED = resolved_ast_resolved_ast_enums_pb2.ResolvedMatchRecognizePatternAnchorEnums.MODE_UNSPECIFIED  # 0
+        START = resolved_ast_resolved_ast_enums_pb2.ResolvedMatchRecognizePatternAnchorEnums.START  # 1
+        END = resolved_ast_resolved_ast_enums_pb2.ResolvedMatchRecognizePatternAnchorEnums.END  # 2
+
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedMatchRecognizePatternAnchorEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -13421,6 +14559,19 @@ class ResolvedMatchRecognizePatternAnchorEnums(ProtoModel):
 class ResolvedMatchRecognizePatternOperationEnums(ProtoModel):
     """Generated model for ResolvedMatchRecognizePatternOperationEnums"""
 
+    # Nested Enums
+    class MatchRecognizePatternOperationType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf MatchRecognizePatternOperationType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        OPERATION_TYPE_UNSPECIFIED = resolved_ast_resolved_ast_enums_pb2.ResolvedMatchRecognizePatternOperationEnums.OPERATION_TYPE_UNSPECIFIED  # 0
+        CONCAT = resolved_ast_resolved_ast_enums_pb2.ResolvedMatchRecognizePatternOperationEnums.CONCAT  # 1
+        ALTERNATE = resolved_ast_resolved_ast_enums_pb2.ResolvedMatchRecognizePatternOperationEnums.ALTERNATE  # 2
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedMatchRecognizePatternOperationEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13429,6 +14580,19 @@ class ResolvedMatchRecognizePatternOperationEnums(ProtoModel):
 class ResolvedMatchRecognizeScanEnums(ProtoModel):
     """Generated model for ResolvedMatchRecognizeScanEnums"""
 
+    # Nested Enums
+    class AfterMatchSkipMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf AfterMatchSkipMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        AFTER_MATCH_SKIP_MODE_UNSPECIFIED = resolved_ast_resolved_ast_enums_pb2.ResolvedMatchRecognizeScanEnums.AFTER_MATCH_SKIP_MODE_UNSPECIFIED  # 0
+        END_OF_MATCH = resolved_ast_resolved_ast_enums_pb2.ResolvedMatchRecognizeScanEnums.END_OF_MATCH  # 1
+        NEXT_ROW = resolved_ast_resolved_ast_enums_pb2.ResolvedMatchRecognizeScanEnums.NEXT_ROW  # 2
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedMatchRecognizeScanEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13436,6 +14600,30 @@ class ResolvedMatchRecognizeScanEnums(ProtoModel):
 @dataclass
 class ResolvedMergeWhenEnums(ProtoModel):
     """Generated model for ResolvedMergeWhenEnums"""
+
+    # Nested Enums
+    class ActionType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ActionType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        INSERT = resolved_ast_resolved_ast_enums_pb2.ResolvedMergeWhenEnums.INSERT  # 0
+        UPDATE = resolved_ast_resolved_ast_enums_pb2.ResolvedMergeWhenEnums.UPDATE  # 1
+        DELETE = resolved_ast_resolved_ast_enums_pb2.ResolvedMergeWhenEnums.DELETE  # 2
+
+    class MatchType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf MatchType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        MATCHED = resolved_ast_resolved_ast_enums_pb2.ResolvedMergeWhenEnums.MATCHED  # 0
+        NOT_MATCHED_BY_SOURCE = resolved_ast_resolved_ast_enums_pb2.ResolvedMergeWhenEnums.NOT_MATCHED_BY_SOURCE  # 1
+        NOT_MATCHED_BY_TARGET = resolved_ast_resolved_ast_enums_pb2.ResolvedMergeWhenEnums.NOT_MATCHED_BY_TARGET  # 2
+
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedMergeWhenEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -13461,6 +14649,19 @@ class ResolvedNode(ProtoModel):
 class ResolvedNonScalarFunctionCallBaseEnums(ProtoModel):
     """Generated model for ResolvedNonScalarFunctionCallBaseEnums"""
 
+    # Nested Enums
+    class NullHandlingModifier(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf NullHandlingModifier.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        DEFAULT_NULL_HANDLING = resolved_ast_resolved_ast_enums_pb2.ResolvedNonScalarFunctionCallBaseEnums.DEFAULT_NULL_HANDLING  # 0
+        IGNORE_NULLS = resolved_ast_resolved_ast_enums_pb2.ResolvedNonScalarFunctionCallBaseEnums.IGNORE_NULLS  # 1
+        RESPECT_NULLS = resolved_ast_resolved_ast_enums_pb2.ResolvedNonScalarFunctionCallBaseEnums.RESPECT_NULLS  # 2
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedNonScalarFunctionCallBaseEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13468,6 +14669,18 @@ class ResolvedNonScalarFunctionCallBaseEnums(ProtoModel):
 @dataclass
 class ResolvedOnConflictClauseEnums(ProtoModel):
     """Generated model for ResolvedOnConflictClauseEnums"""
+
+    # Nested Enums
+    class ConflictAction(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ConflictAction.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NOTHING = resolved_ast_resolved_ast_enums_pb2.ResolvedOnConflictClauseEnums.NOTHING  # 0
+        UPDATE = resolved_ast_resolved_ast_enums_pb2.ResolvedOnConflictClauseEnums.UPDATE  # 1
+
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedOnConflictClauseEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -13477,6 +14690,19 @@ class ResolvedOnConflictClauseEnums(ProtoModel):
 class ResolvedOptionEnums(ProtoModel):
     """Generated model for ResolvedOptionEnums"""
 
+    # Nested Enums
+    class AssignmentOp(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf AssignmentOp.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        DEFAULT_ASSIGN = resolved_ast_resolved_ast_enums_pb2.ResolvedOptionEnums.DEFAULT_ASSIGN  # 0
+        ADD_ASSIGN = resolved_ast_resolved_ast_enums_pb2.ResolvedOptionEnums.ADD_ASSIGN  # 1
+        SUB_ASSIGN = resolved_ast_resolved_ast_enums_pb2.ResolvedOptionEnums.SUB_ASSIGN  # 2
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedOptionEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13484,6 +14710,19 @@ class ResolvedOptionEnums(ProtoModel):
 @dataclass
 class ResolvedOrderByItemEnums(ProtoModel):
     """Generated model for ResolvedOrderByItemEnums"""
+
+    # Nested Enums
+    class NullOrderMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf NullOrderMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        ORDER_UNSPECIFIED = resolved_ast_resolved_ast_enums_pb2.ResolvedOrderByItemEnums.ORDER_UNSPECIFIED  # 0
+        NULLS_FIRST = resolved_ast_resolved_ast_enums_pb2.ResolvedOrderByItemEnums.NULLS_FIRST  # 1
+        NULLS_LAST = resolved_ast_resolved_ast_enums_pb2.ResolvedOrderByItemEnums.NULLS_LAST  # 2
+
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedOrderByItemEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -13493,6 +14732,18 @@ class ResolvedOrderByItemEnums(ProtoModel):
 class ResolvedRecursiveScanEnums(ProtoModel):
     """Generated model for ResolvedRecursiveScanEnums"""
 
+    # Nested Enums
+    class RecursiveSetOperationType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf RecursiveSetOperationType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        UNION_ALL = resolved_ast_resolved_ast_enums_pb2.ResolvedRecursiveScanEnums.UNION_ALL  # 0
+        UNION_DISTINCT = resolved_ast_resolved_ast_enums_pb2.ResolvedRecursiveScanEnums.UNION_DISTINCT  # 1
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedRecursiveScanEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13500,6 +14751,18 @@ class ResolvedRecursiveScanEnums(ProtoModel):
 @dataclass
 class ResolvedSampleScanEnums(ProtoModel):
     """Generated model for ResolvedSampleScanEnums"""
+
+    # Nested Enums
+    class SampleUnit(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf SampleUnit.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        ROWS = resolved_ast_resolved_ast_enums_pb2.ResolvedSampleScanEnums.ROWS  # 0
+        PERCENT = resolved_ast_resolved_ast_enums_pb2.ResolvedSampleScanEnums.PERCENT  # 1
+
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedSampleScanEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -13509,6 +14772,45 @@ class ResolvedSampleScanEnums(ProtoModel):
 class ResolvedSetOperationScanEnums(ProtoModel):
     """Generated model for ResolvedSetOperationScanEnums"""
 
+    # Nested Enums
+    class SetOperationType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf SetOperationType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        UNION_ALL = resolved_ast_resolved_ast_enums_pb2.ResolvedSetOperationScanEnums.UNION_ALL  # 0
+        UNION_DISTINCT = resolved_ast_resolved_ast_enums_pb2.ResolvedSetOperationScanEnums.UNION_DISTINCT  # 1
+        INTERSECT_ALL = resolved_ast_resolved_ast_enums_pb2.ResolvedSetOperationScanEnums.INTERSECT_ALL  # 2
+        INTERSECT_DISTINCT = resolved_ast_resolved_ast_enums_pb2.ResolvedSetOperationScanEnums.INTERSECT_DISTINCT  # 3
+        EXCEPT_ALL = resolved_ast_resolved_ast_enums_pb2.ResolvedSetOperationScanEnums.EXCEPT_ALL  # 4
+        EXCEPT_DISTINCT = resolved_ast_resolved_ast_enums_pb2.ResolvedSetOperationScanEnums.EXCEPT_DISTINCT  # 5
+
+    class SetOperationColumnMatchMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf SetOperationColumnMatchMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        BY_POSITION = resolved_ast_resolved_ast_enums_pb2.ResolvedSetOperationScanEnums.BY_POSITION  # 0
+        CORRESPONDING = resolved_ast_resolved_ast_enums_pb2.ResolvedSetOperationScanEnums.CORRESPONDING  # 1
+        CORRESPONDING_BY = resolved_ast_resolved_ast_enums_pb2.ResolvedSetOperationScanEnums.CORRESPONDING_BY  # 2
+
+    class SetOperationColumnPropagationMode(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf SetOperationColumnPropagationMode.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        STRICT = resolved_ast_resolved_ast_enums_pb2.ResolvedSetOperationScanEnums.STRICT  # 0
+        INNER = resolved_ast_resolved_ast_enums_pb2.ResolvedSetOperationScanEnums.INNER  # 1
+        LEFT = resolved_ast_resolved_ast_enums_pb2.ResolvedSetOperationScanEnums.LEFT  # 2
+        FULL = resolved_ast_resolved_ast_enums_pb2.ResolvedSetOperationScanEnums.FULL  # 3
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedSetOperationScanEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13516,6 +14818,20 @@ class ResolvedSetOperationScanEnums(ProtoModel):
 @dataclass
 class ResolvedStatementEnums(ProtoModel):
     """Generated model for ResolvedStatementEnums"""
+
+    # Nested Enums
+    class ObjectAccess(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ObjectAccess.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        NONE = resolved_ast_resolved_ast_enums_pb2.ResolvedStatementEnums.NONE  # 0
+        READ = resolved_ast_resolved_ast_enums_pb2.ResolvedStatementEnums.READ  # 1
+        WRITE = resolved_ast_resolved_ast_enums_pb2.ResolvedStatementEnums.WRITE  # 2
+        READ_WRITE = resolved_ast_resolved_ast_enums_pb2.ResolvedStatementEnums.READ_WRITE  # 3
+
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedStatementEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -13525,6 +14841,24 @@ class ResolvedStatementEnums(ProtoModel):
 class ResolvedSubqueryExprEnums(ProtoModel):
     """Generated model for ResolvedSubqueryExprEnums"""
 
+    # Nested Enums
+    class SubqueryType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf SubqueryType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        SCALAR = resolved_ast_resolved_ast_enums_pb2.ResolvedSubqueryExprEnums.SCALAR  # 0
+        ARRAY = resolved_ast_resolved_ast_enums_pb2.ResolvedSubqueryExprEnums.ARRAY  # 1
+        EXISTS = resolved_ast_resolved_ast_enums_pb2.ResolvedSubqueryExprEnums.EXISTS  # 2
+        IN = resolved_ast_resolved_ast_enums_pb2.ResolvedSubqueryExprEnums.IN  # 3
+        LIKE_ANY = resolved_ast_resolved_ast_enums_pb2.ResolvedSubqueryExprEnums.LIKE_ANY  # 4
+        LIKE_ALL = resolved_ast_resolved_ast_enums_pb2.ResolvedSubqueryExprEnums.LIKE_ALL  # 5
+        NOT_LIKE_ANY = resolved_ast_resolved_ast_enums_pb2.ResolvedSubqueryExprEnums.NOT_LIKE_ANY  # 6
+        NOT_LIKE_ALL = resolved_ast_resolved_ast_enums_pb2.ResolvedSubqueryExprEnums.NOT_LIKE_ALL  # 7
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedSubqueryExprEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13532,6 +14866,19 @@ class ResolvedSubqueryExprEnums(ProtoModel):
 @dataclass
 class ResolvedUpdateFieldItemEnums(ProtoModel):
     """Generated model for ResolvedUpdateFieldItemEnums"""
+
+    # Nested Enums
+    class Operation(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf Operation.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        UPDATE_SINGLE = resolved_ast_resolved_ast_enums_pb2.ResolvedUpdateFieldItemEnums.UPDATE_SINGLE  # 0
+        UPDATE_MANY = resolved_ast_resolved_ast_enums_pb2.ResolvedUpdateFieldItemEnums.UPDATE_MANY  # 1
+        UPDATE_SINGLE_NO_CREATION = resolved_ast_resolved_ast_enums_pb2.ResolvedUpdateFieldItemEnums.UPDATE_SINGLE_NO_CREATION  # 2
+
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedUpdateFieldItemEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -13541,6 +14888,18 @@ class ResolvedUpdateFieldItemEnums(ProtoModel):
 class ResolvedWindowFrameEnums(ProtoModel):
     """Generated model for ResolvedWindowFrameEnums"""
 
+    # Nested Enums
+    class FrameUnit(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf FrameUnit.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        ROWS = resolved_ast_resolved_ast_enums_pb2.ResolvedWindowFrameEnums.ROWS  # 0
+        RANGE = resolved_ast_resolved_ast_enums_pb2.ResolvedWindowFrameEnums.RANGE  # 1
+
+
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedWindowFrameEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
 
@@ -13548,6 +14907,21 @@ class ResolvedWindowFrameEnums(ProtoModel):
 @dataclass
 class ResolvedWindowFrameExprEnums(ProtoModel):
     """Generated model for ResolvedWindowFrameExprEnums"""
+
+    # Nested Enums
+    class BoundaryType(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf BoundaryType.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        UNBOUNDED_PRECEDING = resolved_ast_resolved_ast_enums_pb2.ResolvedWindowFrameExprEnums.UNBOUNDED_PRECEDING  # 0
+        OFFSET_PRECEDING = resolved_ast_resolved_ast_enums_pb2.ResolvedWindowFrameExprEnums.OFFSET_PRECEDING  # 1
+        CURRENT_ROW = resolved_ast_resolved_ast_enums_pb2.ResolvedWindowFrameExprEnums.CURRENT_ROW  # 2
+        OFFSET_FOLLOWING = resolved_ast_resolved_ast_enums_pb2.ResolvedWindowFrameExprEnums.OFFSET_FOLLOWING  # 3
+        UNBOUNDED_FOLLOWING = resolved_ast_resolved_ast_enums_pb2.ResolvedWindowFrameExprEnums.UNBOUNDED_FOLLOWING  # 4
+
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_enums_pb2.ResolvedWindowFrameExprEnums
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -13695,9 +15069,23 @@ class ScriptException(ProtoModel):
 class ScriptExecutorState(ProtoModel):
     """Generated model for ScriptExecutorStateProto"""
 
+    # Nested Enums
+    class ScriptFeature(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf ScriptFeature.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        INVALID = scripting_script_executor_state_pb2.ScriptExecutorStateProto.INVALID  # 0
+        EXCEPTION_CAUGHT = scripting_script_executor_state_pb2.ScriptExecutorStateProto.EXCEPTION_CAUGHT  # 1
+        CALL_STATEMENT = scripting_script_executor_state_pb2.ScriptExecutorStateProto.CALL_STATEMENT  # 2
+        EXECUTE_IMMEDIATE_STATEMENT = scripting_script_executor_state_pb2.ScriptExecutorStateProto.EXECUTE_IMMEDIATE_STATEMENT  # 3
+
+
     callstack: List['ScriptExecutorState.StackFrame'] = field(default_factory=list)
     pending_exceptions: List['ScriptException'] = field(default_factory=list)
-    triggered_features: List[int] = field(default_factory=list)
+    triggered_features: List['ScriptExecutorState.ScriptFeature'] = field(default_factory=list)
     timezone: Optional[str] = None
     case_stmt_true_branch_index: Optional[int] = None
     case_stmt_current_branch_index: Optional[int] = None
@@ -13719,6 +15107,9 @@ class ScriptExecutorState(ProtoModel):
             'proto_field': 'triggered_features',
             'is_message': False,
             'is_repeated': True,
+            'is_enum': True,
+            'enum_type_name': 'ScriptFeature',
+            'enum_parent_message': 'ScriptExecutorStateProto',
         },
         'timezone': {
             'proto_field': 'timezone',
@@ -13863,7 +15254,20 @@ class ScriptExecutorState(ProtoModel):
         class Parameters(ProtoModel):
             """Generated model for Parameters"""
 
-            mode: Optional[int] = None
+            # Nested Enums
+            class ParameterMode(IntEnum):
+                """
+                Auto-generated IntEnum for protobuf ParameterMode.
+                
+                Values are directly compatible with protobuf integer constants.
+                """
+
+                NONE = scripting_script_executor_state_pb2.ScriptExecutorStateProto.StackFrame.Parameters.NONE  # 0
+                NAMED = scripting_script_executor_state_pb2.ScriptExecutorStateProto.StackFrame.Parameters.NAMED  # 1
+                POSITIONAL = scripting_script_executor_state_pb2.ScriptExecutorStateProto.StackFrame.Parameters.POSITIONAL  # 2
+
+
+            mode: Optional['Parameters.ParameterMode'] = None
             variables: List['Variable'] = field(default_factory=list)
 
             _PROTO_CLASS: ClassVar[type] = scripting_script_executor_state_pb2.ScriptExecutorStateProto.StackFrame.Parameters
@@ -13872,6 +15276,9 @@ class ScriptExecutorState(ProtoModel):
                     'proto_field': 'mode',
                     'is_message': False,
                     'is_repeated': False,
+                    'is_enum': True,
+                    'enum_type_name': 'ParameterMode',
+                    'enum_parent_message': 'Parameters',
                 },
                 'variables': {
                     'proto_field': 'variables',
@@ -14202,7 +15609,7 @@ class SimpleGraphElementTable(ProtoModel):
 
     name: Optional[str] = None
     property_graph_name_path: List[str] = field(default_factory=list)
-    kind: Optional[int] = None
+    kind: Optional['SimpleGraphElementTable.Kind'] = None
     input_table_name: Optional[str] = None
     key_columns: List[int] = field(default_factory=list)
     label_names: List[str] = field(default_factory=list)
@@ -14228,6 +15635,9 @@ class SimpleGraphElementTable(ProtoModel):
             'proto_field': 'kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Kind',
+            'enum_parent_message': 'SimpleGraphElementTableProto',
         },
         'input_table_name': {
             'proto_field': 'input_table_name',
@@ -14589,7 +15999,7 @@ class StateMachine(ProtoModel):
     """Generated model for StateMachineProto"""
 
     nfa: Optional['StateMachine.CompiledNFA'] = None
-    after_match_skip_mode: Optional[int] = None
+    after_match_skip_mode: Optional['ResolvedMatchRecognizeScanEnums.AfterMatchSkipMode'] = None
     longest_match_mode: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = match_recognize_compiled_pattern_pb2.StateMachineProto
@@ -14603,6 +16013,9 @@ class StateMachine(ProtoModel):
             'proto_field': 'after_match_skip_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'AfterMatchSkipMode',
+            'enum_parent_message': 'ResolvedMatchRecognizeScanEnums',
         },
         'longest_match_mode': {
             'proto_field': 'longest_match_mode',
@@ -15132,13 +16545,13 @@ class TableValuedFunction(ProtoModel):
     signature: Optional['FunctionSignature'] = None
     signatures: List['FunctionSignature'] = field(default_factory=list)
     options: Optional['TableValuedFunctionOptions'] = None
-    type: Optional[int] = None
-    volatility: Optional[int] = None
+    type: Optional['FunctionEnums.TableValuedFunctionType'] = None
+    volatility: Optional['FunctionEnums.Volatility'] = None
     parse_resume_location: Optional['ParseResumeLocation'] = None
     argument_name: List[str] = field(default_factory=list)
     custom_context: Optional[str] = None
     anonymization_info: Optional['SimpleAnonymizationInfo'] = None
-    statement_context: Optional[int] = None
+    statement_context: Optional['StatementContext'] = None
     group: Optional[str] = None
 
     _PROTO_CLASS: ClassVar[type] = proto_function_pb2.TableValuedFunctionProto
@@ -15167,11 +16580,17 @@ class TableValuedFunction(ProtoModel):
             'proto_field': 'type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'TableValuedFunctionType',
+            'enum_parent_message': 'FunctionEnums',
         },
         'volatility': {
             'proto_field': 'volatility',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Volatility',
+            'enum_parent_message': 'FunctionEnums',
         },
         'parse_resume_location': {
             'proto_field': 'parse_resume_location',
@@ -15197,6 +16616,8 @@ class TableValuedFunction(ProtoModel):
             'proto_field': 'statement_context',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'StatementContext',
         },
         'group': {
             'proto_field': 'group',
@@ -15211,7 +16632,7 @@ class TableValuedFunctionOptions(ProtoModel):
     """Generated model for TableValuedFunctionOptionsProto"""
 
     uses_upper_case_sql_name: Optional[bool] = None
-    required_language_feature: List[int] = field(default_factory=list)
+    required_language_feature: List['LanguageFeature'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = proto_function_pb2.TableValuedFunctionOptionsProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -15224,6 +16645,8 @@ class TableValuedFunctionOptions(ProtoModel):
             'proto_field': 'required_language_feature',
             'is_message': False,
             'is_repeated': True,
+            'is_enum': True,
+            'enum_type_name': 'LanguageFeature',
         },
     }
 
@@ -15336,7 +16759,7 @@ class Token(ProtoModel):
 class Type(ProtoModel):
     """Generated model for TypeProto"""
 
-    type_kind: Optional[int] = None
+    type_kind: Optional['TypeKind'] = None
     array_type: Optional['ArrayType'] = None
     struct_type: Optional['StructType'] = None
     proto_type: Optional['ProtoType'] = None
@@ -15355,6 +16778,8 @@ class Type(ProtoModel):
             'proto_field': 'type_kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'TypeKind',
         },
         'array_type': {
             'proto_field': 'array_type',
@@ -15543,6 +16968,20 @@ class UnregisterRequest(ProtoModel):
 @dataclass
 class UnsupportedFieldsEnum(ProtoModel):
     """Generated model for UnsupportedFieldsEnum"""
+
+    # Nested Enums
+    class UnsupportedFields(IntEnum):
+        """
+        Auto-generated IntEnum for protobuf UnsupportedFields.
+        
+        Values are directly compatible with protobuf integer constants.
+        """
+
+        UNSUPPORTED_FIELDS_INVALID = functions_unsupported_fields_pb2.UnsupportedFieldsEnum.UNSUPPORTED_FIELDS_INVALID  # 0
+        FAIL = functions_unsupported_fields_pb2.UnsupportedFieldsEnum.FAIL  # 1
+        IGNORE = functions_unsupported_fields_pb2.UnsupportedFieldsEnum.IGNORE  # 2
+        PLACEHOLDER = functions_unsupported_fields_pb2.UnsupportedFieldsEnum.PLACEHOLDER  # 3
+
 
     _PROTO_CLASS: ClassVar[type] = functions_unsupported_fields_pb2.UnsupportedFieldsEnum
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {}
@@ -15924,8 +17363,8 @@ class ZetaSQLBuiltinFunctionOptions(ProtoModel):
     """Generated model for ZetaSQLBuiltinFunctionOptionsProto"""
 
     language_options: Optional['LanguageOptions'] = None
-    include_function_ids: List[int] = field(default_factory=list)
-    exclude_function_ids: List[int] = field(default_factory=list)
+    include_function_ids: List['FunctionSignatureId'] = field(default_factory=list)
+    exclude_function_ids: List['FunctionSignatureId'] = field(default_factory=list)
     enabled_rewrites_map_entry: List['EnabledRewrite'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = proto_options_pb2.ZetaSQLBuiltinFunctionOptionsProto
@@ -15939,11 +17378,15 @@ class ZetaSQLBuiltinFunctionOptions(ProtoModel):
             'proto_field': 'include_function_ids',
             'is_message': False,
             'is_repeated': True,
+            'is_enum': True,
+            'enum_type_name': 'FunctionSignatureId',
         },
         'exclude_function_ids': {
             'proto_field': 'exclude_function_ids',
             'is_message': False,
             'is_repeated': True,
+            'is_enum': True,
+            'enum_type_name': 'FunctionSignatureId',
         },
         'enabled_rewrites_map_entry': {
             'proto_field': 'enabled_rewrites_map_entry',
@@ -15957,7 +17400,7 @@ class ZetaSQLBuiltinFunctionOptions(ProtoModel):
 class ASTAfterMatchSkipClause(ASTNode):
     """Generated model for ASTAfterMatchSkipClauseProto"""
 
-    target_type: Optional[int] = None
+    target_type: Optional['ASTAfterMatchSkipClauseEnums.AfterMatchSkipTargetType'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAfterMatchSkipClauseProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -15965,6 +17408,9 @@ class ASTAfterMatchSkipClause(ASTNode):
             'proto_field': 'target_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'AfterMatchSkipTargetType',
+            'enum_parent_message': 'ASTAfterMatchSkipClauseEnums',
         },
     }
 
@@ -16073,7 +17519,7 @@ class ASTAlterActionList(ASTNode):
 class ASTAnySomeAllOp(ASTNode):
     """Generated model for ASTAnySomeAllOpProto"""
 
-    op: Optional[int] = None
+    op: Optional['ASTAnySomeAllOpEnums.Op'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAnySomeAllOpProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -16081,6 +17527,9 @@ class ASTAnySomeAllOp(ASTNode):
             'proto_field': 'op',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Op',
+            'enum_parent_message': 'ASTAnySomeAllOpEnums',
         },
     }
 
@@ -16320,7 +17769,7 @@ class ASTColumnPosition(ASTNode):
     """Generated model for ASTColumnPositionProto"""
 
     identifier: Optional['ASTIdentifier'] = None
-    type: Optional[int] = None
+    type: Optional['ASTColumnPositionEnums.RelativePositionType'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTColumnPositionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -16333,6 +17782,9 @@ class ASTColumnPosition(ASTNode):
             'proto_field': 'type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'RelativePositionType',
+            'enum_parent_message': 'ASTColumnPositionEnums',
         },
     }
 
@@ -16668,7 +18120,7 @@ class ASTFilterFieldsArg(ASTNode):
     """Generated model for ASTFilterFieldsArgProto"""
 
     path_expression: Optional['ASTGeneralizedPathExpression'] = None
-    filter_type: Optional[int] = None
+    filter_type: Optional['ASTFilterFieldsArgEnums.FilterType'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTFilterFieldsArgProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -16681,6 +18133,9 @@ class ASTFilterFieldsArg(ASTNode):
             'proto_field': 'filter_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'FilterType',
+            'enum_parent_message': 'ASTFilterFieldsArgEnums',
         },
     }
 
@@ -16705,8 +18160,8 @@ class ASTForSystemTime(ASTNode):
 class ASTForeignKeyActions(ASTNode):
     """Generated model for ASTForeignKeyActionsProto"""
 
-    update_action: Optional[int] = None
-    delete_action: Optional[int] = None
+    update_action: Optional['ASTForeignKeyActionsEnums.Action'] = None
+    delete_action: Optional['ASTForeignKeyActionsEnums.Action'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTForeignKeyActionsProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -16714,11 +18169,17 @@ class ASTForeignKeyActions(ASTNode):
             'proto_field': 'update_action',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Action',
+            'enum_parent_message': 'ASTForeignKeyActionsEnums',
         },
         'delete_action': {
             'proto_field': 'delete_action',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Action',
+            'enum_parent_message': 'ASTForeignKeyActionsEnums',
         },
     }
 
@@ -16730,7 +18191,7 @@ class ASTForeignKeyReference(ASTNode):
     table_name: Optional['ASTPathExpression'] = None
     column_list: Optional['ASTColumnList'] = None
     actions: Optional['ASTForeignKeyActions'] = None
-    match: Optional[int] = None
+    match: Optional['ASTForeignKeyReferenceEnums.Match'] = None
     enforced: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTForeignKeyReferenceProto
@@ -16754,6 +18215,9 @@ class ASTForeignKeyReference(ASTNode):
             'proto_field': 'match',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Match',
+            'enum_parent_message': 'ASTForeignKeyReferenceEnums',
         },
         'enforced': {
             'proto_field': 'enforced',
@@ -16833,7 +18297,7 @@ class ASTFunctionParameter(ASTNode):
     tvf_schema: Optional['ASTTVFSchema'] = None
     alias: Optional['ASTAlias'] = None
     default_value: Optional['ASTExpression'] = None
-    procedure_parameter_mode: Optional[int] = None
+    procedure_parameter_mode: Optional['ASTFunctionParameterEnums.ProcedureParameterMode'] = None
     is_not_aggregate: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTFunctionParameterProto
@@ -16872,6 +18336,9 @@ class ASTFunctionParameter(ASTNode):
             'proto_field': 'procedure_parameter_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ProcedureParameterMode',
+            'enum_parent_message': 'ASTFunctionParameterEnums',
         },
         'is_not_aggregate': {
             'proto_field': 'is_not_aggregate',
@@ -16918,8 +18385,8 @@ class ASTGeneratedColumnInfo(ASTNode):
     """Generated model for ASTGeneratedColumnInfoProto"""
 
     expression: Optional['ASTExpression'] = None
-    stored_mode: Optional[int] = None
-    generated_mode: Optional[int] = None
+    stored_mode: Optional['ASTGeneratedColumnInfoEnums.StoredMode'] = None
+    generated_mode: Optional['ASTGeneratedColumnInfoEnums.GeneratedMode'] = None
     identity_column_info: Optional['ASTIdentityColumnInfo'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTGeneratedColumnInfoProto
@@ -16933,11 +18400,17 @@ class ASTGeneratedColumnInfo(ASTNode):
             'proto_field': 'stored_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'StoredMode',
+            'enum_parent_message': 'ASTGeneratedColumnInfoEnums',
         },
         'generated_mode': {
             'proto_field': 'generated_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'GeneratedMode',
+            'enum_parent_message': 'ASTGeneratedColumnInfoEnums',
         },
         'identity_column_info': {
             'proto_field': 'identity_column_info',
@@ -17358,7 +18831,7 @@ class ASTGraphNodeTableReference(ASTNode):
     node_table_identifier: Optional['ASTIdentifier'] = None
     edge_table_columns: Optional['ASTColumnList'] = None
     node_table_columns: Optional['ASTColumnList'] = None
-    node_reference_type: Optional[int] = None
+    node_reference_type: Optional['ASTGraphNodeTableReferenceEnums.NodeReferenceType'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTGraphNodeTableReferenceProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -17381,6 +18854,9 @@ class ASTGraphNodeTableReference(ASTNode):
             'proto_field': 'node_reference_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'NodeReferenceType',
+            'enum_parent_message': 'ASTGraphNodeTableReferenceEnums',
         },
     }
 
@@ -17405,7 +18881,7 @@ class ASTGraphPathBase(ASTNode):
 class ASTGraphPathMode(ASTNode):
     """Generated model for ASTGraphPathModeProto"""
 
-    path_mode: Optional[int] = None
+    path_mode: Optional['ASTGraphPathModeEnums.PathMode'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTGraphPathModeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -17413,6 +18889,9 @@ class ASTGraphPathMode(ASTNode):
             'proto_field': 'path_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'PathMode',
+            'enum_parent_message': 'ASTGraphPathModeEnums',
         },
     }
 
@@ -17421,7 +18900,7 @@ class ASTGraphPathMode(ASTNode):
 class ASTGraphPathSearchPrefix(ASTNode):
     """Generated model for ASTGraphPathSearchPrefixProto"""
 
-    type: Optional[int] = None
+    type: Optional['ASTGraphPathSearchPrefixEnums.PathSearchPrefixType'] = None
     path_count: Optional['ASTGraphPathSearchPrefixCount'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTGraphPathSearchPrefixProto
@@ -17430,6 +18909,9 @@ class ASTGraphPathSearchPrefix(ASTNode):
             'proto_field': 'type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'PathSearchPrefixType',
+            'enum_parent_message': 'ASTGraphPathSearchPrefixEnums',
         },
         'path_count': {
             'proto_field': 'path_count',
@@ -17651,7 +19133,7 @@ class ASTGroupingItem(ASTNode):
 class ASTGroupingItemOrder(ASTNode):
     """Generated model for ASTGroupingItemOrderProto"""
 
-    ordering_spec: Optional[int] = None
+    ordering_spec: Optional['ASTOrderingExpressionEnums.OrderingSpec'] = None
     null_order: Optional['ASTNullOrder'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTGroupingItemOrderProto
@@ -17660,6 +19142,9 @@ class ASTGroupingItemOrder(ASTNode):
             'proto_field': 'ordering_spec',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'OrderingSpec',
+            'enum_parent_message': 'ASTOrderingExpressionEnums',
         },
         'null_order': {
             'proto_field': 'null_order',
@@ -17734,7 +19219,7 @@ class ASTHavingModifier(ASTNode):
     """Generated model for ASTHavingModifierProto"""
 
     expr: Optional['ASTExpression'] = None
-    modifier_kind: Optional[int] = None
+    modifier_kind: Optional['ASTHavingModifierEnums.ModifierKind'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTHavingModifierProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -17747,6 +19232,9 @@ class ASTHavingModifier(ASTNode):
             'proto_field': 'modifier_kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ModifierKind',
+            'enum_parent_message': 'ASTHavingModifierEnums',
         },
     }
 
@@ -18135,7 +19623,7 @@ class ASTLocation(ASTNode):
 class ASTLockMode(ASTNode):
     """Generated model for ASTLockModeProto"""
 
-    strength: Optional[int] = None
+    strength: Optional['ASTLockModeEnums.LockStrengthSpec'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTLockModeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -18143,6 +19631,9 @@ class ASTLockMode(ASTNode):
             'proto_field': 'strength',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'LockStrengthSpec',
+            'enum_parent_message': 'ASTLockModeEnums',
         },
     }
 
@@ -18154,7 +19645,7 @@ class ASTMergeAction(ASTNode):
     insert_column_list: Optional['ASTColumnList'] = None
     insert_row: Optional['ASTInsertValuesRow'] = None
     update_item_list: Optional['ASTUpdateItemList'] = None
-    action_type: Optional[int] = None
+    action_type: Optional['ASTMergeActionEnums.ActionType'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTMergeActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -18177,6 +19668,9 @@ class ASTMergeAction(ASTNode):
             'proto_field': 'action_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ActionType',
+            'enum_parent_message': 'ASTMergeActionEnums',
         },
     }
 
@@ -18187,7 +19681,7 @@ class ASTMergeWhenClause(ASTNode):
 
     search_condition: Optional['ASTExpression'] = None
     action: Optional['ASTMergeAction'] = None
-    match_type: Optional[int] = None
+    match_type: Optional['ASTMergeWhenClauseEnums.MatchType'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTMergeWhenClauseProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -18205,6 +19699,9 @@ class ASTMergeWhenClause(ASTNode):
             'proto_field': 'match_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'MatchType',
+            'enum_parent_message': 'ASTMergeWhenClauseEnums',
         },
     }
 
@@ -18305,7 +19802,7 @@ class ASTOnClause(ASTNode):
 class ASTOnConflictClause(ASTNode):
     """Generated model for ASTOnConflictClauseProto"""
 
-    conflict_action: Optional[int] = None
+    conflict_action: Optional['ASTOnConflictClauseEnums.ConflictAction'] = None
     conflict_target: Optional['ASTColumnList'] = None
     unique_constraint_name: Optional['ASTIdentifier'] = None
     update_item_list: Optional['ASTUpdateItemList'] = None
@@ -18317,6 +19814,9 @@ class ASTOnConflictClause(ASTNode):
             'proto_field': 'conflict_action',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ConflictAction',
+            'enum_parent_message': 'ASTOnConflictClauseEnums',
         },
         'conflict_target': {
             'proto_field': 'conflict_target',
@@ -18363,7 +19863,7 @@ class ASTOptionsEntry(ASTNode):
 
     name: Optional['ASTIdentifier'] = None
     value: Optional['ASTExpression'] = None
-    assignment_op: Optional[int] = None
+    assignment_op: Optional['ASTOptionsEntryEnums.AssignmentOp'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTOptionsEntryProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -18381,6 +19881,9 @@ class ASTOptionsEntry(ASTNode):
             'proto_field': 'assignment_op',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'AssignmentOp',
+            'enum_parent_message': 'ASTOptionsEntryEnums',
         },
     }
 
@@ -18430,7 +19933,7 @@ class ASTOrderingExpression(ASTNode):
     expression: Optional['ASTExpression'] = None
     collate: Optional['ASTCollate'] = None
     null_order: Optional['ASTNullOrder'] = None
-    ordering_spec: Optional[int] = None
+    ordering_spec: Optional['ASTOrderingExpressionEnums.OrderingSpec'] = None
     option_list: Optional['ASTOptionsList'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTOrderingExpressionProto
@@ -18454,6 +19957,9 @@ class ASTOrderingExpression(ASTNode):
             'proto_field': 'ordering_spec',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'OrderingSpec',
+            'enum_parent_message': 'ASTOrderingExpressionEnums',
         },
         'option_list': {
             'proto_field': 'option_list',
@@ -18620,7 +20126,7 @@ class ASTPrimaryKeyElement(ASTNode):
     """Generated model for ASTPrimaryKeyElementProto"""
 
     column: Optional['ASTIdentifier'] = None
-    ordering_spec: Optional[int] = None
+    ordering_spec: Optional['ASTOrderingExpressionEnums.OrderingSpec'] = None
     null_order: Optional['ASTNullOrder'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTPrimaryKeyElementProto
@@ -18634,6 +20140,9 @@ class ASTPrimaryKeyElement(ASTNode):
             'proto_field': 'ordering_spec',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'OrderingSpec',
+            'enum_parent_message': 'ASTOrderingExpressionEnums',
         },
         'null_order': {
             'proto_field': 'null_order',
@@ -18887,7 +20396,7 @@ class ASTSampleSize(ASTNode):
 
     size: Optional['ASTExpression'] = None
     partition_by: Optional['ASTPartitionBy'] = None
-    unit: Optional[int] = None
+    unit: Optional['ASTSampleSizeEnums.Unit'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSampleSizeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -18905,6 +20414,9 @@ class ASTSampleSize(ASTNode):
             'proto_field': 'unit',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Unit',
+            'enum_parent_message': 'ASTSampleSizeEnums',
         },
     }
 
@@ -18952,7 +20464,7 @@ class ASTSelectAs(ASTNode):
     """Generated model for ASTSelectAsProto"""
 
     type_name: Optional['ASTPathExpression'] = None
-    as_mode: Optional[int] = None
+    as_mode: Optional['ASTSelectAsEnums.AsMode'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSelectAsProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -18965,6 +20477,9 @@ class ASTSelectAs(ASTNode):
             'proto_field': 'as_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'AsMode',
+            'enum_parent_message': 'ASTSelectAsEnums',
         },
     }
 
@@ -19039,7 +20554,7 @@ class ASTSelectWith(ASTNode):
 class ASTSetOperationAllOrDistinct(ASTNode):
     """Generated model for ASTSetOperationAllOrDistinctProto"""
 
-    value: Optional[int] = None
+    value: Optional['ASTSetOperationEnums.AllOrDistinct'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSetOperationAllOrDistinctProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -19047,6 +20562,9 @@ class ASTSetOperationAllOrDistinct(ASTNode):
             'proto_field': 'value',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'AllOrDistinct',
+            'enum_parent_message': 'ASTSetOperationEnums',
         },
     }
 
@@ -19055,7 +20573,7 @@ class ASTSetOperationAllOrDistinct(ASTNode):
 class ASTSetOperationColumnMatchMode(ASTNode):
     """Generated model for ASTSetOperationColumnMatchModeProto"""
 
-    value: Optional[int] = None
+    value: Optional['ASTSetOperationEnums.ColumnMatchMode'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSetOperationColumnMatchModeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -19063,6 +20581,9 @@ class ASTSetOperationColumnMatchMode(ASTNode):
             'proto_field': 'value',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ColumnMatchMode',
+            'enum_parent_message': 'ASTSetOperationEnums',
         },
     }
 
@@ -19071,7 +20592,7 @@ class ASTSetOperationColumnMatchMode(ASTNode):
 class ASTSetOperationColumnPropagationMode(ASTNode):
     """Generated model for ASTSetOperationColumnPropagationModeProto"""
 
-    value: Optional[int] = None
+    value: Optional['ASTSetOperationEnums.ColumnPropagationMode'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSetOperationColumnPropagationModeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -19079,6 +20600,9 @@ class ASTSetOperationColumnPropagationMode(ASTNode):
             'proto_field': 'value',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ColumnPropagationMode',
+            'enum_parent_message': 'ASTSetOperationEnums',
         },
     }
 
@@ -19149,7 +20673,7 @@ class ASTSetOperationMetadataList(ASTNode):
 class ASTSetOperationType(ASTNode):
     """Generated model for ASTSetOperationTypeProto"""
 
-    value: Optional[int] = None
+    value: Optional['ASTSetOperationEnums.OperationType'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSetOperationTypeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -19157,6 +20681,9 @@ class ASTSetOperationType(ASTNode):
             'proto_field': 'value',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'OperationType',
+            'enum_parent_message': 'ASTSetOperationEnums',
         },
     }
 
@@ -19166,8 +20693,8 @@ class ASTSpannerInterleaveClause(ASTNode):
     """Generated model for ASTSpannerInterleaveClauseProto"""
 
     table_name: Optional['ASTPathExpression'] = None
-    type: Optional[int] = None
-    action: Optional[int] = None
+    type: Optional['ASTSpannerInterleaveClauseEnums.Type'] = None
+    action: Optional['ASTForeignKeyActionsEnums.Action'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSpannerInterleaveClauseProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -19180,11 +20707,17 @@ class ASTSpannerInterleaveClause(ASTNode):
             'proto_field': 'type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Type',
+            'enum_parent_message': 'ASTSpannerInterleaveClauseEnums',
         },
         'action': {
             'proto_field': 'action',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Action',
+            'enum_parent_message': 'ASTForeignKeyActionsEnums',
         },
     }
 
@@ -19565,7 +21098,7 @@ class ASTTableExpression(ASTNode):
 class ASTTemplatedParameterType(ASTNode):
     """Generated model for ASTTemplatedParameterTypeProto"""
 
-    kind: Optional[int] = None
+    kind: Optional['ASTTemplatedParameterTypeEnums.TemplatedTypeKind'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTTemplatedParameterTypeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -19573,6 +21106,9 @@ class ASTTemplatedParameterType(ASTNode):
             'proto_field': 'kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'TemplatedTypeKind',
+            'enum_parent_message': 'ASTTemplatedParameterTypeEnums',
         },
     }
 
@@ -19969,7 +21505,7 @@ class ASTWindowFrame(ASTNode):
 
     start_expr: Optional['ASTWindowFrameExpr'] = None
     end_expr: Optional['ASTWindowFrameExpr'] = None
-    frame_unit: Optional[int] = None
+    frame_unit: Optional['ASTWindowFrameEnums.FrameUnit'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTWindowFrameProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -19987,6 +21523,9 @@ class ASTWindowFrame(ASTNode):
             'proto_field': 'frame_unit',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'FrameUnit',
+            'enum_parent_message': 'ASTWindowFrameEnums',
         },
     }
 
@@ -19996,7 +21535,7 @@ class ASTWindowFrameExpr(ASTNode):
     """Generated model for ASTWindowFrameExprProto"""
 
     expression: Optional['ASTExpression'] = None
-    boundary_type: Optional[int] = None
+    boundary_type: Optional['ASTWindowFrameExprEnums.BoundaryType'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTWindowFrameExprProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -20009,6 +21548,9 @@ class ASTWindowFrameExpr(ASTNode):
             'proto_field': 'boundary_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'BoundaryType',
+            'enum_parent_message': 'ASTWindowFrameExprEnums',
         },
     }
 
@@ -20925,7 +22467,7 @@ class ASTBetweenExpression(ASTExpression):
 class ASTBinaryExpression(ASTExpression):
     """Generated model for ASTBinaryExpressionProto"""
 
-    op: Optional[int] = None
+    op: Optional['ASTBinaryExpressionEnums.Op'] = None
     is_not: Optional[bool] = None
     lhs: Optional['ASTExpression'] = None
     rhs: Optional['ASTExpression'] = None
@@ -20936,6 +22478,9 @@ class ASTBinaryExpression(ASTExpression):
             'proto_field': 'op',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Op',
+            'enum_parent_message': 'ASTBinaryExpressionEnums',
         },
         'is_not': {
             'proto_field': 'is_not',
@@ -21032,7 +22577,7 @@ class ASTBracedConstructorLhs(ASTExpression):
     """Generated model for ASTBracedConstructorLhsProto"""
 
     extended_path_expr: Optional['ASTGeneralizedPathExpression'] = None
-    operation: Optional[int] = None
+    operation: Optional['ASTBracedConstructorLhsEnums.Operation'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTBracedConstructorLhsProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -21045,6 +22590,9 @@ class ASTBracedConstructorLhs(ASTExpression):
             'proto_field': 'operation',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Operation',
+            'enum_parent_message': 'ASTBracedConstructorLhsEnums',
         },
     }
 
@@ -21276,7 +22824,7 @@ class ASTDateOrTimeLiteral(ASTExpression):
     """Generated model for ASTDateOrTimeLiteralProto"""
 
     string_literal: Optional['ASTStringLiteral'] = None
-    type_kind: Optional[int] = None
+    type_kind: Optional['TypeKind'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTDateOrTimeLiteralProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -21289,6 +22837,8 @@ class ASTDateOrTimeLiteral(ASTExpression):
             'proto_field': 'type_kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'TypeKind',
         },
     }
 
@@ -21697,7 +23247,7 @@ class ASTExportDataStatement(ASTStatement):
 class ASTExportMetadataStatement(ASTStatement):
     """Generated model for ASTExportMetadataStatementProto"""
 
-    schema_object_kind: Optional[int] = None
+    schema_object_kind: Optional['SchemaObjectKind'] = None
     name_path: Optional['ASTPathExpression'] = None
     with_connection_clause: Optional['ASTWithConnectionClause'] = None
     options_list: Optional['ASTOptionsList'] = None
@@ -21708,6 +23258,8 @@ class ASTExportMetadataStatement(ASTStatement):
             'proto_field': 'schema_object_kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SchemaObjectKind',
         },
         'name_path': {
             'proto_field': 'name_path',
@@ -21761,7 +23313,7 @@ class ASTExpressionSubquery(ASTExpression):
 
     hint: Optional['ASTHint'] = None
     query: Optional['ASTQuery'] = None
-    modifier: Optional[int] = None
+    modifier: Optional['ASTExpressionSubqueryEnums.Modifier'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTExpressionSubqueryProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -21779,6 +23331,9 @@ class ASTExpressionSubquery(ASTExpression):
             'proto_field': 'modifier',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Modifier',
+            'enum_parent_message': 'ASTExpressionSubqueryEnums',
         },
     }
 
@@ -21920,7 +23475,7 @@ class ASTFunctionCall(ASTExpression):
     order_by: Optional['ASTOrderBy'] = None
     limit_offset: Optional['ASTLimitOffset'] = None
     hint: Optional['ASTHint'] = None
-    null_handling_modifier: Optional[int] = None
+    null_handling_modifier: Optional['ASTFunctionCallEnums.NullHandlingModifier'] = None
     distinct: Optional[bool] = None
     is_current_date_time_without_parentheses: Optional[bool] = None
     with_report_modifier: Optional['ASTWithReportModifier'] = None
@@ -21970,6 +23525,9 @@ class ASTFunctionCall(ASTExpression):
             'proto_field': 'null_handling_modifier',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'NullHandlingModifier',
+            'enum_parent_message': 'ASTFunctionCallEnums',
         },
         'distinct': {
             'proto_field': 'distinct',
@@ -22461,7 +24019,7 @@ class ASTGraphIsLabeledPredicate(ASTExpression):
 class ASTGraphLabelOperation(ASTGraphLabelExpression):
     """Generated model for ASTGraphLabelOperationProto"""
 
-    op_type: Optional[int] = None
+    op_type: Optional['ASTGraphLabelOperationEnums.OperationType'] = None
     inputs: List['ASTGraphLabelExpression'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTGraphLabelOperationProto
@@ -22470,6 +24028,9 @@ class ASTGraphLabelOperation(ASTGraphLabelExpression):
             'proto_field': 'op_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'OperationType',
+            'enum_parent_message': 'ASTGraphLabelOperationEnums',
         },
         'inputs': {
             'proto_field': 'inputs',
@@ -22634,7 +24195,7 @@ class ASTImportStatement(ASTStatement):
     alias: Optional['ASTAlias'] = None
     into_alias: Optional['ASTIntoAlias'] = None
     options_list: Optional['ASTOptionsList'] = None
-    import_kind: Optional[int] = None
+    import_kind: Optional['ASTImportStatementEnums.ImportKind'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTImportStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -22667,6 +24228,9 @@ class ASTImportStatement(ASTStatement):
             'proto_field': 'import_kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ImportKind',
+            'enum_parent_message': 'ASTImportStatementEnums',
         },
     }
 
@@ -22750,7 +24314,7 @@ class ASTInsertStatement(ASTStatement):
     assert_rows_modified: Optional['ASTAssertRowsModified'] = None
     returning: Optional['ASTReturningClause'] = None
     deprecated_parse_progress: Optional[int] = None
-    insert_mode: Optional[int] = None
+    insert_mode: Optional['ASTInsertStatementEnums.InsertMode'] = None
     hint: Optional['ASTHint'] = None
     on_conflict: Optional['ASTOnConflictClause'] = None
 
@@ -22795,6 +24359,9 @@ class ASTInsertStatement(ASTStatement):
             'proto_field': 'insert_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'InsertMode',
+            'enum_parent_message': 'ASTInsertStatementEnums',
         },
         'hint': {
             'proto_field': 'hint',
@@ -22863,8 +24430,8 @@ class ASTJoin(ASTTableExpression):
     on_clause: Optional['ASTOnClause'] = None
     using_clause: Optional['ASTUsingClause'] = None
     clause_list: Optional['ASTOnOrUsingClauseList'] = None
-    join_type: Optional[int] = None
-    join_hint: Optional[int] = None
+    join_type: Optional['ASTJoinEnums.JoinType'] = None
+    join_hint: Optional['ASTJoinEnums.JoinHint'] = None
     natural: Optional[bool] = None
     unmatched_join_count: Optional[int] = None
     transformation_needed: Optional[bool] = None
@@ -22907,11 +24474,17 @@ class ASTJoin(ASTTableExpression):
             'proto_field': 'join_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'JoinType',
+            'enum_parent_message': 'ASTJoinEnums',
         },
         'join_hint': {
             'proto_field': 'join_hint',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'JoinHint',
+            'enum_parent_message': 'ASTJoinEnums',
         },
         'natural': {
             'proto_field': 'natural',
@@ -24297,7 +25870,7 @@ class ASTRollbackStatement(ASTStatement):
 class ASTRowPatternAnchor(ASTRowPatternExpression):
     """Generated model for ASTRowPatternAnchorProto"""
 
-    anchor: Optional[int] = None
+    anchor: Optional['ASTRowPatternAnchorEnums.Anchor'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTRowPatternAnchorProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -24305,6 +25878,9 @@ class ASTRowPatternAnchor(ASTRowPatternExpression):
             'proto_field': 'anchor',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Anchor',
+            'enum_parent_message': 'ASTRowPatternAnchorEnums',
         },
     }
 
@@ -24313,7 +25889,7 @@ class ASTRowPatternAnchor(ASTRowPatternExpression):
 class ASTRowPatternOperation(ASTRowPatternExpression):
     """Generated model for ASTRowPatternOperationProto"""
 
-    op_type: Optional[int] = None
+    op_type: Optional['ASTRowPatternOperationEnums.OperationType'] = None
     inputs: List['ASTRowPatternExpression'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTRowPatternOperationProto
@@ -24322,6 +25898,9 @@ class ASTRowPatternOperation(ASTRowPatternExpression):
             'proto_field': 'op_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'OperationType',
+            'enum_parent_message': 'ASTRowPatternOperationEnums',
         },
         'inputs': {
             'proto_field': 'inputs',
@@ -24717,7 +26296,7 @@ class ASTSpannerAlterColumnAction(ASTAlterAction):
 class ASTSpannerSetOnDeleteAction(ASTAlterAction):
     """Generated model for ASTSpannerSetOnDeleteActionProto"""
 
-    action: Optional[int] = None
+    action: Optional['ASTForeignKeyActionsEnums.Action'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSpannerSetOnDeleteActionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -24725,6 +26304,9 @@ class ASTSpannerSetOnDeleteAction(ASTAlterAction):
             'proto_field': 'action',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Action',
+            'enum_parent_message': 'ASTForeignKeyActionsEnums',
         },
     }
 
@@ -24907,7 +26489,7 @@ class ASTSubpipelineStatement(ASTStatement):
 class ASTSymbolQuantifier(ASTQuantifier):
     """Generated model for ASTSymbolQuantifierProto"""
 
-    symbol: Optional[int] = None
+    symbol: Optional['ASTSymbolQuantifierEnums.Symbol'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTSymbolQuantifierProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -24915,6 +26497,9 @@ class ASTSymbolQuantifier(ASTQuantifier):
             'proto_field': 'symbol',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Symbol',
+            'enum_parent_message': 'ASTSymbolQuantifierEnums',
         },
     }
 
@@ -25145,7 +26730,7 @@ class ASTTransactionIsolationLevel(ASTTransactionMode):
 class ASTTransactionReadWriteMode(ASTTransactionMode):
     """Generated model for ASTTransactionReadWriteModeProto"""
 
-    mode: Optional[int] = None
+    mode: Optional['ASTTransactionReadWriteModeEnums.Mode'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTTransactionReadWriteModeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -25153,6 +26738,9 @@ class ASTTransactionReadWriteMode(ASTTransactionMode):
             'proto_field': 'mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Mode',
+            'enum_parent_message': 'ASTTransactionReadWriteModeEnums',
         },
     }
 
@@ -25184,7 +26772,7 @@ class ASTUnaryExpression(ASTExpression):
     """Generated model for ASTUnaryExpressionProto"""
 
     operand: Optional['ASTExpression'] = None
-    op: Optional[int] = None
+    op: Optional['ASTUnaryExpressionEnums.Op'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTUnaryExpressionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -25197,6 +26785,9 @@ class ASTUnaryExpression(ASTExpression):
             'proto_field': 'op',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Op',
+            'enum_parent_message': 'ASTUnaryExpressionEnums',
         },
     }
 
@@ -25209,7 +26800,7 @@ class ASTUnpivotClause(ASTPostfixTableOperator):
     unpivot_output_name_column: Optional['ASTPathExpression'] = None
     unpivot_in_items: Optional['ASTUnpivotInItemList'] = None
     output_alias: Optional['ASTAlias'] = None
-    null_filter: Optional[int] = None
+    null_filter: Optional['ASTUnpivotClauseEnums.NullFilter'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTUnpivotClauseProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -25237,6 +26828,9 @@ class ASTUnpivotClause(ASTPostfixTableOperator):
             'proto_field': 'null_filter',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'NullFilter',
+            'enum_parent_message': 'ASTUnpivotClauseEnums',
         },
     }
 
@@ -25361,7 +26955,7 @@ class ResolvedAbortBatchStmt(ResolvedStatement):
 class ResolvedAggregateHavingModifier(ResolvedArgument):
     """Generated model for ResolvedAggregateHavingModifierProto"""
 
-    kind: Optional[int] = None
+    kind: Optional['ResolvedAggregateHavingModifierEnums.HavingModifierKind'] = None
     having_expr: Optional['ResolvedExpr'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedAggregateHavingModifierProto
@@ -25370,6 +26964,9 @@ class ResolvedAggregateHavingModifier(ResolvedArgument):
             'proto_field': 'kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'HavingModifierKind',
+            'enum_parent_message': 'ResolvedAggregateHavingModifierEnums',
         },
         'having_expr': {
             'proto_field': 'having_expr',
@@ -25573,7 +27170,7 @@ class ResolvedArgumentDef(ResolvedArgument):
 
     name: Optional[str] = None
     type: Optional['Type'] = None
-    argument_kind: Optional[int] = None
+    argument_kind: Optional['ResolvedArgumentDefEnums.ArgumentKind'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedArgumentDefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -25591,6 +27188,9 @@ class ResolvedArgumentDef(ResolvedArgument):
             'proto_field': 'argument_kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ArgumentKind',
+            'enum_parent_message': 'ResolvedArgumentDefEnums',
         },
     }
 
@@ -25616,7 +27216,7 @@ class ResolvedArgumentRef(ResolvedExpr):
     """Generated model for ResolvedArgumentRefProto"""
 
     name: Optional[str] = None
-    argument_kind: Optional[int] = None
+    argument_kind: Optional['ResolvedArgumentDefEnums.ArgumentKind'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedArgumentRefProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -25629,6 +27229,9 @@ class ResolvedArgumentRef(ResolvedExpr):
             'proto_field': 'argument_kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ArgumentKind',
+            'enum_parent_message': 'ResolvedArgumentDefEnums',
         },
     }
 
@@ -25833,7 +27436,7 @@ class ResolvedAuxLoadDataPartitionFilter(ResolvedArgument):
 class ResolvedAuxLoadDataStmt(ResolvedStatement):
     """Generated model for ResolvedAuxLoadDataStmtProto"""
 
-    insertion_mode: Optional[int] = None
+    insertion_mode: Optional['ResolvedAuxLoadDataStmtEnums.InsertionMode'] = None
     is_temp_table: Optional[bool] = None
     name_path: List[str] = field(default_factory=list)
     partition_filter: Optional['ResolvedAuxLoadDataPartitionFilter'] = None
@@ -25856,6 +27459,9 @@ class ResolvedAuxLoadDataStmt(ResolvedStatement):
             'proto_field': 'insertion_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'InsertionMode',
+            'enum_parent_message': 'ResolvedAuxLoadDataStmtEnums',
         },
         'is_temp_table': {
             'proto_field': 'is_temp_table',
@@ -25955,7 +27561,7 @@ class ResolvedBarrierScan(ResolvedScan):
 class ResolvedBeginStmt(ResolvedStatement):
     """Generated model for ResolvedBeginStmtProto"""
 
-    read_write_mode: Optional[int] = None
+    read_write_mode: Optional['ResolvedBeginStmtEnums.ReadWriteMode'] = None
     isolation_level_list: List[str] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedBeginStmtProto
@@ -25964,6 +27570,9 @@ class ResolvedBeginStmt(ResolvedStatement):
             'proto_field': 'read_write_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ReadWriteMode',
+            'enum_parent_message': 'ResolvedBeginStmtEnums',
         },
         'isolation_level_list': {
             'proto_field': 'isolation_level_list',
@@ -26347,7 +27956,7 @@ class ResolvedCreateModelAliasedQuery(ResolvedArgument):
 class ResolvedCreateRowAccessPolicyStmt(ResolvedStatement):
     """Generated model for ResolvedCreateRowAccessPolicyStmtProto"""
 
-    create_mode: Optional[int] = None
+    create_mode: Optional['ResolvedCreateStatementEnums.CreateMode'] = None
     name: Optional[str] = None
     target_name_path: List[str] = field(default_factory=list)
     grantee_list: List[str] = field(default_factory=list)
@@ -26362,6 +27971,9 @@ class ResolvedCreateRowAccessPolicyStmt(ResolvedStatement):
             'proto_field': 'create_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'CreateMode',
+            'enum_parent_message': 'ResolvedCreateStatementEnums',
         },
         'name': {
             'proto_field': 'name',
@@ -26406,8 +28018,8 @@ class ResolvedCreateStatement(ResolvedStatement):
     """Generated model for ResolvedCreateStatementProto"""
 
     name_path: List[str] = field(default_factory=list)
-    create_scope: Optional[int] = None
-    create_mode: Optional[int] = None
+    create_scope: Optional['ResolvedCreateStatementEnums.CreateScope'] = None
+    create_mode: Optional['ResolvedCreateStatementEnums.CreateMode'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedCreateStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -26420,11 +28032,17 @@ class ResolvedCreateStatement(ResolvedStatement):
             'proto_field': 'create_scope',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'CreateScope',
+            'enum_parent_message': 'ResolvedCreateStatementEnums',
         },
         'create_mode': {
             'proto_field': 'create_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'CreateMode',
+            'enum_parent_message': 'ResolvedCreateStatementEnums',
         },
     }
 
@@ -26498,7 +28116,7 @@ class ResolvedDeleteStmt(ResolvedStatement):
     table_scan: Optional['ResolvedTableScan'] = None
     assert_rows_modified: Optional['ResolvedAssertRowsModified'] = None
     returning: Optional['ResolvedReturningClause'] = None
-    column_access_list: List[int] = field(default_factory=list)
+    column_access_list: List['ResolvedStatementEnums.ObjectAccess'] = field(default_factory=list)
     array_offset_column: Optional['ResolvedColumnHolder'] = None
     where_expr: Optional['ResolvedExpr'] = None
 
@@ -26523,6 +28141,9 @@ class ResolvedDeleteStmt(ResolvedStatement):
             'proto_field': 'column_access_list',
             'is_message': False,
             'is_repeated': True,
+            'is_enum': True,
+            'enum_type_name': 'ObjectAccess',
+            'enum_parent_message': 'ResolvedStatementEnums',
         },
         'array_offset_column': {
             'proto_field': 'array_offset_column',
@@ -26650,7 +28271,7 @@ class ResolvedDropIndexStmt(ResolvedStatement):
     is_if_exists: Optional[bool] = None
     name: Optional[str] = None
     table_name_path: List[str] = field(default_factory=list)
-    index_type: Optional[int] = None
+    index_type: Optional['ResolvedDropIndexStmtEnums.IndexType'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedDropIndexStmtProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -26673,6 +28294,9 @@ class ResolvedDropIndexStmt(ResolvedStatement):
             'proto_field': 'index_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'IndexType',
+            'enum_parent_message': 'ResolvedDropIndexStmtEnums',
         },
     }
 
@@ -26796,7 +28420,7 @@ class ResolvedDropStmt(ResolvedStatement):
     object_type: Optional[str] = None
     is_if_exists: Optional[bool] = None
     name_path: List[str] = field(default_factory=list)
-    drop_mode: Optional[int] = None
+    drop_mode: Optional['ResolvedDropStmtEnums.DropMode'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedDropStmtProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -26819,6 +28443,9 @@ class ResolvedDropStmt(ResolvedStatement):
             'proto_field': 'drop_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'DropMode',
+            'enum_parent_message': 'ResolvedDropStmtEnums',
         },
     }
 
@@ -27281,7 +28908,7 @@ class ResolvedFunctionCallBase(ResolvedExpr):
     signature: Optional['FunctionSignature'] = None
     argument_list: List['ResolvedExpr'] = field(default_factory=list)
     generic_argument_list: List['ResolvedFunctionArgument'] = field(default_factory=list)
-    error_mode: Optional[int] = None
+    error_mode: Optional['ResolvedFunctionCallBaseEnums.ErrorMode'] = None
     hint_list: List['ResolvedOption'] = field(default_factory=list)
     collation_list: List['ResolvedCollation'] = field(default_factory=list)
 
@@ -27311,6 +28938,9 @@ class ResolvedFunctionCallBase(ResolvedExpr):
             'proto_field': 'error_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ErrorMode',
+            'enum_parent_message': 'ResolvedFunctionCallBaseEnums',
         },
         'hint_list': {
             'proto_field': 'hint_list',
@@ -27390,8 +29020,8 @@ class ResolvedGeneratedColumnInfo(ResolvedArgument):
     """Generated model for ResolvedGeneratedColumnInfoProto"""
 
     expression: Optional['ResolvedExpr'] = None
-    stored_mode: Optional[int] = None
-    generated_mode: Optional[int] = None
+    stored_mode: Optional['ResolvedGeneratedColumnInfoEnums.StoredMode'] = None
+    generated_mode: Optional['ResolvedGeneratedColumnInfoEnums.GeneratedMode'] = None
     identity_column_info: Optional['ResolvedIdentityColumnInfo'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedGeneratedColumnInfoProto
@@ -27405,11 +29035,17 @@ class ResolvedGeneratedColumnInfo(ResolvedArgument):
             'proto_field': 'stored_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'StoredMode',
+            'enum_parent_message': 'ResolvedGeneratedColumnInfoEnums',
         },
         'generated_mode': {
             'proto_field': 'generated_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'GeneratedMode',
+            'enum_parent_message': 'ResolvedGeneratedColumnInfoEnums',
         },
         'identity_column_info': {
             'proto_field': 'identity_column_info',
@@ -27449,7 +29085,7 @@ class ResolvedGetProtoField(ResolvedExpr):
     field_descriptor: Optional['FieldDescriptorRef'] = None
     default_value: Optional['ValueWithType'] = None
     get_has_bit: Optional[bool] = None
-    format: Optional[int] = None
+    format: Optional['FieldFormat.Format'] = None
     return_default_value_when_unset: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedGetProtoFieldProto
@@ -27478,6 +29114,9 @@ class ResolvedGetProtoField(ResolvedExpr):
             'proto_field': 'format',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Format',
+            'enum_parent_message': 'FieldFormat',
         },
         'return_default_value_when_unset': {
             'proto_field': 'return_default_value_when_unset',
@@ -27987,7 +29626,7 @@ class ResolvedGraphPathCost(ResolvedArgument):
 class ResolvedGraphPathMode(ResolvedArgument):
     """Generated model for ResolvedGraphPathModeProto"""
 
-    path_mode: Optional[int] = None
+    path_mode: Optional['ResolvedGraphPathModeEnums.PathMode'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedGraphPathModeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -27995,6 +29634,9 @@ class ResolvedGraphPathMode(ResolvedArgument):
             'proto_field': 'path_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'PathMode',
+            'enum_parent_message': 'ResolvedGraphPathModeEnums',
         },
     }
 
@@ -28033,7 +29675,7 @@ class ResolvedGraphPathScanBase(ResolvedScan):
 class ResolvedGraphPathSearchPrefix(ResolvedArgument):
     """Generated model for ResolvedGraphPathSearchPrefixProto"""
 
-    type: Optional[int] = None
+    type: Optional['ResolvedGraphPathSearchPrefixEnums.PathSearchPrefixType'] = None
     path_count: Optional['ResolvedExpr'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedGraphPathSearchPrefixProto
@@ -28042,6 +29684,9 @@ class ResolvedGraphPathSearchPrefix(ResolvedArgument):
             'proto_field': 'type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'PathSearchPrefixType',
+            'enum_parent_message': 'ResolvedGraphPathSearchPrefixEnums',
         },
         'path_count': {
             'proto_field': 'path_count',
@@ -28263,7 +29908,7 @@ class ResolvedIdentityColumnInfo(ResolvedArgument):
 class ResolvedImportStmt(ResolvedStatement):
     """Generated model for ResolvedImportStmtProto"""
 
-    import_kind: Optional[int] = None
+    import_kind: Optional['ResolvedImportStmtEnums.ImportKind'] = None
     name_path: List[str] = field(default_factory=list)
     file_path: Optional[str] = None
     alias_path: List[str] = field(default_factory=list)
@@ -28276,6 +29921,9 @@ class ResolvedImportStmt(ResolvedStatement):
             'proto_field': 'import_kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ImportKind',
+            'enum_parent_message': 'ResolvedImportStmtEnums',
         },
         'name_path': {
             'proto_field': 'name_path',
@@ -28382,7 +30030,7 @@ class ResolvedInsertStmt(ResolvedStatement):
     """Generated model for ResolvedInsertStmtProto"""
 
     table_scan: Optional['ResolvedTableScan'] = None
-    insert_mode: Optional[int] = None
+    insert_mode: Optional['ResolvedInsertStmtEnums.InsertMode'] = None
     assert_rows_modified: Optional['ResolvedAssertRowsModified'] = None
     returning: Optional['ResolvedReturningClause'] = None
     insert_column_list: List['ResolvedColumn'] = field(default_factory=list)
@@ -28390,7 +30038,7 @@ class ResolvedInsertStmt(ResolvedStatement):
     query: Optional['ResolvedScan'] = None
     query_output_column_list: List['ResolvedColumn'] = field(default_factory=list)
     row_list: List['ResolvedInsertRow'] = field(default_factory=list)
-    column_access_list: List[int] = field(default_factory=list)
+    column_access_list: List['ResolvedStatementEnums.ObjectAccess'] = field(default_factory=list)
     on_conflict_clause: Optional['ResolvedOnConflictClause'] = None
     topologically_sorted_generated_column_id_list: List[int] = field(default_factory=list)
     generated_column_expr_list: List['ResolvedExpr'] = field(default_factory=list)
@@ -28406,6 +30054,9 @@ class ResolvedInsertStmt(ResolvedStatement):
             'proto_field': 'insert_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'InsertMode',
+            'enum_parent_message': 'ResolvedInsertStmtEnums',
         },
         'assert_rows_modified': {
             'proto_field': 'assert_rows_modified',
@@ -28446,6 +30097,9 @@ class ResolvedInsertStmt(ResolvedStatement):
             'proto_field': 'column_access_list',
             'is_message': False,
             'is_repeated': True,
+            'is_enum': True,
+            'enum_type_name': 'ObjectAccess',
+            'enum_parent_message': 'ResolvedStatementEnums',
         },
         'on_conflict_clause': {
             'proto_field': 'on_conflict_clause',
@@ -28469,7 +30123,7 @@ class ResolvedInsertStmt(ResolvedStatement):
 class ResolvedJoinScan(ResolvedScan):
     """Generated model for ResolvedJoinScanProto"""
 
-    join_type: Optional[int] = None
+    join_type: Optional['ResolvedJoinScanEnums.JoinType'] = None
     left_scan: Optional['ResolvedScan'] = None
     right_scan: Optional['ResolvedScan'] = None
     join_expr: Optional['ResolvedExpr'] = None
@@ -28483,6 +30137,9 @@ class ResolvedJoinScan(ResolvedScan):
             'proto_field': 'join_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'JoinType',
+            'enum_parent_message': 'ResolvedJoinScanEnums',
         },
         'left_scan': {
             'proto_field': 'left_scan',
@@ -28583,7 +30240,7 @@ class ResolvedLiteral(ResolvedExpr):
 class ResolvedLockMode(ResolvedArgument):
     """Generated model for ResolvedLockModeProto"""
 
-    strength: Optional[int] = None
+    strength: Optional['ResolvedLockModeEnums.LockStrengthType'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedLockModeProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -28591,6 +30248,9 @@ class ResolvedLockMode(ResolvedArgument):
             'proto_field': 'strength',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'LockStrengthType',
+            'enum_parent_message': 'ResolvedLockModeEnums',
         },
     }
 
@@ -28644,7 +30304,7 @@ class ResolvedMakeProtoField(ResolvedArgument):
     """Generated model for ResolvedMakeProtoFieldProto"""
 
     field_descriptor: Optional['FieldDescriptorRef'] = None
-    format: Optional[int] = None
+    format: Optional['FieldFormat.Format'] = None
     expr: Optional['ResolvedExpr'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedMakeProtoFieldProto
@@ -28658,6 +30318,9 @@ class ResolvedMakeProtoField(ResolvedArgument):
             'proto_field': 'format',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Format',
+            'enum_parent_message': 'FieldFormat',
         },
         'expr': {
             'proto_field': 'expr',
@@ -28700,7 +30363,7 @@ class ResolvedMatchRecognizeScan(ResolvedScan):
     analytic_function_group_list: List['ResolvedAnalyticFunctionGroup'] = field(default_factory=list)
     pattern_variable_definition_list: List['ResolvedMatchRecognizeVariableDefinition'] = field(default_factory=list)
     pattern: Optional['ResolvedMatchRecognizePatternExpr'] = None
-    after_match_skip_mode: Optional[int] = None
+    after_match_skip_mode: Optional['ResolvedMatchRecognizeScanEnums.AfterMatchSkipMode'] = None
     measure_group_list: List['ResolvedMeasureGroup'] = field(default_factory=list)
     match_number_column: Optional['ResolvedColumn'] = None
     match_row_number_column: Optional['ResolvedColumn'] = None
@@ -28737,6 +30400,9 @@ class ResolvedMatchRecognizeScan(ResolvedScan):
             'proto_field': 'after_match_skip_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'AfterMatchSkipMode',
+            'enum_parent_message': 'ResolvedMatchRecognizeScanEnums',
         },
         'measure_group_list': {
             'proto_field': 'measure_group_list',
@@ -28810,7 +30476,7 @@ class ResolvedMergeStmt(ResolvedStatement):
     """Generated model for ResolvedMergeStmtProto"""
 
     table_scan: Optional['ResolvedTableScan'] = None
-    column_access_list: List[int] = field(default_factory=list)
+    column_access_list: List['ResolvedStatementEnums.ObjectAccess'] = field(default_factory=list)
     from_scan: Optional['ResolvedScan'] = None
     merge_expr: Optional['ResolvedExpr'] = None
     when_clause_list: List['ResolvedMergeWhen'] = field(default_factory=list)
@@ -28826,6 +30492,9 @@ class ResolvedMergeStmt(ResolvedStatement):
             'proto_field': 'column_access_list',
             'is_message': False,
             'is_repeated': True,
+            'is_enum': True,
+            'enum_type_name': 'ObjectAccess',
+            'enum_parent_message': 'ResolvedStatementEnums',
         },
         'from_scan': {
             'proto_field': 'from_scan',
@@ -28849,9 +30518,9 @@ class ResolvedMergeStmt(ResolvedStatement):
 class ResolvedMergeWhen(ResolvedArgument):
     """Generated model for ResolvedMergeWhenProto"""
 
-    match_type: Optional[int] = None
+    match_type: Optional['ResolvedMergeWhenEnums.MatchType'] = None
     match_expr: Optional['ResolvedExpr'] = None
-    action_type: Optional[int] = None
+    action_type: Optional['ResolvedMergeWhenEnums.ActionType'] = None
     insert_column_list: List['ResolvedColumn'] = field(default_factory=list)
     insert_row: Optional['ResolvedInsertRow'] = None
     update_item_list: List['ResolvedUpdateItem'] = field(default_factory=list)
@@ -28862,6 +30531,9 @@ class ResolvedMergeWhen(ResolvedArgument):
             'proto_field': 'match_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'MatchType',
+            'enum_parent_message': 'ResolvedMergeWhenEnums',
         },
         'match_expr': {
             'proto_field': 'match_expr',
@@ -28872,6 +30544,9 @@ class ResolvedMergeWhen(ResolvedArgument):
             'proto_field': 'action_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ActionType',
+            'enum_parent_message': 'ResolvedMergeWhenEnums',
         },
         'insert_column_list': {
             'proto_field': 'insert_column_list',
@@ -28965,7 +30640,7 @@ class ResolvedObjectUnit(ResolvedArgument):
 class ResolvedOnConflictClause(ResolvedArgument):
     """Generated model for ResolvedOnConflictClauseProto"""
 
-    conflict_action: Optional[int] = None
+    conflict_action: Optional['ResolvedOnConflictClauseEnums.ConflictAction'] = None
     conflict_target_column_list: List['ResolvedColumn'] = field(default_factory=list)
     unique_constraint_name: Optional[str] = None
     insert_row_scan: Optional['ResolvedTableScan'] = None
@@ -28978,6 +30653,9 @@ class ResolvedOnConflictClause(ResolvedArgument):
             'proto_field': 'conflict_action',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ConflictAction',
+            'enum_parent_message': 'ResolvedOnConflictClauseEnums',
         },
         'conflict_target_column_list': {
             'proto_field': 'conflict_target_column_list',
@@ -29014,7 +30692,7 @@ class ResolvedOption(ResolvedArgument):
     qualifier: Optional[str] = None
     name: Optional[str] = None
     value: Optional['ResolvedExpr'] = None
-    assignment_op: Optional[int] = None
+    assignment_op: Optional['ResolvedOptionEnums.AssignmentOp'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedOptionProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -29037,6 +30715,9 @@ class ResolvedOption(ResolvedArgument):
             'proto_field': 'assignment_op',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'AssignmentOp',
+            'enum_parent_message': 'ResolvedOptionEnums',
         },
     }
 
@@ -29048,7 +30729,7 @@ class ResolvedOrderByItem(ResolvedArgument):
     column_ref: Optional['ResolvedColumnRef'] = None
     collation_name: Optional['ResolvedExpr'] = None
     is_descending: Optional[bool] = None
-    null_order: Optional[int] = None
+    null_order: Optional['ResolvedOrderByItemEnums.NullOrderMode'] = None
     collation: Optional['ResolvedCollation'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedOrderByItemProto
@@ -29072,6 +30753,9 @@ class ResolvedOrderByItem(ResolvedArgument):
             'proto_field': 'null_order',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'NullOrderMode',
+            'enum_parent_message': 'ResolvedOrderByItemEnums',
         },
         'collation': {
             'proto_field': 'collation',
@@ -29509,7 +31193,7 @@ class ResolvedRecursiveRefScan(ResolvedScan):
 class ResolvedRecursiveScan(ResolvedScan):
     """Generated model for ResolvedRecursiveScanProto"""
 
-    op_type: Optional[int] = None
+    op_type: Optional['ResolvedRecursiveScanEnums.RecursiveSetOperationType'] = None
     non_recursive_term: Optional['ResolvedSetOperationItem'] = None
     recursive_term: Optional['ResolvedSetOperationItem'] = None
     recursion_depth_modifier: Optional['ResolvedRecursionDepthModifier'] = None
@@ -29520,6 +31204,9 @@ class ResolvedRecursiveScan(ResolvedScan):
             'proto_field': 'op_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'RecursiveSetOperationType',
+            'enum_parent_message': 'ResolvedRecursiveScanEnums',
         },
         'non_recursive_term': {
             'proto_field': 'non_recursive_term',
@@ -29690,7 +31377,7 @@ class ResolvedSampleScan(ResolvedScan):
     input_scan: Optional['ResolvedScan'] = None
     method: Optional[str] = None
     size: Optional['ResolvedExpr'] = None
-    unit: Optional[int] = None
+    unit: Optional['ResolvedSampleScanEnums.SampleUnit'] = None
     repeatable_argument: Optional['ResolvedExpr'] = None
     weight_column: Optional['ResolvedColumnHolder'] = None
     partition_by_list: List['ResolvedExpr'] = field(default_factory=list)
@@ -29716,6 +31403,9 @@ class ResolvedSampleScan(ResolvedScan):
             'proto_field': 'unit',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SampleUnit',
+            'enum_parent_message': 'ResolvedSampleScanEnums',
         },
         'repeatable_argument': {
             'proto_field': 'repeatable_argument',
@@ -29777,10 +31467,10 @@ class ResolvedSetOperationItem(ResolvedArgument):
 class ResolvedSetOperationScan(ResolvedScan):
     """Generated model for ResolvedSetOperationScanProto"""
 
-    op_type: Optional[int] = None
+    op_type: Optional['ResolvedSetOperationScanEnums.SetOperationType'] = None
     input_item_list: List['ResolvedSetOperationItem'] = field(default_factory=list)
-    column_match_mode: Optional[int] = None
-    column_propagation_mode: Optional[int] = None
+    column_match_mode: Optional['ResolvedSetOperationScanEnums.SetOperationColumnMatchMode'] = None
+    column_propagation_mode: Optional['ResolvedSetOperationScanEnums.SetOperationColumnPropagationMode'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedSetOperationScanProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -29788,6 +31478,9 @@ class ResolvedSetOperationScan(ResolvedScan):
             'proto_field': 'op_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SetOperationType',
+            'enum_parent_message': 'ResolvedSetOperationScanEnums',
         },
         'input_item_list': {
             'proto_field': 'input_item_list',
@@ -29798,11 +31491,17 @@ class ResolvedSetOperationScan(ResolvedScan):
             'proto_field': 'column_match_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SetOperationColumnMatchMode',
+            'enum_parent_message': 'ResolvedSetOperationScanEnums',
         },
         'column_propagation_mode': {
             'proto_field': 'column_propagation_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SetOperationColumnPropagationMode',
+            'enum_parent_message': 'ResolvedSetOperationScanEnums',
         },
     }
 
@@ -29811,7 +31510,7 @@ class ResolvedSetOperationScan(ResolvedScan):
 class ResolvedSetTransactionStmt(ResolvedStatement):
     """Generated model for ResolvedSetTransactionStmtProto"""
 
-    read_write_mode: Optional[int] = None
+    read_write_mode: Optional['ResolvedBeginStmtEnums.ReadWriteMode'] = None
     isolation_level_list: List[str] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedSetTransactionStmtProto
@@ -29820,6 +31519,9 @@ class ResolvedSetTransactionStmt(ResolvedStatement):
             'proto_field': 'read_write_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ReadWriteMode',
+            'enum_parent_message': 'ResolvedBeginStmtEnums',
         },
         'isolation_level_list': {
             'proto_field': 'isolation_level_list',
@@ -29981,7 +31683,7 @@ class ResolvedSubpipelineStmt(ResolvedStatement):
 class ResolvedSubqueryExpr(ResolvedExpr):
     """Generated model for ResolvedSubqueryExprProto"""
 
-    subquery_type: Optional[int] = None
+    subquery_type: Optional['ResolvedSubqueryExprEnums.SubqueryType'] = None
     parameter_list: List['ResolvedColumnRef'] = field(default_factory=list)
     in_expr: Optional['ResolvedExpr'] = None
     in_collation: Optional['ResolvedCollation'] = None
@@ -29994,6 +31696,9 @@ class ResolvedSubqueryExpr(ResolvedExpr):
             'proto_field': 'subquery_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SubqueryType',
+            'enum_parent_message': 'ResolvedSubqueryExprEnums',
         },
         'parameter_list': {
             'proto_field': 'parameter_list',
@@ -30359,7 +32064,7 @@ class ResolvedUpdateFieldItem(ResolvedArgument):
 
     expr: Optional['ResolvedExpr'] = None
     proto_field_path: List['FieldDescriptorRef'] = field(default_factory=list)
-    operation: Optional[int] = None
+    operation: Optional['ResolvedUpdateFieldItemEnums.Operation'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedUpdateFieldItemProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -30377,6 +32082,9 @@ class ResolvedUpdateFieldItem(ResolvedArgument):
             'proto_field': 'operation',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Operation',
+            'enum_parent_message': 'ResolvedUpdateFieldItemEnums',
         },
     }
 
@@ -30460,7 +32168,7 @@ class ResolvedUpdateStmt(ResolvedStatement):
     """Generated model for ResolvedUpdateStmtProto"""
 
     table_scan: Optional['ResolvedTableScan'] = None
-    column_access_list: List[int] = field(default_factory=list)
+    column_access_list: List['ResolvedStatementEnums.ObjectAccess'] = field(default_factory=list)
     assert_rows_modified: Optional['ResolvedAssertRowsModified'] = None
     returning: Optional['ResolvedReturningClause'] = None
     array_offset_column: Optional['ResolvedColumnHolder'] = None
@@ -30481,6 +32189,9 @@ class ResolvedUpdateStmt(ResolvedStatement):
             'proto_field': 'column_access_list',
             'is_message': False,
             'is_repeated': True,
+            'is_enum': True,
+            'enum_type_name': 'ObjectAccess',
+            'enum_parent_message': 'ResolvedStatementEnums',
         },
         'assert_rows_modified': {
             'proto_field': 'assert_rows_modified',
@@ -30529,7 +32240,7 @@ class ResolvedUpdateStmt(ResolvedStatement):
 class ResolvedWindowFrame(ResolvedArgument):
     """Generated model for ResolvedWindowFrameProto"""
 
-    frame_unit: Optional[int] = None
+    frame_unit: Optional['ResolvedWindowFrameEnums.FrameUnit'] = None
     start_expr: Optional['ResolvedWindowFrameExpr'] = None
     end_expr: Optional['ResolvedWindowFrameExpr'] = None
 
@@ -30539,6 +32250,9 @@ class ResolvedWindowFrame(ResolvedArgument):
             'proto_field': 'frame_unit',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'FrameUnit',
+            'enum_parent_message': 'ResolvedWindowFrameEnums',
         },
         'start_expr': {
             'proto_field': 'start_expr',
@@ -30557,7 +32271,7 @@ class ResolvedWindowFrame(ResolvedArgument):
 class ResolvedWindowFrameExpr(ResolvedArgument):
     """Generated model for ResolvedWindowFrameExprProto"""
 
-    boundary_type: Optional[int] = None
+    boundary_type: Optional['ResolvedWindowFrameExprEnums.BoundaryType'] = None
     expression: Optional['ResolvedExpr'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedWindowFrameExprProto
@@ -30566,6 +32280,9 @@ class ResolvedWindowFrameExpr(ResolvedArgument):
             'proto_field': 'boundary_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'BoundaryType',
+            'enum_parent_message': 'ResolvedWindowFrameExprEnums',
         },
         'expression': {
             'proto_field': 'expression',
@@ -30979,7 +32696,7 @@ class ASTCopyDataSource(ASTTableDataSource):
 class ASTCreateStatement(ASTDdlStatement):
     """Generated model for ASTCreateStatementProto"""
 
-    scope: Optional[int] = None
+    scope: Optional['ASTCreateStatementEnums.Scope'] = None
     is_or_replace: Optional[bool] = None
     is_if_not_exists: Optional[bool] = None
 
@@ -30989,6 +32706,9 @@ class ASTCreateStatement(ASTDdlStatement):
             'proto_field': 'scope',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Scope',
+            'enum_parent_message': 'ASTCreateStatementEnums',
         },
         'is_or_replace': {
             'proto_field': 'is_or_replace',
@@ -31242,9 +32962,9 @@ class ASTDropStatement(ASTDdlStatement):
     """Generated model for ASTDropStatementProto"""
 
     name: Optional['ASTPathExpression'] = None
-    drop_mode: Optional[int] = None
+    drop_mode: Optional['ASTDropStatementEnums.DropMode'] = None
     is_if_exists: Optional[bool] = None
-    schema_object_kind: Optional[int] = None
+    schema_object_kind: Optional['SchemaObjectKind'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTDropStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -31257,6 +32977,9 @@ class ASTDropStatement(ASTDdlStatement):
             'proto_field': 'drop_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'DropMode',
+            'enum_parent_message': 'ASTDropStatementEnums',
         },
         'is_if_exists': {
             'proto_field': 'is_if_exists',
@@ -31267,6 +32990,8 @@ class ASTDropStatement(ASTDdlStatement):
             'proto_field': 'schema_object_kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SchemaObjectKind',
         },
     }
 
@@ -31391,7 +33116,7 @@ class ASTGqlNamedCall(ASTGqlCallBase):
 class ASTGraphEdgePattern(ASTGraphElementPattern):
     """Generated model for ASTGraphEdgePatternProto"""
 
-    orientation: Optional[int] = None
+    orientation: Optional['ASTGraphEdgePatternEnums.EdgeOrientation'] = None
     lhs_hint: Optional['ASTGraphLhsHint'] = None
     rhs_hint: Optional['ASTGraphRhsHint'] = None
 
@@ -31401,6 +33126,9 @@ class ASTGraphEdgePattern(ASTGraphElementPattern):
             'proto_field': 'orientation',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'EdgeOrientation',
+            'enum_parent_message': 'ASTGraphEdgePatternEnums',
         },
         'lhs_hint': {
             'proto_field': 'lhs_hint',
@@ -31695,7 +33423,7 @@ class ASTSystemVariableExpr(ASTParameterExprBase):
 class ASTUndropStatement(ASTDdlStatement):
     """Generated model for ASTUndropStatementProto"""
 
-    schema_object_kind: Optional[int] = None
+    schema_object_kind: Optional['SchemaObjectKind'] = None
     name: Optional['ASTPathExpression'] = None
     is_if_not_exists: Optional[bool] = None
     for_system_time: Optional['ASTForSystemTime'] = None
@@ -31707,6 +33435,8 @@ class ASTUndropStatement(ASTDdlStatement):
             'proto_field': 'schema_object_kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SchemaObjectKind',
         },
         'name': {
             'proto_field': 'name',
@@ -32008,7 +33738,7 @@ class ResolvedAlterIndexStmt(ResolvedAlterObjectStmt):
     """Generated model for ResolvedAlterIndexStmtProto"""
 
     table_name_path: List[str] = field(default_factory=list)
-    index_type: Optional[int] = None
+    index_type: Optional['ResolvedAlterIndexStmtEnums.AlterIndexType'] = None
     table_scan: Optional['ResolvedTableScan'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedAlterIndexStmtProto
@@ -32022,6 +33752,9 @@ class ResolvedAlterIndexStmt(ResolvedAlterObjectStmt):
             'proto_field': 'index_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'AlterIndexType',
+            'enum_parent_message': 'ResolvedAlterIndexStmtEnums',
         },
         'table_scan': {
             'proto_field': 'table_scan',
@@ -32301,8 +34034,8 @@ class ResolvedCreateFunctionStmt(ResolvedCreateStatement):
     aggregate_expression_list: List['ResolvedComputedColumn'] = field(default_factory=list)
     function_expression: Optional['ResolvedExpr'] = None
     option_list: List['ResolvedOption'] = field(default_factory=list)
-    sql_security: Optional[int] = None
-    determinism_level: Optional[int] = None
+    sql_security: Optional['ResolvedCreateStatementEnums.SqlSecurity'] = None
+    determinism_level: Optional['ResolvedCreateStatementEnums.DeterminismLevel'] = None
     is_remote: Optional[bool] = None
     connection: Optional['ResolvedConnection'] = None
 
@@ -32362,11 +34095,17 @@ class ResolvedCreateFunctionStmt(ResolvedCreateStatement):
             'proto_field': 'sql_security',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SqlSecurity',
+            'enum_parent_message': 'ResolvedCreateStatementEnums',
         },
         'determinism_level': {
             'proto_field': 'determinism_level',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'DeterminismLevel',
+            'enum_parent_message': 'ResolvedCreateStatementEnums',
         },
         'is_remote': {
             'proto_field': 'is_remote',
@@ -32584,7 +34323,7 @@ class ResolvedCreateProcedureStmt(ResolvedCreateStatement):
     connection: Optional['ResolvedConnection'] = None
     language: Optional[str] = None
     code: Optional[str] = None
-    external_security: Optional[int] = None
+    external_security: Optional['ResolvedCreateStatementEnums.SqlSecurity'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedCreateProcedureStmtProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -32627,6 +34366,9 @@ class ResolvedCreateProcedureStmt(ResolvedCreateStatement):
             'proto_field': 'external_security',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SqlSecurity',
+            'enum_parent_message': 'ResolvedCreateStatementEnums',
         },
     }
 
@@ -32738,7 +34480,7 @@ class ResolvedCreateTableFunctionStmt(ResolvedCreateStatement):
     query: Optional['ResolvedScan'] = None
     output_column_list: List['ResolvedOutputColumn'] = field(default_factory=list)
     is_value_table: Optional[bool] = None
-    sql_security: Optional[int] = None
+    sql_security: Optional['ResolvedCreateStatementEnums.SqlSecurity'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedCreateTableFunctionStmtProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -32791,6 +34533,9 @@ class ResolvedCreateTableFunctionStmt(ResolvedCreateStatement):
             'proto_field': 'sql_security',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SqlSecurity',
+            'enum_parent_message': 'ResolvedCreateStatementEnums',
         },
     }
 
@@ -32874,7 +34619,7 @@ class ResolvedCreateViewBase(ResolvedCreateStatement):
     has_explicit_columns: Optional[bool] = None
     query: Optional['ResolvedScan'] = None
     sql: Optional[str] = None
-    sql_security: Optional[int] = None
+    sql_security: Optional['ResolvedCreateStatementEnums.SqlSecurity'] = None
     is_value_table: Optional[bool] = None
     recursive: Optional[bool] = None
     column_definition_list: List['ResolvedColumnDefinition'] = field(default_factory=list)
@@ -32910,6 +34655,9 @@ class ResolvedCreateViewBase(ResolvedCreateStatement):
             'proto_field': 'sql_security',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SqlSecurity',
+            'enum_parent_message': 'ResolvedCreateStatementEnums',
         },
         'is_value_table': {
             'proto_field': 'is_value_table',
@@ -33085,9 +34833,9 @@ class ResolvedForeignKey(ResolvedConstraint):
     referencing_column_offset_list: List[int] = field(default_factory=list)
     referenced_table: Optional['TableRef'] = None
     referenced_column_offset_list: List[int] = field(default_factory=list)
-    match_mode: Optional[int] = None
-    update_action: Optional[int] = None
-    delete_action: Optional[int] = None
+    match_mode: Optional['ResolvedForeignKeyEnums.MatchMode'] = None
+    update_action: Optional['ResolvedForeignKeyEnums.ActionOperation'] = None
+    delete_action: Optional['ResolvedForeignKeyEnums.ActionOperation'] = None
     enforced: Optional[bool] = None
     option_list: List['ResolvedOption'] = field(default_factory=list)
     referencing_column_list: List[str] = field(default_factory=list)
@@ -33118,16 +34866,25 @@ class ResolvedForeignKey(ResolvedConstraint):
             'proto_field': 'match_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'MatchMode',
+            'enum_parent_message': 'ResolvedForeignKeyEnums',
         },
         'update_action': {
             'proto_field': 'update_action',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ActionOperation',
+            'enum_parent_message': 'ResolvedForeignKeyEnums',
         },
         'delete_action': {
             'proto_field': 'delete_action',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'ActionOperation',
+            'enum_parent_message': 'ResolvedForeignKeyEnums',
         },
         'enforced': {
             'proto_field': 'enforced',
@@ -33241,7 +34998,7 @@ class ResolvedGraphLabel(ResolvedGraphLabelExpr):
 class ResolvedGraphLabelNaryExpr(ResolvedGraphLabelExpr):
     """Generated model for ResolvedGraphLabelNaryExprProto"""
 
-    op: Optional[int] = None
+    op: Optional['ResolvedGraphLabelNaryExprEnums.GraphLogicalOpType'] = None
     operand_list: List['ResolvedGraphLabelExpr'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedGraphLabelNaryExprProto
@@ -33250,6 +35007,9 @@ class ResolvedGraphLabelNaryExpr(ResolvedGraphLabelExpr):
             'proto_field': 'op',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'GraphLogicalOpType',
+            'enum_parent_message': 'ResolvedGraphLabelNaryExprEnums',
         },
         'operand_list': {
             'proto_field': 'operand_list',
@@ -33445,7 +35205,7 @@ class ResolvedGroupingSetProduct(ResolvedGroupingSetBase):
 class ResolvedMatchRecognizePatternAnchor(ResolvedMatchRecognizePatternExpr):
     """Generated model for ResolvedMatchRecognizePatternAnchorProto"""
 
-    mode: Optional[int] = None
+    mode: Optional['ResolvedMatchRecognizePatternAnchorEnums.Mode'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedMatchRecognizePatternAnchorProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -33453,6 +35213,9 @@ class ResolvedMatchRecognizePatternAnchor(ResolvedMatchRecognizePatternExpr):
             'proto_field': 'mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'Mode',
+            'enum_parent_message': 'ResolvedMatchRecognizePatternAnchorEnums',
         },
     }
 
@@ -33469,7 +35232,7 @@ class ResolvedMatchRecognizePatternEmpty(ResolvedMatchRecognizePatternExpr):
 class ResolvedMatchRecognizePatternOperation(ResolvedMatchRecognizePatternExpr):
     """Generated model for ResolvedMatchRecognizePatternOperationProto"""
 
-    op_type: Optional[int] = None
+    op_type: Optional['ResolvedMatchRecognizePatternOperationEnums.MatchRecognizePatternOperationType'] = None
     operand_list: List['ResolvedMatchRecognizePatternExpr'] = field(default_factory=list)
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedMatchRecognizePatternOperationProto
@@ -33478,6 +35241,9 @@ class ResolvedMatchRecognizePatternOperation(ResolvedMatchRecognizePatternExpr):
             'proto_field': 'op_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'MatchRecognizePatternOperationType',
+            'enum_parent_message': 'ResolvedMatchRecognizePatternOperationEnums',
         },
         'operand_list': {
             'proto_field': 'operand_list',
@@ -33542,7 +35308,7 @@ class ResolvedNonScalarFunctionCallBase(ResolvedFunctionCallBase):
     """Generated model for ResolvedNonScalarFunctionCallBaseProto"""
 
     distinct: Optional[bool] = None
-    null_handling_modifier: Optional[int] = None
+    null_handling_modifier: Optional['ResolvedNonScalarFunctionCallBaseEnums.NullHandlingModifier'] = None
     where_expr: Optional['ResolvedExpr'] = None
 
     _PROTO_CLASS: ClassVar[type] = resolved_ast_resolved_ast_pb2.ResolvedNonScalarFunctionCallBaseProto
@@ -33556,6 +35322,9 @@ class ResolvedNonScalarFunctionCallBase(ResolvedFunctionCallBase):
             'proto_field': 'null_handling_modifier',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'NullHandlingModifier',
+            'enum_parent_message': 'ResolvedNonScalarFunctionCallBaseEnums',
         },
         'where_expr': {
             'proto_field': 'where_expr',
@@ -33848,7 +35617,7 @@ class ASTAlterIndexStatement(ASTAlterStatementBase):
     """Generated model for ASTAlterIndexStatementProto"""
 
     table_name: Optional['ASTPathExpression'] = None
-    index_type: Optional[int] = None
+    index_type: Optional['ASTAlterIndexStatementEnums.IndexType'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTAlterIndexStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -33861,6 +35630,9 @@ class ASTAlterIndexStatement(ASTAlterStatementBase):
             'proto_field': 'index_type',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'IndexType',
+            'enum_parent_message': 'ASTAlterIndexStatementEnums',
         },
     }
 
@@ -33971,7 +35743,7 @@ class ASTBooleanLiteral(ASTPrintableLeaf):
 class ASTBreakStatement(ASTBreakContinueStatement):
     """Generated model for ASTBreakStatementProto"""
 
-    keyword: Optional[int] = None
+    keyword: Optional['ASTBreakContinueStatementEnums.BreakContinueKeyword'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTBreakStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -33979,6 +35751,9 @@ class ASTBreakStatement(ASTBreakContinueStatement):
             'proto_field': 'keyword',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'BreakContinueKeyword',
+            'enum_parent_message': 'ASTBreakContinueStatementEnums',
         },
     }
 
@@ -33995,7 +35770,7 @@ class ASTBytesLiteralComponent(ASTPrintableLeaf):
 class ASTContinueStatement(ASTBreakContinueStatement):
     """Generated model for ASTContinueStatementProto"""
 
-    keyword: Optional[int] = None
+    keyword: Optional['ASTBreakContinueStatementEnums.BreakContinueKeyword'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTContinueStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -34003,6 +35778,9 @@ class ASTContinueStatement(ASTBreakContinueStatement):
             'proto_field': 'keyword',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'BreakContinueKeyword',
+            'enum_parent_message': 'ASTBreakContinueStatementEnums',
         },
     }
 
@@ -34099,8 +35877,8 @@ class ASTCreateFunctionStmtBase(ASTCreateStatement):
     language: Optional['ASTIdentifier'] = None
     code: Optional['ASTStringLiteral'] = None
     options_list: Optional['ASTOptionsList'] = None
-    determinism_level: Optional[int] = None
-    sql_security: Optional[int] = None
+    determinism_level: Optional['ASTCreateFunctionStmtBaseEnums.DeterminismLevel'] = None
+    sql_security: Optional['ASTCreateStatementEnums.SqlSecurity'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTCreateFunctionStmtBaseProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -34128,11 +35906,17 @@ class ASTCreateFunctionStmtBase(ASTCreateStatement):
             'proto_field': 'determinism_level',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'DeterminismLevel',
+            'enum_parent_message': 'ASTCreateFunctionStmtBaseEnums',
         },
         'sql_security': {
             'proto_field': 'sql_security',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SqlSecurity',
+            'enum_parent_message': 'ASTCreateStatementEnums',
         },
     }
 
@@ -34328,7 +36112,7 @@ class ASTCreateProcedureStatement(ASTCreateStatement):
     with_connection_clause: Optional['ASTWithConnectionClause'] = None
     language: Optional['ASTIdentifier'] = None
     code: Optional['ASTStringLiteral'] = None
-    external_security: Optional[int] = None
+    external_security: Optional['ASTCreateStatementEnums.SqlSecurity'] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTCreateProcedureStatementProto
     _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {
@@ -34371,6 +36155,9 @@ class ASTCreateProcedureStatement(ASTCreateStatement):
             'proto_field': 'external_security',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SqlSecurity',
+            'enum_parent_message': 'ASTCreateStatementEnums',
         },
     }
 
@@ -34497,7 +36284,7 @@ class ASTCreateSequenceStatement(ASTCreateStatement):
 class ASTCreateSnapshotStatement(ASTCreateStatement):
     """Generated model for ASTCreateSnapshotStatementProto"""
 
-    schema_object_kind: Optional[int] = None
+    schema_object_kind: Optional['SchemaObjectKind'] = None
     name: Optional['ASTPathExpression'] = None
     clone_data_source: Optional['ASTCloneDataSource'] = None
     options_list: Optional['ASTOptionsList'] = None
@@ -34508,6 +36295,8 @@ class ASTCreateSnapshotStatement(ASTCreateStatement):
             'proto_field': 'schema_object_kind',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SchemaObjectKind',
         },
         'name': {
             'proto_field': 'name',
@@ -34609,7 +36398,7 @@ class ASTCreateViewStatementBase(ASTCreateStatement):
     column_with_options_list: Optional['ASTColumnWithOptionsList'] = None
     options_list: Optional['ASTOptionsList'] = None
     query: Optional['ASTQuery'] = None
-    sql_security: Optional[int] = None
+    sql_security: Optional['ASTCreateStatementEnums.SqlSecurity'] = None
     recursive: Optional[bool] = None
 
     _PROTO_CLASS: ClassVar[type] = parser_parse_tree_pb2.ASTCreateViewStatementBaseProto
@@ -34638,6 +36427,9 @@ class ASTCreateViewStatementBase(ASTCreateStatement):
             'proto_field': 'sql_security',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'SqlSecurity',
+            'enum_parent_message': 'ASTCreateStatementEnums',
         },
         'recursive': {
             'proto_field': 'recursive',
@@ -35185,7 +36977,7 @@ class ResolvedDeferredComputedColumn(ResolvedComputedColumnImpl):
 class ResolvedGraphEdgeScan(ResolvedGraphElementScan):
     """Generated model for ResolvedGraphEdgeScanProto"""
 
-    orientation: Optional[int] = None
+    orientation: Optional['ResolvedGraphEdgeScanEnums.EdgeOrientation'] = None
     lhs_hint_list: List['ResolvedOption'] = field(default_factory=list)
     rhs_hint_list: List['ResolvedOption'] = field(default_factory=list)
     cost_expr: Optional['ResolvedExpr'] = None
@@ -35196,6 +36988,9 @@ class ResolvedGraphEdgeScan(ResolvedGraphElementScan):
             'proto_field': 'orientation',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'EdgeOrientation',
+            'enum_parent_message': 'ResolvedGraphEdgeScanEnums',
         },
         'lhs_hint_list': {
             'proto_field': 'lhs_hint_list',
@@ -35227,7 +37022,7 @@ class ResolvedGraphNodeScan(ResolvedGraphElementScan):
 class ASTAuxLoadDataStatement(ASTCreateTableStmtBase):
     """Generated model for ASTAuxLoadDataStatementProto"""
 
-    insertion_mode: Optional[int] = None
+    insertion_mode: Optional['ASTAuxLoadDataStatementEnums.InsertionMode'] = None
     partition_by: Optional['ASTPartitionBy'] = None
     cluster_by: Optional['ASTClusterBy'] = None
     from_files: Optional['ASTAuxLoadDataFromFilesOptionsList'] = None
@@ -35241,6 +37036,9 @@ class ASTAuxLoadDataStatement(ASTCreateTableStmtBase):
             'proto_field': 'insertion_mode',
             'is_message': False,
             'is_repeated': False,
+            'is_enum': True,
+            'enum_type_name': 'InsertionMode',
+            'enum_parent_message': 'ASTAuxLoadDataStatementEnums',
         },
         'partition_by': {
             'proto_field': 'partition_by',
@@ -35494,7 +37292,6 @@ __all__ = [
     'LanguageVersion',
     'NameResolutionMode',
     'NormalizeMode',
-    'ParameterMode',
     'ParseLocationRecordType',
     'ProductMode',
     'ResolvedASTRewrite',

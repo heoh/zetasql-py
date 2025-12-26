@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from zetasql.wrapper_utils import parse_wrapper
 """
 Basic ZetaSQL LocalService examples with Wrappers
 
@@ -7,31 +6,20 @@ Simple examples demonstrating common ZetaSQL operations.
 """
 
 from zetasql.local_service import ZetaSqlLocalService
-from zetasql.resolved_ast_wrapper import ResolvedQueryStmt
 from zetasql.types import proto_models, TypeKind, NameResolutionMode, ProductMode, LanguageFeature
 from zetasql.builders import TableBuilder, CatalogBuilder
+from zetasql.options import AnalyzerOptionsProto
 
 
 def create_analyzer_options():
-    """Create analyzer options with all language features enabled."""
-    # Create language options
-    language_options = proto_models.LanguageOptions()
-    language_options.name_resolution_mode = NameResolutionMode.NAME_RESOLUTION_DEFAULT
-    language_options.product_mode = ProductMode.PRODUCT_INTERNAL
+    """Create analyzer options with all language features enabled.
     
-    # Enable all language features
-    for feature_name in dir(LanguageFeature):
-        if feature_name.startswith('FEATURE_'):
-            if feature_name == 'FEATURE_SPANNER_LEGACY_DDL':
-                continue
-            try:
-                feature_value = getattr(LanguageFeature, feature_name)
-                if isinstance(feature_value, int) and feature_value > 0:
-                    language_options.enabled_language_features.append(feature_value)
-            except:
-                pass
-    
-    return language_options
+    Uses the new AnalyzerOptions.with_maximum_features() factory method which:
+    - Enables all released language features (ideally_enabled=true)
+    - Automatically excludes FEATURE_SPANNER_LEGACY_DDL (ideally_enabled=false)
+    - Matches Java/C++ API behavior
+    """
+    return AnalyzerOptionsProto.with_maximum_features()
 
 
 def create_sample_catalog(service):
@@ -51,7 +39,7 @@ def create_sample_catalog(service):
     
     # Create builtin function options
     builtin_opts = proto_models.ZetaSQLBuiltinFunctionOptions(
-        language_options=analyzer_options
+        language_options=analyzer_options.language
     )
     
     # Create catalog using CatalogBuilder
@@ -62,7 +50,7 @@ def create_sample_catalog(service):
     
     # Register catalog
     reg_response = service.register_catalog(simple_catalog=catalog)
-    return reg_response.registered_id, proto_models.AnalyzerOptions(language_options=analyzer_options)
+    return reg_response.registered_id, analyzer_options
 
 
 def example_1_parse():
