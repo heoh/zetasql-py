@@ -72,3 +72,76 @@ class ZetaSQLError(Exception):
             return cls(code, message, error_str)
         # Fallback for unexpected format
         return cls(StatusCode.UNKNOWN, error_str, error_str)
+
+
+class AnalyzerError(ZetaSQLError):
+    """Error during SQL analysis (semantic errors).
+    
+    Raised when SQL has semantic issues such as:
+    - Table not found
+    - Column not found or ambiguous
+    - Type mismatch
+    - Invalid function arguments
+    
+    Example:
+        try:
+            stmt = analyzer.analyze_statement(sql)
+        except AnalyzerError as e:
+            print(f"Analysis failed: {e.message}")
+    """
+    pass
+
+
+class InvalidArgumentError(ZetaSQLError):
+    """Invalid argument provided to API.
+    
+    Raised for client-side validation failures such as:
+    - Missing required parameters
+    - Mutually exclusive parameters both provided
+    - Invalid parameter combinations
+    - Empty or malformed input
+    
+    Example:
+        try:
+            query = builder.prepare()
+        except InvalidArgumentError as e:
+            print(f"Invalid parameters: {e.message}")
+    """
+    pass
+
+
+class ResourceNotFoundError(ZetaSQLError):
+    """Requested resource not found.
+    
+    Raised when a referenced resource doesn't exist:
+    - Table not found in catalog
+    - Function not found
+    - Type not found
+    - Registered catalog ID not found
+    
+    Example:
+        try:
+            response = service.analyze(sql, catalog)
+        except ResourceNotFoundError as e:
+            print(f"Resource missing: {e.message}")
+    """
+    pass
+
+
+class IllegalStateError(ZetaSQLError):
+    """Operation called in illegal state.
+    
+    Raised when an operation is attempted in an invalid state:
+    - Using PreparedQuery after close()
+    - Calling methods on disposed objects
+    - Invalid operation sequence
+    
+    Example:
+        query.close()
+        try:
+            query.execute()  # Error: already closed
+        except IllegalStateError as e:
+            print(f"Invalid state: {e.message}")
+    """
+    pass
+

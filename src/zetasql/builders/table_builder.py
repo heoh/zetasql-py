@@ -26,14 +26,10 @@ Examples:
     ...     .build())
 """
 
-from typing import Union, TYPE_CHECKING
+from typing import Union
+from typing_extensions import Self
 from zetasql.types.proto_models import SimpleTable, SimpleColumn, Type, TypeKind
 from zetasql.types.type_factory import TypeFactory
-
-if TYPE_CHECKING:
-    from typing import Self
-else:
-    from typing_extensions import Self
 
 
 class TableBuilder:

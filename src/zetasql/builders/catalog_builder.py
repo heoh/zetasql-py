@@ -28,13 +28,8 @@ Examples:
     >>> service.analyze(sql_statement="SELECT * FROM orders", simple_catalog=catalog)
 """
 
-from typing import TYPE_CHECKING
+from typing_extensions import Self
 from zetasql.types.proto_models import SimpleCatalog, SimpleTable, ZetaSQLBuiltinFunctionOptions
-
-if TYPE_CHECKING:
-    from typing import Self
-else:
-    from typing_extensions import Self
 
 
 class CatalogBuilder:
