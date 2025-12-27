@@ -267,35 +267,45 @@ class RegisteredCatalog:
 
 ### 2.2 SimpleCatalog Mixin
 
-**파일**: `src/zetasql/types/proto_models.py` (수정)
+**파일**: `src/zetasql/types/proto_model_mixins.py` (추가)
 
-SimpleCatalog에 `register()` 메서드 추가:
+**중요**: `proto_models.py`는 자동 생성 파일이므로 직접 수정하지 않습니다.
+대신 `proto_model_mixins.py`에 믹스인 클래스를 추가하고, 
+`proto_models.py`의 클래스 정의가 믹스인을 상속하도록 합니다.
+
+SimpleCatalog에 `register()` 메서드를 제공하는 믹스인 추가:
 
 ```python
-# SimpleCatalog 클래스에 메서드 추가
-class SimpleCatalog(ProtoModel):
-    # ... 기존 코드 ...
+class SimpleCatalogMixin:
+    """Mixin class providing helper methods for SimpleCatalog.
+    
+    Adds Java-style catalog registration with automatic cleanup support.
+    """
     
     def register(self, service=None):
         """Register catalog and return context manager for auto-unregister.
         
-        Equivalent to Java's catalog.register() for try-with-resources.
+        Equivalent to Java's catalog.register() for try-with-resources pattern.
+        Automatically unregisters the catalog when exiting the context.
         
         Args:
             service: Optional LocalService instance. Uses singleton if not provided.
         
         Returns:
-            RegisteredCatalog context manager
+            RegisteredCatalog context manager that yields the catalog ID
         
         Example:
             >>> catalog = CatalogBuilder("db").add_table(table).build()
             >>> with catalog.register() as catalog_id:
-            ...     # Use catalog_id
+            ...     # Use catalog_id for operations
             ...     response = service.analyze(
             ...         sql_statement="SELECT * FROM table",
             ...         registered_catalog_id=catalog_id
             ...     )
             ...     # Automatically unregistered on exit
+        
+        See Also:
+            RegisteredCatalog: The context manager implementation
         """
         if service is None:
             from zetasql.local_service import ZetaSqlLocalService
@@ -303,6 +313,20 @@ class SimpleCatalog(ProtoModel):
         
         from zetasql.catalog_registry import RegisteredCatalog
         return RegisteredCatalog(service, self)
+```
+
+**파일**: `src/zetasql/types/proto_models.py` (믹스인 적용)
+
+SimpleCatalog 클래스 정의를 다음과 같이 변경:
+
+```python
+# Before (자동 생성)
+class SimpleCatalog(ProtoModel):
+    ...
+
+# After (믹스인 적용 - 자동 생성 스크립트에서 처리)
+class SimpleCatalog(proto_model_mixins.SimpleCatalogMixin, ProtoModel):
+    ...
 ```
 
 ### 2.3 Export
@@ -334,55 +358,22 @@ with catalog.register() as catalog_id:
 
 ---
 
-## Task 3: 입력 검증 및 예외 강화 ⭐ MEDIUM PRIORITY
+## Task 3: 입력 검증 강화 ⭐ MEDIUM PRIORITY
 
-**목적**: Java의 `Preconditions` 체크와 명확한 예외 처리
+**목적**: 입력 파라미터 검증 강화
 
 **현재 문제점**:
 - 파라미터 검증 부족 (예: sql=None 체크 없음)
 - 에러 메시지가 불명확
-- 모든 예외가 `ZetaSQLError`로만 처리됨
 
 **구현 내용**:
 
-### 3.1 새로운 예외 클래스
-
-**파일**: `src/zetasql/exceptions.py` (신규 또는 기존 파일 확장)
-
-```python
-class ZetaSQLError(Exception):
-    """Base exception for ZetaSQL errors."""
-    
-    def __init__(self, code, message, raw_error=None):
-        self.code = code
-        self.message = message
-        self.raw_error = raw_error
-        super().__init__(message)
-
-
-class AnalyzerError(ZetaSQLError):
-    """Error during SQL analysis (semantic errors)."""
-    pass
-
-
-class InvalidArgumentError(ZetaSQLError):
-    """Invalid argument provided to API."""
-    pass
-
-
-class ResourceNotFoundError(ZetaSQLError):
-    """Requested resource not found."""
-    pass
-
-
-class IllegalStateError(ZetaSQLError):
-    """Operation called in illegal state (e.g., PreparedQuery already closed)."""
-    pass
-```
-
-### 3.2 PreparedQueryBuilder 검증 강화
+### 3.1 PreparedQueryBuilder 검증 강화
 
 **파일**: `src/zetasql/prepared_query.py` (수정)
+
+**참고**: 에러 분리는 하지 않습니다. ZetaSQL 서비스에 종속적이므로 
+`ZetaSQLError`만 사용하고, 클라이언트 검증에는 Python 표준 `ValueError`를 사용합니다.
 
 ```python
 def prepare(self) -> PreparedQuery:
@@ -390,43 +381,30 @@ def prepare(self) -> PreparedQuery:
     
     # Required parameters
     if not self._sql or not self._sql.strip():
-        raise InvalidArgumentError(
-            code=StatusCode.INVALID_ARGUMENT,
-            message="SQL string must not be empty",
-            raw_error="SQL validation failed"
-        )
+        raise ValueError("SQL string must not be empty")
     
     # Mutually exclusive parameters
     if self._catalog is not None and self._registered_catalog_id is not None:
-        raise InvalidArgumentError(
-            code=StatusCode.INVALID_ARGUMENT,
-            message="Cannot provide both catalog and registered_catalog_id. "
-                    "Use one or the other.",
-            raw_error="Catalog parameter conflict"
+        raise ValueError(
+            "Cannot provide both catalog and registered_catalog_id. "
+            "Use one or the other."
         )
     
     # table_content requires simple_catalog
     if self._table_content and not self._catalog:
-        raise InvalidArgumentError(
-            code=StatusCode.INVALID_ARGUMENT,
-            message="table_content requires catalog. "
-                    "Cannot use with registered_catalog_id.",
-            raw_error="TableContent validation failed"
+        raise ValueError(
+            "table_content requires catalog. "
+            "Cannot use with registered_catalog_id."
         )
     
     # ... prepare 로직 ...
 ```
 
-### 3.3 LocalService 메서드 검증 (선택적)
-
-필요시 LocalService의 주요 메서드에도 유사한 검증 추가 가능.
-단, `@parameters` 데코레이터가 이미 잘 동작하므로 **필수는 아님**.
-
 **체크리스트**:
-- [ ] 새로운 예외 클래스 정의
-- [ ] `PreparedQueryBuilder.prepare()` 검증 추가
-- [ ] 예외 처리 테스트
-- [ ] 문서화 (각 예외 타입 설명)
+- [x] 새로운 예외 클래스 정의 → **롤백: ZetaSQLError만 사용**
+- [x] `PreparedQueryBuilder.prepare()` 검증 추가
+- [x] 예외 처리 테스트
+- [x] 문서화 (각 예외 타입 설명)
 
 ---
 

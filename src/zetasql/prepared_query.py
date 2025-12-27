@@ -6,7 +6,7 @@ for automatic cleanup of server-side resources.
 
 from typing import Optional, Dict, Any
 from zetasql.types import proto_models
-from zetasql.exceptions import InvalidArgumentError, IllegalStateError, StatusCode
+from zetasql.exceptions import IllegalStateError, InvalidArgumentError
 
 
 class PreparedQuery:
@@ -80,9 +80,7 @@ class PreparedQuery:
         """
         if self._closed:
             raise IllegalStateError(
-                code=StatusCode.FAILED_PRECONDITION,
-                message="PreparedQuery already closed. Cannot execute closed query.",
-                raw_error="PreparedQuery state error"
+                "PreparedQuery already closed. Cannot execute closed query."
             )
         
         response = self._service.evaluate_query(
@@ -269,36 +267,24 @@ class PreparedQueryBuilder:
         """
         # Validation - SQL is required
         if not self._sql:
-            raise InvalidArgumentError(
-                code=StatusCode.INVALID_ARGUMENT,
-                message="SQL must be set",
-                raw_error="SQL validation failed"
-            )
+            raise InvalidArgumentError("SQL must be set")
         
         # Validate SQL is not just whitespace
         if not self._sql.strip():
-            raise InvalidArgumentError(
-                code=StatusCode.INVALID_ARGUMENT,
-                message="SQL string must not be empty or whitespace-only",
-                raw_error="SQL validation failed"
-            )
+            raise InvalidArgumentError("SQL string must not be empty or whitespace-only")
         
         # Mutually exclusive parameters
         if self._catalog and self._registered_catalog_id:
             raise InvalidArgumentError(
-                code=StatusCode.INVALID_ARGUMENT,
-                message="Cannot provide both catalog and registered_catalog_id. "
-                        "Use one or the other.",
-                raw_error="Catalog parameter conflict"
+                "Cannot provide both catalog and registered_catalog_id. "
+                "Use one or the other."
             )
         
         # table_content requires simple_catalog
         if self._table_content and self._registered_catalog_id:
             raise InvalidArgumentError(
-                code=StatusCode.INVALID_ARGUMENT,
-                message="Cannot use table_content with registered catalog. "
-                        "table_content requires simple_catalog.",
-                raw_error="TableContent validation failed"
+                "Cannot use table_content with registered catalog. "
+                "table_content requires simple_catalog."
             )
         
         # Get service

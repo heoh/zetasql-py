@@ -28,21 +28,33 @@ class StatusCode(IntEnum):
 
 
 class ZetaSQLError(Exception):
-    """Base exception for ZetaSQL RPC errors.
+    """Base exception for all ZetaSQL errors.
+    
+    This is the parent class for both server-side errors (from gRPC/backend)
+    and client-side errors (from Python API validation).
+    
+    Subclasses:
+        ServerError: Errors from ZetaSQL backend (SQL analysis, execution, etc.)
+        ClientError: Errors from Python API usage (parameter validation, state errors)
+    """
+    pass
 
-    Follows the pattern of gRPC's RpcError and database libraries like psycopg2.
-    Inherits directly from Exception (not RuntimeError) as this represents
-    a specific domain error (SQL analysis/execution), not a generic runtime error.
 
+class ServerError(ZetaSQLError):
+    """Base exception for ZetaSQL backend/server errors.
+    
+    Raised when the ZetaSQL server (via gRPC) returns an error.
+    Contains absl::StatusCode from the C++ backend.
+    
     Attributes:
         code: absl::StatusCode as StatusCode enum or int
-        message: Error message from ZetaSQL
+        message: Error message from ZetaSQL backend
         raw_error: Original error string from C++ ("Code: X, Message: Y")
-
+    
     Example:
         try:
-            response = client.prepare_query(request)
-        except ZetaSQLError as e:
+            response = service.prepare_query(sql=sql, catalog=catalog)
+        except ServerError as e:
             if e.code == StatusCode.INVALID_ARGUMENT:
                 print(f"SQL syntax error: {e.message}")
             elif e.code == StatusCode.NOT_FOUND:
@@ -63,7 +75,7 @@ class ZetaSQLError(Exception):
             error_str: Error string in format "Code: X, Message: Y"
 
         Returns:
-            ZetaSQLError instance with parsed code and message
+            ServerError instance with parsed code and message
         """
         match = re.match(r'Code: (\d+), Message: (.+)', error_str)
         if match:
@@ -74,28 +86,30 @@ class ZetaSQLError(Exception):
         return cls(StatusCode.UNKNOWN, error_str, error_str)
 
 
-class AnalyzerError(ZetaSQLError):
-    """Error during SQL analysis (semantic errors).
+class ClientError(ZetaSQLError):
+    """Base exception for Python API client-side errors.
     
-    Raised when SQL has semantic issues such as:
-    - Table not found
-    - Column not found or ambiguous
-    - Type mismatch
-    - Invalid function arguments
+    Raised when the Python API detects invalid usage before calling the backend.
+    Does not contain StatusCode (not from gRPC).
+    
+    Examples:
+        - Missing required parameters
+        - Mutually exclusive parameters both provided
+        - Invalid state (e.g., using closed PreparedQuery)
     
     Example:
         try:
-            stmt = analyzer.analyze_statement(sql)
-        except AnalyzerError as e:
-            print(f"Analysis failed: {e.message}")
+            query = PreparedQuery.builder().prepare()  # Missing SQL
+        except ClientError as e:
+            print(f"API usage error: {e}")
     """
     pass
 
 
-class InvalidArgumentError(ZetaSQLError):
-    """Invalid argument provided to API.
+class InvalidArgumentError(ClientError):
+    """Invalid argument provided to Python API.
     
-    Raised for client-side validation failures such as:
+    Raised for parameter validation failures such as:
     - Missing required parameters
     - Mutually exclusive parameters both provided
     - Invalid parameter combinations
@@ -103,32 +117,14 @@ class InvalidArgumentError(ZetaSQLError):
     
     Example:
         try:
-            query = builder.prepare()
+            query = builder.prepare()  # Missing SQL
         except InvalidArgumentError as e:
-            print(f"Invalid parameters: {e.message}")
+            print(f"Invalid parameters: {e}")
     """
     pass
 
 
-class ResourceNotFoundError(ZetaSQLError):
-    """Requested resource not found.
-    
-    Raised when a referenced resource doesn't exist:
-    - Table not found in catalog
-    - Function not found
-    - Type not found
-    - Registered catalog ID not found
-    
-    Example:
-        try:
-            response = service.analyze(sql, catalog)
-        except ResourceNotFoundError as e:
-            print(f"Resource missing: {e.message}")
-    """
-    pass
-
-
-class IllegalStateError(ZetaSQLError):
+class IllegalStateError(ClientError):
     """Operation called in illegal state.
     
     Raised when an operation is attempted in an invalid state:
@@ -141,7 +137,7 @@ class IllegalStateError(ZetaSQLError):
         try:
             query.execute()  # Error: already closed
         except IllegalStateError as e:
-            print(f"Invalid state: {e.message}")
+            print(f"Invalid state: {e}")
     """
     pass
 

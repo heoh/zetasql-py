@@ -15327,7 +15327,7 @@ class SimpleAnonymizationInfo(ProtoModel):
 
 
 @dataclass
-class SimpleCatalog(ProtoModel):
+class SimpleCatalog(proto_model_mixins.SimpleCatalogMixin, ProtoModel):
     """Generated model for SimpleCatalogProto"""
 
     name: Optional[str] = None

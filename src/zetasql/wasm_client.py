@@ -2,7 +2,7 @@ import os
 import sys
 from google.protobuf import message, empty_pb2
 from wasmtime import Store, Module, Linker, WasiConfig
-from zetasql.exceptions import ZetaSQLError
+from zetasql.exceptions import ServerError
 
 from typing import TypeVar
 
@@ -169,7 +169,7 @@ class WasmClient:
             # Check for nullptr (error case)
             if response_ptr == WASM_NULL_PTR:
                 error_str = self.get_last_error()
-                raise ZetaSQLError.from_error_string(error_str)
+                raise ServerError.from_error_string(error_str)
 
             # Read response size from output parameter
             response_size_bytes = self.read_bytes(response_size_ptr, WASM32_SIZE_T_BYTES)

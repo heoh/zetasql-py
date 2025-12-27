@@ -11,11 +11,11 @@ from zetasql.catalog_registry import RegisteredCatalog
 from zetasql.analyzer import Analyzer
 from zetasql.exceptions import (
     ZetaSQLError,
-    AnalyzerError,
+    ServerError,
+    ClientError,
     InvalidArgumentError,
-    ResourceNotFoundError,
     IllegalStateError,
-    StatusCode,
+    StatusCode
 )
 
 __all__ = [
@@ -25,9 +25,9 @@ __all__ = [
     "RegisteredCatalog",
     "Analyzer",
     "ZetaSQLError",
-    "AnalyzerError",
+    "ServerError",
+    "ClientError",
     "InvalidArgumentError",
-    "ResourceNotFoundError",
     "IllegalStateError",
     "StatusCode",
 ]
