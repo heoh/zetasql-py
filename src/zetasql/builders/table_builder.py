@@ -69,30 +69,18 @@ class TableBuilder:
         ...     .build())
     """
     
-    _next_id = 1
-    
     def __init__(self, name: str, serialization_id: int = None):
         """Initialize TableBuilder.
         
         Args:
             name: Table name
-            serialization_id: Optional table ID. If not provided, auto-generated.
+            serialization_id: Optional table ID. If not provided, backend will assign one.
         """
-        if serialization_id is None:
-            serialization_id = TableBuilder._get_next_id()
-        
         self._table = SimpleTable(
             name=name,
             serialization_id=serialization_id,
             column=[]
         )
-    
-    @classmethod
-    def _get_next_id(cls) -> int:
-        """Get next auto-generated table ID."""
-        current_id = cls._next_id
-        cls._next_id += 1
-        return current_id
     
     def add_column(
         self, 

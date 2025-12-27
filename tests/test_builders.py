@@ -43,14 +43,17 @@ class TestTableBuilder:
         assert table.serialization_id == 42
     
     def test_table_auto_serialization_id(self):
-        """Test that serialization IDs are auto-generated."""
+        """Test that serialization_id is None by default (backend assigns)."""
         table1 = TableBuilder("table1").build()
         table2 = TableBuilder("table2").build()
         
-        # IDs should be different
-        assert table1.serialization_id != table2.serialization_id
-        assert table1.serialization_id > 0
-        assert table2.serialization_id > 0
+        # Both should be None (backend will assign)
+        assert table1.serialization_id is None
+        assert table2.serialization_id is None
+        
+        # Proto should not have the field set
+        proto1 = table1.to_proto()
+        assert not proto1.HasField('serialization_id')
     
     def test_table_with_complex_type(self):
         """Test adding column with complex Type object."""

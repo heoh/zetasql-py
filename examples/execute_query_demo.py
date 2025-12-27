@@ -140,7 +140,7 @@ def setup_catalog_and_data(service):
     # ========== Build Tables with Fluent API ==========
     
     # Customers Table
-    customers = (TableBuilder("Customers", serialization_id=1)
+    customers = (TableBuilder("Customers")
         .add_column("customer_id", TypeKind.TYPE_INT64)
         .add_column("name", TypeKind.TYPE_STRING)
         .add_column("email", TypeKind.TYPE_STRING)
@@ -148,7 +148,7 @@ def setup_catalog_and_data(service):
         .build())
     
     # Products Table
-    products = (TableBuilder("Products", serialization_id=2)
+    products = (TableBuilder("Products")
         .add_column("product_id", TypeKind.TYPE_INT64)
         .add_column("name", TypeKind.TYPE_STRING)
         .add_column("category", TypeKind.TYPE_STRING)
@@ -156,7 +156,7 @@ def setup_catalog_and_data(service):
         .build())
     
     # Orders Table
-    orders = (TableBuilder("Orders", serialization_id=3)
+    orders = (TableBuilder("Orders")
         .add_column("order_id", TypeKind.TYPE_INT64)
         .add_column("customer_id", TypeKind.TYPE_INT64)
         .add_column("product_id", TypeKind.TYPE_INT64)
