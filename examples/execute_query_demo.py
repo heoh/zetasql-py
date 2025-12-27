@@ -663,7 +663,7 @@ def example_4_error_handling(service, catalog_id, analyzer_options, simple_catal
 # Example 5: Unanalyze & Format - SQL Generation
 # ============================================================================
 
-def example_5_unanalyze_mode(service: ZetaSqlLocalService, catalog_id, analyzer_options):
+def example_5_unanalyze_mode(service: ZetaSqlLocalService, catalog_id, analyzer_options, simple_catalog):
     """
     Demonstrate converting resolved AST back to SQL.
     
@@ -695,7 +695,8 @@ def example_5_unanalyze_mode(service: ZetaSqlLocalService, catalog_id, analyzer_
     
     # Build SQL from resolved AST (unanalyze)
     build_sql_response = service.build_sql(
-        resolved_statement=analyze_response.resolved_statement
+        resolved_statement=analyze_response.resolved_statement,
+        simple_catalog=simple_catalog
     )
     regenerated_sql = build_sql_response.sql
     
@@ -744,7 +745,7 @@ def main():
     example_2_analyze_mode(service, catalog_id, analyzer_options, simple_catalog)
     example_3_execute_mode(service, catalog_id, analyzer_options, simple_catalog, table_content)
     example_4_error_handling(service, catalog_id, analyzer_options, simple_catalog, table_content)
-    example_5_unanalyze_mode(service, catalog_id, analyzer_options)
+    example_5_unanalyze_mode(service, catalog_id, analyzer_options, simple_catalog)
     
     print_section("Demo Complete")
     print("""

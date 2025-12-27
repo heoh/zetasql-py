@@ -12,6 +12,138 @@ from enum import IntEnum
 T = TypeVar("T", bound="ProtoModel")
 
 
+def _wrap_in_union_if_needed(value: 'ProtoModel', parent_proto: _message.Message, field_name: str) -> _message.Message:
+    """
+    Check if target field is a union type by examining proto descriptor,
+    and wrap the value in appropriate union wrapper if needed.
+    
+    Union types are identified by having oneof fields in their descriptor.
+    If the target field is a union, we create the corresponding ProtoModel union
+    instance and set the appropriate variant field.
+    
+    Args:
+        value: ProtoModel instance to convert
+        parent_proto: Parent proto message containing the target field
+        field_name: Name of the field in parent_proto
+    
+    Returns:
+        Proto message, either wrapped in union or as-is
+    """
+    # Get the field descriptor from parent proto
+    if not hasattr(parent_proto, 'DESCRIPTOR'):
+        return value.to_proto()
+    
+    field_desc = parent_proto.DESCRIPTOR.fields_by_name.get(field_name)
+    if not field_desc or not field_desc.message_type:
+        # Not a message field or field not found
+        return value.to_proto()
+    
+    # Check if the target message type has oneofs (characteristic of union types)
+    has_oneofs = hasattr(field_desc.message_type, 'oneofs') and len(field_desc.message_type.oneofs) > 0
+    # DEBUG
+    # print(f"DEBUG _wrap: field={field_name}, target_type={field_desc.message_type.name}, has_oneofs={has_oneofs}")
+    if not has_oneofs:
+        # Not a union type - regular message field
+        return value.to_proto()
+    
+    # This is a union type! Get the corresponding ProtoModel union class
+    union_proto_type_name = field_desc.message_type.name
+    union_model_class_name = union_proto_type_name.removesuffix('Proto')
+    
+    # Import the union class
+    import zetasql.types.proto_models as model_module
+    union_class = getattr(model_module, union_model_class_name, None)
+    
+    if union_class is None or not issubclass(union_class, ProtoModel):
+        # Union class not found, return value as-is
+        return value.to_proto()
+    
+    # Find which field in the union should hold this value
+    # We need to directly create the union proto and set the appropriate oneof field
+    # rather than going through ProtoModel to avoid infinite recursion
+    
+    # First convert value to proto (this may recursively call _wrap_in_union_if_needed for nested fields)
+    value_proto = value.to_proto()
+    value_proto_type_name = type(value_proto).__name__
+    
+    # Create the union proto instance
+    union_proto_class = union_class._PROTO_CLASS
+    union_proto = union_proto_class()
+    
+    # Find the matching oneof field in the union proto
+    # The field name is typically the proto type name in snake_case
+    # We need to check for exact match first, then check base classes
+    
+    # First try exact match
+    for field_desc in union_proto.DESCRIPTOR.fields:
+        if field_desc.message_type and field_desc.message_type.name == value_proto_type_name:
+            # Found the matching field - set it
+            # print(f"DEBUG: Found exact union field '{field_desc.name}' for {value_proto_type_name}")
+            getattr(union_proto, field_desc.name).CopyFrom(value_proto)
+            return union_proto
+    
+    # No exact match - try to find a base class match by recursively checking nested unions
+    def try_nested_union(current_union_proto, visited_types=None):
+        """Recursively try to find a matching field in nested unions
+        
+        Args:
+            current_union_proto: Current union proto to search
+            visited_types: Set of proto type names already visited (prevents cycles)
+        """
+        if visited_types is None:
+            visited_types = set()
+        
+        current_type_name = type(current_union_proto).__name__
+        if current_type_name in visited_types:
+            # Prevent infinite recursion by skipping already visited types
+            return None
+        
+        visited_types = visited_types | {current_type_name}
+        
+        for field_desc in current_union_proto.DESCRIPTOR.fields:
+            if not field_desc.message_type:
+                continue
+            
+            # Check if this field has oneofs (is a union)
+            if hasattr(field_desc.message_type, 'oneofs') and len(field_desc.message_type.oneofs) > 0:
+                nested_union_proto_type_name = field_desc.message_type.name
+                nested_union_model_class_name = nested_union_proto_type_name.removesuffix('Proto')
+                
+                import zetasql.types.proto_models as model_module
+                nested_union_class = getattr(model_module, nested_union_model_class_name, None)
+                
+                if not nested_union_class or not issubclass(nested_union_class, ProtoModel):
+                    continue
+                
+                nested_union_proto_class = nested_union_class._PROTO_CLASS
+                nested_union_proto = nested_union_proto_class()
+                
+                # Try direct match in this nested union
+                for nested_field_desc in nested_union_proto.DESCRIPTOR.fields:
+                    if nested_field_desc.message_type and nested_field_desc.message_type.name == value_proto_type_name:
+                        # Found direct match!
+                        getattr(nested_union_proto, nested_field_desc.name).CopyFrom(value_proto)
+                        return (field_desc.name, nested_union_proto)
+                
+                # Try deeper nesting recursively
+                deeper_result = try_nested_union(nested_union_proto, visited_types)
+                if deeper_result:
+                    deeper_field_name, deeper_union_proto = deeper_result
+                    getattr(nested_union_proto, deeper_field_name).CopyFrom(deeper_union_proto)
+                    return (field_desc.name, nested_union_proto)
+        
+        return None
+    
+    nested_result = try_nested_union(union_proto)
+    if nested_result:
+        field_name, nested_proto = nested_result
+        getattr(union_proto, field_name).CopyFrom(nested_proto)
+        return union_proto
+    
+    # No matching field found - return value proto as-is
+    return value_proto
+
+
 def _convert_to_enum(value: int, field_meta: Dict[str, Any], model_cls: type) -> Any:
     """
     Convert an integer enum value to its IntEnum representation.
@@ -255,13 +387,15 @@ class ProtoModel:
                             target_list.clear()
                             for item in value:
                                 if isinstance(item, ProtoModel):
-                                    target_list.add().CopyFrom(item.to_proto())
+                                    item_proto = _wrap_in_union_if_needed(item, current_proto, proto_field)
+                                    target_list.add().CopyFrom(item_proto)
                                 else:
                                     target_list.append(item)
                     else:
                         # Singular message field
                         if isinstance(value, ProtoModel):
-                            getattr(current_proto, proto_field).CopyFrom(value.to_proto())
+                            value_proto = _wrap_in_union_if_needed(value, current_proto, proto_field)
+                            getattr(current_proto, proto_field).CopyFrom(value_proto)
                         else:
                             getattr(current_proto, proto_field).CopyFrom(value)
                 else:
