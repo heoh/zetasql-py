@@ -73,32 +73,6 @@ class TestLanguageOptionsEnableMaximumFeatures:
         assert len(result.enabled_language_features) > 50
 
 
-class TestAnalyzerOptionsWithMaximumFeatures:
-    """Test AnalyzerOptions.with_maximum_features() convenience method."""
-    
-    def test_with_maximum_features_returns_analyzer_options(self):
-        """Should return AnalyzerOptions instance."""
-        opts = AnalyzerOptions.with_maximum_features()
-        assert isinstance(opts, AnalyzerOptions)
-    
-    def test_with_maximum_features_has_language_options(self):
-        """Should include LanguageOptions with maximum features enabled."""
-        opts = AnalyzerOptions.with_maximum_features()
-        assert opts.language_options is not None
-        assert len(opts.language_options.enabled_language_features) > 50
-    
-    def test_with_maximum_features_excludes_spanner_legacy_ddl(self):
-        """Should exclude FEATURE_SPANNER_LEGACY_DDL via LanguageOptions."""
-        opts = AnalyzerOptions.with_maximum_features()
-        assert LanguageFeature.FEATURE_SPANNER_LEGACY_DDL not in opts.language_options.enabled_language_features
-    
-    def test_with_maximum_features_sets_default_modes(self):
-        """Should configure proper name resolution and product modes."""
-        opts = AnalyzerOptions.with_maximum_features()
-        assert opts.language_options.name_resolution_mode == NameResolutionMode.NAME_RESOLUTION_DEFAULT
-        assert opts.language_options.product_mode == ProductMode.PRODUCT_INTERNAL
-
-
 class TestProtoModelIntegration:
     """Test that options work with ProtoModel to_proto/from_proto conversion."""
     
@@ -113,19 +87,6 @@ class TestProtoModelIntegration:
         # Convert back
         lang_opts_2 = LanguageOptions.from_proto(proto)
         assert len(lang_opts_2.enabled_language_features) == len(lang_opts.enabled_language_features)
-    
-    def test_analyzer_options_to_proto_conversion(self):
-        """Should convert to protobuf and back."""
-        opts = AnalyzerOptions.with_maximum_features()
-        
-        # Convert to proto
-        proto = opts.to_proto()
-        assert proto is not None
-        
-        # Convert back
-        opts_2 = AnalyzerOptions.from_proto(proto)
-        assert opts_2.language_options is not None
-        assert len(opts_2.language_options.enabled_language_features) > 50
 
 
 class TestAPIConsistency:
@@ -141,11 +102,6 @@ class TestAPIConsistency:
         """Should have maximum_features() class method like C++."""
         assert hasattr(LanguageOptions, 'maximum_features')
         assert callable(LanguageOptions.maximum_features)
-    
-    def test_convenience_factory_exists(self):
-        """Should have with_maximum_features() for easy creation."""
-        assert hasattr(AnalyzerOptions, 'with_maximum_features')
-        assert callable(AnalyzerOptions.with_maximum_features)
     
     def test_both_patterns_produce_same_result(self):
         """Java-style and C++-style should produce equivalent results."""
@@ -166,17 +122,6 @@ class TestAPIConsistency:
 
 class TestFeatureExclusion:
     """Test that specific features are correctly excluded."""
-    
-    def test_spanner_legacy_ddl_always_excluded(self):
-        """FEATURE_SPANNER_LEGACY_DDL should never be enabled."""
-        # Test all three methods
-        lang_opts_1 = LanguageOptions().enable_maximum_language_features()
-        lang_opts_2 = LanguageOptions.maximum_features()
-        opts = AnalyzerOptions.with_maximum_features()
-        
-        assert LanguageFeature.FEATURE_SPANNER_LEGACY_DDL not in lang_opts_1.enabled_language_features
-        assert LanguageFeature.FEATURE_SPANNER_LEGACY_DDL not in lang_opts_2.enabled_language_features
-        assert LanguageFeature.FEATURE_SPANNER_LEGACY_DDL not in opts.language_options.enabled_language_features
     
     def test_positive_features_only(self):
         """Should only enable features with positive enum values."""

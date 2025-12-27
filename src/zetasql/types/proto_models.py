@@ -3444,7 +3444,7 @@ class AnalyzerLogEntry(ProtoModel):
 
 
 @dataclass
-class AnalyzerOptions(proto_model_mixins.AnalyzerOptionsMixin, ProtoModel):
+class AnalyzerOptions(ProtoModel):
     """Generated model for AnalyzerOptionsProto"""
 
     language_options: Optional['LanguageOptions'] = None

@@ -113,50 +113,10 @@ class LanguageOptionsMixin:
             - in_development = true (unstable)
             - Causes all analysis to fail immediately (Spanner DDL parser-only mode)
         """
-        # Try to use LocalService RPC (preferred method - ensures C++ compatibility)
-        try:
-            from zetasql.local_service import ZetaSqlLocalService
-            from zetasql.types.proto_models import LanguageOptionsRequest
-            
-            service = ZetaSqlLocalService()
-            lang_opts_from_service = service.get_language_options(maximum_features=True)
-            
-            # Copy enabled features from service response
-            self.enabled_language_features = list(lang_opts_from_service.enabled_language_features)
-            
-            return self
-        except Exception:
-            raise
-            # Fallback: Manual enumeration of all features
-            # This mimics C++ EnableMaximumLanguageFeatures logic
-            pass
+        from zetasql.local_service import get_local_service
+        lang_opts_from_service = get_local_service().get_language_options(maximum_features=True)
         
-        # Fallback implementation: Enable all features manually
-        # Filter out features that shouldn't be enabled:
-        # 1. FEATURE_SPANNER_LEGACY_DDL (ideally_enabled=false, causes analysis to fail)
-        # 2. Negative values or zero (invalid/aliases)
-        from zetasql.types import LanguageFeature
-        
-        enabled_features = []
-        
-        for feature_name in dir(LanguageFeature):
-            if not feature_name.startswith('FEATURE_'):
-                continue
-            
-            # Explicitly exclude FEATURE_SPANNER_LEGACY_DDL
-            # (ideally_enabled=false, in_development=true, breaks analysis)
-            if feature_name == 'FEATURE_SPANNER_LEGACY_DDL':
-                continue
-            
-            try:
-                feature_value = getattr(LanguageFeature, feature_name)
-                if isinstance(feature_value, int) and feature_value > 0:
-                    enabled_features.append(feature_value)
-            except (AttributeError, TypeError):
-                continue
-        
-        self.enabled_language_features = enabled_features
-        
+        self.enabled_language_features = list(lang_opts_from_service.enabled_language_features)
         return self
     
     @classmethod
@@ -185,56 +145,3 @@ class LanguageOptionsMixin:
         opts.product_mode = ProductMode.PRODUCT_INTERNAL
         opts.enable_maximum_language_features()
         return opts
-
-
-class AnalyzerOptionsMixin:
-    """Mixin class providing factory methods for AnalyzerOptions.
-    
-    This mixin adds convenience methods to AnalyzerOptions ProtoModel:
-    - with_maximum_features(): One-line creation with all features enabled
-    
-    This simplifies the common pattern of creating analyzer options with
-    maximum language features.
-    """
-    
-    @classmethod
-    def with_maximum_features(cls):
-        """Create AnalyzerOptions with maximum language features (convenience method).
-        
-        This is the simplest way to create AnalyzerOptions for most use cases.
-        It creates an AnalyzerOptions instance with:
-        - All released language features enabled (via enable_maximum_language_features)
-        - NAME_RESOLUTION_DEFAULT mode
-        - PRODUCT_INTERNAL mode (Java default)
-        
-        Returns:
-            AnalyzerOptions: Fully configured instance ready to use
-        
-        Example:
-            >>> opts = AnalyzerOptions.with_maximum_features()
-            >>> # Ready to use with LocalService
-            >>> response = service.analyze(sql_statement="SELECT 1", options=opts)
-        
-        Note:
-            This is equivalent to the common pattern in example code, but in one line:
-            
-            Before (30+ lines):
-                opts = options_pb2.AnalyzerOptionsProto()
-                language_options = opts.language_options
-                language_options.name_resolution_mode = NAME_RESOLUTION_DEFAULT
-                # ... 20+ more lines of feature enumeration
-            
-            After (1 line):
-                opts = AnalyzerOptions.with_maximum_features()
-        """
-        from zetasql.types.proto_models import LanguageOptions
-        
-        lang_opts = LanguageOptions.maximum_features()
-        
-        analyzer_opts = cls()
-        analyzer_opts.language_options = lang_opts
-        
-        return analyzer_opts
-
-
-__all__ = ['TypeKindMixin', 'LanguageOptionsMixin', 'AnalyzerOptionsMixin']
