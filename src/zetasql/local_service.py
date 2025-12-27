@@ -1,4 +1,4 @@
-from functools import lru_cache
+ 
 from google.protobuf import empty_pb2 as _empty_pb2
 from google.protobuf import message as _message
 from zetasql.wasm_client import WasmClient
@@ -204,7 +204,8 @@ class ZetaSqlLocalService:
             options_pb2.AnalyzerOptionsProto,
         )).as_type(proto_models.AnalyzerOptions)
 
-
-@lru_cache(maxsize=1)
-def get_local_service():
-    return ZetaSqlLocalService()
+    @classmethod
+    def get_instance(cls):
+        if not hasattr(cls, "_instance"):
+            cls._instance = cls()
+        return cls._instance

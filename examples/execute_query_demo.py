@@ -20,6 +20,7 @@ Demonstrates:
 
 import sys
 from zetasql.local_service import ZetaSqlLocalService
+from zetasql.table_content import create_table_content
 from zetasql.types import (
     ProtoModel,
     ResolvedTableScan,
@@ -31,10 +32,8 @@ from zetasql.types import (
     ResolvedLimitOffsetScan,
     TypeKind,
     AnalyzerOptions,
+    LanguageOptions,
     ZetaSQLBuiltinFunctionOptions,
-    TableContent,
-    TableData,
-    Value,
 )
 from zetasql.builders import TableBuilder, CatalogBuilder
 
@@ -43,94 +42,21 @@ from zetasql.builders import TableBuilder, CatalogBuilder
 # Helper Functions
 # ============================================================================
 
-def create_analyzer_options():
-    """Create analyzer options with all language features enabled.
-    
-    Uses the new AnalyzerOptions.with_maximum_features() factory method which:
-    - Enables all released language features (ideally_enabled=true)
-    - Automatically excludes FEATURE_SPANNER_LEGACY_DDL (ideally_enabled=false)
-    - Matches Java/C++ API behavior
-    """
-    return AnalyzerOptions.with_maximum_features()
-
-
-def create_table_content(rows_data: list[list]) -> TableContent:
-    """Create TableContent ProtoModel from row data.
-    
-    This helper function builds table data for query execution, automatically
-    detecting Python types and converting them to appropriate Value fields.
-    
-    Args:
-        rows_data: List of lists, where each inner list represents a row.
-                   Supported types: None, bool, int, float, str
-                   
-                   Example: [
-                       ["Alice", 25, True],
-                       ["Bob", 30, False]
-                   ]
-    
-    Returns:
-        TableContent ProtoModel ready for use with LocalService
-    
-    Examples:
-        >>> # Simple table data
-        >>> customers = create_table_content([
-        ...     [1, "Alice", "alice@example.com"],
-        ...     [2, "Bob", "bob@example.com"]
-        ... ])
-        >>> 
-        >>> # With null values
-        >>> data = create_table_content([
-        ...     [1, "Alice", None],
-        ...     [2, None, "test@example.com"]
-        ... ])
-        >>> 
-        >>> # Use in query execution
-        >>> table_content = {
-        ...     "customers": create_table_content(customer_data),
-        ...     "products": create_table_content(product_data)
-        ... }
-        >>> response = service.prepare_query(
-        ...     sql="SELECT * FROM customers",
-        ...     simple_catalog=catalog,
-        ...     table_content=table_content
-        ... )
-    
-    Raises:
-        ValueError: If an unsupported value type is encountered
-    """
-    rows = []
-    
-    for row_data in rows_data:
-        cells = []
-        for value in row_data:
-            # Create Value ProtoModel for each cell
-            if value is None:
-                # Null value - no field set, but we could add a marker if needed
-                # For now, just create empty Value (will be treated as NULL)
-                cells.append(Value())
-            elif isinstance(value, bool):
-                cells.append(Value(bool_value=value))
-            elif isinstance(value, int):
-                cells.append(Value(int64_value=value))
-            elif isinstance(value, float):
-                cells.append(Value(double_value=value))
-            elif isinstance(value, str):
-                cells.append(Value(string_value=value))
-            else:
-                raise ValueError(
-                    f"Unsupported value type: {type(value).__name__}. "
-                    f"Supported types: None, bool, int, float, str"
-                )
-        
-        # Create Row with cells
-        rows.append(TableData.Row(cell=cells))
-    
-    # Create TableData with rows
-    table_data = TableData(row=rows)
-    
-    # Create and return TableContent
-    return TableContent(table_data=table_data)
+# Note: create_table_content is imported from zetasql.table_content module
+# This provides a centralized, well-tested implementation for creating TableContent
+# from Python data (lists of lists with int, float, str, bool, None values).
+#
+# Example usage:
+#   from zetasql.table_content import create_table_content
+#   
+#   data = [[1, "Alice"], [2, "Bob"]]
+#   table_content = {"TableName": create_table_content(data)}
+#   
+#   response = service.prepare_query(
+#       sql="SELECT * FROM TableName",
+#       simple_catalog=catalog,
+#       table_content=table_content
+#   )
 
 
 def print_table_result(columns, rows):
@@ -243,7 +169,7 @@ def setup_catalog_and_data(service):
     
     # Create builtin function options from language options (not analyzer options)
     builtin_opts = ZetaSQLBuiltinFunctionOptions(
-        language_options=analyzer_options.language_options
+        language_options=LanguageOptions.maximum_features(),
     )
     
     catalog = (CatalogBuilder("demo")
@@ -737,7 +663,7 @@ def example_4_error_handling(service, catalog_id, analyzer_options, simple_catal
 # Example 5: Unanalyze & Format - SQL Generation
 # ============================================================================
 
-def example_5_unanalyze_mode(service, catalog_id, analyzer_options):
+def example_5_unanalyze_mode(service: ZetaSqlLocalService, catalog_id, analyzer_options):
     """
     Demonstrate converting resolved AST back to SQL.
     
@@ -768,28 +694,22 @@ def example_5_unanalyze_mode(service, catalog_id, analyzer_options):
     )
     
     # Build SQL from resolved AST (unanalyze)
-    try:
-        build_sql_response = service.build_sql(
-            resolved_statement=analyze_response.resolved_statement
-        )
-        regenerated_sql = build_sql_response.sql
-        
-        print_subsection("Regenerated SQL (from ResolvedAST)")
-        print(regenerated_sql)
-        
-        # Format the regenerated SQL
-        format_response = service.format_sql(sql=regenerated_sql)
-        formatted_sql = format_response.sql
-        
-        print_subsection("Formatted SQL")
-        print(formatted_sql)
-        
-        print("\n✓ Successfully converted: SQL → ResolvedAST → SQL")
-    except Exception as e:
-        print_subsection("Note")
-        print(f"build_sql() encountered an issue: {str(e)[:100]}")
-        print("This is a known limitation with complex queries in the reference implementation.")
-        print("\n✓ Analyze completed successfully, build_sql skipped due to limitation")
+    build_sql_response = service.build_sql(
+        resolved_statement=analyze_response.resolved_statement
+    )
+    regenerated_sql = build_sql_response.sql
+    
+    print_subsection("Regenerated SQL (from ResolvedAST)")
+    print(regenerated_sql)
+    
+    # Format the regenerated SQL
+    format_response = service.format_sql(sql=regenerated_sql)
+    formatted_sql = format_response.sql
+    
+    print_subsection("Formatted SQL")
+    print(formatted_sql)
+    
+    print("\n✓ Successfully converted: SQL → ResolvedAST → SQL")
 
 
 # ============================================================================
@@ -812,7 +732,7 @@ def main():
     
     # Initialize service
     print("Initializing ZetaSQL LocalService...")
-    service = ZetaSqlLocalService()
+    service = ZetaSqlLocalService.get_instance()
     
     # Setup catalog and data
     print("Setting up catalog with 3 tables: Customers, Products, Orders...")
@@ -820,15 +740,14 @@ def main():
     print("✓ Catalog ready with sample data\n")
     
     # Run examples
-    try:
-        example_1_parse_mode(service, catalog_id, analyzer_options)
-        example_2_analyze_mode(service, catalog_id, analyzer_options, simple_catalog)
-        example_3_execute_mode(service, catalog_id, analyzer_options, simple_catalog, table_content)
-        example_4_error_handling(service, catalog_id, analyzer_options, simple_catalog, table_content)
-        example_5_unanalyze_mode(service, catalog_id, analyzer_options)
-        
-        print_section("Demo Complete")
-        print("""
+    example_1_parse_mode(service, catalog_id, analyzer_options)
+    example_2_analyze_mode(service, catalog_id, analyzer_options, simple_catalog)
+    example_3_execute_mode(service, catalog_id, analyzer_options, simple_catalog, table_content)
+    example_4_error_handling(service, catalog_id, analyzer_options, simple_catalog, table_content)
+    example_5_unanalyze_mode(service, catalog_id, analyzer_options)
+    
+    print_section("Demo Complete")
+    print("""
 All examples executed successfully!
 
 Key Takeaways:
@@ -843,15 +762,8 @@ Key Takeaways:
 
 For more examples, see basic_usage.py
 For documentation, see EXECUTE_QUERY_DEMO.md
-        """)
-        
-    except Exception as e:
-        print(f"\n❌ Error running demo: {e}")
-        import traceback
-        traceback.print_exc()
-        raise
-        return 1
-    
+    """)
+
     return 0
 
 

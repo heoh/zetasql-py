@@ -123,12 +123,35 @@ class ProtoModel:
                     break
                 current_proto = current_proto.parent
             
+            # Detect oneof fields to only extract the active variant
+            # Build a set of field names that belong to oneofs
+            oneof_fields = {}  # Maps field_name -> oneof_name
+            if hasattr(current_proto, 'DESCRIPTOR') and hasattr(current_proto.DESCRIPTOR, 'oneofs'):
+                for oneof_desc in current_proto.DESCRIPTOR.oneofs:
+                    oneof_name = oneof_desc.name
+                    for field_desc in oneof_desc.fields:
+                        oneof_fields[field_desc.name] = oneof_name
+            
+            # Build a set of active oneof fields
+            active_oneof_fields = set()
+            for oneof_name in set(oneof_fields.values()):
+                try:
+                    which_field = current_proto.WhichOneof(oneof_name)
+                    if which_field:
+                        active_oneof_fields.add(which_field)
+                except (ValueError, AttributeError):
+                    pass
+            
             # Extract fields defined by this ancestor class
             field_map = ancestor_cls._PROTO_FIELD_MAP
             for field_name, field_meta in field_map.items():
                 proto_field = field_meta['proto_field']
                 
                 if not hasattr(current_proto, proto_field):
+                    continue
+                
+                # Skip oneof fields that are not active
+                if proto_field in oneof_fields and proto_field not in active_oneof_fields:
                     continue
                 
                 value_obj = getattr(current_proto, proto_field)

@@ -13,7 +13,7 @@ from zetasql.builders import TableBuilder, CatalogBuilder
 @pytest.fixture(scope="session")
 def service():
     """Create a ZetaSqlLocalService instance (reused across all tests)."""
-    return ZetaSqlLocalService()
+    return ZetaSqlLocalService.get_instance()
 
 
 @pytest.fixture(scope="session")
