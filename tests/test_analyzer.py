@@ -387,7 +387,7 @@ class TestAnalyzerMultiStatement:
 
 
 class TestAnalyzerWithRegisteredCatalog:
-    """Test analyzer with registered catalogs - Java: tests with catalog.register()"""
+    """Test analyzer with registered catalogs"""
     
     @pytest.mark.skip(reason="Registered catalog tests need review - catalog registration may not work as expected")
     def test_analyze_with_registered_catalog(self, options, catalog, service):

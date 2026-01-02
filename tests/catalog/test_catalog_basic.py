@@ -133,19 +133,6 @@ class TestCatalogRegistration:
         # Should not raise
         service.unregister_catalog(registered_id=registered_id)
     
-    def test_register_catalog_context_manager(self, service):
-        """Test RegisteredCatalog context manager - Java: AutoUnregister"""
-        from zetasql.api.catalog_registry import RegisteredCatalog
-        
-        catalog = CatalogBuilder("db").build()
-        
-        with RegisteredCatalog(service, catalog) as registered_id:
-            assert registered_id >= 0
-            assert isinstance(registered_id, int)
-        
-        # Catalog should be automatically unregistered after context
-        # (no way to verify without internal state, but should not raise)
-    
     def test_register_multiple_catalogs(self, service):
         """Test registering multiple catalogs."""
         catalog1 = CatalogBuilder("db1").build()

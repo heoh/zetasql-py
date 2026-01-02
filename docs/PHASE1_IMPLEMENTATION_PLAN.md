@@ -265,68 +265,35 @@ class RegisteredCatalog:
         return False
 ```
 
-### 2.2 SimpleCatalog Mixin
+### 2.2 SimpleCatalog Support (Removed)
 
-**파일**: `src/zetasql/types/proto_model_mixins.py` (추가)
+**Note**: The `SimpleCatalog.register()` method has been removed to fix the 
+architectural issue where core package (Layer 1) was depending on api package (Layer 2).
 
-**중요**: `proto_models.py`는 자동 생성 파일이므로 직접 수정하지 않습니다.
-대신 `proto_model_mixins.py`에 믹스인 클래스를 추가하고, 
-`proto_models.py`의 클래스 정의가 믹스인을 상속하도록 합니다.
-
-SimpleCatalog에 `register()` 메서드를 제공하는 믹스인 추가:
+**Migration**: Use `RegisteredCatalog` directly instead:
 
 ```python
-class SimpleCatalogMixin:
-    """Mixin class providing helper methods for SimpleCatalog.
-    
-    Adds Java-style catalog registration with automatic cleanup support.
-    """
-    
-    def register(self, service=None):
-        """Register catalog and return context manager for auto-unregister.
-        
-        Equivalent to Java's catalog.register() for try-with-resources pattern.
-        Automatically unregisters the catalog when exiting the context.
-        
-        Args:
-            service: Optional LocalService instance. Uses singleton if not provided.
-        
-        Returns:
-            RegisteredCatalog context manager that yields the catalog ID
-        
-        Example:
-            >>> catalog = CatalogBuilder("db").add_table(table).build()
-            >>> with catalog.register() as catalog_id:
-            ...     # Use catalog_id for operations
-            ...     response = service.analyze(
-            ...         sql_statement="SELECT * FROM table",
-            ...         registered_catalog_id=catalog_id
-            ...     )
-            ...     # Automatically unregistered on exit
-        
-        See Also:
-            RegisteredCatalog: The context manager implementation
-        """
-        if service is None:
-            from zetasql.local_service import ZetaSqlLocalService
-            service = ZetaSqlLocalService.get_instance()
-        
-        from zetasql.catalog_registry import RegisteredCatalog
-        return RegisteredCatalog(service, self)
+from zetasql.api import RegisteredCatalog
+
+catalog = CatalogBuilder("db").add_table(table).build()
+
+# Old way (removed):
+# with catalog.register() as catalog_id:
+#     ...
+
+# New way:
+with RegisteredCatalog(catalog) as catalog_id:
+    response = service.analyze(
+        sql_statement="SELECT * FROM table",
+        registered_catalog_id=catalog_id
+    )
+    # Automatically unregistered on exit
 ```
 
-**파일**: `src/zetasql/types/proto_models.py` (믹스인 적용)
-
-SimpleCatalog 클래스 정의를 다음과 같이 변경:
-
-```python
-# Before (자동 생성)
-class SimpleCatalog(ProtoModel):
-    ...
-
-# After (믹스인 적용 - 자동 생성 스크립트에서 처리)
-class SimpleCatalog(proto_model_mixins.SimpleCatalogMixin, ProtoModel):
-    ...
+**Benefits**:
+- Cleaner architecture: core no longer depends on api
+- `RegisteredCatalog(catalog)` uses singleton service by default
+- `RegisteredCatalog(catalog, service)` supports custom service instances
 ```
 
 ### 2.3 Export
@@ -339,9 +306,11 @@ from zetasql.catalog_registry import RegisteredCatalog
 
 **사용 예시**:
 ```python
+from zetasql.api import RegisteredCatalog
+
 catalog = CatalogBuilder("catalog").add_table(table).build()
 
-with catalog.register() as catalog_id:
+with RegisteredCatalog(catalog) as catalog_id:
     response = service.analyze(
         sql_statement="SELECT * FROM table",
         registered_catalog_id=catalog_id
