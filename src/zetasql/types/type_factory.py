@@ -5,8 +5,7 @@ This module provides Java-style factory methods for creating Type ProtoModel obj
 offering a clean alternative to manual protobuf construction.
 
 Examples:
-    >>> from zetasql.types.type_factory import TypeFactory
-    >>> from zetasql.types import TypeKind
+    >>> from zetasql.types import TypeFactory, TypeKind
     >>> 
     >>> # Simple types
     >>> int_type = TypeFactory.create_simple_type(TypeKind.TYPE_INT64)
