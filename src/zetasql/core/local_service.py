@@ -1,8 +1,8 @@
  
 from google.protobuf import empty_pb2 as _empty_pb2
 from google.protobuf import message as _message
-from zetasql.wasm_client import WasmClient
-from zetasql.func_utils import parameters
+from zetasql.core.wasm_client import WasmClient
+from zetasql.core.func_utils import parameters
 from zetasql.types import parse_proto, proto_models
 from zetasql.wasi import get_wasm_path
 from zetasql.wasi._pb2.zetasql.local_service import local_service_pb2

@@ -5,7 +5,7 @@ Tests the fluent builder API for creating tables and catalogs.
 """
 
 import pytest
-from zetasql.builders import TableBuilder, CatalogBuilder
+from zetasql.api.builders import TableBuilder, CatalogBuilder
 from zetasql.types import TypeKind
 from zetasql.types.type_factory import TypeFactory
 from zetasql.types.proto_models import SimpleTable, SimpleCatalog, ZetaSQLBuiltinFunctionOptions, LanguageOptions

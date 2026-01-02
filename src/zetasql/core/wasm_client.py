@@ -2,7 +2,7 @@ import os
 import sys
 from google.protobuf import message, empty_pb2
 from wasmtime import Store, Module, Linker, WasiConfig
-from zetasql.exceptions import ServerError
+from zetasql.core.exceptions import ServerError
 
 from typing import TypeVar
 

@@ -113,7 +113,7 @@ class LanguageOptionsMixin:
             - in_development = true (unstable)
             - Causes all analysis to fail immediately (Spanner DDL parser-only mode)
         """
-        from zetasql.local_service import ZetaSqlLocalService
+        from zetasql.core.local_service import ZetaSqlLocalService
         lang_opts_from_service = ZetaSqlLocalService.get_instance().get_language_options(maximum_features=True)
         
         self.enabled_language_features = list(lang_opts_from_service.enabled_language_features)
@@ -179,8 +179,8 @@ class SimpleCatalogMixin:
             RegisteredCatalog: The context manager implementation
         """
         if service is None:
-            from zetasql.local_service import ZetaSqlLocalService
+            from zetasql.core.local_service import ZetaSqlLocalService
             service = ZetaSqlLocalService.get_instance()
         
-        from zetasql.catalog_registry import RegisteredCatalog
+        from zetasql.api.catalog_registry import RegisteredCatalog
         return RegisteredCatalog(service, self)

@@ -5,7 +5,7 @@ Tests the create_table_content factory function.
 """
 
 import pytest
-from zetasql.table_content import create_table_content
+from zetasql.extensions.table_content import create_table_content
 from zetasql.types.proto_models import TableContent, TableData, Value
 
 

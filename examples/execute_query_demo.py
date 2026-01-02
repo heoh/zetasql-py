@@ -19,8 +19,8 @@ Demonstrates:
 """
 
 import sys
-from zetasql.local_service import ZetaSqlLocalService
-from zetasql.table_content import create_table_content
+from zetasql.core.local_service import ZetaSqlLocalService
+from zetasql.extensions.table_content import create_table_content
 from zetasql.types import (
     ProtoModel,
     ResolvedTableScan,
@@ -35,19 +35,19 @@ from zetasql.types import (
     LanguageOptions,
     ZetaSQLBuiltinFunctionOptions,
 )
-from zetasql.builders import TableBuilder, CatalogBuilder
+from zetasql.api.builders import TableBuilder, CatalogBuilder
 
 
 # ============================================================================
 # Helper Functions
 # ============================================================================
 
-# Note: create_table_content is imported from zetasql.table_content module
+# Note: create_table_content is imported from zetasql.extensions.table_content module
 # This provides a centralized, well-tested implementation for creating TableContent
 # from Python data (lists of lists with int, float, str, bool, None values).
 #
 # Example usage:
-#   from zetasql.table_content import create_table_content
+#   from zetasql.extensions.table_content import create_table_content
 #   
 #   data = [[1, "Alice"], [2, "Bob"]]
 #   table_content = {"TableName": create_table_content(data)}

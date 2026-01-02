@@ -1,13 +1,13 @@
 """Tests for PreparedQuery wrapper class."""
 
 import pytest
-from zetasql.local_service import ZetaSqlLocalService
-from zetasql.prepared_query import PreparedQuery, PreparedQueryBuilder
-from zetasql.exceptions import ZetaSQLError, IllegalStateError, InvalidArgumentError
+from zetasql.core.local_service import ZetaSqlLocalService
+from zetasql.api.prepared_query import PreparedQuery, PreparedQueryBuilder
+from zetasql.core.exceptions import ZetaSQLError, IllegalStateError, InvalidArgumentError
 from zetasql.types import AnalyzerOptions, LanguageOptions
-from zetasql.builders import TableBuilder, CatalogBuilder
+from zetasql.api.builders import TableBuilder, CatalogBuilder
 from zetasql.types import TypeKind
-from zetasql.table_content import create_table_content
+from zetasql.extensions.table_content import create_table_content
 
 
 @pytest.fixture

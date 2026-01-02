@@ -1,10 +1,10 @@
 """Tests for RegisteredCatalog context manager."""
 
 import pytest
-from zetasql.local_service import ZetaSqlLocalService
-from zetasql.catalog_registry import RegisteredCatalog
+from zetasql.core.local_service import ZetaSqlLocalService
+from zetasql.api.catalog_registry import RegisteredCatalog
 from zetasql.types import AnalyzerOptions
-from zetasql.builders import TableBuilder, CatalogBuilder
+from zetasql.api.builders import TableBuilder, CatalogBuilder
 from zetasql.types import TypeKind
 
 

@@ -1,10 +1,10 @@
 """Tests for Analyzer helper class."""
 
 import pytest
-from zetasql.local_service import ZetaSqlLocalService
-from zetasql.analyzer import Analyzer
+from zetasql.core.local_service import ZetaSqlLocalService
+from zetasql.api.analyzer import Analyzer
 from zetasql.types import AnalyzerOptions, proto_models
-from zetasql.builders import TableBuilder, CatalogBuilder
+from zetasql.api.builders import TableBuilder, CatalogBuilder
 from zetasql.types import TypeKind
 
 
@@ -178,7 +178,7 @@ class TestAnalyzerWithoutCatalog:
     def test_analyze_expression_without_catalog(self, service, analyzer_options):
         """Test analyzing simple expression."""
         from zetasql.types import ZetaSQLBuiltinFunctionOptions, LanguageOptions
-        from zetasql.builders import CatalogBuilder
+        from zetasql.api.builders import CatalogBuilder
         
         builtin_opts = ZetaSQLBuiltinFunctionOptions(
             language_options=LanguageOptions.maximum_features(),

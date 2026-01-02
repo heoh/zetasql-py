@@ -6,7 +6,7 @@ for simplified SQL analysis and AST manipulation.
 
 from typing import Optional, List
 from zetasql.types import proto_models
-from zetasql.local_service import ZetaSqlLocalService
+from zetasql.core.local_service import ZetaSqlLocalService
 
 
 class Analyzer:

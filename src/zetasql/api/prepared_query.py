@@ -6,7 +6,7 @@ for automatic cleanup of server-side resources.
 
 from typing import Optional, Dict, Any
 from zetasql.types import proto_models
-from zetasql.exceptions import IllegalStateError, InvalidArgumentError
+from zetasql.core.exceptions import IllegalStateError, InvalidArgumentError
 
 
 class PreparedQuery:
@@ -290,7 +290,7 @@ class PreparedQueryBuilder:
         # Get service
         service = self._service
         if service is None:
-            from zetasql.local_service import ZetaSqlLocalService
+            from zetasql.core.local_service import ZetaSqlLocalService
             service = ZetaSqlLocalService.get_instance()
         
         # Prepare query
