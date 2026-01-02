@@ -476,6 +476,12 @@ def parse_proto(proto: _message.Message) -> ProtoModel:
         >>> type(model).__name__  # Resolved to concrete type
         'ResolvedFilterScan'
     """
+    # Handle non-message types (primitives, enums, strings)
+    # This can happen when parse_proto is called on items from repeated fields
+    # that contain primitives or enum strings
+    if not isinstance(proto, _message.Message):
+        return proto
+    
     try:
         # Check which variant is set
         which = proto.WhichOneof('node')
@@ -486,6 +492,10 @@ def parse_proto(proto: _message.Message) -> ProtoModel:
         # WhichOneof raised an error or 'node' doesn't exist
         # This is not a oneof type
         return _create_model_from_proto(proto)
+    except AttributeError:
+        # proto doesn't have WhichOneof method (not a message)
+        # This shouldn't happen if the isinstance check works, but be defensive
+        return proto
     
     # Get the proto of the active variant
     try:

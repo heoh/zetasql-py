@@ -91,7 +91,6 @@ class TestCatalogBuiltinFunctions:
         assert catalog.builtin_function_options is not None
         assert len(catalog.builtin_function_options.language_options.enabled_language_features) > 0
     
-    @pytest.mark.skip(reason="ProtoModel parsing bug: get_builtin_functions returns proto with string enums that parse_proto can't handle")
     def test_get_builtin_functions_from_service(self, service):
         """Test getting builtin function list from service."""
         lang_opts = service.get_language_options(maximum_features=True)
