@@ -601,11 +601,9 @@ def get_field_default_value(field_info: Dict[str, Any]) -> str:
 def generate_enum_class(enum_name: str, enum_info: Dict[str, Any], module_aliases: Dict[str, str], indent: int = 0) -> str:
     """Generate an IntEnum class for a protobuf enum"""
     try:
-        from zetasql.types import proto_model_mixins
-        has_mixins = True
+        from zetasql.core.types import mixins
     except (ImportError, ModuleNotFoundError, AttributeError):
-        has_mixins = False
-        proto_model_mixins = None
+        mixins = None
     
     lines = []
     indent_str = '    ' * indent
@@ -616,8 +614,8 @@ def generate_enum_class(enum_name: str, enum_info: Dict[str, Any], module_aliase
 
     bases = []
     mixin_name = f'{enum_name}Mixin'
-    if has_mixins and proto_model_mixins and hasattr(proto_model_mixins, mixin_name):
-        bases.append(f'proto_model_mixins.{mixin_name}')
+    if hasattr(mixins, mixin_name):
+        bases.append(f'mixins.{mixin_name}')
     bases.append('IntEnum')
 
     # Class definition
@@ -822,12 +820,10 @@ def generate_property(field_info: Dict[str, Any], parent_chain: List[str], graph
 def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], module_aliases: Dict[str, str] = None, indent: int = 0, nested_enums: Dict[str, list] = None) -> str:
     """Generate a dataclass-based wrapper class with support for nested classes and enums"""
     try:
-        from zetasql.types import proto_model_mixins
-        has_mixins = True
+        from zetasql.core.types import mixins
     except (ImportError, ModuleNotFoundError, AttributeError):
-        has_mixins = False
-        proto_model_mixins = None
-        
+        mixins = None
+    
     parent_name = info['parent']
     proto_name = info.get('proto_name', name)
     module_name = info['module']
@@ -842,8 +838,8 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], modul
     # Determine parent class with optional mixin
     bases = []
     mixin_name = f'{class_name}Mixin'
-    if has_mixins and proto_model_mixins and hasattr(proto_model_mixins, mixin_name):
-        bases.append(f'proto_model_mixins.{mixin_name}')
+    if hasattr(mixins, mixin_name):
+        bases.append(f'mixins.{mixin_name}')
 
     if parent_name and parent_name in graph:
         parent_model = parent_name.removesuffix('Proto')
@@ -1071,8 +1067,8 @@ def generate_model_file(graph: Dict[str, Any], enums: Dict[str, Any], output_pat
     # Import ProtoModel and parse_proto from proto_model
     lines.extend([
         '# Import utilities for proto model functionality',
-        'from zetasql.types.proto_model import ProtoModel, parse_proto',
-        'from zetasql.types import proto_model_mixins',
+        'from zetasql.core.types.proto_model import ProtoModel, parse_proto',
+        'from zetasql.core.types import mixins',
         '',
     ])
     
@@ -1168,7 +1164,7 @@ def generate_model_file(graph: Dict[str, Any], enums: Dict[str, Any], output_pat
             class_count += len(children_map[name])
     
     # Generate __all__ for proper exports (enums + classes)
-    export_names = ['parse_proto', 'ProtoModel'] + enum_names + class_names
+    export_names = enum_names + class_names
     lines.append('# Export all generated types')
     lines.append('__all__ = [')
     for name in export_names:
@@ -1196,7 +1192,7 @@ def main():
     parser.add_argument(
         '--output',
         type=Path,
-        default=Path(__file__).parent.parent / 'src/zetasql/types/proto_models.py',
+        default=Path(__file__).parent.parent / 'src/zetasql/core/types/proto_models.py',
         help='Output Python file'
     )
     

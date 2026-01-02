@@ -1,12 +1,8 @@
+from .proto_model import *
 from .proto_models import *
+from .extensions import *
 
 __all__ = [
+    *proto_model.__all__,
     *proto_models.__all__,
 ]
-
-# import zetasql.core.types.proto_models
-# from zetasql.core.types.proto_models import *
-
-# __all__ = [
-#     *zetasql.core.types.proto_models.__all__,
-# ]

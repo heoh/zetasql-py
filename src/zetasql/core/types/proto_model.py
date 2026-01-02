@@ -559,3 +559,9 @@ def _create_model_from_proto(proto: _message.Message) -> ProtoModel:
     if not issubclass(model_class, ProtoModel):
         model_class = ProtoModel
     return model_class.from_proto(proto)
+
+
+__all__ = [
+    'ProtoModel',
+    'parse_proto',
+]

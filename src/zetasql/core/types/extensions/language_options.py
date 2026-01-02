@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from zetasql.core.types.proto_models_generated import (
+from zetasql.core.types.proto_models import (
     LanguageOptions as _GeneratedLanguageOptions,
 )
 
