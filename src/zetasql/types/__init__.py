@@ -1,9 +1,10 @@
 from zetasql.core.types import *
-from zetasql.core import types as _core_types
+from zetasql.api.types import *
 
-from zetasql.types.type_factory import TypeFactory
+from zetasql.core.types import __all__ as _core_all
+from zetasql.api.types import __all__ as _api_all
 
 __all__ = [
-    *_core_types.__all__,
-    'TypeFactory',
+    *_core_all,
+    *_api_all,
 ]

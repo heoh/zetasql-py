@@ -9,8 +9,8 @@ Future extensions may include:
 - More Pythonic abstractions
 """
 
+from .table_content import create_table_content
+
 __all__ = [
     'create_table_content',
 ]
-
-from zetasql.extensions.table_content import create_table_content

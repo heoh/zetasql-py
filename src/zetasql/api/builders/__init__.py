@@ -6,10 +6,10 @@ Provides builder pattern implementations for constructing ZetaSQL objects:
 - TableBuilder: Build SimpleTable with method chaining
 """
 
+from .catalog_builder import CatalogBuilder
+from .table_builder import TableBuilder
+
 __all__ = [
     'CatalogBuilder',
     'TableBuilder',
 ]
-
-from zetasql.api.builders.catalog_builder import CatalogBuilder
-from zetasql.api.builders.table_builder import TableBuilder

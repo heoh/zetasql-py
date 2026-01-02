@@ -10,6 +10,11 @@ This package provides Layer 2 Java API-compatible convenience features:
 These features mirror the Java ZetaSQL API for familiarity.
 """
 
+from .analyzer import Analyzer
+from .prepared_query import PreparedQuery, PreparedQueryBuilder
+from .catalog_registry import RegisteredCatalog
+from .builders import CatalogBuilder, TableBuilder
+
 __all__ = [
     'Analyzer',
     'PreparedQuery',
@@ -18,9 +23,3 @@ __all__ = [
     'CatalogBuilder',
     'TableBuilder',
 ]
-
-from zetasql.api.analyzer import Analyzer
-from zetasql.api.prepared_query import PreparedQuery, PreparedQueryBuilder
-from zetasql.api.catalog_registry import RegisteredCatalog
-from zetasql.api.builders.catalog_builder import CatalogBuilder
-from zetasql.api.builders.table_builder import TableBuilder

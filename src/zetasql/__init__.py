@@ -7,11 +7,11 @@ capabilities for Python applications.
 Architecture:
     The library is organized into 3 layers:
     
+    - wasi: Layer 0 - WebAssembly resources and generated protobuf code
     - core: Layer 1 - WASI communication & ProtoModel infrastructure
     - api: Layer 2 - Java-style convenience features
     - extensions: Layer 3 - Python-specific extended APIs
-    - types: ProtoModel type system (Layer 1 + 2 mixed)
-    - wasi: WebAssembly resources and generated protobuf code
+    - types: exported types (Layer 1 + 2 + 3 mixed)
 
 Recommended Usage:
     Use explicit import paths for clarity:

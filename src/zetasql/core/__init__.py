@@ -10,6 +10,17 @@ This package provides the foundational Layer 1 infrastructure:
 All higher layers (api, extensions) depend on this core infrastructure.
 """
 
+from .wasm_client import WasmClient
+from .local_service import ZetaSqlLocalService
+from .exceptions import (
+    StatusCode,
+    ZetaSQLError,
+    ServerError,
+    ClientError,
+    InvalidArgumentError,
+    IllegalStateError,
+)
+
 __all__ = [
     'WasmClient',
     'ZetaSqlLocalService',
@@ -20,14 +31,3 @@ __all__ = [
     'InvalidArgumentError',
     'IllegalStateError',
 ]
-
-from zetasql.core.wasm_client import WasmClient
-from zetasql.core.local_service import ZetaSqlLocalService
-from zetasql.core.exceptions import (
-    StatusCode,
-    ZetaSQLError,
-    ServerError,
-    ClientError,
-    InvalidArgumentError,
-    IllegalStateError,
-)
