@@ -10,7 +10,6 @@ from zetasql.api.builders import CatalogBuilder
 from zetasql.types import TypeKind
 
 
-@pytest.mark.skip(reason="API not implemented: SimpleCatalog.add_constant() and ConstantBuilder")
 class TestCatalogConstantAdd:
     """Test adding constants to catalog - Java: SimpleCatalog.addConstant()"""
     
@@ -44,7 +43,7 @@ class TestCatalogConstantAdd:
         
         # Verify constant was added
         assert len(catalog.get_constant_list()) == 1
-        assert catalog.get_constant_list()[0].name == "MAX_LIMIT"
+        assert catalog.get_constant_list()[0].name_path[-1] == "MAX_LIMIT"
     
     def test_add_string_constant(self):
         """Test adding STRING constant."""
@@ -76,7 +75,6 @@ class TestCatalogConstantAdd:
         assert len(catalog.get_constant_list()) == 3
 
 
-@pytest.mark.skip(reason="API not implemented: SimpleCatalog.get_constant() and related methods")
 class TestCatalogConstantRetrieval:
     """Test retrieving constants from catalog."""
     
@@ -109,7 +107,7 @@ class TestCatalogConstantRetrieval:
         retrieved = catalog.get_constant("MY_CONST")
         
         assert retrieved is not None
-        assert retrieved.name == "MY_CONST"
+        assert retrieved.name_path[-1] == "MY_CONST"
     
     def test_get_constant_case_insensitive(self):
         """Test constant lookup is case-insensitive.

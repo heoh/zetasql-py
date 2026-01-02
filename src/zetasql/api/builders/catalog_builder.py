@@ -29,7 +29,14 @@ Examples:
 """
 
 from typing_extensions import Self
-from zetasql.types import SimpleCatalog, SimpleTable, ZetaSQLBuiltinFunctionOptions
+from zetasql.types import (
+    SimpleCatalog, 
+    SimpleTable, 
+    ZetaSQLBuiltinFunctionOptions,
+    Function,
+    TableValuedFunction,
+    SimpleConstant,
+)
 
 
 class CatalogBuilder:
@@ -109,6 +116,83 @@ class CatalogBuilder:
             ...     .build())
         """
         self._catalog.builtin_function_options = options
+        return self
+    
+    def add_function(self, function: Function) -> Self:
+        """Add a custom function to the catalog.
+        
+        Args:
+            function: Function ProtoModel (typically from FunctionBuilder)
+        
+        Returns:
+            Self for method chaining
+        
+        Examples:
+            >>> from zetasql.api.builders import FunctionBuilder, SignatureBuilder
+            >>> 
+            >>> my_udf = (FunctionBuilder("MY_UDF")
+            ...     .add_signature(
+            ...         SignatureBuilder()
+            ...             .add_argument(TypeKind.TYPE_STRING)
+            ...             .set_return_type(TypeKind.TYPE_INT64)
+            ...             .build()
+            ...     )
+            ...     .build())
+            >>> 
+            >>> catalog = (CatalogBuilder("db")
+            ...     .add_function(my_udf)
+            ...     .build())
+        """
+        self._catalog.add_function(function)
+        return self
+    
+    def add_table_valued_function(self, tvf: TableValuedFunction) -> Self:
+        """Add a table-valued function to the catalog.
+        
+        Args:
+            tvf: TableValuedFunction ProtoModel (typically from TVFBuilder)
+        
+        Returns:
+            Self for method chaining
+        
+        Examples:
+            >>> from zetasql.api.builders import TVFBuilder
+            >>> 
+            >>> my_tvf = (TVFBuilder("my_tvf")
+            ...     .add_argument("input_col", TypeKind.TYPE_INT64)
+            ...     .set_output_schema([
+            ...         ("output_col", TypeKind.TYPE_STRING),
+            ...     ])
+            ...     .build())
+            >>> 
+            >>> catalog = (CatalogBuilder("db")
+            ...     .add_table_valued_function(my_tvf)
+            ...     .build())
+        """
+        self._catalog.add_table_valued_function(tvf)
+        return self
+    
+    def add_constant(self, constant: SimpleConstant) -> Self:
+        """Add a constant to the catalog.
+        
+        Args:
+            constant: SimpleConstant ProtoModel (typically from ConstantBuilder)
+        
+        Returns:
+            Self for method chaining
+        
+        Examples:
+            >>> from zetasql.api.builders import ConstantBuilder
+            >>> 
+            >>> max_limit = (ConstantBuilder("MAX_LIMIT")
+            ...     .set_type(TypeKind.TYPE_INT64)
+            ...     .build())
+            >>> 
+            >>> catalog = (CatalogBuilder("db")
+            ...     .add_constant(max_limit)
+            ...     .build())
+        """
+        self._catalog.add_constant(constant)
         return self
     
     def build(self) -> SimpleCatalog:

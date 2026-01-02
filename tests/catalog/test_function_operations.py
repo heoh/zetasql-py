@@ -10,7 +10,6 @@ from zetasql.api.builders import CatalogBuilder
 from zetasql.types import TypeKind
 
 
-@pytest.mark.skip(reason="API not implemented: SimpleCatalog.add_function() and FunctionBuilder")
 class TestCatalogFunctionAdd:
     """Test adding functions to catalog - Java: SimpleCatalog.addFunction()"""
     
@@ -52,7 +51,7 @@ class TestCatalogFunctionAdd:
         
         # Verify function was added
         assert len(catalog.get_function_list()) == 1
-        assert catalog.get_function_list()[0].name == "MY_UDF"
+        assert catalog.get_function_list()[0].name_path[-1] == "MY_UDF"
     
     def test_add_function_with_multiple_signatures(self):
         """Test adding function with overloaded signatures.
@@ -83,7 +82,6 @@ class TestCatalogFunctionAdd:
         assert len(func.signature) == 2
 
 
-@pytest.mark.skip(reason="API not implemented: SimpleCatalog.get_function_list() and related methods")
 class TestCatalogFunctionRetrieval:
     """Test retrieving functions from catalog - Java: getFunctionList(), getFunctionByFullName()"""
     
@@ -106,14 +104,29 @@ class TestCatalogFunctionRetrieval:
         Expected API (Java):
             Function SimpleCatalog.getFunctionByFullName(String name)
         """
+        from zetasql.api.builders import FunctionBuilder, SignatureBuilder
+        
+        function = (FunctionBuilder("MY_UDF")
+            .add_signature(
+                SignatureBuilder()
+                    .add_argument(TypeKind.TYPE_STRING)
+                    .set_return_type(TypeKind.TYPE_INT64)
+                    .build()
+            )
+            .build())
+        
         catalog = CatalogBuilder("db").build()
-        # ... add function ...
+        catalog.add_function(function)
         
-        # Expected API
-        func = catalog.get_function_by_full_name("zetasql:MY_UDF")
-        
+        # Test retrieval by full name with group
+        func = catalog.get_function_by_full_name("UDF:MY_UDF")
         assert func is not None
-        assert "MY_UDF" in func.name_path or func.name == "MY_UDF"
+        assert "MY_UDF" in func.name_path
+        
+        # Test retrieval by name only
+        func = catalog.get_function_by_full_name("MY_UDF")
+        assert func is not None
+        assert "MY_UDF" in func.name_path
     
     def test_get_function_name_list(self):
         """Test SimpleCatalog.get_function_name_list() - NOT YET IMPLEMENTED.

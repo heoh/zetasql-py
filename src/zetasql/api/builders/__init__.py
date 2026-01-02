@@ -4,12 +4,23 @@ Provides builder pattern implementations for constructing ZetaSQL objects:
 
 - CatalogBuilder: Build SimpleCatalog with method chaining
 - TableBuilder: Build SimpleTable with method chaining
+- FunctionBuilder: Build Function with method chaining
+- SignatureBuilder: Build FunctionSignature with method chaining
+- TVFBuilder: Build TableValuedFunction with method chaining
+- ConstantBuilder: Build SimpleConstant with method chaining
 """
 
 from .catalog_builder import CatalogBuilder
 from .table_builder import TableBuilder
+from .function_builder import FunctionBuilder, SignatureBuilder
+from .tvf_builder import TVFBuilder
+from .constant_builder import ConstantBuilder
 
 __all__ = [
     'CatalogBuilder',
     'TableBuilder',
+    'FunctionBuilder',
+    'SignatureBuilder',
+    'TVFBuilder',
+    'ConstantBuilder',
 ]
