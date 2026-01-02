@@ -1,12 +1,12 @@
 """Test wrapper chaining and nested access"""
-from zetasql.types.proto_model import parse_proto
+from zetasql.types import parse_proto
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from zetasql.wasi._pb2.zetasql.resolved_ast import resolved_ast_pb2
-from zetasql.types.proto_models import ResolvedLiteral, ParseLocationRange
+from zetasql.types import ResolvedLiteral, ParseLocationRange
 
 
 def test_proto_model_chaining():

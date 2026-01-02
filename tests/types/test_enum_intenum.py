@@ -8,7 +8,7 @@ IDE autocomplete and type safety.
 import pytest
 from enum import IntEnum
 
-from zetasql.types.proto_models import (
+from zetasql.types import (
     ResolvedJoinScan,
     ResolvedJoinScanEnums,
 )

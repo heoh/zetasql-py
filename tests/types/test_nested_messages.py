@@ -1,9 +1,9 @@
 """Test nested message wrappers"""
-from zetasql.types.proto_model import parse_proto
+from zetasql.types import parse_proto
 import sys
 sys.path.insert(0, 'src')
 
-from zetasql.types.proto_models import AllowedHintsAndOptions
+from zetasql.types import AllowedHintsAndOptions
 
 
 def test_nested_messages():

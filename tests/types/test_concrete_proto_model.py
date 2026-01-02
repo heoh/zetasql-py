@@ -9,7 +9,7 @@ Validates:
 """
 
 import pytest
-from zetasql.types.proto_models import (
+from zetasql.types import (
     ResolvedNode,
     ResolvedExpr,
     ResolvedLiteral,
@@ -303,7 +303,7 @@ class TestRepeatedFields:
     
     def test_empty_list_default(self):
         """Test that repeated fields default to empty list"""
-        from zetasql.types.proto_models import ResolvedScan
+        from zetasql.types import ResolvedScan
         
         scan = ResolvedScan()
         
@@ -312,7 +312,7 @@ class TestRepeatedFields:
     
     def test_repeated_field_roundtrip(self):
         """Test roundtrip with repeated fields"""
-        from zetasql.types.proto_models import ResolvedScan, ResolvedColumn
+        from zetasql.types import ResolvedScan, ResolvedColumn
         
         col1 = ResolvedColumn(name="col1", column_id=1)
         col2 = ResolvedColumn(name="col2", column_id=2)

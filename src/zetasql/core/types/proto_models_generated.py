@@ -107,8 +107,8 @@ import google.protobuf.timestamp_pb2 as timestamp_pb2
 from enum import IntEnum
 
 # Import utilities for proto model functionality
-from zetasql.types.proto_model import ProtoModel, parse_proto
-from zetasql.types import proto_model_mixins
+from zetasql.core.types.proto_model import ProtoModel, parse_proto
+from zetasql.core.types import mixins
 
 # ============================================================================
 # Top-Level Enum Types
@@ -2366,7 +2366,7 @@ class TableType(IntEnum):
     VALUE_TABLE = proto_wire_format_annotation_pb2.VALUE_TABLE  # 2
 
 
-class TypeKind(proto_model_mixins.TypeKindMixin, IntEnum):
+class TypeKind(mixins.TypeKindMixin, IntEnum):
     """
     Auto-generated IntEnum for protobuf TypeKind.
     
@@ -12780,7 +12780,7 @@ class LanguageFeatureOptions(ProtoModel):
 
 
 @dataclass
-class LanguageOptions(proto_model_mixins.LanguageOptionsMixin, ProtoModel):
+class LanguageOptions(ProtoModel):
     """Generated model for LanguageOptionsProto"""
 
     name_resolution_mode: Optional['NameResolutionMode'] = None
@@ -15327,7 +15327,7 @@ class SimpleAnonymizationInfo(ProtoModel):
 
 
 @dataclass
-class SimpleCatalog(proto_model_mixins.SimpleCatalogMixin, ProtoModel):
+class SimpleCatalog(ProtoModel):
     """Generated model for SimpleCatalogProto"""
 
     name: Optional[str] = None

@@ -4,8 +4,8 @@ Provides Java-style Analyzer with both instance and static methods
 for simplified SQL analysis and AST manipulation.
 """
 
+import zetasql.types
 from typing import Optional, List
-from zetasql.types import proto_models
 from zetasql.core.local_service import ZetaSqlLocalService
 
 
@@ -27,8 +27,8 @@ class Analyzer:
     
     def __init__(
         self,
-        options: proto_models.AnalyzerOptions,
-        catalog: Optional[proto_models.SimpleCatalog] = None,
+        options: zetasql.types.AnalyzerOptions,
+        catalog: Optional[zetasql.types.SimpleCatalog] = None,
         service: Optional[ZetaSqlLocalService] = None
     ):
         """Initialize Analyzer with options and catalog.
@@ -47,7 +47,7 @@ class Analyzer:
         self.catalog = catalog
         self.service = service or ZetaSqlLocalService.get_instance()
     
-    def analyze_statement(self, sql: str) -> proto_models.ResolvedStatement:
+    def analyze_statement(self, sql: str) -> zetasql.types.ResolvedStatement:
         """Analyze SQL statement and return resolved AST.
         
         Args:
@@ -70,7 +70,7 @@ class Analyzer:
         )
         return response.resolved_statement
     
-    def analyze_expression(self, expression: str) -> proto_models.ResolvedExpr:
+    def analyze_expression(self, expression: str) -> zetasql.types.ResolvedExpr:
         """Analyze SQL expression and return resolved AST.
         
         Args:
@@ -96,9 +96,9 @@ class Analyzer:
     @staticmethod
     def analyze_statement_static(
         sql: str,
-        options: proto_models.AnalyzerOptions,
-        catalog: Optional[proto_models.SimpleCatalog] = None
-    ) -> proto_models.ResolvedStatement:
+        options: zetasql.types.AnalyzerOptions,
+        catalog: Optional[zetasql.types.SimpleCatalog] = None
+    ) -> zetasql.types.ResolvedStatement:
         """Static method for one-off statement analysis.
         
         Convenient for single-use analysis without creating an Analyzer instance.
@@ -132,9 +132,9 @@ class Analyzer:
     @staticmethod
     def analyze_expression_static(
         expression: str,
-        options: proto_models.AnalyzerOptions,
-        catalog: Optional[proto_models.SimpleCatalog] = None
-    ) -> proto_models.ResolvedExpr:
+        options: zetasql.types.AnalyzerOptions,
+        catalog: Optional[zetasql.types.SimpleCatalog] = None
+    ) -> zetasql.types.ResolvedExpr:
         """Static method for one-off expression analysis.
         
         Args:
@@ -161,8 +161,8 @@ class Analyzer:
     
     @staticmethod
     def build_statement(
-        resolved_stmt: proto_models.ResolvedStatement,
-        catalog: Optional[proto_models.SimpleCatalog] = None
+        resolved_stmt: zetasql.types.ResolvedStatement,
+        catalog: Optional[zetasql.types.SimpleCatalog] = None
     ) -> str:
         """Convert resolved AST back to SQL string (unanalyze).
         

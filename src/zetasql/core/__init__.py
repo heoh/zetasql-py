@@ -19,7 +19,6 @@ __all__ = [
     'ClientError',
     'InvalidArgumentError',
     'IllegalStateError',
-    'parameters',
 ]
 
 from zetasql.core.wasm_client import WasmClient
@@ -32,4 +31,3 @@ from zetasql.core.exceptions import (
     InvalidArgumentError,
     IllegalStateError,
 )
-from zetasql.core.func_utils import parameters

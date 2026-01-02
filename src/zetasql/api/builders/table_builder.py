@@ -28,8 +28,7 @@ Examples:
 
 from typing import Union
 from typing_extensions import Self
-from zetasql.types.proto_models import SimpleTable, SimpleColumn, Type, TypeKind
-from zetasql.types.type_factory import TypeFactory
+from zetasql.types import SimpleTable, SimpleColumn, Type, TypeKind, TypeFactory
 
 
 class TableBuilder:

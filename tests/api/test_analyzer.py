@@ -1,12 +1,11 @@
 """Tests for Analyzer helper class."""
 
 import pytest
+import zetasql.types
 from zetasql.core.local_service import ZetaSqlLocalService
 from zetasql.api.analyzer import Analyzer
-from zetasql.types import AnalyzerOptions, proto_models
 from zetasql.api.builders import TableBuilder, CatalogBuilder
 from zetasql.types import TypeKind
-
 
 @pytest.fixture
 def service():
@@ -17,7 +16,7 @@ def service():
 @pytest.fixture
 def analyzer_options(service):
     """Create analyzer options."""
-    return AnalyzerOptions(
+    return zetasql.types.AnalyzerOptions(
         language_options=service.get_language_options(maximum_features=True),
     )
 
@@ -25,7 +24,6 @@ def analyzer_options(service):
 @pytest.fixture
 def catalog(service):
     """Create sample catalog with builtin functions."""
-    from zetasql.types import ZetaSQLBuiltinFunctionOptions, LanguageOptions
     
     orders_table = (TableBuilder("Orders")
         .add_column("order_id", TypeKind.TYPE_INT64)
@@ -40,8 +38,8 @@ def catalog(service):
         .add_column("price", TypeKind.TYPE_DOUBLE)
         .build())
     
-    builtin_opts = ZetaSQLBuiltinFunctionOptions(
-        language_options=LanguageOptions.maximum_features(),
+    builtin_opts = zetasql.types.ZetaSQLBuiltinFunctionOptions(
+        language_options=zetasql.types.LanguageOptions.maximum_features(),
     )
     
     catalog = (CatalogBuilder("test_db")
@@ -72,7 +70,7 @@ class TestAnalyzerInstance:
         stmt = analyzer.analyze_statement(sql)
         
         assert stmt is not None
-        assert isinstance(stmt, proto_models.ResolvedStatement)
+        assert isinstance(stmt, zetasql.types.ResolvedStatement)
     
     def test_analyze_expression(self, analyzer_options, catalog):
         """Test instance analyze_expression method."""
@@ -82,7 +80,7 @@ class TestAnalyzerInstance:
         expr = analyzer.analyze_expression(expression)
         
         assert expr is not None
-        assert isinstance(expr, proto_models.ResolvedExpr)
+        assert isinstance(expr, zetasql.types.ResolvedExpr)
     
     def test_multiple_analyses(self, analyzer_options, catalog):
         """Test analyzer can be reused for multiple analyses."""
@@ -107,7 +105,7 @@ class TestAnalyzerStatic:
         stmt = Analyzer.analyze_statement_static(sql, analyzer_options, catalog)
         
         assert stmt is not None
-        assert isinstance(stmt, proto_models.ResolvedStatement)
+        assert isinstance(stmt, zetasql.types.ResolvedStatement)
     
     def test_analyze_expression_static(self, analyzer_options, catalog):
         """Test static analyze_expression method."""
@@ -116,7 +114,7 @@ class TestAnalyzerStatic:
         expr = Analyzer.analyze_expression_static(expression, analyzer_options, catalog)
         
         assert expr is not None
-        assert isinstance(expr, proto_models.ResolvedExpr)
+        assert isinstance(expr, zetasql.types.ResolvedExpr)
     
     def test_build_statement(self, analyzer_options, catalog):
         """Test static build_statement method (unanalyze)."""

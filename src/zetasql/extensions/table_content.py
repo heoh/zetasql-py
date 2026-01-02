@@ -19,7 +19,7 @@ Examples:
 """
 
 from typing import List, Any
-from zetasql.types.proto_models import TableContent, TableData, Value
+from zetasql.types import TableContent, TableData, Value
 
 
 def create_table_content(rows_data: List[List[Any]]) -> TableContent:

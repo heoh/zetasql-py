@@ -4,8 +4,8 @@ Provides Java-style PreparedQuery with context manager support
 for automatic cleanup of server-side resources.
 """
 
+import zetasql.types
 from typing import Optional, Dict, Any
-from zetasql.types import proto_models
 from zetasql.core.exceptions import IllegalStateError, InvalidArgumentError
 
 
@@ -177,7 +177,7 @@ class PreparedQueryBuilder:
         self._sql = sql
         return self
     
-    def set_analyzer_options(self, options: proto_models.AnalyzerOptions):
+    def set_analyzer_options(self, options: zetasql.types.AnalyzerOptions):
         """Set analyzer options.
         
         Args:
@@ -189,7 +189,7 @@ class PreparedQueryBuilder:
         self._options = options
         return self
     
-    def set_catalog(self, catalog: proto_models.SimpleCatalog):
+    def set_catalog(self, catalog: zetasql.types.SimpleCatalog):
         """Set unregistered catalog.
         
         Args:

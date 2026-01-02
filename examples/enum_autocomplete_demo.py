@@ -6,7 +6,7 @@ Before: enum fields were typed as `int`, requiring manual lookup of values
 After: enum fields are typed as IntEnum, providing IDE autocomplete and type safety
 """
 
-from zetasql.types.proto_models import (
+from zetasql.types import (
     ResolvedJoinScan,
     ResolvedJoinScanEnums,
     Type,

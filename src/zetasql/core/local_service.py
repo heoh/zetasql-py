@@ -1,9 +1,9 @@
- 
+import zetasql.core.types as types
 from google.protobuf import empty_pb2 as _empty_pb2
 from google.protobuf import message as _message
 from zetasql.core.wasm_client import WasmClient
 from zetasql.core.func_utils import parameters
-from zetasql.types import parse_proto, proto_models
+from zetasql.core.types import parse_proto
 from zetasql.wasi import get_wasm_path
 from zetasql.wasi._pb2.zetasql.local_service import local_service_pb2
 from zetasql.wasi._pb2.zetasql.proto import options_pb2
@@ -28,181 +28,181 @@ class ZetaSqlLocalService:
         """
         self.wasm_client = WasmClient(wasm_path=get_wasm_path())
 
-    @parameters(proto_models.PrepareRequest)
+    @parameters(types.PrepareRequest)
     def prepare(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_Prepare",
-            proto_models.PrepareRequest(*args, **kwargs).to_proto(),
+            types.PrepareRequest(*args, **kwargs).to_proto(),
             local_service_pb2.PrepareResponse,
-        )).as_type(proto_models.PrepareResponse)
+        )).as_type(types.PrepareResponse)
 
-    @parameters(proto_models.EvaluateRequest)
+    @parameters(types.EvaluateRequest)
     def evaluate(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_Evaluate",
-            proto_models.EvaluateRequest(*args, **kwargs).to_proto(),
+            types.EvaluateRequest(*args, **kwargs).to_proto(),
             local_service_pb2.EvaluateResponse,
-        )).as_type(proto_models.EvaluateResponse)
+        )).as_type(types.EvaluateResponse)
 
-    @parameters(proto_models.UnprepareRequest)
+    @parameters(types.UnprepareRequest)
     def unprepare(self, *args, **kwargs):
         parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_Unprepare",
-            proto_models.UnprepareRequest(*args, **kwargs).to_proto(),
+            types.UnprepareRequest(*args, **kwargs).to_proto(),
             _empty_pb2.Empty,
         ))
 
-    @parameters(proto_models.PrepareQueryRequest)
+    @parameters(types.PrepareQueryRequest)
     def prepare_query(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_PrepareQuery",
-            proto_models.PrepareQueryRequest(*args, **kwargs).to_proto(),
+            types.PrepareQueryRequest(*args, **kwargs).to_proto(),
             local_service_pb2.PrepareQueryResponse,
-        )).as_type(proto_models.PrepareQueryResponse)
+        )).as_type(types.PrepareQueryResponse)
 
-    @parameters(proto_models.EvaluateQueryRequest)
+    @parameters(types.EvaluateQueryRequest)
     def evaluate_query(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_EvaluateQuery",
-            proto_models.EvaluateQueryRequest(*args, **kwargs).to_proto(),
+            types.EvaluateQueryRequest(*args, **kwargs).to_proto(),
             local_service_pb2.EvaluateQueryResponse,
-        )).as_type(proto_models.EvaluateQueryResponse)
+        )).as_type(types.EvaluateQueryResponse)
 
-    @parameters(proto_models.UnprepareQueryRequest)
+    @parameters(types.UnprepareQueryRequest)
     def unprepare_query(self, *args, **kwargs):
         parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_UnprepareQuery",
-            proto_models.UnprepareQueryRequest(*args, **kwargs).to_proto(),
+            types.UnprepareQueryRequest(*args, **kwargs).to_proto(),
             _empty_pb2.Empty,
         ))
 
-    @parameters(proto_models.PrepareModifyRequest)
+    @parameters(types.PrepareModifyRequest)
     def prepare_modify(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_PrepareModify",
-            proto_models.PrepareModifyRequest(*args, **kwargs).to_proto(),
+            types.PrepareModifyRequest(*args, **kwargs).to_proto(),
             local_service_pb2.PrepareModifyResponse,
-        )).as_type(proto_models.PrepareModifyResponse)
+        )).as_type(types.PrepareModifyResponse)
 
-    @parameters(proto_models.EvaluateModifyRequest)
+    @parameters(types.EvaluateModifyRequest)
     def evaluate_modify(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_EvaluateModify",
-            proto_models.EvaluateModifyRequest(*args, **kwargs).to_proto(),
+            types.EvaluateModifyRequest(*args, **kwargs).to_proto(),
             local_service_pb2.EvaluateModifyResponse,
-        )).as_type(proto_models.EvaluateModifyResponse)
+        )).as_type(types.EvaluateModifyResponse)
 
-    @parameters(proto_models.UnprepareModifyRequest)
+    @parameters(types.UnprepareModifyRequest)
     def unprepare_modify(self, *args, **kwargs):
         parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_UnprepareModify",
-            proto_models.UnprepareModifyRequest(*args, **kwargs).to_proto(),
+            types.UnprepareModifyRequest(*args, **kwargs).to_proto(),
             _empty_pb2.Empty,
         ))
 
-    @parameters(proto_models.AnalyzeRequest)
+    @parameters(types.AnalyzeRequest)
     def analyze(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_Analyze",
-            proto_models.AnalyzeRequest(*args, **kwargs).to_proto(),
+            types.AnalyzeRequest(*args, **kwargs).to_proto(),
             local_service_pb2.AnalyzeResponse,
-        )).as_type(proto_models.AnalyzeResponse)
+        )).as_type(types.AnalyzeResponse)
 
-    @parameters(proto_models.BuildSqlRequest)
+    @parameters(types.BuildSqlRequest)
     def build_sql(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_BuildSql",
-            proto_models.BuildSqlRequest(*args, **kwargs).to_proto(),
+            types.BuildSqlRequest(*args, **kwargs).to_proto(),
             local_service_pb2.BuildSqlResponse,
-        )).as_type(proto_models.BuildSqlResponse)
+        )).as_type(types.BuildSqlResponse)
 
-    @parameters(proto_models.ParseRequest)
+    @parameters(types.ParseRequest)
     def parse(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_Parse",
-            proto_models.ParseRequest(*args, **kwargs).to_proto(),
+            types.ParseRequest(*args, **kwargs).to_proto(),
             local_service_pb2.ParseResponse,
-        )).as_type(proto_models.ParseResponse)
+        )).as_type(types.ParseResponse)
 
-    @parameters(proto_models.ExtractTableNamesFromStatementRequest)
+    @parameters(types.ExtractTableNamesFromStatementRequest)
     def extract_table_names_from_statement(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_ExtractTableNamesFromStatement",
-            proto_models.ExtractTableNamesFromStatementRequest(*args, **kwargs).to_proto(),
+            types.ExtractTableNamesFromStatementRequest(*args, **kwargs).to_proto(),
             local_service_pb2.ExtractTableNamesFromStatementResponse,
-        )).as_type(proto_models.ExtractTableNamesFromStatementResponse)
+        )).as_type(types.ExtractTableNamesFromStatementResponse)
 
-    @parameters(proto_models.ExtractTableNamesFromNextStatementRequest)
+    @parameters(types.ExtractTableNamesFromNextStatementRequest)
     def extract_table_names_from_next_statement(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_ExtractTableNamesFromNextStatement",
-            proto_models.ExtractTableNamesFromNextStatementRequest(*args, **kwargs).to_proto(),
+            types.ExtractTableNamesFromNextStatementRequest(*args, **kwargs).to_proto(),
             local_service_pb2.ExtractTableNamesFromNextStatementResponse,
-        )).as_type(proto_models.ExtractTableNamesFromNextStatementResponse)
+        )).as_type(types.ExtractTableNamesFromNextStatementResponse)
 
-    @parameters(proto_models.TableFromProtoRequest)
+    @parameters(types.TableFromProtoRequest)
     def get_table_from_proto(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_GetTableFromProto",
-            proto_models.TableFromProtoRequest(*args, **kwargs).to_proto(),
+            types.TableFromProtoRequest(*args, **kwargs).to_proto(),
             simple_table_pb2.SimpleTableProto,
-        )).as_type(proto_models.SimpleTable)
+        )).as_type(types.SimpleTable)
 
-    @parameters(proto_models.FormatSqlRequest)
+    @parameters(types.FormatSqlRequest)
     def format_sql(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_FormatSql",
-            proto_models.FormatSqlRequest(*args, **kwargs).to_proto(),
+            types.FormatSqlRequest(*args, **kwargs).to_proto(),
             local_service_pb2.FormatSqlResponse,
-        )).as_type(proto_models.FormatSqlResponse)
+        )).as_type(types.FormatSqlResponse)
 
-    @parameters(proto_models.FormatSqlRequest)
+    @parameters(types.FormatSqlRequest)
     def lenient_format_sql(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_LenientFormatSql",
-            proto_models.FormatSqlRequest(*args, **kwargs).to_proto(),
+            types.FormatSqlRequest(*args, **kwargs).to_proto(),
             local_service_pb2.FormatSqlResponse,
-        )).as_type(proto_models.FormatSqlResponse)
+        )).as_type(types.FormatSqlResponse)
 
-    @parameters(proto_models.RegisterCatalogRequest)
+    @parameters(types.RegisterCatalogRequest)
     def register_catalog(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_RegisterCatalog",
-            proto_models.RegisterCatalogRequest(*args, **kwargs).to_proto(),
+            types.RegisterCatalogRequest(*args, **kwargs).to_proto(),
             local_service_pb2.RegisterResponse,
-        )).as_type(proto_models.RegisterResponse)
+        )).as_type(types.RegisterResponse)
 
-    @parameters(proto_models.UnregisterRequest)
+    @parameters(types.UnregisterRequest)
     def unregister_catalog(self, *args, **kwargs):
         parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_UnregisterCatalog",
-            proto_models.UnregisterRequest(*args, **kwargs).to_proto(),
+            types.UnregisterRequest(*args, **kwargs).to_proto(),
             _empty_pb2.Empty,
         ))
 
-    @parameters(proto_models.ZetaSQLBuiltinFunctionOptions)
+    @parameters(types.ZetaSQLBuiltinFunctionOptions)
     def get_builtin_functions(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_GetBuiltinFunctions",
-            proto_models.ZetaSQLBuiltinFunctionOptions(*args, **kwargs).to_proto(),
+            types.ZetaSQLBuiltinFunctionOptions(*args, **kwargs).to_proto(),
             local_service_pb2.GetBuiltinFunctionsResponse,
-        )).as_type(proto_models.GetBuiltinFunctionsResponse)
+        )).as_type(types.GetBuiltinFunctionsResponse)
 
-    @parameters(proto_models.LanguageOptionsRequest)
+    @parameters(types.LanguageOptionsRequest)
     def get_language_options(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_GetLanguageOptions",
-            proto_models.LanguageOptionsRequest(*args, **kwargs).to_proto(),
+            types.LanguageOptionsRequest(*args, **kwargs).to_proto(),
             options_pb2.LanguageOptionsProto,
-        )).as_type(proto_models.LanguageOptions)
+        )).as_type(types.LanguageOptions)
 
-    @parameters(proto_models.AnalyzerOptionsRequest)
+    @parameters(types.AnalyzerOptionsRequest)
     def get_analyzer_options(self, *args, **kwargs):
         return parse_proto(self.wasm_client.call_grpc_func(
             "ZetaSqlLocalService_GetAnalyzerOptions",
-            proto_models.AnalyzerOptionsRequest(*args, **kwargs).to_proto(),
+            types.AnalyzerOptionsRequest(*args, **kwargs).to_proto(),
             options_pb2.AnalyzerOptionsProto,
-        )).as_type(proto_models.AnalyzerOptions)
+        )).as_type(types.AnalyzerOptions)
 
     @classmethod
     def get_instance(cls):

@@ -51,7 +51,7 @@ def _wrap_in_union_if_needed(value: 'ProtoModel', parent_proto: _message.Message
     union_model_class_name = union_proto_type_name.removesuffix('Proto')
     
     # Import the union class
-    import zetasql.types.proto_models as model_module
+    import zetasql.core.types as model_module
     union_class = getattr(model_module, union_model_class_name, None)
     
     if union_class is None or not issubclass(union_class, ProtoModel):
@@ -109,7 +109,7 @@ def _wrap_in_union_if_needed(value: 'ProtoModel', parent_proto: _message.Message
                 nested_union_proto_type_name = field_desc.message_type.name
                 nested_union_model_class_name = nested_union_proto_type_name.removesuffix('Proto')
                 
-                import zetasql.types.proto_models as model_module
+                import zetasql.core.types as model_module
                 nested_union_class = getattr(model_module, nested_union_model_class_name, None)
                 
                 if not nested_union_class or not issubclass(nested_union_class, ProtoModel):
@@ -512,7 +512,7 @@ def _create_model_from_proto(proto: _message.Message) -> ProtoModel:
     Uses from_proto() classmethod to create instances (dataclass-based).
     """
     # Import the module at runtime to avoid circular imports
-    import zetasql.types.proto_models as model_module
+    import zetasql.core.types as model_module
 
     proto_type_name = type(proto).__name__.removesuffix('Proto')
     

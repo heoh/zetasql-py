@@ -24,7 +24,7 @@ Examples:
 """
 
 from typing import List, Tuple, Union
-from zetasql.types.proto_models import Type, ArrayType, StructType, StructField, MapType, TypeKind
+from zetasql.core.types import Type, ArrayType, StructType, StructField, MapType, TypeKind
 
 
 class TypeFactory:

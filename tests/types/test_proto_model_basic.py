@@ -1,5 +1,5 @@
 """Test the generated wrapper classes"""
-from zetasql.types.proto_model import parse_proto
+from zetasql.types import parse_proto
 import sys
 from pathlib import Path
 

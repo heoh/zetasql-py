@@ -29,7 +29,7 @@ Examples:
 """
 
 from typing_extensions import Self
-from zetasql.types.proto_models import SimpleCatalog, SimpleTable, ZetaSQLBuiltinFunctionOptions
+from zetasql.types import SimpleCatalog, SimpleTable, ZetaSQLBuiltinFunctionOptions
 
 
 class CatalogBuilder:
