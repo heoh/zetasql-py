@@ -66,14 +66,6 @@ from zetasql.core.types.proto_models import (
     SignatureArgumentKind,
 )
 
-# Function Mode enum values (from public.function_pb2.FunctionEnums)
-# These are used directly as integers since FunctionEnums.Mode is not properly exposed in proto_models
-class Mode:
-    """Function mode enum values."""
-    SCALAR = 1
-    AGGREGATE = 2
-    ANALYTIC = 3
-
 
 class FunctionBuilder:
     """Builder for Function ProtoModel objects.
@@ -109,7 +101,7 @@ class FunctionBuilder:
         self, 
         name: str, 
         group: str = "UDF",
-        mode: int = Mode.SCALAR
+        mode: int = FunctionEnums.Mode.SCALAR
     ):
         """Initialize FunctionBuilder.
         

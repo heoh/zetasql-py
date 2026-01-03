@@ -17,6 +17,7 @@ import importlib.util
 from pathlib import Path
 from typing import Dict, List, Any, Set, Tuple
 import argparse
+import ast
 
 
 def load_pb2_module(path: Path, base_dir: Path):
@@ -132,8 +133,8 @@ def extract_inheritance_graph(base_dir: Path) -> Tuple[Dict[str, Any], Dict[str,
                 # Get the enum wrapper from the nested class
                 enum_wrapper = getattr(nested_cls, enum_name, None)
                 if enum_wrapper:
-                    # Store with both the short name (for top-level) and full path (for reference)
-                    all_enums[enum_name] = {
+                    # Store with fully qualified name to avoid collisions
+                    all_enums[enum_full_name] = {
                         'name': enum_name,
                         'class': enum_wrapper,
                         'module': module_name,
@@ -145,7 +146,7 @@ def extract_inheritance_graph(base_dir: Path) -> Tuple[Dict[str, Any], Dict[str,
                     
                     # Extract enum values
                     for value in enum_type.values:
-                        all_enums[enum_name]['values'][value.name] = value.number
+                        all_enums[enum_full_name]['values'][value.name] = value.number
             
             # Recursively collect nested messages within this nested message
             # Pass the full path so far, and use full name as parent
@@ -196,7 +197,9 @@ def extract_inheritance_graph(base_dir: Path) -> Tuple[Dict[str, Any], Dict[str,
                     # Get the enum wrapper from the message class
                     enum_wrapper = getattr(cls, enum_name, None)
                     if enum_wrapper:
-                        all_enums[enum_name] = {
+                        # Use fully qualified name (parent.enum) as key to avoid collisions
+                        enum_full_name = f"{parent_class_name}.{enum_name}"
+                        all_enums[enum_full_name] = {
                             'name': enum_name,
                             'class': enum_wrapper,
                             'module': module.__name__,
@@ -208,7 +211,7 @@ def extract_inheritance_graph(base_dir: Path) -> Tuple[Dict[str, Any], Dict[str,
                         
                         # Extract enum values
                         for value in enum_type.values:
-                            all_enums[enum_name]['values'][value.name] = value.number
+                            all_enums[enum_full_name]['values'][value.name] = value.number
                 
                 # Collect nested messages - pass parent proto full path
                 nested = collect_nested_messages(
@@ -598,13 +601,53 @@ def get_field_default_value(field_info: Dict[str, Any]) -> str:
     return "None"
 
 
-def generate_enum_class(enum_name: str, enum_info: Dict[str, Any], module_aliases: Dict[str, str], indent: int = 0) -> str:
-    """Generate an IntEnum class for a protobuf enum"""
-    try:
-        from zetasql.core.types import mixins
-    except (ImportError, ModuleNotFoundError, AttributeError):
-        mixins = None
+def scan_available_mixins(mixins_dir: Path) -> Set[str]:
+    """Scan mixins directory to find available mixin classes.
     
+    This avoids importing zetasql.core.types which may fail if proto_models.py
+    is being generated or has syntax errors.
+    
+    Returns:
+        Set of mixin class names (e.g., {'TypeKindMixin'})
+    """
+    available_mixins = set()
+    
+    if not mixins_dir.exists():
+        return available_mixins
+    
+    # Scan all .py files in mixins directory
+    for py_file in mixins_dir.glob('*.py'):
+        if py_file.name == '__init__.py':
+            continue
+            
+        try:
+            # Parse the Python file to find class definitions
+            with open(py_file, 'r') as f:
+                tree = ast.parse(f.read())
+            
+            # Find all class definitions
+            for node in ast.walk(tree):
+                if isinstance(node, ast.ClassDef):
+                    if node.name.endswith('Mixin'):
+                        available_mixins.add(node.name)
+        except Exception:
+            # If parsing fails, skip this file
+            continue
+    
+    return available_mixins
+
+
+def generate_enum_class(enum_name: str, enum_info: Dict[str, Any], module_aliases: Dict[str, str], 
+                       available_mixins: Set[str], indent: int = 0) -> str:
+    """Generate an IntEnum class for a protobuf enum
+    
+    Args:
+        enum_name: Name of the enum class to generate
+        enum_info: Metadata about the enum (module, values, parent, etc.)
+        module_aliases: Mapping of module paths to their import aliases
+        available_mixins: Set of available mixin class names from scanning mixins directory
+        indent: Indentation level for nested enums
+    """
     lines = []
     indent_str = '    ' * indent
     
@@ -614,7 +657,8 @@ def generate_enum_class(enum_name: str, enum_info: Dict[str, Any], module_aliase
 
     bases = []
     mixin_name = f'{enum_name}Mixin'
-    if hasattr(mixins, mixin_name):
+    # Check if mixin exists by scanning the mixins directory (not by importing)
+    if mixin_name in available_mixins:
         bases.append(f'mixins.{mixin_name}')
     bases.append('IntEnum')
 
@@ -817,12 +861,11 @@ def generate_property(field_info: Dict[str, Any], parent_chain: List[str], graph
         return {return_stmt}
 '''
 
-def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], module_aliases: Dict[str, str] = None, indent: int = 0, nested_enums: Dict[str, list] = None) -> str:
+def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], module_aliases: Dict[str, str] = None, 
+               available_mixins: Set[str] = None, indent: int = 0, nested_enums: Dict[str, list] = None) -> str:
     """Generate a dataclass-based wrapper class with support for nested classes and enums"""
-    try:
-        from zetasql.core.types import mixins
-    except (ImportError, ModuleNotFoundError, AttributeError):
-        mixins = None
+    if available_mixins is None:
+        available_mixins = set()
     
     parent_name = info['parent']
     proto_name = info.get('proto_name', name)
@@ -838,7 +881,7 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], modul
     # Determine parent class with optional mixin
     bases = []
     mixin_name = f'{class_name}Mixin'
-    if hasattr(mixins, mixin_name):
+    if mixin_name in available_mixins:
         bases.append(f'mixins.{mixin_name}')
 
     if parent_name and parent_name in graph:
@@ -862,7 +905,7 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], modul
         parts.append("")
         parts.append(f"{indent_str}    # Nested Enums")
         for enum_name, enum_info in nested_enums[class_name]:
-            enum_code = generate_enum_class(enum_name, enum_info, module_aliases, indent=indent + 1)
+            enum_code = generate_enum_class(enum_name, enum_info, module_aliases, available_mixins, indent=indent + 1)
             parts.append(enum_code)
             parts.append("")
     
@@ -961,6 +1004,14 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], modul
 def generate_model_file(graph: Dict[str, Any], enums: Dict[str, Any], output_path: Path) -> None:
     """Generate complete proto models Python file with enum types"""
     print(f"\nGenerating proto models file: {output_path}")
+    
+    # Scan available mixins before generating code
+    mixins_dir = output_path.parent / 'mixins'
+    available_mixins = scan_available_mixins(mixins_dir)
+    if available_mixins:
+        print(f"Found {len(available_mixins)} mixin classes: {', '.join(sorted(available_mixins))}")
+    else:
+        print("No mixin classes found")
     
     # Sort by depth (parents first)
     sorted_names = sorted(graph.keys(), key=lambda n: (graph[n]['depth'], n))
@@ -1093,8 +1144,8 @@ def generate_model_file(graph: Dict[str, Any], enums: Dict[str, Any], output_pat
         info = graph[name]
         lines = []
         
-        # Generate the class itself (passing nested_enums)
-        class_code = generate_class(name, info, graph, module_aliases, indent, nested_enums)
+        # Generate the class itself (passing nested_enums and available_mixins)
+        class_code = generate_class(name, info, graph, module_aliases, available_mixins, indent, nested_enums)
         lines.append(class_code)
         
         # Generate nested children
@@ -1114,16 +1165,18 @@ def generate_model_file(graph: Dict[str, Any], enums: Dict[str, Any], output_pat
     
     if enums:
         # Separate top-level and nested enums
-        for enum_name, enum_info in enums.items():
+        for enum_full_name, enum_info in enums.items():
             if enum_info.get('parent_message'):
                 # This is a nested enum - will be generated inside parent class
                 parent_msg = enum_info['parent_message']
                 if parent_msg not in nested_enums:
                     nested_enums[parent_msg] = []
-                nested_enums[parent_msg].append((enum_name, enum_info))
+                # Extract just the short enum name (last part after '.')
+                enum_short_name = enum_info['name']  # Use 'name' field which stores the short name
+                nested_enums[parent_msg].append((enum_short_name, enum_info))
             else:
                 # This is a top-level enum
-                top_level_enums[enum_name] = enum_info
+                top_level_enums[enum_full_name] = enum_info
         
         if top_level_enums:
             lines.append('# ============================================================================')
@@ -1133,7 +1186,7 @@ def generate_model_file(graph: Dict[str, Any], enums: Dict[str, Any], output_pat
             
             for enum_name in sorted(top_level_enums.keys()):
                 enum_info = top_level_enums[enum_name]
-                enum_code = generate_enum_class(enum_name, enum_info, module_aliases)
+                enum_code = generate_enum_class(enum_name, enum_info, module_aliases, available_mixins)
                 lines.append(enum_code)
                 lines.append('\n')
                 enum_names.append(enum_name)
