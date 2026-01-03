@@ -41,7 +41,6 @@ def script_catalog(builtin_function_options):
 class TestScriptAnalysis:
     """Test analyzing multi-statement SQL scripts - Java: ScriptAnalyzer tests"""
     
-    @pytest.mark.skip(reason="ParseResumeLocation multi-statement parsing needs full implementation")
     def test_analyze_script_basic(self, options, script_catalog):
         """Test analyzing script with multiple statements - Java: analyzeScript()"""
         script = """
@@ -50,12 +49,12 @@ class TestScriptAnalysis:
             SELECT COUNT(*) FROM Orders;
         """
         
-        location = ParseResumeLocation(script)
+        location = ParseResumeLocation(input=script, byte_position=0)
         statements = []
         
         while location.byte_position < len(script):
             try:
-                stmt = Analyzer.analyze_next_statement(location, options, script_catalog)
+                stmt = Analyzer.analyze_next_statement_static(location, options, script_catalog)
                 if stmt is None:
                     break
                 statements.append(stmt)
@@ -65,7 +64,6 @@ class TestScriptAnalysis:
         assert len(statements) == 3
         assert all(isinstance(s, ResolvedQueryStmt) for s in statements)
     
-    @pytest.mark.skip(reason="Script iterator API not implemented")
     def test_script_iterator(self, options, script_catalog):
         """Test iterating through script statements - Java: ScriptIterator
         
@@ -84,7 +82,6 @@ class TestScriptAnalysis:
         assert len(statements) == 3
         assert all(isinstance(s, ResolvedQueryStmt) for s in statements)
     
-    @pytest.mark.skip(reason="Script analysis with errors not implemented")
     def test_script_with_errors(self, options, script_catalog):
         """Test handling errors in multi-statement scripts - Java: error handling
         
@@ -96,15 +93,15 @@ class TestScriptAnalysis:
             SELECT * FROM Products;
         """
         
-        location = ParseResumeLocation(script)
+        location = ParseResumeLocation(input=script, byte_position=0)
         
         # First statement should succeed
-        stmt1 = Analyzer.analyze_next_statement(location, options, script_catalog)
+        stmt1 = Analyzer.analyze_next_statement_static(location, options, script_catalog)
         assert stmt1 is not None
         
         # Second statement should raise error
         with pytest.raises(Exception) as exc_info:
-            Analyzer.analyze_next_statement(location, options, script_catalog)
+            Analyzer.analyze_next_statement_static(location, options, script_catalog)
         
         # Error should contain position information
         assert "NonExistentTable" in str(exc_info.value)

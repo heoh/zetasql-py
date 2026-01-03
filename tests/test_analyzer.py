@@ -17,6 +17,8 @@ from zetasql.types import (
     ParseResumeLocation,
     ResolvedQueryStmt,
     ResolvedExpr,
+    ResolvedLiteral,
+    ResolvedFunctionCall,
 )
 
 
@@ -153,7 +155,6 @@ class TestAnalyzerStatementAnalysis:
 class TestAnalyzerExpressionAnalysis:
     """Test expression analysis - Java: testAnalyzeExpression*"""
     
-    @pytest.mark.skip(reason="ResolvedExpr node_kind not exposed in ProtoModel")
     def test_analyze_expression_literal(self, options, catalog):
         """Test analyzing literal expression."""
         analyzer = Analyzer(options, catalog)
@@ -161,9 +162,11 @@ class TestAnalyzerExpressionAnalysis:
         expr = analyzer.analyze_expression("42")
         
         assert expr is not None
-        assert isinstance(expr, ResolvedExpr)
+        assert isinstance(expr, ResolvedLiteral), \
+            f"Expected ResolvedLiteral but got {type(expr).__name__}"
+        # Verify it has a value
+        assert expr.value is not None
     
-    @pytest.mark.skip(reason="ResolvedExpr node_kind not exposed in ProtoModel")
     def test_analyze_expression_arithmetic(self, options, catalog):
         """Test analyzing arithmetic expression."""
         analyzer = Analyzer(options, catalog)
@@ -171,9 +174,10 @@ class TestAnalyzerExpressionAnalysis:
         expr = analyzer.analyze_expression("10 + 20 * 3")
         
         assert expr is not None
-        assert isinstance(expr, ResolvedExpr)
+        # Arithmetic operations become function calls
+        assert isinstance(expr, ResolvedFunctionCall), \
+            f"Expected ResolvedFunctionCall but got {type(expr).__name__}"
     
-    @pytest.mark.skip(reason="ResolvedExpr node_kind not exposed in ProtoModel")
     def test_analyze_expression_with_function(self, options, catalog):
         """Test analyzing expression with builtin function."""
         analyzer = Analyzer(options, catalog)
@@ -181,7 +185,9 @@ class TestAnalyzerExpressionAnalysis:
         expr = analyzer.analyze_expression("UPPER('hello')")
         
         assert expr is not None
-        assert isinstance(expr, ResolvedExpr)
+        assert isinstance(expr, ResolvedFunctionCall), \
+            f"Expected ResolvedFunctionCall but got {type(expr).__name__}"
+        assert expr.function is not None
     
     def test_analyze_expression_static_method(self, options, catalog):
         """Test static analyzeExpression method."""
@@ -210,7 +216,6 @@ class TestAnalyzerBuildSQL:
         assert 'SELECT' in rebuilt_sql.upper()
         assert 'Orders' in rebuilt_sql or 'orders' in rebuilt_sql
     
-    @pytest.mark.skip(reason="ResolvedExpr node_kind not exposed in ProtoModel")
     def test_build_expression(self, options, catalog):
         """Test buildExpression - resolved expr back to SQL."""
         original_expr = "10 + 20"
@@ -224,7 +229,6 @@ class TestAnalyzerBuildSQL:
         assert rebuilt_expr is not None
         assert isinstance(rebuilt_expr, str)
     
-    @pytest.mark.skip(reason="Multi-statement parsing not fully implemented")
     def test_roundtrip_complex_query(self, options, catalog):
         """Test analyze -> build roundtrip preserves semantics."""
         original_sql = """
@@ -309,7 +313,6 @@ class TestAnalyzerExtractTableNames:
         assert "Orders" in table_names
         assert "Products" in table_names
     
-    @pytest.mark.skip(reason="extract_table_names_from_script method not implemented")
     def test_extract_table_names_from_script(self):
         """Test extractTableNamesFromScript - Java: extractTableNamesFromScript()"""
         script = """
@@ -331,28 +334,26 @@ class TestAnalyzerExtractTableNames:
 class TestAnalyzerMultiStatement:
     """Test multi-statement analysis - Java: testAnalyzeNextStatement*"""
     
-    @pytest.mark.skip(reason="ParseResumeLocation multi-statement parsing needs implementation review")
     def test_analyze_next_statement(self, options, catalog):
         """Test parsing multiple statements with ParseResumeLocation."""
         script = "SELECT * FROM Orders; SELECT * FROM Products; SELECT * FROM Customers;"
         
-        location = ParseResumeLocation(script)
+        location = ParseResumeLocation(input=script, byte_position=0)
         
         # Initial position should be 0
         assert location.byte_position == 0
         
         # First statement
-        stmt1 = Analyzer.analyze_next_statement(location, options, catalog)
+        stmt1 = Analyzer.analyze_next_statement_static(location, options, catalog)
         assert stmt1 is not None
         assert isinstance(stmt1, ResolvedQueryStmt)
     
-    @pytest.mark.skip(reason="ParseResumeLocation multi-statement parsing needs implementation review")
     def test_analyze_next_statement_instance_method(self, options, catalog):
         """Test instance method for analyzeNextStatement."""
         script = "SELECT 1; SELECT 2;"
         
         analyzer = Analyzer(options, catalog)
-        location = ParseResumeLocation(script)
+        location = ParseResumeLocation(input=script, byte_position=0)
         
         stmt1 = analyzer.analyze_next_statement(location)
         stmt2 = analyzer.analyze_next_statement(location)
@@ -364,22 +365,21 @@ class TestAnalyzerMultiStatement:
         assert isinstance(stmt2, ResolvedQueryStmt)
     
     
-    @pytest.mark.skip(reason="ParseResumeLocation byte position tracking needs implementation review")
     def test_parse_resume_location_byte_position(self, options, catalog):
         """Test that byte position advances correctly - mirrors Java test."""
         script = "SELECT * FROM Orders; SELECT * FROM Products;"
-        location = ParseResumeLocation(script)
+        location = ParseResumeLocation(input=script, byte_position=0)
         
         initial_pos = location.byte_position
         assert initial_pos == 0
         
-        Analyzer.analyze_next_statement(location, options, catalog)
+        Analyzer.analyze_next_statement_static(location, options, catalog)
         pos_after_first = location.byte_position
         assert pos_after_first > initial_pos
         # Should be around the position of first semicolon + 1
         assert pos_after_first >= len("SELECT * FROM Orders;")
         
-        Analyzer.analyze_next_statement(location, options, catalog)
+        Analyzer.analyze_next_statement_static(location, options, catalog)
         pos_after_second = location.byte_position
         assert pos_after_second > pos_after_first
         # Should be at or near end of script
@@ -389,7 +389,6 @@ class TestAnalyzerMultiStatement:
 class TestAnalyzerWithRegisteredCatalog:
     """Test analyzer with registered catalogs"""
     
-    @pytest.mark.skip(reason="Registered catalog tests need review - catalog registration may not work as expected")
     def test_analyze_with_registered_catalog(self, options, catalog, service):
         """Test analyzing with pre-registered catalog."""
         # Register catalog
@@ -410,7 +409,6 @@ class TestAnalyzerWithRegisteredCatalog:
             # Cleanup
             service.unregister_catalog(registered_id=registered_id)
     
-    @pytest.mark.skip(reason="Multi-statement with registered catalog needs implementation review")
     def test_analyze_next_statement_with_registered_catalog(self, options, catalog, service):
         """Test multi-statement with registered catalog - mirrors Java test."""
         script = "SELECT * FROM Orders; SELECT * FROM Products;"
@@ -419,10 +417,10 @@ class TestAnalyzerWithRegisteredCatalog:
         registered_id = response.registered_id
         
         try:
-            location = ParseResumeLocation(script)
+            location = ParseResumeLocation(input=script, byte_position=0)
             
-            stmt1 = Analyzer.analyze_next_statement(location, options, catalog)
-            stmt2 = Analyzer.analyze_next_statement(location, options, catalog)
+            stmt1 = Analyzer.analyze_next_statement_static(location, options, catalog)
+            stmt2 = Analyzer.analyze_next_statement_static(location, options, catalog)
             
             assert stmt1 is not None
             assert stmt2 is not None
@@ -440,18 +438,19 @@ class TestAnalyzerEdgeCases:
         with pytest.raises(Exception):
             analyzer.analyze_statement("")
     
-    @pytest.mark.skip(reason="Null catalog behavior needs implementation review")
     def test_analyze_with_null_catalog(self, options):
         """Test analyzer with None catalog."""
         analyzer = Analyzer(options, catalog=None)
         
-        # Can analyze simple expressions without catalog
-        expr = analyzer.analyze_expression("1 + 1")
+        # Simple literal expressions work without catalog
+        expr = analyzer.analyze_expression("42")
         assert expr is not None
+        assert isinstance(expr, ResolvedLiteral)
+        
+        # Statement with table reference should fail without catalog
         with pytest.raises(Exception):
             analyzer.analyze_statement("SELECT * FROM Orders")
     
-    @pytest.mark.skip(reason="Concurrent analysis test needs review")
     def test_concurrent_analysis(self, options, catalog):
         """Test that analyzer can handle multiple sequential operations."""
         analyzer = Analyzer(options, catalog)
