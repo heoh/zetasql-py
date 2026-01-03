@@ -155,7 +155,7 @@ class TestFunctionSignatureBuilder:
     def test_signature_with_required_args(self):
         """Test building signature with required arguments."""
         from zetasql.api.builders import SignatureBuilder
-        from zetasql.core.types.proto_models import FunctionEnums
+        from zetasql.types import FunctionEnums
         
         sig = (SignatureBuilder()
             .add_argument(TypeKind.TYPE_STRING, FunctionEnums.ArgumentCardinality.REQUIRED)
@@ -169,7 +169,7 @@ class TestFunctionSignatureBuilder:
     def test_signature_with_optional_args(self):
         """Test building signature with optional arguments."""
         from zetasql.api.builders import SignatureBuilder
-        from zetasql.core.types.proto_models import FunctionEnums
+        from zetasql.types import FunctionEnums
         
         sig = (SignatureBuilder()
             .add_argument(TypeKind.TYPE_STRING, FunctionEnums.ArgumentCardinality.REQUIRED)
@@ -182,7 +182,7 @@ class TestFunctionSignatureBuilder:
     def test_signature_with_repeated_args(self):
         """Test building signature with repeated (variadic) arguments."""
         from zetasql.api.builders import SignatureBuilder
-        from zetasql.core.types.proto_models import FunctionEnums
+        from zetasql.types import FunctionEnums
         
         # Function like CONCAT(str1, str2, ...) - variadic
         sig = (SignatureBuilder()

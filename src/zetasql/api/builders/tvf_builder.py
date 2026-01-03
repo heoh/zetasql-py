@@ -46,7 +46,7 @@ from zetasql.types import (
     TypeKind,
     TypeFactory
 )
-from zetasql.core.types.proto_models import (
+from zetasql.types import (
     FunctionEnums,
     SignatureArgumentKind,
 )

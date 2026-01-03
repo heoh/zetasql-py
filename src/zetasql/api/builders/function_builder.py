@@ -7,7 +7,7 @@ making custom function creation much cleaner than manual protobuf manipulation.
 Examples:
     >>> from zetasql.api.builders import FunctionBuilder, SignatureBuilder
     >>> from zetasql.types import TypeKind
-    >>> from zetasql.core.types.proto_models import FunctionEnums
+    >>> from zetasql.types import FunctionEnums
     >>> 
     >>> # Simple scalar UDF with single signature
     >>> my_udf = (FunctionBuilder("MY_UDF")
@@ -61,7 +61,7 @@ from zetasql.types import (
     TypeKind, 
     TypeFactory
 )
-from zetasql.core.types.proto_models import (
+from zetasql.types import (
     FunctionEnums,
     SignatureArgumentKind,
 )
