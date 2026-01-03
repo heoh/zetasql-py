@@ -208,6 +208,8 @@ class TVFBuilder:
         This creates a FORWARD_INPUT_SCHEMA_TO_OUTPUT_SCHEMA_TVF type.
         The output schema will match the input table's schema.
         
+        Can be combined with append_output_column() to add columns to the forwarded schema.
+        
         Returns:
             Self for method chaining
         
@@ -215,8 +217,55 @@ class TVFBuilder:
             >>> # TVF that passes through input table unchanged
             >>> builder.add_table_argument("input_table")
             >>> builder.set_forward_input_schema()
+            >>> 
+            >>> # TVF that forwards input and adds columns
+            >>> builder.add_table_argument("input_table")
+            >>> builder.set_forward_input_schema()
+            >>> builder.append_output_column("extra_col", TypeKind.TYPE_STRING)
         """
         self._tvf_type = FunctionEnums.TableValuedFunctionType.FORWARD_INPUT_SCHEMA_TO_OUTPUT_SCHEMA_TVF
+        return self
+    
+    def append_output_column(
+        self,
+        name: str,
+        type_or_kind: Union[Type, TypeKind, int]
+    ) -> Self:
+        """Append a column to the output schema.
+        
+        When used after set_forward_input_schema(), this automatically changes
+        the TVF type to FORWARD_INPUT_SCHEMA_TO_OUTPUT_SCHEMA_WITH_APPENDED_COLUMNS.
+        
+        Args:
+            name: Column name
+            type_or_kind: Type object or TypeKind enum value
+        
+        Returns:
+            Self for method chaining
+        
+        Examples:
+            >>> # Add enrichment columns to forwarded schema
+            >>> builder.set_forward_input_schema()
+            >>> builder.append_output_column("enriched_data", TypeKind.TYPE_STRING)
+            >>> builder.append_output_column("score", TypeKind.TYPE_DOUBLE)
+        """
+        # If we're in FORWARD_INPUT_SCHEMA mode, upgrade to WITH_APPENDED_COLUMNS
+        if self._tvf_type == FunctionEnums.TableValuedFunctionType.FORWARD_INPUT_SCHEMA_TO_OUTPUT_SCHEMA_TVF:
+            self._tvf_type = FunctionEnums.TableValuedFunctionType.FORWARD_INPUT_SCHEMA_TO_OUTPUT_SCHEMA_WITH_APPENDED_COLUMNS
+        
+        # Convert TypeKind to Type if needed
+        if isinstance(type_or_kind, (TypeKind, int)):
+            col_type = TypeFactory.create_simple_type(type_or_kind)
+        else:
+            col_type = type_or_kind
+        
+        self._output_columns.append(
+            TVFRelationColumn(
+                name=name,
+                type=col_type
+            )
+        )
+        
         return self
     
     def set_forward_input_schema_with_appended_columns(

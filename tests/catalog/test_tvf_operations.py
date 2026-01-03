@@ -130,7 +130,7 @@ class TestCatalogTVFRetrieval:
         assert tvf_result.name_path[-1] == "my_tvf"
 
 
-@pytest.mark.skip(reason="API not implemented: TVF signature types")
+
 class TestTVFSignatureTypes:
     """Test different TVF signature types - Java: ForwardInputSchemaToOutputSchemaTVF, etc."""
     

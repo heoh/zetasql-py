@@ -126,7 +126,7 @@ class TestCatalogConstantRetrieval:
         assert catalog.get_constant("myconstant") is not None
 
 
-@pytest.mark.skip(reason="API not implemented: Constants in script analysis")
+
 class TestConstantUsageInAnalysis:
     """Test using constants during SQL analysis - script variable tracking use case."""
     
