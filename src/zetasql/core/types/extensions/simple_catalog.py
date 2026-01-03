@@ -5,6 +5,7 @@ from zetasql.core.types.proto_models import (
     Function,
     TableValuedFunction,
     SimpleConstant,
+    SimpleTable,
 )
 
 
@@ -25,12 +26,22 @@ class SimpleCatalog(_GeneratedSimpleCatalog):
         
         Args:
             function: Function ProtoModel (typically from FunctionBuilder)
+            
+        Raises:
+            ValueError: If function with same name already exists (case-insensitive)
         
         Examples:
             >>> from zetasql.api.builders import FunctionBuilder, SignatureBuilder
             >>> func = FunctionBuilder("MY_UDF").add_signature(...).build()
             >>> catalog.add_function(func)
         """
+        # Check for duplicates (case-insensitive)
+        if function.name_path:
+            new_name = function.name_path[-1].lower()
+            for existing in self.custom_function:
+                if existing.name_path and existing.name_path[-1].lower() == new_name:
+                    raise ValueError(f"Function '{function.name_path[-1]}' already exists in catalog")
+        
         self.custom_function.append(function)
     
     def get_function_list(self) -> List[Function]:
@@ -104,12 +115,22 @@ class SimpleCatalog(_GeneratedSimpleCatalog):
         
         Args:
             tvf: TableValuedFunction ProtoModel (typically from TVFBuilder)
+            
+        Raises:
+            ValueError: If TVF with same name already exists (case-insensitive)
         
         Examples:
             >>> from zetasql.api.builders import TVFBuilder
             >>> tvf = TVFBuilder("my_tvf").add_argument(...).build()
             >>> catalog.add_table_valued_function(tvf)
         """
+        # Check for duplicates (case-insensitive)
+        if tvf.name_path:
+            new_name = tvf.name_path[-1].lower()
+            for existing in self.custom_tvf:
+                if existing.name_path and existing.name_path[-1].lower() == new_name:
+                    raise ValueError(f"Table-valued function '{tvf.name_path[-1]}' already exists in catalog")
+        
         self.custom_tvf.append(tvf)
     
     def get_tvf_list(self) -> List[TableValuedFunction]:
@@ -175,12 +196,22 @@ class SimpleCatalog(_GeneratedSimpleCatalog):
         
         Args:
             constant: SimpleConstant ProtoModel (typically from ConstantBuilder)
+            
+        Raises:
+            ValueError: If constant with same name already exists (case-insensitive)
         
         Examples:
             >>> from zetasql.api.builders import ConstantBuilder
             >>> const = ConstantBuilder("MAX_LIMIT").set_type(...).build()
             >>> catalog.add_constant(const)
         """
+        # Check for duplicates (case-insensitive)
+        if constant.name_path:
+            new_name = constant.name_path[-1].lower()
+            for existing in self.constant:
+                if existing.name_path and existing.name_path[-1].lower() == new_name:
+                    raise ValueError(f"Constant '{constant.name_path[-1]}' already exists in catalog")
+        
         self.constant.append(constant)
     
     def get_constant_list(self) -> List[SimpleConstant]:
@@ -219,4 +250,56 @@ class SimpleCatalog(_GeneratedSimpleCatalog):
                 if const_name.lower() == target_name:
                     return const
         
+        return None    
+    # === Table Operations ===
+    
+    def get_table_list(self) -> List[SimpleTable]:
+        """Get all tables in catalog.
+        
+        Returns:
+            List of SimpleTable ProtoModels
+        
+        Examples:
+            >>> tables = catalog.get_table_list()
+            >>> for table in tables:
+            ...     print(table.name)
+        """
+        return list(self.table)
+    
+    def get_table(self, name: str) -> Optional[SimpleTable]:
+        """Get table by name (case-insensitive).
+        
+        Args:
+            name: Table name
+        
+        Returns:
+            SimpleTable if found, None otherwise
+        
+        Examples:
+            >>> table = catalog.get_table("Orders")
+            >>> if table:
+            ...     print(f"Found: {table.name}")
+            >>> 
+            >>> # Case-insensitive
+            >>> table = catalog.get_table("ORDERS")  # Same as "Orders"
+        """
+        # Normalize to lowercase for case-insensitive comparison (Java behavior)
+        target_name = name.lower()
+        
+        for table in self.table:
+            if table.name and table.name.lower() == target_name:
+                return table
+        
         return None
+    
+    def get_table_name_list(self) -> List[str]:
+        """Get list of all table names.
+        
+        Returns:
+            List of table names
+        
+        Examples:
+            >>> names = catalog.get_table_name_list()
+            >>> print(names)  # ['Orders', 'Products', 'Customers']
+        """
+        return [table.name for table in self.table if table.name]

@@ -89,9 +89,8 @@ class TestCatalogTableRetrieval:
         assert retrieved.name == "MyTable"
         assert len(retrieved.column) == 1
     
-    @pytest.mark.skip(reason="API not implemented: SimpleCatalog.get_table_list() method")
     def test_get_table_list_method(self):
-        """Test SimpleCatalog.get_table_list() - NOT YET IMPLEMENTED.
+        """Test SimpleCatalog.get_table_list().
         
         Expected API (Java):
             ImmutableList<SimpleTable> SimpleCatalog.getTableList()
@@ -112,9 +111,8 @@ class TestCatalogTableRetrieval:
         assert tables[0].name == "T1"
         assert tables[1].name == "T2"
     
-    @pytest.mark.skip(reason="API not implemented: SimpleCatalog.get_table(name) method")
     def test_get_table_by_name(self):
-        """Test SimpleCatalog.get_table(name) - NOT YET IMPLEMENTED.
+        """Test SimpleCatalog.get_table(name).
         
         Expected API (Java):
             SimpleTable SimpleCatalog.getTable(String name)
@@ -128,7 +126,6 @@ class TestCatalogTableRetrieval:
         assert retrieved is not None
         assert retrieved.name == "Orders"
     
-    @pytest.mark.skip(reason="API not implemented: case-insensitive table lookup")
     def test_get_table_case_insensitive(self):
         """Test table lookup is case-insensitive - Java behavior.
         
@@ -145,9 +142,8 @@ class TestCatalogTableRetrieval:
         # All should refer to same logical table
         assert catalog.get_table("Orders").name == catalog.get_table("ORDERS").name
     
-    @pytest.mark.skip(reason="API not implemented: SimpleCatalog.get_table_name_list() method")
     def test_get_table_name_list(self):
-        """Test SimpleCatalog.getTableNameList() - NOT YET IMPLEMENTED.
+        """Test SimpleCatalog.getTableNameList().
         
         Expected API (Java):
             ImmutableList<String> SimpleCatalog.getTableNameList()
@@ -173,7 +169,6 @@ class TestCatalogTableRetrieval:
 class TestCatalogTableErrors:
     """Test error handling for table operations."""
     
-    @pytest.mark.skip(reason="API not implemented: duplicate table detection")
     def test_add_duplicate_table_raises_error(self):
         """Test that adding duplicate table raises error.
         
@@ -189,7 +184,6 @@ class TestCatalogTableErrors:
         with pytest.raises(ValueError):
             catalog_builder.add_table(table2)
     
-    @pytest.mark.skip(reason="API not implemented: case-insensitive duplicate detection")
     def test_add_table_case_insensitive_duplicate(self):
         """Test duplicate detection is case-insensitive.
         
@@ -204,7 +198,6 @@ class TestCatalogTableErrors:
         with pytest.raises(ValueError):
             catalog_builder.add_table(table2)
     
-    @pytest.mark.skip(reason="API not implemented: SimpleCatalog.get_table() with error handling")
     def test_get_nonexistent_table_returns_none(self):
         """Test getting non-existent table returns None.
         

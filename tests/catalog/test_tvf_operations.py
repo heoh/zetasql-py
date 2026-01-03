@@ -170,7 +170,7 @@ class TestTVFSignatureTypes:
         catalog.add_table_valued_function(tvf)
 
 
-@pytest.mark.skip(reason="API not implemented: TVF error handling")
+
 class TestCatalogTVFErrors:
     """Test error handling for TVF operations."""
     

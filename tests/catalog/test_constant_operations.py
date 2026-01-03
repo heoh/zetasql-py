@@ -165,7 +165,6 @@ class TestConstantUsageInAnalysis:
         assert stmt is not None
 
 
-@pytest.mark.skip(reason="API not implemented: Constant error handling")
 class TestCatalogConstantErrors:
     """Test error handling for constant operations."""
     

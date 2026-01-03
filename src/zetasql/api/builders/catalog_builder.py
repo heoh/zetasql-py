@@ -84,11 +84,21 @@ class CatalogBuilder:
         
         Returns:
             Self for method chaining
+            
+        Raises:
+            ValueError: If table with same name already exists (case-insensitive)
         
         Examples:
             >>> orders = TableBuilder("orders").add_column("id", TypeKind.TYPE_INT64).build()
             >>> catalog = CatalogBuilder("db").add_table(orders).build()
         """
+        # Check for duplicates (case-insensitive, Java behavior)
+        if table.name:
+            new_name = table.name.lower()
+            for existing in self._catalog.table:
+                if existing.name and existing.name.lower() == new_name:
+                    raise ValueError(f"Table '{table.name}' already exists in catalog")
+        
         self._catalog.table.append(table)
         return self
     

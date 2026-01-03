@@ -143,9 +143,8 @@ class TestCatalogFunctionRetrieval:
         # Names should be in format "group:function_name"
 
 
-@pytest.mark.skip(reason="API not implemented: Function signature and argument builders")
 class TestFunctionSignatureBuilder:
-    """Test FunctionSignature and FunctionArgumentType builders - NOT YET IMPLEMENTED.
+    """Test FunctionSignature and FunctionArgumentType builders.
     
     Java classes:
         - FunctionSignature
@@ -156,45 +155,45 @@ class TestFunctionSignatureBuilder:
     def test_signature_with_required_args(self):
         """Test building signature with required arguments."""
         from zetasql.api.builders import SignatureBuilder
-        from zetasql.types import ArgumentCardinality
+        from zetasql.core.types.proto_models import FunctionEnums
         
         sig = (SignatureBuilder()
-            .add_argument(TypeKind.TYPE_STRING, ArgumentCardinality.REQUIRED)
-            .add_argument(TypeKind.TYPE_INT64, ArgumentCardinality.REQUIRED)
+            .add_argument(TypeKind.TYPE_STRING, FunctionEnums.ArgumentCardinality.REQUIRED)
+            .add_argument(TypeKind.TYPE_INT64, FunctionEnums.ArgumentCardinality.REQUIRED)
             .set_return_type(TypeKind.TYPE_BOOL)
             .build())
         
-        assert len(sig.arguments) == 2
-        assert sig.result_type.type_kind == TypeKind.TYPE_BOOL
+        assert len(sig.argument) == 2
+        assert sig.return_type.type.type_kind == TypeKind.TYPE_BOOL
     
     def test_signature_with_optional_args(self):
         """Test building signature with optional arguments."""
         from zetasql.api.builders import SignatureBuilder
-        from zetasql.types import ArgumentCardinality
+        from zetasql.core.types.proto_models import FunctionEnums
         
         sig = (SignatureBuilder()
-            .add_argument(TypeKind.TYPE_STRING, ArgumentCardinality.REQUIRED)
-            .add_argument(TypeKind.TYPE_INT64, ArgumentCardinality.OPTIONAL)
+            .add_argument(TypeKind.TYPE_STRING, FunctionEnums.ArgumentCardinality.REQUIRED)
+            .add_argument(TypeKind.TYPE_INT64, FunctionEnums.ArgumentCardinality.OPTIONAL)
             .set_return_type(TypeKind.TYPE_STRING)
             .build())
         
-        assert sig.arguments[1].cardinality == ArgumentCardinality.OPTIONAL
+        assert sig.argument[1].options.cardinality == FunctionEnums.ArgumentCardinality.OPTIONAL
     
     def test_signature_with_repeated_args(self):
         """Test building signature with repeated (variadic) arguments."""
         from zetasql.api.builders import SignatureBuilder
-        from zetasql.types import ArgumentCardinality
+        from zetasql.core.types.proto_models import FunctionEnums
         
         # Function like CONCAT(str1, str2, ...) - variadic
         sig = (SignatureBuilder()
-            .add_argument(TypeKind.TYPE_STRING, ArgumentCardinality.REPEATED)
+            .add_argument(TypeKind.TYPE_STRING, FunctionEnums.ArgumentCardinality.REPEATED)
             .set_return_type(TypeKind.TYPE_STRING)
             .build())
         
-        assert sig.arguments[0].cardinality == ArgumentCardinality.REPEATED
+        assert sig.argument[0].options.cardinality == FunctionEnums.ArgumentCardinality.REPEATED
 
 
-@pytest.mark.skip(reason="API not implemented: Function error handling")
+
 class TestCatalogFunctionErrors:
     """Test error handling for function operations."""
     
