@@ -5,8 +5,45 @@ for simplified SQL analysis and AST manipulation.
 """
 
 import zetasql.types
-from typing import Optional, List
+from typing import Optional, List, Tuple, Set
+from dataclasses import dataclass
+from enum import Enum
 from zetasql.core.local_service import ZetaSqlLocalService
+
+
+class StatementType(str, Enum):
+    """Statement type categories for SQL statements.
+    
+    Categorizes resolved statements into broad categories for easier handling.
+    """
+    QUERY = "QUERY"  # SELECT and other query statements
+    DML = "DML"      # INSERT, UPDATE, DELETE, MERGE
+    DDL = "DDL"      # CREATE, DROP, ALTER, RENAME
+    OTHER = "OTHER"  # Other statement types
+
+
+@dataclass
+class ScriptMetadata:
+    """Metadata extracted from a SQL script.
+    
+    Attributes:
+        tables: Set of table names referenced in the script
+        statement_count: Number of statements in the script
+    """
+    tables: Set[str]
+    statement_count: int
+
+
+@dataclass
+class ValidationResult:
+    """Result of script validation.
+    
+    Attributes:
+        is_valid: Whether the script is valid
+        errors: List of error messages (empty if valid)
+    """
+    is_valid: bool
+    errors: List[str]
 
 
 class Analyzer:
@@ -399,3 +436,259 @@ class Analyzer:
                 break
             
             yield stmt
+
+    @staticmethod
+    def format_script(script: str) -> str:
+        """Format SQL script (strict mode).
+        
+        Formats the SQL script with proper indentation and spacing.
+        Raises an error if the script has syntax errors.
+        
+        Args:
+            script: SQL script to format
+        
+        Returns:
+            Formatted SQL script
+        
+        Raises:
+            ZetaSQLError: If formatting fails (e.g., syntax error)
+        
+        Example:
+            >>> formatted = Analyzer.format_script("SELECT * FROM Orders;SELECT * FROM Products;")
+            >>> print(formatted)
+            SELECT
+              *
+            FROM
+              Orders;
+            SELECT
+              *
+            FROM
+              Products;
+        """
+        service = ZetaSqlLocalService.get_instance()
+        response = service.format_sql(sql=script)
+        return response.sql
+    
+    @staticmethod
+    def lenient_format_script(script: str) -> str:
+        """Format SQL script (lenient mode).
+        
+        Formats the SQL script with best-effort approach.
+        Does not raise errors on syntax issues - formats what it can.
+        
+        Args:
+            script: SQL script to format
+        
+        Returns:
+            Formatted SQL script (best-effort)
+        
+        Example:
+            >>> # Script with syntax error - lenient mode still formats what it can
+            >>> script = "SELECT * FROM Orders; SELECT * FORM Products;"
+            >>> formatted = Analyzer.lenient_format_script(script)
+        """
+        service = ZetaSqlLocalService.get_instance()
+        response = service.lenient_format_sql(sql=script)
+        return response.sql
+    
+    @staticmethod
+    def find_statement_boundaries(script: str) -> List[Tuple[int, int]]:
+        """Find byte positions of statement boundaries in script.
+        
+        Returns start and end byte positions for each statement in the script.
+        Useful for identifying individual statements without full analysis.
+        
+        Args:
+            script: SQL script with multiple statements
+        
+        Returns:
+            List of (start_pos, end_pos) tuples for each statement
+        
+        Example:
+            >>> script = "SELECT 1; SELECT 2; SELECT 3;"
+            >>> boundaries = Analyzer.find_statement_boundaries(script)
+            >>> for start, end in boundaries:
+            ...     print(script[start:end])
+        """
+        service = ZetaSqlLocalService.get_instance()
+        location = zetasql.types.ParseResumeLocation(
+            input=script,
+            byte_position=0
+        )
+        boundaries = []
+        
+        while location.byte_position < len(script):
+            start = location.byte_position
+            try:
+                # Use lightweight table name extraction to find statement boundaries
+                response = service.extract_table_names_from_next_statement(
+                    parse_resume_location=location
+                )
+                end = response.resume_byte_position
+                
+                # Check for progress to avoid infinite loop
+                if end <= start:
+                    break
+                
+                boundaries.append((start, end))
+                location.byte_position = end
+                
+            except Exception:
+                # Stop on error
+                break
+        
+        return boundaries
+    
+    @staticmethod
+    def extract_script_metadata(script: str) -> ScriptMetadata:
+        """Extract metadata from SQL script.
+        
+        Performs lightweight analysis to extract table names and count statements
+        without full semantic analysis.
+        
+        Args:
+            script: SQL script with multiple statements
+        
+        Returns:
+            ScriptMetadata with tables and statement_count
+        
+        Example:
+            >>> script = "SELECT * FROM Orders; SELECT * FROM Products;"
+            >>> metadata = Analyzer.extract_script_metadata(script)
+            >>> print(metadata.tables)  # {'Orders', 'Products'}
+            >>> print(metadata.statement_count)  # 2
+        """
+        service = ZetaSqlLocalService.get_instance()
+        location = zetasql.types.ParseResumeLocation(
+            input=script,
+            byte_position=0
+        )
+        
+        all_tables = set()
+        statement_count = 0
+        
+        while location.byte_position < len(script):
+            try:
+                response = service.extract_table_names_from_next_statement(
+                    parse_resume_location=location
+                )
+                
+                # Collect table names
+                if response.table_name:
+                    for table_name in response.table_name:
+                        # Join multi-part names (e.g., ['schema', 'table'] -> 'schema.table')
+                        if hasattr(table_name, 'table_name_segment') and table_name.table_name_segment:
+                            name = '.'.join(table_name.table_name_segment)
+                            all_tables.add(name)
+                
+                # Check for progress to avoid infinite loop
+                if response.resume_byte_position <= location.byte_position:
+                    break
+                
+                statement_count += 1
+                location.byte_position = response.resume_byte_position
+                
+            except Exception:
+                # Stop on error
+                break
+        
+        return ScriptMetadata(tables=all_tables, statement_count=statement_count)
+    
+    @staticmethod
+    def validate_script_syntax(script: str) -> ValidationResult:
+        """Validate SQL script syntax without full analysis.
+        
+        Attempts to parse each statement in the script and collects errors.
+        More lightweight than full semantic analysis with catalog.
+        
+        Args:
+            script: SQL script to validate
+        
+        Returns:
+            ValidationResult with is_valid flag and error list
+        
+        Example:
+            >>> result = Analyzer.validate_script_syntax("SELECT 1; SELECT 2;")
+            >>> assert result.is_valid is True
+            
+            >>> result = Analyzer.validate_script_syntax("SELECT * FORM table;")
+            >>> assert result.is_valid is False
+            >>> print(result.errors)
+        """
+        service = ZetaSqlLocalService.get_instance()
+        location = zetasql.types.ParseResumeLocation(
+            input=script,
+            byte_position=0
+        )
+        errors = []
+        
+        while location.byte_position < len(script):
+            start_pos = location.byte_position
+            try:
+                # Use lightweight extraction to check syntax
+                response = service.extract_table_names_from_next_statement(
+                    parse_resume_location=location
+                )
+                
+                # Check for progress
+                if response.resume_byte_position <= start_pos:
+                    break
+                
+                location.byte_position = response.resume_byte_position
+                
+            except Exception as e:
+                # Record error with position information
+                error_msg = f"Error at position {start_pos}: {str(e)}"
+                errors.append(error_msg)
+                break
+        
+        return ValidationResult(is_valid=(len(errors) == 0), errors=errors)
+
+
+def get_statement_type(stmt: zetasql.types.ResolvedStatement) -> StatementType:
+    """Get statement type category from resolved statement.
+    
+    Categorizes a resolved statement into one of: QUERY, DML, DDL, or OTHER.
+    Uses isinstance() to detect concrete statement types.
+    
+    Args:
+        stmt: Resolved statement
+    
+    Returns:
+        StatementType enum value
+    
+    Example:
+        >>> stmt = Analyzer.analyze_statement_static("SELECT * FROM Orders", options, catalog)
+        >>> print(get_statement_type(stmt))  # StatementType.QUERY
+        
+        >>> stmt = Analyzer.analyze_statement_static("INSERT INTO Orders VALUES (1)", options, catalog)
+        >>> print(get_statement_type(stmt))  # StatementType.DML
+    """
+    # Import statement types to avoid circular imports
+    from zetasql.types import (
+        ResolvedQueryStmt,
+        ResolvedInsertStmt,
+        ResolvedUpdateStmt,
+        ResolvedDeleteStmt,
+        ResolvedCreateStatement,
+    )
+    
+    # Query statements (SELECT, etc.)
+    if isinstance(stmt, ResolvedQueryStmt):
+        return StatementType.QUERY
+    
+    # DML statements (INSERT, UPDATE, DELETE, MERGE)
+    if isinstance(stmt, (ResolvedInsertStmt, ResolvedUpdateStmt, ResolvedDeleteStmt)):
+        return StatementType.DML
+    
+    # DDL statements (CREATE, DROP, ALTER, etc.)
+    # ResolvedCreateStatement is base class for all CREATE statements
+    if isinstance(stmt, ResolvedCreateStatement):
+        return StatementType.DDL
+    
+    # Check by class name for other DDL types
+    stmt_type = type(stmt).__name__
+    if any(keyword in stmt_type for keyword in ['Create', 'Drop', 'Alter', 'Rename']):
+        return StatementType.DDL
+    
+    return StatementType.OTHER

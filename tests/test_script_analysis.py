@@ -6,13 +6,14 @@ with multiple statements.
 """
 
 import pytest
-from zetasql.api.analyzer import Analyzer
+from zetasql.api.analyzer import Analyzer, ScriptMetadata, ValidationResult, StatementType, get_statement_type
 from zetasql.api.builders import CatalogBuilder, TableBuilder
 from zetasql.types import (
     TypeKind,
     AnalyzerOptions,
     ParseResumeLocation,
     ResolvedQueryStmt,
+    ResolvedNodeKind,
 )
 
 
@@ -106,7 +107,6 @@ class TestScriptAnalysis:
         # Error should contain position information
         assert "NonExistentTable" in str(exc_info.value)
     
-    @pytest.mark.skip(reason="Script metadata extraction not implemented")
     def test_extract_script_metadata(self, options, script_catalog):
         """Test extracting metadata from entire script - Java: extractTableNamesFromScript()
         
@@ -127,37 +127,43 @@ class TestScriptAnalysis:
         assert "Products" in metadata.tables
         assert metadata.statement_count == 2
     
-    @pytest.mark.skip(reason="Statement type detection not implemented")
     def test_detect_statement_types(self, options, script_catalog):
         """Test detecting statement types in script - Java: StatementType
         
         Expected: Distinguish between SELECT, INSERT, UPDATE, DELETE, DDL, etc.
         """
+        # Enable DDL/DML statement support
+        options.language_options.supported_statement_kinds.extend([
+            ResolvedNodeKind.RESOLVED_CREATE_TABLE_STMT,
+            ResolvedNodeKind.RESOLVED_INSERT_STMT,
+        ])
+        
         script = """
             SELECT * FROM Orders;
             CREATE TABLE temp (id INT64);
-            INSERT INTO temp VALUES (1);
+            INSERT INTO Orders (order_id, customer_id, amount) VALUES (1, 2, 100.0);
         """
         
-        location = ParseResumeLocation(script)
+        location = ParseResumeLocation(input=script, byte_position=0)
         types = []
         
         while location.byte_position < len(script):
-            stmt = Analyzer.analyze_next_statement(location, options, script_catalog)
+            stmt = Analyzer.analyze_next_statement_static(location, options, script_catalog)
             if stmt is None:
                 break
-            # Expected: stmt.statement_type or similar
-            types.append(stmt.statement_type)
+            # Use get_statement_type helper function
+            types.append(get_statement_type(stmt))
         
-        assert "QUERY" in types  # SELECT
-        assert "DDL" in types    # CREATE TABLE
-        assert "DML" in types    # INSERT
+        # Should have all three statement types
+        assert len(types) == 3
+        assert StatementType.QUERY in types  # SELECT
+        assert StatementType.DDL in types    # CREATE TABLE
+        assert StatementType.DML in types    # INSERT
 
 
 class TestScriptValidation:
     """Test script validation without full analysis - Java: validation APIs"""
     
-    @pytest.mark.skip(reason="Script validation API not implemented")
     def test_validate_script_syntax(self):
         """Test syntax validation without catalog - Java: validateScript()
         
@@ -183,7 +189,6 @@ class TestScriptValidation:
         assert result.is_valid is False
         assert len(result.errors) > 0
     
-    @pytest.mark.skip(reason="Statement boundary detection not implemented")
     def test_find_statement_boundaries(self):
         """Test finding statement boundaries in script - Java: statement parsing
         
@@ -207,7 +212,6 @@ class TestScriptValidation:
 class TestScriptFormatting:
     """Test formatting multi-statement scripts - Java: formatting APIs"""
     
-    @pytest.mark.skip(reason="Script formatting not implemented")
     def test_format_script(self):
         """Test formatting entire script - Java: formatScript()
         
@@ -222,7 +226,6 @@ class TestScriptFormatting:
         assert "\n" in formatted
         assert formatted != ugly_script
     
-    @pytest.mark.skip(reason="Lenient script formatting not implemented")
     def test_lenient_format_script(self):
         """Test lenient formatting (partial errors OK) - Java: lenientFormatScript()
         
