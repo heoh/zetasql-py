@@ -11,7 +11,7 @@ import pytest
 def bigquery_like_catalog():
     """BigQuery 스타일 카탈로그 (Java 예제와 유사)"""
     from zetasql.api.builders import CatalogBuilder, TableBuilder
-    from zetasql.types import TypeKind
+    from zetasql.types import TypeKind, LanguageOptions, ZetaSQLBuiltinFunctionOptions
 
     # bigquery-public-data.samples.wikipedia
     wikipedia = (
@@ -35,6 +35,11 @@ def bigquery_like_catalog():
         CatalogBuilder("bigquery-public-data")
         .add_table(wikipedia)
         .add_table(shakespeare)
+        .with_builtin_functions(
+            options=ZetaSQLBuiltinFunctionOptions(
+                language_options=LanguageOptions.maximum_features()
+            )
+        )
         .build()
     )
 
@@ -43,7 +48,7 @@ def bigquery_like_catalog():
 def simple_catalog():
     """간단한 테스트 카탈로그"""
     from zetasql.api.builders import CatalogBuilder, TableBuilder
-    from zetasql.types import TypeKind
+    from zetasql.types import TypeKind, LanguageOptions, ZetaSQLBuiltinFunctionOptions
 
     source1 = (
         TableBuilder("source1")
@@ -74,6 +79,11 @@ def simple_catalog():
         .add_table(source1)
         .add_table(source2)
         .add_table(target)
+        .with_builtin_functions(
+            options=ZetaSQLBuiltinFunctionOptions(
+                language_options=LanguageOptions.maximum_features()
+            )
+        )
         .build()
     )
 
@@ -82,16 +92,20 @@ def simple_catalog():
 def analyzer_bq(bigquery_like_catalog):
     """BigQuery 스타일 Analyzer"""
     from zetasql.api import Analyzer
+    from zetasql.types import AnalyzerOptions, LanguageOptions
 
-    return Analyzer(catalog=bigquery_like_catalog)
+    options = AnalyzerOptions(language_options=LanguageOptions.maximum_features())
+    return Analyzer(options=options, catalog=bigquery_like_catalog)
 
 
 @pytest.fixture
 def analyzer(simple_catalog):
     """간단한 Analyzer"""
     from zetasql.api import Analyzer
+    from zetasql.types import AnalyzerOptions, LanguageOptions
 
-    return Analyzer(catalog=simple_catalog)
+    options = AnalyzerOptions(language_options=LanguageOptions.maximum_features())
+    return Analyzer(options=options, catalog=simple_catalog)
 
 
 class TestCreateTableAsSelect:

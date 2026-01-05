@@ -10,7 +10,7 @@ import pytest
 def simple_catalog():
     """테스트용 간단한 카탈로그"""
     from zetasql.api.builders import CatalogBuilder, TableBuilder
-    from zetasql.types import TypeKind
+    from zetasql.types import TypeKind, LanguageOptions, ZetaSQLBuiltinFunctionOptions
 
     users = (
         TableBuilder("users")
@@ -42,6 +42,11 @@ def simple_catalog():
         .add_table(users)
         .add_table(orders)
         .add_table(products)
+        .with_builtin_functions(
+            options=ZetaSQLBuiltinFunctionOptions(
+                language_options=LanguageOptions.maximum_features()
+            )
+        )
         .build()
     )
 
@@ -50,8 +55,10 @@ def simple_catalog():
 def analyzer(simple_catalog):
     """테스트용 Analyzer"""
     from zetasql.api import Analyzer
+    from zetasql.types import AnalyzerOptions, LanguageOptions
 
-    return Analyzer(catalog=simple_catalog)
+    options = AnalyzerOptions(language_options=LanguageOptions.maximum_features())
+    return Analyzer(options=options, catalog=simple_catalog)
 
 
 def get_output_column_and_stmt(analyzer, sql: str, column_index: int = 0):

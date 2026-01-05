@@ -91,9 +91,12 @@ def get_child_nodes(node: ResolvedNode) -> List[ResolvedNode]:
 ```
 
 **테스트 기준**:
-- [ ] 단순 SELECT 문 순회
-- [ ] 모든 노드 타입 방문 확인
-- [ ] 중첩 구조 (JOIN, 서브쿼리) 순회
+- [x] 단순 SELECT 문 순회
+- [x] 모든 노드 타입 방문 확인
+- [x] 중첩 구조 (JOIN, 서브쿼리) 순회
+- [x] ResolvedColumn vs ResolvedColumnRef 구분
+  - `SELECT id FROM users`: ResolvedColumn만 (직접 프로젝션)
+  - `SELECT id * 2 FROM users`: ResolvedColumnRef 생성 (표현식 내 참조)
 
 ---
 
@@ -125,11 +128,14 @@ class ExpressionParentFinder:
 - `nullif` - 첫 번째 인자만
 
 **테스트 기준**:
-- [ ] 단순 컬럼 참조: `col1`
-- [ ] 함수 호출: `UPPER(col1)`
-- [ ] 중첩 함수: `UPPER(CONCAT(col1, col2))`
-- [ ] CASE 문: `CASE WHEN x THEN col1 ELSE col2 END`
-- [ ] STRUCT 접근: `struct_col.field`
+- [x] 단순 컬럼 참조: `CONCAT(col1, '')` (표현식 필요!)
+- [x] 함수 호출: `UPPER(col1)`
+- [x] 중첩 함수: `UPPER(CONCAT(col1, col2))`
+- [x] CASE 문: `CASE WHEN x THEN col1 ELSE col2 END`
+- [x] STRUCT 접근: `struct_col.field`
+- [x] 특수 함수 이름 처리: `ZetaSQL:nullif` → `nullif`
+
+**주의**: `SELECT col1 FROM table`은 ResolvedColumnRef를 생성하지 않음!
 
 ---
 
@@ -293,12 +299,19 @@ for lineage in lineages:
 - **Proto 모델**: `src/zetasql/core/types/proto_models.py`
 
 ---
+x] Level 1: 데이터 모델 (19 tests ✓)
+- [x] Level 2: AST Walker (17 tests ✓)
+- [x] Level 3: ExpressionParentFinder (13 tests ✓)
+- [x] Level 4: ParentColumnFinder (22/23 tests)
+- [x] Level 5: ColumnLineageExtractor (23/30 tests)
+- [ ] 데모 예제
 
-## 7. 구현 진행 상황
+**전체**: 75/83 tests passing (90% 완료)
 
-- [ ] Level 1: 데이터 모델
-- [ ] Level 2: AST Walker
-- [ ] Level 3: ExpressionParentFinder
+**남은 작업**:
+- INSERT statement 처리 완성
+- MERGE statement 처리 완성
+- 다중 CTE 참조 처리 개선 3: ExpressionParentFinder
 - [ ] Level 4: ParentColumnFinder
 - [ ] Level 5: ColumnLineageExtractor
 - [ ] 데모 예제

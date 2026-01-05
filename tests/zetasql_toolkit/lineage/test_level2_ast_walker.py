@@ -11,7 +11,7 @@ import pytest
 def simple_catalog():
     """테스트용 간단한 카탈로그"""
     from zetasql.api.builders import CatalogBuilder, TableBuilder
-    from zetasql.types import TypeKind
+    from zetasql.types import AnalyzerOptions, LanguageOptions, TypeKind, ZetaSQLBuiltinFunctionOptions
 
     users = (
         TableBuilder("users")
@@ -29,15 +29,23 @@ def simple_catalog():
         .build()
     )
 
-    return CatalogBuilder("test").add_table(users).add_table(orders).build()
+    return (
+        CatalogBuilder("test")
+        .add_table(users)
+        .add_table(orders)
+        .with_builtin_functions(options=ZetaSQLBuiltinFunctionOptions(language_options=LanguageOptions.maximum_features()))
+        .build()
+    )
 
 
 @pytest.fixture
 def analyzer(simple_catalog):
     """테스트용 Analyzer"""
     from zetasql.api import Analyzer
+    from zetasql.types import AnalyzerOptions, LanguageOptions
 
-    return Analyzer(catalog=simple_catalog)
+    options = AnalyzerOptions(language_options=LanguageOptions.maximum_features())
+    return Analyzer(options=options, catalog=simple_catalog)
 
 
 class TestASTWalkerBasic:
@@ -198,11 +206,36 @@ class TestNodeTypeDiscovery:
         # id * 2 에 대한 ComputedColumn이 있어야 함
         assert len(computed_cols) >= 1
 
-    def test_discover_column_refs(self, analyzer):
-        """컬럼 참조 발견"""
+    def test_discover_simple_columns(self, analyzer):
+        """단순 SELECT에서 컬럼 발견 (ResolvedColumn)"""
         from zetasql_toolkit.lineage.ast_walker import walk_resolved_tree
 
         stmt = analyzer.analyze_statement("SELECT id, name FROM users")
+
+        columns = []
+
+        def visitor(node):
+            # 단순 SELECT는 ResolvedColumn 객체를 사용
+            if type(node).__name__ == "ResolvedColumn":
+                columns.append(node)
+
+        walk_resolved_tree(stmt, visitor)
+
+        # id, name 컬럼이 발견되어야 함
+        assert len(columns) >= 2
+        
+        # 컬럼 이름 확인
+        column_names = {col.name for col in columns}
+        assert "id" in column_names
+        assert "name" in column_names
+
+    def test_discover_column_refs(self, analyzer):
+        """컬럼 참조 발견 (표현식 내부에서만 생성됨)"""
+        from zetasql_toolkit.lineage.ast_walker import walk_resolved_tree
+
+        # 단순 SELECT는 ColumnRef를 생성하지 않음
+        # 계산식이 있어야 ColumnRef가 생성됨
+        stmt = analyzer.analyze_statement("SELECT id * 2, name FROM users WHERE id > 10")
 
         column_refs = []
 
@@ -212,5 +245,163 @@ class TestNodeTypeDiscovery:
 
         walk_resolved_tree(stmt, visitor)
 
-        # id, name 두 컬럼 참조
+        # id * 2 와 WHERE id > 10에서 두 번 참조
         assert len(column_refs) >= 2
+
+    def test_discover_function_calls(self, analyzer):
+        """함수 호출 발견"""
+        from zetasql_toolkit.lineage.ast_walker import walk_resolved_tree
+
+        stmt = analyzer.analyze_statement("SELECT UPPER(name) AS upper_name FROM users")
+
+        function_calls = []
+
+        def visitor(node):
+            if "FunctionCall" in type(node).__name__:
+                function_calls.append(node)
+
+        walk_resolved_tree(stmt, visitor)
+
+        # UPPER 함수 호출
+        assert len(function_calls) >= 1
+
+    def test_discover_literals(self, analyzer):
+        """리터럴 값 발견"""
+        from zetasql_toolkit.lineage.ast_walker import walk_resolved_tree
+
+        stmt = analyzer.analyze_statement("SELECT id FROM users WHERE name = 'John'")
+
+        literals = []
+
+        def visitor(node):
+            if "Literal" in type(node).__name__:
+                literals.append(node)
+
+        walk_resolved_tree(stmt, visitor)
+
+        # 'John' 리터럴
+        assert len(literals) >= 1
+
+
+class TestComplexQueries:
+    """복잡한 쿼리 순회 테스트"""
+
+    def test_walk_aggregate_query(self, analyzer):
+        """집계 쿼리 순회"""
+        from zetasql_toolkit.lineage.ast_walker import walk_resolved_tree
+
+        stmt = analyzer.analyze_statement(
+            """
+            SELECT user_id, SUM(amount) as total
+            FROM orders
+            GROUP BY user_id
+            """
+        )
+
+        visited_types = set()
+
+        def visitor(node):
+            visited_types.add(type(node).__name__)
+
+        walk_resolved_tree(stmt, visitor)
+
+        # 집계 관련 노드들
+        assert "ResolvedAggregateScan" in visited_types
+        assert "ResolvedAggregateFunctionCall" in visited_types
+
+    def test_walk_window_function(self, analyzer):
+        """윈도우 함수 순회"""
+        from zetasql_toolkit.lineage.ast_walker import walk_resolved_tree
+
+        stmt = analyzer.analyze_statement(
+            """
+            SELECT 
+                id,
+                ROW_NUMBER() OVER (ORDER BY id) as row_num
+            FROM users
+            """
+        )
+
+        visited_types = set()
+
+        def visitor(node):
+            visited_types.add(type(node).__name__)
+
+        walk_resolved_tree(stmt, visitor)
+
+        # 윈도우 함수 관련 노드
+        assert "ResolvedAnalyticFunctionCall" in visited_types
+
+    def test_walk_union_query(self, analyzer):
+        """UNION 쿼리 순회"""
+        from zetasql_toolkit.lineage.ast_walker import walk_resolved_tree
+
+        stmt = analyzer.analyze_statement(
+            """
+            SELECT id FROM users
+            UNION ALL
+            SELECT user_id FROM orders
+            """
+        )
+
+        visited_types = set()
+        table_scans = []
+
+        def visitor(node):
+            visited_types.add(type(node).__name__)
+            if type(node).__name__ == "ResolvedTableScan":
+                table_scans.append(node)
+
+        walk_resolved_tree(stmt, visitor)
+
+        # UNION 관련 노드
+        assert "ResolvedSetOperationScan" in visited_types
+        # 두 테이블 스캔 (users, orders)
+        assert len(table_scans) == 2
+
+
+class TestEdgeCases:
+    """엣지 케이스 테스트"""
+
+    def test_walk_empty_from_clause(self, analyzer):
+        """FROM 없는 SELECT"""
+        from zetasql_toolkit.lineage.ast_walker import walk_resolved_tree
+
+        stmt = analyzer.analyze_statement("SELECT 1 AS one")
+
+        node_count = 0
+
+        def counter(node):
+            nonlocal node_count
+            node_count += 1
+
+        walk_resolved_tree(stmt, counter)
+
+        # 노드가 존재해야 함
+        assert node_count > 0
+
+    def test_visitor_can_collect_info(self, analyzer):
+        """Visitor가 정보를 수집할 수 있는지 확인"""
+        from zetasql_toolkit.lineage.ast_walker import walk_resolved_tree
+
+        stmt = analyzer.analyze_statement(
+            """
+            SELECT u.name, o.amount
+            FROM users u
+            JOIN orders o ON u.id = o.user_id
+            """
+        )
+
+        # 테이블 별칭 수집
+        table_info = {}
+
+        def visitor(node):
+            if type(node).__name__ == "ResolvedTableScan":
+                if hasattr(node, "alias") and hasattr(node, "table"):
+                    table_info[node.alias] = node.table
+
+        walk_resolved_tree(stmt, visitor)
+
+        # 두 테이블의 별칭이 수집되어야 함
+        assert len(table_info) >= 2
+        assert "u" in table_info or "o" in table_info

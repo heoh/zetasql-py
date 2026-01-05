@@ -10,7 +10,7 @@ import pytest
 def simple_catalog():
     """테스트용 간단한 카탈로그"""
     from zetasql.api.builders import CatalogBuilder, TableBuilder
-    from zetasql.types import TypeKind
+    from zetasql.types import TypeKind, LanguageOptions, ZetaSQLBuiltinFunctionOptions
 
     users = (
         TableBuilder("users")
@@ -22,15 +22,26 @@ def simple_catalog():
         .build()
     )
 
-    return CatalogBuilder("test").add_table(users).build()
+    return (
+        CatalogBuilder("test")
+        .add_table(users)
+        .with_builtin_functions(
+            options=ZetaSQLBuiltinFunctionOptions(
+                language_options=LanguageOptions.maximum_features()
+            )
+        )
+        .build()
+    )
 
 
 @pytest.fixture
 def analyzer(simple_catalog):
     """테스트용 Analyzer"""
     from zetasql.api import Analyzer
+    from zetasql.types import AnalyzerOptions, LanguageOptions
 
-    return Analyzer(catalog=simple_catalog)
+    options = AnalyzerOptions(language_options=LanguageOptions.maximum_features())
+    return Analyzer(options=options, catalog=simple_catalog)
 
 
 def get_first_computed_expr(analyzer, sql: str):
@@ -57,10 +68,12 @@ class TestDirectColumnRef:
     """직접 컬럼 참조 테스트"""
 
     def test_single_column_ref(self, analyzer):
-        """단일 컬럼 참조"""
+        """단일 컬럼 참조 (표현식 내에서)"""
         from zetasql_toolkit.lineage.expression_finder import ExpressionParentFinder
 
-        expr = get_first_computed_expr(analyzer, "SELECT name AS alias FROM users")
+        # 단순 SELECT name AS alias는 ComputedColumn을 생성하지 않음
+        # 표현식이 필요함 - CONCAT을 단일 인자로 사용
+        expr = get_first_computed_expr(analyzer, "SELECT CONCAT(name, '') AS alias FROM users")
 
         parents = ExpressionParentFinder.find_direct_parents(expr)
 

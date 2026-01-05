@@ -107,6 +107,10 @@ class ExpressionParentFinder:
         elif hasattr(expr.function, "Name"):
             function_name = expr.function.Name()
 
+        # 함수 이름에서 네임스페이스 제거 (ZetaSQL:nullif -> nullif)
+        if ":" in function_name:
+            function_name = function_name.split(":")[-1]
+
         argument_list = getattr(expr, "argument_list", []) or []
 
         # CASE 문 처리 (조건 제외)
