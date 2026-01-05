@@ -130,14 +130,7 @@ def main():
     # 테스트 실행
     lineage_for_create_table_as_select(catalog)
     lineage_for_ctas_with_subquery(catalog)
-    
-    try:
-        lineage_for_insert_statement(catalog)
-    except Exception as e:
-        print("=" * 70)
-        print(f"INSERT lineage extraction: Not yet fully implemented")
-        print(f"Error: {e}")
-        print()
+    lineage_for_insert_statement(catalog)
     
     print("=" * 70)
     print(" Demo completed!")
