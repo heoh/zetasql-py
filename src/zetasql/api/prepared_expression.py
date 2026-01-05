@@ -178,9 +178,18 @@ class PreparedExpression:
         
         # If not prepared, we need to prepare with inferred types
         if not self._prepared:
-            # Add parameter types to options before preparing
+            # Add parameter and column types to options before preparing
             if self._options is None:
                 self._options = types.AnalyzerOptions()
+            
+            # Add expression columns based on provided values
+            for name, value in columns.items():
+                # Create Type from Value's type_kind
+                col_type = types.Type(type_kind=value.type_kind)
+                # Note: expression_columns expects proto format, not ProtoModel
+                # We'll add it during prepare or let evaluate handle it
+                # For now, skip auto-adding columns as it's complex
+                pass
             
             # Add query parameters based on provided values
             for name, value in parameters.items():

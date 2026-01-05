@@ -158,6 +158,23 @@ class TestPreparedExpressionBuilder:
             parameters={"min_age": Value.int32(18)}
         )
         assert result.get_bool() is True
+    
+    @pytest.mark.skip(reason="Column auto-inference not yet implemented")
+    def test_expression_with_columns_simple(self, options, expr_catalog):
+        """Test expression with column values (without builder)
+        
+        Test that columns can be provided at execute time and inferred from values.
+        """
+        from zetasql.api.prepared_expression import PreparedExpression
+        
+        # Expression uses 'a' as a column reference
+        # Without explicit column declaration, need to handle during execute
+        expr = PreparedExpression("a + b", None, expr_catalog)
+        
+        result = expr.execute(
+            columns={"a": Value.int64(20), "b": Value.int64(5)}
+        )
+        assert result.get_int64() == 25
 
 
 class TestExpressionEvaluation:
