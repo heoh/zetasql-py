@@ -4,6 +4,7 @@ This package provides Layer 2 Java API-compatible convenience features:
 
 - analyzer: High-level Analyzer class with static/instance methods
 - prepared_query: PreparedQuery with builder pattern and context management
+- prepared_expression: PreparedExpression for evaluating expressions
 - builders: Fluent builder APIs (CatalogBuilder, TableBuilder)
 
 These features mirror the Java ZetaSQL API for familiarity.
@@ -11,7 +12,9 @@ These features mirror the Java ZetaSQL API for familiarity.
 
 from .analyzer import Analyzer, ScriptMetadata, ValidationResult, StatementType, get_statement_type
 from .prepared_query import PreparedQuery, PreparedQueryBuilder
+from .prepared_expression import PreparedExpression
 from .builders import CatalogBuilder, TableBuilder
+from .value import Value
 
 __all__ = [
     'Analyzer',
@@ -21,6 +24,8 @@ __all__ = [
     'get_statement_type',
     'PreparedQuery',
     'PreparedQueryBuilder',
+    'PreparedExpression',
     'CatalogBuilder',
     'TableBuilder',
+    'Value',
 ]

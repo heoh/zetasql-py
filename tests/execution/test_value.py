@@ -33,7 +33,6 @@ def value_catalog(builtin_function_options):
 class TestValueBasics:
     """Test basic Value creation and access - Java: Value class"""
     
-    @pytest.mark.skip(reason="Value class not implemented")
     def test_create_int64_value(self):
         """Test creating INT64 value - Java: Value.createInt64Value()
         
@@ -50,7 +49,6 @@ class TestValueBasics:
         assert value.get_int64() == 42
         assert not value.is_null()
     
-    @pytest.mark.skip(reason="Value class not implemented")
     def test_create_string_value(self):
         """Test creating STRING value - Java: Value.createStringValue()
         
@@ -66,7 +64,6 @@ class TestValueBasics:
         assert value.get_string() == "hello"
         assert not value.is_null()
     
-    @pytest.mark.skip(reason="Value class not implemented")
     def test_create_null_value(self):
         """Test creating NULL value - Java: Value.createNullValue()
         
@@ -85,7 +82,6 @@ class TestValueBasics:
 class TestValueTypes:
     """Test Value for different SQL types - Java: type-specific methods"""
     
-    @pytest.mark.skip(reason="Value types not implemented")
     def test_bool_value(self):
         """Test BOOL value - Java: Value.createBoolValue()"""
         from zetasql.api.value import Value
@@ -96,7 +92,6 @@ class TestValueTypes:
         assert true_val.get_bool() is True
         assert false_val.get_bool() is False
     
-    @pytest.mark.skip(reason="Value types not implemented")
     def test_double_value(self):
         """Test DOUBLE value - Java: Value.createDoubleValue()"""
         from zetasql.api.value import Value
@@ -106,7 +101,6 @@ class TestValueTypes:
         assert value.type_kind == TypeKind.TYPE_DOUBLE
         assert abs(value.get_double() - 3.14159) < 0.00001
     
-    @pytest.mark.skip(reason="Value types not implemented")
     def test_date_value(self):
         """Test DATE value - Java: Value.createDateValue()
         
@@ -122,7 +116,6 @@ class TestValueTypes:
         assert value.type_kind == TypeKind.TYPE_DATE
         assert value.get_date() == datetime.date(2024, 1, 15)
     
-    @pytest.mark.skip(reason="Value types not implemented")
     def test_timestamp_value(self):
         """Test TIMESTAMP value - Java: Value.createTimestampValue()
         
@@ -142,7 +135,6 @@ class TestValueTypes:
 class TestComplexValues:
     """Test complex Value types - Java: arrays, structs"""
     
-    @pytest.mark.skip(reason="Array values not implemented")
     def test_array_value(self):
         """Test ARRAY value - Java: Value.createArrayValue()
         
@@ -161,7 +153,6 @@ class TestComplexValues:
         assert value.get_array_element(0).get_int64() == 1
         assert value.get_array_element(2).get_int64() == 3
     
-    @pytest.mark.skip(reason="Struct values not implemented")
     def test_struct_value(self):
         """Test STRUCT value - Java: Value.createStructValue()
         
@@ -182,7 +173,6 @@ class TestComplexValues:
         assert value.get_field("name").get_string() == "Alice"
         assert value.get_field("age").get_int64() == 30
     
-    @pytest.mark.skip(reason="Nested values not implemented")
     def test_nested_array_struct(self):
         """Test nested ARRAY of STRUCT - Java: complex nesting
         
@@ -208,7 +198,6 @@ class TestComplexValues:
 class TestValueComparison:
     """Test Value comparison and equality - Java: equals(), compareTo()"""
     
-    @pytest.mark.skip(reason="Value comparison not implemented")
     def test_value_equality(self):
         """Test Value equality - Java: equals()
         
@@ -226,7 +215,6 @@ class TestValueComparison:
         assert v1.equals(v2)
         assert not v1.equals(v3)
     
-    @pytest.mark.skip(reason="Value comparison not implemented")
     def test_value_comparison(self):
         """Test Value comparison - Java: compareTo()
         
@@ -245,7 +233,6 @@ class TestValueComparison:
         assert v2.compare_to(v1) > 0
         assert v1.compare_to(v3) == 0
     
-    @pytest.mark.skip(reason="NULL comparison not implemented")
     def test_null_comparison(self):
         """Test NULL value comparison - Java: NULL handling
         
@@ -263,7 +250,6 @@ class TestValueComparison:
 class TestValueSerialization:
     """Test Value serialization - Java: toString(), format()"""
     
-    @pytest.mark.skip(reason="Value serialization not implemented")
     def test_value_to_string(self):
         """Test Value string representation - Java: toString()
         
@@ -277,7 +263,6 @@ class TestValueSerialization:
         assert str(Value.string("hello")) == '"hello"'
         assert str(Value.bool(True)) == "true"
     
-    @pytest.mark.skip(reason="Value SQL format not implemented")
     def test_value_to_sql_literal(self):
         """Test converting Value to SQL literal - Java: formatSqlLiteral()
         
@@ -356,7 +341,6 @@ class TestValueFromQueryResult:
 class TestValueConversion:
     """Test Value type conversion - Java: coercion, casting"""
     
-    @pytest.mark.skip(reason="Value coercion not implemented")
     def test_coerce_value(self):
         """Test coercing value to different type - Java: coerceTo()
         
@@ -373,7 +357,6 @@ class TestValueConversion:
         assert string_val.type_kind == TypeKind.TYPE_STRING
         assert string_val.get_string() == "42"
     
-    @pytest.mark.skip(reason="Value casting not implemented")
     def test_cast_value(self):
         """Test explicit casting - Java: castTo()
         
@@ -388,5 +371,5 @@ class TestValueConversion:
         
         # Invalid cast should raise
         string_val = Value.string("not_a_number")
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             string_val.cast_to(TypeKind.TYPE_INT64)
