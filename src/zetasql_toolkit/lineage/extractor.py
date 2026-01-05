@@ -134,17 +134,24 @@ class ColumnLineageExtractor:
         if query is None:
             return result
 
-        # insert_column_list와 query.output_column_list 매핑
+        # insert_column_list와 query 컬럼들 매핑
         insert_column_list = getattr(stmt, "insert_column_list", []) or []
-        query_output_list = getattr(query, "output_column_list", []) or []
+        
+        # query가 Scan 타입일 경우 column_list 사용
+        query_columns = []
+        if hasattr(query, "output_column_list"):
+            # QueryStmt 등
+            output_list = getattr(query, "output_column_list", []) or []
+            query_columns = [getattr(out, "column", None) for out in output_list]
+        elif hasattr(query, "column_list"):
+            # ProjectScan 등
+            query_columns = getattr(query, "column_list", []) or []
 
         for i, insert_col in enumerate(insert_column_list):
-            if i >= len(query_output_list):
+            if i >= len(query_columns):
                 break
 
-            query_output = query_output_list[i]
-            query_column = getattr(query_output, "column", None)
-
+            query_column = query_columns[i]
             if query_column is None:
                 continue
 
@@ -241,19 +248,22 @@ class ColumnLineageExtractor:
         when_clause_list = getattr(stmt, "when_clause_list", []) or []
 
         for when_clause in when_clause_list:
-            # INSERT 액션
-            insert_stmt = getattr(when_clause, "insert_stmt", None)
-            if insert_stmt is not None:
+            # INSERT 액션 - insert_row가 있는 경우
+            insert_row = getattr(when_clause, "insert_row", None)
+            insert_column_list = getattr(when_clause, "insert_column_list", []) or []
+            
+            if insert_row is not None and insert_column_list:
                 insert_lineages = ColumnLineageExtractor._extract_merge_insert(
-                    stmt, insert_stmt, target_table
+                    stmt, when_clause, target_table
                 )
                 result.update(insert_lineages)
 
-            # UPDATE 액션
-            update_stmt = getattr(when_clause, "update_stmt", None)
-            if update_stmt is not None:
+            # UPDATE 액션 - update_item_list가 있는 경우
+            update_item_list = getattr(when_clause, "update_item_list", []) or []
+            
+            if update_item_list:
                 update_lineages = ColumnLineageExtractor._extract_merge_update(
-                    stmt, update_stmt, target_table
+                    stmt, when_clause, target_table
                 )
                 result.update(update_lineages)
 
@@ -261,20 +271,18 @@ class ColumnLineageExtractor:
 
     @staticmethod
     def _extract_merge_insert(
-        merge_stmt, insert_stmt, target_table: str
+        merge_stmt, when_clause, target_table: str
     ) -> Set[ColumnLineage]:
         """MERGE의 INSERT 절 계보 추출."""
         result: Set[ColumnLineage] = set()
 
-        insert_column_list = getattr(insert_stmt, "insert_column_list", []) or []
-        row_list = getattr(insert_stmt, "row_list", []) or []
-
-        # 첫 번째 row의 값들과 컬럼 매핑
-        if not row_list:
+        insert_column_list = getattr(when_clause, "insert_column_list", []) or []
+        insert_row = getattr(when_clause, "insert_row", None)
+        
+        if insert_row is None:
             return result
 
-        first_row = row_list[0]
-        value_list = getattr(first_row, "value_list", []) or []
+        value_list = getattr(insert_row, "value_list", []) or []
 
         for i, insert_col in enumerate(insert_column_list):
             if i >= len(value_list):
@@ -287,8 +295,11 @@ class ColumnLineageExtractor:
             if col_name is None:
                 col_name = f"column_{i}"
 
-            # 값 표현식
-            value_expr = value_list[i]
+            # ResolvedDMLValue에서 실제 표현식 추출
+            dml_value = value_list[i]
+            value_expr = getattr(dml_value, "value", None)
+            if value_expr is None:
+                continue
 
             # 부모 찾기
             parents = ParentColumnFinder.find_parents_for_expression(
@@ -308,12 +319,12 @@ class ColumnLineageExtractor:
 
     @staticmethod
     def _extract_merge_update(
-        merge_stmt, update_stmt, target_table: str
+        merge_stmt, when_clause, target_table: str
     ) -> Set[ColumnLineage]:
         """MERGE의 UPDATE 절 계보 추출."""
         result: Set[ColumnLineage] = set()
 
-        update_item_list = getattr(update_stmt, "update_item_list", []) or []
+        update_item_list = getattr(when_clause, "update_item_list", []) or []
 
         for item in update_item_list:
             # target 컬럼

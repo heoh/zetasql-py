@@ -231,15 +231,30 @@ class ParentColumnFinder:
             for entry in scope:
                 entry_name = getattr(entry, "with_query_name", None)
                 if entry_name == with_query_name:
-                    # WITH entry의 출력 컬럼과 매핑
+                    # WITH entry의 서브쿼리 찾기
                     with_subquery = getattr(entry, "with_subquery", None)
-                    if with_subquery is not None:
+                    if with_subquery is None:
+                        return
+                    
+                    # 서브쿼리의 출력 컬럼 찾기
+                    # ResolvedProjectScan은 column_list 사용
+                    # ResolvedQuery는 output_column_list 사용
+                    output_columns = []
+                    
+                    if hasattr(with_subquery, "column_list"):
+                        # ResolvedProjectScan 타입의 경우
+                        output_columns = getattr(with_subquery, "column_list", []) or []
+                    elif hasattr(with_subquery, "output_column_list"):
+                        # ResolvedQuery 타입의 경우
                         output_cols = getattr(with_subquery, "output_column_list", []) or []
-                        for i, col in enumerate(column_list):
-                            if i < len(output_cols):
-                                output_col = output_cols[i]
-                                if hasattr(output_col, "column"):
-                                    self._add_parents_to_column(col, [output_col.column])
+                        for out in output_cols:
+                            if hasattr(out, "column"):
+                                output_columns.append(out.column)
+                    
+                    # WITH REF 컬럼과 서브쿼리 출력 컬럼 매핑
+                    for i, col in enumerate(column_list):
+                        if i < len(output_columns):
+                            self._add_parents_to_column(col, [output_columns[i]])
                     return
 
     def _visit_set_operation_scan(self, node) -> None:
