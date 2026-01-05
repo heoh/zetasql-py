@@ -6,7 +6,7 @@ for automatic cleanup of server-side resources.
 
 import zetasql.types
 from typing import Optional, Dict, Any
-from zetasql.core.exceptions import IllegalStateError, InvalidArgumentError
+from zetasql.core import IllegalStateError, InvalidArgumentError, ZetaSqlLocalService
 
 
 class PreparedQuery:
@@ -25,7 +25,7 @@ class PreparedQuery:
         ...     # Automatically cleaned up on exit
     """
     
-    def __init__(self, service, prepared_id: int, columns: list):
+    def __init__(self, service: ZetaSqlLocalService, prepared_id: int, columns: list):
         """Initialize PreparedQuery.
         
         Args:
