@@ -708,6 +708,21 @@ class Value:
         """Developer representation."""
         return f"Value({self._proto})"
     
+    def get_type(self) -> 'types.Type':
+        """Get the Type of this value.
+        
+        Mirrors Java's Value.getType() method for type introspection.
+        
+        Returns:
+            Type object representing this value's type
+            
+        Example:
+            >>> v = Value.int64(42)
+            >>> t = v.get_type()
+            >>> assert t.type_kind == TypeKind.TYPE_INT64
+        """
+        return types.Type(type_kind=self.type_kind)
+    
     def __iter__(self):
         """Iterate over ARRAY elements.
         

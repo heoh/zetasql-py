@@ -159,7 +159,6 @@ class TestPreparedExpressionBuilder:
         )
         assert result.get_bool() is True
     
-    @pytest.mark.skip(reason="Column auto-inference not yet implemented")
     def test_expression_with_columns_simple(self, options, expr_catalog):
         """Test expression with column values (without builder)
         
@@ -168,7 +167,7 @@ class TestPreparedExpressionBuilder:
         from zetasql.api.prepared_expression import PreparedExpression
         
         # Expression uses 'a' as a column reference
-        # Without explicit column declaration, need to handle during execute
+        # Column types are inferred from Value objects at execute time
         expr = PreparedExpression("a + b", None, expr_catalog)
         
         result = expr.execute(

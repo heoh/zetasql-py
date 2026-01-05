@@ -182,19 +182,23 @@ class PreparedExpression:
             if self._options is None:
                 self._options = types.AnalyzerOptions()
             
-            # Add expression columns based on provided values
+            # Add expression columns based on provided values (Java style)
             for name, value in columns.items():
-                # Create Type from Value's type_kind
-                col_type = types.Type(type_kind=value.type_kind)
-                # Note: expression_columns expects proto format, not ProtoModel
-                # We'll add it during prepare or let evaluate handle it
-                # For now, skip auto-adding columns as it's complex
-                pass
+                # Use Value.get_type() to get Type object
+                col_type = value.get_type()
+                col_param = types.AnalyzerOptions.QueryParameter(
+                    name=name,
+                    type=col_type
+                )
+                # Check if column already exists
+                col_exists = any(c.name.lower() == name.lower() for c in self._options.expression_columns)
+                if not col_exists:
+                    self._options.expression_columns.append(col_param)
             
-            # Add query parameters based on provided values
+            # Add query parameters based on provided values (Java style)
             for name, value in parameters.items():
-                # Create Type from Value's type_kind
-                param_type = types.Type(type_kind=value.type_kind)
+                # Use Value.get_type() to get Type object
+                param_type = value.get_type()
                 param = types.AnalyzerOptions.QueryParameter(
                     name=name,
                     type=param_type
