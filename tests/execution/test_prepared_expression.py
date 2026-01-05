@@ -8,6 +8,7 @@ functionality for evaluating SQL expressions with parameters.
 import pytest
 from zetasql.api.analyzer import Analyzer
 from zetasql.api.builders import CatalogBuilder, TableBuilder
+from zetasql.api.value import Value
 from zetasql.types import (
     TypeKind,
     AnalyzerOptions,
@@ -32,7 +33,6 @@ def expr_catalog(builtin_function_options):
 class TestPreparedExpression:
     """Test PreparedExpression API - Java: PreparedExpression class"""
     
-    @pytest.mark.skip(reason="PreparedExpression class not implemented")
     def test_prepare_simple_expression(self, options, expr_catalog):
         """Test preparing simple arithmetic expression - Java: PreparedExpression()
         
@@ -46,9 +46,8 @@ class TestPreparedExpression:
         result = expr.execute()
         
         assert result is not None
-        assert result.value == 3
+        assert result.get_int64() == 3
     
-    @pytest.mark.skip(reason="PreparedExpression with parameters not implemented")
     def test_expression_with_parameters(self, options, expr_catalog):
         """Test expression with query parameters - Java: setParameter()
         
@@ -59,11 +58,10 @@ class TestPreparedExpression:
         from zetasql.api.prepared_expression import PreparedExpression
         
         expr = PreparedExpression("@x + @y", options, expr_catalog)
-        result = expr.execute(parameters={"x": 10, "y": 20})
+        result = expr.execute(parameters={"x": Value.int32(10), "y": Value.int32(20)})
         
-        assert result.value == 30
+        assert result.get_int64() == 30
     
-    @pytest.mark.skip(reason="PreparedExpression type information not implemented")
     def test_expression_type(self, options, expr_catalog):
         """Test getting expression output type - Java: outputType()
         
@@ -78,7 +76,6 @@ class TestPreparedExpression:
         assert expr.output_type is not None
         assert expr.output_type.type_kind == TypeKind.TYPE_STRING
     
-    @pytest.mark.skip(reason="PreparedExpression with functions not implemented")
     def test_expression_with_functions(self, options, expr_catalog):
         """Test expression with builtin functions - Java: function calls
         
@@ -89,11 +86,10 @@ class TestPreparedExpression:
         from zetasql.api.prepared_expression import PreparedExpression
         
         expr = PreparedExpression("UPPER(@text)", options, expr_catalog)
-        result = expr.execute(parameters={"text": "hello"})
+        result = expr.execute(parameters={"text": Value.string("hello")})
         
-        assert result.value == "HELLO"
+        assert result.get_string() == "HELLO"
     
-    @pytest.mark.skip(reason="PreparedExpression context manager not implemented")
     def test_expression_context_manager(self, options, expr_catalog):
         """Test using PreparedExpression as context manager - Java: close()
         
@@ -105,7 +101,7 @@ class TestPreparedExpression:
         
         with PreparedExpression("1 + 1", options, expr_catalog) as expr:
             result = expr.execute()
-            assert result.value == 2
+            assert result.get_int64() == 2
         
         # Should be automatically closed
 
@@ -132,8 +128,8 @@ class TestPreparedExpressionBuilder:
             .catalog(expr_catalog)
             .build())
         
-        result = expr.execute(parameters={"x": 5, "y": 3})
-        assert result.value == 8
+        result = expr.execute(parameters={"x": Value.int32(5), "y": Value.int32(3)})
+        assert result.get_int64() == 8
     
     @pytest.mark.skip(reason="PreparedExpression with columns not implemented")
     def test_builder_with_columns(self, options, expr_catalog):
@@ -158,10 +154,10 @@ class TestPreparedExpressionBuilder:
         
         # Would need to provide column value too
         result = expr.execute(
-            parameters={"min_age": 18},
-            columns={"age": 25}
+            columns={"age": Value.int64(25)},
+            parameters={"min_age": Value.int32(18)}
         )
-        assert result.value is True
+        assert result.get_bool() is True
 
 
 class TestExpressionEvaluation:
@@ -178,9 +174,9 @@ class TestExpressionEvaluation:
         from zetasql.api.prepared_expression import PreparedExpression
         
         expr = PreparedExpression("@x IS NULL", options, expr_catalog)
-        result = expr.execute(parameters={"x": None})
+        result = expr.execute(parameters={"x": Value.null(TypeKind.TYPE_INT32)})
         
-        assert result.value is True
+        assert result.get_bool() is True
     
     @pytest.mark.skip(reason="Expression with CAST not implemented")
     def test_expression_with_cast(self, options, expr_catalog):
@@ -193,9 +189,9 @@ class TestExpressionEvaluation:
         from zetasql.api.prepared_expression import PreparedExpression
         
         expr = PreparedExpression("CAST(@x AS STRING)", options, expr_catalog)
-        result = expr.execute(parameters={"x": 123})
+        result = expr.execute(parameters={"x": Value.int32(123)})
         
-        assert result.value == "123"
+        assert result.get_string() == "123"
     
     @pytest.mark.skip(reason="Expression error handling not implemented")
     def test_expression_evaluation_error(self, options, expr_catalog):
@@ -209,7 +205,7 @@ class TestExpressionEvaluation:
         expr = PreparedExpression("@x / @y", options, expr_catalog)
         
         with pytest.raises(Exception) as exc_info:
-            expr.execute(parameters={"x": 10, "y": 0})
+            expr.execute(parameters={"x": Value.int32(10), "y": Value.int32(0)})
         
         assert "division by zero" in str(exc_info.value).lower()
 
@@ -231,9 +227,9 @@ class TestExpressionBatch:
         results = PreparedExpression.evaluate_batch(expressions, options, expr_catalog)
         
         assert len(results) == 3
-        assert results[0].value == 2
-        assert results[1].value == 6
-        assert results[2].value == 5
+        assert results[0].get_int64() == 2
+        assert results[1].get_int64() == 6
+        assert results[2].get_int64() == 5
     
     @pytest.mark.skip(reason="Batch evaluation with shared parameters not implemented")
     def test_batch_with_parameters(self, options, expr_catalog):
@@ -255,12 +251,12 @@ class TestExpressionBatch:
             expressions,
             options,
             expr_catalog,
-            parameters={"x": 10}
+            parameters={"x": Value.int32(10)}
         )
         
-        assert results[0].value == 11
-        assert results[1].value == 20
-        assert results[2].value == 7
+        assert results[0].get_int64() == 11
+        assert results[1].get_int64() == 20
+        assert results[2].get_int64() == 7
 
 
 class TestExpressionReuse:
@@ -276,14 +272,14 @@ class TestExpressionReuse:
         
         expr = PreparedExpression("@x * @y", options, expr_catalog)
         
-        result1 = expr.execute(parameters={"x": 2, "y": 3})
-        assert result1.value == 6
+        result1 = expr.execute(parameters={"x": Value.int32(2), "y": Value.int32(3)})
+        assert result1.get_int64() == 6
         
-        result2 = expr.execute(parameters={"x": 4, "y": 5})
-        assert result2.value == 20
+        result2 = expr.execute(parameters={"x": Value.int32(4), "y": Value.int32(5)})
+        assert result2.get_int64() == 20
         
-        result3 = expr.execute(parameters={"x": 10, "y": 10})
-        assert result3.value == 100
+        result3 = expr.execute(parameters={"x": Value.int32(10), "y": Value.int32(10)})
+        assert result3.get_int64() == 100
     
     @pytest.mark.skip(reason="Expression concurrent execution not implemented")
     def test_concurrent_expression_execution(self, options, expr_catalog):
@@ -297,7 +293,7 @@ class TestExpressionReuse:
         expr = PreparedExpression("@x + @y", options, expr_catalog)
         
         def evaluate(x, y):
-            return expr.execute(parameters={"x": x, "y": y}).value
+            return expr.execute(parameters={"x": Value.int32(x), "y": Value.int32(y)}).get_int64()
         
         with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
             futures = [
