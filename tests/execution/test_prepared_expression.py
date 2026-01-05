@@ -109,7 +109,6 @@ class TestPreparedExpression:
 class TestPreparedExpressionBuilder:
     """Test PreparedExpression builder pattern - Java: builder pattern"""
     
-    @pytest.mark.skip(reason="PreparedExpression.Builder not implemented")
     def test_builder_basic(self, options, expr_catalog):
         """Test PreparedExpression builder - Java: PreparedExpression.Builder
         
@@ -131,7 +130,6 @@ class TestPreparedExpressionBuilder:
         result = expr.execute(parameters={"x": Value.int32(5), "y": Value.int32(3)})
         assert result.get_int64() == 8
     
-    @pytest.mark.skip(reason="PreparedExpression with columns not implemented")
     def test_builder_with_columns(self, options, expr_catalog):
         """Test expression referencing table columns - Java: column references
         

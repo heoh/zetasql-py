@@ -276,3 +276,143 @@ class PreparedExpression:
         """Cleanup on deletion."""
         if not self._closed:
             self.close()
+    
+    @staticmethod
+    def builder() -> 'PreparedExpression.Builder':
+        """Create a new PreparedExpression builder.
+        
+        Returns:
+            Builder instance for fluent construction
+            
+        Example:
+            >>> expr = (PreparedExpression.builder()
+            ...     .expression("@x + @y")
+            ...     .options(options)
+            ...     .catalog(catalog)
+            ...     .build())
+        """
+        return PreparedExpression.Builder()
+    
+    class Builder:
+        """Builder for constructing PreparedExpression instances.
+        
+        Provides a fluent interface for configuring and building PreparedExpression
+        objects, similar to Java's builder pattern.
+        
+        Example:
+            >>> builder = PreparedExpression.builder()
+            >>> expr = (builder
+            ...     .expression("@x + @y")
+            ...     .options(options)
+            ...     .catalog(catalog)
+            ...     .build())
+        """
+        
+        def __init__(self):
+            """Initialize empty builder."""
+            self._sql: Optional[str] = None
+            self._options: Optional['types.AnalyzerOptions'] = None
+            self._catalog: Optional[Any] = None
+            self._service: Optional[ZetaSqlLocalService] = None
+            self._columns: Dict[str, 'types.Type'] = {}
+        
+        def expression(self, sql: str) -> 'PreparedExpression.Builder':
+            """Set the SQL expression.
+            
+            Args:
+                sql: SQL expression string
+                
+            Returns:
+                Self for chaining
+            """
+            self._sql = sql
+            return self
+        
+        def options(self, options: 'types.AnalyzerOptions') -> 'PreparedExpression.Builder':
+            """Set analyzer options.
+            
+            Args:
+                options: AnalyzerOptions for configuring analysis
+                
+            Returns:
+                Self for chaining
+            """
+            self._options = options
+            return self
+        
+        def catalog(self, catalog: Any) -> 'PreparedExpression.Builder':
+            """Set the catalog.
+            
+            Args:
+                catalog: SimpleCatalog with tables/functions
+                
+            Returns:
+                Self for chaining
+            """
+            self._catalog = catalog
+            return self
+        
+        def service(self, service: ZetaSqlLocalService) -> 'PreparedExpression.Builder':
+            """Set the service instance.
+            
+            Args:
+                service: ZetaSqlLocalService instance
+                
+            Returns:
+                Self for chaining
+            """
+            self._service = service
+            return self
+        
+        def column(self, name: str, type_kind: 'TypeKind') -> 'PreparedExpression.Builder':
+            """Add an expression column definition.
+            
+            Args:
+                name: Column name
+                type_kind: TypeKind for the column
+                
+            Returns:
+                Self for chaining
+                
+            Example:
+                >>> builder.column("age", TypeKind.TYPE_INT64)
+            """
+            self._columns[name] = types.Type(type_kind=type_kind)
+            return self
+        
+        def build(self) -> 'PreparedExpression':
+            """Build the PreparedExpression instance.
+            
+            Returns:
+                Configured PreparedExpression
+                
+            Raises:
+                ValueError: If required fields are missing
+            """
+            if self._sql is None:
+                raise ValueError("SQL expression is required")
+            
+            # Create the PreparedExpression
+            expr = PreparedExpression(
+                sql=self._sql,
+                options=self._options,
+                catalog=self._catalog,
+                service=self._service
+            )
+            
+            # Add column definitions to options if provided
+            if self._columns:
+                if expr._options is None:
+                    expr._options = types.AnalyzerOptions()
+                
+                for name, col_type in self._columns.items():
+                    col_param = types.AnalyzerOptions.QueryParameter(
+                        name=name,
+                        type=col_type
+                    )
+                    # Check if column already exists
+                    col_exists = any(c.name.lower() == name.lower() for c in expr._options.expression_columns)
+                    if not col_exists:
+                        expr._options.expression_columns.append(col_param)
+            
+            return expr
