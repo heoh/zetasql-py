@@ -159,19 +159,8 @@ class TestCompleteAnalysisWorkflow:
         # Should have 3 output columns
         assert len(stmt.output_column_list) == 3
     
-    @pytest.mark.skip(reason="WASM server hangs on scalar subquery in WHERE clause - known limitation")
     def test_subquery_analysis(self, options, ecommerce_catalog):
-        """Test analyzing query with correlated subquery.
-        
-        NOTE: This test hangs indefinitely in the WASM server when analyzing
-        scalar subqueries in WHERE clauses. This appears to be a limitation
-        of the current ZetaSQL WASM implementation.
-        
-        Verified behaviors:
-        - ✅ Simple queries work
-        - ✅ Subqueries in SELECT work
-        - ❌ Subqueries in WHERE hang (both correlated and non-correlated)
-        """
+        """Test analyzing query with correlated subquery."""
         analyzer = Analyzer(options, ecommerce_catalog)
         
         sql = """

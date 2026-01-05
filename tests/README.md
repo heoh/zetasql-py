@@ -45,7 +45,7 @@ tests/
 
 ## Test Categories
 
-### ✅ **Implemented & Passing (156 tests)**
+### ✅ **Implemented & Passing (157 tests)**
 - `test_analyzer.py` - All Analyzer methods (analyze, build, extract)
 - `test_catalog_registry.py` - Catalog registration and context managers
 - `catalog/test_catalog_basic.py` - Catalog creation and registration
@@ -57,7 +57,7 @@ tests/
 - `extensions/test_table_content.py` - TableContent helpers
 - `types/` - Type system (TypeFactory, extensions, IntEnum)
 
-### ⏸️ **Skipped (API Not Implemented - 92 tests)**
+### ⏸️ **Skipped (API Not Implemented - 91 tests)**
 
 **Priority 1: Catalog Operations (43 tests)**
 - `catalog/test_function_operations.py` - Need: `SimpleCatalog.add_function()`, `FunctionBuilder`
@@ -178,8 +178,8 @@ Even unimplemented features have tests showing ideal usage:
 
 ```
 Total Tests: 248
-├── ✅ Passing: 156 (63%)
-├── ⏸️  Skipped: 92 (37%)
+├── ✅ Passing: 157 (63%)
+├── ⏸️  Skipped: 91 (37%)
 └── ❌ Failing: 0 (0%)
 
 Distribution by Category:
@@ -187,7 +187,7 @@ Distribution by Category:
 ├── Catalog Operations: 61 tests (18 pass, 43 skip)
 ├── Builders: 21 tests (21 pass, 0 skip)
 ├── Execution: 58 tests (12 pass, 46 skip)
-├── Integration: 10 tests (9 pass, 1 skip)
+├── Integration: 10 tests (10 pass, 0 skip)
 ├── Core: 24 tests (24 pass, 0 skip)
 ├── Extensions: 12 tests (12 pass, 0 skip)
 └── Types: 42 tests (42 pass, 0 skip)
@@ -243,7 +243,7 @@ class TestPreparedExpression:
 
 ## Coverage Goals
 
-- **Current**: ~63% test passing rate (156/248)
+- **Current**: ~63% test passing rate (157/248)
 - **Core Analysis**: 100% coverage (all passing)
 - **Builders**: 100% coverage (all passing)
 - **Type System**: 100% coverage (all passing)
