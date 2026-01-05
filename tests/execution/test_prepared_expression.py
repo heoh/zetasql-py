@@ -163,7 +163,6 @@ class TestPreparedExpressionBuilder:
 class TestExpressionEvaluation:
     """Test expression evaluation features - Java: evaluation methods"""
     
-    @pytest.mark.skip(reason="Expression evaluation with null not implemented")
     def test_expression_with_null(self, options, expr_catalog):
         """Test expression handling null values - Java: null handling
         
@@ -178,7 +177,6 @@ class TestExpressionEvaluation:
         
         assert result.get_bool() is True
     
-    @pytest.mark.skip(reason="Expression with CAST not implemented")
     def test_expression_with_cast(self, options, expr_catalog):
         """Test expression with type casting - Java: CAST operations
         
@@ -193,7 +191,6 @@ class TestExpressionEvaluation:
         
         assert result.get_string() == "123"
     
-    @pytest.mark.skip(reason="Expression error handling not implemented")
     def test_expression_evaluation_error(self, options, expr_catalog):
         """Test error handling during evaluation - Java: evaluation exceptions
         
@@ -262,7 +259,6 @@ class TestExpressionBatch:
 class TestExpressionReuse:
     """Test reusing prepared expressions - Java: reuse patterns"""
     
-    @pytest.mark.skip(reason="Expression reuse not implemented")
     def test_reuse_expression_different_parameters(self, options, expr_catalog):
         """Test executing same expression with different parameters - Java: reuse
         
