@@ -1,5 +1,13 @@
-"""Column-level lineage extraction for ZetaSQL."""
+# ZetaSQL Toolkit for Python - Lineage Extraction
 
-from zetasql_toolkit.lineage.models import ColumnEntity, ColumnLineage
+from zetasql_toolkit.lineage import (
+    ColumnEntity,
+    ColumnLineage,
+    ColumnLineageExtractor,
+)
 
-__all__ = ["ColumnEntity", "ColumnLineage"]
+__all__ = [
+    "ColumnEntity",
+    "ColumnLineage",
+    "ColumnLineageExtractor",
+]

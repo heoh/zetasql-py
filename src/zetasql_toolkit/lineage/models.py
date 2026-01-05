@@ -1,107 +1,89 @@
-"""
-Data models for column-level lineage.
+"""Column-Level Lineage 데이터 모델
 
-This module defines the core data structures used in lineage extraction:
-- ColumnEntity: Represents a table.column reference
-- ColumnLineage: Maps a target column to its source columns
+Java 원본: ColumnEntity.java, ColumnLineage.java
 """
+
+from __future__ import annotations
+
 from dataclasses import dataclass
-from typing import Set
+from typing import TYPE_CHECKING, FrozenSet
 
-from zetasql.core.types.proto_models import ResolvedColumn
+if TYPE_CHECKING:
+    from zetasql.core.types.proto_models import ResolvedColumn
 
 
 @dataclass(frozen=True)
 class ColumnEntity:
-    """
-    Represents a reference to a column in a table.
-    
+    """테이블의 컬럼을 나타내는 불변 엔티티.
+
+    Java 원본: com.google.zetasql.toolkit.tools.lineage.ColumnEntity
+
     Attributes:
-        table: Fully qualified table name (e.g., "project.dataset.table")
-        name: Column name
-        
-    Note:
-        Column name comparisons are case-insensitive (matching ZetaSQL behavior),
-        but table names are case-sensitive.
+        table: 테이블의 전체 이름 (예: "project.dataset.table")
+        name: 컬럼 이름 (대소문자 무시 비교)
     """
-    
+
     table: str
     name: str
-    
-    @staticmethod
-    def from_resolved_column(column: ResolvedColumn) -> "ColumnEntity":
-        """
-        Create a ColumnEntity from a ResolvedColumn.
-        
-        Args:
-            column: The ResolvedColumn to convert
-            
-        Returns:
-            A new ColumnEntity instance
-        """
-        return ColumnEntity(table=column.table_name, name=column.name)
-    
+
     def __eq__(self, other: object) -> bool:
-        """
-        Check equality with case-insensitive column name comparison.
-        
-        Args:
-            other: Object to compare with
-            
-        Returns:
-            True if both table and column name match (column name case-insensitive)
-        """
+        """동등성 비교 (컬럼 이름은 대소문자 무시)."""
         if not isinstance(other, ColumnEntity):
             return NotImplemented
-        return (
-            self.table == other.table
-            and self.name.lower() == other.name.lower()
-        )
-    
+        return self.table == other.table and self.name.lower() == other.name.lower()
+
     def __hash__(self) -> int:
-        """
-        Compute hash with case-insensitive column name.
-        
-        Returns:
-            Hash value
-        """
+        """해시값 (Set/Dict에서 사용)."""
         return hash((self.table, self.name.lower()))
-    
+
+    def __repr__(self) -> str:
+        """읽기 좋은 문자열 표현."""
+        return f"ColumnEntity(table='{self.table}', name='{self.name}')"
+
     def __str__(self) -> str:
-        """
-        String representation.
-        
+        """정규화된 이름 (table.column)."""
+        if self.table:
+            return f"{self.table}.{self.name}"
+        return self.name
+
+    @staticmethod
+    def from_resolved_column(column: ResolvedColumn) -> ColumnEntity:
+        """ResolvedColumn에서 ColumnEntity 생성.
+
+        Args:
+            column: ZetaSQL의 ResolvedColumn 객체
+
         Returns:
-            "table.column" format
+            생성된 ColumnEntity
         """
-        return f"{self.table}.{self.name}"
+        return ColumnEntity(
+            table=column.table_name or "",
+            name=column.name,
+        )
 
 
 @dataclass(frozen=True)
 class ColumnLineage:
-    """
-    Represents lineage for a single column.
-    
-    Maps a target (output) column to the set of parent (source) columns
-    that contribute to its value.
-    
+    """컬럼 간의 계보 관계를 나타냄.
+
+    Java 원본: com.google.zetasql.toolkit.tools.lineage.ColumnLineage
+
     Attributes:
-        target: The output column
-        parents: Set of source columns that contribute to the target
-                 (empty set means the column is computed from literals only)
+        target: 대상(결과) 컬럼
+        parents: 소스(부모) 컬럼들의 집합
     """
-    
+
     target: ColumnEntity
-    parents: Set[ColumnEntity]
-    
+    parents: FrozenSet[ColumnEntity]
+
+    def __repr__(self) -> str:
+        """읽기 좋은 문자열 표현."""
+        parents_str = ", ".join(str(p) for p in self.parents)
+        return f"ColumnLineage(target={self.target}, parents=[{parents_str}])"
+
     def __str__(self) -> str:
-        """
-        String representation.
-        
-        Returns:
-            Multi-line string showing target and parents
-        """
-        lines = [str(self.target)]
-        for parent in sorted(self.parents, key=str):
+        """계보 관계를 문자열로 표현."""
+        lines = [f"{self.target}"]
+        for parent in sorted(self.parents, key=lambda p: (p.table, p.name)):
             lines.append(f"  <- {parent}")
         return "\n".join(lines)

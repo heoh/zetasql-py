@@ -1,115 +1,144 @@
-# ZetaSQL Toolkit - Column-Level Lineage Extraction (Python Port)
+# ZetaSQL Toolkit for Python - Column-Level Lineage Extraction
 
-## Overview
+## 1. 개요
 
-This is a Python port of the ZetaSQL Toolkit's column-level lineage extraction functionality from Java. The implementation extracts data lineage at the column level from SQL statements, mapping target columns to their source columns.
+이 프로젝트는 Google ZetaSQL Java Toolkit의 Column-Level Lineage 추출 기능을 Python으로 포팅합니다.
 
-**Original Java Implementation**: `.external/zetasql-toolkit/zetasql-toolkit-core/src/main/java/com/google/zetasql/toolkit/tools/lineage/`
+**원본 Java 코드**: `.external/zetasql-toolkit/zetasql-toolkit-core/src/main/java/com/google/zetasql/toolkit/tools/lineage/`
 
-## Architecture
+### 1.1 지원 기능
 
-### Component Hierarchy
+- **CREATE TABLE AS SELECT** (CTAS) 문의 컬럼 계보 추출
+- **CREATE VIEW** 문의 컬럼 계보 추출
+- **INSERT** 문의 컬럼 계보 추출
+- **UPDATE** 문의 컬럼 계보 추출
+- **MERGE** 문의 컬럼 계보 추출
+- **중첩 표현식 처리** (UPPER, CONCAT, CASE 등)
+- **STRUCT 필드 확장**
+- **WITH 절 (CTE) 처리**
+- **서브쿼리 처리**
+
+### 1.2 Java vs Python 차이점
+
+| 항목 | Java | Python |
+|-----|------|--------|
+| Visitor 패턴 | `accept()` / `visit()` | `functools.singledispatch` |
+| 트리 순회 | 자동 (Visitor) | 수동 (리플렉션) |
+| 타입 체크 | 컴파일 타임 | 런타임 `isinstance()` |
+
+---
+
+## 2. 아키텍처
 
 ```
-zetasql_toolkit/
-├── lineage/
-│   ├── __init__.py
-│   ├── models.py                    # Data models (ColumnEntity, ColumnLineage)
-│   ├── ast_walker.py               # Generic AST traversal utilities
-│   ├── expression_finder.py        # ExpressionParentFinder - finds columns in expressions
-│   ├── parent_finder.py            # ParentColumnFinder - tracks column parents through AST
-│   └── extractor.py                # ColumnLineageExtractor - main API
-└── examples/
-    └── extract_column_lineage.py  # Demo script (equivalent to ExtractColumnLevelLineage.java)
+src/zetasql_toolkit/
+├── __init__.py
+├── DESIGN.md                    # 이 문서
+└── lineage/
+    ├── __init__.py
+    ├── models.py                # Level 1: 데이터 모델
+    ├── ast_walker.py            # Level 2: AST 순회 유틸리티
+    ├── expression_finder.py     # Level 3: 표현식 부모 찾기
+    ├── parent_finder.py         # Level 4: 컬럼 부모 추적
+    └── extractor.py             # Level 5: 계보 추출기
 ```
 
-### Core Components
+---
 
-#### 1. Data Models (`models.py`)
+## 3. 구현 레벨
 
-**ColumnEntity**: Represents a table.column reference
-- `table: str` - Fully qualified table name
-- `name: str` - Column name (case-insensitive comparison)
-- `from_resolved_column()` - Factory method
+### Level 1: 데이터 모델 (`models.py`)
 
-**ColumnLineage**: Maps target column to source columns
-- `target: ColumnEntity` - The output column
-- `parents: Set[ColumnEntity]` - Source columns that contribute to target
+**목표**: 계보 정보를 표현하는 기본 데이터 구조
 
-#### 2. AST Walker (`ast_walker.py`)
-
-**Purpose**: Provides generic ResolvedAST traversal utilities
-
-**Key Challenge**: Python doesn't have Java's Visitor pattern with `accept()` methods.
-
-**Solution**: 
-- `functools.singledispatch` for type-based dispatch
-- Manual reflection-based tree walking
-
-**API**:
 ```python
-def walk_resolved_tree(node: ResolvedNode, visitor_fn: Callable) -> None:
-    """DFS traversal of ResolvedAST, calling visitor_fn for each node"""
-    
-@singledispatch
-def visit_resolved_node(node: ResolvedNode, finder) -> None:
-    """Extensible visitor using singledispatch"""
+@dataclass
+class ColumnEntity:
+    """테이블.컬럼 참조를 나타내는 엔티티"""
+    table: str
+    name: str
+
+@dataclass  
+class ColumnLineage:
+    """컬럼 간 계보 관계"""
+    target: ColumnEntity
+    parents: Set[ColumnEntity]
 ```
 
-#### 3. Expression Parent Finder (`expression_finder.py`)
+**테스트 기준**:
+- [ ] ColumnEntity 생성 및 동등성 비교
+- [ ] ColumnEntity.from_resolved_column() 팩토리 메서드
+- [ ] ColumnLineage 생성 및 해시 가능성
 
-**Purpose**: Finds all columns directly referenced in an expression
+---
 
-**Algorithm**:
-- Recursively traverse expression tree
-- Collect `ResolvedColumnRef` nodes
-- Handle special cases:
-  - Function calls (UPPER, CONCAT, etc.)
-  - CASE expressions (ignore conditions, only process THEN/ELSE)
-  - IF expressions (ignore condition)
-  - STRUCT operations (MakeStruct, GetStructField)
-  - Subqueries (SCALAR, ARRAY)
-  - Casts
+### Level 2: AST Walker (`ast_walker.py`)
 
-**API**:
+**목표**: ResolvedAST를 재귀적으로 순회하는 유틸리티
+
+Java의 `Visitor.accept()` 패턴을 대체합니다.
+
+```python
+def walk_resolved_tree(node: ResolvedNode, visitor_fn: Callable):
+    """ResolvedAST를 DFS로 순회"""
+    visitor_fn(node)
+    for child in get_child_nodes(node):
+        walk_resolved_tree(child, visitor_fn)
+
+def get_child_nodes(node: ResolvedNode) -> List[ResolvedNode]:
+    """노드의 자식 노드들을 반환"""
+    ...
+```
+
+**테스트 기준**:
+- [ ] 단순 SELECT 문 순회
+- [ ] 모든 노드 타입 방문 확인
+- [ ] 중첩 구조 (JOIN, 서브쿼리) 순회
+
+---
+
+### Level 3: ExpressionParentFinder (`expression_finder.py`)
+
+**목표**: 표현식 내에서 직접 참조되는 컬럼 찾기
+
+Java의 `ExpressionParentFinder` 클래스를 이식합니다.
+
 ```python
 class ExpressionParentFinder:
     @staticmethod
     def find_direct_parents(expr: ResolvedExpr) -> List[ResolvedColumn]:
-        """Returns all columns directly referenced in the expression"""
+        """표현식에서 직접 참조하는 컬럼들 반환"""
+        ...
 ```
 
-#### 4. Parent Column Finder (`parent_finder.py`)
+**처리할 표현식 타입**:
+- `ResolvedColumnRef` - 직접 컬럼 참조
+- `ResolvedFunctionCall` - 함수 호출 (UPPER, CONCAT 등)
+- `ResolvedCast` - 타입 캐스팅
+- `ResolvedMakeStruct` - STRUCT 생성
+- `ResolvedGetStructField` - STRUCT 필드 접근
+- `ResolvedSubqueryExpr` - 서브쿼리
 
-**Purpose**: Tracks column lineage through the entire AST
+**특수 함수 처리**:
+- `$case_no_value`, `$case_with_value` - CASE 문 (조건 제외)
+- `if` - IF 함수 (조건 제외)
+- `nullif` - 첫 번째 인자만
 
-**Algorithm** (2-pass):
+**테스트 기준**:
+- [ ] 단순 컬럼 참조: `col1`
+- [ ] 함수 호출: `UPPER(col1)`
+- [ ] 중첩 함수: `UPPER(CONCAT(col1, col2))`
+- [ ] CASE 문: `CASE WHEN x THEN col1 ELSE col2 END`
+- [ ] STRUCT 접근: `struct_col.field`
 
-**Pass 1 - Build Graph**:
-- Walk entire statement AST
-- Build `columns_to_parents: Dict[column_id, List[ResolvedColumn]]`
-- Track `terminal_columns: Set[column_id]` (from TableScan, TVFScan)
-- Handle WITH clause scoping
+---
 
-**Pass 2 - Resolve Terminal Parents**:
-- BFS from target column
-- Follow `columns_to_parents` edges
-- Stop at terminal columns
-- Return all terminal columns reached
+### Level 4: ParentColumnFinder (`parent_finder.py`)
 
-**Handles**:
-- `ResolvedComputedColumn` - Register computed columns
-- `ResolvedTableScan` - Mark as terminal
-- `ResolvedTVFScan` - Mark as terminal
-- `ResolvedWithScan` - Manage WITH scope
-- `ResolvedWithRefScan` - Map WITH references
-- `ResolvedProjectScan` - Process projections
-- `ResolvedJoinScan` - Handle joins
-- `ResolvedSetOperationScan` - UNION, etc.
-- `ResolvedFilterScan` - WHERE clauses
-- `ResolvedAggregateScan` - GROUP BY, aggregations
+**목표**: 컬럼의 최종 소스(terminal) 컬럼 추적
 
-**API**:
+Java의 `ParentColumnFinder` 클래스를 이식합니다.
+
 ```python
 class ParentColumnFinder:
     @staticmethod
@@ -117,455 +146,159 @@ class ParentColumnFinder:
         statement: ResolvedStatement,
         column: ResolvedColumn
     ) -> List[ResolvedColumn]:
-        """Find all terminal parent columns for a given column"""
-        
-    @staticmethod
-    def find_parents_for_expression(
-        statement: ResolvedStatement,
-        expr: ResolvedExpr
-    ) -> List[ResolvedColumn]:
-        """Find all terminal parent columns for columns in an expression"""
+        """컬럼의 terminal 부모들을 찾음"""
+        ...
 ```
 
-#### 5. Column Lineage Extractor (`extractor.py`)
+**알고리즘** (2-pass):
 
-**Purpose**: Main API for extracting lineage from statements
+1. **Pass 1 - 맵 구축**: AST 순회하며 컬럼 → 부모 매핑 생성
+2. **Pass 2 - BFS 해석**: 목표 컬럼부터 terminal까지 추적
 
-**Supported Statement Types**:
-1. `CREATE TABLE AS SELECT` (CTAS)
-2. `CREATE VIEW` / `CREATE MATERIALIZED VIEW`
-3. `SELECT` queries (with explicit output table)
-4. `INSERT INTO`
-5. `UPDATE`
-6. `MERGE`
+**처리할 노드 타입**:
+- `ResolvedComputedColumn` - 계산된 컬럼
+- `ResolvedTableScan` - 테이블 스캔 (terminal)
+- `ResolvedTVFScan` - TVF 스캔 (terminal)
+- `ResolvedWithScan` - WITH 절
+- `ResolvedWithRefScan` - WITH 참조
+- `ResolvedSetOperationScan` - UNION 등
+- `ResolvedArrayScan` - UNNEST
 
-**API**:
+**테스트 기준**:
+- [ ] 직접 컬럼 선택: `SELECT col FROM table`
+- [ ] 별칭: `SELECT col AS alias FROM table`
+- [ ] 표현식: `SELECT UPPER(col) FROM table`
+- [ ] JOIN: `SELECT a.col, b.col FROM a JOIN b`
+- [ ] WITH 절: `WITH cte AS (...) SELECT ... FROM cte`
+- [ ] 서브쿼리: `SELECT * FROM (SELECT col FROM table)`
+
+---
+
+### Level 5: ColumnLineageExtractor (`extractor.py`)
+
+**목표**: 최종 계보 추출 API
+
+Java의 `ColumnLineageExtractor` 클래스를 이식합니다.
+
 ```python
 class ColumnLineageExtractor:
     @staticmethod
     def extract_column_lineage(
-        stmt: Union[
-            ResolvedCreateTableAsSelectStmt,
-            ResolvedCreateViewBase,
-            ResolvedQueryStmt,
-            ResolvedInsertStmt,
-            ResolvedUpdateStmt,
-            ResolvedMergeStmt
-        ],
-        output_table: Optional[str] = None
+        stmt: ResolvedStatement
     ) -> Set[ColumnLineage]:
-        """Extract column-level lineage from resolved statement"""
+        """문장에서 컬럼 계보 추출"""
+        ...
 ```
 
-**Algorithm for Each Statement Type**:
+**지원 문장 타입**:
+- `ResolvedCreateTableAsSelectStmt`
+- `ResolvedCreateViewStmt` / `ResolvedCreateMaterializedViewStmt`
+- `ResolvedQueryStmt` (target_table 필요)
+- `ResolvedInsertStmt`
+- `ResolvedUpdateStmt`
+- `ResolvedMergeStmt`
 
-**CTAS/VIEW**:
-```
-1. Get target table name from name_path
-2. For each output_column:
-   a. Expand STRUCT columns (recursive)
-   b. Find parent columns using ParentColumnFinder
-   c. Create ColumnLineage(target, parents)
-```
+**테스트 기준**:
+- [ ] CTAS: `CREATE TABLE t AS SELECT ...`
+- [ ] INSERT: `INSERT INTO t SELECT ...`
+- [ ] UPDATE: `UPDATE t SET col = expr`
+- [ ] MERGE: `MERGE INTO t USING s ...`
 
-**INSERT**:
-```
-1. Match insert_column_list with query.output_column_list
-2. For each (insert_col, query_col) pair:
-   a. Find parents for query_col
-   b. Create ColumnLineage(insert_col, parents)
-```
+---
 
-**UPDATE**:
-```
-1. For each update_item in update_item_list:
-   a. Resolve target column
-   b. Find parents for set_value expression
-   c. Create ColumnLineage(target, parents)
-```
+## 4. 테스트 전략
 
-**MERGE**:
+### 4.1 레벨별 독립 테스트
+
+각 레벨은 하위 레벨의 구현 없이도 테스트 가능해야 합니다.
+
 ```
-1. For each when_clause:
-   a. If INSERT action:
-      - Match insert_column_list with insert_row values
-   b. If UPDATE action:
-      - Process like UPDATE statement
-   c. Collect all lineages
+tests/zetasql_toolkit/lineage/
+├── test_level1_models.py        # 데이터 모델만
+├── test_level2_ast_walker.py    # AST 순회만
+├── test_level3_expression.py    # 표현식 분석
+├── test_level4_parent.py        # 부모 추적
+└── test_level5_extractor.py     # 통합 테스트
 ```
 
-## Implementation Strategy
+### 4.2 점진적 완성도 확인
 
-### Phase 1: Foundation (Day 1-2)
-- ✅ Data models (`models.py`)
-- ✅ AST walker utilities (`ast_walker.py`)
-- ✅ Basic test structure
+```bash
+# Level 1만 완료
+pytest tests/zetasql_toolkit/lineage/test_level1_models.py
 
-**Milestone**: Can traverse AST and collect nodes
+# Level 1-2 완료
+pytest tests/zetasql_toolkit/lineage/test_level{1,2}*.py
 
-### Phase 2: Expression Analysis (Day 3-5)
-- ✅ `ExpressionParentFinder` implementation
-- ✅ Handle all expression types
-- ✅ Special function cases (CASE, IF, etc.)
+# 전체 완료
+pytest tests/zetasql_toolkit/lineage/
+```
 
-**Milestone**: Can extract columns from expressions like `UPPER(CONCAT(a, b))`
+### 4.3 테스트 카테고리
 
-### Phase 3: Column Tracking (Day 6-10)
-- ✅ `ParentColumnFinder` implementation
-- ✅ Graph building (Pass 1)
-- ✅ Terminal resolution (Pass 2)
-- ✅ WITH clause handling
+1. **단위 테스트**: 각 클래스/함수 독립 테스트
+2. **통합 테스트**: 전체 파이프라인 테스트
+3. **회귀 테스트**: Java 예제와 동일 결과 확인
 
-**Milestone**: Can track columns through joins, subqueries, WITH
+---
 
-### Phase 4: Statement Extraction (Day 11-14)
-- ✅ `ColumnLineageExtractor` for CTAS/VIEW
-- ✅ INSERT support
-- ✅ UPDATE support
-- ✅ MERGE support
-
-**Milestone**: Full parity with Java toolkit
-
-### Phase 5: Testing & Examples (Day 15-17)
-- ✅ Comprehensive test coverage
-- ✅ Demo script matching Java example
-- ✅ Documentation
-
-## Key Design Decisions
-
-### 1. Visitor Pattern Alternative
-
-**Challenge**: Python doesn't have Java's `accept(Visitor)` pattern built into ZetaSQL bindings.
-
-**Solution**: Use `functools.singledispatch`
-- Cleaner than if-elif chains
-- Extensible (can register new handlers)
-- Type-safe (mypy compatible)
+## 5. 사용 예시
 
 ```python
-@singledispatch
-def visit_resolved_node(node: ResolvedNode, finder):
-    pass  # Default no-op
-
-@visit_resolved_node.register(ResolvedComputedColumn)
-def _(node: ResolvedComputedColumn, finder: 'ParentColumnFinder'):
-    # Handle computed column
-    pass
-```
-
-**Pros**:
-- Clean separation of concerns
-- Easy to add new node types
-- Pattern matching feel
-
-**Cons**:
-- Slightly more verbose than Java
-- Runtime dispatch overhead (minor)
-
-### 2. Tree Traversal
-
-**Challenge**: No automatic child traversal like Java's `super.visit()`.
-
-**Solution**: Reflection-based walker
-```python
-def walk_resolved_tree(node: ResolvedNode, visitor_fn):
-    visitor_fn(node)
-    
-    # Traverse all ResolvedNode fields
-    for field_name in node._PROTO_FIELD_MAP.keys():
-        value = getattr(node, field_name)
-        if isinstance(value, ResolvedNode):
-            walk_resolved_tree(value, visitor_fn)
-        elif isinstance(value, list):
-            for item in value:
-                if isinstance(item, ResolvedNode):
-                    walk_resolved_tree(item, visitor_fn)
-```
-
-### 3. Column Identity
-
-**Java**: Uses column IDs throughout
-**Python**: Use column IDs as primary key, maintain name mappings
-
-Columns are identified by:
-- `column.column_id` (unique integer)
-- Maintain `column_id -> ResolvedColumn` mapping
-- Display using `table_name.name`
-
-### 4. STRUCT Handling
-
-**Challenge**: STRUCT columns need to be expanded into subfields
-
-**Solution**: Recursive expansion
-```python
-def _expand_column(column: ResolvedColumn) -> List[ResolvedColumn]:
-    if column.type.is_struct():
-        for field in column.type.as_struct().field_list:
-            yield subfield
-            yield from _expand_column(subfield)
-    else:
-        yield column
-```
-
-### 5. WITH Clause Scope
-
-**Challenge**: WITH creates new column IDs for each reference
-
-**Solution**: Stack-based scope tracking
-```python
-class ParentColumnFinder:
-    def __init__(self):
-        self.with_entry_scopes: List[List[ResolvedWithEntry]] = []
-    
-    def _visit_with_scan(self, node: ResolvedWithScan):
-        self.with_entry_scopes.append(node.with_entry_list)
-        # ... process ...
-        self.with_entry_scopes.pop()
-```
-
-## Testing Strategy
-
-### Test Structure
-
-```
-tests/
-└── zetasql_toolkit/
-    └── lineage/
-        ├── __init__.py
-        ├── test_models.py              # ColumnEntity, ColumnLineage
-        ├── test_ast_walker.py          # AST traversal
-        ├── test_expression_finder.py   # Expression parsing
-        ├── test_parent_finder.py       # Parent tracking
-        ├── test_extractor_basic.py     # Simple CTAS
-        ├── test_extractor_ctas.py      # Complex CTAS cases
-        ├── test_extractor_insert.py    # INSERT statements
-        ├── test_extractor_update.py    # UPDATE statements
-        ├── test_extractor_merge.py     # MERGE statements
-        └── test_complex_cases.py       # WITH, STRUCT, subqueries
-```
-
-### Incremental Test Cases
-
-**Level 1 - Basic (models, walker)**:
-- ✅ ColumnEntity equality and hashing
-- ✅ AST walker visits all nodes
-- ✅ Basic tree traversal
-
-**Level 2 - Expression Finder**:
-- ✅ Direct column reference: `SELECT col FROM table`
-- ✅ Function call: `SELECT UPPER(col) FROM table`
-- ✅ Nested functions: `SELECT UPPER(CONCAT(a, b)) FROM table`
-- ✅ CASE expression
-- ✅ STRUCT operations
-
-**Level 3 - Parent Finder**:
-- ✅ Simple projection: `SELECT a, b FROM table`
-- ✅ Column alias: `SELECT a AS x FROM table`
-- ✅ Computed column: `SELECT a + b AS sum FROM table`
-- ✅ JOIN: `SELECT t1.a, t2.b FROM t1 JOIN t2`
-- ✅ Subquery: `SELECT * FROM (SELECT a FROM t)`
-- ✅ WITH clause: `WITH cte AS (SELECT a FROM t) SELECT * FROM cte`
-
-**Level 4 - Extractor (CTAS)**:
-- ✅ Simple CTAS: `CREATE TABLE t AS SELECT a, b FROM src`
-- ✅ CTAS with expressions: `CREATE TABLE t AS SELECT UPPER(a) FROM src`
-- ✅ CTAS with JOIN
-- ✅ CTAS with WITH
-
-**Level 5 - INSERT**:
-- ✅ INSERT with column list
-- ✅ INSERT with SELECT
-- ✅ INSERT with expressions
-
-**Level 6 - UPDATE**:
-- ✅ Simple UPDATE
-- ✅ UPDATE with FROM
-- ✅ UPDATE with expressions
-
-**Level 7 - MERGE**:
-- ✅ MERGE with INSERT action
-- ✅ MERGE with UPDATE action
-- ✅ MERGE with multiple WHEN clauses
-
-**Level 8 - Complex Cases**:
-- ✅ STRUCT fields
-- ✅ ARRAY subqueries
-- ✅ Window functions
-- ✅ Aggregate functions
-- ✅ Multiple WITH clauses
-- ✅ Nested subqueries
-
-### Test Fixture
-
-```python
-@pytest.fixture
-def sample_catalog():
-    """Create a test catalog with sample tables"""
-    from zetasql.api.builders import CatalogBuilder, TableBuilder
-    from zetasql.types import TypeKind
-    
-    orders = (TableBuilder("orders")
-        .add_column("order_id", TypeKind.TYPE_INT64)
-        .add_column("customer_id", TypeKind.TYPE_INT64)
-        .add_column("amount", TypeKind.TYPE_DOUBLE)
-        .build())
-    
-    customers = (TableBuilder("customers")
-        .add_column("id", TypeKind.TYPE_INT64)
-        .add_column("name", TypeKind.TYPE_STRING)
-        .build())
-    
-    return (CatalogBuilder("test")
-        .add_table(orders)
-        .add_table(customers)
-        .build())
-```
-
-## API Completeness vs Java Toolkit
-
-| Feature | Java Toolkit | Python Port | Notes |
-|---------|--------------|-------------|-------|
-| **ColumnEntity** | ✅ | ✅ | Direct port |
-| **ColumnLineage** | ✅ | ✅ | Direct port |
-| **ExpressionParentFinder** | ✅ | ✅ | All expression types |
-| **ParentColumnFinder** | ✅ | ✅ | All scan types |
-| **ColumnLineageExtractor** | ✅ | ✅ | All statement types |
-| **CTAS support** | ✅ | ✅ | Full |
-| **VIEW support** | ✅ | ✅ | Full |
-| **INSERT support** | ✅ | ✅ | Full |
-| **UPDATE support** | ✅ | ✅ | Full |
-| **MERGE support** | ✅ | ✅ | Full |
-| **WITH clause** | ✅ | ✅ | Full |
-| **STRUCT expansion** | ✅ | ✅ | Full |
-| **Subqueries** | ✅ | ✅ | Full |
-| **Nested expressions** | ✅ | ✅ | UPPER(CONCAT(...)) |
-| **Window functions** | ✅ | ✅ | Full |
-| **Aggregate functions** | ✅ | ✅ | Full |
-
-**Coverage**: 100% feature parity with Java toolkit ✅
-
-## Performance Considerations
-
-### Expected Performance
-- **Java baseline**: 100%
-- **Python singledispatch**: ~90-95%
-- **Overall**: 80-90% of Java performance
-
-**Optimization opportunities**:
-1. Cache `isinstance()` checks
-2. Pre-build dispatch tables
-3. Use `__slots__` for frequent objects
-4. Profile and optimize hot paths
-5. Consider Cython for critical sections
-
-**Not a concern for typical use cases** - Most queries analyze in <100ms
-
-## Limitations & Future Work
-
-### Current Limitations
-None! All Java toolkit features are supported.
-
-### Future Enhancements
-1. **BigQuery Catalog Auto-fetch**: Automatically fetch schemas from BigQuery API
-2. **Visualization**: Generate lineage graphs (GraphViz, Mermaid)
-3. **CLI Tool**: Command-line interface for lineage extraction
-4. **Performance Profiling**: Benchmark against Java toolkit
-5. **Incremental Analysis**: Cache and reuse AST analysis
-6. **Column-Level Impact Analysis**: Which columns are affected by a change?
-7. **Data Quality Tracking**: Track transformations for data quality
-
-## Usage Examples
-
-### Basic CTAS
-```python
-from zetasql.api import Analyzer, AnalyzerOptions
+from zetasql.api import Analyzer
 from zetasql.api.builders import CatalogBuilder, TableBuilder
 from zetasql.types import TypeKind
 from zetasql_toolkit.lineage import ColumnLineageExtractor
 
-# Build catalog
-src_table = (TableBuilder("source")
-    .add_column("id", TypeKind.TYPE_INT64)
-    .add_column("name", TypeKind.TYPE_STRING)
+# 1. 카탈로그 구축
+wiki = (TableBuilder("wikipedia")
+    .add_column("title", TypeKind.TYPE_STRING)
+    .add_column("comment", TypeKind.TYPE_STRING)
     .build())
 
-catalog = CatalogBuilder("demo").add_table(src_table).build()
+catalog = CatalogBuilder("demo").add_table(wiki).build()
 
-# Analyze SQL
-sql = "CREATE TABLE target AS SELECT id, UPPER(name) as name FROM source"
-options = AnalyzerOptions()
-analyzer = Analyzer(options, catalog)
+# 2. SQL 분석
+sql = """
+CREATE TABLE target AS
+SELECT 
+    UPPER(CONCAT(title, comment)) AS full_text
+FROM wikipedia
+"""
+
+analyzer = Analyzer(catalog=catalog)
 stmt = analyzer.analyze_statement(sql)
 
-# Extract lineage
+# 3. 계보 추출
 lineages = ColumnLineageExtractor.extract_column_lineage(stmt)
 
+# 4. 결과 출력
 for lineage in lineages:
     print(f"{lineage.target.table}.{lineage.target.name}")
     for parent in lineage.parents:
         print(f"  <- {parent.table}.{parent.name}")
-```
 
-Output:
-```
-target.id
-  <- source.id
-target.name
-  <- source.name
-```
-
-### Complex Example (Java parity)
-```python
-# Matches ExtractColumnLevelLineage.java example
-sql = """
-CREATE TABLE target AS
-SELECT
-    concatted AS column_alias
-FROM (
-    SELECT 
-        UPPER(CONCAT(title, comment)) AS concatted
-    FROM wikipedia
-)
-GROUP BY 1
-"""
-
-lineages = ColumnLineageExtractor.extract_column_lineage(
-    analyzer.analyze_statement(sql)
-)
-
-# Output:
-# target.column_alias
+# 출력:
+# target.full_text
 #   <- wikipedia.title
 #   <- wikipedia.comment
 ```
 
-## Comparison to Java Implementation
+---
 
-### Code Structure
+## 6. 참고 자료
 
-| Aspect | Java | Python |
-|--------|------|--------|
-| **Lines of Code** | ~958 | ~1035 (+8%) |
-| **Visitor Pattern** | Built-in | singledispatch |
-| **Type Safety** | Compile-time | mypy (static) |
-| **Tree Traversal** | Automatic | Manual walker |
-| **Null Handling** | Optional<T> | Optional[T] |
+- **Java 원본**: `.external/zetasql-toolkit/zetasql-toolkit-core/src/main/java/com/google/zetasql/toolkit/tools/lineage/`
+- **zetasql-py API**: `src/zetasql/api/`
+- **Proto 모델**: `src/zetasql/core/types/proto_models.py`
 
-### Advantages of Python Version
-- ✅ More concise data models (dataclasses)
-- ✅ Better readability (less boilerplate)
-- ✅ Easier testing (pytest, fixtures)
-- ✅ Type hints integrated
-- ✅ Simpler field access (no getters)
+---
 
-### Advantages of Java Version
-- ✅ Faster execution (~10-20%)
-- ✅ Built-in visitor pattern
-- ✅ Compile-time type checking
-- ✅ Better IDE support (historically)
+## 7. 구현 진행 상황
 
-## References
-
-- **Java Toolkit Source**: `.external/zetasql-toolkit/zetasql-toolkit-core/src/main/java/com/google/zetasql/toolkit/tools/lineage/`
-- **ZetaSQL Python API**: `src/zetasql/`
-- **Example Usage**: `src/zetasql_toolkit/examples/extract_column_lineage.py`
+- [ ] Level 1: 데이터 모델
+- [ ] Level 2: AST Walker
+- [ ] Level 3: ExpressionParentFinder
+- [ ] Level 4: ParentColumnFinder
+- [ ] Level 5: ColumnLineageExtractor
+- [ ] 데모 예제
