@@ -2,8 +2,7 @@
 
 import pytest
 
-from zetasql.api import create_table_content
-from zetasql.api.builders import CatalogBuilder, TableBuilder
+from zetasql.api import CatalogBuilder, TableBuilder, create_table_content
 from zetasql.api.prepared_query import PreparedQuery, PreparedQueryBuilder
 from zetasql.core.exceptions import IllegalStateError, InvalidArgumentError
 from zetasql.core.local_service import ZetaSqlLocalService

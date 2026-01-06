@@ -7,7 +7,7 @@ These tests define the expected API for future implementation.
 
 import pytest
 
-from zetasql.api.builders import CatalogBuilder
+from zetasql.api import CatalogBuilder
 from zetasql.types import TypeKind
 
 
@@ -22,7 +22,7 @@ class TestCatalogConstantAdd:
             catalog.addConstant(constant);
 
         Expected Python API:
-            from zetasql.api.builders import ConstantBuilder
+            from zetasql.api import ConstantBuilder
 
             constant = (ConstantBuilder("MAX_LIMIT")
                 .set_type(TypeKind.TYPE_INT64)
@@ -33,7 +33,7 @@ class TestCatalogConstantAdd:
         Note: Constants in ZetaSQL don't typically store values in catalog,
         just names and types. Values are resolved during analysis.
         """
-        from zetasql.api.builders import ConstantBuilder
+        from zetasql.api import ConstantBuilder
 
         constant = ConstantBuilder("MAX_LIMIT").set_type(TypeKind.TYPE_INT64).build()
 
@@ -46,7 +46,7 @@ class TestCatalogConstantAdd:
 
     def test_add_string_constant(self):
         """Test adding STRING constant."""
-        from zetasql.api.builders import ConstantBuilder
+        from zetasql.api import ConstantBuilder
 
         constant = ConstantBuilder("DEFAULT_STATUS").set_type(TypeKind.TYPE_STRING).build()
 
@@ -58,7 +58,7 @@ class TestCatalogConstantAdd:
 
     def test_add_multiple_constants(self):
         """Test adding multiple constants to catalog."""
-        from zetasql.api.builders import ConstantBuilder
+        from zetasql.api import ConstantBuilder
 
         const1 = ConstantBuilder("MAX_RETRIES").set_type(TypeKind.TYPE_INT64).build()
         const2 = ConstantBuilder("TIMEOUT_MS").set_type(TypeKind.TYPE_INT64).build()
@@ -94,7 +94,7 @@ class TestCatalogConstantRetrieval:
         Expected API:
             Constant SimpleCatalog.getConstant(String name)
         """
-        from zetasql.api.builders import ConstantBuilder
+        from zetasql.api import ConstantBuilder
 
         catalog = CatalogBuilder("db").build()
         const = ConstantBuilder("MY_CONST").set_type(TypeKind.TYPE_INT64).build()
@@ -111,7 +111,7 @@ class TestCatalogConstantRetrieval:
 
         Java behavior: case-insensitive lookup
         """
-        from zetasql.api.builders import ConstantBuilder
+        from zetasql.api import ConstantBuilder
 
         catalog = CatalogBuilder("db").build()
         const = ConstantBuilder("MyConstant").set_type(TypeKind.TYPE_INT64).build()
@@ -137,8 +137,7 @@ class TestConstantUsageInAnalysis:
 
         The constant MAX_LIMIT should be added to catalog during script analysis.
         """
-        from zetasql.api.analyzer import Analyzer
-        from zetasql.api.builders import ConstantBuilder
+        from zetasql.api import Analyzer, ConstantBuilder
         from zetasql.types import AnalyzerOptions, LanguageOptions
 
         # Build catalog with constant
@@ -162,7 +161,7 @@ class TestCatalogConstantErrors:
 
     def test_add_duplicate_constant_raises_error(self):
         """Test adding duplicate constant raises error."""
-        from zetasql.api.builders import ConstantBuilder
+        from zetasql.api import ConstantBuilder
 
         catalog = CatalogBuilder("db").build()
 

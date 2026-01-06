@@ -56,7 +56,7 @@ class SimpleCatalog(_GeneratedSimpleCatalog):
             ValueError: If function with same name already exists (case-insensitive)
 
         Examples:
-            >>> from zetasql.api.builders import FunctionBuilder, SignatureBuilder
+            >>> from zetasql.api import FunctionBuilder, SignatureBuilder
             >>> func = FunctionBuilder("MY_UDF").add_signature(...).build()
             >>> catalog.add_function(func)
         """
@@ -139,7 +139,7 @@ class SimpleCatalog(_GeneratedSimpleCatalog):
             ValueError: If TVF with same name already exists (case-insensitive)
 
         Examples:
-            >>> from zetasql.api.builders import TVFBuilder
+            >>> from zetasql.api import TVFBuilder
             >>> tvf = TVFBuilder("my_tvf").add_argument(...).build()
             >>> catalog.add_table_valued_function(tvf)
         """
@@ -203,7 +203,7 @@ class SimpleCatalog(_GeneratedSimpleCatalog):
             ValueError: If constant with same name already exists (case-insensitive)
 
         Examples:
-            >>> from zetasql.api.builders import ConstantBuilder
+            >>> from zetasql.api import ConstantBuilder
             >>> const = ConstantBuilder("MAX_LIMIT").set_type(...).build()
             >>> catalog.add_constant(const)
         """

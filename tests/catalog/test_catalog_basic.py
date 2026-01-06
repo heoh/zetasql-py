@@ -5,7 +5,7 @@ Tests for SimpleCatalog basic operations like name, structure,
 and table list access.
 """
 
-from zetasql.api.builders import CatalogBuilder, TableBuilder
+from zetasql.api import CatalogBuilder, TableBuilder
 from zetasql.types import (
     LanguageOptions,
     TypeKind,

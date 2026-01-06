@@ -6,8 +6,7 @@ Tests complete end-to-end scenarios for SQL analysis.
 
 import pytest
 
-from zetasql.api import Analyzer, TypeFactory
-from zetasql.api.builders import CatalogBuilder, TableBuilder
+from zetasql.api import Analyzer, CatalogBuilder, TableBuilder, TypeFactory
 from zetasql.types import ResolvedQueryStmt, TypeKind
 
 

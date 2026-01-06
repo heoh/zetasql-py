@@ -7,7 +7,7 @@ Tests for the high-level local service wrapper using ProtoModel API.
 import pytest
 
 import zetasql.types as proto_models
-from zetasql.api.builders import CatalogBuilder, TableBuilder
+from zetasql.api import CatalogBuilder, TableBuilder
 from zetasql.core.local_service import ZetaSqlLocalService
 from zetasql.types import LanguageFeature, NameResolutionMode, ProductMode, TypeKind
 

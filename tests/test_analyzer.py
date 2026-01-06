@@ -7,8 +7,7 @@ following Java ZetaSQL API patterns.
 
 import pytest
 
-from zetasql.api.analyzer import Analyzer
-from zetasql.api.builders import CatalogBuilder, TableBuilder
+from zetasql.api import Analyzer, CatalogBuilder, TableBuilder
 from zetasql.core.exceptions import ZetaSQLError
 from zetasql.core.local_service import ZetaSqlLocalService
 from zetasql.types import (

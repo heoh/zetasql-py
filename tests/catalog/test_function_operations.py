@@ -7,7 +7,7 @@ These tests define the expected API for future implementation.
 
 import pytest
 
-from zetasql.api.builders import CatalogBuilder
+from zetasql.api import CatalogBuilder
 from zetasql.types import TypeKind
 
 
@@ -22,7 +22,7 @@ class TestCatalogFunctionAdd:
             catalog.addFunction(func);
 
         Expected Python API:
-            from zetasql.api.builders import FunctionBuilder, SignatureBuilder
+            from zetasql.api import FunctionBuilder, SignatureBuilder
 
             function = (FunctionBuilder("MY_UDF")
                 .set_group("UDF")
@@ -36,7 +36,7 @@ class TestCatalogFunctionAdd:
 
             catalog.add_function(function)
         """
-        from zetasql.api.builders import FunctionBuilder, SignatureBuilder
+        from zetasql.api import FunctionBuilder, SignatureBuilder
 
         function = (
             FunctionBuilder("MY_UDF")
@@ -58,7 +58,7 @@ class TestCatalogFunctionAdd:
 
         Expected: function with multiple signatures (overloads)
         """
-        from zetasql.api.builders import FunctionBuilder, SignatureBuilder
+        from zetasql.api import FunctionBuilder, SignatureBuilder
 
         function = (
             FunctionBuilder("CONVERT")
@@ -100,7 +100,7 @@ class TestCatalogFunctionRetrieval:
         Expected API (Java):
             Function SimpleCatalog.getFunctionByFullName(String name)
         """
-        from zetasql.api.builders import FunctionBuilder, SignatureBuilder
+        from zetasql.api import FunctionBuilder, SignatureBuilder
 
         function = (
             FunctionBuilder("MY_UDF")
@@ -149,7 +149,7 @@ class TestFunctionSignatureBuilder:
 
     def test_signature_with_required_args(self):
         """Test building signature with required arguments."""
-        from zetasql.api.builders import SignatureBuilder
+        from zetasql.api import SignatureBuilder
         from zetasql.types import FunctionEnums
 
         sig = (
@@ -165,7 +165,7 @@ class TestFunctionSignatureBuilder:
 
     def test_signature_with_optional_args(self):
         """Test building signature with optional arguments."""
-        from zetasql.api.builders import SignatureBuilder
+        from zetasql.api import SignatureBuilder
         from zetasql.types import FunctionEnums
 
         sig = (
@@ -180,7 +180,7 @@ class TestFunctionSignatureBuilder:
 
     def test_signature_with_repeated_args(self):
         """Test building signature with repeated (variadic) arguments."""
-        from zetasql.api.builders import SignatureBuilder
+        from zetasql.api import SignatureBuilder
         from zetasql.types import FunctionEnums
 
         # Function like CONCAT(str1, str2, ...) - variadic
@@ -202,7 +202,7 @@ class TestCatalogFunctionErrors:
 
         Java behavior: throws IllegalArgumentException
         """
-        from zetasql.api.builders import FunctionBuilder
+        from zetasql.api import FunctionBuilder
 
         catalog = CatalogBuilder("db").build()
 

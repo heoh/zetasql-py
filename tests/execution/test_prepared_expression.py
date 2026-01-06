@@ -7,7 +7,7 @@ functionality for evaluating SQL expressions with parameters.
 
 import pytest
 
-from zetasql.api.builders import CatalogBuilder, TableBuilder
+from zetasql.api import CatalogBuilder, TableBuilder
 from zetasql.api.value import Value
 from zetasql.types import (
     TypeKind,

@@ -2,7 +2,7 @@
 
 import pytest
 
-from zetasql.api.builders import CatalogBuilder, TableBuilder
+from zetasql.api import CatalogBuilder, TableBuilder
 from zetasql.types import (
     TypeKind,
 )

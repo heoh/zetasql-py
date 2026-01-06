@@ -7,8 +7,7 @@ with multiple statements.
 
 import pytest
 
-from zetasql.api.analyzer import Analyzer, StatementType, get_statement_type
-from zetasql.api.builders import CatalogBuilder, TableBuilder
+from zetasql.api import Analyzer, CatalogBuilder, StatementType, TableBuilder, get_statement_type
 from zetasql.types import (
     ParseResumeLocation,
     ResolvedNodeKind,

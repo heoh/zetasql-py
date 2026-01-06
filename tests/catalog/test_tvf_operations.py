@@ -7,7 +7,7 @@ These tests define the expected API for future implementation.
 
 import pytest
 
-from zetasql.api.builders import CatalogBuilder
+from zetasql.api import CatalogBuilder
 from zetasql.types import TypeKind
 
 
@@ -22,7 +22,7 @@ class TestCatalogTVFAdd:
             catalog.addTableValuedFunction(tvf);
 
         Expected Python API:
-            from zetasql.api.builders import TVFBuilder
+            from zetasql.api import TVFBuilder
 
             tvf = (TVFBuilder("my_tvf")
                 .add_argument("input_col", TypeKind.TYPE_INT64)
@@ -34,7 +34,7 @@ class TestCatalogTVFAdd:
 
             catalog.add_table_valued_function(tvf)
         """
-        from zetasql.api.builders import TVFBuilder
+        from zetasql.api import TVFBuilder
 
         tvf = (
             TVFBuilder("my_tvf")
@@ -59,7 +59,7 @@ class TestCatalogTVFAdd:
 
         TVF like: SELECT * FROM my_tvf(TABLE Orders)
         """
-        from zetasql.api.builders import TVFBuilder
+        from zetasql.api import TVFBuilder
 
         tvf = (
             TVFBuilder("filter_table")
@@ -76,7 +76,7 @@ class TestCatalogTVFAdd:
 
     def test_add_tvf_with_named_output_columns(self):
         """Test TVF with explicitly named output columns."""
-        from zetasql.api.builders import TVFBuilder
+        from zetasql.api import TVFBuilder
 
         tvf = (
             TVFBuilder("generate_series")
@@ -121,7 +121,7 @@ class TestCatalogTVFRetrieval:
         Expected API (Java):
             TableValuedFunction SimpleCatalog.getTvfByFullName(String name)
         """
-        from zetasql.api.builders import TVFBuilder
+        from zetasql.api import TVFBuilder
 
         tvf = (
             TVFBuilder("my_tvf")
@@ -153,7 +153,7 @@ class TestTVFSignatureTypes:
         Java: ForwardInputSchemaToOutputSchemaTVF
         Use case: Filtering TVF that returns same columns as input table
         """
-        from zetasql.api.builders import TVFBuilder
+        from zetasql.api import TVFBuilder
 
         tvf = (
             TVFBuilder("passthrough_filter")
@@ -172,7 +172,7 @@ class TestTVFSignatureTypes:
         Java: ForwardInputSchemaToOutputSchemaWithAppendedColumnTVF
         Use case: Enrichment TVF that adds columns to input
         """
-        from zetasql.api.builders import TVFBuilder
+        from zetasql.api import TVFBuilder
 
         tvf = (
             TVFBuilder("enrich_table")
@@ -192,7 +192,7 @@ class TestCatalogTVFErrors:
 
     def test_add_duplicate_tvf_raises_error(self):
         """Test adding duplicate TVF raises error."""
-        from zetasql.api.builders import TVFBuilder
+        from zetasql.api import TVFBuilder
 
         catalog = CatalogBuilder("db").build()
 
