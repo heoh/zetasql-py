@@ -1,113 +1,150 @@
-# ZetaSQL
+# ZetaSQL Python
 
-Python port of Google's ZetaSQL - SQL analysis and parsing library.
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-## About
+Python port of Google's [ZetaSQL](https://github.com/google/zetasql) - a powerful SQL analysis and parsing library.
 
-This is a Python implementation of [ZetaSQL](https://github.com/google/zetasql), Google's SQL analyzer and parser. ZetaSQL provides SQL analysis capabilities including parsing, name resolution, type checking, and more.
+## Overview
 
-This Python port aims to bring ZetaSQL's powerful SQL analysis features to the Python ecosystem.
+ZetaSQL Python brings Google's SQL analyzer to the Python ecosystem, providing:
+
+- **SQL Analysis**: Parse and analyze SQL statements with full type checking
+- **Name Resolution**: Resolve table and column references against catalogs
+- **Query Building**: Construct and manipulate SQL AST programmatically
+- **Expression Evaluation**: Execute queries and expressions with parameter binding
+- **Java-like API**: Familiar builder patterns and fluent interfaces
 
 ## Installation
-
-Install via pip:
 
 ```bash
 pip install zetasql
 ```
 
-## Requirements
-
-- Python 3.9 or higher
-- wasmtime
+**Requirements:** Python 3.10+
 
 ## Quick Start
 
 ```python
-import zetasql
+from zetasql.api import Analyzer, CatalogBuilder, TableBuilder
+from zetasql.types import AnalyzerOptions, TypeKind
 
-# (Example usage will be added)
+# Create a catalog with a table
+table = (
+    TableBuilder("users")
+    .add_column("id", TypeKind.TYPE_INT64)
+    .add_column("name", TypeKind.TYPE_STRING)
+    .add_column("email", TypeKind.TYPE_STRING)
+    .build()
+)
+
+catalog = CatalogBuilder("mydb").add_table(table).build()
+
+# Analyze SQL
+options = AnalyzerOptions()
+analyzer = Analyzer(options, catalog)
+stmt = analyzer.analyze_statement("SELECT name, email FROM users WHERE id > 100")
+
+print(f"Analyzed {len(stmt.output_column_list)} output columns")
+# Output: Analyzed 2 output columns
 ```
 
-## Features
+## Key Features
 
-### ResolvedAST Wrapper Classes
-
-ZetaSQL proto messages use parent field chains for inheritance. This library provides convenient Python wrapper classes with real inheritance for better IDE support and cleaner code.
-
-**Problem:** Proto messages have deep parent chains
+### 🔍 **SQL Analysis**
+Analyze SQL statements and expressions with full semantic understanding:
 ```python
-# Proto way - cumbersome parent chain access
-literal_proto = resolved_ast_pb2.ResolvedLiteralProto()
-type_kind = literal_proto.parent.type.type_kind  # 😞 Deep nesting
-parse_loc = literal_proto.parent.parent.parse_location_range  # 😞 Even deeper
+from zetasql.api import Analyzer
+
+stmt = analyzer.analyze_statement("SELECT * FROM users")
+expr = analyzer.analyze_expression("price * quantity")
 ```
 
-**Solution:** Python wrappers with real inheritance
+### 🏗️ **Builder Pattern APIs**
+Fluent interfaces for constructing catalogs, tables, and functions:
 ```python
-from zetasql.types import ResolvedLiteral  # Import directly from zetasql.types
+from zetasql.api import CatalogBuilder, TableBuilder
 
-# Wrapper way - clean and IDE-friendly
-literal = ResolvedLiteral(literal_proto)
-type_kind = literal.type.type_kind  # ✨ Direct access
-parse_loc = literal.parse_location_range  # ✨ Inherited properties work!
+catalog = (
+    CatalogBuilder("shop")
+    .add_table(orders_table)
+    .add_table(products_table)
+    .with_builtin_functions(builtin_opts)
+    .build()
+)
 ```
 
-**Type checking works too:**
+### ⚡ **Query Execution**
+Execute queries with parameter binding and table data:
 ```python
-isinstance(literal, ResolvedLiteral)  # True
-isinstance(literal, ResolvedExpr)     # True - real inheritance!
-isinstance(literal, ResolvedNode)     # True
+from zetasql.api import PreparedQuery, create_table_content
+
+data = create_table_content([[1, "Alice"], [2, "Bob"]])
+query = PreparedQuery("SELECT * FROM users WHERE id = @user_id", options, catalog)
+result = query.execute(parameters={"user_id": 1}, table_content={"users": data})
 ```
 
-**IDE Autocompletion:** All properties have proper type hints, so your IDE can autocomplete fields from parent classes.
+### 🎯 **Type-Safe Values**
+Create and manipulate typed SQL values:
+```python
+from zetasql.api import Value
 
-### Regenerating Wrappers
-
-After proto file changes, regenerate the wrapper classes:
-
-```bash
-python scripts/generate_wrappers.py
+int_val = Value.int64(42)
+str_val = Value.string("hello")
+array_val = Value.array([Value.int64(1), Value.int64(2)])
 ```
 
-This will scan all `_pb2.py` files and generate wrapper classes with proper inheritance chains based on proto parent fields.
+### 📦 **ProtoModel System**
+Pythonic wrappers around protobuf messages with real inheritance:
+```python
+from zetasql.types import ResolvedLiteral
+
+literal = ResolvedLiteral(...)
+type_kind = literal.type.type_kind  # Direct access, no parent chain
+isinstance(literal, ResolvedExpr)   # True - real inheritance!
+```
+
+## Documentation
+
+- **[Getting Started Guide](docs/GETTING_STARTED.md)** - Detailed tutorials and examples
+- **[API Reference](docs/API_REFERENCE.md)** - Complete API documentation
+- **[Examples](docs/EXAMPLES.md)** - Real-world usage patterns
+- **[Architecture](docs/ARCHITECTURE.md)** - Project structure and design
 
 ## Development
-
-### Setup Development Environment
 
 ```bash
 # Clone the repository
 git clone https://github.com/heoh/zetasql-py.git
 cd zetasql-py
 
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
 # Install in development mode
 pip install -e ".[dev]"
-```
 
-### Running Tests
-
-```bash
+# Run tests
 pytest
+
+# Run linter
+ruff check src/ tests/
 ```
 
-### Building the Package
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed contribution guidelines.
 
-```bash
-python -m build
-```
+## Project Status
 
-## Contributing
-
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+This project is in **alpha** stage. The API is functional but may change as we refine the design. Feedback and contributions are welcome!
 
 ## License
 
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+Apache License 2.0 - see [LICENSE](LICENSE) file for details.
 
-This is a Python port of Google's ZetaSQL, which is also licensed under Apache 2.0.
+This is an unofficial Python port of Google's ZetaSQL (also Apache 2.0 licensed) and is not affiliated with Google.
 
 ## Acknowledgments
 
-- Original ZetaSQL project: https://github.com/google/zetasql
-- This is an unofficial Python port and is not affiliated with Google
+- Original [ZetaSQL project](https://github.com/google/zetasql) by Google
+- Inspired by the Java ZetaSQL API design
