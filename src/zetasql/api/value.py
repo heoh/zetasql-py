@@ -51,32 +51,27 @@ class Value:
         Returns:
             TypeKind enum value
         """
-        # If this is a null value, use stored type_kind
         if self._type_kind is not None:
             return self._type_kind
 
-        # Infer type from which value field is set
-        if self._proto.int64_value is not None:
-            return TypeKind.TYPE_INT64
-        if self._proto.string_value is not None:
-            return TypeKind.TYPE_STRING
-        if self._proto.bool_value is not None:
-            return TypeKind.TYPE_BOOL
-        if self._proto.double_value is not None:
-            return TypeKind.TYPE_DOUBLE
-        if self._proto.int32_value is not None:
-            return TypeKind.TYPE_INT32
-        if self._proto.float_value is not None:
-            return TypeKind.TYPE_FLOAT
-        if self._proto.date_value is not None:
-            return TypeKind.TYPE_DATE
-        if self._proto.timestamp_value is not None:
-            return TypeKind.TYPE_TIMESTAMP
-        if self._proto.array_value is not None:
-            return TypeKind.TYPE_ARRAY
-        if self._proto.struct_value is not None:
-            return TypeKind.TYPE_STRUCT
-        # Add more type checks as needed
+        # Map proto field names to TypeKind values
+        field_to_type = {
+            "int64_value": TypeKind.TYPE_INT64,
+            "string_value": TypeKind.TYPE_STRING,
+            "bool_value": TypeKind.TYPE_BOOL,
+            "double_value": TypeKind.TYPE_DOUBLE,
+            "int32_value": TypeKind.TYPE_INT32,
+            "float_value": TypeKind.TYPE_FLOAT,
+            "date_value": TypeKind.TYPE_DATE,
+            "timestamp_value": TypeKind.TYPE_TIMESTAMP,
+            "array_value": TypeKind.TYPE_ARRAY,
+            "struct_value": TypeKind.TYPE_STRUCT,
+        }
+
+        for field_name, type_kind in field_to_type.items():
+            if getattr(self._proto, field_name) is not None:
+                return type_kind
+
         return TypeKind.TYPE_UNKNOWN
 
     def is_null(self) -> bool:
@@ -710,65 +705,46 @@ class Value:
             >>> s.get_string() == "42"
         """
         if self.type_kind == target_type:
-            # Already the target type
             return self
 
         if self.is_null():
-            # NULL values can be coerced to any type
             return Value.null(target_type)
 
-        # INT64 coercions
-        if self.type_kind == TypeKind.TYPE_INT64:
-            if target_type == TypeKind.TYPE_STRING:
-                return Value.string(str(self.get_int64()))
-            if target_type == TypeKind.TYPE_DOUBLE:
-                return Value.double(float(self.get_int64()))
-            if target_type == TypeKind.TYPE_FLOAT:
-                return Value.float_value(float(self.get_int64()))
+        # Define coercion rules as nested dict: source_type -> target_type -> converter
+        coercion_rules = {
+            TypeKind.TYPE_INT64: {
+                TypeKind.TYPE_STRING: lambda: Value.string(str(self.get_int64())),
+                TypeKind.TYPE_DOUBLE: lambda: Value.double(float(self.get_int64())),
+                TypeKind.TYPE_FLOAT: lambda: Value.float_value(float(self.get_int64())),
+            },
+            TypeKind.TYPE_INT32: {
+                TypeKind.TYPE_INT64: lambda: Value.int64(self.get_int32()),
+                TypeKind.TYPE_STRING: lambda: Value.string(str(self.get_int32())),
+                TypeKind.TYPE_DOUBLE: lambda: Value.double(float(self.get_int32())),
+                TypeKind.TYPE_FLOAT: lambda: Value.float_value(float(self.get_int32())),
+            },
+            TypeKind.TYPE_DOUBLE: {
+                TypeKind.TYPE_STRING: lambda: Value.string(str(self.get_double())),
+            },
+            TypeKind.TYPE_FLOAT: {
+                TypeKind.TYPE_DOUBLE: lambda: Value.double(self.get_float()),
+                TypeKind.TYPE_STRING: lambda: Value.string(str(self.get_float())),
+            },
+            TypeKind.TYPE_BOOL: {
+                TypeKind.TYPE_STRING: lambda: Value.string("true" if self.get_bool() else "false"),
+                TypeKind.TYPE_INT64: lambda: Value.int64(1 if self.get_bool() else 0),
+            },
+            TypeKind.TYPE_DATE: {
+                TypeKind.TYPE_STRING: lambda: Value.string(self.get_date().isoformat()),
+            },
+            TypeKind.TYPE_TIMESTAMP: {
+                TypeKind.TYPE_STRING: lambda: Value.string(self.get_timestamp().isoformat()),
+            },
+        }
 
-        # INT32 coercions
-        elif self.type_kind == TypeKind.TYPE_INT32:
-            if target_type == TypeKind.TYPE_INT64:
-                return Value.int64(self.get_int32())
-            if target_type == TypeKind.TYPE_STRING:
-                return Value.string(str(self.get_int32()))
-            if target_type == TypeKind.TYPE_DOUBLE:
-                return Value.double(float(self.get_int32()))
-            if target_type == TypeKind.TYPE_FLOAT:
-                return Value.float_value(float(self.get_int32()))
-
-        # DOUBLE coercions
-        elif self.type_kind == TypeKind.TYPE_DOUBLE:
-            if target_type == TypeKind.TYPE_STRING:
-                return Value.string(str(self.get_double()))
-
-        # FLOAT coercions
-        elif self.type_kind == TypeKind.TYPE_FLOAT:
-            if target_type == TypeKind.TYPE_DOUBLE:
-                return Value.double(self.get_float())
-            if target_type == TypeKind.TYPE_STRING:
-                return Value.string(str(self.get_float()))
-
-        # BOOL coercions
-        elif self.type_kind == TypeKind.TYPE_BOOL:
-            if target_type == TypeKind.TYPE_STRING:
-                return Value.string("true" if self.get_bool() else "false")
-            if target_type == TypeKind.TYPE_INT64:
-                return Value.int64(1 if self.get_bool() else 0)
-
-        # STRING coercions (limited)
-        elif self.type_kind == TypeKind.TYPE_STRING:
-            # String can be coerced to STRING (no-op)
-            pass
-
-        # DATE coercions
-        elif self.type_kind == TypeKind.TYPE_DATE:
-            if target_type == TypeKind.TYPE_STRING:
-                return Value.string(self.get_date().isoformat())
-
-        # TIMESTAMP coercions
-        elif self.type_kind == TypeKind.TYPE_TIMESTAMP and target_type == TypeKind.TYPE_STRING:
-            return Value.string(self.get_timestamp().isoformat())
+        converter = coercion_rules.get(self.type_kind, {}).get(target_type)
+        if converter:
+            return converter()
 
         raise ValueError(f"Cannot coerce {self.type_kind} to {target_type}")
 
@@ -800,55 +776,74 @@ class Value:
 
         # STRING casts (parse from string)
         if self.type_kind == TypeKind.TYPE_STRING:
-            s = self.get_string()
-            try:
-                if target_type == TypeKind.TYPE_INT64:
-                    return Value.int64(int(s))
-                if target_type == TypeKind.TYPE_INT32:
-                    return Value.int32(int(s))
-                if target_type == TypeKind.TYPE_DOUBLE:
-                    return Value.double(float(s))
-                if target_type == TypeKind.TYPE_FLOAT:
-                    return Value.float_value(float(s))
-                if target_type == TypeKind.TYPE_BOOL:
-                    # Parse boolean strings
-                    if s.lower() in ("true", "t", "1", "yes"):
-                        return Value.bool(True)
-                    if s.lower() in ("false", "f", "0", "no"):
-                        return Value.bool(False)
-                    raise ValueError(f"Cannot parse '{s}' as BOOL")
-            except (ValueError, OverflowError) as e:
-                raise ValueError(f"Cannot cast STRING '{s}' to {target_type}: {e}") from e
+            return self._cast_from_string(target_type)
 
         # Numeric casts
-        elif self.type_kind in (TypeKind.TYPE_INT64, TypeKind.TYPE_INT32, TypeKind.TYPE_DOUBLE, TypeKind.TYPE_FLOAT):
-            if self.type_kind == TypeKind.TYPE_INT64:
-                val = self.get_int64()
-            elif self.type_kind == TypeKind.TYPE_INT32:
-                val = self.get_int32()
-            elif self.type_kind == TypeKind.TYPE_DOUBLE:
-                val = self.get_double()
-            else:  # FLOAT
-                val = self.get_float()
-
-            try:
-                if target_type == TypeKind.TYPE_INT64:
-                    return Value.int64(int(val))
-                if target_type == TypeKind.TYPE_INT32:
-                    return Value.int32(int(val))
-                if target_type == TypeKind.TYPE_DOUBLE:
-                    return Value.double(float(val))
-                if target_type == TypeKind.TYPE_FLOAT:
-                    return Value.float_value(float(val))
-                if target_type == TypeKind.TYPE_STRING:
-                    return Value.string(str(val))
-                if target_type == TypeKind.TYPE_BOOL:
-                    return Value.bool(val != 0)
-            except (ValueError, OverflowError) as e:
-                raise ValueError(f"Cannot cast {self.type_kind} to {target_type}: {e}") from e
+        if self.type_kind in (TypeKind.TYPE_INT64, TypeKind.TYPE_INT32, TypeKind.TYPE_DOUBLE, TypeKind.TYPE_FLOAT):
+            return self._cast_from_numeric(target_type)
 
         # Try coercion as fallback
         try:
             return self.coerce_to(target_type)
         except ValueError as e:
             raise ValueError(f"Cannot cast {self.type_kind} to {target_type}") from e
+
+    def _cast_from_string(self, target_type: TypeKind) -> "Value":
+        """Cast STRING value to target type."""
+        s = self.get_string()
+
+        cast_functions = {
+            TypeKind.TYPE_INT64: lambda: Value.int64(int(s)),
+            TypeKind.TYPE_INT32: lambda: Value.int32(int(s)),
+            TypeKind.TYPE_DOUBLE: lambda: Value.double(float(s)),
+            TypeKind.TYPE_FLOAT: lambda: Value.float_value(float(s)),
+            TypeKind.TYPE_BOOL: self._parse_bool_from_string,
+        }
+
+        caster = cast_functions.get(target_type)
+        if not caster:
+            raise ValueError(f"Cannot cast STRING to {target_type}")
+
+        try:
+            return caster()
+        except (ValueError, OverflowError) as e:
+            raise ValueError(f"Cannot cast STRING '{s}' to {target_type}: {e}") from e
+
+    def _parse_bool_from_string(self) -> "Value":
+        """Parse boolean value from string."""
+        s = self.get_string().lower()
+        if s in ("true", "t", "1", "yes"):
+            return Value.bool(True)
+        if s in ("false", "f", "0", "no"):
+            return Value.bool(False)
+        raise ValueError(f"Cannot parse '{s}' as BOOL")
+
+    def _cast_from_numeric(self, target_type: TypeKind) -> "Value":
+        """Cast numeric value to target type."""
+        # Get numeric value based on source type
+        value_getters = {
+            TypeKind.TYPE_INT64: self.get_int64,
+            TypeKind.TYPE_INT32: self.get_int32,
+            TypeKind.TYPE_DOUBLE: self.get_double,
+            TypeKind.TYPE_FLOAT: self.get_float,
+        }
+
+        val = value_getters[self.type_kind]()
+
+        cast_functions = {
+            TypeKind.TYPE_INT64: lambda: Value.int64(int(val)),
+            TypeKind.TYPE_INT32: lambda: Value.int32(int(val)),
+            TypeKind.TYPE_DOUBLE: lambda: Value.double(float(val)),
+            TypeKind.TYPE_FLOAT: lambda: Value.float_value(float(val)),
+            TypeKind.TYPE_STRING: lambda: Value.string(str(val)),
+            TypeKind.TYPE_BOOL: lambda: Value.bool(val != 0),
+        }
+
+        caster = cast_functions.get(target_type)
+        if not caster:
+            raise ValueError(f"Cannot cast {self.type_kind} to {target_type}")
+
+        try:
+            return caster()
+        except (ValueError, OverflowError) as e:
+            raise ValueError(f"Cannot cast {self.type_kind} to {target_type}: {e}") from e
