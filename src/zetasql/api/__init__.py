@@ -13,7 +13,7 @@ These features mirror the Java ZetaSQL API for familiarity.
 from .analyzer import Analyzer, ScriptMetadata, ValidationResult, StatementType, get_statement_type
 from .prepared_query import PreparedQuery, PreparedQueryBuilder
 from .prepared_expression import PreparedExpression
-from .builders import CatalogBuilder, TableBuilder
+from .builders import *
 from .table_content import create_table_content
 from .type_factory import TypeFactory
 from .value import Value
@@ -27,8 +27,7 @@ __all__ = [
     'PreparedQuery',
     'PreparedQueryBuilder',
     'PreparedExpression',
-    'CatalogBuilder',
-    'TableBuilder',
+    *builders.__all__,
     'create_table_content',
     'TypeFactory',
     'Value',
