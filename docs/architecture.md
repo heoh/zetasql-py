@@ -70,6 +70,9 @@ The foundation layer containing:
 - `_pb2/*.py` - Generated protobuf Python code
 - `proto/` - Original `.proto` definitions
 
+**Source:**
+The contents of `src/zetasql/wasi/` are obtained from [zetasql-wasi](https://github.com/heoh/zetasql-wasi) releases, which provides the WebAssembly build of ZetaSQL.
+
 **Characteristics:**
 - Fully auto-generated (never edit manually)
 - Direct protobuf compatibility

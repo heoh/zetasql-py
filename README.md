@@ -15,6 +15,8 @@ ZetaSQL Python brings Google's SQL analyzer to the Python ecosystem, providing:
 - **Expression Evaluation**: Execute queries and expressions with parameter binding
 - **Java-like API**: Familiar builder patterns and fluent interfaces
 
+This project is built on top of [zetasql-wasi](https://github.com/heoh/zetasql-wasi), which provides the WebAssembly build of ZetaSQL, enabling ZetaSQL functionality in Python environments.
+
 ## Installation
 
 ```bash
@@ -161,4 +163,5 @@ This is an unofficial Python port of Google's ZetaSQL (also Apache 2.0 licensed)
 ## Acknowledgments
 
 - Original [ZetaSQL project](https://github.com/google/zetasql) by Google
+- Built on [zetasql-wasi](https://github.com/heoh/zetasql-wasi) - WebAssembly build of ZetaSQL
 - Inspired by the Java ZetaSQL API design
