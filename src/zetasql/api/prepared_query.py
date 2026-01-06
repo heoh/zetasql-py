@@ -4,6 +4,7 @@ Provides Java-style PreparedQuery with context manager support
 for automatic cleanup of server-side resources.
 """
 
+import contextlib
 from typing import Any
 
 import zetasql.types
@@ -79,7 +80,9 @@ class PreparedQuery:
             raise IllegalStateError("PreparedQuery already closed. Cannot execute closed query.")
 
         response = self._service.evaluate_query(
-            prepared_query_id=self._prepared_id, params=parameters or {}, table_content=table_content or {}
+            prepared_query_id=self._prepared_id,
+            params=parameters or {},
+            table_content=table_content or {},
         )
         return response
 
@@ -103,8 +106,6 @@ class PreparedQuery:
     def __del__(self):
         """Cleanup on garbage collection. Explicit close() or context manager usage is preferred."""
         if not self._closed:
-            import contextlib
-
             with contextlib.suppress(Exception):
                 self.close()
 
@@ -264,17 +265,11 @@ class PreparedQueryBuilder:
         # table_content requires simple_catalog
         if self._table_content and self._registered_catalog_id:
             raise InvalidArgumentError(
-                "Cannot use table_content with registered catalog. table_content requires simple_catalog."
+                "Cannot use table_content with registered catalog. table_content requires simple_catalog.",
             )
 
-        # Get service
-        service = self._service
-        if service is None:
-            from zetasql.core.local_service import ZetaSqlLocalService
+        service = self._service or ZetaSqlLocalService.get_instance()
 
-            service = ZetaSqlLocalService.get_instance()
-
-        # Prepare query
         response = service.prepare_query(
             sql=self._sql,
             options=self._options,
@@ -284,5 +279,7 @@ class PreparedQueryBuilder:
         )
 
         return PreparedQuery(
-            service=service, prepared_id=response.prepared.prepared_query_id, columns=response.prepared.columns
+            service=service,
+            prepared_id=response.prepared.prepared_query_id,
+            columns=response.prepared.columns,
         )

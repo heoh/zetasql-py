@@ -7,7 +7,9 @@ Mirrors Java's Value class for creating and manipulating typed SQL values.
 import datetime
 from typing import Any
 
-import zetasql.types as types
+from google.protobuf.timestamp_pb2 import Timestamp
+
+from zetasql import types
 from zetasql.types import TypeKind
 
 
@@ -56,23 +58,23 @@ class Value:
         # Infer type from which value field is set
         if self._proto.int64_value is not None:
             return TypeKind.TYPE_INT64
-        elif self._proto.string_value is not None:
+        if self._proto.string_value is not None:
             return TypeKind.TYPE_STRING
-        elif self._proto.bool_value is not None:
+        if self._proto.bool_value is not None:
             return TypeKind.TYPE_BOOL
-        elif self._proto.double_value is not None:
+        if self._proto.double_value is not None:
             return TypeKind.TYPE_DOUBLE
-        elif self._proto.int32_value is not None:
+        if self._proto.int32_value is not None:
             return TypeKind.TYPE_INT32
-        elif self._proto.float_value is not None:
+        if self._proto.float_value is not None:
             return TypeKind.TYPE_FLOAT
-        elif self._proto.date_value is not None:
+        if self._proto.date_value is not None:
             return TypeKind.TYPE_DATE
-        elif self._proto.timestamp_value is not None:
+        if self._proto.timestamp_value is not None:
             return TypeKind.TYPE_TIMESTAMP
-        elif self._proto.array_value is not None:
+        if self._proto.array_value is not None:
             return TypeKind.TYPE_ARRAY
-        elif self._proto.struct_value is not None:
+        if self._proto.struct_value is not None:
             return TypeKind.TYPE_STRUCT
         # Add more type checks as needed
         return TypeKind.TYPE_UNKNOWN
@@ -428,8 +430,6 @@ class Value:
             >>> v = Value.timestamp(dt)
             >>> assert v.get_timestamp() == dt
         """
-        from google.protobuf.timestamp_pb2 import Timestamp
-
         timestamp_proto = Timestamp()
         timestamp_proto.FromDatetime(dt)
         proto = types.Value(timestamp_value=timestamp_proto)
@@ -721,20 +721,20 @@ class Value:
         if self.type_kind == TypeKind.TYPE_INT64:
             if target_type == TypeKind.TYPE_STRING:
                 return Value.string(str(self.get_int64()))
-            elif target_type == TypeKind.TYPE_DOUBLE:
+            if target_type == TypeKind.TYPE_DOUBLE:
                 return Value.double(float(self.get_int64()))
-            elif target_type == TypeKind.TYPE_FLOAT:
+            if target_type == TypeKind.TYPE_FLOAT:
                 return Value.float_value(float(self.get_int64()))
 
         # INT32 coercions
         elif self.type_kind == TypeKind.TYPE_INT32:
             if target_type == TypeKind.TYPE_INT64:
                 return Value.int64(self.get_int32())
-            elif target_type == TypeKind.TYPE_STRING:
+            if target_type == TypeKind.TYPE_STRING:
                 return Value.string(str(self.get_int32()))
-            elif target_type == TypeKind.TYPE_DOUBLE:
+            if target_type == TypeKind.TYPE_DOUBLE:
                 return Value.double(float(self.get_int32()))
-            elif target_type == TypeKind.TYPE_FLOAT:
+            if target_type == TypeKind.TYPE_FLOAT:
                 return Value.float_value(float(self.get_int32()))
 
         # DOUBLE coercions
@@ -746,14 +746,14 @@ class Value:
         elif self.type_kind == TypeKind.TYPE_FLOAT:
             if target_type == TypeKind.TYPE_DOUBLE:
                 return Value.double(self.get_float())
-            elif target_type == TypeKind.TYPE_STRING:
+            if target_type == TypeKind.TYPE_STRING:
                 return Value.string(str(self.get_float()))
 
         # BOOL coercions
         elif self.type_kind == TypeKind.TYPE_BOOL:
             if target_type == TypeKind.TYPE_STRING:
                 return Value.string("true" if self.get_bool() else "false")
-            elif target_type == TypeKind.TYPE_INT64:
+            if target_type == TypeKind.TYPE_INT64:
                 return Value.int64(1 if self.get_bool() else 0)
 
         # STRING coercions (limited)
@@ -804,20 +804,19 @@ class Value:
             try:
                 if target_type == TypeKind.TYPE_INT64:
                     return Value.int64(int(s))
-                elif target_type == TypeKind.TYPE_INT32:
+                if target_type == TypeKind.TYPE_INT32:
                     return Value.int32(int(s))
-                elif target_type == TypeKind.TYPE_DOUBLE:
+                if target_type == TypeKind.TYPE_DOUBLE:
                     return Value.double(float(s))
-                elif target_type == TypeKind.TYPE_FLOAT:
+                if target_type == TypeKind.TYPE_FLOAT:
                     return Value.float_value(float(s))
-                elif target_type == TypeKind.TYPE_BOOL:
+                if target_type == TypeKind.TYPE_BOOL:
                     # Parse boolean strings
                     if s.lower() in ("true", "t", "1", "yes"):
                         return Value.bool(True)
-                    elif s.lower() in ("false", "f", "0", "no"):
+                    if s.lower() in ("false", "f", "0", "no"):
                         return Value.bool(False)
-                    else:
-                        raise ValueError(f"Cannot parse '{s}' as BOOL")
+                    raise ValueError(f"Cannot parse '{s}' as BOOL")
             except (ValueError, OverflowError) as e:
                 raise ValueError(f"Cannot cast STRING '{s}' to {target_type}: {e}") from e
 
@@ -835,15 +834,15 @@ class Value:
             try:
                 if target_type == TypeKind.TYPE_INT64:
                     return Value.int64(int(val))
-                elif target_type == TypeKind.TYPE_INT32:
+                if target_type == TypeKind.TYPE_INT32:
                     return Value.int32(int(val))
-                elif target_type == TypeKind.TYPE_DOUBLE:
+                if target_type == TypeKind.TYPE_DOUBLE:
                     return Value.double(float(val))
-                elif target_type == TypeKind.TYPE_FLOAT:
+                if target_type == TypeKind.TYPE_FLOAT:
                     return Value.float_value(float(val))
-                elif target_type == TypeKind.TYPE_STRING:
+                if target_type == TypeKind.TYPE_STRING:
                     return Value.string(str(val))
-                elif target_type == TypeKind.TYPE_BOOL:
+                if target_type == TypeKind.TYPE_BOOL:
                     return Value.bool(val != 0)
             except (ValueError, OverflowError) as e:
                 raise ValueError(f"Cannot cast {self.type_kind} to {target_type}: {e}") from e

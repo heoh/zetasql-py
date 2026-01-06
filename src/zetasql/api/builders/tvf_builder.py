@@ -84,7 +84,8 @@ class TVFBuilder:
         return self
 
     def set_forward_input_schema_with_appended_columns(
-        self, appended_columns: list[tuple[str, Type | TypeKind | int]]
+        self,
+        appended_columns: list[tuple[str, Type | TypeKind | int]],
     ) -> Self:
         """Set TVF to forward input schema plus additional columns."""
         self._tvf_type = (

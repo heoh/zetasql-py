@@ -3,7 +3,7 @@ from typing import TypeVar
 from google.protobuf import empty_pb2 as _empty_pb2
 from google.protobuf import message as _message
 
-import zetasql.types as types
+from zetasql import types
 from zetasql.core.func_utils import parameters
 from zetasql.core.wasm_client import WasmClient
 from zetasql.types import parse_proto
@@ -33,7 +33,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_Prepare",
                 types.PrepareRequest(*args, **kwargs).to_proto(),
                 local_service_pb2.PrepareResponse,
-            )
+            ),
         ).as_type(types.PrepareResponse)
 
     @parameters(types.EvaluateRequest)
@@ -43,7 +43,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_Evaluate",
                 types.EvaluateRequest(*args, **kwargs).to_proto(),
                 local_service_pb2.EvaluateResponse,
-            )
+            ),
         ).as_type(types.EvaluateResponse)
 
     @parameters(types.UnprepareRequest)
@@ -53,7 +53,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_Unprepare",
                 types.UnprepareRequest(*args, **kwargs).to_proto(),
                 _empty_pb2.Empty,
-            )
+            ),
         )
 
     @parameters(types.PrepareQueryRequest)
@@ -63,7 +63,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_PrepareQuery",
                 types.PrepareQueryRequest(*args, **kwargs).to_proto(),
                 local_service_pb2.PrepareQueryResponse,
-            )
+            ),
         ).as_type(types.PrepareQueryResponse)
 
     @parameters(types.EvaluateQueryRequest)
@@ -73,7 +73,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_EvaluateQuery",
                 types.EvaluateQueryRequest(*args, **kwargs).to_proto(),
                 local_service_pb2.EvaluateQueryResponse,
-            )
+            ),
         ).as_type(types.EvaluateQueryResponse)
 
     @parameters(types.UnprepareQueryRequest)
@@ -83,7 +83,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_UnprepareQuery",
                 types.UnprepareQueryRequest(*args, **kwargs).to_proto(),
                 _empty_pb2.Empty,
-            )
+            ),
         )
 
     @parameters(types.PrepareModifyRequest)
@@ -93,7 +93,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_PrepareModify",
                 types.PrepareModifyRequest(*args, **kwargs).to_proto(),
                 local_service_pb2.PrepareModifyResponse,
-            )
+            ),
         ).as_type(types.PrepareModifyResponse)
 
     @parameters(types.EvaluateModifyRequest)
@@ -103,7 +103,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_EvaluateModify",
                 types.EvaluateModifyRequest(*args, **kwargs).to_proto(),
                 local_service_pb2.EvaluateModifyResponse,
-            )
+            ),
         ).as_type(types.EvaluateModifyResponse)
 
     @parameters(types.UnprepareModifyRequest)
@@ -113,7 +113,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_UnprepareModify",
                 types.UnprepareModifyRequest(*args, **kwargs).to_proto(),
                 _empty_pb2.Empty,
-            )
+            ),
         )
 
     @parameters(types.AnalyzeRequest)
@@ -123,7 +123,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_Analyze",
                 types.AnalyzeRequest(*args, **kwargs).to_proto(),
                 local_service_pb2.AnalyzeResponse,
-            )
+            ),
         ).as_type(types.AnalyzeResponse)
 
     @parameters(types.BuildSqlRequest)
@@ -133,7 +133,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_BuildSql",
                 types.BuildSqlRequest(*args, **kwargs).to_proto(),
                 local_service_pb2.BuildSqlResponse,
-            )
+            ),
         ).as_type(types.BuildSqlResponse)
 
     @parameters(types.ParseRequest)
@@ -143,7 +143,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_Parse",
                 types.ParseRequest(*args, **kwargs).to_proto(),
                 local_service_pb2.ParseResponse,
-            )
+            ),
         ).as_type(types.ParseResponse)
 
     @parameters(types.ExtractTableNamesFromStatementRequest)
@@ -153,7 +153,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_ExtractTableNamesFromStatement",
                 types.ExtractTableNamesFromStatementRequest(*args, **kwargs).to_proto(),
                 local_service_pb2.ExtractTableNamesFromStatementResponse,
-            )
+            ),
         ).as_type(types.ExtractTableNamesFromStatementResponse)
 
     @parameters(types.ExtractTableNamesFromNextStatementRequest)
@@ -163,7 +163,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_ExtractTableNamesFromNextStatement",
                 types.ExtractTableNamesFromNextStatementRequest(*args, **kwargs).to_proto(),
                 local_service_pb2.ExtractTableNamesFromNextStatementResponse,
-            )
+            ),
         ).as_type(types.ExtractTableNamesFromNextStatementResponse)
 
     @parameters(types.TableFromProtoRequest)
@@ -173,7 +173,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_GetTableFromProto",
                 types.TableFromProtoRequest(*args, **kwargs).to_proto(),
                 simple_table_pb2.SimpleTableProto,
-            )
+            ),
         ).as_type(types.SimpleTable)
 
     @parameters(types.FormatSqlRequest)
@@ -183,7 +183,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_FormatSql",
                 types.FormatSqlRequest(*args, **kwargs).to_proto(),
                 local_service_pb2.FormatSqlResponse,
-            )
+            ),
         ).as_type(types.FormatSqlResponse)
 
     @parameters(types.FormatSqlRequest)
@@ -193,7 +193,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_LenientFormatSql",
                 types.FormatSqlRequest(*args, **kwargs).to_proto(),
                 local_service_pb2.FormatSqlResponse,
-            )
+            ),
         ).as_type(types.FormatSqlResponse)
 
     @parameters(types.RegisterCatalogRequest)
@@ -203,7 +203,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_RegisterCatalog",
                 types.RegisterCatalogRequest(*args, **kwargs).to_proto(),
                 local_service_pb2.RegisterResponse,
-            )
+            ),
         ).as_type(types.RegisterResponse)
 
     @parameters(types.UnregisterRequest)
@@ -213,7 +213,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_UnregisterCatalog",
                 types.UnregisterRequest(*args, **kwargs).to_proto(),
                 _empty_pb2.Empty,
-            )
+            ),
         )
 
     @parameters(types.ZetaSQLBuiltinFunctionOptions)
@@ -223,7 +223,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_GetBuiltinFunctions",
                 types.ZetaSQLBuiltinFunctionOptions(*args, **kwargs).to_proto(),
                 local_service_pb2.GetBuiltinFunctionsResponse,
-            )
+            ),
         ).as_type(types.GetBuiltinFunctionsResponse)
 
     @parameters(types.LanguageOptionsRequest)
@@ -233,7 +233,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_GetLanguageOptions",
                 types.LanguageOptionsRequest(*args, **kwargs).to_proto(),
                 options_pb2.LanguageOptionsProto,
-            )
+            ),
         ).as_type(types.LanguageOptions)
 
     @parameters(types.AnalyzerOptionsRequest)
@@ -243,7 +243,7 @@ class ZetaSqlLocalService:
                 "ZetaSqlLocalService_GetAnalyzerOptions",
                 types.AnalyzerOptionsRequest(*args, **kwargs).to_proto(),
                 options_pb2.AnalyzerOptionsProto,
-            )
+            ),
         ).as_type(types.AnalyzerOptions)
 
     @classmethod

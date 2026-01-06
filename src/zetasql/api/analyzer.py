@@ -4,6 +4,8 @@ Provides Java-style Analyzer with both instance and static methods
 for simplified SQL analysis and AST manipulation.
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 from enum import Enum
 
@@ -126,7 +128,8 @@ class Analyzer:
         return response.resolved_expression
 
     def analyze_next_statement(
-        self, location: zetasql.types.ParseResumeLocation
+        self,
+        location: zetasql.types.ParseResumeLocation,
     ) -> zetasql.types.ResolvedStatement | None:
         """Analyze next statement in script, updating location.
 
@@ -159,7 +162,9 @@ class Analyzer:
 
     @staticmethod
     def analyze_statement_static(
-        sql: str, options: zetasql.types.AnalyzerOptions, catalog: zetasql.types.SimpleCatalog | None = None
+        sql: str,
+        options: zetasql.types.AnalyzerOptions,
+        catalog: zetasql.types.SimpleCatalog | None = None,
     ) -> zetasql.types.ResolvedStatement:
         """Static method for one-off statement analysis.
 
@@ -189,7 +194,9 @@ class Analyzer:
 
     @staticmethod
     def analyze_expression_static(
-        expression: str, options: zetasql.types.AnalyzerOptions, catalog: zetasql.types.SimpleCatalog | None = None
+        expression: str,
+        options: zetasql.types.AnalyzerOptions,
+        catalog: zetasql.types.SimpleCatalog | None = None,
     ) -> zetasql.types.ResolvedExpr:
         """Static method for one-off expression analysis.
 
@@ -213,7 +220,8 @@ class Analyzer:
 
     @staticmethod
     def build_statement(
-        resolved_stmt: zetasql.types.ResolvedStatement, catalog: zetasql.types.SimpleCatalog | None = None
+        resolved_stmt: zetasql.types.ResolvedStatement,
+        catalog: zetasql.types.SimpleCatalog | None = None,
     ) -> str:
         """Convert resolved AST back to SQL string (unanalyze).
 
@@ -238,7 +246,8 @@ class Analyzer:
 
     @staticmethod
     def build_expression(
-        resolved_expr: zetasql.types.ResolvedExpr, catalog: zetasql.types.SimpleCatalog | None = None
+        resolved_expr: zetasql.types.ResolvedExpr,
+        catalog: zetasql.types.SimpleCatalog | None = None,
     ) -> str:
         """Convert resolved expression AST back to SQL string.
 
@@ -284,7 +293,10 @@ class Analyzer:
         """
         service = ZetaSqlLocalService.get_instance()
         response = service.analyze(
-            sql_statement=location.input, parse_resume_location=location, options=options, simple_catalog=catalog
+            sql_statement=location.input,
+            parse_resume_location=location,
+            options=options,
+            simple_catalog=catalog,
         )
 
         if hasattr(response, "resume_byte_position") and response.resume_byte_position is not None:
@@ -321,7 +333,7 @@ class Analyzer:
     @staticmethod
     def extract_table_names_from_script(
         script: str,
-    ) -> list["zetasql.types.ExtractTableNamesFromNextStatementResponse.TableName"]:
+    ) -> list[zetasql.types.ExtractTableNamesFromNextStatementResponse.TableName]:
         """Extract all table names from multi-statement script.
 
         Args:
@@ -363,7 +375,9 @@ class Analyzer:
 
     @staticmethod
     def iterate_script(
-        script: str, options: zetasql.types.AnalyzerOptions, catalog: zetasql.types.SimpleCatalog | None = None
+        script: str,
+        options: zetasql.types.AnalyzerOptions,
+        catalog: zetasql.types.SimpleCatalog | None = None,
     ):
         """Iterate through statements in a script, yielding resolved ASTs.
 
@@ -601,7 +615,6 @@ def get_statement_type(stmt: zetasql.types.ResolvedStatement) -> StatementType:
         >>> stmt = Analyzer.analyze_statement_static("INSERT INTO Orders VALUES (1)", options, catalog)
         >>> print(get_statement_type(stmt))  # StatementType.DML
     """
-    # Import statement types to avoid circular imports
     from zetasql.types import (
         ResolvedCreateStatement,
         ResolvedDeleteStmt,
@@ -610,20 +623,15 @@ def get_statement_type(stmt: zetasql.types.ResolvedStatement) -> StatementType:
         ResolvedUpdateStmt,
     )
 
-    # Query statements (SELECT, etc.)
     if isinstance(stmt, ResolvedQueryStmt):
         return StatementType.QUERY
 
-    # DML statements (INSERT, UPDATE, DELETE, MERGE)
     if isinstance(stmt, (ResolvedInsertStmt, ResolvedUpdateStmt, ResolvedDeleteStmt)):
         return StatementType.DML
 
-    # DDL statements (CREATE, DROP, ALTER, etc.)
-    # ResolvedCreateStatement is base class for all CREATE statements
     if isinstance(stmt, ResolvedCreateStatement):
         return StatementType.DDL
 
-    # Check by class name for other DDL types
     stmt_type = type(stmt).__name__
     if any(keyword in stmt_type for keyword in ["Create", "Drop", "Alter", "Rename"]):
         return StatementType.DDL

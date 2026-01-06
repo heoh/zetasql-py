@@ -73,18 +73,17 @@ def create_table_content(rows_data: list[list[Any]]) -> TableContent:
         """Convert Python value to Value ProtoModel."""
         if value is None:
             return Value()
-        elif isinstance(value, bool):
+        if isinstance(value, bool):
             return Value(bool_value=value)
-        elif isinstance(value, int):
+        if isinstance(value, int):
             return Value(int64_value=value)
-        elif isinstance(value, float):
+        if isinstance(value, float):
             return Value(double_value=value)
-        elif isinstance(value, str):
+        if isinstance(value, str):
             return Value(string_value=value)
-        else:
-            raise ValueError(
-                f"Unsupported value type: {type(value).__name__}. Supported types: None, bool, int, float, str"
-            )
+        raise ValueError(
+            f"Unsupported value type: {type(value).__name__}. Supported types: None, bool, int, float, str",
+        )
 
     rows = [TableData.Row(cell=[create_cell_value(value) for value in row_data]) for row_data in rows_data]
 

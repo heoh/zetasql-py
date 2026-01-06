@@ -4,6 +4,7 @@ Provides Java-style PreparedExpression API wrapping the proto-based service.
 Mirrors Java PreparedExpression functionality for evaluating SQL expressions.
 """
 
+import contextlib
 from typing import TYPE_CHECKING, Any, Optional
 
 from zetasql import types
@@ -195,7 +196,9 @@ class PreparedExpression:
         ]
 
         response = self._service.evaluate(
-            prepared_expression_id=self._prepared_expression_id, columns=column_params, params=param_params
+            prepared_expression_id=self._prepared_expression_id,
+            columns=column_params,
+            params=param_params,
         )
 
         if response.prepared and response.prepared.prepared_expression_id:
@@ -228,8 +231,6 @@ class PreparedExpression:
     def __del__(self):
         """Cleanup on deletion."""
         if not self._closed:
-            import contextlib
-
             with contextlib.suppress(Exception):
                 self.close()
 
@@ -350,7 +351,10 @@ class PreparedExpression:
 
             # Create the PreparedExpression
             expr = PreparedExpression(
-                sql=self._sql, options=self._options, catalog=self._catalog, service=self._service
+                sql=self._sql,
+                options=self._options,
+                catalog=self._catalog,
+                service=self._service,
             )
 
             # Add column definitions to options if provided

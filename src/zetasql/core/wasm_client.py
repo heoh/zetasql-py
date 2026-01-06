@@ -129,7 +129,10 @@ class WasmClient:
         return self.read_bytes(error_ptr, error_size).decode("utf-8")
 
     def call_grpc_func(
-        self, func_name: str, request: message.Message, response_type: type[Message] = empty_pb2.Empty
+        self,
+        func_name: str,
+        request: message.Message,
+        response_type: type[Message] = empty_pb2.Empty,
     ) -> Message:
         request_data = request.SerializeToString()
         response_data = self._call_grpc_method(func_name, request_data)
