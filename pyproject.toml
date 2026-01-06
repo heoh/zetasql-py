@@ -35,7 +35,7 @@ classifiers = [
 dependencies = [
     "wasmtime>=24.0.0",
     "grpcio>=1.60.0",
-    "protobuf>=4.25.0",
+    "protobuf>=6.31.1",
     "tzdata>=2020.1",
 ]
 
