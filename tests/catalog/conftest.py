@@ -3,25 +3,9 @@
 import pytest
 
 from zetasql.api.builders import CatalogBuilder, TableBuilder
-from zetasql.core.local_service import ZetaSqlLocalService
 from zetasql.types import (
-    AnalyzerOptions,
     TypeKind,
 )
-
-
-@pytest.fixture
-def service():
-    """Get LocalService singleton."""
-    return ZetaSqlLocalService.get_instance()
-
-
-@pytest.fixture
-def options(service):
-    """Create analyzer options with maximum features."""
-    return AnalyzerOptions(
-        language_options=service.get_language_options(maximum_features=True),
-    )
 
 
 @pytest.fixture
