@@ -152,7 +152,6 @@ class Analyzer:
             simple_catalog=self.catalog,
         )
 
-        # Update location's byte position for next call
         if hasattr(response, "resume_byte_position") and response.resume_byte_position is not None:
             location.byte_position = response.resume_byte_position
 
@@ -288,7 +287,6 @@ class Analyzer:
             sql_statement=location.input, parse_resume_location=location, options=options, simple_catalog=catalog
         )
 
-        # Update location's byte position
         if hasattr(response, "resume_byte_position") and response.resume_byte_position is not None:
             location.byte_position = response.resume_byte_position
 
@@ -524,15 +522,12 @@ class Analyzer:
             try:
                 response = service.extract_table_names_from_next_statement(parse_resume_location=location)
 
-                # Collect table names
                 if response.table_name:
                     for table_name in response.table_name:
-                        # Join multi-part names (e.g., ['schema', 'table'] -> 'schema.table')
                         if hasattr(table_name, "table_name_segment") and table_name.table_name_segment:
                             name = ".".join(table_name.table_name_segment)
                             all_tables.add(name)
 
-                # Check for progress to avoid infinite loop
                 if response.resume_byte_position <= location.byte_position:
                     break
 
@@ -540,7 +535,6 @@ class Analyzer:
                 location.byte_position = response.resume_byte_position
 
             except Exception:
-                # Stop on error
                 break
 
         return ScriptMetadata(tables=all_tables, statement_count=statement_count)
@@ -573,17 +567,14 @@ class Analyzer:
         while location.byte_position < len(script):
             start_pos = location.byte_position
             try:
-                # Use lightweight extraction to check syntax
                 response = service.extract_table_names_from_next_statement(parse_resume_location=location)
 
-                # Check for progress
                 if response.resume_byte_position <= start_pos:
                     break
 
                 location.byte_position = response.resume_byte_position
 
             except Exception as e:
-                # Record error with position information
                 error_msg = f"Error at position {start_pos}: {e!s}"
                 errors.append(error_msg)
                 break

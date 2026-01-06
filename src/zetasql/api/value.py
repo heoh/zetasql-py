@@ -83,21 +83,23 @@ class Value:
         Returns:
             True if value is NULL
         """
-        # A value is null if all value fields are None
-        return (
-            self._proto.int32_value is None
-            and self._proto.int64_value is None
-            and self._proto.uint32_value is None
-            and self._proto.uint64_value is None
-            and self._proto.bool_value is None
-            and self._proto.float_value is None
-            and self._proto.double_value is None
-            and self._proto.string_value is None
-            and self._proto.bytes_value is None
-            and self._proto.date_value is None
-            and self._proto.timestamp_value is None
-            and self._proto.array_value is None
-            and self._proto.struct_value is None
+        return all(
+            getattr(self._proto, field) is None
+            for field in [
+                "int32_value",
+                "int64_value",
+                "uint32_value",
+                "uint64_value",
+                "bool_value",
+                "float_value",
+                "double_value",
+                "string_value",
+                "bytes_value",
+                "date_value",
+                "timestamp_value",
+                "array_value",
+                "struct_value",
+            ]
         )
 
     def get_int64(self) -> int:
@@ -199,13 +201,10 @@ class Value:
         Raises:
             ValueError: If type is not DATE or value is NULL
         """
-        import datetime
-
         if self.type_kind != TypeKind.TYPE_DATE:
             raise ValueError(f"Type mismatch: expected DATE, got {self.type_kind}")
         if self.is_null():
             raise ValueError("Cannot get value from NULL")
-        # DATE is stored as days since epoch
         epoch = datetime.date(1970, 1, 1)
         return epoch + datetime.timedelta(days=self._proto.date_value)
 
@@ -218,12 +217,10 @@ class Value:
         Raises:
             ValueError: If type is not TIMESTAMP or value is NULL
         """
-
         if self.type_kind != TypeKind.TYPE_TIMESTAMP:
             raise ValueError(f"Type mismatch: expected TIMESTAMP, got {self.type_kind}")
         if self.is_null():
             raise ValueError("Cannot get value from NULL")
-        # Convert protobuf Timestamp to datetime
         return self._proto.timestamp_value.ToDatetime()
 
     def get_array_size(self) -> int:
@@ -409,9 +406,6 @@ class Value:
             >>> v = Value.date(2024, 1, 15)
             >>> assert v.get_date().year == 2024
         """
-        import datetime
-
-        # DATE is stored as days since epoch (1970-01-01)
         epoch = datetime.date(1970, 1, 1)
         target_date = datetime.date(year, month, day)
         days_since_epoch = (target_date - epoch).days
@@ -436,11 +430,8 @@ class Value:
         """
         from google.protobuf.timestamp_pb2 import Timestamp
 
-        # Convert datetime to protobuf Timestamp
         timestamp_proto = Timestamp()
         timestamp_proto.FromDatetime(dt)
-
-        # Create types.Value with timestamp
         proto = types.Value(timestamp_value=timestamp_proto)
         return Value(proto)
 
@@ -459,8 +450,6 @@ class Value:
             >>> assert v.is_null()
             >>> assert v.type_kind == TypeKind.TYPE_INT64
         """
-        # For null values, we create a Value with no value field set
-        # Store the type_kind separately since proto doesn't store it for nulls
         proto = types.Value()
         return Value(proto, type_kind=type_kind)
 
@@ -479,24 +468,14 @@ class Value:
             >>> arr = Value.array(elements)
             >>> arr.get_array_size() == 3
         """
-        # Extract proto Values from wrappers
         proto_elements = [elem.to_proto() for elem in elements]
-
-        # Create Array with elements
         array_proto = types.Value.Array(element=proto_elements)
-
-        # Create Value with array_value
         proto = types.Value(array_value=array_proto)
 
-        # Store metadata for each element (like field_names for structs)
         value_obj = Value(proto)
-        value_obj._element_metadata = []
-        for elem in elements:
-            metadata = {}
-            if elem._field_names is not None:
-                metadata["field_names"] = elem._field_names
-            value_obj._element_metadata.append(metadata)
-
+        value_obj._element_metadata = [
+            {"field_names": elem._field_names} if elem._field_names is not None else {} for elem in elements
+        ]
         return value_obj
 
     @staticmethod
@@ -516,18 +495,10 @@ class Value:
             ... })
             >>> s.get_field("name").get_string() == "Alice"
         """
-        # Note: Struct in proto only stores field values, not names
-        # Field names would typically come from the Type definition
-        # For now, we'll just store the values in order
         proto_fields = [value.to_proto() for value in fields.values()]
-
-        # Create Struct with fields
         struct_proto = types.Value.Struct(field=proto_fields)
-
-        # Create Value with struct_value
         proto = types.Value(struct_value=struct_proto)
 
-        # Store field names for later retrieval
         value_obj = Value(proto)
         value_obj._field_names = list(fields.keys())
         return value_obj
@@ -564,37 +535,30 @@ class Value:
         if not isinstance(other, Value):
             return False
 
-        # Compare types
         if self.type_kind != other.type_kind:
             return False
 
-        # Both NULL
         if self.is_null() and other.is_null():
             return True
 
-        # One NULL, one not
         if self.is_null() != other.is_null():
             return False
 
-        # Compare values based on type
-        if self.type_kind == TypeKind.TYPE_INT64:
-            return self.get_int64() == other.get_int64()
-        elif self.type_kind == TypeKind.TYPE_STRING:
-            return self.get_string() == other.get_string()
-        elif self.type_kind == TypeKind.TYPE_BOOL:
-            return self.get_bool() == other.get_bool()
-        elif self.type_kind == TypeKind.TYPE_DOUBLE:
-            return self.get_double() == other.get_double()
-        elif self.type_kind == TypeKind.TYPE_INT32:
-            return self.get_int32() == other.get_int32()
-        elif self.type_kind == TypeKind.TYPE_FLOAT:
-            return self.get_float() == other.get_float()
-        elif self.type_kind == TypeKind.TYPE_DATE:
-            return self.get_date() == other.get_date()
-        elif self.type_kind == TypeKind.TYPE_TIMESTAMP:
-            return self.get_timestamp() == other.get_timestamp()
+        type_to_getter = {
+            TypeKind.TYPE_INT64: lambda v: v.get_int64(),
+            TypeKind.TYPE_STRING: lambda v: v.get_string(),
+            TypeKind.TYPE_BOOL: lambda v: v.get_bool(),
+            TypeKind.TYPE_DOUBLE: lambda v: v.get_double(),
+            TypeKind.TYPE_INT32: lambda v: v.get_int32(),
+            TypeKind.TYPE_FLOAT: lambda v: v.get_float(),
+            TypeKind.TYPE_DATE: lambda v: v.get_date(),
+            TypeKind.TYPE_TIMESTAMP: lambda v: v.get_timestamp(),
+        }
 
-        # For other types, compare proto directly
+        getter = type_to_getter.get(self.type_kind)
+        if getter:
+            return getter(self) == getter(other)
+
         return self._proto == other._proto
 
     def compare_to(self, other: "Value") -> int:
@@ -618,32 +582,23 @@ class Value:
         if self.is_null() or other.is_null():
             raise ValueError("Cannot compare NULL values")
 
-        # Compare based on type
-        if self.type_kind == TypeKind.TYPE_INT64:
-            a, b = self.get_int64(), other.get_int64()
-        elif self.type_kind == TypeKind.TYPE_INT32:
-            a, b = self.get_int32(), other.get_int32()
-        elif self.type_kind == TypeKind.TYPE_DOUBLE:
-            a, b = self.get_double(), other.get_double()
-        elif self.type_kind == TypeKind.TYPE_FLOAT:
-            a, b = self.get_float(), other.get_float()
-        elif self.type_kind == TypeKind.TYPE_STRING:
-            a, b = self.get_string(), other.get_string()
-        elif self.type_kind == TypeKind.TYPE_BOOL:
-            a, b = self.get_bool(), other.get_bool()
-        elif self.type_kind == TypeKind.TYPE_DATE:
-            a, b = self.get_date(), other.get_date()
-        elif self.type_kind == TypeKind.TYPE_TIMESTAMP:
-            a, b = self.get_timestamp(), other.get_timestamp()
-        else:
+        type_to_getter = {
+            TypeKind.TYPE_INT64: lambda v: v.get_int64(),
+            TypeKind.TYPE_INT32: lambda v: v.get_int32(),
+            TypeKind.TYPE_DOUBLE: lambda v: v.get_double(),
+            TypeKind.TYPE_FLOAT: lambda v: v.get_float(),
+            TypeKind.TYPE_STRING: lambda v: v.get_string(),
+            TypeKind.TYPE_BOOL: lambda v: v.get_bool(),
+            TypeKind.TYPE_DATE: lambda v: v.get_date(),
+            TypeKind.TYPE_TIMESTAMP: lambda v: v.get_timestamp(),
+        }
+
+        getter = type_to_getter.get(self.type_kind)
+        if not getter:
             raise ValueError(f"Comparison not supported for type {self.type_kind}")
 
-        if a < b:
-            return -1
-        elif a > b:
-            return 1
-        else:
-            return 0
+        a, b = getter(self), getter(other)
+        return -1 if a < b else (1 if a > b else 0)
 
     def to_sql_literal(self) -> str:
         """Convert value to SQL literal string.
@@ -661,25 +616,21 @@ class Value:
             return "NULL"
 
         if self.type_kind == TypeKind.TYPE_STRING:
-            # Escape single quotes
             escaped = self.get_string().replace("'", "''")
             return f"'{escaped}'"
-        elif self.type_kind == TypeKind.TYPE_BOOL:
-            return "TRUE" if self.get_bool() else "FALSE"
-        elif self.type_kind == TypeKind.TYPE_INT64:
-            return str(self.get_int64())
-        elif self.type_kind == TypeKind.TYPE_INT32:
-            return str(self.get_int32())
-        elif self.type_kind == TypeKind.TYPE_DOUBLE:
-            return str(self.get_double())
-        elif self.type_kind == TypeKind.TYPE_FLOAT:
-            return str(self.get_float())
-        elif self.type_kind == TypeKind.TYPE_DATE:
-            return f"DATE '{self.get_date().isoformat()}'"
-        elif self.type_kind == TypeKind.TYPE_TIMESTAMP:
-            return f"TIMESTAMP '{self.get_timestamp().isoformat()}'"
 
-        return str(self)
+        type_to_sql = {
+            TypeKind.TYPE_BOOL: lambda: "TRUE" if self.get_bool() else "FALSE",
+            TypeKind.TYPE_INT64: lambda: str(self.get_int64()),
+            TypeKind.TYPE_INT32: lambda: str(self.get_int32()),
+            TypeKind.TYPE_DOUBLE: lambda: str(self.get_double()),
+            TypeKind.TYPE_FLOAT: lambda: str(self.get_float()),
+            TypeKind.TYPE_DATE: lambda: f"DATE '{self.get_date().isoformat()}'",
+            TypeKind.TYPE_TIMESTAMP: lambda: f"TIMESTAMP '{self.get_timestamp().isoformat()}'",
+        }
+
+        converter = type_to_sql.get(self.type_kind)
+        return converter() if converter else str(self)
 
     def __str__(self) -> str:
         """String representation of the value.
@@ -690,24 +641,19 @@ class Value:
         if self.is_null():
             return "NULL"
 
-        if self.type_kind == TypeKind.TYPE_STRING:
-            return f'"{self.get_string()}"'
-        elif self.type_kind == TypeKind.TYPE_BOOL:
-            return "true" if self.get_bool() else "false"
-        elif self.type_kind == TypeKind.TYPE_INT64:
-            return str(self.get_int64())
-        elif self.type_kind == TypeKind.TYPE_INT32:
-            return str(self.get_int32())
-        elif self.type_kind == TypeKind.TYPE_DOUBLE:
-            return str(self.get_double())
-        elif self.type_kind == TypeKind.TYPE_FLOAT:
-            return str(self.get_float())
-        elif self.type_kind == TypeKind.TYPE_DATE:
-            return str(self.get_date())
-        elif self.type_kind == TypeKind.TYPE_TIMESTAMP:
-            return str(self.get_timestamp())
+        type_to_str = {
+            TypeKind.TYPE_STRING: lambda: f'"{self.get_string()}"',
+            TypeKind.TYPE_BOOL: lambda: "true" if self.get_bool() else "false",
+            TypeKind.TYPE_INT64: lambda: str(self.get_int64()),
+            TypeKind.TYPE_INT32: lambda: str(self.get_int32()),
+            TypeKind.TYPE_DOUBLE: lambda: str(self.get_double()),
+            TypeKind.TYPE_FLOAT: lambda: str(self.get_float()),
+            TypeKind.TYPE_DATE: lambda: str(self.get_date()),
+            TypeKind.TYPE_TIMESTAMP: lambda: str(self.get_timestamp()),
+        }
 
-        return f"Value({self.type_kind})"
+        converter = type_to_str.get(self.type_kind)
+        return converter() if converter else f"Value({self.type_kind})"
 
     def __repr__(self) -> str:
         """Developer representation."""

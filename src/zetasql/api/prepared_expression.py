@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any, Optional
 
 from zetasql import types
 from zetasql.api.value import Value
-from zetasql.core import ServerError, ZetaSqlLocalService
+from zetasql.core import ZetaSqlLocalService
 
 if TYPE_CHECKING:
     from zetasql.types import TypeKind
@@ -124,19 +124,10 @@ class PreparedExpression:
         if options is not None:
             self._options = options
 
-        # Use provided options or create default
         analyze_options = self._options or types.AnalyzerOptions()
 
-        # Call service with keyword arguments (service expects individual params)
-        try:
-            if self._catalog is not None:
-                response = self._service.prepare(sql=self._sql, options=analyze_options, simple_catalog=self._catalog)
-            else:
-                response = self._service.prepare(sql=self._sql, options=analyze_options)
-        except ServerError:
-            raise
+        response = self._service.prepare(sql=self._sql, options=analyze_options, simple_catalog=self._catalog)
 
-        # Store prepared state
         self._prepared_expression_id = response.prepared.prepared_expression_id
         self._output_type = response.prepared.output_type
         self._referenced_columns = list(response.prepared.referenced_columns)
@@ -144,6 +135,26 @@ class PreparedExpression:
         self._prepared = True
 
         return self
+
+    def _add_inferred_types(self, columns: dict[str, Value], parameters: dict[str, Value]) -> None:
+        """Add inferred types from column and parameter values to options.
+
+        Args:
+            columns: Dictionary mapping column names to Value objects
+            parameters: Dictionary mapping parameter names to Value objects
+        """
+        if self._options is None:
+            self._options = types.AnalyzerOptions()
+
+        for name, value in columns.items():
+            col_param = types.AnalyzerOptions.QueryParameter(name=name, type=value.get_type())
+            if not any(c.name.lower() == name.lower() for c in self._options.expression_columns):
+                self._options.expression_columns.append(col_param)
+
+        for name, value in parameters.items():
+            param = types.AnalyzerOptions.QueryParameter(name=name, type=value.get_type())
+            if not any(p.name.lower() == name.lower() for p in self._options.query_parameters):
+                self._options.query_parameters.append(param)
 
     def execute(self, columns: dict[str, Value] | None = None, parameters: dict[str, Value] | None = None) -> Value:
         """Execute the expression with column/parameter values.
@@ -166,64 +177,27 @@ class PreparedExpression:
         if self._closed:
             raise RuntimeError("Expression has been closed")
 
-        # Default to empty dicts
         columns = columns or {}
         parameters = parameters or {}
 
-        # If not prepared, we need to prepare with inferred types
         if not self._prepared:
-            # Add parameter and column types to options before preparing
-            if self._options is None:
-                self._options = types.AnalyzerOptions()
-
-            # Add expression columns based on provided values (Java style)
-            for name, value in columns.items():
-                # Use Value.get_type() to get Type object
-                col_type = value.get_type()
-                col_param = types.AnalyzerOptions.QueryParameter(name=name, type=col_type)
-                # Check if column already exists
-                col_exists = any(c.name.lower() == name.lower() for c in self._options.expression_columns)
-                if not col_exists:
-                    self._options.expression_columns.append(col_param)
-
-            # Add query parameters based on provided values (Java style)
-            for name, value in parameters.items():
-                # Use Value.get_type() to get Type object
-                param_type = value.get_type()
-                param = types.AnalyzerOptions.QueryParameter(name=name, type=param_type)
-                # Check if parameter already exists
-                param_exists = any(p.name.lower() == name.lower() for p in self._options.query_parameters)
-                if not param_exists:
-                    self._options.query_parameters.append(param)
-
+            self._add_inferred_types(columns, parameters)
             self._prepare()
 
-        # Build column and parameter lists
-        column_params = []
-        for name, value in columns.items():
-            param = types.EvaluateRequest.Parameter(
-                name=name.lower(),  # Normalize to lowercase
-                value=value.to_proto(),
-            )
-            column_params.append(param)
+        column_params = [
+            types.EvaluateRequest.Parameter(name=name.lower(), value=value.to_proto())
+            for name, value in columns.items()
+        ]
 
-        param_params = []
-        for name, value in parameters.items():
-            param = types.EvaluateRequest.Parameter(
-                name=name.lower(),  # Normalize to lowercase
-                value=value.to_proto(),
-            )
-            param_params.append(param)
+        param_params = [
+            types.EvaluateRequest.Parameter(name=name.lower(), value=value.to_proto())
+            for name, value in parameters.items()
+        ]
 
-        # Call service with keyword arguments
-        try:
-            response = self._service.evaluate(
-                prepared_expression_id=self._prepared_expression_id, columns=column_params, params=param_params
-            )
-        except ServerError:
-            raise
+        response = self._service.evaluate(
+            prepared_expression_id=self._prepared_expression_id, columns=column_params, params=param_params
+        )
 
-        # If not prepared before, store prepared state from response
         if response.prepared and response.prepared.prepared_expression_id:
             self._prepared_expression_id = response.prepared.prepared_expression_id
             self._output_type = response.prepared.output_type
@@ -231,18 +205,13 @@ class PreparedExpression:
             self._referenced_parameters = list(response.prepared.referenced_parameters)
             self._prepared = True
 
-        # Return Value from response
         return Value.from_proto(response.value)
 
     def close(self):
         """Release prepared expression resources."""
         if self._prepared and not self._closed and self._prepared_expression_id is not None:
             try:
-                request = types.UnprepareRequest(prepared_expression_id=self._prepared_expression_id)
-                self._service.unprepare(request)
-            except Exception:
-                # Ignore errors during cleanup
-                pass
+                self._service.unprepare(prepared_expression_id=self._prepared_expression_id)
             finally:
                 self._closed = True
 
@@ -259,7 +228,10 @@ class PreparedExpression:
     def __del__(self):
         """Cleanup on deletion."""
         if not self._closed:
-            self.close()
+            import contextlib
+
+            with contextlib.suppress(Exception):
+                self.close()
 
     @staticmethod
     def builder() -> "PreparedExpression.Builder":

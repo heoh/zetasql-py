@@ -12,10 +12,10 @@ from zetasql.core import IllegalStateError, InvalidArgumentError, ZetaSqlLocalSe
 
 class PreparedQuery:
     """Context manager for prepared queries with automatic cleanup.
-    
+
     Equivalent to Java's PreparedQuery with AutoCloseable support.
     Automatically releases server-side resources when exiting context.
-    
+
     Example:
         >>> with PreparedQuery.builder() \\
         ...         .set_sql("SELECT * FROM Orders") \\
@@ -84,10 +84,7 @@ class PreparedQuery:
         return response
 
     def close(self):
-        """Release server-side resources.
-
-        Unprepares the query on the server. Safe to call multiple times.
-        """
+        """Release server-side resources. Safe to call multiple times."""
         if not self._closed:
             try:
                 self._service.unprepare_query(prepared_query_id=self._prepared_id)
@@ -104,23 +101,20 @@ class PreparedQuery:
         return False
 
     def __del__(self):
-        """Cleanup on garbage collection (safety net).
-
-        Note: Explicit close() or context manager usage is preferred.
-        """
+        """Cleanup on garbage collection. Explicit close() or context manager usage is preferred."""
         if not self._closed:
             import contextlib
 
-            with contextlib.suppress(BaseException):
+            with contextlib.suppress(Exception):
                 self.close()
 
     @staticmethod
     def builder():
         """Create a new PreparedQueryBuilder.
-        
+
         Returns:
             PreparedQueryBuilder instance for fluent API
-        
+
         Example:
             >>> query = PreparedQuery.builder() \\
             ...     .set_sql("SELECT * FROM Orders") \\
@@ -132,10 +126,10 @@ class PreparedQuery:
 
 class PreparedQueryBuilder:
     """Builder for PreparedQuery with fluent API.
-    
+
     Equivalent to Java's PreparedQuery.Builder pattern.
     Provides method chaining for convenient query preparation.
-    
+
     Example:
         >>> builder = PreparedQueryBuilder()
         >>> builder.set_sql("SELECT id FROM Orders") \\
