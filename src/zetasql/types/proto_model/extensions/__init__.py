@@ -1,9 +1,9 @@
 from .language_options import LanguageOptions
-from .type import Type
 from .simple_catalog import SimpleCatalog
+from .type import Type
 
 __all__ = [
-    'LanguageOptions',
-    'Type',
-    'SimpleCatalog',
+    "LanguageOptions",
+    "SimpleCatalog",
+    "Type",
 ]

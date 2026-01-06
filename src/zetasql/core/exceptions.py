@@ -8,6 +8,7 @@ class StatusCode(IntEnum):
     Matches the C++ absl::StatusCode and gRPC status codes.
     See: https://github.com/abseil/abseil-cpp/blob/master/absl/status/status.h
     """
+
     OK = 0
     CANCELLED = 1
     UNKNOWN = 2
@@ -29,28 +30,29 @@ class StatusCode(IntEnum):
 
 class ZetaSQLError(Exception):
     """Base exception for all ZetaSQL errors.
-    
+
     This is the parent class for both server-side errors (from gRPC/backend)
     and client-side errors (from Python API validation).
-    
+
     Subclasses:
         ServerError: Errors from ZetaSQL backend (SQL analysis, execution, etc.)
         ClientError: Errors from Python API usage (parameter validation, state errors)
     """
+
     pass
 
 
 class ServerError(ZetaSQLError):
     """Base exception for ZetaSQL backend/server errors.
-    
+
     Raised when the ZetaSQL server (via gRPC) returns an error.
     Contains absl::StatusCode from the C++ backend.
-    
+
     Attributes:
         code: absl::StatusCode as StatusCode enum or int
         message: Error message from ZetaSQL backend
         raw_error: Original error string from C++ ("Code: X, Message: Y")
-    
+
     Example:
         try:
             response = service.prepare_query(sql=sql, catalog=catalog)
@@ -77,7 +79,7 @@ class ServerError(ZetaSQLError):
         Returns:
             ServerError instance with parsed code and message
         """
-        match = re.match(r'Code: (\d+), Message: (.+)', error_str)
+        match = re.match(r"Code: (\d+), Message: (.+)", error_str)
         if match:
             code = int(match.group(1))
             message = match.group(2)
@@ -88,50 +90,52 @@ class ServerError(ZetaSQLError):
 
 class ClientError(ZetaSQLError):
     """Base exception for Python API client-side errors.
-    
+
     Raised when the Python API detects invalid usage before calling the backend.
     Does not contain StatusCode (not from gRPC).
-    
+
     Examples:
         - Missing required parameters
         - Mutually exclusive parameters both provided
         - Invalid state (e.g., using closed PreparedQuery)
-    
+
     Example:
         try:
             query = PreparedQuery.builder().prepare()  # Missing SQL
         except ClientError as e:
             print(f"API usage error: {e}")
     """
+
     pass
 
 
 class InvalidArgumentError(ClientError):
     """Invalid argument provided to Python API.
-    
+
     Raised for parameter validation failures such as:
     - Missing required parameters
     - Mutually exclusive parameters both provided
     - Invalid parameter combinations
     - Empty or malformed input
-    
+
     Example:
         try:
             query = builder.prepare()  # Missing SQL
         except InvalidArgumentError as e:
             print(f"Invalid parameters: {e}")
     """
+
     pass
 
 
 class IllegalStateError(ClientError):
     """Operation called in illegal state.
-    
+
     Raised when an operation is attempted in an invalid state:
     - Using PreparedQuery after close()
     - Calling methods on disposed objects
     - Invalid operation sequence
-    
+
     Example:
         query.close()
         try:
@@ -139,5 +143,5 @@ class IllegalStateError(ClientError):
         except IllegalStateError as e:
             print(f"Invalid state: {e}")
     """
-    pass
 
+    pass

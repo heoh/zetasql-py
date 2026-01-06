@@ -1,13 +1,12 @@
 """Common fixtures for catalog tests."""
 
 import pytest
+
+from zetasql.api.builders import CatalogBuilder, TableBuilder
 from zetasql.core.local_service import ZetaSqlLocalService
-from zetasql.api.builders import TableBuilder, CatalogBuilder
 from zetasql.types import (
-    TypeKind,
     AnalyzerOptions,
-    LanguageOptions,
-    ZetaSQLBuiltinFunctionOptions,
+    TypeKind,
 )
 
 
@@ -34,8 +33,10 @@ def empty_catalog():
 @pytest.fixture
 def sample_table():
     """Create a sample table for testing."""
-    return (TableBuilder("SampleTable")
+    return (
+        TableBuilder("SampleTable")
         .add_column("id", TypeKind.TYPE_INT64)
         .add_column("name", TypeKind.TYPE_STRING)
         .add_column("value", TypeKind.TYPE_DOUBLE)
-        .build())
+        .build()
+    )

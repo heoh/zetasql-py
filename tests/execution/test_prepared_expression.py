@@ -6,112 +6,110 @@ functionality for evaluating SQL expressions with parameters.
 """
 
 import pytest
-from zetasql.api.analyzer import Analyzer
+
 from zetasql.api.builders import CatalogBuilder, TableBuilder
 from zetasql.api.value import Value
 from zetasql.types import (
     TypeKind,
-    AnalyzerOptions,
 )
 
 
 @pytest.fixture
 def expr_catalog(builtin_function_options):
     """Create catalog for expression testing."""
-    users = (TableBuilder("Users")
+    users = (
+        TableBuilder("Users")
         .add_column("user_id", TypeKind.TYPE_INT64)
         .add_column("name", TypeKind.TYPE_STRING)
         .add_column("age", TypeKind.TYPE_INT64)
-        .build())
-    
-    return (CatalogBuilder("expr_db")
-        .add_table(users)
-        .with_builtin_functions(builtin_function_options)
-        .build())
+        .build()
+    )
+
+    return CatalogBuilder("expr_db").add_table(users).with_builtin_functions(builtin_function_options).build()
 
 
 class TestPreparedExpression:
     """Test PreparedExpression API - Java: PreparedExpression class"""
-    
+
     def test_prepare_simple_expression(self, options, expr_catalog):
         """Test preparing simple arithmetic expression - Java: PreparedExpression()
-        
+
         Expected API:
             expr = PreparedExpression("1 + 2", options, catalog)
             result = expr.execute()
         """
         from zetasql.api.prepared_expression import PreparedExpression
-        
+
         expr = PreparedExpression("1 + 2", options, expr_catalog)
         result = expr.execute()
-        
+
         assert result is not None
         assert result.get_int64() == 3
-    
+
     def test_expression_with_parameters(self, options, expr_catalog):
         """Test expression with query parameters - Java: setParameter()
-        
+
         Expected API:
             expr = PreparedExpression("@x + @y", options, catalog)
             result = expr.execute(parameters={"x": 10, "y": 20})
         """
         from zetasql.api.prepared_expression import PreparedExpression
-        
+
         expr = PreparedExpression("@x + @y", options, expr_catalog)
         result = expr.execute(parameters={"x": Value.int32(10), "y": Value.int32(20)})
-        
+
         assert result.get_int64() == 30
-    
+
     def test_expression_type(self, options, expr_catalog):
         """Test getting expression output type - Java: outputType()
-        
+
         Expected API:
             expr = PreparedExpression("'hello'", options, catalog)
             assert expr.output_type.type_kind == TypeKind.TYPE_STRING
         """
         from zetasql.api.prepared_expression import PreparedExpression
-        
+
         expr = PreparedExpression("'hello'", options, expr_catalog)
-        
+
         assert expr.output_type is not None
         assert expr.output_type.type_kind == TypeKind.TYPE_STRING
-    
+
     def test_expression_with_functions(self, options, expr_catalog):
         """Test expression with builtin functions - Java: function calls
-        
+
         Expected API:
             expr = PreparedExpression("UPPER(@text)", options, catalog)
             result = expr.execute(parameters={"text": "hello"})
         """
         from zetasql.api.prepared_expression import PreparedExpression
-        
+
         expr = PreparedExpression("UPPER(@text)", options, expr_catalog)
         result = expr.execute(parameters={"text": Value.string("hello")})
-        
+
         assert result.get_string() == "HELLO"
-    
+
     def test_expression_context_manager(self, options, expr_catalog):
         """Test using PreparedExpression as context manager - Java: close()
-        
+
         Expected API:
             with PreparedExpression("1 + 1", options, catalog) as expr:
                 result = expr.execute()
         """
         from zetasql.api.prepared_expression import PreparedExpression
-        
+
         with PreparedExpression("1 + 1", options, expr_catalog) as expr:
             result = expr.execute()
             assert result.get_int64() == 2
-        
+
         # Should be automatically closed
 
 
 class TestPreparedExpressionBuilder:
     """Test PreparedExpression builder pattern - Java: builder pattern"""
-    
+
     def test_builder_basic(self, options, expr_catalog):
         """Test PreparedExpression builder - Java: PreparedExpression.Builder
-        
+
         Expected API:
             expr = (PreparedExpression.builder()
                 .expression("@x + @y")
@@ -120,19 +118,15 @@ class TestPreparedExpressionBuilder:
                 .build())
         """
         from zetasql.api.prepared_expression import PreparedExpression
-        
-        expr = (PreparedExpression.builder()
-            .expression("@x + @y")
-            .options(options)
-            .catalog(expr_catalog)
-            .build())
-        
+
+        expr = PreparedExpression.builder().expression("@x + @y").options(options).catalog(expr_catalog).build()
+
         result = expr.execute(parameters={"x": Value.int32(5), "y": Value.int32(3)})
         assert result.get_int64() == 8
-    
+
     def test_builder_with_columns(self, options, expr_catalog):
         """Test expression referencing table columns - Java: column references
-        
+
         Expected API:
             expr = (PreparedExpression.builder()
                 .expression("age > @min_age")
@@ -142,129 +136,123 @@ class TestPreparedExpressionBuilder:
                 .build())
         """
         from zetasql.api.prepared_expression import PreparedExpression
-        
-        expr = (PreparedExpression.builder()
+
+        expr = (
+            PreparedExpression.builder()
             .expression("age > @min_age")
             .options(options)
             .catalog(expr_catalog)
             .column("age", TypeKind.TYPE_INT64)
-            .build())
-        
-        # Would need to provide column value too
-        result = expr.execute(
-            columns={"age": Value.int64(25)},
-            parameters={"min_age": Value.int32(18)}
+            .build()
         )
+
+        # Would need to provide column value too
+        result = expr.execute(columns={"age": Value.int64(25)}, parameters={"min_age": Value.int32(18)})
         assert result.get_bool() is True
-    
+
     def test_expression_with_columns_simple(self, options, expr_catalog):
         """Test expression with column values (without builder)
-        
+
         Test that columns can be provided at execute time and inferred from values.
         """
         from zetasql.api.prepared_expression import PreparedExpression
-        
+
         # Expression uses 'a' as a column reference
         # Column types are inferred from Value objects at execute time
         expr = PreparedExpression("a + b", None, expr_catalog)
-        
-        result = expr.execute(
-            columns={"a": Value.int64(20), "b": Value.int64(5)}
-        )
+
+        result = expr.execute(columns={"a": Value.int64(20), "b": Value.int64(5)})
         assert result.get_int64() == 25
 
 
 class TestExpressionEvaluation:
     """Test expression evaluation features - Java: evaluation methods"""
-    
+
     def test_expression_with_null(self, options, expr_catalog):
         """Test expression handling null values - Java: null handling
-        
+
         Expected API:
             expr = PreparedExpression("@x IS NULL", options, catalog)
             result = expr.execute(parameters={"x": None})
         """
         from zetasql.api.prepared_expression import PreparedExpression
-        
+
         expr = PreparedExpression("@x IS NULL", options, expr_catalog)
         result = expr.execute(parameters={"x": Value.null(TypeKind.TYPE_INT32)})
-        
+
         assert result.get_bool() is True
-    
+
     def test_expression_with_cast(self, options, expr_catalog):
         """Test expression with type casting - Java: CAST operations
-        
+
         Expected API:
             expr = PreparedExpression("CAST(@x AS STRING)", options, catalog)
             result = expr.execute(parameters={"x": 123})
         """
         from zetasql.api.prepared_expression import PreparedExpression
-        
+
         expr = PreparedExpression("CAST(@x AS STRING)", options, expr_catalog)
         result = expr.execute(parameters={"x": Value.int32(123)})
-        
+
         assert result.get_string() == "123"
-    
+
     def test_expression_evaluation_error(self, options, expr_catalog):
         """Test error handling during evaluation - Java: evaluation exceptions
-        
+
         Expected: Should raise appropriate error with details
         """
         from zetasql.api.prepared_expression import PreparedExpression
-        
+
         # Division by zero
         expr = PreparedExpression("@x / @y", options, expr_catalog)
-        
+
         with pytest.raises(Exception) as exc_info:
             expr.execute(parameters={"x": Value.int32(10), "y": Value.int32(0)})
-        
+
         assert "division by zero" in str(exc_info.value).lower()
 
 
 class TestExpressionBatch:
     """Test batch expression evaluation - Java: batch operations"""
-    
+
     @pytest.mark.skip(reason="Batch expression evaluation not implemented")
     def test_evaluate_multiple_expressions(self, options, expr_catalog):
         """Test evaluating multiple expressions efficiently - Java: batch eval
-        
+
         Expected API:
             expressions = ["1 + 1", "2 * 3", "10 / 2"]
             results = PreparedExpression.evaluate_batch(expressions, options, catalog)
         """
         from zetasql.api.prepared_expression import PreparedExpression
-        
+
         expressions = ["1 + 1", "2 * 3", "10 / 2"]
         results = PreparedExpression.evaluate_batch(expressions, options, expr_catalog)
-        
+
         assert len(results) == 3
         assert results[0].get_int64() == 2
         assert results[1].get_int64() == 6
         assert results[2].get_int64() == 5
-    
+
     @pytest.mark.skip(reason="Batch evaluation with shared parameters not implemented")
     def test_batch_with_parameters(self, options, expr_catalog):
         """Test batch evaluation with shared parameters - Java: batch with params
-        
+
         Expected API:
             expressions = ["@x + 1", "@x * 2", "@x - 3"]
             results = PreparedExpression.evaluate_batch(
-                expressions, 
-                options, 
+                expressions,
+                options,
                 catalog,
                 parameters={"x": 10}
             )
         """
         from zetasql.api.prepared_expression import PreparedExpression
-        
+
         expressions = ["@x + 1", "@x * 2", "@x - 3"]
         results = PreparedExpression.evaluate_batch(
-            expressions,
-            options,
-            expr_catalog,
-            parameters={"x": Value.int32(10)}
+            expressions, options, expr_catalog, parameters={"x": Value.int32(10)}
         )
-        
+
         assert results[0].get_int64() == 11
         assert results[1].get_int64() == 20
         assert results[2].get_int64() == 7
@@ -272,46 +260,44 @@ class TestExpressionBatch:
 
 class TestExpressionReuse:
     """Test reusing prepared expressions - Java: reuse patterns"""
-    
+
     def test_reuse_expression_different_parameters(self, options, expr_catalog):
         """Test executing same expression with different parameters - Java: reuse
-        
+
         Expected: PreparedExpression can be executed multiple times
         """
         from zetasql.api.prepared_expression import PreparedExpression
-        
+
         expr = PreparedExpression("@x * @y", options, expr_catalog)
-        
+
         result1 = expr.execute(parameters={"x": Value.int32(2), "y": Value.int32(3)})
         assert result1.get_int64() == 6
-        
+
         result2 = expr.execute(parameters={"x": Value.int32(4), "y": Value.int32(5)})
         assert result2.get_int64() == 20
-        
+
         result3 = expr.execute(parameters={"x": Value.int32(10), "y": Value.int32(10)})
         assert result3.get_int64() == 100
-    
+
     @pytest.mark.skip(reason="Expression concurrent execution not implemented")
     def test_concurrent_expression_execution(self, options, expr_catalog):
         """Test thread-safety of PreparedExpression - Java: concurrency
-        
+
         Expected: Should handle concurrent executions safely
         """
-        from zetasql.api.prepared_expression import PreparedExpression
         import concurrent.futures
-        
+
+        from zetasql.api.prepared_expression import PreparedExpression
+
         expr = PreparedExpression("@x + @y", options, expr_catalog)
-        
+
         def evaluate(x, y):
             return expr.execute(parameters={"x": Value.int32(x), "y": Value.int32(y)}).get_int64()
-        
+
         with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
-            futures = [
-                executor.submit(evaluate, i, i+1)
-                for i in range(10)
-            ]
+            futures = [executor.submit(evaluate, i, i + 1) for i in range(10)]
             results = [f.result() for f in futures]
-        
+
         assert len(results) == 10
         assert results[0] == 1  # 0 + 1
         assert results[9] == 19  # 9 + 10

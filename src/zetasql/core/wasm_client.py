@@ -1,10 +1,11 @@
 import os
 import sys
-from google.protobuf import message, empty_pb2
-from wasmtime import Store, Module, Linker, WasiConfig
-from zetasql.core.exceptions import ServerError
-
 from typing import TypeVar
+
+from google.protobuf import empty_pb2, message
+from wasmtime import Linker, Module, Store, WasiConfig
+
+from zetasql.core.exceptions import ServerError
 
 Message = TypeVar("Message", bound=message.Message)
 
@@ -127,7 +128,9 @@ class WasmClient:
         error_ptr = self.exports["wasm_get_last_error"](self.store)
         return self.read_bytes(error_ptr, error_size).decode("utf-8")
 
-    def call_grpc_func(self, func_name: str, request: message.Message, response_type: type[Message] = empty_pb2.Empty) -> Message:
+    def call_grpc_func(
+        self, func_name: str, request: message.Message, response_type: type[Message] = empty_pb2.Empty
+    ) -> Message:
         request_data = request.SerializeToString()
         response_data = self._call_grpc_method(func_name, request_data)
         response = response_type.FromString(response_data)
@@ -173,7 +176,7 @@ class WasmClient:
 
             # Read response size from output parameter
             response_size_bytes = self.read_bytes(response_size_ptr, WASM32_SIZE_T_BYTES)
-            response_size = int.from_bytes(response_size_bytes, byteorder='little')
+            response_size = int.from_bytes(response_size_bytes, byteorder="little")
 
             # Read response data
             response_data = self.read_bytes(response_ptr, response_size)
@@ -197,6 +200,7 @@ def get_tzinfo_dir() -> str | None:
     """
     try:
         import tzdata
+
         tzdata_dir = os.path.dirname(tzdata.__file__)
         zoneinfo_dir = os.path.join(tzdata_dir, "zoneinfo")
         if os.path.exists(zoneinfo_dir):
