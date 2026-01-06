@@ -40,8 +40,6 @@ def _wrap_in_union_if_needed(value: "ProtoModel", parent_proto: _message.Message
 
     # Check if the target message type has oneofs (characteristic of union types)
     has_oneofs = hasattr(field_desc.message_type, "oneofs") and len(field_desc.message_type.oneofs) > 0
-    # DEBUG
-    # print(f"DEBUG _wrap: field={field_name}, target_type={field_desc.message_type.name}, has_oneofs={has_oneofs}")
     if not has_oneofs:
         # Not a union type - regular message field
         return value.to_proto()
@@ -78,25 +76,17 @@ def _wrap_in_union_if_needed(value: "ProtoModel", parent_proto: _message.Message
     # First try exact match
     for field_desc in union_proto.DESCRIPTOR.fields:
         if field_desc.message_type and field_desc.message_type.name == value_proto_type_name:
-            # Found the matching field - set it
-            # print(f"DEBUG: Found exact union field '{field_desc.name}' for {value_proto_type_name}")
             getattr(union_proto, field_desc.name).CopyFrom(value_proto)
             return union_proto
 
     # No exact match - try to find a base class match by recursively checking nested unions
     def try_nested_union(current_union_proto, visited_types=None):
-        """Recursively try to find a matching field in nested unions
-
-        Args:
-            current_union_proto: Current union proto to search
-            visited_types: Set of proto type names already visited (prevents cycles)
-        """
+        """Recursively try to find a matching field in nested unions."""
         if visited_types is None:
             visited_types = set()
 
         current_type_name = type(current_union_proto).__name__
         if current_type_name in visited_types:
-            # Prevent infinite recursion by skipping already visited types
             return None
 
         visited_types = visited_types | {current_type_name}
@@ -106,33 +96,34 @@ def _wrap_in_union_if_needed(value: "ProtoModel", parent_proto: _message.Message
                 continue
 
             # Check if this field has oneofs (is a union)
-            if hasattr(field_desc.message_type, "oneofs") and len(field_desc.message_type.oneofs) > 0:
-                nested_union_proto_type_name = field_desc.message_type.name
-                nested_union_model_class_name = nested_union_proto_type_name.removesuffix("Proto")
+            if not (hasattr(field_desc.message_type, "oneofs") and len(field_desc.message_type.oneofs) > 0):
+                continue
 
-                import zetasql.types.proto_model as model_module
+            nested_union_proto_type_name = field_desc.message_type.name
+            nested_union_model_class_name = nested_union_proto_type_name.removesuffix("Proto")
 
-                nested_union_class = getattr(model_module, nested_union_model_class_name, None)
+            import zetasql.types.proto_model as model_module
 
-                if not nested_union_class or not issubclass(nested_union_class, ProtoModel):
-                    continue
+            nested_union_class = getattr(model_module, nested_union_model_class_name, None)
 
-                nested_union_proto_class = nested_union_class._PROTO_CLASS
-                nested_union_proto = nested_union_proto_class()
+            if not nested_union_class or not issubclass(nested_union_class, ProtoModel):
+                continue
 
-                # Try direct match in this nested union
-                for nested_field_desc in nested_union_proto.DESCRIPTOR.fields:
-                    if nested_field_desc.message_type and nested_field_desc.message_type.name == value_proto_type_name:
-                        # Found direct match!
-                        getattr(nested_union_proto, nested_field_desc.name).CopyFrom(value_proto)
-                        return (field_desc.name, nested_union_proto)
+            nested_union_proto_class = nested_union_class._PROTO_CLASS
+            nested_union_proto = nested_union_proto_class()
 
-                # Try deeper nesting recursively
-                deeper_result = try_nested_union(nested_union_proto, visited_types)
-                if deeper_result:
-                    deeper_field_name, deeper_union_proto = deeper_result
-                    getattr(nested_union_proto, deeper_field_name).CopyFrom(deeper_union_proto)
+            # Try direct match in this nested union
+            for nested_field_desc in nested_union_proto.DESCRIPTOR.fields:
+                if nested_field_desc.message_type and nested_field_desc.message_type.name == value_proto_type_name:
+                    getattr(nested_union_proto, nested_field_desc.name).CopyFrom(value_proto)
                     return (field_desc.name, nested_union_proto)
+
+            # Try deeper nesting recursively
+            deeper_result = try_nested_union(nested_union_proto, visited_types)
+            if deeper_result:
+                deeper_field_name, deeper_union_proto = deeper_result
+                getattr(nested_union_proto, deeper_field_name).CopyFrom(deeper_union_proto)
+                return (field_desc.name, nested_union_proto)
 
         return None
 
@@ -158,11 +149,6 @@ def _convert_to_enum(value: int, field_meta: dict[str, Any], model_cls: type) ->
     Returns:
         IntEnum instance if conversion is possible, otherwise the original int value
     """
-    if value == 0:
-        # Proto default value - might not be set, so just return as-is
-        # IntEnum will handle it if needed
-        pass
-
     enum_type_name = field_meta.get("enum_type_name")
     enum_parent_msg = field_meta.get("enum_parent_message")
 
@@ -170,27 +156,23 @@ def _convert_to_enum(value: int, field_meta: dict[str, Any], model_cls: type) ->
         return value
 
     # Try to find the enum class
+    import sys
+
+    module = sys.modules.get(model_cls.__module__)
+    if not module:
+        return value
+
     enum_cls = None
 
     # First check if it's a nested enum in the model class
     if enum_parent_msg:
-        # Look for ParentClass.EnumType
-        # Need to search in the module where model_cls is defined
-        import sys
-
-        module = sys.modules.get(model_cls.__module__)
-        if module:
-            parent_cls = getattr(module, enum_parent_msg, None)
-            if parent_cls:
-                enum_cls = getattr(parent_cls, enum_type_name, None)
+        parent_cls = getattr(module, enum_parent_msg, None)
+        if parent_cls:
+            enum_cls = getattr(parent_cls, enum_type_name, None)
 
     # If not found as nested, try as top-level in the same module
     if not enum_cls:
-        import sys
-
-        module = sys.modules.get(model_cls.__module__)
-        if module:
-            enum_cls = getattr(module, enum_type_name, None)
+        enum_cls = getattr(module, enum_type_name, None)
 
     # Convert to IntEnum if class was found
     if enum_cls and isinstance(enum_cls, type) and issubclass(enum_cls, IntEnum):
@@ -209,6 +191,34 @@ class ProtoModel:
     # Subclasses should define these as ClassVar
     _PROTO_CLASS: ClassVar[type] = None
     _PROTO_FIELD_MAP: ClassVar[dict[str, dict[str, Any]]] = {}
+
+    @staticmethod
+    def _get_proto_model_classes(cls) -> list[type]:
+        """Get all ProtoModel classes in MRO, reversed from ancestor to descendant."""
+        classes = [
+            c for c in cls.__mro__ if c != ProtoModel and issubclass(c, ProtoModel) and hasattr(c, "_PROTO_FIELD_MAP")
+        ]
+        classes.reverse()
+        return classes
+
+    @staticmethod
+    def _get_active_oneof_fields(proto: _message.Message) -> set[str]:
+        """Build a set of active oneof field names in a proto message."""
+        oneof_fields = {}
+        if hasattr(proto, "DESCRIPTOR") and hasattr(proto.DESCRIPTOR, "oneofs"):
+            for oneof_desc in proto.DESCRIPTOR.oneofs:
+                for field_desc in oneof_desc.fields:
+                    oneof_fields[field_desc.name] = oneof_desc.name
+
+        active_fields = set()
+        for oneof_name in set(oneof_fields.values()):
+            try:
+                which_field = proto.WhichOneof(oneof_name)
+                if which_field:
+                    active_fields.add(which_field)
+            except (ValueError, AttributeError):
+                pass
+        return active_fields
 
     @classmethod
     def from_proto(cls: type[T], proto: _message.Message) -> T:
@@ -232,50 +242,29 @@ class ProtoModel:
             >>> # literal.value and literal.type are populated
         """
         kwargs = {}
-
-        # Get all ProtoModel classes in MRO (excluding ProtoModel itself)
-        proto_model_classes = [
-            c for c in cls.__mro__ if c != ProtoModel and issubclass(c, ProtoModel) and hasattr(c, "_PROTO_FIELD_MAP")
-        ]
-
-        # Reverse to process from ancestor to descendant
-        proto_model_classes.reverse()
-
-        # Calculate max depth (number of parent levels)
+        proto_model_classes = cls._get_proto_model_classes(cls)
         max_depth = len(proto_model_classes) - 1
 
         # Process each class level
         for i, ancestor_cls in enumerate(proto_model_classes):
-            # Calculate parent depth for this class
-            # Most distant ancestor has highest depth
             depth = max_depth - i
 
             # Navigate to the appropriate parent level
             current_proto = proto
             for _ in range(depth):
                 if not hasattr(current_proto, "parent"):
-                    # Proto doesn't have parent field, skip this ancestor
                     break
                 current_proto = current_proto.parent
 
-            # Detect oneof fields to only extract the active variant
-            # Build a set of field names that belong to oneofs
-            oneof_fields = {}  # Maps field_name -> oneof_name
+            # Get active oneof fields
+            active_oneof_fields = cls._get_active_oneof_fields(current_proto)
+
+            # Build oneof mapping
+            oneof_fields = {}
             if hasattr(current_proto, "DESCRIPTOR") and hasattr(current_proto.DESCRIPTOR, "oneofs"):
                 for oneof_desc in current_proto.DESCRIPTOR.oneofs:
-                    oneof_name = oneof_desc.name
                     for field_desc in oneof_desc.fields:
-                        oneof_fields[field_desc.name] = oneof_name
-
-            # Build a set of active oneof fields
-            active_oneof_fields = set()
-            for oneof_name in set(oneof_fields.values()):
-                try:
-                    which_field = current_proto.WhichOneof(oneof_name)
-                    if which_field:
-                        active_oneof_fields.add(which_field)
-                except (ValueError, AttributeError):
-                    pass
+                        oneof_fields[field_desc.name] = oneof_desc.name
 
             # Extract fields defined by this ancestor class
             field_map = ancestor_cls._PROTO_FIELD_MAP
@@ -296,23 +285,13 @@ class ProtoModel:
                     if field_meta.get("is_repeated", False):
                         kwargs[field_name] = [parse_proto(item) for item in value_obj]
                     else:
-                        # Check if message has content
                         kwargs[field_name] = parse_proto(value_obj) if value_obj.ByteSize() > 0 else None
                 elif field_meta.get("is_enum", False):
-                    # Enum type - convert int to IntEnum if possible
                     if field_meta.get("is_repeated", False):
-                        # Repeated enum field
-                        enum_values = []
-                        for enum_val in value_obj:
-                            converted = _convert_to_enum(enum_val, field_meta, cls)
-                            if converted is not None:
-                                enum_values.append(converted)
-                        kwargs[field_name] = enum_values
+                        kwargs[field_name] = [_convert_to_enum(enum_val, field_meta, cls) for enum_val in value_obj]
                     else:
-                        # Singular enum field
                         kwargs[field_name] = _convert_to_enum(value_obj, field_meta, cls)
                 else:
-                    # Primitive type
                     kwargs[field_name] = value_obj
 
         return cls(**kwargs)
@@ -336,14 +315,7 @@ class ProtoModel:
             raise NotImplementedError(f"{type(self).__name__} does not define _PROTO_CLASS")
 
         proto = self._PROTO_CLASS()
-
-        # Get all ProtoModel classes in MRO
-        proto_model_classes = [
-            c
-            for c in type(self).__mro__
-            if c != ProtoModel and issubclass(c, ProtoModel) and hasattr(c, "_PROTO_FIELD_MAP")
-        ]
-        proto_model_classes.reverse()
+        proto_model_classes = self._get_proto_model_classes(type(self))
         max_depth = len(proto_model_classes) - 1
 
         # Process each class level
@@ -371,54 +343,53 @@ class ProtoModel:
                     continue
 
                 if field_meta["is_message"]:
-                    if field_meta.get("is_repeated", False):
-                        # Check if it's a map field (dict in Python)
-                        if isinstance(value, dict):
-                            # Map field: Dict[K, V] -> protobuf map
-                            target_map = getattr(current_proto, proto_field)
-                            target_map.clear()
-                            for key, val in value.items():
-                                if isinstance(val, ProtoModel):
-                                    target_map[key].CopyFrom(val.to_proto())
-                                else:
-                                    target_map[key].CopyFrom(val)
-                        else:
-                            # Regular repeated message field
-                            # Skip if value is empty list (default)
-                            if not value:
-                                continue
-                            target_list = getattr(current_proto, proto_field)
-                            target_list.clear()
-                            for item in value:
-                                if isinstance(item, ProtoModel):
-                                    item_proto = _wrap_in_union_if_needed(item, current_proto, proto_field)
-                                    target_list.add().CopyFrom(item_proto)
-                                else:
-                                    target_list.append(item)
-                    else:
-                        # Singular message field
-                        if isinstance(value, ProtoModel):
-                            value_proto = _wrap_in_union_if_needed(value, current_proto, proto_field)
-                            getattr(current_proto, proto_field).CopyFrom(value_proto)
-                        else:
-                            getattr(current_proto, proto_field).CopyFrom(value)
+                    self._set_message_field(current_proto, proto_field, value, field_meta)
                 else:
-                    # Primitive field
-                    if field_meta.get("is_repeated", False):
-                        # Repeated primitive field (e.g., List[int])
-                        # Skip if value is empty list (default)
-                        if not value:
-                            continue
-                        target_list = getattr(current_proto, proto_field)
-                        del target_list[:]  # Clear existing
-                        for item in value:
-                            target_list.append(item)
-                    else:
-                        # Singular primitive field
-                        # Value is not None, so user explicitly set it - always set in proto
-                        setattr(current_proto, proto_field, value)
+                    self._set_primitive_field(current_proto, proto_field, value, field_meta)
 
         return proto
+
+    @staticmethod
+    def _set_message_field(current_proto, proto_field, value, field_meta):
+        """Helper method to set message field in proto."""
+        if field_meta.get("is_repeated", False):
+            if isinstance(value, dict):
+                # Map field: Dict[K, V] -> protobuf map
+                target_map = getattr(current_proto, proto_field)
+                target_map.clear()
+                for key, val in value.items():
+                    if isinstance(val, ProtoModel):
+                        target_map[key].CopyFrom(val.to_proto())
+                    else:
+                        target_map[key].CopyFrom(val)
+            elif value:  # Skip empty lists
+                # Regular repeated message field
+                target_list = getattr(current_proto, proto_field)
+                target_list.clear()
+                for item in value:
+                    if isinstance(item, ProtoModel):
+                        item_proto = _wrap_in_union_if_needed(item, current_proto, proto_field)
+                        target_list.add().CopyFrom(item_proto)
+                    else:
+                        target_list.append(item)
+        else:
+            # Singular message field
+            if isinstance(value, ProtoModel):
+                value_proto = _wrap_in_union_if_needed(value, current_proto, proto_field)
+                getattr(current_proto, proto_field).CopyFrom(value_proto)
+            else:
+                getattr(current_proto, proto_field).CopyFrom(value)
+
+    @staticmethod
+    def _set_primitive_field(current_proto, proto_field, value, field_meta):
+        """Helper method to set primitive field in proto."""
+        if field_meta.get("is_repeated", False):
+            if value:  # Skip empty lists
+                target_list = getattr(current_proto, proto_field)
+                del target_list[:]
+                target_list.extend(value)
+        else:
+            setattr(current_proto, proto_field, value)
 
     def as_type(self, model_type: type[T]) -> T:
         """

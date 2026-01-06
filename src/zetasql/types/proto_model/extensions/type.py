@@ -246,38 +246,27 @@ class Type(_GeneratedType):
             'INT64'
             >>> # Array type returns 'ARRAY<element_type>'
         """
-        kind = TypeKind(self.type_kind)
-
-        # Array type
+        # Composite types with nested elements
         if self.is_array() and self.array_type:
-            elem = self.array_type.element_type
-            elem_name = elem.type_name() if elem else "?"
+            elem_name = self.array_type.element_type.type_name() if self.array_type.element_type else "?"
             return f"ARRAY<{elem_name}>"
 
-        # Struct type (simplified)
         if self.is_struct():
             return "STRUCT<...>"
 
-        # Map type
         if self.is_map() and self.map_type:
-            key = self.map_type.key_type
-            val = self.map_type.value_type
-            key_name = key.type_name() if key else "?"
-            val_name = val.type_name() if val else "?"
+            key_name = self.map_type.key_type.type_name() if self.map_type.key_type else "?"
+            val_name = self.map_type.value_type.type_name() if self.map_type.value_type else "?"
             return f"MAP<{key_name}, {val_name}>"
 
-        # Range type
         if self.is_range() and self.range_type:
-            elem = self.range_type.element_type
-            elem_name = elem.type_name() if elem else "?"
+            elem_name = self.range_type.element_type.type_name() if self.range_type.element_type else "?"
             return f"RANGE<{elem_name}>"
 
         # Simple type - use enum name without TYPE_ prefix
+        kind = TypeKind(self.type_kind)
         try:
-            name = kind.name
-            if name.startswith("TYPE_"):
-                return name[5:]  # Remove 'TYPE_' prefix
-            return name
+            return kind.name.removeprefix("TYPE_")
         except (ValueError, AttributeError):
             return f"UNKNOWN({self.type_kind})"
 

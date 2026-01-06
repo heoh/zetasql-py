@@ -21,6 +21,29 @@ class SimpleCatalog(_GeneratedSimpleCatalog):
     Mirrors the Java SimpleCatalog API for consistency.
     """
 
+    def _check_duplicate(self, items: list, name_path: list[str], item_type: str) -> None:
+        """Check for duplicate items in catalog (case-insensitive)."""
+        if not name_path:
+            return
+        new_name = name_path[-1].lower()
+        for item in items:
+            if item.name_path and item.name_path[-1].lower() == new_name:
+                raise ValueError(f"{item_type} '{name_path[-1]}' already exists in catalog")
+
+    def _find_by_name(self, items: list, target_name: str, use_name_path: bool = True) -> any:
+        """Find item by name (case-insensitive)."""
+        target_name = target_name.lower()
+        for item in items:
+            if use_name_path:
+                if item.name_path:
+                    item_name = item.name_path[-1]
+                    if item_name.lower() == target_name:
+                        return item
+            else:
+                if item.name and item.name.lower() == target_name:
+                    return item
+        return None
+
     # === Function Operations ===
 
     def add_function(self, function: Function) -> None:
@@ -37,13 +60,7 @@ class SimpleCatalog(_GeneratedSimpleCatalog):
             >>> func = FunctionBuilder("MY_UDF").add_signature(...).build()
             >>> catalog.add_function(func)
         """
-        # Check for duplicates (case-insensitive)
-        if function.name_path:
-            new_name = function.name_path[-1].lower()
-            for existing in self.custom_function:
-                if existing.name_path and existing.name_path[-1].lower() == new_name:
-                    raise ValueError(f"Function '{function.name_path[-1]}' already exists in catalog")
-
+        self._check_duplicate(self.custom_function, function.name_path, "Function")
         self.custom_function.append(function)
 
     def get_function_list(self) -> list[Function]:
@@ -126,13 +143,7 @@ class SimpleCatalog(_GeneratedSimpleCatalog):
             >>> tvf = TVFBuilder("my_tvf").add_argument(...).build()
             >>> catalog.add_table_valued_function(tvf)
         """
-        # Check for duplicates (case-insensitive)
-        if tvf.name_path:
-            new_name = tvf.name_path[-1].lower()
-            for existing in self.custom_tvf:
-                if existing.name_path and existing.name_path[-1].lower() == new_name:
-                    raise ValueError(f"Table-valued function '{tvf.name_path[-1]}' already exists in catalog")
-
+        self._check_duplicate(self.custom_tvf, tvf.name_path, "Table-valued function")
         self.custom_tvf.append(tvf)
 
     def get_tvf_list(self) -> list[TableValuedFunction]:
@@ -162,18 +173,7 @@ class SimpleCatalog(_GeneratedSimpleCatalog):
             >>> if tvf:
             ...     print(f"Found: {tvf.name_path}")
         """
-        # Normalize to lowercase for case-insensitive comparison
-        target_name = full_name.lower()
-
-        for tvf in self.custom_tvf:
-            if tvf.name_path:
-                tvf_name = tvf.name_path[-1]
-
-                # Try matching just the name
-                if tvf_name.lower() == target_name:
-                    return tvf
-
-        return None
+        return self._find_by_name(self.custom_tvf, full_name)
 
     def get_tvf_name_list(self) -> list[str]:
         """Get list of all TVF names.
@@ -207,13 +207,7 @@ class SimpleCatalog(_GeneratedSimpleCatalog):
             >>> const = ConstantBuilder("MAX_LIMIT").set_type(...).build()
             >>> catalog.add_constant(const)
         """
-        # Check for duplicates (case-insensitive)
-        if constant.name_path:
-            new_name = constant.name_path[-1].lower()
-            for existing in self.constant:
-                if existing.name_path and existing.name_path[-1].lower() == new_name:
-                    raise ValueError(f"Constant '{constant.name_path[-1]}' already exists in catalog")
-
+        self._check_duplicate(self.constant, constant.name_path, "Constant")
         self.constant.append(constant)
 
     def get_constant_list(self) -> list[SimpleConstant]:
@@ -243,16 +237,7 @@ class SimpleCatalog(_GeneratedSimpleCatalog):
             >>> if const:
             ...     print(f"Found: {const.name_path}")
         """
-        # Normalize to lowercase for case-insensitive comparison (Java behavior)
-        target_name = name.lower()
-
-        for const in self.constant:
-            if const.name_path:
-                const_name = const.name_path[-1]
-                if const_name.lower() == target_name:
-                    return const
-
-        return None
+        return self._find_by_name(self.constant, name)
 
     # === Table Operations ===
 
@@ -286,14 +271,7 @@ class SimpleCatalog(_GeneratedSimpleCatalog):
             >>> # Case-insensitive
             >>> table = catalog.get_table("ORDERS")  # Same as "Orders"
         """
-        # Normalize to lowercase for case-insensitive comparison (Java behavior)
-        target_name = name.lower()
-
-        for table in self.table:
-            if table.name and table.name.lower() == target_name:
-                return table
-
-        return None
+        return self._find_by_name(self.table, name, use_name_path=False)
 
     def get_table_name_list(self) -> list[str]:
         """Get list of all table names.
