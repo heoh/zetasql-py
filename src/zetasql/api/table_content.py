@@ -5,7 +5,7 @@ This module provides a simple factory function for creating TableContent ProtoMo
 objects from Python data, eliminating the need to work with protobuf directly.
 
 Examples:
-    >>> from zetasql.table_content import create_table_content
+    >>> from zetasql.api import create_table_content
     >>> 
     >>> # Simple data
     >>> data = [

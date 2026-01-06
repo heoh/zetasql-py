@@ -17,7 +17,7 @@ The -s flag shows AST trees and result tables for learning purposes.
 
 import pytest
 from zetasql.core import ZetaSqlLocalService
-from zetasql.extensions import create_table_content
+from zetasql.api import create_table_content
 from zetasql.types import (
     ProtoModel,
     TypeKind,

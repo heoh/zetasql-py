@@ -7,7 +7,7 @@ from zetasql.core.exceptions import ZetaSQLError, IllegalStateError, InvalidArgu
 from zetasql.types import AnalyzerOptions, LanguageOptions
 from zetasql.api.builders import TableBuilder, CatalogBuilder
 from zetasql.types import TypeKind
-from zetasql.extensions.table_content import create_table_content
+from zetasql.api import create_table_content
 
 
 @pytest.fixture

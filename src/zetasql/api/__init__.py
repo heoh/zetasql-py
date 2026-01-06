@@ -14,6 +14,7 @@ from .analyzer import Analyzer, ScriptMetadata, ValidationResult, StatementType,
 from .prepared_query import PreparedQuery, PreparedQueryBuilder
 from .prepared_expression import PreparedExpression
 from .builders import CatalogBuilder, TableBuilder
+from .table_content import create_table_content
 from .type_factory import TypeFactory
 from .value import Value
 
@@ -28,6 +29,7 @@ __all__ = [
     'PreparedExpression',
     'CatalogBuilder',
     'TableBuilder',
+    'create_table_content',
     'TypeFactory',
     'Value',
 ]

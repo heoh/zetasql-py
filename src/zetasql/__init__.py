@@ -18,7 +18,7 @@ Recommended Usage:
     
     from zetasql.core import ZetaSqlLocalService
     from zetasql.api import Analyzer, PreparedQuery, CatalogBuilder, TableBuilder
-    from zetasql.extensions import create_table_content
+    from zetasql.api import create_table_content
     from zetasql.types import TypeKind, AnalyzerOptions, proto_models
 """
 
