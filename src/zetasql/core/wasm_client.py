@@ -1,9 +1,10 @@
+import contextlib
 import os
 import sys
 from typing import TypeVar
 
 from google.protobuf import empty_pb2, message
-from wasmtime import Linker, Module, Store, WasiConfig
+from wasmtime import Config, Engine, Linker, Module, Store, WasiConfig
 
 from zetasql.core.exceptions import ServerError
 
@@ -38,8 +39,13 @@ class WasmClient:
         else:
             print("[WARNING] tzdata package not installed, timezone features may not work", file=sys.stderr)
 
-        # Create store with WASI context
-        self.store = Store()
+        # Create engine with shared memory enabled and WASI context
+        config = Config()
+        with contextlib.suppress(AttributeError):
+            config.shared_memory = True
+
+        engine = Engine(config)
+        self.store = Store(engine)
         self.store.set_wasi(wasi)
 
         self.module = Module.from_file(self.store.engine, wasm_path)
