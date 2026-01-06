@@ -23,12 +23,7 @@ class ZetaSqlLocalService:
     """
 
     def __init__(self):
-        """
-        Initialize the ZetaSQL Local Service client.
-
-        Args:
-            wasm_path: Path to the ZetaSQL WASM binary.
-        """
+        """Initialize the ZetaSQL Local Service client."""
         self.wasm_client = WasmClient(wasm_path=get_wasm_path())
 
     @parameters(types.PrepareRequest)

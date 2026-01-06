@@ -39,8 +39,6 @@ class ZetaSQLError(Exception):
         ClientError: Errors from Python API usage (parameter validation, state errors)
     """
 
-    pass
-
 
 class ServerError(ZetaSQLError):
     """Base exception for ZetaSQL backend/server errors.
@@ -106,8 +104,6 @@ class ClientError(ZetaSQLError):
             print(f"API usage error: {e}")
     """
 
-    pass
-
 
 class InvalidArgumentError(ClientError):
     """Invalid argument provided to Python API.
@@ -125,8 +121,6 @@ class InvalidArgumentError(ClientError):
             print(f"Invalid parameters: {e}")
     """
 
-    pass
-
 
 class IllegalStateError(ClientError):
     """Operation called in illegal state.
@@ -143,5 +137,3 @@ class IllegalStateError(ClientError):
         except IllegalStateError as e:
             print(f"Invalid state: {e}")
     """
-
-    pass

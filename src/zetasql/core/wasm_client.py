@@ -206,5 +206,5 @@ def get_tzinfo_dir() -> str | None:
         if os.path.exists(zoneinfo_dir):
             return zoneinfo_dir
     except ImportError:
-        return None
+        pass
     return None

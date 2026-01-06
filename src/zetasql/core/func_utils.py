@@ -6,6 +6,10 @@ R = TypeVar("R")
 
 
 def parameters(param_func: Callable[P, R]):
+    """Decorator for parameter type hints without runtime overhead.
+
+    Uses param_func signature for type checking while preserving original function at runtime.
+    """
     S2 = TypeVar("S2")
     P2 = ParamSpec("P2")
     R2 = TypeVar("R2")
