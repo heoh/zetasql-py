@@ -643,7 +643,6 @@ def catalog():
 
 ## See Also
 
-- [Getting Started Guide](GETTING_STARTED.md)
-- [API Reference](API_REFERENCE.md)
-- [Examples](EXAMPLES.md)
+- [Getting Started Guide](getting-started.md)
+- [API Reference](api-reference.md)
 - [Contributing Guidelines](../CONTRIBUTING.md)

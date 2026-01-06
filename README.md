@@ -27,7 +27,7 @@ pip install zetasql
 
 ```python
 from zetasql.api import Analyzer, CatalogBuilder, TableBuilder
-from zetasql.types import AnalyzerOptions, TypeKind
+from zetasql.types import AnalyzerOptions, LanguageOptions, TypeKind, ZetaSQLBuiltinFunctionOptions
 
 # Create a catalog with a table
 table = (
@@ -38,10 +38,19 @@ table = (
     .build()
 )
 
-catalog = CatalogBuilder("mydb").add_table(table).build()
+# Build catalog with builtin functions
+lang_opts = LanguageOptions.maximum_features()
+builtin_opts = ZetaSQLBuiltinFunctionOptions(language_options=lang_opts)
+
+catalog = (
+    CatalogBuilder("mydb")
+    .add_table(table)
+    .with_builtin_functions(builtin_opts)
+    .build()
+)
 
 # Analyze SQL
-options = AnalyzerOptions()
+options = AnalyzerOptions(language_options=lang_opts)
 analyzer = Analyzer(options, catalog)
 stmt = analyzer.analyze_statement("SELECT name, email FROM users WHERE id > 100")
 
@@ -56,6 +65,7 @@ Analyze SQL statements and expressions with full semantic understanding:
 ```python
 from zetasql.api import Analyzer
 
+# Assuming analyzer is configured with catalog and builtin functions
 stmt = analyzer.analyze_statement("SELECT * FROM users")
 expr = analyzer.analyze_expression("price * quantity")
 ```
@@ -63,7 +73,11 @@ expr = analyzer.analyze_expression("price * quantity")
 ### 🏗️ **Builder Pattern APIs**
 Fluent interfaces for constructing catalogs, tables, and functions:
 ```python
-from zetasql.api import CatalogBuilder, TableBuilder
+from zetasql.api import CatalogBuilder
+from zetasql.types import LanguageOptions, ZetaSQLBuiltinFunctionOptions
+
+lang_opts = LanguageOptions.maximum_features()
+builtin_opts = ZetaSQLBuiltinFunctionOptions(language_options=lang_opts)
 
 catalog = (
     CatalogBuilder("shop")
@@ -106,10 +120,10 @@ isinstance(literal, ResolvedExpr)   # True - real inheritance!
 
 ## Documentation
 
-- **[Getting Started Guide](docs/GETTING_STARTED.md)** - Detailed tutorials and examples
-- **[API Reference](docs/API_REFERENCE.md)** - Complete API documentation
-- **[Examples](docs/EXAMPLES.md)** - Real-world usage patterns
-- **[Architecture](docs/ARCHITECTURE.md)** - Project structure and design
+- **[Getting Started Guide](docs/getting-started.md)** - Detailed tutorials and examples
+- **[API Reference](docs/api-reference.md)** - Complete API documentation
+- **[ProtoModel Inheritance Hierarchy](docs/proto-model-hierarchy.md)** - The inheritance structure of the ProtoModel classes
+- **[Architecture](docs/architecture.md)** - Project structure and design
 
 ## Development
 

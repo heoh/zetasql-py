@@ -74,13 +74,17 @@ ZetaSQL Python is organized into three layers:
 
 ```python
 from zetasql.api import Analyzer, CatalogBuilder
-from zetasql.types import AnalyzerOptions
+from zetasql.types import AnalyzerOptions, LanguageOptions, ZetaSQLBuiltinFunctionOptions
 
-# Create an empty catalog
-catalog = CatalogBuilder("mydb").build()
+# Get language options with all features
+lang_opts = LanguageOptions.maximum_features()
 
-# Create analyzer with default options
-options = AnalyzerOptions()
+# Create catalog with builtin functions
+builtin_opts = ZetaSQLBuiltinFunctionOptions(language_options=lang_opts)
+catalog = CatalogBuilder("mydb").with_builtin_functions(builtin_opts).build()
+
+# Create analyzer with options
+options = AnalyzerOptions(language_options=lang_opts)
 analyzer = Analyzer(options, catalog)
 
 # Analyze a simple query
@@ -101,10 +105,15 @@ Column name: result
 ### Analyzing Expressions
 
 ```python
-from zetasql.api import Analyzer
-from zetasql.types import AnalyzerOptions
+from zetasql.api import Analyzer, CatalogBuilder
+from zetasql.types import AnalyzerOptions, LanguageOptions, ZetaSQLBuiltinFunctionOptions
 
-analyzer = Analyzer(AnalyzerOptions())
+# Setup with builtin functions
+lang_opts = LanguageOptions.maximum_features()
+builtin_opts = ZetaSQLBuiltinFunctionOptions(language_options=lang_opts)
+catalog = CatalogBuilder("mydb").with_builtin_functions(builtin_opts).build()
+
+analyzer = Analyzer(AnalyzerOptions(language_options=lang_opts), catalog)
 
 # Analyze an expression
 expr = analyzer.analyze_expression("2 * 3 + 5")
@@ -174,8 +183,15 @@ print(f"Tables: {[t.name for t in catalog.table]}")
 ### Adding Builtin Functions
 
 ```python
-from zetasql.api import CatalogBuilder
-from zetasql.types import LanguageOptions, ZetaSQLBuiltinFunctionOptions
+from zetasql.api import Analyzer, CatalogBuilder, TableBuilder
+from zetasql.types import AnalyzerOptions, LanguageOptions, TypeKind, ZetaSQLBuiltinFunctionOptions
+
+# Create table
+users = (
+    TableBuilder("users")
+    .add_column("name", TypeKind.TYPE_STRING)
+    .build()
+)
 
 # Enable all features
 lang_opts = LanguageOptions.maximum_features()
@@ -199,9 +215,12 @@ stmt = analyzer.analyze_statement("SELECT UPPER(name) FROM users")
 
 ```python
 from zetasql.api import Analyzer, CatalogBuilder, TableBuilder
-from zetasql.types import AnalyzerOptions, TypeKind
+from zetasql.types import AnalyzerOptions, LanguageOptions, TypeKind, ZetaSQLBuiltinFunctionOptions
 
-# Setup
+# Setup with builtin functions
+lang_opts = LanguageOptions.maximum_features()
+builtin_opts = ZetaSQLBuiltinFunctionOptions(language_options=lang_opts)
+
 table = (
     TableBuilder("products")
     .add_column("id", TypeKind.TYPE_INT64)
@@ -210,12 +229,15 @@ table = (
     .build()
 )
 
-catalog = CatalogBuilder("shop").add_table(table).build()
-analyzer = Analyzer(AnalyzerOptions(), catalog)
+catalog = CatalogBuilder("shop").add_table(table).with_builtin_functions(builtin_opts).build()
+analyzer = Analyzer(AnalyzerOptions(language_options=lang_opts), catalog)
 
 # Analyze various SQL statements
 queries = [
     "SELECT * FROM products",
+    "SELECT name, price FROM products WHERE price > 100",
+    "SELECT AVG(price) FROM products",
+]
     "SELECT name, price FROM products WHERE price > 100",
     "SELECT AVG(price) FROM products",
 ]
@@ -351,19 +373,11 @@ print(f"Casted: {int_val.get_int64()}")  # 123
 
 Now that you understand the basics, explore:
 
-- **[Examples](EXAMPLES.md)** - Real-world usage patterns
-- **[API Reference](API_REFERENCE.md)** - Complete API documentation
-- **[Architecture](ARCHITECTURE.md)** - Deep dive into project structure
+- **[API Reference](api-reference.md)** - Complete API documentation
+- **[Architecture](architecture.md)** - Deep dive into project structure
 
-### Common Patterns
-
-1. **Building Complex Catalogs** - See [Examples: Catalog Building](EXAMPLES.md#catalog-building)
-2. **Query Execution** - See [Examples: Executing Queries](EXAMPLES.md#executing-queries)
-3. **Custom Functions** - See [Examples: Custom Functions](EXAMPLES.md#custom-functions)
-4. **Error Handling** - See [Examples: Error Handling](EXAMPLES.md#error-handling)
 
 ### Getting Help
 
-- Check the [API Reference](API_REFERENCE.md) for detailed method documentation
-- Review [Examples](EXAMPLES.md) for common use cases
+- Check the [API Reference](api-reference.md) for detailed method documentation
 - Open an issue on [GitHub](https://github.com/heoh/zetasql-py/issues) for bugs or questions

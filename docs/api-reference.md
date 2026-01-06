@@ -838,6 +838,5 @@ def analyze_sql(sql: str, catalog: SimpleCatalog) -> ResolvedStatement:
 
 ## See Also
 
-- [Getting Started Guide](GETTING_STARTED.md)
-- [Examples](EXAMPLES.md)
-- [Architecture](ARCHITECTURE.md)
+- [Getting Started Guide](getting-started.md)
+- [Architecture](architecture.md)

@@ -456,7 +456,6 @@ For questions:
 ## Getting Help
 
 - **Documentation:** [docs/](docs/)
-- **Examples:** [docs/EXAMPLES.md](docs/EXAMPLES.md)
 - **Issues:** [GitHub Issues](https://github.com/heoh/zetasql-py/issues)
 
 Thank you for contributing! 🎉
