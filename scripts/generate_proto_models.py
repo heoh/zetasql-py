@@ -5,7 +5,6 @@ ZetaSQL Proto Model Generator
 Generates Python proto model classes for ZetaSQL proto messages with:
 - Automatic inheritance hierarchy from proto parent fields
 - Type hints for IDE autocompletion
-- Cached properties for efficient field access
 - Cross-file dependency resolution
 
 Usage:
@@ -16,18 +15,76 @@ import argparse
 import ast
 import importlib.util
 import sys
+from collections import defaultdict
 from pathlib import Path
 from typing import Any
+
+from google.protobuf import descriptor
+
+# Constants
+PROTO_SUFFIX = "Proto"
+MIXIN_SUFFIX = "Mixin"
+ZETASQL_PACKAGE = "zetasql"
+PROTO_BASE_MODULE = "zetasql.wasi._pb2"
+
+RESERVED_KEYWORDS = frozenset(
+    {
+        "and",
+        "as",
+        "assert",
+        "break",
+        "class",
+        "continue",
+        "def",
+        "del",
+        "elif",
+        "else",
+        "except",
+        "finally",
+        "for",
+        "from",
+        "global",
+        "if",
+        "import",
+        "in",
+        "is",
+        "lambda",
+        "nonlocal",
+        "not",
+        "or",
+        "pass",
+        "raise",
+        "return",
+        "try",
+        "while",
+        "with",
+        "yield",
+    }
+)
+
+PROTO_TO_PYTHON_TYPES = {
+    descriptor.FieldDescriptor.TYPE_STRING: "str",
+    descriptor.FieldDescriptor.TYPE_INT64: "int",
+    descriptor.FieldDescriptor.TYPE_INT32: "int",
+    descriptor.FieldDescriptor.TYPE_UINT64: "int",
+    descriptor.FieldDescriptor.TYPE_UINT32: "int",
+    descriptor.FieldDescriptor.TYPE_BOOL: "bool",
+    descriptor.FieldDescriptor.TYPE_DOUBLE: "float",
+    descriptor.FieldDescriptor.TYPE_FLOAT: "float",
+    descriptor.FieldDescriptor.TYPE_BYTES: "bytes",
+}
+
+CONVERTIBLE_PROTOBUF_TYPES = {
+    "Timestamp": ("datetime", "datetime", "ToDatetime"),
+    "Duration": ("datetime", "timedelta", "ToTimedelta"),
+}
 
 
 def load_pb2_module(path: Path, base_dir: Path):
     """Dynamically load a _pb2.py module"""
-    # Calculate the module name based on the relative path
-    # e.g., base_dir/zetasql/resolved_ast/resolved_ast_pb2.py
-    # -> zetasql.wasi._pb2.zetasql.resolved_ast.resolved_ast_pb2
     rel_path = path.relative_to(base_dir)
-    module_parts = [*list(rel_path.parts[:-1]), path.stem]  # Remove .py extension
-    module_name = "zetasql.wasi._pb2." + ".".join(module_parts)
+    module_parts = [*list(rel_path.parts[:-1]), path.stem]
+    module_name = f"{PROTO_BASE_MODULE}.{'.'.join(module_parts)}"
 
     spec = importlib.util.spec_from_file_location(module_name, path)
     if spec is None or spec.loader is None:
@@ -39,48 +96,138 @@ def load_pb2_module(path: Path, base_dir: Path):
 
 def get_message_classes(module) -> list[tuple[str, Any]]:
     """Extract all proto message classes from a module"""
-    classes = []
-    for name in dir(module):
-        # Skip private/special attributes
-        if name.startswith("_"):
-            continue
-
-        obj = getattr(module, name)
-        # Check if it's a proto message class (has DESCRIPTOR with fields)
-        if hasattr(obj, "DESCRIPTOR") and hasattr(obj.DESCRIPTOR, "fields"):
-            classes.append((name, obj))
-
-    return classes
+    return [
+        (name, obj)
+        for name in dir(module)
+        if not name.startswith("_")
+        and (obj := getattr(module, name))
+        and hasattr(obj, "DESCRIPTOR")
+        and hasattr(obj.DESCRIPTOR, "fields")
+    ]
 
 
 def get_enum_types(module) -> list[tuple[str, Any]]:
     """Extract all proto enum types from a module"""
-    enums = []
-    for name in dir(module):
-        # Skip private/special attributes
-        if name.startswith("_"):
-            continue
+    return [
+        (name, obj)
+        for name in dir(module)
+        if not name.startswith("_")
+        and (obj := getattr(module, name))
+        and hasattr(obj, "DESCRIPTOR")
+        and hasattr(obj.DESCRIPTOR, "values")
+        and type(obj).__name__ == "EnumTypeWrapper"
+    ]
 
-        obj = getattr(module, name)
-        # Check if it's an enum type wrapper (EnumTypeWrapper with DESCRIPTOR)
-        if hasattr(obj, "DESCRIPTOR") and hasattr(obj.DESCRIPTOR, "values") and type(obj).__name__ == "EnumTypeWrapper":
-            enums.append((name, obj))
 
-    return enums
+def _remove_suffix(text: str, suffix: str) -> str:
+    """Remove suffix from text if present"""
+    return text.removesuffix(suffix)
+
+
+def _extract_field_info(field) -> dict[str, Any]:
+    """Extract field information from proto field descriptor"""
+    field_info = {
+        "name": field.name,
+        "type": field.type,
+        "is_repeated": field.is_repeated,
+        "number": field.number,
+    }
+
+    if field.enum_type:
+        field_info["enum_type_name"] = field.enum_type.name
+        field_info["enum_type_full"] = field.enum_type.full_name
+
+        if "." in field.enum_type.full_name.split(f"{ZETASQL_PACKAGE}.")[-1]:
+            parts = field.enum_type.full_name.split(".")
+            if len(parts) >= 2:
+                field_info["enum_parent_message"] = parts[-2]
+
+    if field.message_type:
+        msg_type_name = field.message_type.name
+        msg_type_full = field.message_type.full_name
+
+        field_info["message_type"] = msg_type_name
+        field_info["message_type_full"] = msg_type_full
+
+        is_map_entry = (
+            field.message_type.GetOptions().map_entry
+            if hasattr(field.message_type.GetOptions(), "map_entry")
+            else False
+        )
+        field_info["is_map_field"] = is_map_entry
+
+        if is_map_entry:
+            key_field = field.message_type.fields_by_name.get("key")
+            value_field = field.message_type.fields_by_name.get("value")
+            if key_field and value_field:
+                field_info["map_key_type"] = key_field.type
+                field_info["map_value_type"] = value_field.type
+                if value_field.message_type:
+                    field_info["map_value_message_type"] = value_field.message_type.name
+                    field_info["map_value_message_full"] = value_field.message_type.full_name
+
+        is_external = not msg_type_full.startswith(f"{ZETASQL_PACKAGE}.")
+        field_info["is_external"] = is_external
+
+        if is_external and msg_type_full.startswith("google.protobuf."):
+            if msg_type_name in CONVERTIBLE_PROTOBUF_TYPES:
+                field_info["convert_to_python"] = CONVERTIBLE_PROTOBUF_TYPES[msg_type_name]
+
+            proto_file = field.message_type.file.name
+            proto_filename = proto_file.split("/")[-1].replace(".proto", "")
+            field_info["external_module"] = f"google.protobuf.{proto_filename}_pb2"
+            field_info["external_type"] = msg_type_name
+
+    return field_info
+
+
+def _resolve_message_model_info(
+    msg_type_full: str, msg_type_name: str, all_messages: dict[str, Any]
+) -> dict[str, str | None]:
+    """Resolve model name and module path for a message type"""
+    for _msg_name, msg_info in all_messages.items():
+        if msg_info.get("proto_full_path") == msg_type_full:
+            return {
+                "model_name": _remove_suffix(msg_info["name"], PROTO_SUFFIX),
+                "module_path": msg_info["module"],
+                "proto_full_path": msg_info.get("proto_full_path", msg_type_name),
+            }
+
+    for msg_name, msg_info in all_messages.items():
+        if msg_info.get("proto_name") == msg_type_name or msg_name == msg_type_name:
+            return {
+                "model_name": _remove_suffix(msg_info["name"], PROTO_SUFFIX),
+                "module_path": msg_info["module"],
+                "proto_full_path": msg_info.get("proto_full_path", msg_type_name),
+            }
+
+    return {"model_name": None, "module_path": None, "proto_full_path": None}
+
+
+def _collect_enum_info(
+    enum_type, nested_cls, module_name, parent_class_name: str, parent_proto_class: str
+) -> dict[str, Any]:
+    """Collect enum information from descriptor"""
+    enum_wrapper = getattr(nested_cls, enum_type.name, None)
+    if not enum_wrapper:
+        return {}
+
+    enum_info = {
+        "name": enum_type.name,
+        "class": enum_wrapper,
+        "module": module_name,
+        "file": None,
+        "parent_message": parent_class_name,
+        "parent_proto_class": parent_proto_class,
+        "values": {value.name: value.number for value in enum_type.values},
+    }
+    return {f"{parent_class_name}.{enum_type.name}": enum_info}
 
 
 def extract_inheritance_graph(base_dir: Path) -> tuple[dict[str, Any], dict[str, Any]]:
-    """
-    Extract complete inheritance graph and enums from all _pb2.py files
-
-    Returns:
-        Tuple of (graph, enums):
-        - graph: Dict mapping message names to their metadata
-        - enums: Dict mapping enum names to their metadata
-    """
+    """Extract complete inheritance graph and enums from all _pb2.py files"""
     print(f"Scanning {base_dir} for _pb2.py files...")
 
-    # Stage 1: Collect all message classes (including nested) and enums
     all_messages = {}
     all_enums = {}
     module_cache = {}
@@ -88,78 +235,34 @@ def extract_inheritance_graph(base_dir: Path) -> tuple[dict[str, Any], dict[str,
     def collect_nested_messages(descriptor, parent_cls, parent_name, module_name, parent_proto_path=""):
         """Recursively collect nested message types and enums"""
         nested_messages = {}
+
         for nested_type in descriptor.nested_types:
-            # Full model name for graph key (flat compatibility): ParentName + NestedName
-            nested_full_model_name = parent_name + nested_type.name.removesuffix("Proto")
-
-            # Short class name for actual nested class: just NestedName without Proto suffix
-            nested_class_name = nested_type.name.removesuffix("Proto")
-
-            # Use the proto descriptor's full_name for accurate matching
-            # nested_type is a Descriptor, so it has full_name attribute
+            nested_full_model_name = parent_name + _remove_suffix(nested_type.name, PROTO_SUFFIX)
+            nested_class_name = _remove_suffix(nested_type.name, PROTO_SUFFIX)
             nested_proto_full_path = nested_type.full_name
-
-            # Get the nested class from parent
             nested_cls = getattr(parent_cls, nested_type.name)
 
-            # Use full name as key for graph (flat compatibility)
-            # but store the short class name for code generation
             nested_messages[nested_full_model_name] = {
                 "class": nested_cls,
                 "module": module_name,
-                "name": nested_full_model_name,  # Full name for graph key
-                "class_name": nested_class_name,  # Short name for class definition
+                "name": nested_full_model_name,
+                "class_name": nested_class_name,
                 "proto_name": nested_type.name,
                 "proto_full_path": nested_proto_full_path,
                 "parent_model": parent_name,
                 "is_nested": True,
             }
 
-            # Collect nested enums within this message
+            full_proto_class_path = f"{parent_proto_path}.{nested_type.name}" if parent_proto_path else nested_type.name
+
             for enum_type in nested_type.enum_types:
-                enum_name = enum_type.name
-                enum_full_name = f"{nested_class_name}.{enum_name}"
-
-                # Build the full proto class path for the parent
-                # If parent_proto_path is empty (top-level), just use nested_type.name
-                # Otherwise, append nested_type.name to the path
-                if parent_proto_path:
-                    full_proto_class_path = f"{parent_proto_path}.{nested_type.name}"
-                else:
-                    full_proto_class_path = nested_type.name
-
-                # Get the enum wrapper from the nested class
-                enum_wrapper = getattr(nested_cls, enum_name, None)
-                if enum_wrapper:
-                    # Store with fully qualified name to avoid collisions
-                    all_enums[enum_full_name] = {
-                        "name": enum_name,
-                        "class": enum_wrapper,
-                        "module": module_name,
-                        "file": None,  # Will be set later
-                        "parent_message": nested_class_name,  # Store parent for nested enum generation
-                        "parent_proto_class": full_proto_class_path,  # Full proto class path
-                        "values": {},
-                    }
-
-                    # Extract enum values
-                    for value in enum_type.values:
-                        all_enums[enum_full_name]["values"][value.name] = value.number
-
-            # Recursively collect nested messages within this nested message
-            # Pass the full path so far, and use full name as parent
-            # Build the proto class path: parent_proto_path + current nested_type.name
-            if parent_proto_path:
-                current_proto_class_path = f"{parent_proto_path}.{nested_type.name}"
-            else:
-                current_proto_class_path = nested_type.name
+                enum_info = _collect_enum_info(
+                    enum_type, nested_cls, module_name, nested_class_name, full_proto_class_path
+                )
+                all_enums.update(enum_info)
 
             sub_nested = collect_nested_messages(
-                nested_type,
-                nested_cls,
-                nested_full_model_name,  # Use full name for next level's parent
-                module_name,
-                current_proto_class_path,
+                nested_type, nested_cls, nested_full_model_name, module_name, full_proto_class_path
             )
             nested_messages.update(sub_nested)
 
@@ -174,10 +277,8 @@ def extract_inheritance_graph(base_dir: Path) -> tuple[dict[str, Any], dict[str,
             module = load_pb2_module(pb2_file, base_dir)
             module_cache[pb2_file] = module
 
-            # Collect message classes
             for name, cls in get_message_classes(module):
-                full_name = name
-                all_messages[full_name] = {
+                all_messages[name] = {
                     "class": cls,
                     "module": module.__name__,
                     "name": name,
@@ -186,54 +287,35 @@ def extract_inheritance_graph(base_dir: Path) -> tuple[dict[str, Any], dict[str,
                     "is_nested": False,
                 }
 
-                # Collect enums within this top-level message
                 descriptor = cls.DESCRIPTOR
                 for enum_type in descriptor.enum_types:
-                    enum_name = enum_type.name
-                    parent_class_name = name.removesuffix("Proto")
-
-                    # Get the enum wrapper from the message class
-                    enum_wrapper = getattr(cls, enum_name, None)
+                    parent_class_name = _remove_suffix(name, PROTO_SUFFIX)
+                    enum_wrapper = getattr(cls, enum_type.name, None)
                     if enum_wrapper:
-                        # Use fully qualified name (parent.enum) as key to avoid collisions
-                        enum_full_name = f"{parent_class_name}.{enum_name}"
+                        enum_full_name = f"{parent_class_name}.{enum_type.name}"
                         all_enums[enum_full_name] = {
-                            "name": enum_name,
+                            "name": enum_type.name,
                             "class": enum_wrapper,
                             "module": module.__name__,
                             "file": pb2_file,
                             "parent_message": parent_class_name,
-                            "parent_proto_class": name,  # Actual proto class name (with Proto suffix)
-                            "values": {},
+                            "parent_proto_class": name,
+                            "values": {value.name: value.number for value in enum_type.values},
                         }
 
-                        # Extract enum values
-                        for value in enum_type.values:
-                            all_enums[enum_full_name]["values"][value.name] = value.number
-
-                # Collect nested messages - pass parent proto full path
                 nested = collect_nested_messages(
-                    cls.DESCRIPTOR,
-                    cls,
-                    name.removesuffix("Proto"),
-                    module.__name__,
-                    name,  # Parent proto path (e.g., "ScriptExecutorStateProto")
+                    cls.DESCRIPTOR, cls, _remove_suffix(name, PROTO_SUFFIX), module.__name__, name
                 )
                 all_messages.update(nested)
 
-            # Collect enum types
             for enum_name, enum_cls in get_enum_types(module):
                 all_enums[enum_name] = {
                     "name": enum_name,
                     "class": enum_cls,
                     "module": module.__name__,
                     "file": pb2_file,
-                    "values": {},
+                    "values": {value.name: value.number for value in enum_cls.DESCRIPTOR.values},
                 }
-
-                # Extract enum values from DESCRIPTOR
-                for value in enum_cls.DESCRIPTOR.values:
-                    all_enums[enum_name]["values"][value.name] = value.number
 
         except Exception as e:
             print(f"  Warning: Failed to load {pb2_file}: {e}")
@@ -241,7 +323,6 @@ def extract_inheritance_graph(base_dir: Path) -> tuple[dict[str, Any], dict[str,
 
     print(f"\nFound {len(all_messages)} proto message classes (including nested)")
 
-    # Stage 2: Extract parent relationships and fields
     graph = {}
 
     for _full_name, info in all_messages.items():
@@ -249,138 +330,25 @@ def extract_inheritance_graph(base_dir: Path) -> tuple[dict[str, Any], dict[str,
         descriptor = cls.DESCRIPTOR
         is_nested = info.get("is_nested", False)
 
-        # Extract parent (for inheritance, not nesting)
         parent_name = None
         if "parent" in descriptor.fields_by_name:
             parent_field = descriptor.fields_by_name["parent"]
-            parent_msg_type = parent_field.message_type
-            # Remove 'Proto' suffix to match graph keys
-            parent_name = parent_msg_type.name.removesuffix("Proto")
+            parent_name = _remove_suffix(parent_field.message_type.name, PROTO_SUFFIX)
 
-        # Extract own fields (excluding parent and internal proto fields)
-        own_fields = []
-        for field in descriptor.fields:
-            if field.name == "parent":
-                continue
+        own_fields = [
+            _extract_field_info(field)
+            for field in descriptor.fields
+            if field.name not in ("parent",) and not field.name.startswith(("__", "_"))
+        ]
 
-            # Skip internal proto fields (usually start with __)
-            if field.name.startswith("__") or field.name.startswith("_"):
-                continue
-
-            field_info = {
-                "name": field.name,
-                "type": field.type,
-                "is_repeated": field.is_repeated,
-                "number": field.number,
-            }
-
-            # Add enum type info if applicable
-            if field.enum_type:
-                enum_type_name = field.enum_type.name
-                enum_type_full = field.enum_type.full_name
-
-                field_info["enum_type_name"] = enum_type_name
-                field_info["enum_type_full"] = enum_type_full
-
-                # Check if this is a nested enum (contains '.' after package name)
-                # Format: zetasql.ResolvedJoinScanEnums.JoinType
-                if "." in enum_type_full.split("zetasql.")[-1]:
-                    # Extract parent message name from full path
-                    # e.g., 'zetasql.ResolvedJoinScanEnums.JoinType' -> 'ResolvedJoinScanEnums'
-                    parts = enum_type_full.split(".")
-                    if len(parts) >= 2:
-                        parent_msg_name = parts[-2]  # Get parent message name
-                        field_info["enum_parent_message"] = parent_msg_name
-
-            # Add message type info if applicable
-            if field.message_type:
-                msg_type_name = field.message_type.name
-                msg_type_full = field.message_type.full_name
-
-                field_info["message_type"] = msg_type_name
-                field_info["message_type_full"] = msg_type_full
-
-                # Check if this is a map field (proto map<K, V>)
-                # Map fields are repeated fields with a special map_entry message type
-                is_map_entry = (
-                    field.message_type.GetOptions().map_entry
-                    if hasattr(field.message_type.GetOptions(), "map_entry")
-                    else False
+        for field_info in own_fields:
+            if not field_info.get("is_external") and field_info.get("message_type"):
+                model_info = _resolve_message_model_info(
+                    field_info["message_type_full"], field_info["message_type"], all_messages
                 )
-                field_info["is_map_field"] = is_map_entry
+                field_info.update(model_info)
 
-                # If it's a map, extract key and value types
-                if is_map_entry:
-                    # Map entry messages have exactly 2 fields: 'key' and 'value'
-                    key_field = field.message_type.fields_by_name.get("key")
-                    value_field = field.message_type.fields_by_name.get("value")
-                    if key_field and value_field:
-                        field_info["map_key_type"] = key_field.type
-                        field_info["map_value_type"] = value_field.type
-                        if value_field.message_type:
-                            field_info["map_value_message_type"] = value_field.message_type.name
-                            field_info["map_value_message_full"] = value_field.message_type.full_name
-
-                # Check if this is an external type (e.g., google.protobuf)
-                is_external = not msg_type_full.startswith("zetasql.")
-                field_info["is_external"] = is_external
-
-                if is_external:
-                    # For external types like google.protobuf, store the module info
-                    if msg_type_full.startswith("google.protobuf."):
-                        # Check if this type can be converted to Python native type
-                        # Format: proto_type_name -> (python_module, python_type, conversion_method)
-                        convertible_types = {
-                            "Timestamp": ("datetime", "datetime", "ToDatetime"),
-                            "Duration": ("datetime", "timedelta", "ToTimedelta"),
-                        }
-
-                        if msg_type_name in convertible_types:
-                            # Mark as convertible to Python native type
-                            field_info["convert_to_python"] = convertible_types[msg_type_name]
-
-                        # Extract module name from full_name (e.g., google.protobuf.FileDescriptorSet -> descriptor_pb2)
-                        # Map common google.protobuf types to their pb2 module
-                        proto_file = field.message_type.file.name  # e.g., "google/protobuf/descriptor.proto"
-                        # Extract just the filename without path and extension, add _pb2
-                        proto_filename = proto_file.split("/")[-1].replace(".proto", "")  # "descriptor"
-                        proto_module = f"google.protobuf.{proto_filename}_pb2"  # "google.protobuf.descriptor_pb2"
-                        field_info["external_module"] = proto_module
-                        field_info["external_type"] = msg_type_name
-                else:
-                    # Find the wrapper name and module for this message type
-                    # Check if it's a nested type first (contains dot in full_name after package)
-                    model_name = None
-                    module_path = None
-                    proto_full_path = None
-
-                    # First, try to match by full proto path (for nested types)
-                    # This ensures we get the correct nested class from the parent
-                    for _msg_name, msg_info in all_messages.items():
-                        if msg_info.get("proto_full_path") == msg_type_full:
-                            model_name = msg_info["name"].removesuffix("Proto")
-                            module_path = msg_info["module"]
-                            proto_full_path = msg_info.get("proto_full_path", msg_type_name)
-                            break
-
-                    # If not found by full path, try exact match by proto_name
-                    # (for top-level types or backwards compatibility)
-                    if not model_name:
-                        for msg_name, msg_info in all_messages.items():
-                            if msg_info.get("proto_name") == msg_type_name or msg_name == msg_type_name:
-                                model_name = msg_info["name"].removesuffix("Proto")
-                                module_path = msg_info["module"]
-                                proto_full_path = msg_info.get("proto_full_path", msg_type_name)
-                                break
-
-                    if model_name:
-                        field_info["model_name"] = model_name
-                        field_info["module_path"] = module_path
-                        field_info["proto_full_path"] = proto_full_path
-
-            own_fields.append(field_info)
-
-        model_name = info["name"].removesuffix("Proto")
+        model_name = _remove_suffix(info["name"], PROTO_SUFFIX)
 
         graph[model_name] = {
             "parent": parent_name,
@@ -397,12 +365,10 @@ def extract_inheritance_graph(base_dir: Path) -> tuple[dict[str, Any], dict[str,
             "depth": 0,
         }
 
-    # Stage 3: Build parent-child relationships
     for name, info in graph.items():
         if info["parent"] and info["parent"] in graph:
             graph[info["parent"]]["children"].append(name)
 
-    # Stage 4: Compute inheritance depth and all fields
     def compute_depth_and_fields(name: str, visited: set[str]) -> int:
         if name in visited:
             raise ValueError(f"Circular inheritance detected: {name}")
@@ -438,200 +404,156 @@ def extract_inheritance_graph(base_dir: Path) -> tuple[dict[str, Any], dict[str,
     return graph, all_enums
 
 
+def _escape_reserved_keyword(name: str) -> str:
+    """Escape Python reserved keywords by adding underscore suffix"""
+    return f"{name}_" if name in RESERVED_KEYWORDS else name
+
+
+def _get_enum_type_hint(field_info: dict[str, Any]) -> str:
+    """Get type hint for enum field"""
+    enum_type_name = field_info.get("enum_type_name")
+    enum_parent_msg = field_info.get("enum_parent_message")
+
+    if not enum_type_name:
+        return "int"
+
+    if enum_parent_msg:
+        parent_clean = _remove_suffix(enum_parent_msg, PROTO_SUFFIX)
+        return f"'{parent_clean}.{enum_type_name}'"
+    return f"'{enum_type_name}'"
+
+
+def _get_map_type_hint(field_info: dict[str, Any], graph: dict[str, Any] | None) -> str:
+    """Get type hint for map field"""
+    key_type = field_info.get("map_key_type")
+    value_type = field_info.get("map_value_type")
+
+    key_type_str = PROTO_TO_PYTHON_TYPES.get(key_type, "str")
+
+    if value_type == descriptor.FieldDescriptor.TYPE_MESSAGE:
+        value_msg_full = field_info.get("map_value_message_full", "")
+        value_msg_name = field_info.get("map_value_message_type", "")
+
+        value_model_name = None
+        if graph:
+            for msg_name, msg_info in graph.items():
+                if msg_info.get("proto_full_path") == value_msg_full:
+                    value_model_name = msg_info.get("class_name") or msg_name
+                    if msg_info.get("is_nested") and msg_info.get("parent_model"):
+                        parent_model = msg_info["parent_model"]
+                        parent_class = graph[parent_model].get("class_name") or parent_model
+                        value_model_name = f"'{parent_class}.{value_model_name}'"
+                    else:
+                        value_model_name = f"'{value_model_name}'"
+                    break
+
+        if not value_model_name:
+            value_model_name = f"'{_remove_suffix(value_msg_name, PROTO_SUFFIX)}'"
+
+        value_type_str = value_model_name
+    else:
+        value_type_str = PROTO_TO_PYTHON_TYPES.get(value_type, "Any")
+
+    return f"Dict[{key_type_str}, {value_type_str}]"
+
+
+def _get_message_type_hint(field_info: dict[str, Any], graph: dict[str, Any] | None) -> str:
+    """Get type hint for message field"""
+    is_external = field_info.get("is_external", False)
+
+    if is_external:
+        convert_info = field_info.get("convert_to_python")
+        if convert_info:
+            py_module, py_type, _ = convert_info
+            return f"{py_module}.{py_type}"
+
+        external_module = field_info.get("external_module", "")
+        external_type = field_info.get("external_type", "")
+        if external_module and external_type:
+            module_alias = external_module.split(".")[-1]
+            return f"{module_alias}.{external_type}"
+        return "Any"
+
+    model_name = field_info.get("model_name")
+    if model_name and model_name.startswith("Any") and graph and (base_class_name := model_name[3:]) in graph:
+        model_name = base_class_name
+
+    if not model_name:
+        proto_type = field_info.get("message_type", "Any")
+        return f"'{_remove_suffix(proto_type, PROTO_SUFFIX)}'"
+
+    if graph and model_name in graph:
+        model_info = graph[model_name]
+        if model_info.get("is_nested") and model_info.get("parent_model"):
+            path_parts = [model_info.get("class_name") or model_name]
+            current = model_name
+            while graph[current].get("parent_model"):
+                parent = graph[current]["parent_model"]
+                if parent in graph:
+                    parent_class_name = graph[parent].get("class_name") or parent
+                    path_parts.insert(0, parent_class_name)
+                else:
+                    path_parts.insert(0, parent)
+                if parent not in graph or not graph[parent].get("parent_model"):
+                    break
+                current = parent
+            return f"'{'.'.join(path_parts)}'"
+
+    return f"'{model_name}'"
+
+
 def map_proto_type_to_python(field_info: dict[str, Any], graph: dict[str, Any] | None = None) -> str:
     """Convert protobuf field type to Python type hint for dataclass fields"""
-    from google.protobuf import descriptor
-
-    type_map = {
-        descriptor.FieldDescriptor.TYPE_STRING: "str",
-        descriptor.FieldDescriptor.TYPE_INT64: "int",
-        descriptor.FieldDescriptor.TYPE_INT32: "int",
-        descriptor.FieldDescriptor.TYPE_UINT64: "int",
-        descriptor.FieldDescriptor.TYPE_UINT32: "int",
-        descriptor.FieldDescriptor.TYPE_BOOL: "bool",
-        descriptor.FieldDescriptor.TYPE_DOUBLE: "float",
-        descriptor.FieldDescriptor.TYPE_FLOAT: "float",
-        descriptor.FieldDescriptor.TYPE_BYTES: "bytes",
-        # Note: TYPE_ENUM is handled separately below
-    }
-
     field_type = field_info["type"]
 
-    # Handle enum types - convert to IntEnum class name
     if field_type == descriptor.FieldDescriptor.TYPE_ENUM:
-        enum_type_name = field_info.get("enum_type_name")
-        enum_parent_msg = field_info.get("enum_parent_message")
-
-        if enum_type_name:
-            # Check if this is a nested enum
-            if enum_parent_msg:
-                # Nested enum: Use 'ParentClass.EnumName' format
-                # Remove 'Proto' suffix from parent if present
-                parent_clean = enum_parent_msg.removesuffix("Proto")
-                base_type = f"'{parent_clean}.{enum_type_name}'"
-            else:
-                # Top-level enum: Use just 'EnumName'
-                base_type = f"'{enum_type_name}'"
-        else:
-            # Fallback to int if enum info is missing
-            base_type = "int"
-
-        # Handle repeated enum fields
+        base_type = _get_enum_type_hint(field_info)
         if field_info.get("is_repeated", False):
             return f"List[{base_type}]"
-
-        # Singular enum fields are Optional
         return f"Optional[{base_type}]"
 
-    # Check if this is a map field first (proto map<K, V>)
     if field_info.get("is_map_field", False):
-        # Map fields: Dict[key_type, value_type]
-        key_type = field_info.get("map_key_type")
-        value_type = field_info.get("map_value_type")
+        return _get_map_type_hint(field_info, graph)
 
-        # Get key type (usually string)
-        key_type_str = type_map.get(key_type, "str")
-
-        # Get value type
-        if value_type == descriptor.FieldDescriptor.TYPE_MESSAGE:
-            # Value is a message type - need to find the model name
-            value_msg_full = field_info.get("map_value_message_full", "")
-            value_msg_name = field_info.get("map_value_message_type", "")
-
-            # Try to find the model name in all_messages
-            value_model_name = None
-            if graph:
-                for msg_name, msg_info in graph.items():
-                    if msg_info.get("proto_full_path") == value_msg_full:
-                        value_model_name = msg_info.get("class_name") or msg_name
-                        # Check if it's nested
-                        if msg_info.get("is_nested") and msg_info.get("parent_model"):
-                            parent_model = msg_info["parent_model"]
-                            parent_class = graph[parent_model].get("class_name") or parent_model
-                            value_model_name = f"'{parent_class}.{value_model_name}'"
-                        else:
-                            value_model_name = f"'{value_model_name}'"
-                        break
-
-            if not value_model_name:
-                cleaned_name = value_msg_name.removesuffix("Proto")
-                value_model_name = f"'{cleaned_name}'"
-
-            value_type_str = value_model_name
-        else:
-            value_type_str = type_map.get(value_type, "Any")
-
-        return f"Dict[{key_type_str}, {value_type_str}]"
-
-    # Message type
     if field_type == descriptor.FieldDescriptor.TYPE_MESSAGE:
-        is_external = field_info.get("is_external", False)
-
-        if is_external:
-            convert_info = field_info.get("convert_to_python")
-            if convert_info:
-                py_module, py_type, _ = convert_info
-                base_type = f"{py_module}.{py_type}"
-            else:
-                external_module = field_info.get("external_module", "")
-                external_type = field_info.get("external_type", "")
-                if external_module and external_type:
-                    module_alias = external_module.split(".")[-1]
-                    base_type = f"{module_alias}.{external_type}"
-                else:
-                    base_type = "Any"
-        else:
-            model_name = field_info.get("model_name")
-            if model_name and model_name.startswith("Any") and graph:
-                base_class_name = model_name[3:]
-                if base_class_name in graph:
-                    model_name = base_class_name
-
-            if model_name:
-                # Check if this is a nested class by looking at parent_model in graph
-                if graph and model_name in graph:
-                    model_info = graph[model_name]
-                    if model_info.get("is_nested") and model_info.get("parent_model"):
-                        # Build full nested path using class_name for nested classes
-                        # class_name is the short name (e.g., 'TableContentEntry')
-                        # while name is the flat name (e.g., 'PrepareQueryRequestTableContentEntry')
-                        path_parts = [model_info.get("class_name") or model_name]
-                        current = model_name
-                        while graph[current].get("parent_model"):
-                            parent = graph[current]["parent_model"]
-                            if parent in graph:
-                                # For top-level classes, class_name might be None, use the model name
-                                parent_class_name = graph[parent].get("class_name") or parent
-                                path_parts.insert(0, parent_class_name)
-                            else:
-                                path_parts.insert(0, parent)
-                            if parent not in graph or not graph[parent].get("parent_model"):
-                                break
-                            current = parent
-                        base_type = f"'{'.'.join(path_parts)}'"
-                    else:
-                        base_type = f"'{model_name}'"
-                else:
-                    base_type = f"'{model_name}'"
-            else:
-                proto_type = field_info.get("message_type", "Any")
-                model_type = proto_type.removesuffix("Proto")
-                base_type = f"'{model_type}'"
+        base_type = _get_message_type_hint(field_info, graph)
     else:
-        base_type = type_map.get(field_type, "Any")
+        base_type = PROTO_TO_PYTHON_TYPES.get(field_type, "Any")
 
-    # Handle repeated fields
     if field_info.get("is_repeated", False):
         return f"List[{base_type}]"
 
-    # All singular fields are Optional (for explicit input detection)
     return f"Optional[{base_type}]"
 
 
 def get_field_default_value(field_info: dict[str, Any]) -> str:
     """Get default value for a dataclass field based on proto field type"""
-
-    # Map fields need dict factory
     if field_info.get("is_map_field", False):
         return "field(default_factory=dict)"
-
     if field_info.get("is_repeated", False):
         return "field(default_factory=list)"
-
-    # All singular fields default to None (for explicit input detection)
     return "None"
 
 
 def scan_available_mixins(mixins_dir: Path) -> set[str]:
-    """Scan mixins directory to find available mixin classes.
-
-    This avoids importing zetasql.types which may fail if proto_model/generated.py
-    is being generated or has syntax errors.
-
-    Returns:
-        Set of mixin class names (e.g., {'TypeKindMixin'})
-    """
+    """Scan mixins directory to find available mixin classes"""
     available_mixins = set()
 
     if not mixins_dir.exists():
         return available_mixins
 
-    # Scan all .py files in mixins directory
     for py_file in mixins_dir.glob("*.py"):
         if py_file.name == "__init__.py":
             continue
 
         try:
-            # Parse the Python file to find class definitions
             with open(py_file) as f:
                 tree = ast.parse(f.read())
 
-            # Find all class definitions
             for node in ast.walk(tree):
-                if isinstance(node, ast.ClassDef) and node.name.endswith("Mixin"):
+                if isinstance(node, ast.ClassDef) and node.name.endswith(MIXIN_SUFFIX):
                     available_mixins.add(node.name)
         except Exception:
-            # If parsing fails, skip this file
             continue
 
     return available_mixins
@@ -644,30 +566,18 @@ def generate_enum_class(
     available_mixins: set[str],
     indent: int = 0,
 ) -> str:
-    """Generate an IntEnum class for a protobuf enum
-
-    Args:
-        enum_name: Name of the enum class to generate
-        enum_info: Metadata about the enum (module, values, parent, etc.)
-        module_aliases: Mapping of module paths to their import aliases
-        available_mixins: Set of available mixin class names from scanning mixins directory
-        indent: Indentation level for nested enums
-    """
+    """Generate an IntEnum class for a protobuf enum"""
     lines = []
     indent_str = "    " * indent
 
-    # Get module alias
-    module_path = enum_info["module"]
-    module_alias = module_aliases.get(module_path, module_path.split(".")[-1])
+    module_alias = module_aliases.get(enum_info["module"], enum_info["module"].split(".")[-1])
 
     bases = []
-    mixin_name = f"{enum_name}Mixin"
-    # Check if mixin exists by scanning the mixins directory (not by importing)
+    mixin_name = f"{enum_name}{MIXIN_SUFFIX}"
     if mixin_name in available_mixins:
         bases.append(f"proto_model_mixins.{mixin_name}")
     bases.append("IntEnum")
 
-    # Class definition
     lines.append(f"{indent_str}class {enum_name}({', '.join(bases)}):")
     lines.append(f'{indent_str}    """')
     lines.append(f"{indent_str}    Auto-generated IntEnum for protobuf {enum_name}.")
@@ -676,21 +586,16 @@ def generate_enum_class(
     lines.append(f'{indent_str}    """')
     lines.append("")
 
-    # Sort values by number for consistent ordering
     sorted_values = sorted(enum_info["values"].items(), key=lambda x: x[1])
 
-    # Generate enum members
-    # For nested enums, we need to reference them via the parent class
     parent_msg = enum_info.get("parent_message")
     parent_proto_class = enum_info.get("parent_proto_class")
     if parent_msg and parent_proto_class:
-        # Nested enum - reference via parent proto class
         for value_name, value_number in sorted_values:
             lines.append(
                 f"{indent_str}    {value_name} = {module_alias}.{parent_proto_class}.{value_name}  # {value_number}"
             )
     else:
-        # Top-level enum - direct reference
         for value_name, value_number in sorted_values:
             lines.append(f"{indent_str}    {value_name} = {module_alias}.{value_name}  # {value_number}")
 
@@ -699,60 +604,15 @@ def generate_enum_class(
 
 def generate_dataclass_fields(info: dict[str, Any], graph: dict[str, Any]) -> str:
     """Generate dataclass field declarations (own fields only)"""
-
     if not info["own_fields"]:
         return "    pass"
 
     lines = []
-
     for field_info in info["own_fields"]:
-        field_name = field_info["name"]
-
-        # Escape reserved keywords
-        RESERVED_KEYWORDS = {
-            "and",
-            "as",
-            "assert",
-            "break",
-            "class",
-            "continue",
-            "def",
-            "del",
-            "elif",
-            "else",
-            "except",
-            "finally",
-            "for",
-            "from",
-            "global",
-            "if",
-            "import",
-            "in",
-            "is",
-            "lambda",
-            "nonlocal",
-            "not",
-            "or",
-            "pass",
-            "raise",
-            "return",
-            "try",
-            "while",
-            "with",
-            "yield",
-        }
-
-        if field_name in RESERVED_KEYWORDS:
-            field_name = f"{field_name}_"
-
+        field_name = _escape_reserved_keyword(field_info["name"])
         type_hint = map_proto_type_to_python(field_info, graph)
         default_value = get_field_default_value(field_info)
-
-        # Check if we need to import field() for default_factory
-        if "default_factory" in default_value:
-            lines.append(f"    {field_name}: {type_hint} = {default_value}")
-        else:
-            lines.append(f"    {field_name}: {type_hint} = {default_value}")
+        lines.append(f"    {field_name}: {type_hint} = {default_value}")
 
     return "\n".join(lines)
 
@@ -762,51 +622,11 @@ def generate_field_metadata(info: dict[str, Any], graph: dict[str, Any]) -> str:
     if not info["own_fields"]:
         return ""
 
-    lines = []
-    lines.append("    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {")
+    lines = ["    _PROTO_FIELD_MAP: ClassVar[Dict[str, Dict[str, Any]]] = {"]
 
     for field_info in info["own_fields"]:
-        field_name = field_info["name"]
-        proto_field = field_name
-
-        # Escape reserved keywords
-        RESERVED_KEYWORDS = {
-            "and",
-            "as",
-            "assert",
-            "break",
-            "class",
-            "continue",
-            "def",
-            "del",
-            "elif",
-            "else",
-            "except",
-            "finally",
-            "for",
-            "from",
-            "global",
-            "if",
-            "import",
-            "in",
-            "is",
-            "lambda",
-            "nonlocal",
-            "not",
-            "or",
-            "pass",
-            "raise",
-            "return",
-            "try",
-            "while",
-            "with",
-            "yield",
-        }
-
-        if field_name in RESERVED_KEYWORDS:
-            field_name = f"{field_name}_"
-
-        from google.protobuf import descriptor
+        field_name = _escape_reserved_keyword(field_info["name"])
+        proto_field = field_info["name"]
 
         is_message = field_info["type"] == descriptor.FieldDescriptor.TYPE_MESSAGE
         is_repeated = field_info.get("is_repeated", False)
@@ -817,7 +637,6 @@ def generate_field_metadata(info: dict[str, Any], graph: dict[str, Any]) -> str:
         lines.append(f"            'is_message': {is_message},")
         lines.append(f"            'is_repeated': {is_repeated},")
 
-        # Add enum type information if this is an enum field
         if is_enum:
             enum_type_name = field_info.get("enum_type_name")
             enum_parent_msg = field_info.get("enum_parent_message")
@@ -830,111 +649,59 @@ def generate_field_metadata(info: dict[str, Any], graph: dict[str, Any]) -> str:
         lines.append("        },")
 
     lines.append("    }")
-
     return "\n".join(lines)
 
 
 def generate_property(field_info: dict[str, Any], parent_chain: list[str], graph: dict[str, Any] | None = None) -> str:
     """Generate @cached_property code for a field"""
-    from google.protobuf import descriptor
-
     field_name = field_info["name"]
     type_hint = map_proto_type_to_python(field_info, graph)
     field_type = field_info["type"]
     is_message = field_type == descriptor.FieldDescriptor.TYPE_MESSAGE
     is_repeated = field_info.get("is_repeated", False)
 
-    # Python reserved keywords that need to be suffixed
-    RESERVED_KEYWORDS = {
-        "and",
-        "as",
-        "assert",
-        "break",
-        "class",
-        "continue",
-        "def",
-        "del",
-        "elif",
-        "else",
-        "except",
-        "finally",
-        "for",
-        "from",
-        "global",
-        "if",
-        "import",
-        "in",
-        "is",
-        "lambda",
-        "nonlocal",
-        "not",
-        "or",
-        "pass",
-        "raise",
-        "return",
-        "try",
-        "while",
-        "with",
-        "yield",
-    }
-
-    # Escape reserved keywords
     is_reserved = field_name in RESERVED_KEYWORDS
-    method_name = f"{field_name}_" if is_reserved else field_name
+    method_name = _escape_reserved_keyword(field_name)
 
-    # Build access path - use getattr for reserved keywords
     if not parent_chain:
         access_path = f"getattr(self._proto, '{field_name}')" if is_reserved else f"self._proto.{field_name}"
     else:
         parent_path = ".".join(parent_chain)
-        if is_reserved:
-            access_path = f"getattr(self._proto.{parent_path}, '{field_name}')"
-        else:
-            access_path = f"self._proto.{parent_path}.{field_name}"
+        access_path = (
+            f"getattr(self._proto.{parent_path}, '{field_name}')"
+            if is_reserved
+            else f"self._proto.{parent_path}.{field_name}"
+        )
 
-    # Generate docstring
     doc = f"Field {field_name}"
     if method_name != field_name:
         doc += f" (escaped from reserved keyword '{field_name}')"
 
-    # Generate return statement
     if is_message:
-        # Check if this is an external type (e.g., google.protobuf)
         is_external = field_info.get("is_external", False)
 
         if is_external:
-            # Check if convertible to Python native type
             convert_info = field_info.get("convert_to_python")
             if convert_info:
-                # Convert to Python native type
                 _, _, conversion_method = convert_info
-
-                if is_repeated:
-                    return_stmt = f"[item.{conversion_method}() for item in {access_path}]"
-                else:
-                    return_stmt = f"{access_path}.{conversion_method}() if {access_path}.ByteSize() > 0 else None"
+                return_stmt = (
+                    f"[item.{conversion_method}() for item in {access_path}]"
+                    if is_repeated
+                    else f"{access_path}.{conversion_method}() if {access_path}.ByteSize() > 0 else None"
+                )
             else:
-                # External types: return proto object directly (no wrapper)
-                if is_repeated:
-                    return_stmt = f"list({access_path})"
-                else:
-                    return_stmt = f"{access_path} if {access_path}.ByteSize() > 0 else None"
+                return_stmt = (
+                    f"list({access_path})"
+                    if is_repeated
+                    else f"{access_path} if {access_path}.ByteSize() > 0 else None"
+                )
         else:
-            # Get wrapper class name (use model_name if available for nested types)
-            model_name = field_info.get("model_name")
-            if not model_name:
-                proto_type = field_info.get("message_type", "")
-                model_name = proto_type.removesuffix("Proto")
-
-            # Use parse_proto() for all wrapper creation (handles union auto-resolution)
-            if is_repeated:
-                # Return list of wrapped objects
-                return_stmt = f"[parse_proto(item) for item in {access_path}]"
-            else:
-                # Return wrapped object or None
-                return_stmt = f"parse_proto({access_path}) if {access_path}.ByteSize() > 0 else None"
+            return_stmt = (
+                f"[parse_proto(item) for item in {access_path}]"
+                if is_repeated
+                else f"parse_proto({access_path}) if {access_path}.ByteSize() > 0 else None"
+            )
     else:
-        # Primitive types - return as-is
         return_stmt = access_path
 
     return f'''    @cached_property
@@ -962,35 +729,26 @@ def generate_class(
     module_name = info["module"]
     is_nested = info.get("is_nested", False)
 
-    # Use short class name for nested classes, full name for top-level
     class_name = info.get("class_name", name) if is_nested else name
 
-    # Create indentation string
     indent_str = "    " * indent
 
-    # Determine parent class with optional mixin
     bases = []
-    mixin_name = f"{class_name}Mixin"
+    mixin_name = f"{class_name}{MIXIN_SUFFIX}"
     if mixin_name in available_mixins:
         bases.append(f"proto_model_mixins.{mixin_name}")
 
     if parent_name and parent_name in graph:
-        parent_model = parent_name.removesuffix("Proto")
-        bases.append(parent_model)
+        bases.append(_remove_suffix(parent_name, PROTO_SUFFIX))
     else:
-        # Root classes inherit from ProtoModel
         bases.append("ProtoModel")
 
     bases_str = ", ".join(bases)
     class_decl = f"{indent_str}@dataclass\n{indent_str}class {class_name}({bases_str}):"
-
-    # Generate docstring
     docstring = f'{indent_str}    """Generated model for {proto_name}"""'
 
-    # Combine parts with nested enums added first (before fields)
     parts = [class_decl, docstring]
 
-    # Add nested enums for this class (if any)
     if nested_enums and class_name in nested_enums:
         parts.append("")
         parts.append(f"{indent_str}    # Nested Enums")
@@ -999,45 +757,20 @@ def generate_class(
             parts.append(enum_code)
             parts.append("")
 
-    # Generate dataclass fields (own fields only)
     fields_code = generate_dataclass_fields(info, graph)
-    # Apply indentation to fields
     if fields_code:
         fields_lines = fields_code.split("\n")
         fields_code = "\n".join(indent_str + line if line.strip() else line for line in fields_lines)
 
-    # Generate proto class reference
     proto_full_path = info.get("proto_full_path", proto_name)
 
-    # Get the module alias from module_aliases map (if provided)
     if module_aliases and module_name in module_aliases:
         module_alias = module_aliases[module_name]
     else:
-        # Fallback to last part of module name
         module_alias = module_name.split(".")[-1]
 
-    # Direct attribute access for all types (including nested)
     if is_nested and "." in proto_full_path:
-        # For nested types, proto_full_path is like "zetasql.local_service.PrepareQueryRequest.TableContentEntry"
-        # We need to extract just the class path after the package
-        # The proto_full_path from descriptor includes package, but we only need the class hierarchy
-
-        # proto_full_path: "zetasql.local_service.PrepareQueryRequest.TableContentEntry"
-        # We need: "PrepareQueryRequest.TableContentEntry"
-        # Strategy: find where the actual message hierarchy starts
-
-        # Since proto_name is just the immediate class name (e.g., "TableContentEntry")
-        # and we know the parent, we can reconstruct the Python path
-        proto_full_path.split(".")
-
-        # Find where the actual message hierarchy starts (after package name)
-        # Typically after "zetasql.xxx" we have the proto file name, then message names
-        # For nested messages, we want everything starting from the top-level message
-
-        # Get parent model to construct the path
         if info.get("parent_model"):
-            # Build the full path from root to this nested class
-            # by recursively traversing up the parent chain
             path_parts = [proto_name]
             current_model = info["parent_model"]
 
@@ -1045,41 +778,31 @@ def generate_class(
                 if current_model in graph:
                     parent_info = graph[current_model]
                     parent_proto_name = parent_info.get("proto_name", current_model)
-                    # Remove package prefix if present
                     if "." in parent_proto_name:
                         parent_proto_name = parent_proto_name.split(".")[-1]
                     path_parts.insert(0, parent_proto_name)
-
-                    # Continue up the chain if this parent also has a parent (nested within nested)
                     current_model = parent_info.get("parent_model")
                 else:
-                    # Parent not in graph, stop
                     break
 
             proto_class_ref = f"{module_alias}.{'.'.join(path_parts)}"
         else:
-            # Fallback: just use the proto_name
             proto_class_ref = f"{module_alias}.{proto_name}"
     else:
-        # Direct attribute access for top-level types
         proto_class_ref = f"{module_alias}.{proto_name}"
 
     proto_class_line = f"{indent_str}    _PROTO_CLASS: ClassVar[type] = {proto_class_ref}"
 
-    # Generate metadata
     metadata_code = generate_field_metadata(info, graph)
-    # Apply indentation to metadata
     if metadata_code:
         metadata_lines = metadata_code.split("\n")
         metadata_code = "\n".join(indent_str + line if line.strip() else line for line in metadata_lines)
 
-    # Add fields
     indented_pass = f"{indent_str}    pass"
     if fields_code and fields_code.strip() != indented_pass.strip():
         parts.append("")
         parts.append(fields_code)
 
-    # Add metadata
     parts.append("")
     parts.append(proto_class_line)
 
@@ -1095,7 +818,6 @@ def generate_model_file(graph: dict[str, Any], enums: dict[str, Any], output_pat
     """Generate complete proto models Python file with enum types"""
     print(f"\nGenerating proto models file: {output_path}")
 
-    # Scan available mixins before generating code
     mixins_dir = output_path.parent / "mixins"
     available_mixins = scan_available_mixins(mixins_dir)
     if available_mixins:
@@ -1103,32 +825,19 @@ def generate_model_file(graph: dict[str, Any], enums: dict[str, Any], output_pat
     else:
         print("No mixin classes found")
 
-    # Sort by depth (parents first)
-    sorted(graph.keys(), key=lambda n: (graph[n]["depth"], n))
-
-    # Collect all proto types by module for TYPE_CHECKING imports
-    from collections import defaultdict
-
     proto_types_by_module = defaultdict(set)
     external_modules = set()
 
     for name, info in graph.items():
-        # Extract module path
-        # Module is like: zetasql.wasi._pb2.zetasql.resolved_ast.resolved_ast_pb2
-        module_name = info["module"]
-        proto_types_by_module[module_name].add(name)
+        proto_types_by_module[info["module"]].add(name)
 
-        # Also collect external modules from fields
         for field in info.get("all_fields", []):
             if field.get("is_external") and field.get("external_module"):
                 external_modules.add(field["external_module"])
 
-    # Also collect enum modules
     for enum_name, enum_info in enums.items():
-        module_name = enum_info["module"]
-        proto_types_by_module[module_name].add(enum_name)
+        proto_types_by_module[enum_info["module"]].add(enum_name)
 
-    # Generate header
     lines = [
         '"""',
         "ZetaSQL Proto Models",
@@ -1166,36 +875,26 @@ def generate_model_file(graph: dict[str, Any], enums: dict[str, Any], output_pat
         "",
     ]
 
-    # Add proto module imports (NOT in TYPE_CHECKING - needed at runtime for _PROTO_CLASS)
-    # Create UNIQUE alias for each module by including more path context if needed
     module_aliases = {}
     for module_path in sorted(proto_types_by_module.keys()):
-        # Extract the last two parts for uniqueness (e.g., 'proto_options_pb2', 'public_options_pb2')
         parts = module_path.split(".")
         alias = f"{parts[-2]}_{parts[-1]}" if len(parts) >= 2 else parts[-1]
 
-        # Handle potential collisions by adding more parts
         original_alias = alias
         counter = 1
         while alias in module_aliases.values():
-            if len(parts) >= 3:
-                alias = f"{parts[-3]}_{parts[-2]}_{parts[-1]}"
-            else:
-                alias = f"{original_alias}_{counter}"
-                counter += 1
+            alias = f"{parts[-3]}_{parts[-2]}_{parts[-1]}" if len(parts) >= 3 else f"{original_alias}_{counter}"
+            counter += 1
 
         module_aliases[module_path] = alias
         lines.append(f"import {module_path} as {alias}")
 
-    # Add external module imports
     for external_module in sorted(external_modules):
-        # Use short alias: google.protobuf.any_pb2 -> any_pb2
         alias = external_module.split(".")[-1]
         lines.append(f"import {external_module} as {alias}")
 
     lines.extend(["", ""])
 
-    # Import IntEnum for enum types
     lines.extend(
         [
             "# Import IntEnum for enum types",
@@ -1204,7 +903,6 @@ def generate_model_file(graph: dict[str, Any], enums: dict[str, Any], output_pat
         ]
     )
 
-    # Import ProtoModel and parse_proto from proto_model
     lines.extend(
         [
             "# Import utilities for proto model functionality",
@@ -1214,20 +912,16 @@ def generate_model_file(graph: dict[str, Any], enums: dict[str, Any], output_pat
         ]
     )
 
-    # Generate classes - pass module_aliases to generate_class
-    # Build tree structure for nested classes
-    root_messages = {}  # Top-level messages
-    children_map = {}  # Map parent -> list of children
+    root_messages = {}
+    children_map = {}
 
     for name, info in graph.items():
         parent_model = info.get("parent_model")
         if parent_model:
-            # This is a nested class
             if parent_model not in children_map:
                 children_map[parent_model] = []
             children_map[parent_model].append(name)
         else:
-            # This is a top-level class
             root_messages[name] = info
 
     def generate_class_tree(name: str, indent: int = 0) -> str:
@@ -1235,44 +929,35 @@ def generate_model_file(graph: dict[str, Any], enums: dict[str, Any], output_pat
         info = graph[name]
         lines = []
 
-        # Generate the class itself (passing nested_enums and available_mixins)
         class_code = generate_class(name, info, graph, module_aliases, available_mixins, indent, nested_enums)
         lines.append(class_code)
 
-        # Generate nested children
         if name in children_map:
             for child_name in sorted(children_map[name]):
-                lines.append("")  # Blank line between nested classes
+                lines.append("")
                 child_code = generate_class_tree(child_name, indent + 1)
                 lines.append(child_code)
 
         return "\n".join(lines)
 
-    # Generate enum types first (before classes, so they can be referenced)
-    # But only generate top-level enums here; nested enums will be generated within their parent classes
     enum_names = []
     top_level_enums = {}
     nested_enums = {}
 
     if enums:
-        # Separate top-level and nested enums
         for enum_full_name, enum_info in enums.items():
             if enum_info.get("parent_message"):
-                # This is a nested enum - will be generated inside parent class
                 parent_msg = enum_info["parent_message"]
                 if parent_msg not in nested_enums:
                     nested_enums[parent_msg] = []
-                # Extract just the short enum name (last part after '.')
-                enum_short_name = enum_info["name"]  # Use 'name' field which stores the short name
-                nested_enums[parent_msg].append((enum_short_name, enum_info))
+                nested_enums[parent_msg].append((enum_info["name"], enum_info))
             else:
-                # This is a top-level enum
                 top_level_enums[enum_full_name] = enum_info
 
         if top_level_enums:
-            lines.append("# ============================================================================")
+            lines.append("# " + "=" * 76)
             lines.append("# Top-Level Enum Types")
-            lines.append("# ============================================================================")
+            lines.append("# " + "=" * 76)
             lines.append("")
 
             for enum_name in sorted(top_level_enums.keys()):
@@ -1285,31 +970,25 @@ def generate_model_file(graph: dict[str, Any], enums: dict[str, Any], output_pat
             print(f"Generated {len(enum_names)} top-level enum types")
 
         if nested_enums:
-            print(
-                f"Found {sum(len(v) for v in nested_enums.values())} nested enum types (will be generated inside parent classes)"
-            )
+            print(f"Found {sum(len(v) for v in nested_enums.values())} nested enum types")
 
         lines.append("")
-        lines.append("# ============================================================================")
+        lines.append("# " + "=" * 76)
         lines.append("# Proto Model Classes")
-        lines.append("# ============================================================================")
+        lines.append("# " + "=" * 76)
         lines.append("")
 
-    # Generate all top-level classes with their nested trees
     class_count = 0
     class_names = []
     for name in sorted(root_messages.keys(), key=lambda n: (graph[n]["depth"], n)):
-        info = root_messages[name]
         class_code = generate_class_tree(name, indent=0)
         lines.append(class_code)
         lines.append("\n")
         class_count += 1
         class_names.append(name)
-        # Count nested classes too
         if name in children_map:
             class_count += len(children_map[name])
 
-    # Generate __all__ for proper exports (enums + classes)
     export_names = enum_names + class_names
     lines.append("# Export all generated types")
     lines.append("__all__ = [")
@@ -1318,7 +997,6 @@ def generate_model_file(graph: dict[str, Any], enums: dict[str, Any], output_pat
     lines.append("]")
     lines.append("")
 
-    # Write file
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_content = "\n".join(lines)
     output_path.write_text(output_content)
