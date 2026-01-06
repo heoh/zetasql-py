@@ -604,7 +604,7 @@ def get_field_default_value(field_info: Dict[str, Any]) -> str:
 def scan_available_mixins(mixins_dir: Path) -> Set[str]:
     """Scan mixins directory to find available mixin classes.
     
-    This avoids importing zetasql.core.types which may fail if proto_models.py
+    This avoids importing zetasql.types which may fail if proto_model/generated.py
     is being generated or has syntax errors.
     
     Returns:
@@ -659,7 +659,7 @@ def generate_enum_class(enum_name: str, enum_info: Dict[str, Any], module_aliase
     mixin_name = f'{enum_name}Mixin'
     # Check if mixin exists by scanning the mixins directory (not by importing)
     if mixin_name in available_mixins:
-        bases.append(f'mixins.{mixin_name}')
+        bases.append(f'proto_model_mixins.{mixin_name}')
     bases.append('IntEnum')
 
     # Class definition
@@ -882,7 +882,7 @@ def generate_class(name: str, info: Dict[str, Any], graph: Dict[str, Any], modul
     bases = []
     mixin_name = f'{class_name}Mixin'
     if mixin_name in available_mixins:
-        bases.append(f'mixins.{mixin_name}')
+        bases.append(f'proto_model_mixins.{mixin_name}')
 
     if parent_name and parent_name in graph:
         parent_model = parent_name.removesuffix('Proto')
@@ -1118,8 +1118,8 @@ def generate_model_file(graph: Dict[str, Any], enums: Dict[str, Any], output_pat
     # Import ProtoModel and parse_proto from proto_model
     lines.extend([
         '# Import utilities for proto model functionality',
-        'from zetasql.core.types.proto_model import ProtoModel, parse_proto',
-        'from zetasql.core.types import mixins',
+        'import zetasql.types.proto_model.mixins as proto_model_mixins',
+        'from zetasql.types.proto_model.proto_model import ProtoModel',
         '',
     ])
     
@@ -1245,7 +1245,7 @@ def main():
     parser.add_argument(
         '--output',
         type=Path,
-        default=Path(__file__).parent.parent / 'src/zetasql/core/types/proto_models.py',
+        default=Path(__file__).parent.parent / 'src/zetasql/types/proto_model/generated.py',
         help='Output Python file'
     )
     

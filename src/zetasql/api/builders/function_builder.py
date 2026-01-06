@@ -52,14 +52,14 @@ Examples:
 
 from typing import Union, List
 from typing_extensions import Self
+from zetasql.api.type_factory import TypeFactory
 from zetasql.types import (
     Function, 
     FunctionSignature, 
     FunctionArgumentType,
     FunctionArgumentTypeOptions,
-    Type, 
-    TypeKind, 
-    TypeFactory
+    Type,
+    TypeKind,
 )
 from zetasql.types import (
     FunctionEnums,

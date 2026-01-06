@@ -22,7 +22,7 @@ Examples:
     ...     .build())
     >>> 
     >>> # Complex type constant
-    >>> from zetasql.types.type_factory import TypeFactory
+    >>> from zetasql.api import TypeFactory
     >>> 
     >>> tags_const = (ConstantBuilder("DEFAULT_TAGS")
     ...     .set_type(TypeFactory.create_array_type(
@@ -33,7 +33,8 @@ Examples:
 
 from typing import Union
 from typing_extensions import Self
-from zetasql.types import SimpleConstant, Type, TypeKind, TypeFactory
+from zetasql.api.type_factory import TypeFactory
+from zetasql.types import SimpleConstant, Type, TypeKind
 
 
 class ConstantBuilder:

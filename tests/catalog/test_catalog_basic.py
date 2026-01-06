@@ -6,10 +6,10 @@ and table list access.
 """
 
 import pytest
+from zetasql.api import TypeFactory
 from zetasql.api.builders import TableBuilder, CatalogBuilder
 from zetasql.types import (
     TypeKind,
-    TypeFactory,
     ZetaSQLBuiltinFunctionOptions,
     LanguageOptions,
 )

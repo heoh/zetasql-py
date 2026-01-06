@@ -6,7 +6,8 @@ Mirrors Java PreparedExpression functionality for evaluating SQL expressions.
 
 from typing import Dict, Optional, Any
 from zetasql.api.value import Value
-from zetasql.core import ZetaSqlLocalService, types, ServerError
+from zetasql.core import ZetaSqlLocalService, ServerError
+from zetasql import types
 
 
 class PreparedExpression:

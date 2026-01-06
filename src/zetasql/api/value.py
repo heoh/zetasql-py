@@ -5,8 +5,8 @@ Mirrors Java's Value class for creating and manipulating typed SQL values.
 """
 
 from typing import Optional, Any, List, Dict, Union
-import zetasql.core.types as types
-from zetasql.core.types import TypeKind
+import zetasql.types as types
+from zetasql.types import TypeKind
 
 
 class Value:
@@ -14,7 +14,7 @@ class Value:
     
     Provides factory methods for creating typed values and accessor methods
     for retrieving typed data. Wraps the underlying Value ProtoModel from
-    zetasql.core.types.
+    zetasql.types.
     
     Example:
         >>> # Create values
@@ -32,7 +32,7 @@ class Value:
         """Initialize Value wrapper from ProtoModel Value.
         
         Args:
-            proto_value: Value ProtoModel from zetasql.core.types
+            proto_value: Value ProtoModel from zetasql.types
             type_kind: Optional TypeKind for null values (since proto doesn't store type for nulls)
         """
         self._proto = proto_value

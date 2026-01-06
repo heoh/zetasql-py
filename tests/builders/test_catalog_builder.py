@@ -3,8 +3,9 @@ CatalogBuilder tests - fluent API for building SimpleCatalog objects
 """
 
 import pytest
+from zetasql.api import TypeFactory
 from zetasql.api.builders import TableBuilder, CatalogBuilder
-from zetasql.types import SimpleCatalog, ZetaSQLBuiltinFunctionOptions, LanguageOptions, TypeKind, TypeFactory
+from zetasql.types import SimpleCatalog, ZetaSQLBuiltinFunctionOptions, LanguageOptions, TypeKind
 
 
 class TestCatalogBuilder:

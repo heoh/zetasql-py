@@ -6,9 +6,9 @@ mirroring Java Value class functionality.
 """
 
 import pytest
-from zetasql.api.analyzer import Analyzer
+from zetasql.api import TypeFactory
 from zetasql.api.builders import CatalogBuilder, TableBuilder
-from zetasql.types import TypeKind, TypeFactory
+from zetasql.types import TypeKind
 
 
 @pytest.fixture

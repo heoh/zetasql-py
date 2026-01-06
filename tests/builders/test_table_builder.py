@@ -3,8 +3,9 @@ TableBuilder tests - fluent API for building SimpleTable objects
 """
 
 import pytest
+from zetasql.api import TypeFactory
 from zetasql.api.builders import TableBuilder
-from zetasql.types import SimpleTable, TypeKind, TypeFactory
+from zetasql.types import SimpleTable, TypeKind
 
 
 class TestTableBuilder:

@@ -8,13 +8,13 @@ helper methods, providing a Java-compatible API for type checking and manipulati
 from dataclasses import dataclass
 from typing import Optional, TYPE_CHECKING
 
-from zetasql.core.types.proto_models import (
+from zetasql.types.proto_model.generated import (
     Type as _GeneratedType,
     TypeKind,
 )
 
 if TYPE_CHECKING:
-    from zetasql.core.types.proto_models import ArrayType, StructType, MapType, RangeType
+    from zetasql.types.proto_model import ArrayType, StructType, MapType, RangeType
 
 
 @dataclass

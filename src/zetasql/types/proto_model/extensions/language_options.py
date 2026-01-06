@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from zetasql.core.types.proto_models import (
+from zetasql.types.proto_model.generated import (
     LanguageOptions as _GeneratedLanguageOptions,
 )
 
@@ -63,7 +63,7 @@ class LanguageOptions(_GeneratedLanguageOptions):
             >>> # lang_opts = LanguageOptions()
             >>> # lang_opts.enable_maximum_language_features()
         """
-        from zetasql.core.types import NameResolutionMode, ProductMode
+        from zetasql.types.proto_model import NameResolutionMode, ProductMode
         
         opts = cls()
         opts.name_resolution_mode = NameResolutionMode.NAME_RESOLUTION_DEFAULT

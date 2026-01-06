@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import List, Optional
-from zetasql.core.types.proto_models import (
+from zetasql.types.proto_model.generated import (
     SimpleCatalog as _GeneratedSimpleCatalog,
     Function,
     TableValuedFunction,

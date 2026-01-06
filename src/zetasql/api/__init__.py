@@ -14,6 +14,7 @@ from .analyzer import Analyzer, ScriptMetadata, ValidationResult, StatementType,
 from .prepared_query import PreparedQuery, PreparedQueryBuilder
 from .prepared_expression import PreparedExpression
 from .builders import CatalogBuilder, TableBuilder
+from .type_factory import TypeFactory
 from .value import Value
 
 __all__ = [
@@ -27,5 +28,6 @@ __all__ = [
     'PreparedExpression',
     'CatalogBuilder',
     'TableBuilder',
+    'TypeFactory',
     'Value',
 ]

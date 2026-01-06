@@ -35,6 +35,7 @@ Examples:
 
 from typing import Union, List, Tuple
 from typing_extensions import Self
+from zetasql.api.type_factory import TypeFactory
 from zetasql.types import (
     TableValuedFunction,
     FunctionSignature,
@@ -44,7 +45,6 @@ from zetasql.types import (
     TVFRelationColumn,
     Type,
     TypeKind,
-    TypeFactory
 )
 from zetasql.types import (
     FunctionEnums,

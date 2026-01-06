@@ -5,9 +5,9 @@ Tests complete end-to-end scenarios for SQL analysis.
 """
 
 import pytest
-from zetasql.api.analyzer import Analyzer
+from zetasql.api import Analyzer, TypeFactory
 from zetasql.api.builders import TableBuilder, CatalogBuilder
-from zetasql.types import ResolvedQueryStmt, ResolvedExpr, TypeKind, TypeFactory
+from zetasql.types import ResolvedQueryStmt, ResolvedExpr, TypeKind
 
 
 @pytest.fixture

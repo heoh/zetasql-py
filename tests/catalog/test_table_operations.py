@@ -5,8 +5,9 @@ Tests for adding tables to catalogs and retrieving them.
 """
 
 import pytest
+from zetasql.api import TypeFactory
 from zetasql.api.builders import TableBuilder, CatalogBuilder
-from zetasql.types import TypeKind, TypeFactory
+from zetasql.types import TypeKind
 
 
 class TestCatalogTableAdd:
