@@ -2,12 +2,7 @@
 
 This package provides the foundational Layer 1 infrastructure:
 
-- wasm_client: Low-level WASM runtime and memory management
-- local_service: Direct wrapper around ZetaSQL LocalService gRPC methods
-- exceptions: Error handling and status codes
-- func_utils: Parameter decorator utilities
-
-All higher layers (api, extensions) depend on this core infrastructure.
+API layer depend on this core infrastructure.
 """
 
 from .wasm_client import WasmClient

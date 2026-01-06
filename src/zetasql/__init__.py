@@ -9,16 +9,14 @@ Architecture:
     
     - wasi: Layer 0 - WebAssembly resources and generated protobuf code
     - core: Layer 1 - WASI communication & ProtoModel infrastructure
-    - api: Layer 2 - Java-style convenience features
-    - extensions: Layer 3 - Python-specific extended APIs
-    - types: exported types (Layer 1 + 2 + 3 mixed)
+    - api: Layer 2 - Convenience features
+    - types: exported types
 
 Recommended Usage:
     Use explicit import paths for clarity:
     
     from zetasql.core import ZetaSqlLocalService
-    from zetasql.api import Analyzer, PreparedQuery, CatalogBuilder, TableBuilder
-    from zetasql.api import create_table_content
+    from zetasql.api import Analyzer, PreparedQuery, CatalogBuilder, TableBuilder, create_table_content
     from zetasql.types import TypeKind, AnalyzerOptions, proto_models
 """
 

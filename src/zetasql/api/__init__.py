@@ -1,6 +1,6 @@
-"""ZetaSQL API Layer - Java-style Convenience Features.
+"""ZetaSQL API Layer - Convenience Features.
 
-This package provides Layer 2 Java API-compatible convenience features:
+This package provides Layer 2 convenience features:
 
 - analyzer: High-level Analyzer class with static/instance methods
 - prepared_query: PreparedQuery with builder pattern and context management
