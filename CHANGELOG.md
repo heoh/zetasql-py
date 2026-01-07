@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changed
+
+### Documentation
+
+### Testing
+
+## [0.1.3] - 2026-01-07
+
+### Added
+
 #### Core Features
 - **Analyzer API**: High-level SQL analysis with both instance and static methods
   - `analyze_statement()` - Analyze SQL statements
@@ -121,5 +131,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ZetaSqlLocalService singleton
 - Core exception handling
 
-[Unreleased]: https://github.com/heoh/zetasql-py/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/heoh/zetasql-py/compare/v0.1.3...HEAD
+[0.1.3]: https://github.com/heoh/zetasql-py/compare/v0.1.0...v0.1.3
 [0.1.0]: https://github.com/heoh/zetasql-py/releases/tag/v0.1.0
