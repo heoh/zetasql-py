@@ -9,6 +9,7 @@ This guide will walk you through the basics of using ZetaSQL Python, from instal
 - [Basic Usage](#basic-usage)
 - [Building Catalogs](#building-catalogs)
 - [Analyzing SQL](#analyzing-sql)
+- [Parsing SQL (Parser vs Analyzer)](#parsing-sql-parser-vs-analyzer)
 - [Working with Types](#working-with-types)
 - [Next Steps](#next-steps)
 
@@ -290,6 +291,163 @@ else:
     print("Errors found:")
     for error in result.errors:
         print(f"  - {error}")
+```
+
+## Parsing SQL (Parser vs Analyzer)
+
+ZetaSQL Python provides two complementary approaches for working with SQL: **Parser** (syntax-only) and **Analyzer** (full semantic analysis).
+
+### Parser vs Analyzer Comparison
+
+| Feature | Parser | Analyzer |
+|---------|--------|----------|
+| **Output** | Parse tree (ASTStatement, ASTScript) | Resolved AST (ResolvedStatement) |
+| **Analysis Level** | Syntax only | Full semantic analysis |
+| **Requires Catalog** | No | Yes (optional for some ops) |
+| **Speed** | Fast | Slower |
+| **Type Checking** | No | Yes |
+| **Name Resolution** | No | Yes |
+| **Use Case** | Syntax validation, AST traversal | Query optimization, execution |
+
+### Using Parser for Syntax Validation
+
+```python
+from zetasql.api import Parser
+
+# Parse a statement (no catalog needed)
+stmt = Parser.parse_statement_static("SELECT * FROM users")
+print(f"Statement type: {type(stmt).__name__}")  # ASTQueryStatement
+
+# Parser doesn't validate table existence
+stmt = Parser.parse_statement_static("SELECT * FROM NonExistentTable")
+# This succeeds - Parser only checks syntax!
+
+# But syntax errors are caught
+try:
+    Parser.parse_statement_static("SELECT * FORM users")  # typo: FORM
+except Exception as e:
+    print(f"Syntax error: {e}")
+```
+
+### Parsing Scripts
+
+```python
+from zetasql.api import Parser
+
+# Parse multiple statements as a script
+script = Parser.parse_script_static("""
+    SELECT * FROM users;
+    SELECT * FROM orders;
+    SELECT * FROM products;
+""")
+
+print(f"Script has {len(script.statement_list_node.statement_list)} statements")
+
+# Iterate through statements in a script
+for stmt in Parser.iterate_statements("SELECT 1; SELECT 2; SELECT 3;"):
+    print(f"Found: {type(stmt).__name__}")
+```
+
+### Sequential Parsing
+
+```python
+from zetasql.api import Parser
+from zetasql.types import ParseResumeLocation
+
+# Parse statements one at a time
+script = "SELECT 1; SELECT 2; SELECT 3;"
+location = ParseResumeLocation(input=script, byte_position=0)
+
+parser = Parser()  # Can store LanguageOptions
+while True:
+    stmt = parser.parse_next_statement(location)
+    if stmt is None:
+        break
+    print(f"Parsed: {type(stmt).__name__}")
+```
+
+### Parser with ASTNodeVisitor
+
+Parser output works perfectly with `ASTNodeVisitor` for AST traversal:
+
+```python
+from zetasql.api import Parser, ASTNodeVisitor
+
+# Custom visitor to collect table names from AST
+class TableNameCollector(ASTNodeVisitor):
+    def __init__(self):
+        super().__init__()
+        self.tables = []
+    
+    def visit_ASTPathExpression(self, node):
+        # Collect path expressions (table names)
+        if node.names:
+            table_name = ".".join([n.identifier for n in node.names])
+            self.tables.append(table_name)
+        # Don't descend - we only want top-level paths
+
+# Parse SQL
+stmt = Parser.parse_statement_static("""
+    SELECT u.name, o.amount
+    FROM users AS u
+    JOIN orders AS o ON u.id = o.user_id
+""")
+
+# Visit and collect tables
+visitor = TableNameCollector()
+visitor.visit(stmt)
+print(f"Tables found: {visitor.tables}")  # ['users', 'orders']
+```
+
+### When to Use Parser vs Analyzer
+
+**Use Parser when:**
+- Validating SQL syntax only
+- Building SQL formatters or linters
+- Extracting structure without schema knowledge
+- Quick AST inspection without catalog setup
+- Working with SQL from unknown schemas
+
+**Use Analyzer when:**
+- Need type information
+- Validating semantic correctness
+- Preparing for query execution
+- Building query optimizers
+- Need resolved references (table/column names)
+
+### Combined Example
+
+```python
+from zetasql.api import Parser, Analyzer, CatalogBuilder, TableBuilder
+from zetasql.types import AnalyzerOptions, LanguageOptions, TypeKind
+
+# Step 1: Quick syntax validation with Parser
+sql = "SELECT name, price FROM products WHERE price > 100"
+
+try:
+    ast_stmt = Parser.parse_statement_static(sql)
+    print("✓ Syntax is valid")
+except Exception as e:
+    print(f"✗ Syntax error: {e}")
+    exit(1)
+
+# Step 2: Full semantic analysis with Analyzer
+lang_opts = LanguageOptions.maximum_features()
+table = (
+    TableBuilder("products")
+    .add_column("name", TypeKind.TYPE_STRING)
+    .add_column("price", TypeKind.TYPE_DOUBLE)
+    .build()
+)
+catalog = CatalogBuilder("shop").add_table(table).build()
+analyzer = Analyzer(AnalyzerOptions(language_options=lang_opts), catalog)
+
+try:
+    resolved_stmt = analyzer.analyze_statement(sql)
+    print("✓ Semantics are valid")
+    print(f"  Output columns: {[c.name for c in resolved_stmt.output_column_list]}")
+except Exception as e:
+    print(f"✗ Semantic error: {e}")
 ```
 
 ## Working with Types

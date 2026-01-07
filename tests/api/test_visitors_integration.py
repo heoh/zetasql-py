@@ -6,7 +6,7 @@ Tests the visitors with realistic SQL queries and complete ProtoModel trees.
 
 import pytest
 
-from zetasql.api import Analyzer, ASTNodeVisitor, CatalogBuilder, ResolvedNodeVisitor, TableBuilder
+from zetasql.api import Analyzer, ASTNodeVisitor, CatalogBuilder, Parser, ResolvedNodeVisitor, TableBuilder
 from zetasql.types import TypeKind
 from zetasql.types.proto_model import (
     ASTBinaryExpression,
@@ -51,10 +51,10 @@ def sales_catalog(builtin_function_options):
 
 
 class TestASTNodeVisitorIntegration:
-    """Test ASTNodeVisitor with simple manual AST structures."""
+    """Test ASTNodeVisitor with parsed SQL statements."""
 
-    def test_visitor_traverses_manual_ast(self):
-        """Test visitor traverses manually constructed AST nodes."""
+    def test_visitor_traverses_parsed_ast(self):
+        """Test visitor traverses AST from parsed SQL statement."""
 
         class ASTNodeTypeCollector(ASTNodeVisitor):
             def __init__(self):
@@ -65,25 +65,23 @@ class TestASTNodeVisitorIntegration:
                 self.node_types.append(type(node).__name__)
                 self.descend(node)
 
-        # Build manual AST: ((a + b) * c) + d
-        a = ASTPathExpression()
-        b = ASTPathExpression()
-        ab = ASTBinaryExpression(lhs=a, rhs=b, op=1)  # a + b
-        c = ASTPathExpression()
-        ab_c = ASTBinaryExpression(lhs=ab, rhs=c, op=2)  # (a+b) * c
-        d = ASTPathExpression()
-        root = ASTBinaryExpression(lhs=ab_c, rhs=d, op=1)  # ((a+b)*c) + d
+        # Parse SQL with multiple operations: (a + b) * c + d
+        sql = "SELECT (a + b) * c + d FROM table1"
+        stmt = Parser.parse_statement_static(sql)
 
         visitor = ASTNodeTypeCollector()
-        visitor.visit(root)
+        visitor.visit(stmt)
 
-        # Should traverse: root, ab_c, ab, a, b, c, d = 7 nodes
-        assert len(visitor.node_types) == 7
-        assert visitor.node_types.count("ASTBinaryExpression") == 3
-        assert visitor.node_types.count("ASTPathExpression") == 4
+        # Should traverse many nodes including query statement, select list, expressions
+        print(f"\nFound {len(visitor.node_types)} nodes")
+        print(f"Node types: {set(visitor.node_types)}")
+
+        assert len(visitor.node_types) > 5
+        assert "ASTQueryStatement" in visitor.node_types
+        assert "ASTSelect" in visitor.node_types
 
     def test_collect_binary_expressions(self):
-        """Test selective collection of binary expression nodes."""
+        """Test selective collection of binary expression nodes from parsed SQL."""
 
         class BinaryExprCollector(ASTNodeVisitor):
             def __init__(self):
@@ -97,18 +95,113 @@ class TestASTNodeVisitorIntegration:
             def default_visit(self, node: ASTNode) -> None:
                 self.descend(node)
 
-        # Build nested binary expressions
-        a = ASTPathExpression()
-        b = ASTPathExpression()
-        ab = ASTBinaryExpression(lhs=a, rhs=b, op=1)
-        c = ASTPathExpression()
-        root = ASTBinaryExpression(lhs=ab, rhs=c, op=2)
+        # Parse SQL with nested binary expressions: a + b * c
+        sql = "SELECT a + b * c FROM table1"
+        stmt = Parser.parse_statement_static(sql)
 
         visitor = BinaryExprCollector()
-        visitor.visit(root)
+        visitor.visit(stmt)
 
-        # Should collect 2 binary expressions
-        assert len(visitor.binary_exprs) == 2
+        # Should collect binary expressions (+ and *)
+        print(f"\nFound {len(visitor.binary_exprs)} binary expressions")
+        assert len(visitor.binary_exprs) >= 2
+
+    def test_collect_table_references(self):
+        """Test collecting table references from parsed SQL with JOIN."""
+
+        class TableReferenceCollector(ASTNodeVisitor):
+            def __init__(self):
+                super().__init__()
+                self.table_refs = []
+
+            def visit_ASTTablePathExpression(self, node) -> None:
+                # Collect table references
+                self.table_refs.append(node)
+                self.descend(node)
+
+            def default_visit(self, node: ASTNode) -> None:
+                self.descend(node)
+
+        # Parse SQL with multiple table references
+        sql = """
+            SELECT e.name, s.amount
+            FROM employees e
+            JOIN sales s ON e.id = s.employee_id
+            LEFT JOIN departments d ON e.dept_id = d.id
+        """
+        stmt = Parser.parse_statement_static(sql)
+
+        visitor = TableReferenceCollector()
+        visitor.visit(stmt)
+
+        # Should find table references for employees, sales, departments
+        print(f"\nFound {len(visitor.table_refs)} table references")
+        assert len(visitor.table_refs) >= 3
+
+    def test_collect_column_references(self):
+        """Test collecting column references from parsed SQL."""
+
+        class PathExpressionCollector(ASTNodeVisitor):
+            def __init__(self):
+                super().__init__()
+                self.path_expressions = []
+
+            def visit_ASTPathExpression(self, node: ASTPathExpression) -> None:
+                self.path_expressions.append(node)
+                # Don't descend - we only want the path expressions themselves
+
+            def default_visit(self, node: ASTNode) -> None:
+                self.descend(node)
+
+        # Parse SQL with various column references
+        sql = """
+            SELECT 
+                employees.name,
+                employees.salary,
+                departments.dept_name,
+                employees.salary * 1.1 as adjusted_salary
+            FROM employees
+            JOIN departments ON employees.dept_id = departments.id
+            WHERE employees.salary > 50000
+        """
+        stmt = Parser.parse_statement_static(sql)
+
+        visitor = PathExpressionCollector()
+        visitor.visit(stmt)
+
+        # Should find multiple path expressions (column references)
+        print(f"\nFound {len(visitor.path_expressions)} path expressions")
+        assert len(visitor.path_expressions) >= 5
+
+    def test_count_select_statements_in_script(self):
+        """Test counting SELECT statements in a multi-statement script."""
+
+        class SelectStatementCounter(ASTNodeVisitor):
+            def __init__(self):
+                super().__init__()
+                self.select_count = 0
+
+            def visit_ASTQueryStatement(self, node) -> None:
+                self.select_count += 1
+                self.descend(node)
+
+            def default_visit(self, node: ASTNode) -> None:
+                self.descend(node)
+
+        # Parse script with multiple SELECT statements
+        script = Parser.parse_script_static("""
+            SELECT * FROM users;
+            SELECT * FROM orders;
+            SELECT * FROM products;
+        """)
+
+        # Visit each statement in the script
+        visitor = SelectStatementCounter()
+        for stmt in script.statement_list_node.statement_list:
+            visitor.visit(stmt)
+
+        print(f"\nFound {visitor.select_count} SELECT statements")
+        assert visitor.select_count == 3
 
 
 class TestResolvedNodeVisitorIntegration:

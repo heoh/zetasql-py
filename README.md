@@ -62,14 +62,36 @@ print(f"Analyzed {len(stmt.output_column_list)} output columns")
 
 ## Key Features
 
-### 🔍 **SQL Analysis**
-Analyze SQL statements and expressions with full semantic understanding:
+### 🔍 **SQL Parsing & Analysis**
+Parse SQL syntax or perform full semantic analysis:
 ```python
-from zetasql.api import Analyzer
+from zetasql.api import Parser, Analyzer
 
-# Assuming analyzer is configured with catalog and builtin functions
-stmt = analyzer.analyze_statement("SELECT * FROM users")
-expr = analyzer.analyze_expression("price * quantity")
+# Parser: Syntax-only parsing (fast, no catalog needed)
+ast_stmt = Parser.parse_statement_static("SELECT * FROM users")
+
+# Analyzer: Full semantic analysis with type checking
+resolved_stmt = analyzer.analyze_statement("SELECT * FROM users")
+```
+
+### 🌲 **AST Traversal**
+Visit and inspect SQL parse trees with the Visitor pattern:
+```python
+from zetasql.api import Parser, ASTNodeVisitor
+
+class TableNameCollector(ASTNodeVisitor):
+    def __init__(self):
+        super().__init__()
+        self.tables = []
+    
+    def visit_ASTPathExpression(self, node):
+        if node.names:
+            self.tables.append(".".join([n.identifier for n in node.names]))
+
+stmt = Parser.parse_statement_static("SELECT * FROM users JOIN orders")
+visitor = TableNameCollector()
+visitor.visit(stmt)
+print(visitor.tables)  # ['users', 'orders']
 ```
 
 ### 🏗️ **Builder Pattern APIs**
