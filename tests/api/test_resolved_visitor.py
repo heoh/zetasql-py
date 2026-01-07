@@ -291,9 +291,6 @@ class TestResolvedNodeVisitorComplexTraversal:
                 self.literals.append(node)
                 self.descend(node)
 
-            def default_visit(self, node: ResolvedNode) -> None:
-                self.descend(node)
-
         visitor = LiteralCollector()
         lit1 = ResolvedLiteral()
         lit2 = ResolvedLiteral()

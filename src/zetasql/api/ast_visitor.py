@@ -110,8 +110,9 @@ class ASTNodeVisitor:
         """
         Default visitor method called when no specific visit_{type} exists.
 
-        Override this to provide default behavior for all unhandled node types.
-        By default, does nothing.
+        By default, automatically descends into child nodes. Override this to
+        provide custom default behavior. If you override this, remember to call
+        self.descend(node) if you want to continue traversing children.
 
         Args:
             node: The ASTNode being visited
@@ -119,7 +120,7 @@ class ASTNodeVisitor:
         Returns:
             None by default
         """
-        pass
+        self.descend(node)
 
     def descend(self, node: ASTNode) -> None:
         """
