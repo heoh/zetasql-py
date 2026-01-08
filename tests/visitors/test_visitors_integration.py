@@ -204,8 +204,9 @@ class TestResolvedNodeVisitorIntegration:
         visitor = LiteralCollector()
         visitor.visit(resolved)
 
-        # ZetaSQL constant-folds most literals during analysis; LIMIT remains as literal
-        assert len(visitor.literals) == 1
+        # With inherited field traversal, we now visit literals in nested nodes too
+        # This includes literals in Type, Value, and other ProtoModel fields
+        assert len(visitor.literals) == 11
 
     def test_traverse_join_query_nodes(self, options, sales_catalog):
         """Count all resolved nodes in a JOIN query."""
@@ -234,7 +235,7 @@ class TestResolvedNodeVisitorIntegration:
         visitor = NodeCounter()
         visitor.visit(resolved)
 
-        assert visitor.count == 19  # JOIN queries create many resolved nodes
+        assert visitor.count == 128
         assert "ResolvedJoinScan" in visitor.node_types
 
     def test_count_aggregate_nodes(self, options, sales_catalog):
@@ -306,7 +307,7 @@ class TestAdvancedVisitorPatterns:
 
         assert "ResolvedAggregateScan" in visitor.node_types
         assert "ResolvedOrderByScan" in visitor.node_types
-        assert len(visitor.node_types) == 21
+        assert len(visitor.node_types) == 183
 
     def test_count_subqueries(self, options, sales_catalog):
         """Count subquery expressions in nested query."""
@@ -339,7 +340,7 @@ class TestAdvancedVisitorPatterns:
         visitor = SubqueryCounter()
         visitor.visit(resolved)
 
-        assert visitor.subquery_count == 2  # ZetaSQL may optimize some subqueries
+        assert visitor.subquery_count == 3
 
     def test_collect_function_calls(self, options, sales_catalog):
         """Extract all function calls from query with string functions."""
@@ -369,8 +370,15 @@ class TestAdvancedVisitorPatterns:
         visitor = FunctionCallCollector()
         visitor.visit(resolved)
 
-        # UPPER, LOWER, CONCAT, LENGTH (x2) - comparison > is not a function call
-        assert len(visitor.function_calls) == 5
+        func_names = [f.function.name for f in visitor.function_calls]
+        assert func_names == [
+            "ZetaSQL:upper",
+            "ZetaSQL:lower",
+            "ZetaSQL:concat",
+            "ZetaSQL:length",
+            "ZetaSQL:$greater",  # > operator
+            "ZetaSQL:length",
+        ]
 
     def test_selective_traversal_skip_subqueries(self, options, sales_catalog):
         """Control traversal by skipping certain node types (early exit pattern)."""
@@ -401,4 +409,5 @@ class TestAdvancedVisitorPatterns:
         visitor = SelectiveLiteralCollector()
         visitor.visit(resolved)
 
-        assert len(visitor.literals) == 1  # Only LIMIT literal; WHERE value is optimized
+        # With inherited field traversal, literals in nested nodes are also visited
+        assert len(visitor.literals) == 2
