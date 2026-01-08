@@ -26,6 +26,7 @@ from .prepared_expression import PreparedExpression
 from .prepared_query import PreparedQuery, PreparedQueryBuilder
 from .resolved_visitor import ResolvedNodeVisitor
 from .table_content import create_table_content
+from .tree_visitor import TreeVisitor
 from .type_factory import TypeFactory
 from .value import Value
 
@@ -45,6 +46,7 @@ __all__ = [
     "StatementType",
     "TVFBuilder",
     "TableBuilder",
+    "TreeVisitor",
     "TypeFactory",
     "ValidationResult",
     "Value",
