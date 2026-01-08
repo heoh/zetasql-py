@@ -186,11 +186,16 @@ class TreeVisitor(Generic[T]):
         """
         message_fields = []
 
-        # Get the _PROTO_FIELD_MAP from the node class
-        if not hasattr(node_type, "_PROTO_FIELD_MAP"):
-            return message_fields
+        # Build a combined field map from the entire inheritance chain
+        combined_field_map = {}
+        for cls in reversed(node_type.__mro__):
+            # Skip ProtoModel itself and classes before it (object, etc.)
+            if not issubclass(cls, ProtoModel) or cls is ProtoModel:
+                continue
 
-        field_map = node_type._PROTO_FIELD_MAP
+            # Merge this class's field map (child overrides parent)
+            if hasattr(cls, "_PROTO_FIELD_MAP"):
+                combined_field_map.update(cls._PROTO_FIELD_MAP)
 
         # Get all dataclass fields
         for field in fields(node_type):
@@ -201,8 +206,8 @@ class TreeVisitor(Generic[T]):
                 continue
 
             # Check if this field is a message (ProtoModel child)
-            if field_name in field_map:
-                field_meta = field_map[field_name]
+            if field_name in combined_field_map:
+                field_meta = combined_field_map[field_name]
                 if field_meta.get("is_message", False):
                     is_repeated = field_meta.get("is_repeated", False)
                     message_fields.append((field_name, is_repeated))

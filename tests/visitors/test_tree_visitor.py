@@ -399,6 +399,30 @@ class TestTreeVisitorComplexTraversal:
 
         assert len(visitor.paths) == 2
 
+    def test_inherited_fields_are_visited(self):
+        """Test that fields inherited from parent classes are also visited."""
+        from zetasql.types.proto_model import ParseLocationRange
+
+        visited = []
+
+        class TestVisitor(TreeVisitor[ASTNode]):
+            def default_visit(self, node: ASTNode) -> None:
+                visited.append(type(node).__name__)
+                self.descend(node)
+
+        # ASTBinaryExpression inherits parse_location_range from ASTNode
+        # ParseLocationRange is a ProtoModel (is_message=True)
+        location = ParseLocationRange()
+        binary = ASTBinaryExpression(parse_location_range=location)
+
+        visitor = TestVisitor()
+        visitor.visit(binary)
+
+        # Should visit both the binary expression AND the inherited parse_location_range
+        assert "ASTBinaryExpression" in visited
+        assert "ParseLocationRange" in visited
+        assert len(visited) == 2
+
     def test_default_visit_automatically_descends(self):
         """Test that default_visit() automatically descends by default."""
         visited = []
