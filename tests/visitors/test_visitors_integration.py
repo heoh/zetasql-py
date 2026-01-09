@@ -411,3 +411,41 @@ class TestAdvancedVisitorPatterns:
 
         # With inherited field traversal, literals in nested nodes are also visited
         assert len(visitor.literals) == 2
+
+    def test_traverse_union_with_date_literals(self, options, sales_catalog):
+        """Test that visitor can traverse UNION queries with date/timestamp literals.
+        
+        This is a regression test for GitHub issue where DATE() literals in UNION ALL
+        queries caused TypeError because the AST contains ProtoModel objects which are
+        not dataclasses. The issue occurred because descend() tried to call
+        dataclasses.fields() on ProtoModel instances.
+        """
+
+        class NodeCounter(ResolvedNodeVisitor):
+            def __init__(self):
+                super().__init__()
+                self.count = 0
+                self.node_types = set()
+
+            def default_visit(self, node: ResolvedNode) -> None:
+                self.count += 1
+                self.node_types.add(type(node).__name__)
+                super().default_visit(node)  # This should not raise TypeError
+
+        sql = """
+            SELECT employee_id FROM employees WHERE hire_date < DATE('2024-01-01')
+            UNION ALL
+            SELECT employee_id FROM employees WHERE hire_date >= DATE('2024-01-01')
+        """
+
+        analyzer = Analyzer(options, sales_catalog)
+        resolved = analyzer.analyze_statement(sql)
+
+        visitor = NodeCounter()
+        # This should not raise TypeError: must be called with a dataclass type or instance
+        visitor.visit(resolved)
+
+        # Verify traversal worked
+        assert visitor.count > 0
+        assert "ResolvedSetOperationScan" in visitor.node_types
+        assert "ResolvedLiteral" in visitor.node_types
