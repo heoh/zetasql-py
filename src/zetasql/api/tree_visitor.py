@@ -197,7 +197,6 @@ class TreeVisitor(Generic[T]):
                 combined_field_map.update(cls._PROTO_FIELD_MAP)
 
         # Extract message fields from combined_field_map
-        # This approach works for both dataclass and non-dataclass ProtoModel instances
         for field_name, field_meta in combined_field_map.items():
             # Skip private fields
             if field_name.startswith("_"):
