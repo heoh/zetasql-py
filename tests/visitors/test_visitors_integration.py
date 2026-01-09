@@ -414,8 +414,7 @@ class TestAdvancedVisitorPatterns:
 
     def test_traverse_union_with_date_literals(self, options, sales_catalog):
         """Regression test for issue where ResolvedNodeVisitor.descend() raised TypeError with ProtoModel nodes."""
-        # GitHub issue: TypeError when using ResolvedNodeVisitor.descend() with DATE literals in UNION ALL
-        # The AST contains ProtoModel base class instances which are not dataclasses
+        # GH-9
         
         sql = """
             SELECT employee_id FROM employees WHERE hire_date < DATE('2024-01-01')
