@@ -411,3 +411,20 @@ class TestAdvancedVisitorPatterns:
 
         # With inherited field traversal, literals in nested nodes are also visited
         assert len(visitor.literals) == 2
+
+    def test_traverse_union_with_date_literals(self, options, sales_catalog):
+        """Regression test for issue where ResolvedNodeVisitor.descend() raised TypeError with ProtoModel nodes."""
+        # GH-9
+        
+        sql = """
+            SELECT employee_id FROM employees WHERE hire_date < DATE('2024-01-01')
+            UNION ALL
+            SELECT employee_id FROM employees WHERE hire_date >= DATE('2024-01-01')
+        """
+
+        analyzer = Analyzer(options, sales_catalog)
+        resolved = analyzer.analyze_statement(sql)
+
+        # This should not raise TypeError: must be called with a dataclass type or instance
+        visitor = ResolvedNodeVisitor()
+        visitor.visit(resolved)

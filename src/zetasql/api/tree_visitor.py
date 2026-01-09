@@ -7,7 +7,6 @@ Provides a generic base visitor class for traversing ProtoModel hierarchies with
 - Class-level caching optimization for field metadata and method dispatch
 """
 
-from dataclasses import fields
 from typing import Any, ClassVar, Generic, TypeVar
 
 from zetasql.types.proto_model import ProtoModel
@@ -197,19 +196,15 @@ class TreeVisitor(Generic[T]):
             if hasattr(cls, "_PROTO_FIELD_MAP"):
                 combined_field_map.update(cls._PROTO_FIELD_MAP)
 
-        # Get all dataclass fields
-        for field in fields(node_type):
-            field_name = field.name
-
+        # Extract message fields from combined_field_map
+        for field_name, field_meta in combined_field_map.items():
             # Skip private fields
             if field_name.startswith("_"):
                 continue
 
             # Check if this field is a message (ProtoModel child)
-            if field_name in combined_field_map:
-                field_meta = combined_field_map[field_name]
-                if field_meta.get("is_message", False):
-                    is_repeated = field_meta.get("is_repeated", False)
-                    message_fields.append((field_name, is_repeated))
+            if field_meta.get("is_message", False):
+                is_repeated = field_meta.get("is_repeated", False)
+                message_fields.append((field_name, is_repeated))
 
         return message_fields
