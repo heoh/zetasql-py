@@ -415,10 +415,10 @@ class TestAdvancedVisitorPatterns:
     def test_traverse_union_with_date_literals(self, options, sales_catalog):
         """Test that visitor can traverse UNION queries with date/timestamp literals.
         
-        This is a regression test for GitHub issue where DATE() literals in UNION ALL
-        queries caused TypeError because the AST contains ProtoModel objects which are
-        not dataclasses. The issue occurred because descend() tried to call
-        dataclasses.fields() on ProtoModel instances.
+        Regression test: DATE() literals in UNION ALL queries previously caused
+        TypeError because the AST contains ProtoModel objects which are not dataclasses.
+        The issue occurred because descend() tried to call dataclasses.fields() on
+        ProtoModel instances.
         """
 
         class NodeCounter(ResolvedNodeVisitor):
